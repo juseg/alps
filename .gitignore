@@ -23,4 +23,5 @@
 *.png
 
 # Data
+*.aux.xml
 *.nc
