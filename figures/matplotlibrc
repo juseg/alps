@@ -1,0 +1,36 @@
+# matplotlib configuration parameters
+
+### LINES
+lines.markeredgewidth   : 0.25      # the line width around the marker symbol
+lines.markersize        : 4         # markersize, in points
+
+### FONT
+font.size               : 6
+font.family             : sans-serif
+
+### TEXT
+mathtext.default        : regular
+
+### GRIDS
+grid.color              :   0.5     # grid color
+grid.linestyle          :   -       # dotted
+grid.linewidth          :   0.1     # in points
+grid.alpha              :   1.0     # transparency, between 0.0 and 1.0
+
+### FIGURE
+#figure.figsize         : 3.346, 2.362  #  85x 60mm
+figure.figsize          : 4.724, 3.937  # 120x100mm
+figure.subplot.left     : 0.083333  #     10 / 120
+figure.subplot.right    : 0.916666  # 1 - 10 / 120
+figure.subplot.bottom   : 0.100000  #     10 / 100
+figure.subplot.top      : 0.900000  # 1 - 10 / 100
+figure.subplot.wspace   : 0.052631  # 2 / ((120-2.5-20.)/2.5-1)
+figure.subplot.hspace   : 0.054054  # 2 / ((100-2.5-2.5)/2.5-1)
+
+### IMAGES
+image.interpolation     : nearest
+image.origin            : lower
+
+### SAVING FIGURES
+savefig.dpi             : 254       # figure dots per inch
+savefig.format          : pdf       # png, ps, pdf, svg

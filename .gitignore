@@ -1,0 +1,26 @@
+# Temporary files
+*~
+
+# Latex
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.pdf
+*.rtf
+
+# Endfloat
+*.fff
+*.lof
+*.lot
+*.ttt
+
+# Python
+*.pyc
+*.png
+
+# Data
+*.nc
