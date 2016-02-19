@@ -4,7 +4,7 @@
 EXT = pdf
 
 # all python figures
-PY_FIGS = locmap_rhone outmap_footprints
+PY_FIGS = locmap_rhone outmap_footprints outmap_sensrheo
 PY_FIGS := $(addsuffix .$(EXT), $(PY_FIGS))
 
 # all figures
