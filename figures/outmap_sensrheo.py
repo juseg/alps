@@ -8,7 +8,7 @@ sys.path.append('iceplotlib')
 import iceplotlib.plot as iplt
 
 # parameters
-t = -65e3
+t = -23.7e3
 confargs = ['', '+esia5']
 labels = ['$E_{SIA}$ = 2', '$E_{SIA}$ = 5']
 
@@ -29,7 +29,7 @@ for i, conf in enumerate(confargs):
 
     # open extra file
     filepath = ('/home/juliens/pism/output/0.7.3/alps-wcnn-5km/'
-                'epica3222cool1000+acyc1%s/y???????-extra.nc' % conf)
+                'epica3222cool0950+acyc1%s/y???????-extra.nc' % conf)
     nc = iplt.load(filepath)
     x, y, z[i] = nc._extract_xyz('usurf', t)
 

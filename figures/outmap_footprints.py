@@ -34,7 +34,7 @@ ax.add_geometries(shp.geometries(), ll, alpha=0.75,
                   edgecolor='#800000', facecolor='none', lw=0.5)
 
 # loop on offsets
-offsets = np.arange(9.0, 10.1, 0.2)
+offsets = np.arange(9.0, 10.1, 0.1)
 footprints = []
 for dt in offsets:
 
