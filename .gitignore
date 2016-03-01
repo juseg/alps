@@ -21,6 +21,8 @@
 # Python
 *.pyc
 *.png
+*.mp4
+*.ogg
 
 # Data
 *.aux.xml

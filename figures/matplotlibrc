@@ -34,3 +34,7 @@ image.origin            : lower
 ### SAVING FIGURES
 savefig.dpi             : 254       # figure dots per inch
 savefig.format          : pdf       # png, ps, pdf, svg
+
+### ANIMATION
+animation.codec         : h264      # codec to use for writing movie
+animation.bitrate       : 1024      # controls size/quality tradeoff for movie
