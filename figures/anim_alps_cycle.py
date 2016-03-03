@@ -59,12 +59,25 @@ def draw(t, ax, cursor):
 figw, figh = 135.01, 120.01
 fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=ccrs.UTM(32),
                            left=2.5, right=20.0, bottom=42.5, top=2.5)
-tsax = fig.add_axes([2.5/figw, 10.0/figh, 1-15.0/figw, 30.0/figh])
+tsax = fig.add_axes([12.5/figw, 10.0/figh, 1-25.0/figw, 30.0/figh])
 cax = fig.add_axes([1-17.5/figw, 42.5/figh, 5.0/figw, 1-45.0/figh])
 
 # add signature
 fig.text(1-2.5/figw, 2.5/figh, 'J. Seguinot et al. (2016)',
          ha='right', va='bottom')
+
+# load temperature signal
+filepath = ('/home/juliens/pism/input/dt/epica3222cool0950.nc')
+nc = iplt.load(filepath)
+age = -nc.variables['time'][:]/1e3
+dt = nc.variables['delta_T'][:]
+nc.close()
+
+# plot time series
+tsax.plot(age, dt, c='0.25')
+tsax.set_xlabel('model age (ka)')
+tsax.set_ylabel('temperature offset (K)', color='0.25')
+tsax.set_ylim(-12.5, 7.5)
 
 # load time series data
 filepath = ('/home/juliens/pism/output/0.7.3/alps-wcnn-5km/'
@@ -75,15 +88,12 @@ vol = nc.variables['slvol'][:]
 nc.close()
 
 # plot time series
+tsax=tsax.twinx()
 tsax.plot(age, vol, c='#1f78b4')
-
-# set axes properties
-tsax.invert_xaxis()
-tsax.set_xlabel('model age (ka)')
-tsax.set_ylabel('ice volume (m s.l.e.)')
-tsax.yaxis.tick_right()
-tsax.yaxis.set_label_position("right")
-tsax.locator_params(axis='y', nbins=4)
+tsax.set_ylabel('ice volume (m s.l.e.)', color='#1f78b4')
+tsax.set_xlim(120.0, 0.0)
+tsax.set_ylim(-0.05, 0.35)
+tsax.locator_params(axis='y', nbins=6)
 tsax.grid(axis='y')
 
 # init moving vertical line
@@ -102,8 +112,7 @@ cb.set_label(r'ice thickness (m)')
 
 # make animation
 anim = FuncAnimation(fig, draw, frames=time, fargs=(ax, cursor))
-anim.save('anim_alps_cycle.mp4', fps=25, codec='h264')
-anim.save('anim_alps_cycle.ogg', fps=25, codec='theora')
+anim.save('anim_alps_cycle.mp4', fps=25)
 
 # close nc file
 nc.close()
