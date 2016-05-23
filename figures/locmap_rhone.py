@@ -25,7 +25,7 @@ swiss = ccrs.TransverseMercator(
     false_easting=600e3, false_northing=200e3)
 w, e, s, n = 0e3, 1500e3, 4500e3, 5500e3  # etopo reprojection
 w, e, s, n = 150e3, 1050e3, 4820e3, 5420e3  # full alps
-w, e, s, n = 200e3, 520e3, 5025e3, 5265e3  # western
+w, e, s, n = 230e3, 470e3, 5050e3, 5240e3  # western domain 240x190 km
 
 
 # ETOPO1 background topo
@@ -144,7 +144,7 @@ def draw_graticules(ax=None):
         edgecolor='#000000', facecolor='none', lw=0.25*bwu))
 
 # Geographic names
-def geotag(x, y, text, ax=None, color='k', marker='o', loc='ur',
+def geotag(x, y, text, ax=None, color='k', marker='o', loc='cc',
            offset=5, transform=None, **kwargs):
 
     # get current axes if None provided
@@ -159,12 +159,13 @@ def geotag(x, y, text, ax=None, color='k', marker='o', loc='ur',
     dy = {'c': 0, 'l': -1, 'u': 1}[loc[0]]*offset
     ha = {'c': 'center', 'l': 'right', 'r': 'left'}[loc[1]]
     va = {'c': 'center', 'l': 'top', 'u': 'bottom'}[loc[0]]
+    xytext = kwargs.pop('xytext', (dx, dy))
 
     # add marker
     ax.plot(x, y, color=color, marker=marker)
 
     # add annotation
-    ax.annotate(text, xy=(x, y), xytext=(dx, dy), textcoords='offset points',
+    ax.annotate(text, xy=(x, y), xytext=xytext, textcoords='offset points',
                 ha=ha, va=va, **kwargs)
 
 def add_names(ax=None):
@@ -176,8 +177,8 @@ def add_names(ax=None):
     # add names of cities (ll)
     txtkwa = dict(transform=ll, style='italic')
     geotag(6.15, 46.20, 'Geneva', loc='cl', **txtkwa)
-    geotag(6.93, 47.00, 'Neuchatel', loc='lc', **txtkwa)
-    geotag(7.45, 46.95, 'Bern', loc='cl', **txtkwa)
+    geotag(6.93, 47.00, u'Neuchâtel', loc='lc', **txtkwa)
+    geotag(7.45, 46.95, 'Bern', loc='cr', **txtkwa)
     geotag(7.53, 47.22, 'Solothurn', loc='cr', **txtkwa)
 
     # add names of cities (utm32)
@@ -189,26 +190,27 @@ def add_names(ax=None):
     #geotag(280118, 5120218, 'Geneva', **txtkwa)
 
     # add boulder sources
-    txtkwa = dict(loc='lc', style='italic')
-    geotag(347120, 5103616, 'Mont\nBlanc', color='#800000', marker='*', **txtkwa)
-    geotag(365930, 5101063, 'Val de\nBagnes', color='#000080', marker='^', **txtkwa)
-    geotag(382491, 5097764, "Val\nd'Arolla", color='#0000c0', marker='^', **txtkwa)
+    txtkwa = dict(style='italic', offset=15,
+                  arrowprops=dict(fc='k', lw=0.5*bwu, arrowstyle='-'))
+    geotag(347120, 5103616, 'Mont\nBlanc', xytext=(-5, -20), marker='*', **txtkwa)
+    geotag(365930, 5101063, 'Val de\nBagnes', xytext=(5, -20), marker='^', **txtkwa)
+    geotag(382491, 5097764, "Val\nd'Arolla", xytext=(15, -20), marker='^', **txtkwa)
 
     # add other locations
     txtkwa = dict(ha='center', va='center', transform=ll, style='italic')
-    ax.text(8.03, 46.20, 'Simplon\nPass', rotation=-45, **txtkwa)
+    ax.text(8.05, 46.20, 'Simplon\nPass', **txtkwa)  # rotation=-45
 
     # add rhone river
     txtkwa = dict(color='#0978ab', transform=ll, style='italic')
-    ax.text(7.25, 46.25, 'Rhone', rotation=30, **txtkwa)
+    ax.text(7.20, 46.30, 'Rhone', rotation=30, **txtkwa)
 
     # add mountain massifs
     txtkwa = dict(ha='center', va='center', transform=ll,
-                  fontsize=10, style='italic')
+                  fontsize=8, style='italic')
     ax.text(6.2, 46.6, 'JURA\nMOUNTAINS', **txtkwa)
     ax.text(7.7, 46.5, 'AAR MASSIF', **txtkwa)
-    ax.text(7.9, 46.0, 'SOUTHERN\nVALAIS', **txtkwa)
-    ax.text(6.7, 46.0, 'MONT\nBLANC', **txtkwa)
+    ax.text(8.0, 46.0, 'SOUTHERN\nVALAIS', **txtkwa)
+    ax.text(6.7, 46.1, 'MONT\nBLANC', **txtkwa)
 
 # modelling domain
 def draw_modeldomain(ax=None):
@@ -226,7 +228,7 @@ def draw_precipzones(ax=None):
         ax.plot(x, y, c='k', lw=1*bwu)
 
 # initialize figure
-fig = plt.figure(0, (160/25.4, 120/25.4))
+fig = plt.figure(0, (85/25.4, 85/25.4*19/24))
 ax1 = fig.add_axes([0.0, 0.0, 1.0, 1.0], projection=proj)
 ax2 = fig.add_axes([0.0, 0.0, 1.0, 1.0], projection=proj)
 ax2.background_patch.set_visible(False)
