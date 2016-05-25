@@ -47,12 +47,11 @@ def draw_etopo1(**kwargs):
     nc.close()
 
 # ETOPO1 background topo
-def draw_srtm(ax1=None, ax2=None,  azimuth=315.0, altitude=30.0, exag=1.0):
+def draw_srtm(ax=None, azimuth=315.0, altitude=30.0, exag=1.0):
     """Draw SRTM background"""
 
     # get axes if None provided
-    ax1 = ax1 or plt.gca()
-    ax2 = ax2 or plt.gca()
+    ax = ax or plt.gca()
 
     # extract data
     nc = Dataset('data/srtm.nc')
@@ -84,11 +83,11 @@ def draw_srtm(ax1=None, ax2=None,  azimuth=315.0, altitude=30.0, exag=1.0):
     shade = (zlight - u*xlight - v*ylight) / (1 + u**2 + v**2)**(0.5)
 
     # plot color map
-    im = ax1.imshow(z, extent=(w, e, s, n),
+    im = ax.imshow(z, extent=(w, e, s, n),
                    cmap=icm.topo, vmin=-6e3, vmax=6e3)
 
     # plot shadows only (white transparency is not possible)
-    im = ax2.imshow((shade>0)*shade, extent=(w, e, s, n),
+    im = ax.imshow((shade>0)*shade, extent=(w, e, s, n),
                     cmap=icm.shades, vmin=0.0, vmax=1.0)
 
 # Ehlers and Gibbard LGM
@@ -229,23 +228,20 @@ def draw_precipzones(ax=None):
 
 # initialize figure
 fig = plt.figure(0, (85/25.4, 85/25.4*19/24))
-ax1 = fig.add_axes([0.0, 0.0, 1.0, 1.0], projection=proj)
-ax2 = fig.add_axes([0.0, 0.0, 1.0, 1.0], projection=proj)
-ax2.background_patch.set_visible(False)
-for ax in ax1, ax2:
-    ax.set_xlim((w, e))
-    ax.set_ylim((s, n))
-    ax.set_rasterization_zorder(2)
+ax = fig.add_axes([0.0, 0.0, 1.0, 1.0], projection=proj)
+ax.set_xlim((w, e))
+ax.set_ylim((s, n))
+ax.set_rasterization_zorder(2)
 
 # draw stuff
-draw_srtm(ax1, ax2)
-draw_rivers(ax2)
-draw_lakes(ax2)
-draw_lgm_ehlers(ax2)
-draw_modeldomain(ax2)
-draw_graticules(ax2)
-draw_precipzones(ax2)
-add_names(ax2)
+draw_srtm(ax)
+draw_rivers(ax)
+draw_lakes(ax)
+draw_lgm_ehlers(ax)
+draw_modeldomain(ax)
+draw_graticules(ax)
+draw_precipzones(ax)
+add_names(ax)
 
 # save
 fig.savefig('locmap_rhone')
