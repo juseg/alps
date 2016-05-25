@@ -56,6 +56,11 @@ footprints = np.array(footprints)
 isglac = footprints.any(axis=0)
 dtglac = np.where(isglac, offsets[footprints.argmax(axis=0)], 99)
 
+# compare to a target area
+#isglac = footprints[0]
+#lgmarea = 149027868048  # m2
+#print isglac.sum()*2000**2 - lgmarea
+
 # plot
 #cs = ax.contour(x, y, isglac, linewidths=0.5, colors='k')
 cs = ax.contour(x, y, dtglac, offsets, linewidths=0.25, colors='k')
@@ -66,4 +71,4 @@ cb = fig.colorbar(cs, cax)
 cb.set_label(r'temperature offset (K)')
 
 # save
-fig.savefig('outmap_footprints')
+fig.savefig('footprints')
