@@ -5,7 +5,8 @@ EXT = pdf
 
 # all python figures
 PY_FIGS = duration glaciations \
-          locmap_alps locmap_rhone outmap_footprints outmap_sensrheo
+          locmap_alps locmap_rhone outmap_footprints outmap_sensrheo \
+          totalsliding
 PY_FIGS := $(addsuffix .$(EXT), $(PY_FIGS))
 
 # all figures
