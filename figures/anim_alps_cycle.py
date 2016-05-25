@@ -27,6 +27,11 @@ graticules = cfeature.NaturalEarthFeature(
     category='physical', name='graticules_1', scale='10m',
     edgecolor='0.25', facecolor='none', lw=0.1)
 
+# contour levels
+levs = range(0, 4000, 200)
+outer_levs = [l for l in levs if l % 1000 == 0]
+inner_levs = [l for l in levs if l % 1000 != 0]
+
 # drawing function
 def draw(t, ax, cursor):
     """What to draw at each animation step."""
@@ -36,11 +41,12 @@ def draw(t, ax, cursor):
 
     # plot
     im = nc.imshow('topg', ax, t, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
-    im = nc.imshow('thk', ax, t, vmin=0.0, vmax=3e3,
-                   cmap='Blues_r', alpha=0.75)
-    cs = nc.contour('usurf', ax, t, levels=range(0, 4000, 1000),
-                    colors='k', linewidths=0.25)
-    cs = nc.icemargin(ax, t, linewidths=0.5)
+    im = nc.imshow('velsurf_mag', ax, t, norm=velonorm, cmap='Blues', alpha=0.75)
+    cs = nc.contour('usurf', ax, t, levels=inner_levs,
+                    colors='0.25', linewidths=0.1)
+    cs = nc.contour('usurf', ax, t, levels=outer_levs,
+                    colors='0.25', linewidths=0.25)
+    cs = nc.icemargin(ax, t, colors='k', linewidths=0.25)
     ax.text(0.05, 0.90, '%.1f ka' % age, transform=ax.transAxes)
 
     # add cartopy vectors
@@ -80,7 +86,7 @@ tsax.set_ylabel('temperature offset (K)', color='0.25')
 tsax.set_ylim(-12.5, 7.5)
 
 # load time series data
-filepath = ('/home/juliens/pism/output/0.7.3/alps-wcnn-5km/'
+filepath = ('/home/juliens/pism/output/0.7.3/alps-wcnn-1km/'
             'epica3222cool0950+acyc1+esia5/y???????-ts.nc')
 nc = iplt.load(filepath)
 age = -nc.variables['time'][:]/(1e3*365*24*60*60)
@@ -100,7 +106,7 @@ tsax.grid(axis='y')
 cursor = tsax.axvline(0.0, c='k', lw=0.25)
 
 # load extra data
-filepath = ('/home/juliens/pism/output/0.7.3/alps-wcnn-2km/'
+filepath = ('/home/juliens/pism/output/0.7.3/alps-wcnn-1km/'
             'epica3222cool0950+acyc1+esia5/y???????-extra.nc')
 nc = iplt.load(filepath)
 time = nc.variables['time'][:]/(365.0*24*60*60)
