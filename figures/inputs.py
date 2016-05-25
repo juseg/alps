@@ -1,0 +1,88 @@
+#!/usr/bin/env python2
+# coding: utf-8
+
+# FIXME: make iceplotlib a package
+import sys
+sys.path.append('iceplotlib')
+
+import iceplotlib.plot as iplt
+import cartopy.crs as ccrs
+import cartopy.feature as cfeature
+
+# initialize figure
+figw, figh = 135.01, 77.5
+fig, grid = iplt.subplots_mm(figsize=(figw, figh), projection=ccrs.UTM(32),
+                             nrows=2, ncols=2, sharex=True, sharey=True,
+                             left=2.5, right=12.5, bottom=2.5, top=2.5,
+                             hspace=2.5, wspace=15.0)
+for ax in grid.flat:
+    ax.set_rasterization_zorder(2.5)
+
+# plot boot topo on all panels
+nc = iplt.load('/home/juliens/pism/input/boot/alps-srtm+gou11simi-1km.nc')
+for ax in grid.flat:
+    im = nc.imshow('topg', ax, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
+
+# plot boot geoflux on last panel
+ax = grid[1, 1]
+levs = range(55, 96, 5)
+cmap = iplt.get_cmap('Spectral', len(levs)-1)
+cols = cmap(range(len(levs)-1))
+cs = nc.contourf('bheatflx', ax, levels=levs, colors=cols, alpha=0.75)
+cax = fig.add_axes([125.0/figw, 2.5/figh, 2.5/figw, 35.0/figh])
+cb = fig.colorbar(cs, cax, ticks=levs[1::2])
+cb.set_label(r'Geothermal flux ($mW\,m^{-2}$)', labelpad=2)
+nc.close()
+
+# load atm file
+# FIXME: add unit conversion to iceplotlib
+nc = iplt.load('/home/juliens/pism/input/atm/alps-wcnn-1km.nc')
+x = nc.variables['x'][:]
+y = nc.variables['y'][:]
+temp = nc.variables['air_temp'][6].T-273.15
+prec = nc.variables['precipitation'][0].T*910.0/123
+nc.close()
+
+# load standard deviation file
+# FIXME: add unit conversion to iceplotlib
+nc = iplt.load('/home/juliens/pism/input/sd/alps-erai-1km.nc')
+x = nc.variables['x'][:]
+y = nc.variables['y'][:]
+sd = nc.variables['air_temp_sd'][6].T
+nc.close()
+
+# plot July temperature
+#print 'July temp min %.1f, max %.1f' % (temp.min(), temp[3:-3, 3:-3].max())
+ax = grid[0, 0]
+levs = range(-5, 26, 5)
+cmap = iplt.get_cmap('RdBu_r', len(levs)-1)
+cols = cmap(range(len(levs)))
+cs = ax.contourf(x, y, temp, levs, colors=cols, alpha=0.75)
+cax = fig.add_axes([57.5/figw, 40.0/figh, 2.5/figw, 35.0/figh])
+cb = fig.colorbar(cs, cax, ticks=levs[1::2])
+cb.set_label(u'July temperature (°C)', labelpad=2)
+
+# plot January precipitation
+#print 'Jan. prec min %.1f, max %.1f' % (prec.min(), prec.max())
+ax = grid[0, 1]
+levs = range(0, 31, 5)
+cmap = iplt.get_cmap('Greens', len(levs)-1)
+cols = cmap(range(len(levs)))
+cs = ax.contourf(x, y, prec, levs, colors=cols, alpha=0.75)
+cax = fig.add_axes([125.0/figw, 40.0/figh, 2.5/figw, 35.0/figh])
+cb = fig.colorbar(cs, cax, ticks=levs[::2])
+cb.set_label(r'January precipitation (mm)', labelpad=2)
+
+# plot July standard deviation
+#print 'July s.d. min %.1f, max %.1f' % (sd.min(), sd.max())
+ax = grid[1, 0]
+levs = [1.7, 2.0, 2.3, 2.6, 2.9, 3.2, 3.5]
+cmap = iplt.get_cmap('Reds', len(levs)-1)
+cols = cmap(range(len(levs)-1))
+cs = ax.contourf(x, y, sd, levs, colors=cols, alpha=0.75)
+cax = fig.add_axes([57.5/figw, 2.5/figh, 2.5/figw, 35.0/figh])
+cb = fig.colorbar(cs, cax, ticks=levs[1::2])
+cb.set_label(u'PDD SD (°C)', labelpad=2)
+
+# save
+fig.savefig('inputs')
