@@ -30,7 +30,7 @@ figure.subplot.hspace   : 0.054054  # 2 / ((100-2.5-2.5)/2.5-1)
 ### IMAGES
 image.interpolation     : nearest
 image.origin            : lower
-image.composite_image   : False
+image.composite_image   : False     # image composition on mpl >= 1.5
 
 ### SAVING FIGURES
 savefig.dpi             : 254       # figure dots per inch
