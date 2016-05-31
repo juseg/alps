@@ -59,13 +59,13 @@ envelope = np.ma.masked_where(mask, envelope)
 #print 'LGM age min %.1f, max %.1f' % (lgmage.min(), lgmage.max())
 
 # set contour levels, colors and hatches
-levs = range(24, 29)
+levs = range(21, 28)
 cmap = iplt.get_cmap('Paired', 12)
-cols = cmap(range(12))[:len(levs)]
+cols = cmap(range(12))[:len(levs)+1]
 
 # plot
 im = nc.imshow('topg', ax, 0.0, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
-cs = ax.contourf(x, y, lgmage, levs, colors=cols, extend='max', alpha=0.75)
+cs = ax.contourf(x, y, lgmage, levs, colors=cols, extend='both', alpha=0.75)
 
 # contour levels
 levs = range(0, 5001, 200)

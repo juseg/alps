@@ -90,6 +90,9 @@ age = -nc.variables['time'][:]/(1e3*365*24*60*60)
 vol = nc.variables['slvol'][:]
 nc.close()
 
+# print LGM age
+#print age[vol.argmax()]
+
 # plot time series
 tsax=tsax.twinx()
 tsax.plot(age, vol, c='#1f78b4')
@@ -109,7 +112,7 @@ nc = iplt.load(filepath)
 time = nc.variables['time'][:]/(365.0*24*60*60)
 
 # draw first frame and colorbar
-im = draw(-25.5e3, ax, cursor)  # FIXME: update when LGM is available
+im = draw(-25e3, ax, cursor)
 cb = fig.colorbar(im, cax)
 cb.set_label(r'surface velocity ($m\,a^{-1}$)')
 

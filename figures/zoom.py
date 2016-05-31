@@ -109,7 +109,7 @@ nc = iplt.load(filepath)
 time = nc.variables['time'][:]/(365.0*24*60*60)
 
 # draw first frame and colorbar
-im = draw(-25.5e3, ax, cursor)
+im = draw(-25e3, ax, cursor)
 cb = fig.colorbar(im, cax)
 cb.set_label(r'surface velocity ($m\,a^{-1}$)')
 
