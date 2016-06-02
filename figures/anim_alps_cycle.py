@@ -118,7 +118,8 @@ cb.set_label(r'ice thickness (m)')
 
 # make animation
 anim = FuncAnimation(fig, draw, frames=time, fargs=(ax, cursor))
-anim.save('anim_alps_cycle.mp4', fps=25)
+anim.save('anim_alps_cycle.mp4', fps=25, codec='h264')
+anim.save('anim_alps_cycle.ogg', fps=25, codec='theora')
 
 # close nc file
 nc.close()

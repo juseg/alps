@@ -102,6 +102,6 @@ def saveframe(i):
 # plot individual frames in parallel
 from multiprocessing import Pool
 pool = Pool(processes=16)
-pool.map(saveframe, xrange(985, 1000))
+pool.map(saveframe, xrange(1200))
 pool.close()
 pool.join()

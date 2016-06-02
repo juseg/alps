@@ -37,7 +37,7 @@ savefig.dpi             : 254       # figure dots per inch
 savefig.format          : pdf       # png, ps, pdf, svg
 
 ### ANIMATION
-animation.writer        : ffmpeg    # MovieWriter 'backend' to use
+animation.writer        : avconv    # MovieWriter 'backend' to use
 animation.codec         : h264      # Codec to use for writing movie
 animation.bitrate       : -1        # Bitrate, -1 to auto-determine
 animation.ffmpeg_args   : -pix_fmt, yuv420p  # Compatibility with old players
