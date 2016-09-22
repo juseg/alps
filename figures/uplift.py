@@ -31,19 +31,6 @@ tsax = fig.add_axes([12.5/figw, 10.0/figh, 1-25.0/figw, 30.0/figh])
 cax = fig.add_axes([1-17.5/figw, 42.5/figh, 5.0/figw, 1-45.0/figh])
 ax.set_rasterization_zorder(2.5)
 
-# load temperature signal
-#filepath = ('/home/juliens/pism/input/dt/epica3222cool0950.nc')
-#nc = iplt.load(filepath)
-#age = -nc.variables['time'][:]/1e3
-#dt = nc.variables['delta_T'][:]
-#nc.close()
-
-## plot time series
-#tsax.plot(age, dt, c='0.25')
-#tsax.set_xlabel('model age (ka)')
-#tsax.set_ylabel('temperature offset (K)', color='0.25')
-#tsax.set_ylim(-12.5, 7.5)
-
 # load time series data
 filepath = ('/home/juliens/pism/output/0.7.3/alps-wcnn-2km/'
             'epica3222cool0950+acyc1+esia5/y???????-ts.nc')
@@ -61,9 +48,8 @@ tsax.locator_params(axis='y', nbins=6)
 tsax.grid(axis='y')
 
 # load extra data
-# FIXME: change to 1km resolution when available
 # FIXME: implement unit conversion (m to mm) in iceplotlib
-filepath = ('/home/juliens/pism/output/0.7.3/alps-wcnn-2km/'
+filepath = ('/home/juliens/pism/output/0.7.3/alps-wcnn-1km/'
             'epica3222cool0950+acyc1+esia5/y???????-extra.nc')
 nc = iplt.load(filepath)
 x = nc.variables['x'][:]
@@ -72,15 +58,15 @@ age = -nc.variables['time'][:]/(1e3*365.0*24*60*60)
 dbdt = nc.variables['dbdt'][:]
 
 # compute volumic uplift rate time series
-dvdt = dbdt.sum(axis=(1, 2))
+dvdt = dbdt.sum(axis=(1, 2))*1e-3
 dbdt = dbdt[-1].T*1e3
 
 # plot time series
 tsax = tsax.twinx()
 tsax.plot(age, dvdt, c='#33a02c')
 tsax.set_xlim(120.0, 0.0)
-tsax.set_ylim(-2250.0, 1250.0)
-tsax.set_ylabel('volumic uplift rate ($m^{3}\,a^{-1}$)',
+tsax.set_ylim(-11.25, 6.25)
+tsax.set_ylabel('volumic uplift rate ($km^{3}\,a^{-1}$)',
                 labelpad=0, color='#33a02c')
 tsax.locator_params(axis='y', nbins=6)
 tsax.grid(axis='y')
