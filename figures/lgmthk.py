@@ -11,8 +11,6 @@ from matplotlib.animation import FuncAnimation
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 
-velnorm = LogNorm(1e1, 1e3)
-
 # cartopy features
 rivers = cfeature.NaturalEarthFeature(
     category='physical', name='rivers_lake_centerlines', scale='10m',
@@ -41,7 +39,7 @@ def draw(t, ax, cursor):
 
     # plot
     im = nc.imshow('topg', ax, t, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
-    im = nc.imshow('velsurf_mag', ax, t, norm=velnorm, cmap='Blues', alpha=0.75)
+    im = nc.imshow('thk', ax, t, vmin=0.0, vmax=3e3, cmap='Blues_r', alpha=0.75)
     cs = nc.contour('usurf', ax, t, levels=inner_levs,
                     colors='0.25', linewidths=0.1)
     cs = nc.contour('usurf', ax, t, levels=outer_levs,
@@ -114,10 +112,10 @@ time = nc.variables['time'][:]/(365.0*24*60*60)
 # draw first frame and colorbar
 im = draw(-25e3, ax, cursor)
 cb = fig.colorbar(im, cax)
-cb.set_label(r'surface velocity ($m\,a^{-1}$)')
+cb.set_label('ice thickness (m)')
 
 # close nc file
 nc.close()
 
 # save figure
-fig.savefig('lgm')
+fig.savefig('lgmthk')
