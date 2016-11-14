@@ -28,7 +28,7 @@ gdalwarp -s_srs EPSG:4326 -t_srs EPSG:32632 -r bilinear \
          -te 0 4500000 1500000 5500000 -tr 1000 1000 \
          -srcnodata -2147483648 -dstnodata -32768 \
          -wm 512 -wo SOURCE_EXTRA=100 -of netcdf -overwrite \
-         $dest.tif etopo1-alps.nc
+         $dest etopo1-alps.nc
 
 # SRTM original cell-registered data
 orig=http://www.ngdc.noaa.gov/mgg/global/relief/ETOPO1/data/bedrock/\
@@ -39,7 +39,7 @@ dest=srtm_38_03.tif
 if [ ! -f "$dest" ]
 then
     wget $orig -O ${dest%.tif}.zip
-    unzip -n ${dest%.tif}.zip
+    unzip -n ${dest%.tif}.zip ${dest%.tif}.???
     rm ${dest%.tif}.zip
 fi
 
@@ -49,3 +49,17 @@ gdalwarp -s_srs EPSG:4326 -t_srs EPSG:32632 -r bilinear \
          -srcnodata -2147483648 -dstnodata -32768 \
          -wm 512 -wo SOURCE_EXTRA=100 -of netcdf -overwrite \
          $dest srtm-alps.nc
+
+# Swisstopo Geology 500
+orig=http://data.geo.admin.ch/ch.swisstopo.geologie-geologische_karte/data.zip
+dest=swisstopo-geology.shp
+if [ ! -f swisstopo-geology.shp ]
+then
+    wget $orig -O ${dest%.shp}.zip
+    unzip -jn ${dest%.shp}.zip "Shapes/Geologie_Fl?chen.???"
+    for f in Geologie_Fl?chen.???
+    do
+        mv $f swisstopo-geology.${f#*.}
+    done
+    rm ${dest%.shp}.zip
+fi

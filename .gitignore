@@ -26,8 +26,13 @@
 
 # Data
 *.aux.xml
+*.dbf
 *.hdr
 *.nc
+*.prj
+*.sbn
+*.sbx
+*.shp
+*.shx
 *.tfw
 *.tif
-*.txt
