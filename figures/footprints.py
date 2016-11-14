@@ -28,7 +28,7 @@ im = nc.imshow('topg', ax=ax, vmin=0e3, vmax=3e3, cmap='Greys')
 nc.close()
 
 # draw lgm
-filename = 'data/lgm_alpen_holefilled.shp'
+filename = '../data/native/lgm_alpen_holefilled.shp'
 shp = cshp.Reader(filename)
 ax.add_geometries(shp.geometries(), ll, alpha=0.75,
                   edgecolor='#800000', facecolor='none', lw=0.5)

@@ -31,7 +31,7 @@ w, e, s, n = 230e3, 470e3, 5050e3, 5240e3  # western domain 240x190 km
 # ETOPO1 background topo
 def draw_etopo1(**kwargs):
     """Draw ETOPO1 background and coastline"""
-    nc = Dataset('data/etopo1.nc')
+    nc = Dataset('../data/external/etopo1-alps.nc')
     x = nc.variables['x']
     y = nc.variables['y']
     z = nc.variables['Band1']
@@ -54,7 +54,7 @@ def draw_srtm(ax=None, azimuth=315.0, altitude=30.0, exag=1.0):
     ax = ax or plt.gca()
 
     # extract data
-    nc = Dataset('data/srtm.nc')
+    nc = Dataset('../data/external/srtm-alps.nc')
     x = nc.variables['x'][:]
     y = nc.variables['y'][:]
     z = nc.variables['Band1'][:]
@@ -102,7 +102,7 @@ def draw_lgm_bini(ax=None):
                       edgecolor='#800000', facecolor='none', lw=1.0*bwu)
 
 def draw_lgm_ehlers(ax=None):
-    filename = 'data/lgm_alpen_holefilled.shp'
+    filename = '../data/native/lgm_alpen_holefilled.shp'
     shp = shpreader.Reader(filename)
     ax = ax or plt.gca()
     ax.add_geometries(shp.geometries(), ll, alpha=0.75,
@@ -223,7 +223,7 @@ def draw_modeldomain(ax=None):
 def draw_precipzones(ax=None):
     ax = ax or plt.gca()
     for i in range(1, 4):
-        x, y = np.loadtxt('data/precip_line_%d.xyz' % i, unpack=True)
+        x, y = np.loadtxt('../data/native/precip_line_%d.xyz' % i, unpack=True)
         ax.plot(x, y, c='k', lw=1*bwu)
 
 # initialize figure

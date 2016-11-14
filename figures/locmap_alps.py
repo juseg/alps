@@ -31,7 +31,7 @@ w, e, s, n = 150e3, 1050e3, 4800e3, 5475e3  # full alps 4:3
 # ETOPO1 background topo
 def draw_etopo1(**kwargs):
     """Draw ETOPO1 background and coastline"""
-    nc = Dataset('data/etopo1.nc')
+    nc = Dataset('../data/external/etopo1-alps.nc')
     x = nc.variables['x']
     y = nc.variables['y']
     z = nc.variables['Band1']
@@ -55,7 +55,7 @@ def draw_topo(ax=None, data='etopo1',
     ax = ax or plt.gca()
 
     # extract data
-    nc = Dataset('data/%s.nc' % data)
+    nc = Dataset('../data/external/%s-alps.nc' % data)
     x = nc.variables['x'][:]
     y = nc.variables['y'][:]
     z = nc.variables['Band1'][:]
@@ -103,7 +103,7 @@ def draw_lgm_bini(ax=None):
                       edgecolor='#800000', facecolor='none', lw=1.0*bwu)
 
 def draw_lgm_ehlers(ax=None):
-    filename = 'data/lgm_alpen_holefilled.shp'
+    filename = '../data/native/lgm_alpen_holefilled.shp'
     shp = shpreader.Reader(filename)
     ax = ax or plt.gca()
     ax.add_geometries(shp.geometries(), ll, alpha=0.75,

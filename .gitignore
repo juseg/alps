@@ -26,4 +26,8 @@
 
 # Data
 *.aux.xml
+*.hdr
 *.nc
+*.tfw
+*.tif
+*.txt
