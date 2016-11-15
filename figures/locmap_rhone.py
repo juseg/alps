@@ -27,7 +27,7 @@ w, e, s, n = 0e3, 1500e3, 4500e3, 5500e3  # etopo reprojection
 w, e, s, n = 150e3, 1050e3, 4820e3, 5420e3  # full alps
 w, e, s, n = 230e3, 470e3, 5050e3, 5240e3  # west alps 240x190 km
 w, e, s, n = 172e3, 528e3, 5025e3, 5265e3  # west alps 356x240 km
-w, e, s, n = 192.25e3-10e3, 505.75e3-10e3, 5040e3, 5250e3  # 311.5x210 km
+w, e, s, n = 194.25e3-10e3, 505.75e3-10e3, 5040e3, 5250e3  # 311.5x210 km
 
 
 # ETOPO1 background topo
@@ -56,7 +56,7 @@ def draw_srtm(ax=None, azimuth=315.0, altitude=30.0, exag=1.0):
     ax = ax or plt.gca()
 
     # extract data
-    nc = Dataset('../data/external/srtm-alps.nc')
+    nc = Dataset('../data/external/srtm-west.nc')
     x = nc.variables['x'][:]
     y = nc.variables['y'][:]
     z = nc.variables['Band1'][:]
@@ -136,23 +136,26 @@ def draw_lithos(ax=None):
     # get axes if None provided
     ax = ax or plt.gca()
 
-    # read swisstopo shapefile
+    # draw swisstopo geology polygons
     filename = '../data/external/swisstopo-geology.shp'
     shp = shpreader.Reader(filename)
     for rec in shp.records():
         atts = rec.attributes
         geom = rec.geometry
         if atts['L_ID'] == 62 and atts['T1_ID'] == 114:
-            ax.add_geometries(geom, swiss, alpha=0.75,
-                              edgecolor='none', facecolor='#800000')
+            ax.add_geometries(geom, swiss, alpha=0.75, color='#800000')
         elif atts['L_ID'] == 82 and atts['T1_ID'] == 505:
-            ax.add_geometries(geom, swiss, alpha=0.75,
-                              edgecolor='none', facecolor='#000080')
+            ax.add_geometries(geom, swiss, alpha=0.75, color='#000080')
         elif atts['AREA'] == 2276398.0271:
-            ax.add_geometries(geom, swiss, alpha=0.75,
-                              edgecolor='none', facecolor='#008000')
+            ax.add_geometries(geom, swiss, alpha=0.75, color='#008000')
             ax.plot(geom.centroid.x, geom.centroid.y, transform=swiss,
                     marker='o', mec='#008000', mew=1.0, mfc='none', ms=12.0)
+
+    # add labels
+    txtkwa = dict(fontweight='bold', ha='center', va='center', transform=ll)
+    ax.text(6.6, 45.90, 'Mont Blanc granite', color='#800000', **txtkwa)
+    ax.text(7.5, 45.75, 'Arolla gneiss', color='#000080', **txtkwa)
+    ax.text(8.2, 46.05, 'Allalin gabbro', color='#008000', **txtkwa)
 
 # Natural Earth elements
 def draw_rivers(ax=None):
@@ -224,7 +227,10 @@ def add_names(ax=None):
     geotag(6.15, 46.20, 'Geneva', loc='cl', **txtkwa)
     geotag(6.93, 47.00, u'Neuchâtel', loc='lc', **txtkwa)
     geotag(7.45, 46.95, 'Bern', loc='cr', **txtkwa)
-    geotag(7.53, 47.22, 'Solothurn', loc='cr', **txtkwa)
+    geotag(7.53, 47.22, 'Solothurn', loc='cl', **txtkwa)
+    geotag(7.65, 47.23, 'Wangen a.A.', loc='cr', **txtkwa)
+    geotag(7.68, 47.17, 'Steinhof', loc='cr', **txtkwa)
+    geotag(7.68, 47.14, 'Steineberg', loc='cr', **txtkwa)
 
     # add names of cities (utm32)
     #txtkwa = dict(transform=proj, style='italic')
@@ -240,22 +246,27 @@ def add_names(ax=None):
     geotag(347120, 5103616, 'Mont\nBlanc', xytext=(-20, 0), marker='*', **txtkwa)
     geotag(365930, 5101063, 'Val de\nBagnes', xytext=(0, -20), marker='^', **txtkwa)
     geotag(382491, 5097764, "Val\nd'Arolla", xytext=(0, 20), marker='^', **txtkwa)
+    geotag(417299, 5111714, "Saas\nValley", xytext=(-15, 15), marker='^', **txtkwa)
 
     # add other locations
-    txtkwa = dict(ha='center', va='center', transform=ll, style='italic')
-    ax.text(8.05, 46.20, 'Simplon\nPass', **txtkwa)  # rotation=-45
+    txtkwa = dict(color='k', style='italic',
+                  ha='center', va='center', transform=ll)
+    ax.text(8.10, 46.20, 'Simplon\nPass', rotation=-30, **txtkwa)  # rotation=-45
 
-    # add rhone river
-    txtkwa = dict(color='#0978ab', transform=ll, style='italic')
-    ax.text(7.20, 46.25, 'Rhone', rotation=30, **txtkwa)
+    # add rivers
+    txtkwa = dict(color='#0978ab', style='italic',
+                  ha='center', va='center', transform=ll)
+    ax.text(7.65, 46.70, 'Aar River', rotation=-45, **txtkwa)
+    ax.text(6.30, 46.15, 'Arve River', rotation=-45, **txtkwa)
+    ax.text(7.30, 46.25, 'Rhone River', rotation=30, **txtkwa)
 
     # add mountain massifs
-    txtkwa = dict(ha='center', va='center', transform=ll,
-                  fontsize=8, style='italic')
+    txtkwa = dict(color='k', fontsize=8, style='italic',
+                  ha='center', va='center', transform=ll)
     ax.text(6.2, 46.6, 'JURA\nMOUNTAINS', **txtkwa)
     ax.text(7.7, 46.5, 'AAR MASSIF', **txtkwa)
     ax.text(7.9, 45.9, 'SOUTHERN\nVALAIS', **txtkwa)
-    ax.text(6.6, 46.1, 'MONT\nBLANC', **txtkwa)
+    ax.text(6.7, 46.2, 'MONT\nBLANC', **txtkwa)
 
 # modelling domain
 def draw_modeldomain(ax=None):
