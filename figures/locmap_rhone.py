@@ -143,11 +143,11 @@ def draw_lithos(ax=None):
         atts = rec.attributes
         geom = rec.geometry
         if atts['L_ID'] == 62 and atts['T1_ID'] == 114:
-            ax.add_geometries(geom, swiss, alpha=0.75, color='#800000')
+            ax.add_geometries(geom, swiss, alpha=0.25, color='#800000')
         elif atts['L_ID'] == 82 and atts['T1_ID'] == 505:
-            ax.add_geometries(geom, swiss, alpha=0.75, color='#000080')
+            ax.add_geometries(geom, swiss, alpha=0.25, color='#000080')
         elif atts['AREA'] == 2276398.0271:
-            ax.add_geometries(geom, swiss, alpha=0.75, color='#008000')
+            ax.add_geometries(geom, swiss, alpha=0.25, color='#008000')
             ax.plot(geom.centroid.x, geom.centroid.y, transform=swiss,
                     marker='o', mec='#008000', mew=1.0, mfc='none', ms=12.0)
 
@@ -155,7 +155,7 @@ def draw_lithos(ax=None):
     txtkwa = dict(fontweight='bold', ha='center', va='center', transform=ll)
     ax.text(6.6, 45.90, 'Mont Blanc granite', color='#800000', **txtkwa)
     ax.text(7.5, 45.75, 'Arolla gneiss', color='#000080', **txtkwa)
-    ax.text(8.2, 46.05, 'Allalin gabbro', color='#008000', **txtkwa)
+    ax.text(8.2, 46.07, 'Allalin gabbro', color='#008000', **txtkwa)
 
 # Natural Earth elements
 def draw_rivers(ax=None):
@@ -223,14 +223,18 @@ def add_names(ax=None):
     ax = ax or plt.gca()
 
     # add names of cities (ll)
-    txtkwa = dict(transform=ll, style='italic')
+    txtkwa = dict(transform=ll, marker='o', style='italic')
     geotag(6.15, 46.20, 'Geneva', loc='cl', **txtkwa)
     geotag(6.93, 47.00, u'Neuchâtel', loc='lc', **txtkwa)
     geotag(7.45, 46.95, 'Bern', loc='cr', **txtkwa)
     geotag(7.53, 47.22, 'Solothurn', loc='cl', **txtkwa)
     geotag(7.65, 47.23, 'Wangen a.A.', loc='cr', **txtkwa)
-    geotag(7.68, 47.17, 'Steinhof', loc='cr', **txtkwa)
-    geotag(7.68, 47.14, 'Steineberg', loc='cr', **txtkwa)
+    geotag(7.68, 47.16, 'Steinhof', loc='cr', **txtkwa)
+
+    # add names of mountains
+    txtkwa = dict(transform=ll, marker='+', style='italic')
+    geotag(7.68, 47.14, 'Steinenberg', loc='lc', **txtkwa)
+    geotag(6.90, 45.80, 'Mont Blanc', loc='cl', **txtkwa)
 
     # add names of cities (utm32)
     #txtkwa = dict(transform=proj, style='italic')
@@ -241,20 +245,21 @@ def add_names(ax=None):
     #geotag(280118, 5120218, 'Geneva', **txtkwa)
 
     # add boulder sources
-    txtkwa = dict(style='italic', offset=15,
-                  arrowprops=dict(fc='k', lw=0.5*bwu, arrowstyle='-'))
-    geotag(347120, 5103616, 'Mont\nBlanc', xytext=(-20, 0), marker='*', **txtkwa)
-    geotag(365930, 5101063, 'Val de\nBagnes', xytext=(0, -20), marker='^', **txtkwa)
-    geotag(382491, 5097764, "Val\nd'Arolla", xytext=(0, 20), marker='^', **txtkwa)
-    geotag(417299, 5111714, "Saas\nValley", xytext=(-15, 15), marker='^', **txtkwa)
+    ax.plot(347120, 5103616, color='#800000', marker='*', ms=8)  # Mt Blanc
+    ax.plot(365930, 5101063, color='#000080', marker='^', ms=8)  # Val de Bagnes
+    ax.plot(382491, 5097764, color='#000080', marker='^', ms=8)  # Val d'Arolla
+    ax.plot(417299, 5111714, color='#008000', marker='s', ms=8)  # Saastal
 
     # add other locations
     txtkwa = dict(color='k', style='italic',
                   ha='center', va='center', transform=ll)
-    ax.text(8.10, 46.20, 'Simplon\nPass', rotation=-30, **txtkwa)  # rotation=-45
+    ax.text(7.25, 46.00, 'Val de Bagnes', rotation=-40, **txtkwa)  # rotation=-45
+    ax.text(7.45, 46.15, "Val d'Arolla", rotation=-60, **txtkwa)  # rotation=-45
+    ax.text(7.97, 46.07, 'Saastal', rotation=-60, **txtkwa)  # rotation=-45
+    ax.text(8.10, 46.20, 'Simplon Pass', rotation=-30, **txtkwa)  # rotation=-45
 
     # add rivers
-    txtkwa = dict(color='#0978ab', style='italic',
+    txtkwa = dict(color='#0978ab', family='serif', style='italic',
                   ha='center', va='center', transform=ll)
     ax.text(7.65, 46.70, 'Aar River', rotation=-45, **txtkwa)
     ax.text(6.30, 46.15, 'Arve River', rotation=-45, **txtkwa)
