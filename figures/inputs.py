@@ -10,28 +10,48 @@ import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 
 # initialize figure
-figw, figh = 135.01, 77.5
+figw, figh = 282.5, 65.0
 fig, grid = iplt.subplots_mm(figsize=(figw, figh), projection=ccrs.UTM(32),
-                             nrows=2, ncols=2, sharex=True, sharey=True,
-                             left=2.5, right=12.5, bottom=2.5, top=2.5,
-                             hspace=2.5, wspace=15.0)
+                             nrows=1, ncols=4, sharex=True, sharey=True,
+                             left=2.5, right=2.5, bottom=17.5, top=2.5,
+                             hspace=2.5, wspace=2.5)
+cgrid = [fig.add_axes([(2.5+i*70.000)/figw, 10.0/figh, 67.5/figw, 5.0/figh])
+         for i in range(4)]
 for ax in grid.flat:
     ax.set_rasterization_zorder(2.5)
 
-# plot boot topo on all panels
+# cartopy features
+rivers = cfeature.NaturalEarthFeature(
+    category='physical', name='rivers_lake_centerlines', scale='10m',
+    edgecolor='0.25', facecolor='none', lw=0.5)
+lakes = cfeature.NaturalEarthFeature(
+    category='physical', name='lakes', scale='10m',
+    edgecolor='0.25', facecolor='0.85', lw=0.25)
+coastline = cfeature.NaturalEarthFeature(
+    category='physical', name='coastline', scale='10m',
+    edgecolor='0.25', facecolor='none', lw=0.25)
+graticules = cfeature.NaturalEarthFeature(
+    category='physical', name='graticules_1', scale='10m',
+    edgecolor='0.25', facecolor='none', lw=0.1)
+
+# plot boot topo and geographic features
 nc = iplt.load('/home/juliens/pism/input/boot/alps-srtm+gou11simi-1km.nc')
 for ax in grid.flat:
     im = nc.imshow('topg', ax, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
+    ax.add_feature(rivers, zorder=0)
+    ax.add_feature(lakes, zorder=0)
+    ax.add_feature(coastline, zorder=0)
+    ax.add_feature(graticules)
 
 # plot boot geoflux on last panel
-ax = grid[1, 1]
+ax = grid.flat[3]
+cax = cgrid[3]
 levs = range(55, 96, 5)
-cmap = iplt.get_cmap('Spectral', len(levs)-1)
+cmap = iplt.get_cmap('PuOr_r', len(levs)-1)
 cols = cmap(range(len(levs)-1))
 cs = nc.contourf('bheatflx', ax, levels=levs, colors=cols, alpha=0.75)
-cax = fig.add_axes([125.0/figw, 2.5/figh, 2.5/figw, 35.0/figh])
-cb = fig.colorbar(cs, cax, ticks=levs[1::2])
-cb.set_label(r'Geothermal flux ($mW\,m^{-2}$)', labelpad=2)
+cb = fig.colorbar(cs, cax, orientation='horizontal', ticks=levs[1::2])
+cb.set_label(r'Geothermal flux ($mW\,m^{-2}$)')
 nc.close()
 
 # load atm file
@@ -53,36 +73,36 @@ nc.close()
 
 # plot July temperature
 #print 'July temp min %.1f, max %.1f' % (temp.min(), temp[3:-3, 3:-3].max())
-ax = grid[0, 0]
+ax = grid.flat[0]
+cax = cgrid[0]
 levs = range(-5, 26, 5)
 cmap = iplt.get_cmap('RdBu_r', len(levs)-1)
 cols = cmap(range(len(levs)))
 cs = ax.contourf(x, y, temp, levs, colors=cols, alpha=0.75)
-cax = fig.add_axes([57.5/figw, 40.0/figh, 2.5/figw, 35.0/figh])
-cb = fig.colorbar(cs, cax, ticks=levs[1::2])
-cb.set_label(u'July temperature (°C)', labelpad=2)
+cb = fig.colorbar(cs, cax, orientation='horizontal', ticks=levs[1::2])
+cb.set_label(u'July temperature (°C)')
 
 # plot January precipitation
 #print 'Jan. prec min %.1f, max %.1f' % (prec.min(), prec.max())
-ax = grid[0, 1]
+ax = grid.flat[1]
+cax = cgrid[1]
 levs = range(0, 31, 5)
 cmap = iplt.get_cmap('Greens', len(levs)-1)
 cols = cmap(range(len(levs)))
 cs = ax.contourf(x, y, prec, levs, colors=cols, alpha=0.75)
-cax = fig.add_axes([125.0/figw, 40.0/figh, 2.5/figw, 35.0/figh])
-cb = fig.colorbar(cs, cax, ticks=levs[::2])
-cb.set_label(r'January precipitation (mm)', labelpad=2)
+cb = fig.colorbar(cs, cax, orientation='horizontal', ticks=levs[::2])
+cb.set_label(r'January precipitation (mm)')
 
 # plot July standard deviation
 #print 'July s.d. min %.1f, max %.1f' % (sd.min(), sd.max())
-ax = grid[1, 0]
+ax = grid.flat[2]
+cax = cgrid[2]
 levs = [1.7, 2.0, 2.3, 2.6, 2.9, 3.2, 3.5]
 cmap = iplt.get_cmap('Reds', len(levs)-1)
 cols = cmap(range(len(levs)-1))
 cs = ax.contourf(x, y, sd, levs, colors=cols, alpha=0.75)
-cax = fig.add_axes([57.5/figw, 2.5/figh, 2.5/figw, 35.0/figh])
-cb = fig.colorbar(cs, cax, ticks=levs[1::2])
-cb.set_label(u'PDD SD (°C)', labelpad=2)
+cb = fig.colorbar(cs, cax, orientation='horizontal', ticks=levs[1::2])
+cb.set_label(u'July PDD SD (°C)')
 
 # save
 fig.savefig('inputs')
