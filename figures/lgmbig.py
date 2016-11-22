@@ -24,6 +24,7 @@ ll = ccrs.PlateCarree()
 utm = ccrs.UTM(32)
 extent = 150e3, 1050e3, 4820e3, 5420e3 # model domain
 extent = 155e3, 1045e3, 4825e3, 5415e3 # 5 km crop
+center = (extent[1]+extent[0])/2, (extent[3]+extent[2])/2
 
 # initialize figure
 figw, figh = 405.0, 270.0
@@ -31,18 +32,12 @@ fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
                            left=2.5, right=2.5, bottom=2.5, top=2.5)
 ax.set_rasterization_zorder(2.5)
 ax.set_extent(extent, utm)
-tsax = fig.add_axes([1-247.5/figw, 27.5/figh, 220.0/figw, 40.0/figh])
-cax = fig.add_axes([22.5/figw, 1-87.5/figh, 5.0/figw, 55.0/figh])
+cax1 = fig.add_axes([12.5/figw, 1-32.5/figh, 50.0/figw, 5.0/figh])
+cax2 = fig.add_axes([12.5/figw, 1-52.5/figh, 50.0/figw, 5.0/figh])
 
-# add white rectangles
-kwa = dict(ec='k', fc='w', transform=fig.transFigure, zorder=3)
-tsrect = iplt.Rectangle((1-262.5/figw, 12.5/figh), 250/figw, 75/figh, **kwa)
-crect = iplt.Rectangle((12.5/figw, 1-97.5/figh), 30/figw, 75/figh, **kwa)
-ax.add_patch(tsrect)
-ax.add_patch(crect)
 
-# Main panel
-# ----------
+# Model output
+# ------------
 
 # load extra data
 nc = iplt.load('/home/juliens/pism/output/0.7.3/alps-wcnn-1km/'
@@ -64,6 +59,16 @@ cs = nc.contourf('temppabase', ax, t, levels=[-50.0, -1e-6],
 cs = nc.contour('temppabase', ax, t, levels=[-50.0, -1e-6],
                 colors='k', linewidths=0.25, linestyles=['-'], zorder=0)
 
+# footprint
+x = nc.variables['x'][:]
+y = nc.variables['y'][:]
+thk = nc.variables['thk'][:]
+duration = (thk >= 1.0).sum(axis=0)*0.1
+footprint = (duration > 0)  # = 1 - (thk < 1.0).prod(axis=0)
+cs = ax.contour(x, y, footprint.T, levels=[0.5], colors='#ff7f00',
+                linestyles=[(0, [3, 1])], linewidths=0.5, alpha=0.75)
+
+
 # ice margin
 cs = nc.icemarginf(ax, t, colors='w', alpha=0.75)
 cs = nc.icemargin(ax, t, colors='k', linewidths=0.25)
@@ -78,6 +83,23 @@ cs.clabel(color='0.25', fmt='%d', linewidths=0.5)
 # surface velocity
 qv = nc.quiver('velsurf', ax, t, scale=250.0, width=0.25*25.4/72/800.0,
                norm=velnorm, cmap='Blues', zorder=2)
+
+# central point for uplift
+ax.plot(nc['x'][450], nc['y'][350], 'o', c='#33a02c')
+
+# close extra file
+nc.close()
+
+# add colorbars
+cb = fig.colorbar(qv, cax1, orientation='horizontal', extend='both')
+cb.set_label(r'ice surface velocity ($m\,a^{-1}$)')
+cb = fig.colorbar(im, cax2, orientation='horizontal', extend='both',
+                  ticks=range(0, 3001, 1000))
+cb.set_label(r'bedrock topography (m)')
+
+
+# Geographic features
+# -------------------
 
 # add cartopy vectors
 rivers = cfeature.NaturalEarthFeature(
@@ -97,54 +119,37 @@ ax.add_feature(lakes, zorder=0)
 ax.add_feature(coastline, zorder=0)
 ax.add_feature(graticules)
 
+# add cities
+offset = 5
+shp = cshp.Reader(cshp.natural_earth(resolution='10m',
+                                     category='cultural',
+                                     name='populated_places_simple'))
+for rec in shp.records():
+    name = rec.attributes['name'].decode('latin-1')
+    rank = rec.attributes['scalerank']
+    pop = rec.attributes['pop_max']
+    lon = rec.geometry.x
+    lat = rec.geometry.y
+    if rank <= 7:
+        xc, yc = ax.projection.transform_point(lon, lat, src_crs=ll)
+        xloc = ('l' if xc < center[0] else 'r')
+        yloc = ('l' if yc < center[1] else 'u')
+        dx = {'c': 0, 'l': -1, 'r': 1}[xloc]*offset
+        dy = {'c': 0, 'l': -1, 'u': 1}[yloc]*offset
+        ha = {'c': 'center', 'l': 'right', 'r': 'left'}[xloc]
+        va = {'c': 'center', 'l': 'top', 'u': 'bottom'}[yloc]
+        i = abs(x-xc).argmin()
+        j = abs(y-yc).argmin()
+        d = duration[i, j]
+        text = name + ('\n%.1f ka' % d if d > 0 else '')
+        ax.plot(xc, yc, 'ko')
+        ax.annotate(text, xy=(xc, yc), xytext=(dx, dy),
+                    textcoords='offset points', ha=ha, va=va, clip_on=True)
+
 # add lgm outline
 shp = cshp.Reader('../data/native/lgm_alpen_holefilled.shp')
 ax.add_geometries(shp.geometries(), ll, lw=0.5, alpha=0.75,
                   edgecolor='#e31a1c', facecolor='none', zorder=0)
-
-# add colorbar
-cb = fig.colorbar(qv, cax)
-cb.set_label(r'surface velocity ($m\,a^{-1}$)')
-
-# close extra file
-nc.close()
-
-# load temperature signal
-nc = iplt.load('/home/juliens/pism/input/dt/epica3222cool0950.nc')
-age = -nc.variables['time'][:]/1e3
-dt = nc.variables['delta_T'][:]
-nc.close()
-
-# plot time series
-tsax.plot(age, dt, c='0.25')
-tsax.set_xlabel('model age (ka)')
-tsax.set_ylabel('temperature offset (K)', color='0.25')
-tsax.set_ylim(-12.5, 7.5)
-
-# load time series data
-nc = iplt.load('/home/juliens/pism/output/0.7.3/alps-wcnn-1km/'
-               'epica3222cool0950+acyc1+esia5/y???????-ts.nc')
-age = -nc.variables['time'][:]/(1e3*365*24*60*60)
-vol = nc.variables['slvol'][:]
-nc.close()
-
-# plot time series
-tsax=tsax.twinx()
-tsax.plot(age, vol, c='#1f78b4')
-tsax.set_ylabel('ice volume (m s.l.e.)', color='#1f78b4')
-tsax.set_xlim(120.0, 0.0)
-tsax.set_ylim(-0.05, 0.35)
-tsax.locator_params(axis='y', nbins=6)
-tsax.grid(axis='y')
-
-# add vertical line
-tsax.axvline(21.0, c='k', lw=0.25)
-
-# TODO:
-# * SRTM topo
-# * volumic uplift rate
-# * model max extent
-# * MIS stages
 
 # save figure
 fig.savefig('lgmbig')
