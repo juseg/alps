@@ -1,0 +1,176 @@
+id,loc,x,y,z,map_id,map_name
+1,Schwarzhorn,622350,138725,2600,1268,Loetschental
+2,Alplijhorn,622225,136975,2550,1268,Loetschental
+3,Hogleifa,626325,136400,2540,1268,Loetschental
+4,Bietschhornhutte,629200,138425,2580,1268,Loetschental
+5,Jegihorn,629775,134850,2600,1268,Loetschental
+6,Crutighorn,631350,134075,2600,1268,Loetschental
+7,Jaegihorn (Baltschiederklause),634700,138375,2850,1268,Loetschental
+8,Stockhorn(SE),634450,136625,2640,1268,Loetschental
+9,Stockhorn(S),633875,136350,2660,1268,Loetschental
+10,Tieregghorn,633075,135600,2600,1268,Loetschental
+11,Dubihorn,632700,134775,2600,1268,Loetschental
+12,Gruebhorn,636550,137450,2800,1268,Loetschental
+13,Strahlhorn,636825,136825,2700,1268,Loetschental
+14,Laegundegrat (Gredetsch),636650,136075,2640,1268,Loetschental
+15,Alpjuhorn (E),636900,135450,2600,1268,Loetschental
+16,Vordzenbachenhorn (E),646625,142850,2820,1269,Aletschgletscher
+17,Vordzen Rothorn (S),646175,141875,2810,1269,Aletschgletscher
+18,Geisshorn (SE),645175,141250,2800,1269,Aletschgletscher
+19,Grossfusshorn (SE),643700,140550,2790,1269,Aletschgletscher
+20,Grossfusshorn (SW),643150,140675,2800,1269,Aletschgletscher
+21,Sparrhron,642025,138800,2780,1269,Aletschgletscher
+22,Olmenhorn (SE),647575,144275,2820,1269,Aletschgletscher
+23,Eiggishorn (NE),650775,142575,2680,1269,Aletschgletscher
+24,Strahlhorn (S),650275,144450,2820,1269,Aletschgletscher
+25,Bettmerhorn (S),649100,140200,2690,1269,Aletschgletscher
+26,Distelberg,640900,143425,2840,1269,Aletschgletscher
+27,Oberaletschhutte,641450,141800,2820,1269,Aletschgletscher
+28,Hohstock,640700,138475,2750,1269,Aletschgletscher
+29,Grisighorn,639075,137250,2820,1269,Aletschgletscher
+30,Risihorn,655025,145225,2660,1270,Binntal
+31,Schwarzegge,665700,143150,2690,1270,Binntal
+32,Albrun,666575,136325,2650,1290,Binntal
+33,Tochuhorn,643925,123325,2500,1289,Brig
+34,Schwarzhorn (E),629075,132775,2500,1288,Raron
+35,Hufjegrat,629250,133725,2560,1288,Raron
+36,Wiwannihorn (SW),631375,133225,2550,1288,Raron
+37,Ougstchummuhorn (W),631300,132425,2500,1288,Raron
+38,Maelchgrat,635950,132275,2540,1288,Raron
+39,Garsthorn,637200,132225,2560,1288,Raron
+40,Schiltfurgga,637075,133475,2600,1288,Raron
+41,Wiwannihorn (W),632725,133800,2560,1288,Raron
+42,Laegundegrat (Saas),634150,114500,2580,1308,St. Niklaus
+43,Mittleberg,629900,111725,2660,1308,St. Niklaus
+44,Wasuhorn,625625,112825,2640,1308,St. Niklaus
+45,Glatthorn,648100,117950,2200,1309,Simplon
+46,Wyssbodenhorn (NW),644450,118400,2300,1309,Simplon
+47,Wyssbodenhorn (SE),645350,117850,2220,1309,Simplon
+48,Bodmerhorn,646350,115700,2160,1309,Simplon
+49,Guggilihorn,650225,113900,2060,1309,Simplon
+50,Trifthorn (W),640950,106425,2640,1329,Saas
+51,Trifthorn (S),641975,106525,2760,1329,Saas
+52,Trifthorn (SE),642525,106500,2800,1329,Saas
+53,Dri Hornli,643575,106425,2880,1329,Saas
+54,Untershorn,641625,104925,2680,1329,Saas
+55,Mittaghorn,639050,104125,2700,1329,Saas
+56,Egginer,638775,102700,2820,1329,Saas
+57,Kl Allain,638950,101100,2860,1329,Saas
+58,Schwarzbergkopf,638950,99175,2880,1329,Saas
+59,Punta Turiggia,648100,103200,2250,1329,Saas
+60,Cimidi Pozzuoli,649300,104025,2100,1329,Saas
+61,Zibelenfluehorn,648600,107675,2500,1329,Saas
+62,Schijenhorn,649200,108225,2420,1329,Saas
+63,Balmahorn,650175,109200,2340,1329,Saas
+64,Guglen,635250,105500,2900,1328,Randa
+65,Brunegghorn,625300,108475,2760,1328,Randa
+66,Weisshornhutte,623600,103850,2920,1328,Randa
+67,Pte Dent de Veisivi (NW),605825,101525,2480,1327,Evolene
+68,Pte Dent de Veisivi (NE),606225,101375,2480,1327,Evolene
+69,Pte Dent de Veisivi (E-N),607200,100950,2500,1327,Evolene
+70,Pte Dent de Veisivi (E-NE),607575,100475,2540,1327,Evolene
+71,Pte Dent de Veisivi (E-E),607725,100000,2660,1327,Evolene
+72,Pte Dent de Veisivi (E-S),608100,99200,2700,1327,Evolene
+73,Pte des Genevois,607775,98300,2800,1327,Evolene
+74,M. Mine,609325,98225,2780,1327,Evolene
+75,La Maya,610100,100225,2740,1327,Evolene
+76,Ptes de Mourti,609425,101600,2640,1327,Evolene
+77,La Rousette,602300,98875,2560,1326,Rosablanche
+78,Le Veudale (SW),558075,100775,2470,1324,Barbarine
+79,Le Veudale (NE),558175,100825,2440,1324,Barbarine
+80,Pte de L'Ifala,558975,100525,2460,1324,Barbarine
+81,Aig du Van (NW),559475,101000,2400,1324,Barbarine
+82,Aig du Van (NE),560025,101250,2300,1324,Barbarine
+83,Aig du Van (SE),560125,100700,2240,1324,Barbarine
+84,Le Charmo,559400,99475,2300,1324,Barbarine
+85,Bel Oiseau,561225,102625,2260,1324,Barbarine
+86,Tete des Ottans,560675,104300,2500,1324,Barbarine
+87,Dt de Fenestral,562850,104525,2200,1324,Barbarine
+88,Aig de Berard,554125,93300,2400,1344,Col de Balme
+89,Tete du Bechat,553925,91500,2380,1344,Col de Balme
+90,Aig de Charlano,554075,89450,2340,1344,Col de Balme
+91,Pointe des Vioz,553650,88450,2220,1344,Col de Balme
+92,Aig de la Remua B,558600,93825,2300,1344,Col de Balme
+93,Aig de Tete Plate,557100,93025,2520,1344,Col de Balme
+94,Aig de Belvedere B,557275,91625,2300,1344,Col de Balme
+95,Tete des Evettes B,556275,90325,2200,1344,Col de Balme
+96,Arete Sup de Charlano B,555025,88825,2200,1344,Col de Balme
+97,Plan Praz (le Brevant) B,554125,87525,2200,1344,Col de Balme
+98,Mer de Glace (W) B,559025,86125,2300,1344,Col de Balme
+99,Aig a Brochard (Mer de Glace E) B,560275,88875,2200,1344,Col de Balme
+100,Aig a Brochard up (Mer de Glace E) B,560600,88050,2200,1344,Col de Balme
+101,Arete des Flames de Pierre B,561025,86075,2400,1344,Col de Balme
+102,Aig des Gds Monetets B,562850,90275,2500,1344,Col de Balme
+103,Bec de Lachat B,562625,92925,2400,1344,Col de Balme
+104,Bec Rouge Superieur B,563700,91825,2500,1344,Col de Balme
+105,Bec du Picheu,563725,95000,2400,1344,Col de Balme
+106,Les grandes Otanes (NW),563900,97150,2300,1344,Col de Balme
+107,Les grandes Otanes (N),564650,97350,2280,1344,Col de Balme
+108,Cornes de Loria,557725,97750,2500,1344,Col de Balme
+109,Le Chatelet,573975,94025,2300,1345,Orsieres
+110,Pointes des Chevrettes,572475,94175,2400,1345,Orsieres
+111,Clochers du Portalet,571150,92850,2600,1345,Orsieres
+112,Petite Pte des Planereuses,573125,91250,2380,1345,Orsieres
+113,Pointes des Six Niers,572450,87925,2420,1345,Orsieres
+114,La Maye,572075,86200,2440,1345,Orsieres
+115,Mulets de la Lia,592125,93225,2680,1346,Chanrion
+116,La Grande Ashle,593800,94525,2700,1346,Chanrion
+117,Pointe d'Otemma (S),596800,86925,2880,1346,Chanrion
+118,Pointe d'Otemma (W),596100,88050,2820,1346,Chanrion
+119,Tour de Boussine (E),592850,87550,2860,1346,Chanrion
+120,Aretes de Lire Rose,595675,90500,2780,1346,Chanrion
+121,Vuibe (N),603175,94675,2600,1347,Matterhorn
+122,Vuibe (MID),603275,94450,2630,1347,Matterhorn
+123,Vuibe (S),603325,94200,2640,1347,Matterhorn
+124,La Maya (N),604350,95975,2590,1347,Matterhorn
+125,La Maya (S),604550,95600,2640,1347,Matterhorn
+126,Doves Blanches,604875,94475,2720,1347,Matterhorn
+127,Tete des Roeses,610200,88750,2900,1347,Matterhorn
+128,Pte Budden,610075,87200,2860,1347,Matterhorn
+129,Gran Vanna,607250,86775,2800,1347,Matterhorn
+130,Crete du Plan,605625,93800,2820,1347,Matterhorn
+131,Untergabelhorn,620500,96625,3000,1348,Zermatt
+132,Pizzo Nero,640925,88450,2300,1349,Monte Moro
+133,Faderhorn,639675,92450,2400,1349,Monte Moro
+134,P. S. Pietro,642200,93875,2900,1349,Monte Moro
+135,Pte Fiorio,593625,78475,2580,1366,Mont Velan
+136,Mt du Clapy,594400,79425,2600,1366,Mont Velan
+137,M de Crete Seche,597250,81750,2660,1366,Mont Velan
+138,M de Chamontane,598575,82075,2700,1366,Mont Velan
+139,Becca de Chatelet,601550,83500,2740,1366,Mont Velan
+140,M Gele (SW),593325,82625,2720,1366,Mont Velan
+141,Pointe d'Ayace,595375,85200,2900,1366,Mont Velan
+142,Pte Allobrogia,570925,83350,2750,1365,Gd St-Bernard
+143,Aig Rouge de Triolet* PO,569875,82600,2800,1365,Gd St-Bernard
+144,M de Greuvettaz* PO,569150,82575,2750,1365,Gd St-Bernard
+145,Grand Chenalette (E),579550,80550,2500,1365,Gd St-Bernard
+146,Becs Noir,581275,82075,2460,1365,Gd St-Bernard
+147,Comba,577575,78925,2400,1365,Gd St-Bernard
+148,M Mort (W),578900,79225,2650,1365,Gd St-Bernard
+149,Pte Gerlach,604250,84850,2770,293,Valpelline
+150,Aig Rouge (Becca des Lacs),605550,85700,2790,293,Valpelline
+151,M Dragon,608950,85250,2800,293,Valpelline
+152,Pte des Fontanelles,608100,84700,2800,293,Valpelline
+153,M Charvin,607200,83750,2780,293,Valpelline
+154,M Dzalou,603200,81400,2700,293,Valpelline
+155,Aig de L'Eveque* PO,566275,78625,2725,292,Courmayeur
+156,Pte Walker* PO,565350,78050,2750,292,Courmayeur
+157,M de Rochefort* PO,563600,77400,2800,292,Courmayeur
+158,Tour de Jethoula* PO,562100,76700,2750,292,Courmayeur
+159,M Rouge de Peuterey* (NE) PO,558350,72575,2700,292,Courmayeur
+160,M Rouge de Peuterey* (SW) PO,557625,72075,2750,292,Courmayeur
+161,Aig de Breuillat* PO,555850,71525,2750,292,Courmayeur
+162,Aig de Combal* PO,553250,70175,2775,292,Courmayeur
+163,Tete Entre Deux Sex,568950,76200,2500,292,Courmayeur
+164,Tete de Bernarde,566950,75075,2500,292,Courmayeur
+165,Glace (Aig de l'M) B,559540,84950,2400,292,Courmayeur
+166,Glace (Aig de la Trelaporte) B,560600,84150,2550,292,Courmayeur
+167,Glace (Aig du Grepon) B,559950,82900,2650,292,Courmayeur
+168,Glace (Aig du Tacul) B,562400,82150,2750,292,Courmayeur
+169,Nid d'Aigle,550800,79700,2250,46,Val de Bagnes
+170,Dreieckhorn (NE ridge),645900,148750,2900,1249,Finsteraarhorn
+171,Konkordiahutten,647250,150075,2900,1249,Finsteraarhorn
+172,Chamm (SW ridge),648225,148925,2900,1249,Finsteraarhorn
+173,Herbrigrat,649225,147600,2890,1249,Finsteraarhorn
+174,Gruenegg (SW ridge),646925,150875,3000,1249,Finsteraarhorn
+175,Gruenegg (S ridge),647600,151350,3100,1249,Finsteraarho
