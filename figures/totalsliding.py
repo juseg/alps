@@ -69,7 +69,7 @@ ax.add_feature(coastline, zorder=0)
 ax.add_feature(graticules)
 
 # add colorbar
-cb = fig.colorbar(cs, cax, ticks=levs)
+cb = fig.colorbar(cs, cax)
 cb.set_label(r'cumulative basal motion (km)', labelpad=0)
 
 # save figure
