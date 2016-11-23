@@ -1,10 +1,7 @@
 #!/usr/bin/env python2
 # coding: utf-8
 
-# FIXME: make iceplotlib a package
-import sys
-sys.path.append('iceplotlib')
-
+import util as ut
 import numpy as np
 import iceplotlib.plot as iplt
 import cartopy.crs as ccrs
@@ -32,9 +29,8 @@ cax = fig.add_axes([1-17.5/figw, 2.5/figh, 5.0/figw, 1-5.0/figh])
 ax.set_rasterization_zorder(2.5)
 
 # load extra data
-filepath = ('/home/juliens/pism/output/0.7.3/alps-wcnn-1km/'
-            'epica3222cool0950+acyc1+esia5/y???????-extra.nc')
-nc = iplt.load(filepath)
+filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+nc = ut.io.load(filepath)
 w, e, s, n = 250, 400, 355, 455  # Zürich
 w, e, s, n = 125, 425, 300, 500  # Swiss foreland
 w, e, s, n = 000, 901, 000, 601  # Whole domain

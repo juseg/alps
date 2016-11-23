@@ -1,10 +1,7 @@
 #!/usr/bin/env python2
 # coding: utf-8
 
-# FIXME: make iceplotlib a package
-import sys
-sys.path.append('iceplotlib')
-
+import util as ut
 import iceplotlib.plot as iplt
 from matplotlib.colors import LogNorm
 from matplotlib.animation import FuncAnimation
@@ -77,9 +74,8 @@ fig.text(1-2.5/figw, 2.5/figh, 'J. Seguinot et al. (2016)',
          ha='right', va='bottom')
 
 # load time series data
-filepath = ('/home/juliens/pism/output/0.7.3/alps-wcnn-2km/'
-            'epica3222cool0950+acyc1+esia5/y???????-ts.nc')
-nc = iplt.load(filepath)
+filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/ts.nc'
+nc = ut.io.load(filepath)
 age = -nc.variables['time'][:]/(1e3*365*24*60*60)
 vol = nc.variables['slvol'][:]
 nc.close()
@@ -93,9 +89,8 @@ tsax.locator_params(axis='y', nbins=6)
 tsax.grid(axis='y')
 
 # load extra data
-filepath = ('/home/juliens/pism/output/0.7.3/alps-wcnn-1km/'
-            'epica3222cool0950+acyc1+esia5/y???????-extra.nc')
-nc = iplt.load(filepath)
+filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+nc = ut.io.load(filepath)
 x = nc.variables['x'][:]
 y = nc.variables['y'][:]
 time = nc.variables['time'][::]/(365.0*24*60*60)

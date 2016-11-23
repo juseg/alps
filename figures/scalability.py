@@ -1,5 +1,7 @@
 #!/usr/bin/env python2
+# coding: utf-8
 
+import util as ut
 import glob
 import numpy as np
 import matplotlib.pyplot as plt

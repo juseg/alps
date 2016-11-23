@@ -1,10 +1,7 @@
 #!/usr/bin/env python2
 # coding: utf-8
 
-# FIXME: make iceplotlib a package
-import sys
-sys.path.append('iceplotlib')
-
+import util as ut
 import numpy as np
 import iceplotlib.plot as iplt
 from matplotlib.colors import LogNorm
@@ -35,9 +32,8 @@ ax.set_rasterization_zorder(2.5)
 
 # load extra data
 # FIXME: implement regional data extraction in iceplotlib
-filepath = ('/home/juliens/pism/output/0.7.3/alps-wcnn-1km/'
-            'epica3222cool0950+acyc1+esia5/y???????-extra.nc')
-nc = iplt.load(filepath)
+filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+nc = ut.io.load(filepath)
 w, e, s, n = 125, 425, 300, 500  # Swiss foreland
 w, e, s, n = 000, 901, 000, 601  # Whole domain
 x = nc.variables['x'][w:e]

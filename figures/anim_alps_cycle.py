@@ -1,10 +1,7 @@
 #!/usr/bin/env python2
 # coding: utf-8
 
-# FIXME: make iceplotlib a package
-import sys
-sys.path.append('iceplotlib')
-
+import util as ut
 import iceplotlib.plot as iplt
 from matplotlib.colors import LogNorm
 from matplotlib.animation import FuncAnimation
@@ -73,8 +70,7 @@ fig.text(1-2.5/figw, 2.5/figh, 'J. Seguinot et al. (2016)',
          ha='right', va='bottom')
 
 # load temperature signal
-filepath = ('/home/juliens/pism/input/dt/epica3222cool0950.nc')
-nc = iplt.load(filepath)
+nc = ut.io.load('input/dt/epica3222cool0950.nc')
 age = -nc.variables['time'][:]/1e3
 dt = nc.variables['delta_T'][:]
 nc.close()
@@ -86,9 +82,8 @@ tsax.set_ylabel('temperature offset (K)', color='0.25')
 tsax.set_ylim(-12.5, 7.5)
 
 # load time series data
-filepath = ('/home/juliens/pism/output/0.7.3/alps-wcnn-1km/'
-            'epica3222cool0950+acyc1+esia5/y???????-ts.nc')
-nc = iplt.load(filepath)
+filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+nc = ut.io.load(filepath)
 age = -nc.variables['time'][:]/(1e3*365*24*60*60)
 vol = nc.variables['slvol'][:]
 nc.close()
@@ -106,9 +101,8 @@ tsax.grid(axis='y')
 cursor = tsax.axvline(0.0, c='k', lw=0.25)
 
 # load extra data
-filepath = ('/home/juliens/pism/output/0.7.3/alps-wcnn-1km/'
-            'epica3222cool0950+acyc1+esia5/y???????-extra.nc')
-nc = iplt.load(filepath)
+filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+nc = ut.io.load(filepath)
 time = nc.variables['time'][:]/(365.0*24*60*60)
 
 # draw first frame and colorbar

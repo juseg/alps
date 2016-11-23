@@ -1,10 +1,7 @@
 #!/usr/bin/env python2
 # coding: utf-8
 
-# FIXME: make iceplotlib a package
-import sys
-sys.path.append('iceplotlib')
-
+import util as ut
 import numpy as np
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs

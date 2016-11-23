@@ -1,10 +1,7 @@
 #!/usr/bin/env python2
 # coding: utf-8
 
-# FIXME: make iceplotlib a package
-import sys
-sys.path.append('iceplotlib')
-
+import util as ut
 import iceplotlib.plot as iplt
 from matplotlib.colors import LogNorm
 from matplotlib.animation import FuncAnimation
@@ -40,8 +37,8 @@ cax2 = fig.add_axes([12.5/figw, 1-52.5/figh, 50.0/figw, 5.0/figh])
 # ------------
 
 # load extra data
-nc = iplt.load('/home/juliens/pism/output/0.7.3/alps-wcnn-1km/'
-               'epica3222cool0950+acyc1+esia5/y???????-extra.nc')
+filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+nc = ut.io.load(filepath)
 
 # contour levels and velocity norm
 levs = range(0, 4000, 100)

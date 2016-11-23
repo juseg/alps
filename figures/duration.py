@@ -1,10 +1,7 @@
 #!/usr/bin/env python2
 # coding: utf-8
 
-# FIXME: make iceplotlib a package
-import sys
-sys.path.append('iceplotlib')
-
+import util as ut
 import iceplotlib.plot as iplt
 from matplotlib.colors import LogNorm
 from matplotlib.animation import FuncAnimation
@@ -33,9 +30,8 @@ cax = fig.add_axes([1-17.5/figw, 2.5/figh, 5.0/figw, 1-5.0/figh])
 ax.set_rasterization_zorder(2.5)
 
 # load extra data
-filepath = ('/home/juliens/pism/output/0.7.3/alps-wcnn-1km/'
-            'epica3222cool0950+acyc1+esia5/y???????-extra.nc')
-nc = iplt.load(filepath)
+filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+nc = ut.io.load(filepath)
 x = nc.variables['x'][:]
 y = nc.variables['y'][:]
 thk = nc.variables['thk'][:]

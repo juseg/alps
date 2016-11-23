@@ -1,10 +1,7 @@
 #!/usr/bin/env python2
 # coding: utf-8
 
-# FIXME: make iceplotlib a package
-import sys
-sys.path.append('iceplotlib')
-
+import util as ut
 import iceplotlib.plot as iplt
 
 # parameters
@@ -28,9 +25,9 @@ for i, conf in enumerate(confargs):
     ax.set_rasterization_zorder(2.5)
 
     # open extra file
-    filepath = ('/home/juliens/pism/output/0.7.3/alps-wcnn-5km/'
+    filepath = ('output/0.7.3/alps-wcnn-5km/'
                 'epica3222cool0950+acyc1%s/y???????-extra.nc' % conf)
-    nc = iplt.load(filepath)
+    nc = ut.io.load(filepath)
     x, y, z[i] = nc._extract_xyz('usurf', t)
 
     # plot

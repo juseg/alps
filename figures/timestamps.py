@@ -1,10 +1,7 @@
 #!/usr/bin/env python2
 # coding: utf-8
 
-# FIXME: make iceplotlib a package
-import sys
-sys.path.append('iceplotlib')
-
+import util as ut
 import numpy as np
 import iceplotlib.plot as iplt
 
@@ -16,9 +13,8 @@ fig, ax = iplt.subplots_mm(nrows=1, ncols=1, figsize=(figw, figh),
                            left=10.0, right=2.5, bottom=10.0, top=2.5)
 
 # open extra file
-filepath = ('/home/juliens/pism/output/0.7.3/alps-wcnn-1km/'
-            'epica3222cool0950+acyc1+esia5/y???????-extra.nc')
-nc = iplt.load(filepath)
+filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+nc = ut.io.load(filepath)
 age = -nc.variables['time'][:]/(365.0*24*60*60*1000)
 stamp = nc.variables['timestamp'][:]
 nc.close()

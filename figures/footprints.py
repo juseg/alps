@@ -1,10 +1,7 @@
 #!/usr/bin/env python2
 # coding: utf-8
 
-# FIXME: make iceplotlib a package
-import sys
-sys.path.append('iceplotlib')
-
+import util as ut
 import numpy as np
 import iceplotlib.plot as iplt
 import cartopy.crs as ccrs
@@ -22,8 +19,7 @@ cax = fig.add_axes([1-17.5/figw, 2.5/figh, 5.0/figw, 1-5.0/figh])
 ax.set_rasterization_zorder(2.5)
     
 # draw boot topo
-filepath = ('/home/juliens/pism/input/boot/alps-srtm-5km.nc')
-nc = iplt.load(filepath)
+nc = ut.io.load('input/boot/alps-srtm-5km.nc')
 im = nc.imshow('topg', ax=ax, vmin=0e3, vmax=3e3, cmap='Greys')
 nc.close()
 
@@ -39,9 +35,9 @@ footprints = []
 for dt in offsets:
 
     # load data
-    filepath = ('/home/juliens/pism/output/0.7.3/alps-wcnn-5km/'
+    filepath = ('output/0.7.3/alps-wcnn-5km/'
                 'epica3222cool%04d+acyc1/y???????-extra.nc' % (round(dt*100)))
-    nc = iplt.load(filepath)
+    nc = ut.io.load(filepath)
     x = nc.variables['x'][:]
     y = nc.variables['y'][:]
     thk = nc.variables['thk'][:]

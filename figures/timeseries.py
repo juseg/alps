@@ -1,10 +1,7 @@
 #!/usr/bin/env python2
 # coding: utf-8
 
-# FIXME: make iceplotlib a package
-import sys
-sys.path.append('iceplotlib')
-
+import util as ut
 import numpy as np
 import iceplotlib.plot as iplt
 
@@ -21,12 +18,10 @@ fig, ax = iplt.subplots_mm(nrows=1, ncols=1, sharex=True,
 offsets = np.arange(9.0, 10.1, 0.1)
 for dt in offsets:
 
-    # load data
-    filepath = ('/home/juliens/pism/output/0.7.3/alps-wcnn-5km/'
-                'epica3222cool%04d+acyc1+esia5/y???????-ts.nc' % (round(dt*100)))
-
     # load output time series
-    nc = iplt.load(filepath)
+    filepath = ('output/0.7.3/alps-wcnn-5km/'
+                'epica3222cool%04d+acyc1+esia5/y???????-ts.nc' % (round(dt*100)))
+    nc = ut.io.load(filepath)
     age = -nc.variables['time'][:]/(1e3*365*24*60*60)
     vol = nc.variables['slvol'][:]
     nc.close()

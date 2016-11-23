@@ -1,13 +1,7 @@
 #!/usr/bin/env python2
+# coding: utf-8
 
-# TODO:
-# * volumic uplift rate
-# * MIS stages
-
-# FIXME: make iceplotlib a package
-import sys
-sys.path.append('iceplotlib')
-
+import util as ut
 import iceplotlib.plot as iplt
 
 # time for LGM plot
@@ -69,7 +63,7 @@ ax0.grid(axis='y')
 # -----------
 
 # load dt forcing
-nc = iplt.load('/home/juliens/pism/input/dt/epica3222cool0950.nc')
+nc = ut.io.load('input/dt/epica3222cool0950.nc')
 age = -nc.variables['time'][:]/1e3
 dt = nc.variables['delta_T'][:]
 nc.close()
@@ -78,8 +72,8 @@ nc.close()
 ax0.plot(age, dt, c='0.25')
 
 # load ts output
-nc = iplt.load('/home/juliens/pism/output/0.7.3/alps-wcnn-1km/'
-               'epica3222cool0950+acyc1+esia5/y???????-ts.nc')
+filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/ts.nc'
+nc = ut.io.load(filepath)
 age = -nc.variables['time'][:]/(1e3*365*24*60*60)
 vol = nc.variables['slvol'][:]
 nc.close()
@@ -90,8 +84,8 @@ ax1.plot(lgm, vol[((age-lgm)**2).argmin()], 'o',
          ms=6, c='w', mec='#1f78b4', mew=1.0)
 
 # load extra output
-nc = iplt.load('/home/juliens/pism/output/0.7.3/alps-wcnn-1km/'
-               'epica3222cool0950+acyc1+esia5/y???????-extra.nc')
+filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+nc = ut.io.load(filepath)
 age = -nc.variables['time'][:]/(1e3*365.0*24*60*60)
 dbdt = nc.variables['dbdt'][:, 450, 350]*1e3
 #print nc['x'][450], nc['y'][300]

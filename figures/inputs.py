@@ -1,10 +1,7 @@
 #!/usr/bin/env python2
 # coding: utf-8
 
-# FIXME: make iceplotlib a package
-import sys
-sys.path.append('iceplotlib')
-
+import util as ut
 import iceplotlib.plot as iplt
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
@@ -35,7 +32,7 @@ graticules = cfeature.NaturalEarthFeature(
     edgecolor='0.25', facecolor='none', lw=0.1)
 
 # plot boot topo and geographic features
-nc = iplt.load('/home/juliens/pism/input/boot/alps-srtm+gou11simi-1km.nc')
+nc = ut.io.load('input/boot/alps-srtm+gou11simi-1km.nc')
 for ax in grid.flat:
     im = nc.imshow('topg', ax, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
     ax.add_feature(rivers, zorder=0)
@@ -56,7 +53,7 @@ nc.close()
 
 # load atm file
 # FIXME: add unit conversion to iceplotlib
-nc = iplt.load('/home/juliens/pism/input/atm/alps-wcnn-1km.nc')
+nc = ut.io.load('input/atm/alps-wcnn-1km.nc')
 x = nc.variables['x'][:]
 y = nc.variables['y'][:]
 temp = nc.variables['air_temp'][6].T-273.15
@@ -65,7 +62,7 @@ nc.close()
 
 # load standard deviation file
 # FIXME: add unit conversion to iceplotlib
-nc = iplt.load('/home/juliens/pism/input/sd/alps-erai-1km.nc')
+nc = ut.io.load('input/sd/alps-erai-1km.nc')
 x = nc.variables['x'][:]
 y = nc.variables['y'][:]
 sd = nc.variables['air_temp_sd'][6].T
