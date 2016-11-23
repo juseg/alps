@@ -4,8 +4,6 @@
 import util as ut
 import iceplotlib.plot as iplt
 from matplotlib.colors import LogNorm
-from matplotlib.animation import FuncAnimation
-from matplotlib.transforms import ScaledTranslation
 import cartopy.crs as ccrs
 import cartopy.io.shapereader as cshp
 

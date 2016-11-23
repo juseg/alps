@@ -44,7 +44,22 @@ def subplots_cax_ts(labels=True):
     cax = fig.add_axes([1-17.5/figw, 42.5/figh, 5.0/figw, 1-45.0/figh])
     tsax = fig.add_axes([12.5/figw, 10.0/figh, 1-25.0/figw, (30.0)/figh])
     ax.set_rasterization_zorder(2.5)
+    if labels is True:
+        add_subfig_label('(a)', ax=ax)
+        add_subfig_label('(b)', ax=tsax)
     return fig, ax, cax, tsax
+
+
+def add_subfig_label(text, ax=None, ha='left', va='top', offset=2.5/25.4):
+    """Add figure label in bold."""
+    ax = ax or plt.gca()
+    x = (ha == 'right')  # 0 for left edge, 1 for right edge
+    y = (va == 'top')  # 0 for bottom edge, 1 for top edge
+    xoffset = (1 - 2*x)*offset
+    yoffset = (1 - 2*y)*offset
+    offset = ScaledTranslation(xoffset, yoffset, ax.figure.dpi_scale_trans)
+    return ax.text(x, y, text, ha=ha, va=va, fontweight='bold',
+                   transform=ax.transAxes + offset)
 
 
 def draw_natural_earth(ax=None):

@@ -4,7 +4,6 @@
 import util as ut
 from matplotlib.colors import LogNorm
 from matplotlib.animation import FuncAnimation
-from matplotlib.transforms import ScaledTranslation
 import cartopy.crs as ccrs
 
 velnorm = LogNorm(1e1, 1e3)
@@ -96,10 +95,6 @@ ax.text(465e3, 5250e3, 'Zurich', ha='center')
 
 # close nc file
 nc.close()
-
-# add subfigure labels
-ut.pl.add_subfig_label('(a)', ax=ax)
-ut.pl.add_subfig_label('(b)', ax=tsax)
 
 # save figure
 fig.savefig('zoom')

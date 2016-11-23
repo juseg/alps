@@ -4,7 +4,6 @@
 import util as ut
 from matplotlib.colors import LogNorm
 from matplotlib.animation import FuncAnimation
-from matplotlib.transforms import ScaledTranslation
 
 # contour levels
 levs = range(0, 4000, 200)
@@ -86,13 +85,6 @@ nc.close()
 
 # zoom on central Alps
 ax.set_extent((250e3, 700e3, 4970e3, 5270e3), crs=ax.projection)
-
-# add subfigure labels
-offset = ScaledTranslation(2.5/25.4, -2.5/25.4, fig.dpi_scale_trans)
-ax.text(0, 1, '(a)', ha='left', va='top', fontweight='bold',
-        transform=ax.transAxes + offset)
-tsax.text(0, 1, '(b)', ha='left', va='top', fontweight='bold',
-          transform=tsax.transAxes + offset)
 
 # save figure
 fig.savefig('ydthk')

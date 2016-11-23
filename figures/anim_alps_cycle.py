@@ -39,7 +39,7 @@ def draw(t, ax, cursor):
     return im
 
 # initialize figure
-fig, ax, cax, tsax = ut.pl.subplots_cax_ts()
+fig, ax, cax, tsax = ut.pl.subplots_cax_ts(labels=False)
 
 # add signature
 fig.text(1-2.5/figw, 2.5/figh, 'J. Seguinot et al. (2016)',

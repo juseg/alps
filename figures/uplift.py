@@ -3,7 +3,6 @@
 
 import util as ut
 import iceplotlib.plot as iplt
-from matplotlib.transforms import ScaledTranslation
 
 # initialize figure
 fig, ax, cax = ut.pl.subplots_cax()
