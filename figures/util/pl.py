@@ -6,6 +6,7 @@
 import iceplotlib.plot as iplt
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
+from matplotlib.transforms import ScaledTranslation
 
 # geographic projections
 utm = ccrs.UTM(32)
@@ -33,6 +34,17 @@ def subplots_cax():
     cax = fig.add_axes([1-17.5/figw, 2.5/figh, 5.0/figw, 1-5.0/figh])
     ax.set_rasterization_zorder(2.5)
     return fig, ax, cax
+
+
+def subplots_cax_ts(labels=True):
+    """Init figure with subplot, colorbar and timeseries."""
+    figw, figh = 135.0, 120.0
+    fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=ccrs.UTM(32),
+                               left=2.5, right=20.0, bottom=42.5, top=2.5)
+    cax = fig.add_axes([1-17.5/figw, 42.5/figh, 5.0/figw, 1-45.0/figh])
+    tsax = fig.add_axes([12.5/figw, 10.0/figh, 1-25.0/figw, (30.0)/figh])
+    ax.set_rasterization_zorder(2.5)
+    return fig, ax, cax, tsax
 
 
 def draw_natural_earth(ax=None):

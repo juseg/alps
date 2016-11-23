@@ -5,7 +5,6 @@ import util as ut
 import iceplotlib.plot as iplt
 from matplotlib.colors import LogNorm
 from matplotlib.animation import FuncAnimation
-import cartopy.crs as ccrs
 
 # elevation contour levels
 levs = range(0, 4000, 200)
@@ -45,11 +44,7 @@ def draw(t, ax, cursor):
     return im
 
 # initialize figure
-figw, figh = 135.01, 120.01
-fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=ccrs.UTM(32),
-                           left=2.5, right=20.0, bottom=42.5, top=2.5)
-tsax = fig.add_axes([12.5/figw, 10.0/figh, 1-25.0/figw, 30.0/figh])
-cax = fig.add_axes([1-17.5/figw, 42.5/figh, 5.0/figw, 1-45.0/figh])
+fig, ax, cax, tsax = ut.pl.subplots_cax_ts()
 
 # add signature
 fig.text(1-2.5/figw, 2.5/figh, 'J. Seguinot et al. (2016)',

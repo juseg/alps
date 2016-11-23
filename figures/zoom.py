@@ -2,7 +2,6 @@
 # coding: utf-8
 
 import util as ut
-import iceplotlib.plot as iplt
 from matplotlib.colors import LogNorm
 from matplotlib.animation import FuncAnimation
 from matplotlib.transforms import ScaledTranslation
@@ -42,12 +41,7 @@ def draw(t, ax, cursor):
     return im
 
 # initialize figure
-figw, figh = 135.01, 120.01
-fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=ccrs.UTM(32),
-                           left=2.5, right=20.0, bottom=42.5, top=2.5)
-tsax = fig.add_axes([12.5/figw, 10.0/figh, 1-25.0/figw, 30.0/figh])
-cax = fig.add_axes([1-17.5/figw, 42.5/figh, 5.0/figw, 1-45.0/figh])
-ax.set_rasterization_zorder(2.5)
+fig, ax, cax, tsax = ut.pl.subplots_cax_ts()
 
 # load temperature signal
 nc = ut.io.load('input/dt/epica3222cool0950.nc')
@@ -104,11 +98,8 @@ ax.text(465e3, 5250e3, 'Zurich', ha='center')
 nc.close()
 
 # add subfigure labels
-offset = ScaledTranslation(2.5/25.4, -2.5/25.4, fig.dpi_scale_trans)
-ax.text(0, 1, '(a)', ha='left', va='top', fontweight='bold',
-        transform=ax.transAxes + offset)
-tsax.text(0, 1, '(b)', ha='left', va='top', fontweight='bold',
-          transform=tsax.transAxes + offset)
+ut.pl.add_subfig_label('(a)', ax=ax)
+ut.pl.add_subfig_label('(b)', ax=tsax)
 
 # save figure
 fig.savefig('zoom')
