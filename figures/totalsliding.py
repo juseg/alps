@@ -7,21 +7,6 @@ import iceplotlib.plot as iplt
 from matplotlib.colors import LogNorm
 from matplotlib.animation import FuncAnimation
 import cartopy.crs as ccrs
-import cartopy.feature as cfeature
-
-# cartopy features
-rivers = cfeature.NaturalEarthFeature(
-    category='physical', name='rivers_lake_centerlines', scale='10m',
-    edgecolor='0.25', facecolor='none', lw=0.5)
-lakes = cfeature.NaturalEarthFeature(
-    category='physical', name='lakes', scale='10m',
-    edgecolor='0.25', facecolor='0.85', lw=0.25)
-coastline = cfeature.NaturalEarthFeature(
-    category='physical', name='coastline', scale='10m',
-    edgecolor='0.25', facecolor='none', lw=0.25)
-graticules = cfeature.NaturalEarthFeature(
-    category='physical', name='graticules_1', scale='10m',
-    edgecolor='0.25', facecolor='none', lw=0.1)
 
 # initialize figure
 figw, figh = 135.01, 80.01
@@ -59,10 +44,7 @@ ax.contour(x, y, footprint, [0.5], colors='k', linewidths=0.5)
 nc.close()
 
 # add cartopy vectors
-ax.add_feature(rivers, zorder=0)
-ax.add_feature(lakes, zorder=0)
-ax.add_feature(coastline, zorder=0)
-ax.add_feature(graticules)
+ut.pl.draw_natural_earth(ax)
 
 # add colorbar
 cb = fig.colorbar(cs, cax)

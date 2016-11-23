@@ -8,6 +8,7 @@
 #sys.path.append('iceplotlib')
 
 import io
+import pl
 import matplotlib.pyplot as plt
 
 # build color brewer Paired palette

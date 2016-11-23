@@ -4,7 +4,6 @@
 import util as ut
 import iceplotlib.plot as iplt
 import cartopy.crs as ccrs
-import cartopy.feature as cfeature
 
 # initialize figure
 figw, figh = 282.5, 65.0
@@ -17,28 +16,13 @@ cgrid = [fig.add_axes([(2.5+i*70.000)/figw, 10.0/figh, 67.5/figw, 5.0/figh])
 for ax in grid.flat:
     ax.set_rasterization_zorder(2.5)
 
-# cartopy features
-rivers = cfeature.NaturalEarthFeature(
-    category='physical', name='rivers_lake_centerlines', scale='10m',
-    edgecolor='0.25', facecolor='none', lw=0.5)
-lakes = cfeature.NaturalEarthFeature(
-    category='physical', name='lakes', scale='10m',
-    edgecolor='0.25', facecolor='0.85', lw=0.25)
-coastline = cfeature.NaturalEarthFeature(
-    category='physical', name='coastline', scale='10m',
-    edgecolor='0.25', facecolor='none', lw=0.25)
-graticules = cfeature.NaturalEarthFeature(
-    category='physical', name='graticules_1', scale='10m',
-    edgecolor='0.25', facecolor='none', lw=0.1)
+# load boot file
+nc = ut.io.load('input/boot/alps-srtm+gou11simi-1km.nc')
 
 # plot boot topo and geographic features
-nc = ut.io.load('input/boot/alps-srtm+gou11simi-1km.nc')
 for ax in grid.flat:
     im = nc.imshow('topg', ax, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
-    ax.add_feature(rivers, zorder=0)
-    ax.add_feature(lakes, zorder=0)
-    ax.add_feature(coastline, zorder=0)
-    ax.add_feature(graticules)
+    ut.pl.draw_natural_earth(ax)
 
 # plot boot geoflux on last panel
 ax = grid.flat[3]
