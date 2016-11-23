@@ -21,8 +21,8 @@ fig, ax = iplt.subplots_mm(figsize=(85.0, 60.0),
                            left=12.5, right=2.5, bottom=7.5, top=2.5)
 
 # read trimlines data
-trimlines = np.genfromtxt('../data/native/trimlines.csv', dtype=None,
-                          delimiter=',', names=True)
+trimlines = np.genfromtxt('../data/native/trimlines_kelly_etal_2004.csv',
+                          dtype=None, delimiter=',', names=True)
 
 xt = trimlines['x']
 yt = trimlines['y']
