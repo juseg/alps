@@ -6,14 +6,9 @@ import numpy as np
 import iceplotlib.plot as iplt
 from matplotlib.colors import LogNorm
 from matplotlib.animation import FuncAnimation
-import cartopy.crs as ccrs
 
 # initialize figure
-figw, figh = 135.01, 80.01
-fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=ccrs.UTM(32),
-                           left=2.5, right=20.0, bottom=2.5, top=2.5)
-cax = fig.add_axes([1-17.5/figw, 2.5/figh, 5.0/figw, 1-5.0/figh])
-ax.set_rasterization_zorder(2.5)
+fig, ax, cax = ut.pl.subplots_cax()
 
 # load extra data
 filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'

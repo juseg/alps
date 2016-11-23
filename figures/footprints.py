@@ -3,21 +3,15 @@
 
 import util as ut
 import numpy as np
-import iceplotlib.plot as iplt
 import cartopy.crs as ccrs
 import cartopy.io.shapereader as cshp
 
 # projections
 ll = ccrs.PlateCarree()
-proj = ccrs.UTM(32)
 
 # initialize figure
-figw, figh = 135.01, 80.01
-fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=proj,
-                           left=2.5, right=20.0, bottom=2.5, top=2.5)
-cax = fig.add_axes([1-17.5/figw, 2.5/figh, 5.0/figw, 1-5.0/figh])
-ax.set_rasterization_zorder(2.5)
-    
+fig, ax, cax = ut.pl.subplots_cax()
+
 # draw boot topo
 nc = ut.io.load('input/boot/alps-srtm-5km.nc')
 im = nc.imshow('topg', ax=ax, vmin=0e3, vmax=3e3, cmap='Greys')

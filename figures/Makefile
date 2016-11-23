@@ -29,7 +29,7 @@ ALL_FIGS = $(PY_FIGS)
 all: $(ALL_FIGS)
 
 # rules and dependencies for python figures
-$(PY_FIGS): %.pdf : %.py matplotlibrc
+$(PY_FIGS): %.pdf : %.py matplotlibrc util
 	$(PY) $<
 
 # clean figures
