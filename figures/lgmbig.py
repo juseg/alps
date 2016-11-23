@@ -95,8 +95,9 @@ cb.set_label(r'bedrock topography (m)')
 # Geographic features
 # -------------------
 
-# add cartopy vectors
+# add vectors
 ut.pl.draw_natural_earth(ax)
+ut.pl.draw_lgm_outline(ax)
 
 # add cities
 offset = 5
@@ -124,11 +125,6 @@ for rec in shp.records():
         ax.plot(xc, yc, 'ko')
         ax.annotate(text, xy=(xc, yc), xytext=(dx, dy),
                     textcoords='offset points', ha=ha, va=va, clip_on=True)
-
-# add lgm outline
-shp = cshp.Reader('../data/native/lgm_alpen_holefilled.shp')
-ax.add_geometries(shp.geometries(), ll, lw=0.5, alpha=0.75,
-                  edgecolor='#e31a1c', facecolor='none', zorder=0)
 
 # save figure
 fig.savefig('lgmbig')

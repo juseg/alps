@@ -4,7 +4,6 @@
 import util as ut
 import numpy as np
 import cartopy.crs as ccrs
-import cartopy.io.shapereader as cshp
 
 # projections
 ll = ccrs.PlateCarree()
@@ -18,10 +17,7 @@ im = nc.imshow('topg', ax=ax, vmin=0e3, vmax=3e3, cmap='Greys')
 nc.close()
 
 # draw lgm
-filename = '../data/native/lgm_alpen_holefilled.shp'
-shp = cshp.Reader(filename)
-ax.add_geometries(shp.geometries(), ll, alpha=0.75,
-                  edgecolor='#800000', facecolor='none', lw=0.5)
+ut.pl.draw_lgm_outline(ax)
 
 # loop on offsets
 offsets = np.arange(9.0, 10.1, 0.1)

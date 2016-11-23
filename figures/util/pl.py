@@ -6,9 +6,11 @@
 import iceplotlib.plot as iplt
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
+import cartopy.io.shapereader as cshp
 from matplotlib.transforms import ScaledTranslation
 
 # geographic projections
+ll = ccrs.PlateCarree()
 utm = ccrs.UTM(32)
 
 # cartopy features
@@ -69,3 +71,11 @@ def draw_natural_earth(ax=None):
     ax.add_feature(lakes, zorder=0)
     ax.add_feature(coastline, zorder=0)
     ax.add_feature(graticules)
+
+
+def draw_lgm_outline(ax=None):
+    """Add Ehlers et al. hole-filled LGM outline."""
+    shp = cshp.Reader('../data/native/lgm_alpen_holefilled.shp')
+    ax.add_geometries(shp.geometries(), ll, lw=0.5, alpha=0.75,
+                      edgecolor='#e31a1c', facecolor='none', zorder=0)
+    del shp
