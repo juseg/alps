@@ -3,14 +3,13 @@
 
 import util as ut
 import numpy as np
-import iceplotlib.plot as iplt
 
 # parameters
 t = -1
 # initialize figure
 figw, figh = 120.01, 80.01
-fig, ax = iplt.subplots_mm(nrows=1, ncols=1, figsize=(figw, figh),
-                           left=10.0, right=2.5, bottom=10.0, top=2.5)
+fig, ax = ut.pl.subplots_mm(nrows=1, ncols=1, figsize=(figw, figh),
+                            left=10.0, right=2.5, bottom=10.0, top=2.5)
 
 # open extra file
 filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
@@ -38,5 +37,4 @@ ax.set_ylabel('computing time (node-hours*1000)')
 ax.grid()
 
 # add legend and save
-#iplt.show()
 fig.savefig('timestamps')

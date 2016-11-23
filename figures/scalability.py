@@ -4,18 +4,15 @@
 import util as ut
 import glob
 import numpy as np
-import matplotlib.pyplot as plt
 
 # parameters
 basedir = '/home/juliens/pism/output/0.7.3/alps-wcnn-1km/scalabilitytest'
 preferred = 16
 
 # initialize figure
-figw, figh = 120.0, 120.0
-fig, grid = plt.subplots(3, 1, figsize=(figw/25.4, figh/25.4), sharex=True)
-fig.subplots_adjust(left=10.0/figw, bottom=10.0/figh,
-                    right=1-2.5/figw, top=1-2.5/figh,
-                    hspace=1/((1+figh/2.5)/4-1))
+fig, grid = ut.pl.subplots_mm(3, 1, figsize=(85.0, 120.0), sharex=True,
+                              left=10.0, right=2.5, bottom=10.0, top=2.5,
+                              hspace=2.5)
 ax1, ax2, ax3 = grid
 
 # for each compiler

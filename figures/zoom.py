@@ -3,8 +3,6 @@
 
 import util as ut
 from matplotlib.colors import LogNorm
-from matplotlib.animation import FuncAnimation
-import cartopy.crs as ccrs
 
 velnorm = LogNorm(1e1, 1e3)
 
@@ -89,8 +87,7 @@ extents = [400e3, 550e3, 5175e3, 5275e3]  # Zürich
 ax.set_extent(extents, crs=ax.projection)
 
 # add city of Zürich
-ll = ccrs.PlateCarree()
-ax.plot(8.55, 47.366667, 'ko', transform=ll)
+ax.plot(8.55, 47.366667, 'ko', transform=ut.pl.ll)
 ax.text(465e3, 5250e3, 'Zurich', ha='center')
 
 # close nc file

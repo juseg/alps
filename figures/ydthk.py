@@ -2,8 +2,6 @@
 # coding: utf-8
 
 import util as ut
-from matplotlib.colors import LogNorm
-from matplotlib.animation import FuncAnimation
 
 # contour levels
 levs = range(0, 4000, 200)

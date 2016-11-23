@@ -2,7 +2,6 @@
 # coding: utf-8
 
 import util as ut
-import iceplotlib.plot as iplt
 
 # time for LGM plot
 lgm = 21.0
@@ -11,7 +10,7 @@ lgm = 21.0
 # -----------------
 
 # initialize figure
-fig, ax0 = iplt.subplots_mm(figsize=(250.0, 75.0),
+fig, ax0 = ut.pl.subplots_mm(figsize=(250.0, 75.0),
                            left=15.0, right=30.0, bottom=15.0, top=20.0)
 fig.patch.set_linewidth(1.0)
 

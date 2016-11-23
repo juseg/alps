@@ -3,9 +3,6 @@
 
 import util as ut
 import numpy as np
-import iceplotlib.plot as iplt
-from matplotlib.colors import LogNorm
-from matplotlib.animation import FuncAnimation
 
 # initialize figure
 fig, ax, cax = ut.pl.subplots_cax()
@@ -32,7 +29,7 @@ footprint = (glaciations > 0)
 
 # set contour levels and colors
 levs = np.arange(1, 14)
-cmap = iplt.get_cmap('RdBu', len(levs))
+cmap = ut.pl.get_cmap('RdBu', len(levs))
 colors = cmap(range(len(levs)))
 
 # plot

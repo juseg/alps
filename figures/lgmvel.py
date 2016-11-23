@@ -3,7 +3,6 @@
 
 import util as ut
 from matplotlib.colors import LogNorm
-from matplotlib.animation import FuncAnimation
 
 velnorm = LogNorm(1e1, 1e3)
 

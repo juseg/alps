@@ -2,9 +2,7 @@
 # coding: utf-8
 
 import util as ut
-import iceplotlib.plot as iplt
 from matplotlib.colors import LogNorm
-import cartopy.crs as ccrs
 import cartopy.io.shapereader as cshp
 
 # time for plot
@@ -13,19 +11,17 @@ t = -21e3
 # Initialize figure
 # -----------------
 
-# geographic projection and extent
-ll = ccrs.PlateCarree()
-utm = ccrs.UTM(32)
+# extent
 extent = 150e3, 1050e3, 4820e3, 5420e3 # model domain
 extent = 155e3, 1045e3, 4825e3, 5415e3 # 5 km crop
 center = (extent[1]+extent[0])/2, (extent[3]+extent[2])/2
 
 # initialize figure
 figw, figh = 405.0, 270.0
-fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
-                           left=2.5, right=2.5, bottom=2.5, top=2.5)
+fig, ax = ut.pl.subplots_mm(figsize=(figw, figh), projection=ut.pl.utm,
+                            left=2.5, right=2.5, bottom=2.5, top=2.5)
 ax.set_rasterization_zorder(2.5)
-ax.set_extent(extent, utm)
+ax.set_extent(extent, ut.pl.utm)
 cax1 = fig.add_axes([12.5/figw, 1-32.5/figh, 50.0/figw, 5.0/figh])
 cax2 = fig.add_axes([12.5/figw, 1-52.5/figh, 50.0/figw, 5.0/figh])
 
@@ -111,7 +107,7 @@ for rec in shp.records():
     lon = rec.geometry.x
     lat = rec.geometry.y
     if rank <= 7:
-        xc, yc = ax.projection.transform_point(lon, lat, src_crs=ll)
+        xc, yc = ax.projection.transform_point(lon, lat, src_crs=ut.pl.ll)
         xloc = ('l' if xc < center[0] else 'r')
         yloc = ('l' if yc < center[1] else 'u')
         dx = {'c': 0, 'l': -1, 'r': 1}[xloc]*offset

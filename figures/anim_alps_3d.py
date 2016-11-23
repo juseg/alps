@@ -7,7 +7,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 from matplotlib.animation import FuncAnimation
-import iceplotlib.plot as iplt
 import iceplotlib.cm as icm
 from mpl_toolkits.mplot3d import Axes3D
 

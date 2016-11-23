@@ -3,10 +3,6 @@
 
 import util as ut
 import numpy as np
-import cartopy.crs as ccrs
-
-# projections
-ll = ccrs.PlateCarree()
 
 # initialize figure
 fig, ax, cax = ut.pl.subplots_cax()

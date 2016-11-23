@@ -2,7 +2,6 @@
 # coding: utf-8
 
 import util as ut
-import iceplotlib.plot as iplt
 
 # parameters
 t = -23.7e3
@@ -11,10 +10,10 @@ labels = ['$E_{SIA}$ = 2', '$E_{SIA}$ = 5']
 
 # initialize figure
 figw, figh = 90.0, 145.0
-fig, grid = iplt.subplots_mm(nrows=3, ncols=1, sharex=True, sharey=True,
-                             figsize=(figw, figh),
-                             left=2.5, right=20.0, bottom=2.5, top=2.5,
-                             hspace=2.5, wspace=2.5)
+fig, grid = ut.pl.subplots_mm(nrows=3, ncols=1, sharex=True, sharey=True,
+                              figsize=(figw, figh),
+                              left=2.5, right=20.0, bottom=2.5, top=2.5,
+                              hspace=2.5, wspace=2.5)
 cax1 = fig.add_axes([1-17.5/figw, 50.0/figh, 5.0/figw, 92.5/figh])
 cax2 = fig.add_axes([1-17.5/figw, 2.5/figh, 5.0/figw, 45.0/figh])
 

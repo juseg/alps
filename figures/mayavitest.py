@@ -2,8 +2,6 @@
 # coding: utf-8
 
 import util as ut
-import numpy as np
-import iceplotlib.plot as iplt
 from mayavi import mlab
 
 # subsampling stride

@@ -3,18 +3,9 @@
 
 import util as ut
 import numpy as np
-import iceplotlib.plot as iplt
-import cartopy.crs as ccrs
-
-# geographic projections
-ll = ccrs.PlateCarree()
-utm = ccrs.UTM(32)
-swiss = ccrs.TransverseMercator(
-    central_longitude=7.439583333333333, central_latitude=46.95240555555556,
-    false_easting=600e3, false_northing=200e3)
 
 # initialize figure
-fig, ax = iplt.subplots_mm(figsize=(85.0, 60.0),
+fig, ax = ut.pl.subplots_mm(figsize=(85.0, 60.0),
                            left=12.5, right=2.5, bottom=7.5, top=2.5)
 
 # read trimlines data
@@ -26,7 +17,7 @@ yt = trimlines['y']
 zt = trimlines['z']
 
 # convert to UTM 32
-xt, yt, zt = utm.transform_points(swiss, xt, yt, zt).T
+xt, yt, zt = ut.pl.utm.transform_points(ut.pl.swiss, xt, yt, zt).T
 
 # load extra data
 filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'

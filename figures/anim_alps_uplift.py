@@ -2,8 +2,6 @@
 # coding: utf-8
 
 import util as ut
-import iceplotlib.plot as iplt
-from matplotlib.colors import LogNorm
 from matplotlib.animation import FuncAnimation
 
 # elevation contour levels
@@ -13,7 +11,7 @@ inner_levs = [l for l in levs if l % 1000 != 0]
 
 # uplift contour levels and colors
 levs = [-0.01, -0.003, -0.001, 0.0, 0.001, 0.003, 0.01]
-cmap = iplt.get_cmap('PRGn', len(levs)+1)
+cmap = ut.pl.get_cmap('PRGn', len(levs)+1)
 cols = cmap(range(len(levs)+1))
 
 # drawing function

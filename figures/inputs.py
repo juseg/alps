@@ -2,12 +2,10 @@
 # coding: utf-8
 
 import util as ut
-import iceplotlib.plot as iplt
-import cartopy.crs as ccrs
 
 # initialize figure
 figw, figh = 282.5, 65.0
-fig, grid = iplt.subplots_mm(figsize=(figw, figh), projection=ccrs.UTM(32),
+fig, grid = ut.pl.subplots_mm(figsize=(figw, figh), projection=ut.pl.utm,
                              nrows=1, ncols=4, sharex=True, sharey=True,
                              left=2.5, right=2.5, bottom=17.5, top=2.5,
                              hspace=2.5, wspace=2.5)
@@ -28,7 +26,7 @@ for ax in grid.flat:
 ax = grid.flat[3]
 cax = cgrid[3]
 levs = range(55, 96, 5)
-cmap = iplt.get_cmap('PuOr_r', len(levs)-1)
+cmap = ut.pl.get_cmap('PuOr_r', len(levs)-1)
 cols = cmap(range(len(levs)-1))
 cs = nc.contourf('bheatflx', ax, levels=levs, colors=cols, alpha=0.75)
 cb = fig.colorbar(cs, cax, orientation='horizontal', ticks=levs[1::2])
@@ -57,7 +55,7 @@ nc.close()
 ax = grid.flat[0]
 cax = cgrid[0]
 levs = range(-5, 26, 5)
-cmap = iplt.get_cmap('RdBu_r', len(levs)-1)
+cmap = ut.pl.get_cmap('RdBu_r', len(levs)-1)
 cols = cmap(range(len(levs)))
 cs = ax.contourf(x, y, temp, levs, colors=cols, alpha=0.75)
 cb = fig.colorbar(cs, cax, orientation='horizontal', ticks=levs[1::2])
@@ -68,7 +66,7 @@ cb.set_label(u'July temperature (°C)')
 ax = grid.flat[1]
 cax = cgrid[1]
 levs = range(0, 31, 5)
-cmap = iplt.get_cmap('Greens', len(levs)-1)
+cmap = ut.pl.get_cmap('Greens', len(levs)-1)
 cols = cmap(range(len(levs)))
 cs = ax.contourf(x, y, prec, levs, colors=cols, alpha=0.75)
 cb = fig.colorbar(cs, cax, orientation='horizontal', ticks=levs[::2])
@@ -79,7 +77,7 @@ cb.set_label(r'January precipitation (mm)')
 ax = grid.flat[2]
 cax = cgrid[2]
 levs = [1.7, 2.0, 2.3, 2.6, 2.9, 3.2, 3.5]
-cmap = iplt.get_cmap('Reds', len(levs)-1)
+cmap = ut.pl.get_cmap('Reds', len(levs)-1)
 cols = cmap(range(len(levs)-1))
 cs = ax.contourf(x, y, sd, levs, colors=cols, alpha=0.75)
 cb = fig.colorbar(cs, cax, orientation='horizontal', ticks=levs[1::2])

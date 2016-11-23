@@ -3,15 +3,19 @@
 
 """Plotting functions."""
 
-import iceplotlib.plot as iplt
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import cartopy.io.shapereader as cshp
+import iceplotlib.plot as iplt
 from matplotlib.transforms import ScaledTranslation
 
 # geographic projections
 ll = ccrs.PlateCarree()
 utm = ccrs.UTM(32)
+swiss = ccrs.TransverseMercator(
+    central_longitude=7.439583333333333, central_latitude=46.95240555555556,
+    false_easting=600e3, false_northing=200e3)
+
 
 # cartopy features
 rivers = cfeature.NaturalEarthFeature(
@@ -26,6 +30,11 @@ coastline = cfeature.NaturalEarthFeature(
 graticules = cfeature.NaturalEarthFeature(
     category='physical', name='graticules_1', scale='10m',
     edgecolor='0.25', facecolor='none', lw=0.1)
+
+
+# iceplotlib functions
+subplots_mm = iplt.subplots_mm
+get_cmap = iplt.get_cmap
 
 
 def subplots_cax():

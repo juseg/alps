@@ -3,9 +3,6 @@
 
 import util as ut
 import numpy as np
-import iceplotlib.plot as iplt
-from matplotlib.colors import LogNorm
-from matplotlib.animation import FuncAnimation
 
 # initialize figure
 fig, ax, cax = ut.pl.subplots_cax()
@@ -27,7 +24,7 @@ footprint = totalsliding.mask
 
 # set levels, colors and hatches
 levs = [10**(0.5*i) for i in range(4, 11)]
-cmap = iplt.get_cmap('Reds', len(levs)+1)
+cmap = ut.pl.get_cmap('Reds', len(levs)+1)
 cols = cmap(range(len(levs)+1))
 
 # plot

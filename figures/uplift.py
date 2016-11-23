@@ -2,7 +2,6 @@
 # coding: utf-8
 
 import util as ut
-import iceplotlib.plot as iplt
 
 # initialize figure
 fig, ax, cax = ut.pl.subplots_cax()
@@ -18,7 +17,7 @@ dbdt = nc.variables['dbdt'][-1].T*1e3
 
 # set levels and colors
 levs = [0.0, 0.4, 0.8, 1.2, 1.6, 2.0]
-cmap = iplt.get_cmap('Greens', len(levs)+1)
+cmap = ut.pl.get_cmap('Greens', len(levs)+1)
 cols = cmap(range(len(levs)+1))
 
 # plot modern uplift

@@ -2,10 +2,6 @@
 # coding: utf-8
 
 import util as ut
-import iceplotlib.plot as iplt
-from matplotlib.colors import LogNorm
-from matplotlib.animation import FuncAnimation
-
 
 # initialize figure
 fig, ax, cax = ut.pl.subplots_cax()
@@ -24,7 +20,7 @@ duration[-footprint] = -1
 
 # set contour levels, colors and hatches
 levs = [0, 5, 10, 15, 20, 30, 40, 60, 80, 100, 120]
-cmap = iplt.get_cmap('RdBu', 10)
+cmap = ut.pl.get_cmap('RdBu', 10)
 cols = cmap(range(10))
 
 # plot

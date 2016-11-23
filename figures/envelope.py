@@ -3,7 +3,6 @@
 
 import util as ut
 import numpy as np
-import iceplotlib.plot as iplt
 
 # initialize figure
 fig, ax, cax = ut.pl.subplots_cax()
@@ -29,7 +28,7 @@ envelope = np.ma.masked_where(mask, envelope)
 
 # set contour levels, colors and hatches
 levs = range(0, 5001, 1000)
-cmap = iplt.get_cmap('Blues_r', len(levs)-1)
+cmap = ut.pl.get_cmap('Blues_r', len(levs)-1)
 cols = cmap(range(len(levs)-1))
 
 # plot
