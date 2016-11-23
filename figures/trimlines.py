@@ -5,8 +5,7 @@ import util as ut
 import numpy as np
 
 # initialize figure
-fig, ax = ut.pl.subplots_mm(figsize=(85.0, 60.0),
-                           left=12.5, right=2.5, bottom=7.5, top=2.5)
+fig, ax = ut.pl.subplots_ts()
 
 # read trimlines data
 trimlines = np.genfromtxt('../data/native/trimlines_kelly_etal_2004.csv',

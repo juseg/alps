@@ -7,11 +7,7 @@ import numpy as np
 res = '10km'
 
 # initialize time-series figure
-figw, figh = 120.0, 80.01
-fig, ax = ut.pl.subplots_mm(nrows=1, ncols=1, sharex=True,
-                                   figsize=(figw, figh),
-                                   left=10.0, right=2.5, bottom=10.0, top=2.5,
-                                   wspace=2.5, hspace=2.5)
+fig, ax = ut.pl.subplots_ts()
 
 # loop on offsets
 offsets = np.arange(9.0, 10.1, 0.1)

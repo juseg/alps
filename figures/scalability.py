@@ -10,9 +10,7 @@ basedir = '/home/juliens/pism/output/0.7.3/alps-wcnn-1km/scalabilitytest'
 preferred = 16
 
 # initialize figure
-fig, grid = ut.pl.subplots_mm(3, 1, figsize=(85.0, 120.0), sharex=True,
-                              left=10.0, right=2.5, bottom=10.0, top=2.5,
-                              hspace=2.5)
+fig, grid = ut.pl.subplots_ts(3, 1)
 ax1, ax2, ax3 = grid
 
 # for each compiler
@@ -62,7 +60,6 @@ for comp, c in zip(['gnu', 'intel'], ['#e31a1c', '#1f78b4']):
 for ax in grid:
     ax.set_xscale('log')
     ax.grid()
-    ax.yaxis.set_label_coords(-0.05, 0.5)
 
 # scales
 ax1.set_yscale('log')

@@ -37,6 +37,15 @@ subplots_mm = iplt.subplots_mm
 get_cmap = iplt.get_cmap
 
 
+def subplots_ts(nrows=1, ncols=1):
+    """Init figure with margins adapted for simple timeseries."""
+    figw, figh = 85.0, 30.0 + nrows*30.0
+    return iplt.subplots_mm(nrows=nrows, ncols=ncols, figsize=(figw, figh),
+                            sharex=True, sharey=False,
+                            left=10.0, right=2.5, bottom=7.5, top=2.5,
+                            hspace=2.5, wspace=2.5)
+
+
 def subplots_cax():
     """Init figure with unique subplot and right colorbar."""
     figw, figh = 135.0, 80.0
