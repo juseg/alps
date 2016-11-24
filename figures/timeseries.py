@@ -4,43 +4,43 @@
 import util as ut
 import numpy as np
 
-res = '10km'
+# parameters
+records = ['epica', 'epica']
+configs = ['', '+esia5']
+offsets = [9.2, 9.5]
+colors = ['#e31a1c']*2 + ['#1f78b4']*2
+styles = [(0, [3, 1]), '-']
+dt = 9.5
 
 # initialize time-series figure
 fig, ax = ut.pl.subplots_ts()
 
-# loop on offsets
-offsets = np.arange(9.0, 10.1, 0.1)
-for dt in offsets:
+# for each record
+for i, rec in enumerate(records):
+    conf = configs[i]
+    dt = offsets[i]
+    c = colors[i]
+    s = styles[i]
 
     # load output time series
-    filepath = ('output/0.7.3/alps-wcnn-5km/'
-                'epica3222cool%04d+acyc1+esia5/y???????-ts.nc' % (round(dt*100)))
-    nc = ut.io.load(filepath)
+    nc = ut.io.load('output/0.7.3/alps-wcnn-5km/'
+                    '%s3222cool%04d+acyc1%s/y0120000-ts.nc'
+                    % (rec, round(dt*100), conf))
     age = -nc.variables['time'][:]/(1e3*365*24*60*60)
     vol = nc.variables['slvol'][:]
     nc.close()
 
-    # get maximum
-    lgm = age[np.argmax(vol)]
-
     # plot time series
-    ax.plot(age, vol, label='%.01f, %.01f' % (dt, lgm))
-
-# mark true MIS stages
-# source: http://www.lorraine-lisiecki.com/LR04_MISboundaries.txt
-#ax2.axvspan(71, 57, fc='0.85', lw=0.25)
-#ax2.axvspan(29, 14, fc='0.85', lw=0.25)
-#ax2.text((120+71)/2, 4.5, 'MIS 5', ha='center')
-#ax2.text((71+57)/2, 0.5, 'MIS 4', ha='center')
-#ax2.text((57+29)/2, 8.5, 'MIS 3', ha='center')
-#ax2.text((29+14)/2, 0.5, 'MIS 2', ha='center')
-#ax2.text((14+0)/2, 8.5, 'MIS 1', ha='center')
+    esia = {'': 2, '+esia5': 5}[conf]
+    label = rec.upper() + ', $E_{SIA} = %d$, %.1f K' % (esia, dt)
+    ax.plot(age, vol, c=c, ls=s, label=label)
 
 # set axes properties and save time series
-ax.set_xlim(30, 10)
+ax.set_xlim(120, 0)
+ax.set_ylim(-0.05, 0.35)
 ax.set_ylabel('ice volume (m s.l.e.)')
 ax.set_xlabel('model age (ka)')
-ax.grid()
+ax.locator_params(axis='y', nbins=6)
 ax.legend(loc='best')
+ax.grid(axis='y')
 fig.savefig('timeseries')
