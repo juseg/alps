@@ -61,8 +61,8 @@ nc.close()
 
 # plot time series
 tsax=tsax.twinx()
-tsax.plot(age, vol, c='#1f78b4')
-tsax.set_ylabel('ice volume (mm s.l.e.)', color='#1f78b4')
+tsax.plot(age, vol, c=ut.pl.palette['darkblue'])
+tsax.set_ylabel('ice volume (mm s.l.e.)', color=ut.pl.palette['darkblue'])
 tsax.set_xlim(20.0, 0.0)
 tsax.set_ylim(-2.5, 17.5)
 tsax.locator_params(axis='y', nbins=6)

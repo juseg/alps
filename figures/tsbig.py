@@ -18,12 +18,12 @@ fig.patch.set_linewidth(1.0)
 ax1 = ax0.twinx()
 ax2 = ax0.twinx()
 ax0.spines['left'].set_edgecolor('0.25')
-ax1.spines['right'].set_edgecolor('#1f78b4')
-ax2.spines['right'].set_edgecolor('#33a02c')
+ax1.spines['right'].set_edgecolor(ut.pl.palette['darkblue'])
+ax2.spines['right'].set_edgecolor(ut.pl.palette['darkgreen'])
 ax2.spines['right'].set_position(('axes', 1+15.0/205.0))
 ax0.tick_params(axis='y', colors='0.25')
-ax1.tick_params(axis='y', colors='#1f78b4')
-ax2.tick_params(axis='y', colors='#33a02c')
+ax1.tick_params(axis='y', colors=ut.pl.palette['darkblue'])
+ax2.tick_params(axis='y', colors=ut.pl.palette['darkgreen'])
 
 # set bounds
 ax0.set_xlim(120.0, 0.0)
@@ -39,8 +39,8 @@ ax2.locator_params(axis='y', nbins=6)
 # add labels
 ax0.set_xlabel('model age (ka)')
 ax0.set_ylabel('temperature offset (K)', color='0.25')
-ax1.set_ylabel('ice volume (m s.l.e.)', color='#1f78b4')
-ax2.set_ylabel('uplift rate ($mm\,a^{-1}$)', color='#33a02c')
+ax1.set_ylabel('ice volume (m s.l.e.)', color=ut.pl.palette['darkblue'])
+ax2.set_ylabel('uplift rate ($mm\,a^{-1}$)', color=ut.pl.palette['darkgreen'])
 
 # add MIS stages
 # source: http://www.lorraine-lisiecki.com/LR04_MISboundaries.txt
@@ -78,9 +78,9 @@ vol = nc.variables['slvol'][:]
 nc.close()
 
 # plot ice volume
-ax1.plot(age, vol, c='#1f78b4')
+ax1.plot(age, vol, c=ut.pl.palette['darkblue'])
 ax1.plot(lgm, vol[((age-lgm)**2).argmin()], 'o',
-         ms=6, c='w', mec='#1f78b4', mew=1.0)
+         ms=6, c='w', mec=ut.pl.palette['darkblue'], mew=1.0)
 
 # load extra output
 filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
@@ -92,9 +92,9 @@ dbdt = nc.variables['dbdt'][:, 450, 350]*1e3
 nc.close()
 
 # plot central uplift rate
-ax2.plot(age, dbdt, c='#33a02c')
+ax2.plot(age, dbdt, c=ut.pl.palette['darkgreen'])
 ax2.plot(0.0, dbdt[-1], 'o',
-         ms=6, c='w', mec='#33a02c', mew=1.0, clip_on=False)
+         ms=6, c='w', mec=ut.pl.palette['darkgreen'], mew=1.0, clip_on=False)
 
 # save figure
 fig.savefig('tsbig')

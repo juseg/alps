@@ -55,9 +55,9 @@ y = nc.variables['y'][:]
 thk = nc.variables['thk'][:]
 duration = (thk >= 1.0).sum(axis=0)*0.1
 footprint = (duration > 0)  # = 1 - (thk < 1.0).prod(axis=0)
-cs = ax.contour(x, y, footprint.T, levels=[0.5], colors='#ff7f00',
+cs = ax.contour(x, y, footprint.T, levels=[0.5],
+                colors=[ut.pl.palette['darkorange']],
                 linestyles=[(0, [3, 1])], linewidths=0.5, alpha=0.75)
-
 
 # ice margin
 cs = nc.icemarginf(ax, t, colors='w', alpha=0.75)
@@ -75,7 +75,7 @@ qv = nc.quiver('velsurf', ax, t, scale=250.0, width=0.25*25.4/72/800.0,
                norm=velnorm, cmap='Blues', zorder=2)
 
 # central point for uplift
-ax.plot(nc['x'][450], nc['y'][350], 'o', c='#33a02c')
+ax.plot(nc['x'][450], nc['y'][350], 'o', c=ut.pl.palette['darkgreen'])
 
 # close extra file
 nc.close()

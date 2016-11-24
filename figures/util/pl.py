@@ -9,6 +9,15 @@ import cartopy.io.shapereader as cshp
 import iceplotlib.plot as iplt
 from matplotlib.transforms import ScaledTranslation
 
+
+# color brewer Paired palette
+colorkeys = [tone+hue
+             for hue in ('blue', 'green', 'red', 'orange', 'purple', 'brown')
+             for tone in ('light', 'dark')]
+colorvals = iplt.get_cmap('Paired', 12)(range(12))
+palette = dict(zip(colorkeys, colorvals))
+
+
 # geographic projections
 ll = ccrs.PlateCarree()
 utm = ccrs.UTM(32)

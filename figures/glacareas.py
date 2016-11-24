@@ -7,7 +7,7 @@ import numpy as np
 # parameters
 records = ['epica']
 configs = ['', '+esia5']
-colors = ['#e31a1c', '#1f78b4']
+colors = [ut.pl.palette['darkred'], ut.pl.palette['darkblue']]
 styles = [(0, [3, 1]), '-']
 target = 185.0  # Ehlers and Gibbard is only 149027.868048 km2
 

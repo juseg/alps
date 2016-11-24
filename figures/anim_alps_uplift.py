@@ -74,11 +74,11 @@ dvdt = dbdt.sum(axis=(1, 2))*1e-3
 
 # plot time series
 tsax = tsax.twinx()
-tsax.plot(-time/1e3, dvdt, c='#33a02c')
+tsax.plot(-time/1e3, dvdt, c=ut.pl.palette['darkgreen'])
 tsax.set_xlim(120.0, 0.0)
 tsax.set_ylim(-11.25, 6.25)
 tsax.set_ylabel('volumic uplift rate ($km^{3}\,a^{-1}$)',
-                labelpad=0, color='#33a02c')
+                labelpad=0, color=ut.pl.palette['darkgreen'])
 tsax.locator_params(axis='y', nbins=6)
 tsax.grid(axis='y')
 

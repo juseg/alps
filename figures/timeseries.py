@@ -8,7 +8,7 @@ import numpy as np
 records = ['epica', 'epica']
 configs = ['', '+esia5']
 offsets = [9.2, 9.5]
-colors = ['#e31a1c']*2 + ['#1f78b4']*2
+colors = [ut.pl.palette['darkred']]*2 + [ut.pl.palette['darkblue']]*2
 styles = [(0, [3, 1]), '-']
 dt = 9.5
 

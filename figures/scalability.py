@@ -14,7 +14,7 @@ fig, grid = ut.pl.subplots_ts(3, 1)
 ax1, ax2, ax3 = grid
 
 # for each compiler
-for comp, c in zip(['gnu', 'intel'], ['#e31a1c', '#1f78b4']):
+for comp, c in zip(['gnu', 'intel'], [ut.pl.palette['darkred'], ut.pl.palette['darkblue']]):
 
     # with and without hyperthreading
     for ntasks, ls in zip([36, 72], ['-', ':']):

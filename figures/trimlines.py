@@ -32,7 +32,7 @@ j = np.argmin(abs(yt[:, None] - y), axis=1)
 zm = z[i, j]
 
 # draw scatter plot
-ax.scatter(zt, zm, c='#1f78b4', alpha=0.75)
+ax.scatter(zt, zm, c=ut.pl.palette['darkblue'], alpha=0.75)
 ax.set_xlabel('observed trimline elevation (m)')
 ax.set_ylabel('maximum ice surface  elevation (m)')
 ax.set_xlim(1900, 3300)
@@ -44,14 +44,14 @@ p = np.poly1d(c)
 ztfit = np.array([2000, 3200])
 zmfit = p(ztfit)
 ax.plot(ztfit, ztfit, c='k')
-ax.plot(ztfit, zmfit, c='#1f78b4', zorder=0)
+ax.plot(ztfit, zmfit, c=ut.pl.palette['darkblue'], zorder=0)
 ax.text(ztfit[-1], ztfit[-1]+50.0, '1:1', ha='right')
 
 # add equation and mean diff
 eqn = '$z_m = %.3f \cdot z_t %.3f$' % tuple(c)
 diff = (zm-zt).mean()
 note = '%s\n\nmean difference: %.3f m' % (eqn, diff)
-ax.text(0.95, 0.05, note, ha='right', color='#1f78b4', transform=ax.transAxes)
+ax.text(0.95, 0.05, note, ha='right', color=ut.pl.palette['darkblue'], transform=ax.transAxes)
 
 # save figure
 fig.savefig('trimlines')
