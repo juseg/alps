@@ -5,10 +5,11 @@ import util as ut
 import numpy as np
 
 # parameters
-records = ['epica']
+records = ['epica', 'epica']
 configs = ['', '+esia5']
 offsets = np.arange(9.0, 10.1, 0.1)
-colmaps = ['Reds', 'Blues']
+colmaps = ['Reds']*2
+dt = 9.5
 
 # initialize figure
 figw, figh = 85.0, 87.5
@@ -22,50 +23,45 @@ for ax in grid.flat:
 
 # for each record
 for i, rec in enumerate(records):
+    conf = configs[i]
     cmap = colmaps[i]
+    ax = grid[i]
+    footprints = []
 
-    # for each config
-    for j, conf in enumerate(configs):
-        ax = grid[j]
-        footprints = []
+    # draw boot topo
+    nc = ut.io.load('input/boot/alps-srtm-5km.nc')
+    im = nc.imshow('topg', ax=ax, vmin=0e3, vmax=3e3, cmap='Greys', zorder=-1)
+    nc.close()
 
-        # draw boot topo
-        nc = ut.io.load('input/boot/alps-srtm-5km.nc')
-        im = nc.imshow('topg', ax=ax, vmin=0e3, vmax=3e3, cmap='Greys', zorder=-1)
+    # loop on offsets
+    for dt in offsets:
+
+        # load extra file
+        nc = ut.io.load('output/0.7.3/alps-wcnn-5km/'
+                        '%s3222cool%04d+acyc1%s/y0120000-extra.nc'
+                        % (rec, round(dt*100), conf))
+        x = nc.variables['x'][:]
+        y = nc.variables['y'][:]
+        thk = nc.variables['thk'][:]
         nc.close()
 
-        # draw lgm
-        ut.pl.draw_lgm_outline(ax)
-    
-        # loop on offsets
-        for dt in offsets:
+        # compute footprint
+        footprints.append(1 - (thk < 1.0).prod(axis=0))
 
-            # load extra file
-            nc = ut.io.load('output/0.7.3/alps-wcnn-5km/'
-                            '%s3222cool%04d+acyc1%s/y0120000-extra.nc'
-                            % (rec, round(dt*100), conf))
-            x = nc.variables['x'][:]
-            y = nc.variables['y'][:]
-            thk = nc.variables['thk'][:]
-            nc.close()
+    # compute cooling required to cover each grid cell
+    footprints = np.array(footprints)
+    isglac = footprints.any(axis=0)
+    dtglac = np.where(isglac, offsets[footprints.argmax(axis=0)], 99)
 
-            # compute footprint
-            footprints.append(1 - (thk < 1.0).prod(axis=0))
+    # plot
+    cs = ax.contour(x, y, isglac.T, linewidths=0.5, colors='k')
+    cs = ax.contour(x, y, dtglac.T, offsets, linewidths=0.25, colors='k')
+    cs = ax.contourf(x, y, dtglac.T, offsets, cmap=cmap, extend='min', alpha=0.75)
 
-        # compute cooling required to cover each grid cell
-        footprints = np.array(footprints)
-        isglac = footprints.any(axis=0)
-        dtglac = np.where(isglac, offsets[footprints.argmax(axis=0)], 99)
-
-        # plot
-        cs = ax.contour(x, y, isglac.T, linewidths=0.5, colors='k')
-        cs = ax.contour(x, y, dtglac.T, offsets, linewidths=0.25, colors='k')
-        cs = ax.contourf(x, y, dtglac.T, offsets, cmap=cmap, extend='min', alpha=0.75)
-
-        # add label
-        esia = {'': 2, '+esia5': 5}[conf]
-        label = rec.upper() + ', $E_{SIA} = %d$' % esia
-        ax.text(0.95, 0.05, label, transform=ax.transAxes, ha='right')
+    # add label
+    esia = {'': 2, '+esia5': 5}[conf]
+    label = rec.upper() + ', $E_{SIA} = %d$' % esia
+    ax.text(0.95, 0.05, label, transform=ax.transAxes, ha='right')
 
 # add colorbar
 cb = fig.colorbar(cs, cax)

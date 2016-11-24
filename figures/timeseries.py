@@ -8,8 +8,7 @@ import numpy as np
 records = ['epica', 'epica']
 configs = ['', '+esia5']
 offsets = [9.2, 9.5]
-colors = [ut.pl.palette['darkred']]*2 + [ut.pl.palette['darkblue']]*2
-styles = [(0, [3, 1]), '-']
+colors = [ut.pl.palette[c] for c in ['lightred', 'darkred']]
 dt = 9.5
 
 # initialize time-series figure
@@ -20,7 +19,6 @@ for i, rec in enumerate(records):
     conf = configs[i]
     dt = offsets[i]
     c = colors[i]
-    s = styles[i]
 
     # load output time series
     nc = ut.io.load('output/0.7.3/alps-wcnn-5km/'
@@ -32,8 +30,8 @@ for i, rec in enumerate(records):
 
     # plot time series
     esia = {'': 2, '+esia5': 5}[conf]
-    label = rec.upper() + ', $E_{SIA} = %d$, %.1f K' % (esia, dt)
-    ax.plot(age, vol, c=c, ls=s, label=label)
+    label = rec.upper() + ', $E_{SIA} = %d$' % esia
+    ax.plot(age, vol, c=c, label=label)
 
 # set axes properties and save time series
 ax.set_xlim(120, 0)
