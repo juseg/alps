@@ -3,6 +3,7 @@
 
 import os
 import numpy as np
+import zipfile
 from netCDF4 import Dataset
 from osgeo import gdal
 from osgeo import ogr
@@ -66,3 +67,10 @@ gdal.ContourGenerate(band, 1.0, 0.5, [], 0, 0, lyr, f0, f1)
 # close datasets
 lyr = shp = None
 band = rast = None
+
+# create zip archive
+with zipfile.ZipFile(ofilepath + '.zip', 'w') as zf:
+    extensions = ['dbf', 'prj', 'shp', 'shx', 'tif']
+    for f in [ofilepath + '.' + ext for ext in extensions]:
+        zf.write(f, arcname=os.path.basename(f))
+    zf.close()
