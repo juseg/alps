@@ -12,7 +12,7 @@ lines.markeredgewidth   : 0.25    # line width around marker (default 0.5)
 lines.markersize        : 4       # markersize, in points (default 6)
 
 ### PATCHES
-patch.linewidth         : 0.5     # edge width in points (default 1.0)
+patch.linewidth         : 1.0     # edge width in points (default 1.0)
 patch.facecolor         : 0.75    # polygons face color (default blue)
 patch.edgecolor         : black   # polygons edge color (default black)
 
