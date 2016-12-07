@@ -57,22 +57,74 @@ def subplots_ts(nrows=1, ncols=1):
 
 def subplots_cax():
     """Init figure with unique subplot and right colorbar."""
-    figw, figh = 135.0, 80.0
+    figw, figh = 170.0, 105.0
     fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
-                               left=2.5, right=20.0, bottom=2.5, top=2.5)
-    cax = fig.add_axes([1-17.5/figw, 2.5/figh, 5.0/figw, 1-5.0/figh])
+                               left=2.5, right=17.5, bottom=2.5, top=2.5)
+    cax = fig.add_axes([1-15.0/figw, 2.5/figh, 5.0/figw, 1-5.0/figh])
+    ax.set_rasterization_zorder(2.5)
+    return fig, ax, cax
+
+
+def subplots_cax_inset():
+    """Init figure with unique subplot and colorbar inset."""
+    figw, figh = 170.0, 115.0
+    fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
+                               left=2.5, right=2.5, bottom=2.5, top=2.5)
+    cax = fig.add_axes([5.0/figw, 1-10.0/figh, 40.0/figw, 5.0/figh])
     ax.set_rasterization_zorder(2.5)
     return fig, ax, cax
 
 
 def subplots_cax_ts(labels=True):
-    """Init figure with subplot, colorbar and timeseries."""
-    figw, figh = 135.0, 120.0
-    fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=ccrs.UTM(32),
-                               left=2.5, right=20.0, bottom=42.5, top=2.5)
-    cax = fig.add_axes([1-17.5/figw, 42.5/figh, 5.0/figw, 1-45.0/figh])
-    tsax = fig.add_axes([12.5/figw, 10.0/figh, 1-25.0/figw, (30.0)/figh])
+    """Init figure with subplot, side colorbar and timeseries."""
+    figw, figh = 170.0, 145.0
+    fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
+                               left=2.5, right=17.5, bottom=42.5, top=2.5)
+    cax = fig.add_axes([5.0/figw, 65.0/figh, 5.0/figw, 40.0/figh])
+    tsax = fig.add_axes([12.5/figw, 10.0/figh, 1-22.5/figw, 30.0/figh])
     ax.set_rasterization_zorder(2.5)
+    if labels is True:
+        add_subfig_label('(a)', ax=ax)
+        add_subfig_label('(b)', ax=tsax)
+    return fig, ax, cax, tsax
+
+
+def subplots_cax_ts_inset(labels=True):
+    """Init figure with subplot, colorbar and timeseries insets."""
+    figw, figh = 170.0, 115.0
+    fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
+                               left=2.5, right=2.5, bottom=2.5, top=2.5)
+    cax = fig.add_axes([5.0/figw, 65.0/figh, 5.0/figw, 40.0/figh])
+    tsax = fig.add_axes([67.5/figw, 15.0/figh, 85.0/figw, 20.0/figh])
+    ax.set_rasterization_zorder(2.5)
+    rect = iplt.Rectangle((55.0/figw, 5.0/figh), 110.0/figw, 35.0/figh,
+                          ec='k', fc='w', alpha=0.75, clip_on=False,
+                          transform=fig.transFigure, zorder=-1)
+    tsax.add_patch(rect)
+    tsax.set_axis_bgcolor('none')
+    if labels is True:
+        add_subfig_label('(a)', ax=ax)
+        add_subfig_label('(b)', ax=tsax)
+    return fig, ax, cax, tsax
+
+
+def subplots_cax_ts_cut(labels=True):
+    """Init figure with subplot, colorbar inset and timeseries cut."""
+    figw, figh = 170.0, 115.0
+    fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
+                               left=2.5, right=2.5, bottom=2.5, top=2.5)
+    cax = fig.add_axes([65.0/figw, 1-10.0/figh, 40.0/figw, 5.0/figh])
+    tsax = fig.add_axes([70.0/figw, 10.0/figh, 87.5/figw, 22.5/figh])
+    ax.set_rasterization_zorder(2.5)
+    ax.outline_patch.set_ec('none')
+    x = [0.0, 1/3., 1/3., 1.0, 1.0, 0.0, 0.0]
+    y = [0.0, 0.0, 1/3., 1/3., 1.0, 1.0, 0.0]
+    poly = iplt.Polygon(zip(x, y), ec='k', fc='none', clip_on=False,
+                        transform=ax.transAxes, zorder=3)
+    rect = iplt.Rectangle((1/3., 0.0), 2/3., 1/3., ec='w', fc='w',
+                            clip_on=False, transform=ax.transAxes, zorder=-1)
+    tsax.add_patch(poly)
+    tsax.add_patch(rect)
     if labels is True:
         add_subfig_label('(a)', ax=ax)
         add_subfig_label('(b)', ax=tsax)
