@@ -43,7 +43,7 @@ deglacage = (age[-nlastfree-1]+age[-nlastfree]) / 2
 nevericy = (nlastfree == 0)*(icy[-1] == 0)
 alwaysicy = (nlastfree == 0)*(icy[-1] == 1)
 deglacage[alwaysicy] = age[-1]
-deglacage[nevericy] = -99999 #age[0]
+deglacage[nevericy] = age[0]
 
 # spatial reference system
 srs = osr.SpatialReference()
@@ -66,7 +66,7 @@ band.FlushCache()
 #                GDALProgressFunc callback=0, void * callback_data=None)
 driver = ogr.GetDriverByName('ESRI Shapefile')
 shp = driver.CreateDataSource('.')
-lyr = shp.CreateLayer(ofilepath, srs)
+lyr = shp.CreateLayer(ofilepath, srs, ogr.wkbLineString)
 f0_defn = ogr.FieldDefn('id', ogr.OFTInteger)
 f0 = lyr.CreateField(f0_defn)
 f1_defn = ogr.FieldDefn(varname, ogr.OFTReal)
