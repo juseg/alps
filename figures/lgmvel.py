@@ -5,7 +5,7 @@ import util as ut
 from matplotlib.colors import LogNorm
 
 # initialize figure
-fig, ax, cax, tsax = ut.pl.subplots_cax_ts()
+fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut()
 
 # time for plot
 a = 21.0
@@ -39,8 +39,8 @@ ax.text(0.05, 0.90, '%.1f ka' % a, transform=ax.transAxes)
 nc.close()
 
 # add colorbar
-cb = fig.colorbar(im, cax)
-cb.set_label('ice thickness (m)')
+cb = fig.colorbar(im, cax, extend='both')
+cb.set_label(r'surface velocity ($m\,a^{-1}$)')
 
 # add vector elements
 ut.pl.draw_natural_earth(ax)

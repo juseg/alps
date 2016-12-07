@@ -4,7 +4,7 @@
 import util as ut
 
 # initialize figure
-fig, ax, cax = ut.pl.subplots_cax()
+fig, ax, cax = ut.pl.subplots_cax_inset()
 
 # load extra data
 # FIXME: implement unit conversion (m to mm) in iceplotlib

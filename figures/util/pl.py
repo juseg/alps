@@ -70,7 +70,7 @@ def subplots_cax_inset():
     figw, figh = 170.0, 115.0
     fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
                                left=2.5, right=2.5, bottom=2.5, top=2.5)
-    cax = fig.add_axes([5.0/figw, 1-10.0/figh, 40.0/figw, 5.0/figh])
+    cax = fig.add_axes([5.0/figw, 65.0/figh, 5.0/figw, 40.0/figh])
     ax.set_rasterization_zorder(2.5)
     return fig, ax, cax
 
@@ -113,7 +113,7 @@ def subplots_cax_ts_cut(labels=True):
     figw, figh = 170.0, 115.0
     fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
                                left=2.5, right=2.5, bottom=2.5, top=2.5)
-    cax = fig.add_axes([65.0/figw, 1-10.0/figh, 40.0/figw, 5.0/figh])
+    cax = fig.add_axes([5.0/figw, 65.0/figh, 5.0/figw, 40.0/figh])
     tsax = fig.add_axes([70.0/figw, 10.0/figh, 87.5/figw, 22.5/figh])
     ax.set_rasterization_zorder(2.5)
     ax.outline_patch.set_ec('none')

@@ -5,7 +5,7 @@ import util as ut
 import numpy as np
 
 # initialize figure
-fig, ax, cax = ut.pl.subplots_cax()
+fig, ax, cax = ut.pl.subplots_cax_inset()
 
 # load extra data
 # FIXME: implement regional data extraction in iceplotlib

@@ -5,7 +5,7 @@ import util as ut
 import numpy as np
 
 # initialize figure
-fig, ax, cax = ut.pl.subplots_cax()
+fig, ax, cax = ut.pl.subplots_cax_inset()
 
 # load extra data
 filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
