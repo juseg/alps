@@ -80,7 +80,7 @@ def subplots_cax_ts(labels=True):
     figw, figh = 170.0, 145.0
     fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
                                left=2.5, right=17.5, bottom=42.5, top=2.5)
-    cax = fig.add_axes([5.0/figw, 65.0/figh, 5.0/figw, 40.0/figh])
+    cax = fig.add_axes([1-15.0/figw, 42.5/figh, 5.0/figw, 100.0/figh])
     tsax = fig.add_axes([12.5/figw, 10.0/figh, 1-22.5/figw, 30.0/figh])
     ax.set_rasterization_zorder(2.5)
     if labels is True:
