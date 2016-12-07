@@ -154,7 +154,19 @@ def draw_natural_earth(ax=None):
 
 def draw_lgm_outline(ax=None):
     """Add Ehlers et al. hole-filled LGM outline."""
+    ax = ax or iplt.gca()
     shp = cshp.Reader('../data/native/lgm_alpen_holefilled.shp')
     ax.add_geometries(shp.geometries(), ll, lw=0.5, alpha=0.75,
                       edgecolor='#e31a1c', facecolor='none', zorder=0)
+    del shp
+
+
+def draw_footprint(ax=None):
+    """Add modelled LGM footprint."""
+    ax = ax or iplt.gca()
+    run = 'alps-wcnn-1km-epica3222cool0950+acyc1+esia5'
+    shp = cshp.Reader('../data/processed/%s-footprint.shp' % run)
+    ax.add_geometries(shp.geometries(), utm, lw=0.5, alpha=0.75,
+                      edgecolor=palette['darkorange'], facecolor='none',
+                      linestyles=[(0, [3, 1])], zorder=0)
     del shp

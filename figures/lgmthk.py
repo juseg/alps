@@ -25,8 +25,10 @@ def draw(t, ax, cursor):
     cs = nc.icemargin(ax, t, colors='k', linewidths=0.25)
     ax.text(0.05, 0.90, '%.1f ka' % age, transform=ax.transAxes)
 
-    # add cartopy vectors
+    # add vector elements
     ut.pl.draw_natural_earth(ax)
+    ut.pl.draw_lgm_outline(ax)
+    ut.pl.draw_footprint(ax)
 
     # update cursor
     cursor.set_data(age, (0, 1))
