@@ -42,6 +42,7 @@ graticules = cfeature.NaturalEarthFeature(
 
 
 # iceplotlib functions
+figure = iplt.figure
 subplots_mm = iplt.subplots_mm
 get_cmap = iplt.get_cmap
 

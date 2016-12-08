@@ -13,7 +13,7 @@ PY = PYTHONPATH=iceplotlib python2
 # all python figures
 PY_FIGS = duration envelope footprints glacareas glaciations inputs \
           lgmbig lgmthk lgmvel \
-          locmap_alps locmap_rhone scalability \
+          locmap_alps locmap_rhone profile scalability \
           timeseries timestamps timing totalsliding trimlines tsbig \
           uplift ydthk ydvel
 PY_FIGS := $(addsuffix .$(EXT), $(PY_FIGS))
