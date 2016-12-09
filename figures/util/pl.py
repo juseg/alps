@@ -132,9 +132,14 @@ def subplots_cax_ts_cut(labels=True):
     return fig, ax, cax, tsax
 
 
+def add_corner_tag(text, ax=None, ha='right', va='top', offset=2.5/25.4):
+    """Add text in figure corner."""
+    return add_subfig_label(text, ax=ax, ha=ha, va=va, offset=offset)
+
+
 def add_subfig_label(text, ax=None, ha='left', va='top', offset=2.5/25.4):
     """Add figure label in bold."""
-    ax = ax or plt.gca()
+    ax = ax or iplt.gca()
     x = (ha == 'right')  # 0 for left edge, 1 for right edge
     y = (va == 'top')  # 0 for bottom edge, 1 for top edge
     xoffset = (1 - 2*x)*offset

@@ -33,7 +33,6 @@ im = nc.imshow('velsurf_mag', ax, t, norm=velnorm, cmap='Blues', alpha=0.75)
 cs = nc.contour('usurf', ax, t, levels=inlevs, colors='0.25', linewidths=0.1)
 cs = nc.contour('usurf', ax, t, levels=utlevs, colors='0.25', linewidths=0.25)
 cs = nc.icemargin(ax, t, colors='k', linewidths=0.25)
-ax.text(0.05, 0.90, '%.1f ka' % a, transform=ax.transAxes)
 
 # close nc file
 nc.close()
@@ -46,7 +45,7 @@ cb.set_label(r'surface velocity ($m\,a^{-1}$)')
 ut.pl.draw_natural_earth(ax)
 ut.pl.draw_lgm_outline(ax)
 ut.pl.draw_footprint(ax)
-
+ut.pl.add_corner_tag('%.1f ka' % a, ax)
 
 # Time series
 # -----------

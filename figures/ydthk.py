@@ -29,7 +29,6 @@ im = nc.imshow('thk', ax, t, vmin=0.0, vmax=3e3, cmap='Blues_r', alpha=0.75)
 cs = nc.contour('usurf', ax, t, levels=inlevs, colors='0.25', linewidths=0.1)
 cs = nc.contour('usurf', ax, t, levels=utlevs, colors='0.25', linewidths=0.25)
 cs = nc.icemargin(ax, t, colors='k', linewidths=0.25)
-ax.text(0.05, 0.90, '%.1f ka' % a, transform=ax.transAxes)
 
 # close nc file
 nc.close()
@@ -42,6 +41,7 @@ cb.set_label('ice thickness (m)')
 ut.pl.draw_natural_earth(ax)
 ut.pl.draw_lgm_outline(ax)
 ut.pl.draw_footprint(ax)
+ut.pl.add_corner_tag('%.1f ka' % a, ax)
 
 # zoom on central Alps
 ax.set_extent((250e3, 700e3, 4970e3, 5270e3), crs=ax.projection)
