@@ -4,11 +4,6 @@
 import util as ut
 from matplotlib.animation import FuncAnimation
 
-# elevation contour levels
-levs = range(0, 4000, 200)
-outer_levs = [l for l in levs if l % 1000 == 0]
-inner_levs = [l for l in levs if l % 1000 != 0]
-
 # uplift contour levels and colors
 levs = [-0.01, -0.003, -0.001, 0.0, 0.001, 0.003, 0.01]
 cmap = ut.pl.get_cmap('PRGn', len(levs)+1)
@@ -25,9 +20,9 @@ def draw(t, ax, cursor):
     im = nc.imshow('topg', ax, t, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
     im = nc.contourf('dbdt', ax, t, levels=levs, extend='both',
                      colors=cols, thkth=-1, alpha=0.75)
-    cs = nc.contour('usurf', ax, t, levels=inner_levs,
+    cs = nc.contour('usurf', ax, t, levels=ut.pl.inlevs,
                     colors='0.25', linewidths=0.1)
-    cs = nc.contour('usurf', ax, t, levels=outer_levs,
+    cs = nc.contour('usurf', ax, t, levels=ut.pl.utlevs,
                     colors='0.25', linewidths=0.25)
     cs = nc.icemargin(ax, t, colors='k', linewidths=0.25)
 

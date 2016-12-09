@@ -14,11 +14,6 @@ t = -a*1e3
 # Map axes
 # --------
 
-# contour levels
-levs = range(0, 4000, 200)
-inlevs = [l for l in levs if l % 1000 != 0]
-utlevs = [l for l in levs if l % 1000 == 0]
-
 # load extra data
 filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
 nc = ut.io.load(filepath)
@@ -26,8 +21,8 @@ nc = ut.io.load(filepath)
 # plot
 im = nc.imshow('topg', ax, t, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
 im = nc.imshow('thk', ax, t, vmin=0.0, vmax=3e3, cmap='Blues_r', alpha=0.75)
-cs = nc.contour('usurf', ax, t, levels=inlevs, colors='0.25', linewidths=0.1)
-cs = nc.contour('usurf', ax, t, levels=utlevs, colors='0.25', linewidths=0.25)
+cs = nc.contour('usurf', ax, t, levels=ut.pl.inlevs, colors='0.25', linewidths=0.1)
+cs = nc.contour('usurf', ax, t, levels=ut.pl.utlevs, colors='0.25', linewidths=0.25)
 cs = nc.icemargin(ax, t, colors='k', linewidths=0.25)
 
 # close nc file

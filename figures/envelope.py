@@ -36,11 +36,8 @@ im = nc.imshow('topg', ax, 0.0, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
 cs = ax.contourf(x, y, envelope, levs, colors=cols, alpha=0.75)
 
 # contour levels
-levs = range(0, 5001, 200)
-outer_levs = [l for l in levs if l % 1000 == 0]
-inner_levs = [l for l in levs if l % 1000 != 0]
-ax.contour(x, y, envelope, inner_levs, colors='0.25', linewidths=0.1)
-ax.contour(x, y, envelope, outer_levs, colors='0.25', linewidths=0.25)
+ax.contour(x, y, envelope, ut.pl.inlevs, colors='0.25', linewidths=0.1)
+ax.contour(x, y, envelope, ut.pl.utlevs, colors='0.25', linewidths=0.25)
 
 # ice margin
 ax.contour(x, y, mask, [0.5], colors='k', linewidths=0.5)

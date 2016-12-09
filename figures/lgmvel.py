@@ -2,7 +2,6 @@
 # coding: utf-8
 
 import util as ut
-from matplotlib.colors import LogNorm
 
 # initialize figure
 fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut()
@@ -11,17 +10,9 @@ fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut()
 a = 21.0
 t = -a*1e3
 
-# velocity norm
-velnorm = LogNorm(1e1, 1e3)
-
 
 # Map axes
 # --------
-
-# contour levels
-levs = range(0, 4000, 200)
-inlevs = [l for l in levs if l % 1000 != 0]
-utlevs = [l for l in levs if l % 1000 == 0]
 
 # load extra data
 filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
@@ -29,9 +20,9 @@ nc = ut.io.load(filepath)
 
 # plot
 im = nc.imshow('topg', ax, t, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
-im = nc.imshow('velsurf_mag', ax, t, norm=velnorm, cmap='Blues', alpha=0.75)
-cs = nc.contour('usurf', ax, t, levels=inlevs, colors='0.25', linewidths=0.1)
-cs = nc.contour('usurf', ax, t, levels=utlevs, colors='0.25', linewidths=0.25)
+im = nc.imshow('velsurf_mag', ax, t, norm=ut.pl.velnorm, cmap='Blues', alpha=0.75)
+cs = nc.contour('usurf', ax, t, levels=ut.pl.inlevs, colors='0.25', linewidths=0.1)
+cs = nc.contour('usurf', ax, t, levels=ut.pl.utlevs, colors='0.25', linewidths=0.25)
 cs = nc.icemargin(ax, t, colors='k', linewidths=0.25)
 
 # close nc file

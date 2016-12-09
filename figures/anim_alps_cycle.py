@@ -2,15 +2,7 @@
 # coding: utf-8
 
 import util as ut
-from matplotlib.colors import LogNorm
 from matplotlib.animation import FuncAnimation
-
-velonorm = LogNorm(1e1, 1e3)
-
-# contour levels
-levs = range(0, 4000, 200)
-outer_levs = [l for l in levs if l % 1000 == 0]
-inner_levs = [l for l in levs if l % 1000 != 0]
 
 # drawing function
 def draw(t, ax, cursor):
@@ -21,10 +13,10 @@ def draw(t, ax, cursor):
 
     # plot
     im = nc.imshow('topg', ax, t, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
-    im = nc.imshow('velsurf_mag', ax, t, norm=velonorm, cmap='Blues', alpha=0.75)
-    cs = nc.contour('usurf', ax, t, levels=inner_levs,
+    im = nc.imshow('velsurf_mag', ax, t, norm=ut.pl.velnorm, cmap='Blues', alpha=0.75)
+    cs = nc.contour('usurf', ax, t, levels=ut.pl.inlevs,
                     colors='0.25', linewidths=0.1)
-    cs = nc.contour('usurf', ax, t, levels=outer_levs,
+    cs = nc.contour('usurf', ax, t, levels=ut.pl.utlevs,
                     colors='0.25', linewidths=0.25)
     cs = nc.icemargin(ax, t, colors='k', linewidths=0.25)
 

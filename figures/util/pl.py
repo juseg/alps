@@ -10,6 +10,8 @@ import cartopy.io.shapereader as cshp
 import iceplotlib.plot as iplt
 import matplotlib.transforms as mtrans
 
+# Color palette
+# -------------
 
 # color brewer Paired palette
 colorkeys = [tone+hue
@@ -19,13 +21,27 @@ colorvals = iplt.get_cmap('Paired', 12)(range(12))
 palette = dict(zip(colorkeys, colorvals))
 
 
+# Mapping properties
+# ------------------
+
+# velocity norm
+velnorm = iplt.matplotlib.colors.LogNorm(1e1, 1e3)
+
+# contour levels
+topolevs = range(0, 4000, 200)
+inlevs = [l for l in topolevs if l % 1000 != 0]
+utlevs = [l for l in topolevs if l % 1000 == 0]
+
+
+# Geographic data
+# ---------------
+
 # geographic projections
 ll = ccrs.PlateCarree()
 utm = ccrs.UTM(32)
 swiss = ccrs.TransverseMercator(
     central_longitude=7.439583333333333, central_latitude=46.95240555555556,
     false_easting=600e3, false_northing=200e3)
-
 
 # cartopy features
 rivers = cfeature.NaturalEarthFeature(
@@ -42,11 +58,16 @@ graticules = cfeature.NaturalEarthFeature(
     edgecolor='0.25', facecolor='none', lw=0.1)
 
 
-# iceplotlib functions
+# Iceplotlib functions
+# --------------------
+
 figure = iplt.figure
 subplots_mm = iplt.subplots_mm
 get_cmap = iplt.get_cmap
 
+
+# Figures and axes creation
+# -------------------------
 
 def prepare_axes(ax=None, tsax=None, labels=True):
     """Prepare map and timeseries axes before plotting."""
@@ -139,12 +160,15 @@ def subplots_cax_ts_cut(labels=True):
     poly = iplt.Polygon(zip(x, y), ec='k', fc='none', clip_on=False,
                         transform=ax.transAxes, zorder=3)
     rect = iplt.Rectangle((1/3., 0.0), 2/3., 1/3., ec='w', fc='w',
-                            clip_on=False, transform=ax.transAxes, zorder=-1)
+                          clip_on=False, transform=ax.transAxes, zorder=-1)
     tsax.add_patch(poly)
     tsax.add_patch(rect)
     prepare_axes(ax, tsax, labels)
     return fig, ax, cax, tsax
 
+
+# Text annotations
+# ----------------
 
 def add_corner_tag(text, ax=None, ha='right', va='top', offset=2.5/25.4):
     """Add text in figure corner."""
@@ -158,11 +182,14 @@ def add_subfig_label(text, ax=None, ha='left', va='top', offset=2.5/25.4):
     y = (va == 'top')  # 0 for bottom edge, 1 for top edge
     xoffset = (1 - 2*x)*offset
     yoffset = (1 - 2*y)*offset
-    offset = mtrans.ScaledTranslation(xoffset, yoffset,
-                                      ax.figure.dpi_scale_trans)
+    offset = iplt.matplotlib.transforms.ScaledTranslation(
+        xoffset, yoffset, ax.figure.dpi_scale_trans)
     return ax.text(x, y, text, ha=ha, va=va, fontweight='bold',
                    transform=ax.transAxes + offset)
 
+
+# Map elements
+# ------------
 
 def draw_natural_earth(ax=None):
     """Add Natural Earth geographic data vectors."""
@@ -193,12 +220,16 @@ def draw_footprint(ax=None):
     del shp
 
 
+# Timeseries elements
+# -------------------
+
 def plot_mis(ax=None, y=1.075):
     """Plot MIS stages."""
     # source: http://www.lorraine-lisiecki.com/LR04_MISboundaries.txt.
 
     # prepare blended transform
-    trans = mtrans.blended_transform_factory(ax.transData, ax.transAxes)
+    trans = iplt.matplotlib.transforms.blended_transform_factory(
+        ax.transData, ax.transAxes)
 
     # add spans
     kwa = dict(fc='0.9', lw=0.25, zorder=0)

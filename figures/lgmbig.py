@@ -2,7 +2,6 @@
 # coding: utf-8
 
 import util as ut
-from matplotlib.colors import LogNorm
 import cartopy.io.shapereader as cshp
 
 # time for plot
@@ -33,12 +32,6 @@ cax2 = fig.add_axes([12.5/figw, 1-52.5/figh, 50.0/figw, 5.0/figh])
 filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
 nc = ut.io.load(filepath)
 
-# contour levels and velocity norm
-levs = range(0, 4000, 100)
-outer_levs = [l for l in levs if l % 1000 == 0]
-inner_levs = [l for l in levs if l % 1000 != 0]
-velnorm = LogNorm(1e1, 1e3)
-
 # bed topography
 im = nc.imshow('topg', ax, t, vmin=0e3, vmax=3e3, cmap='Greys', zorder=-1)
 #im = nc.shading('topg', ax, t, zorder=-1)
@@ -64,15 +57,15 @@ cs = nc.icemarginf(ax, t, colors='w', alpha=0.75)
 cs = nc.icemargin(ax, t, colors='k', linewidths=0.25)
 
 # surface topography
-cs = nc.contour('usurf', ax, t, levels=inner_levs,
+cs = nc.contour('usurf', ax, t, levels=ut.pl.inlevs,
                 colors='0.25', linewidths=0.1)
-cs = nc.contour('usurf', ax, t, levels=outer_levs,
+cs = nc.contour('usurf', ax, t, levels=ut.pl.utlevs,
                 colors='0.25', linewidths=0.25)
 cs.clabel(color='0.25', fmt='%d', linewidths=0.5)
 
 # surface velocity
 qv = nc.quiver('velsurf', ax, t, scale=250.0, width=0.25*25.4/72/800.0,
-               norm=velnorm, cmap='Blues', zorder=2)
+               norm=ut.pl.velnorm, cmap='Blues', zorder=2)
 
 # central point for uplift
 ax.plot(nc['x'][450], nc['y'][350], 'o', c=ut.pl.palette['darkgreen'])

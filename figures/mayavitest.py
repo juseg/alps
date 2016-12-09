@@ -33,12 +33,9 @@ surf = mlab.surf(x, y, usurf, vmin=0e3, vmax=3e3, colormap='Blues',
 surf.module_manager.scalar_lut_manager.reverse_lut = True
 
 # plot surface elevation contour
-levs = range(0, 4000, 200)
-inner_levs = [l for l in levs if l % 1000 != 0]
-outer_levs = [l for l in levs if l % 1000 == 0]
-#surf = mlab.contour_surf(x, y, usurf, contours=inner_levs,
+#surf = mlab.contour_surf(x, y, usurf, contours=ut.pl.inlevs,
 #                         color=(0, 0, 0), line_width=0.5, warp_scale=exag)
-surf = mlab.contour_surf(x, y, usurf, contours=outer_levs,
+surf = mlab.contour_surf(x, y, usurf, contours=ut.pl.utlevs,
                          color=(0, 0, 0), line_width=1.0, warp_scale=exag)
 
 # show or save
