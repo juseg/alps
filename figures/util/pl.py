@@ -8,7 +8,7 @@ import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import cartopy.io.shapereader as cshp
 import iceplotlib.plot as iplt
-from matplotlib.transforms import ScaledTranslation
+import matplotlib.transforms as mtrans
 
 
 # color brewer Paired palette
@@ -48,6 +48,26 @@ subplots_mm = iplt.subplots_mm
 get_cmap = iplt.get_cmap
 
 
+def prepare_axes(ax=None, tsax=None, labels=True):
+    """Prepare map and timeseries axes before plotting."""
+
+    # prepare map axes
+    if ax is not None:
+        ax.set_rasterization_zorder(2.5)
+
+    # prepare timeseries axes
+    if tsax is not None:
+        tsax.locator_params(axis='y', nbins=6)
+        tsax.grid(axis='y')
+        plot_dt(tsax)
+        plot_mis(tsax)
+
+    # add subfigure labels
+    if ax is not None and tsax is not None and labels is True:
+        add_subfig_label('(a)', ax=ax)
+        add_subfig_label('(b)', ax=tsax)
+
+
 def subplots_ts(nrows=1, ncols=1):
     """Init figure with margins adapted for simple timeseries."""
     figw, figh = 85.0, 30.0 + nrows*30.0
@@ -63,7 +83,7 @@ def subplots_cax():
     fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
                                left=2.5, right=17.5, bottom=2.5, top=2.5)
     cax = fig.add_axes([1-15.0/figw, 2.5/figh, 5.0/figw, 1-5.0/figh])
-    ax.set_rasterization_zorder(2.5)
+    prepare_axes(ax)
     return fig, ax, cax
 
 
@@ -73,7 +93,7 @@ def subplots_cax_inset():
     fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
                                left=2.5, right=2.5, bottom=2.5, top=2.5)
     cax = fig.add_axes([5.0/figw, 65.0/figh, 5.0/figw, 40.0/figh])
-    ax.set_rasterization_zorder(2.5)
+    prepare_axes(ax)
     return fig, ax, cax
 
 
@@ -84,11 +104,7 @@ def subplots_cax_ts(labels=True):
                                left=2.5, right=17.5, bottom=42.5, top=2.5)
     cax = fig.add_axes([1-15.0/figw, 42.5/figh, 5.0/figw, 100.0/figh])
     tsax = fig.add_axes([12.5/figw, 10.0/figh, 1-22.5/figw, 30.0/figh])
-    ax.set_rasterization_zorder(2.5)
-    plot_dt(tsax)
-    if labels is True:
-        add_subfig_label('(a)', ax=ax)
-        add_subfig_label('(b)', ax=tsax)
+    prepare_axes(ax, tsax, labels)
     return fig, ax, cax, tsax
 
 
@@ -105,10 +121,7 @@ def subplots_cax_ts_inset(labels=True):
                           transform=fig.transFigure, zorder=-1)
     tsax.add_patch(rect)
     tsax.set_axis_bgcolor('none')
-    plot_dt(tsax)
-    if labels is True:
-        add_subfig_label('(a)', ax=ax)
-        add_subfig_label('(b)', ax=tsax)
+    prepare_axes(ax, tsax, labels)
     return fig, ax, cax, tsax
 
 
@@ -129,10 +142,7 @@ def subplots_cax_ts_cut(labels=True):
                             clip_on=False, transform=ax.transAxes, zorder=-1)
     tsax.add_patch(poly)
     tsax.add_patch(rect)
-    plot_dt(tsax)
-    if labels is True:
-        add_subfig_label('(a)', ax=ax)
-        add_subfig_label('(b)', ax=tsax)
+    prepare_axes(ax, tsax, labels)
     return fig, ax, cax, tsax
 
 
@@ -148,7 +158,8 @@ def add_subfig_label(text, ax=None, ha='left', va='top', offset=2.5/25.4):
     y = (va == 'top')  # 0 for bottom edge, 1 for top edge
     xoffset = (1 - 2*x)*offset
     yoffset = (1 - 2*y)*offset
-    offset = ScaledTranslation(xoffset, yoffset, ax.figure.dpi_scale_trans)
+    offset = mtrans.ScaledTranslation(xoffset, yoffset,
+                                      ax.figure.dpi_scale_trans)
     return ax.text(x, y, text, ha=ha, va=va, fontweight='bold',
                    transform=ax.transAxes + offset)
 
@@ -182,6 +193,27 @@ def draw_footprint(ax=None):
     del shp
 
 
+def plot_mis(ax=None, y=1.075):
+    """Plot MIS stages."""
+    # source: http://www.lorraine-lisiecki.com/LR04_MISboundaries.txt.
+
+    # prepare blended transform
+    trans = mtrans.blended_transform_factory(ax.transData, ax.transAxes)
+
+    # add spans
+    kwa = dict(fc='0.9', lw=0.25, zorder=0)
+    ax.axvspan(71, 57, **kwa)
+    ax.axvspan(29, 14, **kwa)
+
+    # add text
+    kwa = dict(ha='center', va='center', transform=trans)
+    ax.text((120+71)/2, y, 'MIS 5', **kwa)
+    ax.text((71+57)/2, y, 'MIS 4', **kwa)
+    ax.text((57+29)/2, y, 'MIS 3', **kwa)
+    ax.text((29+14)/2, y, 'MIS 2', **kwa)
+    ax.text((14+0)/2, y, 'MIS 1', **kwa)
+
+
 def plot_dt(ax=None):
     """Plot scaled temperature offset time-series."""
     ax = ax or iplt.gca()
@@ -198,7 +230,3 @@ def plot_dt(ax=None):
     ax.set_ylabel('temperature offset (K)', color='0.25')
     ax.set_xlim(120.0, 0.0)
     ax.set_ylim(-12.5, 7.5)
-
-    # add grid
-    ax.locator_params(axis='y', nbins=6)
-    ax.grid(axis='y')
