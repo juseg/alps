@@ -47,18 +47,6 @@ ut.pl.add_corner_tag('%.1f ka' % a, ax)
 # Time series
 # -----------
 
-# load temperature signal
-nc = ut.io.load('input/dt/epica3222cool0950.nc')
-age = -nc.variables['time'][:]/1e3
-dt = nc.variables['delta_T'][:]
-nc.close()
-
-# plot time series
-tsax.plot(age, dt, c='0.25')
-tsax.set_xlabel('model age (ka)')
-tsax.set_ylabel('temperature offset (K)', color='0.25')
-tsax.set_ylim(-12.5, 7.5)
-
 # load time series data
 filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/ts.nc'
 nc = ut.io.load(filepath)
@@ -73,7 +61,6 @@ tsax.set_ylabel('ice volume (m s.l.e.)', color=ut.pl.palette['darkblue'])
 tsax.set_xlim(120.0, 0.0)
 tsax.set_ylim(-0.05, 0.35)
 tsax.locator_params(axis='y', nbins=6)
-tsax.grid(axis='y')
 
 # add cursor
 cursor = tsax.axvline(a, c='k', lw=0.25)

@@ -54,18 +54,6 @@ ax.set_extent((250e3, 700e3, 4970e3, 5270e3), crs=ax.projection)
 # Time series
 # -----------
 
-# load temperature signal
-nc = ut.io.load('input/dt/epica3222cool0950.nc')
-age = -nc.variables['time'][:]/1e3
-dt = nc.variables['delta_T'][:]
-nc.close()
-
-# plot time series
-tsax.plot(age, dt, c='0.25')
-tsax.set_xlabel('model age (ka)')
-tsax.set_ylabel('temperature offset (K)', color='0.25')
-tsax.set_ylim(-12.5, 7.5)
-
 # load time series data
 filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/ts.nc'
 nc = ut.io.load(filepath)

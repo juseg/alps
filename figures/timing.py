@@ -85,19 +85,6 @@ twax.set_ylabel(r'glaciated area ($10^3\,km^2$)',
 twax.set_xlim(28.5, 16.5)
 twax.set_ylim(90.0, 170.0)
 twax.locator_params(axis='y', nbins=6)
-twax.grid(axis='y')
-
-# load temperature signal
-nc = ut.io.load('input/dt/epica3222cool0950.nc')
-age = -nc.variables['time'][:]/1e3
-dt = nc.variables['delta_T'][:]
-nc.close()
-
-# plot temperature time series
-tsax.plot(age, dt, c='0.25')
-tsax.set_xlabel('model age (ka)')
-tsax.set_ylabel('temperature offset (K)', color='0.25')
-tsax.set_ylim(-12.5, 7.5)
 
 # save figure
 fig.savefig('timing')

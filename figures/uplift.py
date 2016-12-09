@@ -62,19 +62,6 @@ twax.set_ylabel('uplift rate ($mm\,a^{-1}$)', color=ut.pl.palette['darkgreen'])
 twax.set_xlim(120.0, 0.0)
 twax.set_ylim(-15.0, 25.0)
 twax.locator_params(axis='y', nbins=6)
-twax.grid(axis='y')
-
-# load temperature signal
-nc = ut.io.load('input/dt/epica3222cool0950.nc')
-age = -nc.variables['time'][:]/1e3
-dt = nc.variables['delta_T'][:]
-nc.close()
-
-# plot temperature time series
-tsax.plot(age, dt, c='0.25')
-tsax.set_xlabel('model age (ka)')
-tsax.set_ylabel('temperature offset (K)', color='0.25')
-tsax.set_ylim(-12.5, 7.5)
 
 # save figure
 fig.savefig('uplift')

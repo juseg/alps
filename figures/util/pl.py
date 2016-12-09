@@ -3,6 +3,7 @@
 
 """Plotting functions."""
 
+import util as ut
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import cartopy.io.shapereader as cshp
@@ -84,6 +85,7 @@ def subplots_cax_ts(labels=True):
     cax = fig.add_axes([1-15.0/figw, 42.5/figh, 5.0/figw, 100.0/figh])
     tsax = fig.add_axes([12.5/figw, 10.0/figh, 1-22.5/figw, 30.0/figh])
     ax.set_rasterization_zorder(2.5)
+    plot_dt(tsax)
     if labels is True:
         add_subfig_label('(a)', ax=ax)
         add_subfig_label('(b)', ax=tsax)
@@ -103,6 +105,7 @@ def subplots_cax_ts_inset(labels=True):
                           transform=fig.transFigure, zorder=-1)
     tsax.add_patch(rect)
     tsax.set_axis_bgcolor('none')
+    plot_dt(tsax)
     if labels is True:
         add_subfig_label('(a)', ax=ax)
         add_subfig_label('(b)', ax=tsax)
@@ -126,6 +129,7 @@ def subplots_cax_ts_cut(labels=True):
                             clip_on=False, transform=ax.transAxes, zorder=-1)
     tsax.add_patch(poly)
     tsax.add_patch(rect)
+    plot_dt(tsax)
     if labels is True:
         add_subfig_label('(a)', ax=ax)
         add_subfig_label('(b)', ax=tsax)
@@ -176,3 +180,25 @@ def draw_footprint(ax=None):
                       edgecolor=palette['darkorange'], facecolor='none',
                       linestyles=[(0, [3, 1])], zorder=0)
     del shp
+
+
+def plot_dt(ax=None):
+    """Plot scaled temperature offset time-series."""
+    ax = ax or iplt.gca()
+
+    # load time series
+    nc = ut.io.load('input/dt/epica3222cool0950.nc')
+    age = -nc.variables['time'][:]/1e3
+    dt = nc.variables['delta_T'][:]
+    nc.close()
+
+    # plot time series
+    ax.plot(age, dt, c='0.25')
+    ax.set_xlabel('model age (ka)')
+    ax.set_ylabel('temperature offset (K)', color='0.25')
+    ax.set_xlim(120.0, 0.0)
+    ax.set_ylim(-12.5, 7.5)
+
+    # add grid
+    ax.locator_params(axis='y', nbins=6)
+    ax.grid(axis='y')
