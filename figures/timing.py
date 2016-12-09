@@ -5,23 +5,24 @@ import util as ut
 import numpy as np
 
 # initialize figure
-fig, ax, cax = ut.pl.subplots_cax_inset()
+fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut()
+
+
+# Map axes
+# --------
 
 # load extra data
 filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
 nc = ut.io.load(filepath)
-w, e, s, n = 250, 400, 355, 455  # Zürich
-w, e, s, n = 125, 425, 300, 500  # Swiss foreland
-w, e, s, n = 000, 901, 000, 601  # Whole domain
-x = nc.variables['x'][w:e]
-y = nc.variables['y'][s:n]
-time = nc.variables['time'][:]/(365.0*24*60*60)
-thk = nc.variables['thk'][:, w:e, s:n]
-usurf = nc.variables['usurf'][:, w:e, s:n]
+x = nc.variables['x'][:]
+y = nc.variables['y'][:]
+age = -nc.variables['time'][:]/(1e3*365.0*24*60*60)
+thk = nc.variables['thk'][:]
+usurf = nc.variables['usurf'][:]
 
 # compute LGM age and envelope
 argmax = usurf.argmax(axis=0).T
-lgmage = -time[argmax]/1e3
+lgmage = age[argmax]
 cols, rows = usurf.shape[1:]
 envelope = usurf[argmax, np.arange(cols)[None, :], np.arange(rows)[:, None]]
 
@@ -43,9 +44,9 @@ im = nc.imshow('topg', ax, 0.0, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
 cs = ax.contourf(x, y, lgmage, levs, colors=cols, extend='both', alpha=0.75)
 
 # contour levels
-levs = range(0, 5001, 200)
-outer_levs = [l for l in levs if l % 1000 == 0]
-inner_levs = [l for l in levs if l % 1000 != 0]
+surf_levs = range(0, 5001, 200)
+outer_levs = [l for l in surf_levs if l % 1000 == 0]
+inner_levs = [l for l in surf_levs if l % 1000 != 0]
 ax.contour(x, y, envelope, inner_levs, colors='0.25', linewidths=0.1)
 ax.contour(x, y, envelope, outer_levs, colors='0.25', linewidths=0.25)
 
@@ -61,6 +62,42 @@ ut.pl.draw_natural_earth(ax)
 # add colorbar
 cb = fig.colorbar(cs, cax)
 cb.set_label(r'age of maximum ice surface elevation (ka)')
+
+
+# Time series
+# -----------
+
+# compute glaciated areas in 1e3 km2
+dx = x[1] - x[0]
+dy = y[1] - y[0]
+area = (thk >= 1.0).sum(axis=(1, 2))*dx*dy*1e-9
+
+# plot time series
+twax = tsax.twinx()
+for i, c in enumerate(cols):
+    agemax = (120 if i == len(levs) else levs[i])
+    agemin = (0 if i == 0 else levs[i-1])
+    idxmin = np.argmin(abs(age-agemax))
+    idxmax = np.argmin(abs(age-agemin))
+    twax.plot(age[idxmin:idxmax+1], area[idxmin:idxmax+1], c=c, lw=2.0)
+twax.set_ylabel(r'glaciated area ($10^3\,km^2$)',
+                color=ut.pl.palette['darkblue'])
+twax.set_xlim(28.5, 16.5)
+twax.set_ylim(90.0, 170.0)
+twax.locator_params(axis='y', nbins=6)
+twax.grid(axis='y')
+
+# load temperature signal
+nc = ut.io.load('input/dt/epica3222cool0950.nc')
+age = -nc.variables['time'][:]/1e3
+dt = nc.variables['delta_T'][:]
+nc.close()
+
+# plot temperature time series
+tsax.plot(age, dt, c='0.25')
+tsax.set_xlabel('model age (ka)')
+tsax.set_ylabel('temperature offset (K)', color='0.25')
+tsax.set_ylim(-12.5, 7.5)
 
 # save figure
 fig.savefig('timing')
