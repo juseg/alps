@@ -5,18 +5,20 @@ import util as ut
 import numpy as np
 
 # initialize figure
-fig, ax, cax = ut.pl.subplots_cax_inset()
+fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut()
+
+
+# Map axes
+# --------
 
 # load extra data
-# FIXME: implement regional data extraction in iceplotlib
 filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
 nc = ut.io.load(filepath)
-w, e, s, n = 125, 425, 300, 500  # Swiss foreland
-w, e, s, n = 000, 901, 000, 601  # Whole domain
-x = nc.variables['x'][w:e]
-y = nc.variables['y'][s:n]
-c = nc.variables['velbase_mag'][:, w:e, s:n]
-thk = nc.variables['thk'][:, w:e, s:n]
+x = nc.variables['x'][:]
+y = nc.variables['y'][:]
+age = -nc.variables['time'][:]/(1e3*365.0*24*60*60)
+c = nc.variables['velbase_mag'][:]
+thk = nc.variables['thk'][:]
 
 # compute total basal sliding
 totalsliding = np.ma.array(c, mask=(thk < 1.0)).sum(axis=0).T
@@ -39,8 +41,38 @@ nc.close()
 ut.pl.draw_natural_earth(ax)
 
 # add colorbar
-cb = fig.colorbar(cs, cax)
+cb = fig.colorbar(cs, cax, format='%.0f')
 cb.set_label(r'cumulative basal motion (km)', labelpad=0)
+
+
+# Time series
+# -----------
+
+# compute sliding flux in 1e3 km3/a
+dx = x[1] - x[0]
+dy = y[1] - y[0]
+flux = c.sum(axis=(1, 2))*dx*dy*1e-12
+
+# plot time series
+twax = tsax.twinx()
+twax.plot(age, flux, c=ut.pl.palette['darkred'])
+twax.set_ylabel('sliding flux ($10^3\,km^3\,a^{-1}$)', color=ut.pl.palette['darkred'])
+twax.set_xlim(120.0, 0.0)
+twax.set_ylim(-2.5, 17.5)
+twax.locator_params(axis='y', nbins=6)
+twax.grid(axis='y')
+
+# load temperature signal
+nc = ut.io.load('input/dt/epica3222cool0950.nc')
+age = -nc.variables['time'][:]/1e3
+dt = nc.variables['delta_T'][:]
+nc.close()
+
+# plot temperature time series
+tsax.plot(age, dt, c='0.25')
+tsax.set_xlabel('model age (ka)')
+tsax.set_ylabel('temperature offset (K)', color='0.25')
+tsax.set_ylim(-12.5, 7.5)
 
 # save figure
 fig.savefig('totalsliding')
