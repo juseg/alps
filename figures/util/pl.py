@@ -42,6 +42,7 @@ utm = ccrs.UTM(32)
 swiss = ccrs.TransverseMercator(
     central_longitude=7.439583333333333, central_latitude=46.95240555555556,
     false_easting=600e3, false_northing=200e3)
+stereo = ccrs.Stereographic(central_latitude=0.0, central_longitude=7.5)
 
 # cartopy features
 rivers = cfeature.NaturalEarthFeature(
