@@ -5,67 +5,58 @@ import util as ut
 import numpy as np
 
 # parameters
-records = ['epica', 'epica']
-configs = ['', '+esia5']
-offsets = np.arange(9.0, 10.1, 0.1)
-colmaps = ['Reds']*2
-dt = 9.5
+# FIXME: refine offsets
+records = ['GRIP', 'EPICA', 'MD01-2444']
+configs = ['+esia5', '+esia5', '+esia5']
+offsets = [8.0, 9.5, 8.0]
+colors = ['darkblue', 'darkred', 'darkgreen']
+colors = [ut.pl.palette[c] for c in colors]
+
+# isotope stage bounds
+agebounds = [[71, 57], [29, 14]]
+idxbounds = [[489, 629], [909, 1059]]
 
 # initialize figure
-figw, figh = 85.0, 87.5
-fig, grid = ut.pl.subplots_mm(figsize=(figw, figh), projection=ut.pl.utm,
-                              nrows=2, ncols=1, sharex=True, sharey=True,
-                              left=2.5, right=22.5, bottom=2.5, top=2.5,
+fig, grid = ut.pl.subplots_mm(figsize=(170.0, 80.0), projection=ut.pl.utm,
+                              nrows=2, ncols=3, sharex=True, sharey=True,
+                              left=2.5, right=2.5, bottom=2.5, top=5.0,
                               hspace=2.5, wspace=2.5)
-cax = fig.add_axes([1-20.0/figw, 2.5/figh, 5.0/figw, 82.5/figh])
+
+# add boot topo
+nc = ut.io.load('input/boot/alps-srtm-5km.nc')
 for ax in grid.flat:
     ax.set_rasterization_zorder(2.5)
+    im = nc.imshow('topg', ax=ax, vmin=0e3, vmax=3e3, cmap='Greys', zorder=-1)
+nc.close()
 
 # for each record
 for i, rec in enumerate(records):
     conf = configs[i]
-    cmap = colmaps[i]
-    ax = grid[i]
-    footprints = []
+    dt = offsets[i]
+    c = colors[i]
 
-    # draw boot topo
-    nc = ut.io.load('input/boot/alps-srtm-5km.nc')
-    im = nc.imshow('topg', ax=ax, vmin=0e3, vmax=3e3, cmap='Greys', zorder=-1)
+    # set title
+    grid[0, i].set_title(rec, fontweight='bold', color=c)
+
+    # load extra output
+    dtfile = '%s3222cool%04d' % (rec.replace('-', '').lower(), round(dt*100))
+    nc = ut.io.load('output/0.7.3/alps-wcnn-5km/%s+acyc1%s/y0120000-extra.nc'
+                    % (dtfile, conf))
+    x = nc.variables['x'][:]
+    y = nc.variables['y'][:]
+    age = -nc.variables['time'][:]/(1e3*365.0*24*60*60)
+    thk = nc.variables['thk'][:]
     nc.close()
 
-    # loop on offsets
-    for dt in offsets:
-
-        # load extra file
-        nc = ut.io.load('output/0.7.3/alps-wcnn-5km/'
-                        '%s3222cool%04d+acyc1%s/y0120000-extra.nc'
-                        % (rec, round(dt*100), conf))
-        x = nc.variables['x'][:]
-        y = nc.variables['y'][:]
-        thk = nc.variables['thk'][:]
-        nc.close()
-
-        # compute footprint
-        footprints.append(1 - (thk < 1.0).prod(axis=0))
-
-    # compute cooling required to cover each grid cell
-    footprints = np.array(footprints)
-    isglac = footprints.any(axis=0)
-    dtglac = np.where(isglac, offsets[footprints.argmax(axis=0)], 99)
-
-    # plot
-    cs = ax.contour(x, y, isglac.T, linewidths=0.5, colors='k')
-    cs = ax.contour(x, y, dtglac.T, offsets, linewidths=0.25, colors='k')
-    cs = ax.contourf(x, y, dtglac.T, offsets, cmap=cmap, extend='min', alpha=0.75)
-
-    # add label
-    esia = {'': 2, '+esia5': 5}[conf]
-    label = rec.upper() + ', $E_{SIA} = %d$' % esia
-    ax.text(0.95, 0.05, label, transform=ax.transAxes, ha='right')
-
-# add colorbar
-cb = fig.colorbar(cs, cax)
-cb.set_label(r'temperature offset (K)')
+    # for each stage
+    for j in range(2):
+        ax = grid[j, i]
+        b0, b1 = idxbounds[j]
+        mask = (thk[b0:b1] < 1.0).prod(axis=0)
+        cs = ax.contourf(x, y, mask.T, levels=[-0.5, 0.5], colors=[c], alpha=0.75)
+        ut.pl.add_corner_tag('MIS %d' % (4-2*j), ax=ax, va='bottom')
+        ut.pl.add_subfig_label('(%s)' % list('abcdef')[i+3*j], ax=ax)
+        ut.pl.draw_natural_earth(ax)
 
 # save
 fig.savefig('footprints')
