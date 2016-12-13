@@ -5,10 +5,12 @@ import util as ut
 import numpy as np
 
 # parameters
-records = ['epica', 'epica']
-configs = ['', '+esia5']
-colors = [ut.pl.palette[c] for c in ['lightred', 'darkred']]
-target = 185.0  # Ehlers and Gibbard is only 149027.868048 km2
+records = ['GRIP', 'EPICA', 'EPICA', 'MD01-2444']
+configs = ['+esia5', '', '+esia5', '+esia5']
+offsets = [9.5, 9.2, 9.5, 9.0]
+colors = ['darkblue', 'lightred', 'darkred', 'darkgreen']
+colors = [ut.pl.palette[c] for c in colors]
+target = 185.0  # LGM extent 149027.868048 km2, hole-filled 216953.838 km2
 
 # initialize figure
 fig, ax = ut.pl.subplots_ts()
@@ -21,18 +23,18 @@ for i, rec in enumerate(records):
     fpareas = []
 
     # loop on offsets
-    for dt in np.arange(9.0, 10.1, 0.1):
+    for dt in np.arange(6.0, 10.1, 0.1):
 
         # try to find max area
         try:
 
             # load extra file
-            nc = ut.io.load('output/0.7.3/alps-wcnn-5km/'
-                            '%s3222cool%04d+acyc1%s/y0120000-extra.nc'
-                            % (rec, round(dt*100), conf))
+            dtfile = '%s3222cool%04d' % (rec.replace('-', '').lower(), round(dt*100))
+            nc = ut.io.load('output/0.7.3/alps-wcnn-5km/%s+acyc1%s/'
+                            'y0120000-extra.nc' % (dtfile, conf))
             x = nc.variables['x'][:]
             y = nc.variables['y'][:]
-            thk = nc.variables['thk'][:]
+            thk = nc.variables['thk'][909:1059]  # 29 to 14 ka
             nc.close()
 
             # compute footprint area in 1e3 km2
@@ -46,12 +48,12 @@ for i, rec in enumerate(records):
             fpareas.append(a)
 
         # else do nothing
-        except RuntimeError:
+        except (RuntimeError, IndexError):
             pass
 
     # plot
     esia = {'': 2, '+esia5': 5}[conf]
-    label = rec.upper() + ', $E_{SIA} = %d$' % esia
+    label = rec + ', $E_{SIA} = %d$' % esia
     argmin = np.argmin(np.abs(np.array(fpareas)-target))
     ax.plot(offsets, fpareas, c=c, marker='o', label=label)
     ax.plot(offsets[argmin], fpareas[argmin], c=c, marker='D')
@@ -61,11 +63,12 @@ for i, rec in enumerate(records):
             ax.text(dt, a+5, '%.0f' % a, color=c, ha='center')
 
 # set axes properties
-ax.axhspan(240.0, 300.0, fc='0.9', lw=0.0, zorder=0)
+# FIXME: refine limits as new runs become available
+ax.axhspan(240.0, 500.0, fc='0.9', lw=0.0, zorder=0)
 ax.axhline(target, lw=0.1, c='0.5')
 ax.legend(loc='best')
-ax.set_xlim(8.9, 10.1)
-ax.set_ylim(150.0, 290.0)
+ax.set_xlim(5.9, 10.1)
+ax.set_ylim(150.0, 400.0)
 ax.set_xlabel('temperature offset (K)')
 ax.set_ylabel(r'glaciated area ($10^3\,km^2$)')
 
