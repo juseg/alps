@@ -37,7 +37,7 @@ nc = ut.io.load('input/atm/alps-wcnn-1km.nc')
 x = nc.variables['x'][:]
 y = nc.variables['y'][:]
 temp = nc.variables['air_temp'][6].T-273.15
-prec = nc.variables['precipitation'][0].T*910.0/123
+prec = nc.variables['precipitation'][0].T*910.0/12
 nc.close()
 
 # load standard deviation file
@@ -63,7 +63,7 @@ cb.set_label(u'July temperature (°C)')
 #print 'Jan. prec min %.1f, max %.1f' % (prec.min(), prec.max())
 ax = grid.flat[1]
 cax = cgrid[1]
-levs = range(0, 31, 5)
+levs = range(0, 301, 50)
 cmap = ut.pl.get_cmap('Greens', len(levs)-1)
 cols = cmap(range(len(levs)))
 cs = ax.contourf(x, y, prec, levs, colors=cols, alpha=0.75)
