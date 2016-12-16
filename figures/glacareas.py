@@ -7,7 +7,6 @@ import numpy as np
 # parameters
 records = ['GRIP', 'EPICA', 'EPICA', 'MD01-2444']
 configs = ['+esia5', '', '+esia5', '+esia5']
-offsets = [9.5, 9.2, 9.5, 9.0]
 colors = ['darkblue', 'lightred', 'darkred', 'darkgreen']
 colors = [ut.pl.palette[c] for c in colors]
 target = 185.0  # LGM extent 149027.868048 km2, hole-filled 216953.838 km2
@@ -68,7 +67,7 @@ ax.axhspan(240.0, 500.0, fc='0.9', lw=0.0, zorder=0)
 ax.axhline(target, lw=0.1, c='0.5')
 ax.legend(loc='best')
 ax.set_xlim(5.9, 10.1)
-ax.set_ylim(150.0, 400.0)
+ax.set_ylim(100.0, 400.0)
 ax.set_xlabel('temperature offset (K)')
 ax.set_ylabel(r'glaciated area ($10^3\,km^2$)')
 

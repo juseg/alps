@@ -8,18 +8,18 @@ import numpy as np
 # FIXME: refine offsets
 records = ['GRIP', 'EPICA', 'MD01-2444']
 configs = ['+esia5', '+esia5', '+esia5']
-offsets = [8.0, 9.5, 8.0]
+offsets = [7.5, 9.5, 8.0]
 colors = ['darkblue', 'darkred', 'darkgreen']
 colors = [ut.pl.palette[c] for c in colors]
 
 # isotope stage bounds
-agebounds = [[71, 57], [29, 14]]
-idxbounds = [[489, 629], [909, 1059]]
+agebounds = [[29, 14], [71, 57]]
+idxbounds = [[909, 1059], [489, 629]]
 
 # initialize figure
 fig, grid = ut.pl.subplots_mm(figsize=(170.0, 80.0), projection=ut.pl.utm,
                               nrows=2, ncols=3, sharex=True, sharey=True,
-                              left=2.5, right=2.5, bottom=2.5, top=5.0,
+                              left=2.5, right=2.5, bottom=2.5, top=3.9,
                               hspace=2.5, wspace=2.5)
 
 # add boot topo
@@ -54,7 +54,7 @@ for i, rec in enumerate(records):
         b0, b1 = idxbounds[j]
         mask = (thk[b0:b1] < 1.0).prod(axis=0)
         cs = ax.contourf(x, y, mask.T, levels=[-0.5, 0.5], colors=[c], alpha=0.75)
-        ut.pl.add_corner_tag('MIS %d' % (4-2*j), ax=ax, va='bottom')
+        ut.pl.add_corner_tag('MIS %d' % (2+2*j), ax=ax, va='bottom')
         ut.pl.add_subfig_label('(%s)' % list('abcdef')[i+3*j], ax=ax)
         ut.pl.draw_natural_earth(ax)
 
