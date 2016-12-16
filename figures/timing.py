@@ -5,7 +5,7 @@ import util as ut
 import numpy as np
 
 # initialize figure
-fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut()
+fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut(mis=False)
 
 
 # Map axes
@@ -79,7 +79,7 @@ for i, c in enumerate(cols):
     twax.plot(age[idxmin:idxmax+1], area[idxmin:idxmax+1], c=c, lw=2.0)
 twax.set_ylabel(r'glaciated area ($10^3\,km^2$)',
                 color=ut.pl.palette['darkblue'])
-twax.set_xlim(28.5, 16.5)
+twax.set_xlim(29.0, 17.0)
 twax.set_ylim(90.0, 170.0)
 twax.locator_params(axis='y', nbins=6)
 

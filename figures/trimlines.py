@@ -18,12 +18,18 @@ zt = trimlines['z']
 # convert to UTM 32
 xt, yt, zt = ut.pl.utm.transform_points(ut.pl.swiss, xt, yt, zt).T
 
+# load boot topo
+nc = ut.io.load('input/boot/alps-srtm+gou11simi-1km.nc')
+b = nc.variables['topg'][:]
+nc.close()
+
 # load extra data
 filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
 nc = ut.io.load(filepath)
 x = nc.variables['x'][:]
 y = nc.variables['y'][:]
-z = nc.variables['usurf'][:].max(axis=0)
+h = nc.variables['thk'][:].max(axis=0)
+z = b + h
 nc.close()
 
 # get model elevation at trimline locations
