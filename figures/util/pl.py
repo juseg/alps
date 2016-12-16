@@ -169,6 +169,27 @@ def subplots_cax_ts_cut(labels=True, mis=True):
     return fig, ax, cax, tsax
 
 
+def subplots_cax_ts_anim(labels=False, mis=True):
+    """Init figure with subplot, colorbar inset and timeseries cut."""
+    figw, figh = 180.0, 120.0
+    fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
+                               left=0.0, right=0.0, bottom=0.0, top=0.0)
+    cax = fig.add_axes([5.0/figw, 70.0/figh, 5.0/figw, 40.0/figh])
+    tsax = fig.add_axes([75.0/figw, 10.0/figh, 90.0/figw, 22.5/figh])
+    ax.set_rasterization_zorder(2.5)
+    ax.outline_patch.set_ec('none')
+    x = [1/3., 1/3., 1.0]
+    y = [0.0, 1/3., 1/3.]
+    line = iplt.Line2D(x, y, color='k', clip_on=False,
+                       transform=ax.transAxes, zorder=3)
+    rect = iplt.Rectangle((1/3., 0.0), 2/3., 1/3., ec='w', fc='w',
+                          clip_on=False, transform=ax.transAxes, zorder=-1)
+    tsax.add_line(line)
+    tsax.add_patch(rect)
+    prepare_axes(ax, tsax, labels, mis)
+    return fig, ax, cax, tsax
+
+
 # Text annotations
 # ----------------
 

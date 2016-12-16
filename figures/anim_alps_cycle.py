@@ -10,6 +10,7 @@ def draw(t, ax, cursor):
     age = -t/1e3
     print 'plotting at %.1f ka...' % age
     ax.cla()
+    ax.outline_patch.set_ec('none')
 
     # plot
     im = nc.imshow('topg', ax, t, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
@@ -20,9 +21,11 @@ def draw(t, ax, cursor):
                     colors='0.25', linewidths=0.25)
     cs = nc.icemargin(ax, t, colors='k', linewidths=0.25)
 
-    # add cartopy vectors
+    # add vectors
     ut.pl.draw_natural_earth(ax)
-    ut.pl.add_corner_tag('%.1f ka' % a, ax)
+    ut.pl.draw_lgm_outline(ax)
+    ut.pl.draw_footprint(ax)
+    ut.pl.add_corner_tag('%.1f ka' % age, ax)
 
     # update cursor
     cursor.set_data(age, (0, 1))
@@ -31,26 +34,16 @@ def draw(t, ax, cursor):
     return im
 
 # initialize figure
-fig, ax, cax, tsax = ut.pl.subplots_cax_ts(labels=False)
+fig, ax, cax, tsax = ut.pl.subplots_cax_ts_anim()
+ax.set_extent([150e3, 1050e3, 4820e3, 5420e3], crs=ax.projection)
 
 # add signature
-fig.text(1-2.5/figw, 2.5/figh, 'J. Seguinot et al. (2016)',
+figw, figh = [dim*25.4 for dim in fig.get_size_inches()]
+fig.text(1-2.5/figw, 2.5/figh, 'J. Seguinot et al. (in prep.)',
          ha='right', va='bottom')
 
-# load temperature signal
-nc = ut.io.load('input/dt/epica3222cool0950.nc')
-age = -nc.variables['time'][:]/1e3
-dt = nc.variables['delta_T'][:]
-nc.close()
-
-# plot time series
-tsax.plot(age, dt, c='0.25')
-tsax.set_xlabel('model age (ka)')
-tsax.set_ylabel('temperature offset (K)', color='0.25')
-tsax.set_ylim(-12.5, 7.5)
-
 # load time series data
-filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/ts.nc'
 nc = ut.io.load(filepath)
 age = -nc.variables['time'][:]/(1e3*365*24*60*60)
 vol = nc.variables['slvol'][:]
@@ -75,8 +68,8 @@ time = nc.variables['time'][:]/(365.0*24*60*60)
 
 # draw first frame and colorbar
 im = draw(time[0], ax, cursor)
-cb = fig.colorbar(im, cax)
-cb.set_label(r'ice thickness (m)')
+cb = fig.colorbar(im, cax, extend='both')
+cb.set_label(r'surface velocity ($m\,a^{-1}$)')
 
 # make animation
 anim = FuncAnimation(fig, draw, frames=time, fargs=(ax, cursor))
