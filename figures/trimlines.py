@@ -29,23 +29,25 @@ nc = ut.io.load(filepath)
 x = nc.variables['x'][:]
 y = nc.variables['y'][:]
 h = nc.variables['thk'][:].max(axis=0)
-z = b + h
+#w = nc.variables['tempicethk_basal'][:].max(axis=0)
 nc.close()
 
 # get model elevation at trimline locations
 i = np.argmin(abs(xt[:, None] - x), axis=1)
 j = np.argmin(abs(yt[:, None] - y), axis=1)
-zm = z[i, j]
+hm = h[i, j]
+#wm = w[i, j]
 
 # draw scatter plot
-ax.scatter(zt, zm, c=ut.pl.palette['darkblue'], alpha=0.75)
+ax.scatter(zt, zt+hm, c=ut.pl.palette['darkblue'], alpha=0.75)
+#ax.scatter(zt, zt+wm, c=ut.pl.palette['darkred'], alpha=0.75)
 ax.set_xlabel('observed trimline elevation (m)')
-ax.set_ylabel('maximum ice surface  elevation (m)')
+ax.set_ylabel('modelled surface elevation (m)', labelpad=2)
 ax.set_xlim(1900, 3300)
-ax.set_ylim(1750, 4250)
+ax.set_ylim(1750, 4750)
 
 # compute linear fit
-c = np.polyfit(zt, zm, 1)
+c = np.polyfit(zt, zt+hm, 1)
 p = np.poly1d(c)
 ztfit = np.array([2000, 3200])
 zmfit = p(ztfit)
@@ -55,9 +57,10 @@ ax.text(ztfit[-1], ztfit[-1]+50.0, '1:1', ha='right')
 
 # add equation and mean diff
 eqn = '$z_m = %.3f \cdot z_t %.3f$' % tuple(c)
-diff = (zm-zt).mean()
+diff = hm.mean()
 note = '%s\n\nmean difference: %.3f m' % (eqn, diff)
-ax.text(0.95, 0.05, note, ha='right', color=ut.pl.palette['darkblue'], transform=ax.transAxes)
+ax.text(0.95, 0.05, note, ha='right', color=ut.pl.palette['darkblue'],
+        transform=ax.transAxes)
 
 # save figure
 fig.savefig('trimlines')
