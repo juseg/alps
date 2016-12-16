@@ -4,23 +4,21 @@
 import util as ut
 
 # initialize figure
-figw, figh = 282.5, 65.0
+figw, figh = 170.0, 97.5
 fig, grid = ut.pl.subplots_mm(figsize=(figw, figh), projection=ut.pl.utm,
-                             nrows=1, ncols=4, sharex=True, sharey=True,
-                             left=2.5, right=2.5, bottom=17.5, top=2.5,
-                             hspace=2.5, wspace=2.5)
-cgrid = [fig.add_axes([(2.5+i*70.000)/figw, 10.0/figh, 67.5/figw, 5.0/figh])
-         for i in range(4)]
-for ax in grid.flat:
-    ax.set_rasterization_zorder(2.5)
-
-# load boot file
-nc = ut.io.load('input/boot/alps-srtm+gou11simi-1km.nc')
+                             nrows=2, ncols=2, sharex=True, sharey=True,
+                             left=2.5, right=15.0, bottom=2.5, top=2.5,
+                             hspace=2.5, wspace=17.5)
+cgrid = [fig.add_axes([(72.5+i*85.0)/figw, (50.0-j*47.5)/figh, 2.5/figw, 45.0/figh])
+         for j in range(2) for i in range(2)]
 
 # plot boot topo and geographic features
-for ax in grid.flat:
+nc = ut.io.load('input/boot/alps-srtm+gou11simi-1km.nc')
+for i, ax in enumerate(grid.flat):
+    ax.set_rasterization_zorder(2.5)
     im = nc.imshow('topg', ax, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
     ut.pl.draw_natural_earth(ax)
+    ut.pl.add_subfig_label('(%s)' % list('abcd')[i], ax)
 
 # plot boot geoflux on last panel
 ax = grid.flat[3]
@@ -29,7 +27,7 @@ levs = range(55, 96, 5)
 cmap = ut.pl.get_cmap('PuOr_r', len(levs)-1)
 cols = cmap(range(len(levs)-1))
 cs = nc.contourf('bheatflx', ax, levels=levs, colors=cols, alpha=0.75)
-cb = fig.colorbar(cs, cax, orientation='horizontal', ticks=levs[1::2])
+cb = fig.colorbar(cs, cax, orientation='vertical', ticks=levs[1::2])
 cb.set_label(r'Geothermal flux ($mW\,m^{-2}$)')
 nc.close()
 
@@ -58,7 +56,7 @@ levs = range(-5, 26, 5)
 cmap = ut.pl.get_cmap('RdBu_r', len(levs)-1)
 cols = cmap(range(len(levs)))
 cs = ax.contourf(x, y, temp, levs, colors=cols, alpha=0.75)
-cb = fig.colorbar(cs, cax, orientation='horizontal', ticks=levs[1::2])
+cb = fig.colorbar(cs, cax, orientation='vertical', ticks=levs[1::2])
 cb.set_label(u'July temperature (°C)')
 
 # plot January precipitation
@@ -69,7 +67,7 @@ levs = range(0, 31, 5)
 cmap = ut.pl.get_cmap('Greens', len(levs)-1)
 cols = cmap(range(len(levs)))
 cs = ax.contourf(x, y, prec, levs, colors=cols, alpha=0.75)
-cb = fig.colorbar(cs, cax, orientation='horizontal', ticks=levs[::2])
+cb = fig.colorbar(cs, cax, orientation='vertical', ticks=levs[::2])
 cb.set_label(r'January precipitation (mm)')
 
 # plot July standard deviation
@@ -80,7 +78,7 @@ levs = [1.7, 2.0, 2.3, 2.6, 2.9, 3.2, 3.5]
 cmap = ut.pl.get_cmap('Reds', len(levs)-1)
 cols = cmap(range(len(levs)-1))
 cs = ax.contourf(x, y, sd, levs, colors=cols, alpha=0.75)
-cb = fig.colorbar(cs, cax, orientation='horizontal', ticks=levs[1::2])
+cb = fig.colorbar(cs, cax, orientation='vertical', ticks=levs[1::2])
 cb.set_label(u'July PDD SD (°C)')
 
 # save
