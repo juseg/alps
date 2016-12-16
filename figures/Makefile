@@ -11,7 +11,7 @@ EXT = pdf
 PY = PYTHONPATH=iceplotlib python2
 
 # all python figures
-PY_FIGS = aletschbed cpugrid duration envelope footprints glacareas \
+PY_FIGS = aletschbed cpugrid duration envelope erosion footprints glacareas \
           glaciations inputs lgmbig lgmthk lgmvel map_records \
           locmap locmap_alps locmap_rhone profile scalability \
           timeseries timestamps timing totalsliding trimlines tsbig \
