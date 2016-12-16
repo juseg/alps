@@ -27,13 +27,13 @@ envelope = np.ma.masked_where(mask, envelope)
 #print 'LGM envelope min %.1f, max %.1f' % (envelope.min(), envelope.max())
 
 # set contour levels, colors and hatches
-levs = range(0, 5001, 1000)
-cmap = ut.pl.get_cmap('Blues_r', len(levs)-1)
-cols = cmap(range(len(levs)-1))
+levs = range(0, 3001, 1000)
+cmap = ut.pl.get_cmap('Blues_r', len(levs))
+cols = cmap(range(len(levs)))
 
 # plot
 im = nc.imshow('topg', ax, 0.0, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
-cs = ax.contourf(x, y, envelope, levs, colors=cols, alpha=0.75)
+cs = ax.contourf(x, y, envelope, levs, colors=cols, extend='max', alpha=0.75)
 
 # contour levels
 ax.contour(x, y, envelope, ut.pl.inlevs, colors='0.25', linewidths=0.1)
