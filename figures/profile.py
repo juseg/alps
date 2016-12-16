@@ -56,6 +56,9 @@ age = -nc.variables['time'][:]/(1e3*365*24*60*60)
 thk = nc.variables['thk'][:, i, :]
 nc.close()
 
+# plot isotope stages
+ut.pl.plot_mis(ax, y=0.925)
+
 # plot envelope
 levs = [1.0, 5e3]
 cols = [c]
