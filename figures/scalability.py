@@ -58,6 +58,13 @@ for arch, c in zip(arches, colors):
         ax2.plot(nnodes, speedup, c=c, ls=ls, marker='|', label=label)
         ax3.plot(nnodes, efficiency, c=c, ls=ls, marker='|', label=label)
 
+        # preferred
+        if arch == 'dora-gnu' and ntasks == 36:
+            idx = np.argwhere(nnodes == preferred)
+            ax1.plot(nnodes[idx], wtimes[idx], c=c, marker='o')
+            ax2.plot(nnodes[idx], speedup[idx], c=c, marker='o')
+            ax3.plot(nnodes[idx], efficiency[idx], c=c, marker='o')
+
 # add axes grid
 for ax in grid:
     ax.grid(axis='y')
@@ -72,7 +79,7 @@ ax1.set_xlim(1.0, 256)
 ax1.set_ylabel('real time (h)')
 ax2.set_ylabel('speedup')
 ax3.set_ylabel('efficiency')
-ax3.set_xlabel('compute nodes (36 cores each)')  #FIXME: how many cpus?
+ax3.set_xlabel('compute nodes (36 cores each)')
 ax1.legend(loc='best')
 
 # add ideal speedup curve
