@@ -15,7 +15,7 @@ PY_FIGS = aletschbed cpugrid duration envelope erosion footprints glacareas \
           glaciations inputs lgmbig lgmthk lgmvel map_records \
           locmap locmap_alps locmap_rhone profile scalability \
           timeseries timestamps timing totalsliding trimlines tsbig \
-          uplift warmdepth ydthk ydvel
+          uplift warmdepth warmtime ydthk ydvel
 PY_FIGS := $(addsuffix .$(EXT), $(PY_FIGS))
 
 # all figures
