@@ -149,7 +149,6 @@ def subplots_cax_ts_inset(extent='alps', labels=True, mis=True):
                                left=2.5, right=2.5, bottom=2.5, top=2.5)
     cax = fig.add_axes([5.0/figw, 65.0/figh, 5.0/figw, 40.0/figh])
     tsax = fig.add_axes([67.5/figw, 15.0/figh, 85.0/figw, 20.0/figh])
-    ax.set_rasterization_zorder(2.5)
     rect = iplt.Rectangle((55.0/figw, 5.0/figh), 110.0/figw, 35.0/figh,
                           ec='k', fc='w', alpha=0.75, clip_on=False,
                           transform=fig.transFigure, zorder=-1)
@@ -166,7 +165,6 @@ def subplots_cax_ts_cut(extent='alps', labels=True, mis=True):
                                left=2.5, right=2.5, bottom=2.5, top=2.5)
     cax = fig.add_axes([5.0/figw, 65.0/figh, 5.0/figw, 40.0/figh])
     tsax = fig.add_axes([70.0/figw, 10.0/figh, 87.5/figw, 22.5/figh])
-    ax.set_rasterization_zorder(2.5)
     ax.outline_patch.set_ec('none')
     x = [0.0, 1/3., 1/3., 1.0, 1.0, 0.0, 0.0]
     y = [0.0, 0.0, 1/3., 1/3., 1.0, 1.0, 0.0]
@@ -187,7 +185,6 @@ def subplots_cax_ts_anim(extent='alps', labels=False, mis=True):
                                left=0.0, right=0.0, bottom=0.0, top=0.0)
     cax = fig.add_axes([5.0/figw, 70.0/figh, 5.0/figw, 40.0/figh])
     tsax = fig.add_axes([75.0/figw, 10.0/figh, 90.0/figw, 22.5/figh])
-    ax.set_rasterization_zorder(2.5)
     ax.outline_patch.set_ec('none')
     x = [1/3., 1/3., 1.0]
     y = [0.0, 1/3., 1/3.]
@@ -199,6 +196,24 @@ def subplots_cax_ts_anim(extent='alps', labels=False, mis=True):
     tsax.add_patch(rect)
     prepare_axes(ax, tsax, extent, labels, mis)
     return fig, ax, cax, tsax
+
+
+def subplots_cax_ts_big(extent='crop', labels=False, mis=True):
+    """Init big figure with subplot, colorbar and timeseries insets."""
+    # initialize figure
+    figw, figh = 405.0, 270.0
+    fig, ax = ut.pl.subplots_mm(figsize=(figw, figh), projection=ut.pl.utm,
+                                left=2.5, right=2.5, bottom=2.5, top=2.5)
+    cax1 = fig.add_axes([12.5/figw, 1-32.5/figh, 50.0/figw, 5.0/figh])
+    cax2 = fig.add_axes([12.5/figw, 1-52.5/figh, 50.0/figw, 5.0/figh])
+    tsax = fig.add_axes([157.5/figw, 27.5/figh, 205.0/figw, 40.0/figh])
+    rect = iplt.Rectangle((142.5/figw, 12.5/figh), 250.0/figw, 75.0/figh,
+                          ec='k', fc='w', alpha=1.0, clip_on=False,
+                          transform=fig.transFigure, zorder=-1)
+    tsax.add_patch(rect)
+    tsax.set_axis_bgcolor('none')
+    prepare_axes(ax, tsax, extent, labels, mis)
+    return fig, ax, cax1, cax2, tsax
 
 
 # Text annotations

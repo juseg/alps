@@ -4,28 +4,16 @@
 import util as ut
 import cartopy.io.shapereader as cshp
 
-# time for plot
-t = -21e3
-
-# Initialize figure
-# -----------------
-
-# extent
-extent = ut.pl.regions['crop']
-center = (extent[1]+extent[0])/2, (extent[3]+extent[2])/2
-
 # initialize figure
-figw, figh = 405.0, 270.0
-fig, ax = ut.pl.subplots_mm(figsize=(figw, figh), projection=ut.pl.utm,
-                            left=2.5, right=2.5, bottom=2.5, top=2.5)
-ax.set_rasterization_zorder(2.5)
-ax.set_extent(extent, ut.pl.utm)
-cax1 = fig.add_axes([12.5/figw, 1-32.5/figh, 50.0/figw, 5.0/figh])
-cax2 = fig.add_axes([12.5/figw, 1-52.5/figh, 50.0/figw, 5.0/figh])
+fig, ax, cax1, cax2, tsax = ut.pl.subplots_cax_ts_big()
+
+# time for plot
+a = 21.0
+t = -a*1e3
 
 
-# Model output
-# ------------
+# Map axes
+# --------
 
 # load extra data
 filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
@@ -88,6 +76,8 @@ ut.pl.draw_natural_earth(ax)
 ut.pl.draw_lgm_outline(ax)
 
 # add cities
+extent = ut.pl.regions['crop']
+center = (extent[1]+extent[0])/2, (extent[3]+extent[2])/2
 offset = 5
 shp = cshp.Reader(cshp.natural_earth(resolution='10m',
                                      category='cultural',
