@@ -6,7 +6,6 @@ import numpy as np
 
 # initialize figure
 fig, ax, cax = ut.pl.subplots_cax_inset()
-#ax.set_extent([310e3, 460e3, 5065e3, 5165e3], crs=ax.projection)  # Valais
 
 # load and plot boot topo
 nc = ut.io.load('input/boot/alps-srtm+gou11simi-1km.nc')

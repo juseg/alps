@@ -7,7 +7,6 @@ import cartopy.io.shapereader as cshp
 
 # initialize figure
 fig, ax, cax = ut.pl.subplots_cax_inset()
-ax.set_extent([150e3, 1050e3, 4820e3, 5420e3], crs=ax.projection)
 
 # boot topography
 nc = ut.io.load('input/boot/alps-srtm-1km.nc')

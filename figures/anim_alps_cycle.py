@@ -35,7 +35,6 @@ def draw(t, ax, cursor):
 
 # initialize figure
 fig, ax, cax, tsax = ut.pl.subplots_cax_ts_anim()
-ax.set_extent([150e3, 1050e3, 4820e3, 5420e3], crs=ax.projection)
 
 # add signature
 figw, figh = [dim*25.4 for dim in fig.get_size_inches()]

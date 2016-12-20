@@ -4,7 +4,7 @@
 import util as ut
 
 # initialize figure
-fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut()
+fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut(extent='west')
 
 # time for plot
 a = 12.5
@@ -37,9 +37,6 @@ ut.pl.draw_natural_earth(ax)
 ut.pl.draw_lgm_outline(ax)
 ut.pl.draw_footprint(ax)
 ut.pl.add_corner_tag('%.1f ka' % a, ax)
-
-# zoom on central Alps
-ax.set_extent((250e3, 700e3, 4970e3, 5270e3), crs=ax.projection)
 
 
 # Time series

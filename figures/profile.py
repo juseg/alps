@@ -23,7 +23,7 @@ ut.pl.add_subfig_label('(b)', ax=ax2)
 ax = ax1
 
 # set extent around Rhine catchment
-ax.set_extent([450e3, 625e3, 5075e3, 5325e3], crs=ax.projection)
+ax.set_extent(ut.pl.regions['rhine'], crs=ax.projection)
 
 # draw boot topography
 nc = ut.io.load('input/boot/alps-srtm-1km.nc')

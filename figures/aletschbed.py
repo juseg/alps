@@ -5,8 +5,7 @@ import util as ut
 import numpy as np
 
 # initialize figure
-fig, ax, cax = ut.pl.subplots_cax_inset()
-ax.set_extent([413e3, 443e3, 5139e3, 5159e3], crs=ax.projection)  # Aletsch
+fig, ax, cax = ut.pl.subplots_cax_inset(extent='aletsch')
 
 # load boot topography with glaciers
 nc = ut.io.load('input/boot/alps-srtm+gou11simi-1km.nc')

@@ -11,8 +11,7 @@ t = -21e3
 # -----------------
 
 # extent
-extent = 150e3, 1050e3, 4820e3, 5420e3 # model domain
-extent = 155e3, 1045e3, 4825e3, 5415e3 # 5 km crop
+extent = ut.pl.regions['crop']
 center = (extent[1]+extent[0])/2, (extent[3]+extent[2])/2
 
 # initialize figure
