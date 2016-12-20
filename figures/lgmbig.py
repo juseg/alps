@@ -2,6 +2,7 @@
 # coding: utf-8
 
 import util as ut
+import numpy as np
 import cartopy.io.shapereader as cshp
 
 # initialize figure
@@ -10,6 +11,9 @@ fig, ax, cax1, cax2, tsax = ut.pl.subplots_cax_ts_big()
 # time for plot
 a = 21.0
 t = -a*1e3
+
+# location of time series
+xts, yts = 600e3, 5170e3
 
 
 # Map axes
@@ -55,7 +59,7 @@ qv = nc.quiver('velsurf', ax, t, scale=250.0, width=0.25*25.4/72/800.0,
                norm=ut.pl.velnorm, cmap='Blues', zorder=2)
 
 # central point for uplift
-ax.plot(nc['x'][450], nc['y'][350], 'o', c=ut.pl.palette['darkgreen'])
+ax.plot(xts, yts, 'o', c=ut.pl.palette['darkgreen'])
 
 # close extra file
 nc.close()
@@ -66,10 +70,6 @@ cb.set_label(r'ice surface velocity ($m\,a^{-1}$)')
 cb = fig.colorbar(im, cax2, orientation='horizontal', extend='both',
                   ticks=range(0, 3001, 1000))
 cb.set_label(r'bedrock topography (m)')
-
-
-# Geographic features
-# -------------------
 
 # add vectors
 ut.pl.draw_natural_earth(ax)
@@ -103,6 +103,70 @@ for rec in shp.records():
         ax.plot(xc, yc, 'ko')
         ax.annotate(text, xy=(xc, yc), xytext=(dx, dy),
                     textcoords='offset points', ha=ha, va=va, clip_on=True)
+
+
+
+# Time series
+# -----------
+
+# prepare parasite axes
+ax0 = tsax
+ax1 = ax0.twinx()
+ax2 = ax0.twinx()
+ax0.spines['left'].set_edgecolor('0.25')
+ax1.spines['right'].set_edgecolor(ut.pl.palette['darkblue'])
+ax2.spines['right'].set_edgecolor(ut.pl.palette['darkgreen'])
+ax2.spines['right'].set_position(('axes', 1+15.0/205.0))
+ax0.tick_params(axis='y', colors='0.25')
+ax1.tick_params(axis='y', colors=ut.pl.palette['darkblue'])
+ax2.tick_params(axis='y', colors=ut.pl.palette['darkgreen'])
+
+# set bounds
+ax0.set_xlim(120.0, 0.0)
+ax0.set_ylim(-12.5, 7.5)
+ax1.set_ylim(-0.05, 0.35)
+ax2.set_ylim(-15.0, 25.0)
+
+# limit ticks
+ax0.locator_params(axis='y', nbins=6)
+ax1.locator_params(axis='y', nbins=6)
+ax2.locator_params(axis='y', nbins=6)
+
+# add labels
+ax1.set_ylabel('ice volume (m s.l.e.)', color=ut.pl.palette['darkblue'])
+ax2.set_ylabel('uplift rate ($mm\,a^{-1}$)', color=ut.pl.palette['darkgreen'])
+
+# load ts output
+filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/ts.nc'
+nc = ut.io.load(filepath)
+age = -nc.variables['time'][:]/(1e3*365*24*60*60)
+vol = nc.variables['slvol'][:]
+nc.close()
+
+# plot ice volume
+ax1.plot(age, vol, c=ut.pl.palette['darkblue'])
+ax1.plot(a, vol[((age-a)**2).argmin()], 'o',
+         ms=6, c='w', mec=ut.pl.palette['darkblue'], mew=1.0)
+
+# load extra output
+filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+nc = ut.io.load(filepath)
+its = np.argmin(abs(x-xts))
+jts = np.argmin(abs(y-yts))
+age = -nc.variables['time'][:]/(1e3*365.0*24*60*60)
+dbdt = nc.variables['dbdt'][:, its, jts]*1e3
+#print nc['x'][450], nc['y'][300]
+#dbdt = nc.variables['dbdt'][:].mean(axis=(1, 2))*1e3
+nc.close()
+
+# plot central uplift rate
+ax2.plot(age, dbdt, c=ut.pl.palette['darkgreen'])
+ax2.plot(0.0, dbdt[-1], 'o',
+         ms=6, c='w', mec=ut.pl.palette['darkgreen'], mew=1.0, clip_on=False)
+
+# add grid and vertical line
+ax0.grid(axis='y')
+ax0.axvline(a, c='k', lw=0.25)
 
 # save figure
 fig.savefig('lgmbig')
