@@ -8,7 +8,7 @@ import numpy as np
 # FIXME: refine offsets
 records = ['GRIP', 'EPICA', 'MD01-2444']
 configs = ['+esia5', '+esia5', '+esia5']
-offsets = [7.5, 9.5, 8.0]
+offsets = [7.6, 9.5, 8.0]
 colors = ['darkblue', 'darkred', 'darkgreen']
 colors = [ut.pl.palette[c] for c in colors]
 

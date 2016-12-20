@@ -59,15 +59,16 @@ for i, rec in enumerate(records):
     ax.axvline(offsets[argmin], lw=0.1, c=c)
     for dt, a in zip(offsets, fpareas):
         if a:
-            ax.text(dt, a+5, '%.0f' % a, color=c, ha='center')
+            ax.text(dt, a+5, '%.0f' % a, color=c, fontsize=4, ha='center',
+                    clip_on=True)
 
 # set axes properties
 # FIXME: refine limits as new runs become available
 ax.axhspan(240.0, 500.0, fc='0.9', lw=0.0, zorder=0)
 ax.axhline(target, lw=0.1, c='0.5')
 ax.legend(loc='best')
-ax.set_xlim(5.9, 10.1)
-ax.set_ylim(100.0, 400.0)
+ax.set_xlim(6.9, 10.1)
+ax.set_ylim(150.0, 300.0)
 ax.set_xlabel('temperature offset (K)')
 ax.set_ylabel(r'glaciated area ($10^3\,km^2$)')
 
