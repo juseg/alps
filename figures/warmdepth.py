@@ -50,12 +50,7 @@ ax.contour(x, y, mask, [0.5], colors='k', linewidths=0.5)
 
 # add cartopy vectors
 ut.pl.draw_natural_earth(ax)
-
-## add trimlines
-#trimlines = np.genfromtxt('../data/native/trimlines_kelly_etal_2004.csv',
-#                          dtype=None, delimiter=',', names=True)
-#ax.scatter(trimlines['x'], trimlines['y'], s=4**2, transform=ut.pl.swiss,
-#           c=ut.pl.palette['darkblue'], alpha=0.75)
+#ut.pl.draw_trimlines(ax)
 
 # add colorbar
 cb = fig.colorbar(im, cax)

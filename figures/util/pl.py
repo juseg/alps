@@ -4,6 +4,7 @@
 """Plotting functions."""
 
 import util as ut
+import numpy as np
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import cartopy.io.shapereader as cshp
@@ -241,6 +242,15 @@ def draw_footprint(ax=None):
                       edgecolor=palette['darkorange'], facecolor='none',
                       linestyles=[(0, [3, 1])], zorder=0)
     del shp
+
+
+def draw_trimlines(ax=None, c=palette['darkblue'], s=4**2, alpha=0.75):
+    """Add trimline locations."""
+    ax = ax or iplt.gca()
+    trimlines = np.genfromtxt('../data/native/trimlines_kelly_etal_2004.csv',
+                              dtype=None, delimiter=',', names=True)
+    ax.scatter(trimlines['x'], trimlines['y'], c=c, s=s, alpha=alpha,
+               transform=ut.pl.swiss)
 
 
 # Timeseries elements
