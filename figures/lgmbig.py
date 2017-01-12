@@ -22,6 +22,12 @@ xts, yts = 600e3, 5170e3
 # load extra data
 filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
 nc = ut.io.load(filepath)
+x = nc.variables['x'][:]
+y = nc.variables['y'][:]
+its = np.argmin(abs(x-xts))
+jts = np.argmin(abs(y-yts))
+age = -nc.variables['time'][:]/(1e3*365.0*24*60*60)
+dbdt = nc.variables['dbdt'][:, its, jts]*1e3
 
 # bed topography
 im = nc.imshow('topg', ax, t, vmin=0e3, vmax=3e3, cmap='Greys', zorder=-1)
@@ -32,16 +38,6 @@ cs = nc.contourf('temppabase', ax, t, levels=[-50.0, -1e-6],
                  cmap=None, colors='none', hatches=['//'], zorder=0)
 cs = nc.contour('temppabase', ax, t, levels=[-50.0, -1e-6],
                 colors='k', linewidths=0.25, linestyles=['-'], zorder=0)
-
-# footprint
-x = nc.variables['x'][:]
-y = nc.variables['y'][:]
-thk = nc.variables['thk'][:]
-duration = (thk >= 1.0).sum(axis=0)*0.1
-footprint = (duration > 0)  # = 1 - (thk < 1.0).prod(axis=0)
-cs = ax.contour(x, y, footprint.T, levels=[0.5],
-                colors=[ut.pl.palette['darkorange']],
-                linestyles=[(0, [3, 1])], linewidths=0.5, alpha=0.75)
 
 # ice margin
 cs = nc.icemarginf(ax, t, colors='w', alpha=0.75)
@@ -61,9 +57,6 @@ qv = nc.quiver('velsurf', ax, t, scale=250.0, width=0.25*25.4/72/800.0,
 # central point for uplift
 ax.plot(xts, yts, 'o', c=ut.pl.palette['darkgreen'])
 
-# close extra file
-nc.close()
-
 # add colorbars
 cb = fig.colorbar(qv, cax1, orientation='horizontal', extend='both')
 cb.set_label(r'ice surface velocity ($m\,a^{-1}$)')
@@ -74,6 +67,8 @@ cb.set_label(r'bedrock topography (m)')
 # add vectors
 ut.pl.draw_natural_earth(ax)
 ut.pl.draw_lgm_outline(ax)
+ut.pl.draw_footprint(ax)
+ut.pl.add_corner_tag('%.1f ka' % a, ax)
 
 # add cities
 extent = ut.pl.regions['crop']
@@ -96,12 +91,8 @@ for rec in shp.records():
         dy = {'c': 0, 'l': -1, 'u': 1}[yloc]*offset
         ha = {'c': 'center', 'l': 'right', 'r': 'left'}[xloc]
         va = {'c': 'center', 'l': 'top', 'u': 'bottom'}[yloc]
-        i = abs(x-xc).argmin()
-        j = abs(y-yc).argmin()
-        d = duration[i, j]
-        text = name + ('\n%.1f ka' % d if d > 0 else '')
         ax.plot(xc, yc, 'ko')
-        ax.annotate(text, xy=(xc, yc), xytext=(dx, dy),
+        ax.annotate(name, xy=(xc, yc), xytext=(dx, dy),
                     textcoords='offset points', ha=ha, va=va, clip_on=True)
 
 
@@ -136,6 +127,12 @@ ax2.locator_params(axis='y', nbins=6)
 ax1.set_ylabel('ice volume (m s.l.e.)', color=ut.pl.palette['darkblue'])
 ax2.set_ylabel('uplift rate ($mm\,a^{-1}$)', color=ut.pl.palette['darkgreen'])
 
+# plot central uplift rate
+ax2.plot(age, dbdt, c=ut.pl.palette['darkgreen'])
+ax2.plot(0.0, dbdt[-1], 'o',
+         ms=6, c='w', mec=ut.pl.palette['darkgreen'], mew=1.0, clip_on=False)
+nc.close()
+
 # load ts output
 filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/ts.nc'
 nc = ut.io.load(filepath)
@@ -148,25 +145,9 @@ ax1.plot(age, vol, c=ut.pl.palette['darkblue'])
 ax1.plot(a, vol[((age-a)**2).argmin()], 'o',
          ms=6, c='w', mec=ut.pl.palette['darkblue'], mew=1.0)
 
-# load extra output
-filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
-nc = ut.io.load(filepath)
-its = np.argmin(abs(x-xts))
-jts = np.argmin(abs(y-yts))
-age = -nc.variables['time'][:]/(1e3*365.0*24*60*60)
-dbdt = nc.variables['dbdt'][:, its, jts]*1e3
-#print nc['x'][450], nc['y'][300]
-#dbdt = nc.variables['dbdt'][:].mean(axis=(1, 2))*1e3
-nc.close()
-
-# plot central uplift rate
-ax2.plot(age, dbdt, c=ut.pl.palette['darkgreen'])
-ax2.plot(0.0, dbdt[-1], 'o',
-         ms=6, c='w', mec=ut.pl.palette['darkgreen'], mew=1.0, clip_on=False)
-
 # add grid and vertical line
-ax0.grid(axis='y')
-ax0.axvline(a, c='k', lw=0.25)
+ax1.axvline(a, c='k', lw=0.25)
+ax1.grid(axis='y')
 
 # save figure
 fig.savefig('lgmbig')

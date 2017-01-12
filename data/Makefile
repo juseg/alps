@@ -7,7 +7,7 @@
 
 all: external processed
 
-# retrieve exteral files
+# retrieve external files
 external: retrieve-external.sh
 	bash $<
 
