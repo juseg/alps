@@ -150,4 +150,4 @@ ax1.axvline(a, c='k', lw=0.25)
 ax1.grid(axis='y')
 
 # save figure
-fig.savefig('lgmbig')
+fig.savefig('alpcyc_hr_lgmbig')

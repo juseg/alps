@@ -53,4 +53,4 @@ cb = fig.colorbar(cs, cax)
 cb.set_label(r'maximum ice surface elevation (m)')
 
 # save figure
-fig.savefig('envelope')
+fig.savefig('alpcyc_hr_envelope')

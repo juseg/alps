@@ -82,4 +82,4 @@ cb = fig.colorbar(cs, cax, orientation='vertical', ticks=levs[1::2])
 cb.set_label(u'July PDD SD (°C)')
 
 # save
-fig.savefig('inputs')
+fig.savefig('alpcyc_hr_inputs')

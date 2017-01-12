@@ -56,4 +56,4 @@ cb = fig.colorbar(im, cax)
 cb.set_label(r'max. basal temp. ice depth (m)')
 
 # save figure
-fig.savefig('warmdepth')
+fig.savefig('alpcyc_hr_warmdepth')

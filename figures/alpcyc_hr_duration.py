@@ -63,4 +63,4 @@ twax.set_ylim(-25.0, 175.0)
 twax.locator_params(axis='y', nbins=6)
 
 # save figure
-fig.savefig('duration')
+fig.savefig('alpcyc_hr_duration')

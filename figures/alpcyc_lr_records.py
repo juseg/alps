@@ -45,4 +45,4 @@ for i, rec in enumerate(records):
                 textcoords='offset points', fontweight='bold')
 
 # save
-fig.savefig('map_records')
+fig.savefig('alpcyc_lr_records')

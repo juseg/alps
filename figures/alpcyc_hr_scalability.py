@@ -96,4 +96,4 @@ ut.pl.add_subfig_label('(b)', ax=ax2)
 ut.pl.add_subfig_label('(c)', ax=ax3)
 
 # save
-fig.savefig('scalability')
+fig.savefig('alpcyc_hr_scalability')

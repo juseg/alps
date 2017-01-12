@@ -47,4 +47,4 @@ cb = fig.colorbar(im, cax)
 cb.set_label('duration of warm ice cover (ka)')
 
 # save figure
-fig.savefig('warmtime')
+fig.savefig('alpcyc_hr_warmtime')

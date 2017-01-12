@@ -34,4 +34,4 @@ cpugrid = LineCollection(lines, color='k', linewidths=0.25, linestyles=':')
 ax.add_collection(cpugrid)
 
 # save figure
-fig.savefig('cpugrid')
+fig.savefig('alpcyc_hr_cpugrid')

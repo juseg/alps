@@ -29,4 +29,4 @@ ax.set_ylabel('computing time (node-hours*1000)')
 ax.grid()
 
 # add legend and save
-fig.savefig('timestamps')
+fig.savefig('alpcyc_hr_timestamps')

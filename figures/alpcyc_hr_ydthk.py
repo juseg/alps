@@ -4,10 +4,10 @@
 import util as ut
 
 # initialize figure
-fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut()
+fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut(extent='west')
 
 # time for plot
-a = 21.0
+a = 12.5
 t = -a*1e3
 
 
@@ -46,19 +46,19 @@ ut.pl.add_corner_tag('%.1f ka' % a, ax)
 filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/ts.nc'
 nc = ut.io.load(filepath)
 age = -nc.variables['time'][:]/(1e3*365*24*60*60)
-vol = nc.variables['slvol'][:]
+vol = nc.variables['slvol'][:]*1e3
 nc.close()
 
 # plot time series
 tsax=tsax.twinx()
 tsax.plot(age, vol, c=ut.pl.palette['darkblue'])
-tsax.set_ylabel('ice volume (m s.l.e.)', color=ut.pl.palette['darkblue'])
-tsax.set_xlim(120.0, 0.0)
-tsax.set_ylim(-0.05, 0.35)
+tsax.set_ylabel('ice volume (mm s.l.e.)', color=ut.pl.palette['darkblue'])
+tsax.set_xlim(20.0, 0.0)
+tsax.set_ylim(-2.5, 17.5)
 tsax.locator_params(axis='y', nbins=6)
 
 # add cursor
 cursor = tsax.axvline(a, c='k', lw=0.25)
 
 # save figure
-fig.savefig('lgmthk')
+fig.savefig('alpcyc_hr_ydthk')

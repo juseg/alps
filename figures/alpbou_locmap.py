@@ -304,4 +304,4 @@ draw_precipzones(ax)
 add_names(ax)
 
 # save
-fig.savefig('locmap_rhone')
+fig.savefig('alpbou_locmap')

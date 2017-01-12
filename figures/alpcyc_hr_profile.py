@@ -74,4 +74,4 @@ ax.yaxis.tick_right()
 ax.grid(axis='y')
 
 # save
-fig.savefig('profile')
+fig.savefig('alpcyc_hr_profile')

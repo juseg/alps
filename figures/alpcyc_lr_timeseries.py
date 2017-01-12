@@ -60,4 +60,4 @@ ax1.locator_params(axis='y', nbins=6)
 ax2.locator_params(axis='y', nbins=6)
 
 # save
-fig.savefig('timeseries')
+fig.savefig('alpcyc_lr_timeseries')

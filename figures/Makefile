@@ -11,11 +11,14 @@ EXT = pdf
 PY = PYTHONPATH=iceplotlib python2
 
 # all python figures
-PY_FIGS = aletschbed cpugrid duration envelope erosion footprints glacareas \
-          glaciations inputs lgmbig lgmthk lgmvel map_records \
-          locmap locmap_alps locmap_rhone profile scalability \
-          timeseries timestamps timing totalsliding trimlines \
-          uplift warmdepth warmtime ydthk ydvel
+PY_FIGS = $(addprefix alpbou_, locmap) \
+          $(addprefix alpcyc_, \
+            $(addprefix hr_, aletschbed cpugrid duration envelope erosion \
+                             glaciations inputs lgmbig lgmthk lgmvel \
+                             locmap profile scalability timestamps \
+                             timing totalsliding trimlines uplift \
+                             warmdepth warmtime ydthk ydvel) \
+            $(addprefix lr_, footprints glacareas records timeseries))
 PY_FIGS := $(addsuffix .$(EXT), $(PY_FIGS))
 
 # all figures

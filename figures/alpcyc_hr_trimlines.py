@@ -63,4 +63,4 @@ ax.text(0.95, 0.05, note, ha='right', color=ut.pl.palette['darkblue'],
         transform=ax.transAxes)
 
 # save figure
-fig.savefig('trimlines')
+fig.savefig('alpcyc_hr_trimlines')

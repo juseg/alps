@@ -62,4 +62,4 @@ tsax.grid(axis='y')
 cursor = tsax.axvline(a, c='k', lw=0.25)
 
 # save figure
-fig.savefig('ydvel')
+fig.savefig('alpcyc_hr_ydvel')

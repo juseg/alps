@@ -45,4 +45,4 @@ for rec in shp.records():
                     textcoords='offset points', ha=ha, va=va, clip_on=True)
 
 # save figure
-fig.savefig('locmap')
+fig.savefig('alpcyc_hr_locmap')

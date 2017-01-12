@@ -49,4 +49,4 @@ cb = fig.colorbar(cs, cax, ticks=levs)
 cb.set_label(r'number of glaciations')
 
 # save figure
-fig.savefig('glaciations')
+fig.savefig('alpcyc_hr_glaciations')

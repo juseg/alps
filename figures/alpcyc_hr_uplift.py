@@ -70,4 +70,4 @@ twax.set_ylim(-150.0, 250.0)
 twax.locator_params(axis='y', nbins=6)
 
 # save figure
-fig.savefig('uplift')
+fig.savefig('alpcyc_hr_uplift')

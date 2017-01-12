@@ -42,4 +42,4 @@ cb = fig.colorbar(im, cax, extend='both', ticks=[0e2, 5e2])
 cb.set_label(r'glacier thickness removed (m)')
 
 # save figure
-fig.savefig('aletschbed')
+fig.savefig('alpcyc_hr_aletschbed')
