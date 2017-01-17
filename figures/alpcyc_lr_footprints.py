@@ -57,6 +57,7 @@ for i, rec in enumerate(records):
         ut.pl.add_corner_tag('MIS %d' % (2+2*j), ax=ax, va='bottom')
         ut.pl.add_subfig_label('(%s)' % list('abcdef')[i+3*j], ax=ax)
         ut.pl.draw_natural_earth(ax)
+        ut.pl.draw_lgm_outline(ax, c='k')
 
 # save
 fig.savefig('alpcyc_lr_footprints')

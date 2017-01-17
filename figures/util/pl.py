@@ -249,12 +249,12 @@ def draw_natural_earth(ax=None):
     ax.add_feature(graticules)
 
 
-def draw_lgm_outline(ax=None):
+def draw_lgm_outline(ax=None, c='#e31a1c'):
     """Add Ehlers et al. hole-filled LGM outline."""
     ax = ax or iplt.gca()
     shp = cshp.Reader('../data/native/lgm_alpen_holefilled.shp')
     ax.add_geometries(shp.geometries(), ll, lw=0.5, alpha=0.75,
-                      edgecolor='#e31a1c', facecolor='none', zorder=0)
+                      edgecolor=c, facecolor='none', zorder=0)
     del shp
 
 
