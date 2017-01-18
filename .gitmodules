@@ -1,3 +1,6 @@
 [submodule "figures/iceplotlib"]
 	path = figures/iceplotlib
 	url = git@github.com:jsegu/iceplotlib.git
+[submodule "references"]
+	path = references
+	url = ogive:git/research/references.git
