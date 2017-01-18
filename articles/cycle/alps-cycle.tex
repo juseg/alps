@@ -4,6 +4,8 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[pdftex]{xcolor}
+\usepackage[pdftex]{graphicx}
+\graphicspath{{../../figures/}}
 
 \definecolor{darkblue}{cmyk}{0.9,0.3,0.0,0.0}
 \definecolor{darkgreen}{cmyk}{0.8,0.0,1.0,0.0}
@@ -66,13 +68,13 @@
 \section{Main}
 \subsection{Introduction}
 \subsection{Ice cap evolution}
-    Fig. -- 21 ka snapshot and time series
+    Fig.~\ref{fig:lgmvel} -- Snapshot at 21\,ka and volume time series.
 \subsection{Timing of the LGM}
-    Fig. -- Timing of the LGM
+    Fig.~\ref{fig:timing} -- Timing of the LGM and area time series.
 \subsection{Ice thickness}
-    Fig. -- Trimlines
+    Fig.~\ref{fig:trimlines} -- Ice thickness comparison to trimlines.
 \subsection{Erosion potential}
-    Fig. -- Erosion
+    Fig.~\ref{fig:erosion} -- Integrated erosion potential.
 
 \section{Methods}
 \subsection{Overview}
@@ -82,15 +84,77 @@
 \subsection{Bedrock deformation}
 \subsection{Surface mass balance}
 \subsection{Climate forcing}
-    Fig. -- Climate inputs
-    Fig. -- Lo-res time series
-    Fig. -- Lo-res footprints
-    Tab. -- Records
-\subsection{Computing cost}
-    Fig. -- Scalability
-    Fig. -- Time stamps
+    Fig.~\ref{fig:inputs} -- Climate and geothermal model inputs.\\
+    Tab. -- Records\\
+    Fig.~\ref{fig:timeseries} -- Low-resolution time series.\\
+    Fig.~\ref{fig:footprints} -- Low-resolution ice cover.
 
 \section{Conclusion}
+
+% ----------------------------------------------------------------------
+% References
+% ----------------------------------------------------------------------
+
+\bibliographystyle{abbrvnat}
+\bibliography{../../references/references}
+
+% ----------------------------------------------------------------------
+% Figures
+% ----------------------------------------------------------------------
+
+    \begin{figure}
+      \centerline{\includegraphics{alpcyc_hr_lgmvel}}
+      \caption{Model output at 21\,ka.}
+      \label{fig:lgmvel}
+    \end{figure}
+
+    \begin{figure}
+      \centerline{\includegraphics{alpcyc_hr_timing}}
+      \caption{Timing of the LGM and area time series.}
+      \label{fig:timing}
+    \end{figure}
+
+    \begin{figure}
+      \centerline{\includegraphics{alpcyc_hr_trimlines}}
+      \caption{Ice thickness comparison to trimlines.}
+      \label{fig:trimlines}
+    \end{figure}
+
+    \begin{figure}
+      \centerline{\includegraphics{alpcyc_hr_erosion}}
+      \caption{Integrated erosion potential.}
+      \label{fig:erosion}
+    \end{figure}
+
+% ----------------------------------------------------------------------
+% Supplementary tables
+\setcounter{table}{0}
+\renewcommand{\thetable}{S\arabic{table}}%
+% ----------------------------------------------------------------------
+
+% ----------------------------------------------------------------------
+% Supplementary figures
+\setcounter{figure}{0}
+\renewcommand{\thefigure}{S\arabic{figure}}%
+% ----------------------------------------------------------------------
+
+    \begin{figure}
+      \centerline{\includegraphics{alpcyc_hr_inputs}}
+      \caption{Climate and geothermal model inputs.}
+      \label{fig:inputs}
+    \end{figure}
+
+    \begin{figure}
+      \centerline{\includegraphics{alpcyc_lr_timeseries}}
+      \caption{Low-resolution time series.}
+      \label{fig:timeseries}
+    \end{figure}
+
+    \begin{figure}
+      \centerline{\includegraphics{alpcyc_lr_footprints}}
+      \caption{Low-resolution ice cover.}
+      \label{fig:footprints}
+    \end{figure}
 
 % ======================================================================
 \end{document}
