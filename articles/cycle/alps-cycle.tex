@@ -1,6 +1,8 @@
 \documentclass{article}
 
+\usepackage{amsmath}
 \usepackage{authblk}
+\usepackage{booktabs}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[pdftex]{xcolor}
@@ -32,8 +34,12 @@
 \affil[2]{Institute of Earth and Environmental Sciences,
           University of Freiburg, Germany}
 
+% Common units
+\newcommand{\e}[1]{\ensuremath{\times 10^{#1}}}
 \newcommand{\chem}[1]{\ensuremath{\mathrm{#1}}}
 \newcommand{\unit}[1]{\ensuremath{\mathrm{#1}}}
+\newcommand{\degree}[0]{\ensuremath{^{\circ}}}
+\newcommand{\degC}[0]{\unit{{\degree}C}}
 
 % ======================================================================
 \begin{document}
@@ -97,6 +103,7 @@
 
 % ----------------------------------------------------------------------
 % Figures
+\clearpage
 % ----------------------------------------------------------------------
 
     \begin{figure}
@@ -155,19 +162,63 @@
         ice-covered area. The local erosion rate, $\dot{e}$, is computed from
         the sliding velocity, $\vec{v}_{\mathrm{b}}$, through
         $\dot{e} = K_g \cdot |\vec{v}_{\mathrm{b}}|^{l}$, with
-        $l = 2.02$ and $K_g = 2.7 \cdot 10^{-7}\,m^{1-l}\,a^{l-1}$
+        $l = 2.02$ and $K_g = 2.7\e{-7}\,m^{1-l}\,a^{l-1}$
         \citep{Herman.etal.2015}.}
       \label{fig:erosion}
     \end{figure}
 
+
 % ----------------------------------------------------------------------
 % Supplementary tables
+\clearpage
 \setcounter{table}{0}
 \renewcommand{\thetable}{S\arabic{table}}%
 % ----------------------------------------------------------------------
 
+    \begin{table*}
+      \caption{%
+        Palaeo-temperature proxy records and scaling factors yielding
+        temperature offset time-series used to force the ice sheet model
+        through the last glacial cycle (Fig.~\ref{fig:timeseries}). $f$
+        corresponds to the scaling factor adopted to yield Last Glacial Maximum
+        ice limits in the vicinity of mapped end moraines
+        (Fig.~\ref{fig:footprints}a), and $[{\Delta}T_{\textrm{TS}}]_{32}^{22}$
+        refers to the resulting mean temperature anomaly during the period 32
+        to~22\,\unit{ka} after scaling.}
+      \label{tab:records}
+      %\scalebox{.850}[.850]
+      \centerline{\begin{tabular}{lccccccl}
+        \toprule
+        Record    & Latitude & Longitude & Elev. (m~a.s.l.)
+                  & Proxy & $f$ & $[{\Delta}\text{TS}]_{32}^{22}$ (K)
+                  & Reference\\
+        \midrule
+        GRIP      &  72{\degree}35$^{\prime}$\,N   % 72.58 (decimal)
+                  &  37{\degree}38$^{\prime}$\,W   % 37.64 (decimal)
+                  & 3238
+                  & \chem{\delta^{18}O}
+                  & 0.46 & $-$7.6  % -16.4126 (before scaling)
+                  & \citet{Dansgaard.etal.1993} \\
+        EPICA     &  75{\degree}06$^{\prime}$\,S   % 75.1
+                  & 123{\degree}21$^{\prime}$\,E   % 123.35
+                  & 3233
+                  & \chem{\delta^{18}O}
+                  & 0.46 & $-$9.5  % -9.2055
+                  & \citet{Jouzel.etal.2007} \\
+        MD01-2444 &  37{\degree}34$^{\prime}$\,N   % 37.561
+                  &  10{\degree}04$^{\prime}$\,W   % -10.142
+                  & $-$2637
+                  & \chem{U^{K'}_{37}}
+                  & 1.84 & $-$8.0  % -4.345625
+                  & \citet{Martrat.etal.2007} \\
+        \bottomrule
+      \end{tabular}}
+    \end{table*}
+
+
 % ----------------------------------------------------------------------
 % Supplementary figures
+\clearpage
 \setcounter{figure}{0}
 \renewcommand{\thefigure}{S\arabic{figure}}%
 % ----------------------------------------------------------------------
