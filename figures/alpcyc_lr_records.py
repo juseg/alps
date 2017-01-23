@@ -25,8 +25,8 @@ ax.plot(x, y, 'k', lw=1.0, transform=ut.pl.utm, zorder=3)
 records = ['GRIP', 'EPICA', 'MD01-2444']
 colors = ['darkblue', 'darkred', 'darkgreen']
 colors = [ut.pl.palette[c] for c in colors]
-lats = np.array([72.58, -75.1, 37.565])
-lons = np.array([-37.64, 123.35, -10.134])
+lats = np.array([72.58, -75.1, 37.561])
+lons = np.array([-37.64, 123.35, -10.142])
 locs = ['uc', 'uc', 'lc']
 x, y, _ = ax.projection.transform_points(ut.pl.ll, lons, lats).T
 ax.scatter(lons, lats, c=colors, linewidths=0.25, transform=ut.pl.ll)
