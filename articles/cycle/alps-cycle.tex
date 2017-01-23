@@ -81,14 +81,12 @@
 
 \section{Methods}
 \subsection{Ice sheet model set-up}
-    Tab. -- Model parameters\\
+    Table~\ref{tab:params} -- Model parameters\\
     Fig.~\ref{fig:inputs} -- Climate and geothermal model inputs.\\
 \subsection{Palaeo-climate forcing}
-    Tab. -- Records\\
+    Table~\ref{tab:records} -- Palaeo-climate records.\\
     Fig.~\ref{fig:timeseries} -- Low-resolution time series.\\
     Fig.~\ref{fig:footprints} -- Low-resolution ice cover.
-
-\section{Conclusion}
 
 % ----------------------------------------------------------------------
 % References
@@ -176,19 +174,46 @@
 
     \begin{figure}
       \centerline{\includegraphics{alpcyc_hr_inputs}}
-      \caption{Climate and geothermal model inputs.}
+      \caption{%
+        \textbf{(a)} July mean near-surface air temperature and
+        \textbf{(b)} January precipitation from WorldClim
+        \citep[1960--1990]{Hijmans.etal.2005}, and
+        \textbf{(c)} Mordern July standard deviation of daily mean temperature
+        from the ERA-Interim \citep[1979--2012]{Dee.etal.2011} from the
+        reference monthly climatology used to force the surface mass balance
+        (PDD) component of the ice sheet model.
+        \textbf{(d)} Geothermal heat flow from applying the similarity method
+        to multiple geophysical proxies \citep{Goutorbe.etal.2011} used as a
+        boundary condition to the bedrock thermal model 3\,km below the
+        ice-bedrock interface.}
       \label{fig:inputs}
     \end{figure}
 
     \begin{figure}
       \centerline{\includegraphics{alpcyc_lr_timeseries}}
-      \caption{Low-resolution time series.}
+      \caption{%
+        \textbf{(a)} Temperature offset time-series from ice core and ocean
+        records (Table~\ref{tab:records}) used as palaeo-climate forcing for
+        the ice sheet model.
+        \textbf{(a)} Modelled total ice volume through the last 120\,ka,
+        expressed in meters of sea level equivalent (m~s.l.e.). Gray fields
+        indicate Marine Oxygen Isotope Stage (MIS) boundaries for MIS~2 and
+        MIS~4 according to a~global compilation of benthic \chem{\delta^{18}O}
+        records \citep{Lisiecki.Raymo.2005}.}
       \label{fig:timeseries}
     \end{figure}
 
     \begin{figure}
       \centerline{\includegraphics{alpcyc_lr_footprints}}
-      \caption{Low-resolution ice cover.}
+      \caption{%
+        \textbf{(a--c)} Cumulative extent of modelled ice cover during MIS~2
+        (29--14\,ka) using temperature time-series scaling factors
+        (Table~\ref{tab:records}) adjusted to obtain model results in agreement
+        with the Last Glacial Maximum (LGM) geomorphological reconstruction
+        \citep[solid red line,][]{Ehlers.etal.2011}.
+        \textbf{(d--f)} Cumulative extent of modelled ice cover during MIS~4
+        (71--57\,ka). Only the simulation driven by the EPICA temperature
+        time-series yields reasonable MIS~4 ice cover.}
       \label{fig:footprints}
     \end{figure}
 
