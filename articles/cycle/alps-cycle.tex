@@ -5,6 +5,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage[pdftex]{xcolor}
 \usepackage[pdftex]{graphicx}
+\usepackage[authoryear,round]{natbib}
+
 \graphicspath{{../../figures/}}
 
 \definecolor{darkblue}{cmyk}{0.9,0.3,0.0,0.0}
@@ -29,6 +31,9 @@
           ETH Zürich, Switzerland}
 \affil[2]{Institute of Earth and Environmental Sciences,
           University of Freiburg, Germany}
+
+\newcommand{\chem}[1]{\ensuremath{\mathrm{#1}}}
+\newcommand{\unit}[1]{\ensuremath{\mathrm{#1}}}
 
 % ======================================================================
 \begin{document}
@@ -98,25 +103,62 @@
 
     \begin{figure}
       \centerline{\includegraphics{alpcyc_hr_lgmvel}}
-      \caption{Model output at 21\,ka.}
+      \caption{%
+        \textbf{(a)} Modelled bedrock topography (grey) ice surface topography
+        (200\,m contours) and ice surface velocity (blue) in the Alps
+        21~thousand years (ka) before present. Modelled Last Glacial Maximum
+        (LGM) ice extent (dashed orange line) and geomorphological
+        reconstruction \citep[solid red line,][]{Ehlers.etal.2011}. The
+        background map consists of depressed SRTM \citep{Jarvis.etal.2008}
+        topography and Natural Earth Data \citep{Patterson.Kelso.2015}.
+        \textbf{(b)} Temperature offset time-series from the EPICA ice core
+        used as palaeo-climate forcing for the ice flow model \citep[black
+        curve,][]{Jouzel.etal.2007}, and modelled total ice volume through the
+        last glacial cycle (120--0\,ka), expressed in meters of sea level
+        equivalent (m~s.l.e., blue curve). Gray fields indicate Marine
+        Oxygen Isotope Stage (MIS) boundaries for MIS~2 and MIS~4 according to
+        a~global compilation of benthic \chem{\delta^{18}O} records
+        \citep{Lisiecki.Raymo.2005}.}
       \label{fig:lgmvel}
     \end{figure}
 
     \begin{figure}
       \centerline{\includegraphics{alpcyc_hr_timing}}
-      \caption{Timing of the LGM and area time series.}
+      \caption{%
+        \textbf{(a)} Timing of the Last Glacial Maximum (LGM) given by the
+        modelled age (colour mapping) and value (200 m contours) of maximum
+        surface elevation throughout the entire simulation.
+        \textbf{(b)} Temperature offset time-series from the EPICA ice core
+        used as palaeo-climate forcing for the ice flow model (black curve),
+        and modelled glaciated area around the LGM (coloured curve). The LGM
+        is here modelled as a time-transgressive event.}
       \label{fig:timing}
     \end{figure}
 
     \begin{figure}
       \centerline{\includegraphics{alpcyc_hr_profiles}}
-      \caption{Individual glacier extent profiles.}
+      \caption{%
+        Modelled extent of glaciation along selected profiles for the Lyon,
+        Solothurn, Rhine and Ivrea glaciers.
+        \todo{Implement extraction of ice thickness along a more detailed
+              profile, and add the other glaciers.}}
       \label{fig:profiles}
     \end{figure}
 
     \begin{figure}
       \centerline{\includegraphics{alpcyc_hr_erosion}}
-      \caption{Integrated erosion potential.}
+      \caption{%
+        \textbf{(a)} Modelled total erosion integrated in time over the entire
+        simulation (120--0\,ka) is highest in the deep valleys and cirques of
+        the western Alps.
+        \textbf{(b)} Temperature offset time-series from the EPICA ice core
+        used as palaeo-climate forcing for the ice flow model (black curve),
+        and modelled erosion rate integrated in space over the entire
+        ice-covered area. The local erosion rate, $\dot{e}$, is computed from
+        the sliding velocity, $\vec{v}_{\mathrm{b}}$, through
+        $\dot{e} = K_g \cdot |\vec{v}_{\mathrm{b}}|^{l}$, with
+        $l = 2.02$ and $K_g = 2.7 \cdot 10^{-7}\,m^{1-l}\,a^{l-1}$
+        \citep{Herman.etal.2015}.}
       \label{fig:erosion}
     \end{figure}
 
