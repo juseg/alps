@@ -24,7 +24,7 @@ c = nc.variables['velbase_mag'][:]
 kg = 2.7e-7  # m^{1-l} a^{l-1} 
 l = 2.02  # unitless
 c = np.ma.masked_where(thk < 1.0, c)
-erate = (kg*c**2)
+erate = (kg*c**l)
 erosion = erate.sum(axis=0)
 
 # set levels, colors and hatches
