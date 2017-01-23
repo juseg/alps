@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+
 # coding: utf-8
 
 import util as ut
@@ -74,4 +75,4 @@ ax.yaxis.tick_right()
 ax.grid(axis='y')
 
 # save
-fig.savefig('alpcyc_hr_profile')
+fig.savefig('alpcyc_hr_profiles')
