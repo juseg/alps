@@ -104,8 +104,10 @@ def draw_lgm_ehlers(ax=None):
     filename = '../data/native/lgm_alpen_holefilled.shp'
     shp = shpreader.Reader(filename)
     ax = ax or plt.gca()
-    ax.add_geometries(shp.geometries(), ll, alpha=0.75,
-                      edgecolor='#0978ab', facecolor='#f5f4f2', lw=1.0*bwu)
+    ax.add_geometries(shp.geometries(), ll,
+                      edgecolor='#0978ab', facecolor='none', lw=1.0*bwu)
+    ax.add_geometries(shp.geometries(), ll,
+                      edgecolor='none', facecolor='w', alpha=0.5)
 
 def draw_lithos(ax=None):
     """
@@ -133,6 +135,11 @@ def draw_lithos(ax=None):
     # get axes if None provided
     ax = ax or plt.gca()
 
+    # prepare colors
+    granite = ut.pl.palette['darkred']
+    gneiss = ut.pl.palette['darkblue']
+    gabbro = ut.pl.palette['darkgreen']
+
     # draw swisstopo geology polygons
     filename = '../data/external/swisstopo-geology.shp'
     shp = shpreader.Reader(filename)
@@ -140,19 +147,19 @@ def draw_lithos(ax=None):
         atts = rec.attributes
         geom = rec.geometry
         if atts['L_ID'] == 62 and atts['T1_ID'] == 114:
-            ax.add_geometries(geom, swiss, alpha=0.25, color='#800000')
+            ax.add_geometries(geom, swiss, alpha=0.75, color=granite)
         elif atts['L_ID'] == 82 and atts['T1_ID'] == 505:
-            ax.add_geometries(geom, swiss, alpha=0.25, color='#000080')
+            ax.add_geometries(geom, swiss, alpha=0.75, color=gneiss)
         elif atts['AREA'] == 2276398.0271:
-            ax.add_geometries(geom, swiss, alpha=0.25, color='#008000')
+            ax.add_geometries(geom, swiss, alpha=0.75, color=gabbro)
             ax.plot(geom.centroid.x, geom.centroid.y, transform=swiss,
-                    marker='o', mec='#008000', mew=1.0, mfc='none', ms=12.0)
+                    marker='o', mec=gabbro, mew=1.0, mfc='none', ms=12.0)
 
     # add labels
     txtkwa = dict(fontweight='bold', ha='center', va='center', transform=ll)
-    ax.text(6.6, 45.90, 'Mont Blanc granite', color='#800000', **txtkwa)
-    ax.text(7.5, 45.75, 'Arolla gneiss', color='#000080', **txtkwa)
-    ax.text(8.2, 46.07, 'Allalin gabbro', color='#008000', **txtkwa)
+    ax.text(6.7, 45.90, 'Mont Blanc\ngranite', color=granite, **txtkwa)
+    ax.text(7.5, 45.75, 'Arolla gneiss', color=gneiss, **txtkwa)
+    ax.text(8.1, 46.10, 'Allalin\ngabbro', color=gabbro, **txtkwa)
 
 # Natural Earth elements
 def draw_rivers(ax=None):
@@ -242,10 +249,11 @@ def add_names(ax=None):
     #geotag(280118, 5120218, 'Geneva', **txtkwa)
 
     # add boulder sources
-    ax.plot(347120, 5103616, color='#800000', marker='*', ms=8)  # Mt Blanc
-    ax.plot(365930, 5101063, color='#000080', marker='^', ms=8)  # Val de Bagnes
-    ax.plot(382491, 5097764, color='#000080', marker='^', ms=8)  # Val d'Arolla
-    ax.plot(417299, 5111714, color='#008000', marker='s', ms=8)  # Saastal
+    cols = [ut.pl.palette[c] for c in ['lightred', 'darkblue', 'lightgreen']]
+    ax.plot(347120, 5103616, color=cols[0], marker='*', ms=8)  # Mt Blanc
+    ax.plot(365930, 5101063, color=cols[1], marker='^', ms=8)  # Val de Bagnes
+    ax.plot(382491, 5097764, color=cols[1], marker='^', ms=8)  # Val d'Arolla
+    ax.plot(417299, 5111714, color=cols[2], marker='s', ms=8)  # Saastal
 
     # add other locations
     txtkwa = dict(color='k', style='italic',
