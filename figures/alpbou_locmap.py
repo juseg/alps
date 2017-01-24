@@ -229,7 +229,7 @@ def add_names(ax=None):
 
     # add names of cities (ll)
     txtkwa = dict(transform=ll, marker='o', style='italic')
-    geotag(6.15, 46.20, 'Geneva', loc='cl', **txtkwa)
+    #geotag(6.15, 46.20, 'Geneva', loc='cl', **txtkwa)
     geotag(6.93, 47.00, u'Neuchâtel', loc='lc', **txtkwa)
     geotag(7.45, 46.95, 'Bern', loc='cr', **txtkwa)
     geotag(7.53, 47.22, 'Solothurn', loc='cl', **txtkwa)
@@ -259,17 +259,20 @@ def add_names(ax=None):
     # add other locations
     txtkwa = dict(color='k', style='italic',
                   ha='center', va='center', transform=ll)
+    ax.text(6.00, 46.17, 'Geneva\nBasin', **txtkwa)
     ax.text(7.25, 46.00, 'Val de Bagnes', rotation=-40, **txtkwa)  # rotation=-45
     ax.text(7.45, 46.15, "Val d'Arolla", rotation=-60, **txtkwa)  # rotation=-45
     ax.text(7.97, 46.07, 'Saastal', rotation=-60, **txtkwa)  # rotation=-45
     ax.text(8.10, 46.20, 'Simplon Pass', rotation=-30, **txtkwa)  # rotation=-45
 
-    # add rivers
-    txtkwa = dict(color='#0978ab', family='serif', style='italic',
-                  ha='center', va='center', transform=ll)
-    ax.text(7.65, 46.70, 'Aar River', rotation=-45, **txtkwa)
-    ax.text(6.30, 46.15, 'Arve River', rotation=-45, **txtkwa)
-    ax.text(7.30, 46.25, 'Rhone River', rotation=30, **txtkwa)
+    # add palaeo-glaciers
+    txtkwa = dict(color='#0978ab', style='italic', fontweight='bold',
+                  fontsize=8, ha='center', va='center', transform=ll)
+    ax.text(5.30, 45.75, 'Lyon Lobe', rotation=0, **txtkwa)
+    ax.text(6.50, 46.05, 'Arve Glacier', rotation=-5, **txtkwa)
+    ax.text(7.60, 46.80, 'Aar Glacier', rotation=-55, **txtkwa)
+    ax.text(7.35, 46.95, 'Solothurn Lobe', rotation=40, **txtkwa)
+    ax.text(7.00, 46.35, 'Valais Glacier', rotation=-65, **txtkwa)
 
     # add mountain massifs
     txtkwa = dict(color='k', fontsize=8, style='italic',
