@@ -4,6 +4,7 @@
 import util as ut
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.patches import FancyArrowPatch
 import cartopy.crs as ccrs
 import cartopy.io.shapereader as shpreader
 import cartopy.feature as cfeature
@@ -278,6 +279,19 @@ def add_names(ax=None):
     ax.text(7.9, 45.9, 'SOUTHERN\nVALAIS', **txtkwa)
     ax.text(6.7, 46.2, 'MONT\nBLANC', **txtkwa)
 
+def draw_arrows(ax=None):
+    ax = ax or plt.gca()
+    arrowprops = dict(
+        arrowstyle='-|>',
+        mutation_scale=20.0, transform=ll,
+        color='#0978ab', lw=2.0, zorder=2)
+    ax.add_patch(FancyArrowPatch((7.05, 46.15), (6.05, 46.20),
+        connectionstyle='arc,angleA=115,angleB=45,armA=100,armB=0,rad=50.0',
+        **arrowprops))
+    ax.add_patch(FancyArrowPatch((7.05, 46.15), (7.60, 47.20),
+        connectionstyle='arc,angleA=115,angleB=-135,armA=100,armB=0,rad=50.0',
+        **arrowprops))
+
 # modelling domain
 def draw_modeldomain(ax=None):
     ax = ax or plt.gca()
@@ -306,9 +320,10 @@ draw_rivers(ax)
 draw_lakes(ax)
 draw_lgm_ehlers(ax)
 draw_lithos(ax)
+draw_arrows(ax)
 draw_modeldomain(ax)
-draw_graticules(ax)
 draw_precipzones(ax)
+draw_graticules(ax)
 add_names(ax)
 
 # save
