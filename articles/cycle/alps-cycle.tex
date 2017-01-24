@@ -177,6 +177,226 @@
 
     \begin{table*}
       \caption{%
+        Parameter values used in the ice sheet model.}
+      \label{tab:params}
+      \noindent\small\makebox[\textwidth]
+      {\begin{tabular}{llrll}
+        \toprule
+
+        Not.    & Name & Value & Unit & Source \\
+
+        \midrule
+        \multicolumn{2}{l}{{Ice rheology}} \\
+        \midrule
+
+        $\rho$  & Ice density
+                & 910
+                & \unit{kg\,m^{-3}}
+                & \citet{Aschwanden.etal.2012} \\
+
+        $g$     & Standard gravity
+                & 9.81
+                & \unit{m\,s^{-2}}
+                & \citet{Aschwanden.etal.2012} \\
+
+        $n$     & Glen exponent
+                & 3
+                & --
+                & \citet{Cuffey.Paterson.2010} \\
+
+        $A_{\mathrm{c}}$   & Ice hardness coefficient cold
+                & $3.61\e{-13}$
+                & \unit{Pa^{-3}\,s^{-1}}
+                & \citet{Paterson.Budd.1982} \\
+
+        $A_{\mathrm{w}}$   & Ice hardness coefficient warm
+                & $1.73\e3$
+                & \unit{Pa^{-3}\,s^{-1}}
+                & \citet{Paterson.Budd.1982} \\
+
+        $Q_{\mathrm{c}}$   & Flow law activation energy cold
+                & $6.0\e4$
+                & \unit{J\,mol^{-1}}
+                & \citet{Paterson.Budd.1982} \\
+
+        $Q_{\mathrm{w}}$   & Flow law activation energy warm
+                & $13.9\e4$
+                & \unit{J\,mol^{-1}}
+                & \citet{Paterson.Budd.1982} \\
+
+        $T_{\mathrm{c}}$   & Flow law critical temperature
+                & 263.15
+                & \unit{K}
+                & \citet{Paterson.Budd.1982} \\
+
+        $f$     & Flow law water fraction coeff.
+                & 181.25
+                & --
+                & \citet{Lliboutry.Duval.1985} \\
+
+        $R$     & Ideal gas constant
+                & 8.31441
+                & \unit{J\,mol^{-1}\,K^{-1}}
+                & -- \\
+
+        $\beta$ & Clapeyron constant
+                & $7.9\e{-8}$
+                & \unit{K\,Pa^{-1}}
+                & \citet{Luthi.etal.2002} \\
+
+        $c_{\mathrm{i}}$   & Ice specific heat capacity
+                & 2009
+                & \unit{J\,kg^{-1}\,K^{-1}}
+                & \citet{Aschwanden.etal.2012} \\
+
+        $c_{\mathrm{w}}$   & Water specific heat capacity
+                & 4170
+                & \unit{J\,kg^{-1}\,K^{-1}}
+                & \citet{Aschwanden.etal.2012} \\
+
+        $k$     & Ice thermal conductivity
+                & 2.10
+                & \unit{J\,m^{-1}\,K^{-1}\,s^{-1}}
+                & \citet{Aschwanden.etal.2012} \\
+
+        $L$     & Water latent heat of fusion
+                & $3.34\e5$
+                & \unit{J\,kg^{-1}\,K^{-1}}
+                & \citet{Aschwanden.etal.2012} \\
+
+        \midrule
+        \multicolumn{2}{l}{{Basal sliding}} \\
+        \midrule
+
+        $q$     & Pseudo-plastic sliding exponent
+                & 0.25
+                & --
+                & \citet{Aschwanden.etal.2013} \\
+
+        $v_{\text{th}}$& Pseudo-plastic threshold velocity
+                & 100.0
+                & \unit{m\,a^{-1}}
+                & \citet{Aschwanden.etal.2013} \\
+
+        $c_0$   & Till cohesion
+                & 0.0
+                & Pa
+                & \citet{Tulaczyk.etal.2000} \\
+
+        $e_0$   & Till reference void ratio
+                & 0.69
+                & --
+                & \citet{Tulaczyk.etal.2000} \\
+
+        $C_{\mathrm{c}}$   & Till compressibility coefficient
+                & 0.12
+                & --
+                & \citet{Tulaczyk.etal.2000} \\
+
+        $\delta$& Minimum effective pressure ratio
+                & 0.02
+                & --
+                & \citet{Bueler.Pelt.2015} \\
+
+        $W_{\text{max}}$ & Maximal till water thickness
+                & 2.0
+                & m
+                & \citet{Bueler.Pelt.2015} \\
+
+        $b_0$   & Altitude of max. friction angle
+                & 0
+                & m
+                & -- \\
+
+        $b_1$   & Altitude of min. friction angle
+                & 200
+                & m
+                & \citet{Clague.1981} \\
+
+        $\phi_0$& Minimum friction angle
+                & 15
+                & \degree
+                & -- \\
+
+        $\phi_1$& Maximum friction angle
+                & 45
+                & \degree
+                & -- \\
+
+        \midrule
+        \multicolumn{2}{l}{{Bedrock and lithosphere}} \\
+        \midrule
+
+        $q_{\mathrm{G}}$   & Geothermal heat flux
+                & 70.0
+                & \unit{mW\,m^{-2}}
+                & -- \\
+
+        $\rho_{\mathrm{b}}$& Bedrock density
+                & 3300
+                & \unit{kg\,m^{-3}}
+                & -- \\
+
+        $c_{\mathrm{b}}$   & Bedrock specific heat capacity
+                & 1000
+                & \unit{J\,kg^{-1}\,K^{-1}}
+                & -- \\
+
+        $k_{\mathrm{b}}$   & Bedrock thermal conductivity
+                & 3.0
+                & \unit{J\,m^{-1}\,K^{-1}\,s^{-1}}
+                & -- \\
+
+        $\nu_{\mathrm{m}}$ & Astenosphere viscosity
+                & $1\e{19}$
+                & \unit{Pa\,s}
+                & \citet{James.etal.2009} \\
+
+        $\rho_{\mathrm{l}}$& Lithosphere density
+                & 3300
+                & \unit{kg\,m^{-3}}
+                & \citet{Lingle.Clark.1985} \\
+
+        $D$     & Lithosphere flexural rigidity
+                & $5.0\e{24}$
+                & \unit{N}
+                & \citet{Lingle.Clark.1985} \\
+
+        \midrule
+        \multicolumn{2}{l}{{Surface and atmosphere}} \\
+        \midrule
+
+        $T_{\mathrm{s}}$   & Temperature of snow precipitation
+                & 273.15
+                & \unit{K}
+                & -- \\
+
+        $T_{\mathrm{r}}$   & Temperature of rain precipitation
+                & 275.15
+                & \unit{K}
+                & -- \\
+
+        $F_{\mathrm{s}}$   & Degree-day factor for snow
+                & $3.04\e{-3}$
+                & \unit{m\,K^{-1}\,day^{-1}}
+                & \citet{Shea.etal.2009} \\
+
+        $F_{\mathrm{i}}$   & Degree-day factor for ice
+                & $4.59\e{-3}$
+                & \unit{m\,K^{-1}\,day^{-1}}
+                & \citet{Shea.etal.2009} \\
+
+        $\gamma$& Air temperature lapse rate
+                & $6\e{-3}$
+                & \unit{K\,m{-1}}
+                & -- \\
+
+        \bottomrule
+      \end{tabular}}
+    \end{table*}
+
+    \begin{table*}
+      \caption{%
         Palaeo-temperature proxy records and scaling factors yielding
         temperature offset time-series used to force the ice sheet model
         through the last glacial cycle (Fig.~\ref{fig:timeseries}). $f$
@@ -186,31 +406,37 @@
         refers to the resulting mean temperature anomaly during the period 32
         to~22\,\unit{ka} after scaling.}
       \label{tab:records}
-      %\scalebox{.850}[.850]
-      \centerline{\begin{tabular}{lccccccl}
+      \noindent\small\makebox[\textwidth]
+      {\begin{tabular}{lccccccl}
         \toprule
+
         Record    & Latitude & Longitude & Elev. (m~a.s.l.)
                   & Proxy & $f$ & $[{\Delta}\text{TS}]_{32}^{22}$ (K)
                   & Reference\\
+
         \midrule
+
         GRIP      &  72{\degree}35$^{\prime}$\,N   % 72.58 (decimal)
                   &  37{\degree}38$^{\prime}$\,W   % 37.64 (decimal)
                   & 3238
                   & \chem{\delta^{18}O}
                   & 0.46 & $-$7.6  % -16.4126 (before scaling)
                   & \citet{Dansgaard.etal.1993} \\
+
         EPICA     &  75{\degree}06$^{\prime}$\,S   % 75.1
                   & 123{\degree}21$^{\prime}$\,E   % 123.35
                   & 3233
                   & \chem{\delta^{18}O}
                   & 0.46 & $-$9.5  % -9.2055
                   & \citet{Jouzel.etal.2007} \\
+
         MD01-2444 &  37{\degree}34$^{\prime}$\,N   % 37.561
                   &  10{\degree}04$^{\prime}$\,W   % -10.142
                   & $-$2637
                   & \chem{U^{K'}_{37}}
                   & 1.84 & $-$8.0  % -4.345625
                   & \citet{Martrat.etal.2007} \\
+
         \bottomrule
       \end{tabular}}
     \end{table*}
