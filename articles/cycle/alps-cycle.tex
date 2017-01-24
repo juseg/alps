@@ -177,7 +177,9 @@
 
     \begin{table*}
       \caption{%
-        Parameter values used in the ice sheet model.}
+        Parameter values used in the ice sheet model.
+        \idea{If I need to re-run all simulations, we could rethink bedrock,
+              lithosphere and PDD parameters.}}
       \label{tab:params}
       \noindent\small\makebox[\textwidth]
       {\begin{tabular}{llrll}
@@ -205,24 +207,34 @@
                 & \citet{Cuffey.Paterson.2010} \\
 
         $A_{\mathrm{c}}$   & Ice hardness coefficient cold
-                & $3.61\e{-13}$
+                & $2.847\e{-13}$
                 & \unit{Pa^{-3}\,s^{-1}}
-                & \citet{Paterson.Budd.1982} \\
+                & \citet{Cuffey.Paterson.2010} \\
 
         $A_{\mathrm{w}}$   & Ice hardness coefficient warm
-                & $1.73\e3$
+                & $2.356\e{-2}$
                 & \unit{Pa^{-3}\,s^{-1}}
-                & \citet{Paterson.Budd.1982} \\
+                & \citet{Cuffey.Paterson.2010} \\
 
         $Q_{\mathrm{c}}$   & Flow law activation energy cold
                 & $6.0\e4$
                 & \unit{J\,mol^{-1}}
-                & \citet{Paterson.Budd.1982} \\
+                & \citet{Cuffey.Paterson.2010} \\
 
         $Q_{\mathrm{w}}$   & Flow law activation energy warm
-                & $13.9\e4$
+                & $11.5\e4$
                 & \unit{J\,mol^{-1}}
-                & \citet{Paterson.Budd.1982} \\
+                & \citet{Cuffey.Paterson.2010} \\
+
+        $E_{\text{SIA}}$   & SIA enhancement factor
+                & 5
+                & --
+                & \citet{Cuffey.Paterson.2010} \\
+
+        $E_{\text{SSA}}$   & SSA enhancement factor
+                & 1
+                & --
+                & \citet{Cuffey.Paterson.2010} \\
 
         $T_{\mathrm{c}}$   & Flow law critical temperature
                 & 263.15
@@ -274,12 +286,12 @@
                 & \citet{Aschwanden.etal.2013} \\
 
         $v_{\text{th}}$& Pseudo-plastic threshold velocity
-                & 100.0
+                & 100
                 & \unit{m\,a^{-1}}
                 & \citet{Aschwanden.etal.2013} \\
 
         $c_0$   & Till cohesion
-                & 0.0
+                & 0
                 & Pa
                 & \citet{Tulaczyk.etal.2000} \\
 
@@ -298,39 +310,19 @@
                 & --
                 & \citet{Bueler.Pelt.2015} \\
 
-        $W_{\text{max}}$ & Maximal till water thickness
-                & 2.0
+        $\phi$  & Till friction angle
+                & 30
+                & \degree
+                & \citet{Cuffey.Paterson.2010} \\
+
+        $W_{\text{max}}$ & Maximum till water thickness
+                & 2
                 & m
                 & \citet{Bueler.Pelt.2015} \\
-
-        $b_0$   & Altitude of max. friction angle
-                & 0
-                & m
-                & -- \\
-
-        $b_1$   & Altitude of min. friction angle
-                & 200
-                & m
-                & \citet{Clague.1981} \\
-
-        $\phi_0$& Minimum friction angle
-                & 15
-                & \degree
-                & -- \\
-
-        $\phi_1$& Maximum friction angle
-                & 45
-                & \degree
-                & -- \\
 
         \midrule
         \multicolumn{2}{l}{{Bedrock and lithosphere}} \\
         \midrule
-
-        $q_{\mathrm{G}}$   & Geothermal heat flux
-                & 70.0
-                & \unit{mW\,m^{-2}}
-                & -- \\
 
         $\rho_{\mathrm{b}}$& Bedrock density
                 & 3300
@@ -343,7 +335,7 @@
                 & -- \\
 
         $k_{\mathrm{b}}$   & Bedrock thermal conductivity
-                & 3.0
+                & 3
                 & \unit{J\,m^{-1}\,K^{-1}\,s^{-1}}
                 & -- \\
 
@@ -358,7 +350,7 @@
                 & \citet{Lingle.Clark.1985} \\
 
         $D$     & Lithosphere flexural rigidity
-                & $5.0\e{24}$
+                & $5\e{24}$
                 & \unit{N}
                 & \citet{Lingle.Clark.1985} \\
 
@@ -377,14 +369,19 @@
                 & -- \\
 
         $F_{\mathrm{s}}$   & Degree-day factor for snow
-                & $3.04\e{-3}$
+                & $3.297\e{-3}$
                 & \unit{m\,K^{-1}\,day^{-1}}
-                & \citet{Shea.etal.2009} \\
+                & \citet{Huybrechts.1998} \\
 
         $F_{\mathrm{i}}$   & Degree-day factor for ice
-                & $4.59\e{-3}$
+                & $8.791\e{-3}$
                 & \unit{m\,K^{-1}\,day^{-1}}
-                & \citet{Shea.etal.2009} \\
+                & \citet{Huybrechts.1998} \\
+
+        $R$     & Refreezing fraction
+                & 0.0
+                & --
+                & -- \\
 
         $\gamma$& Air temperature lapse rate
                 & $6\e{-3}$
