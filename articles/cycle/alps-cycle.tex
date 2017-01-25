@@ -121,10 +121,36 @@
 \subsection{Ice sheet model set-up}
     Table~\ref{tab:params} -- Model parameters\\
     Fig.~\ref{fig:inputs} -- Climate and geothermal model inputs.\\
+
+    \begin{itemize}
+    \item Ice dynamics are approximated by SSA+SIA.
+    \item Ice temperature follows an enthalpy scheme.
+    \item Bedrock temperature computed until 3\,km depth
+    \item Temperature conditioned by geothermal flux (Fig.~\ref{fig:inputs}d).
+    \item Basal sliding follwos a pseudo-plastic law.
+    \item Yield stress is determined by a Mohr-Coulomb criterion.
+    \item Till friction angle is constant.
+    \item Till effective pressure relates to basal melt.
+    \item Surface mass balance is computed by a PDD model.
+    \item Modern T and P forcing from WorldClim (Fig.~\ref{fig:inputs}a and~b).
+    \item Modern PDD SD forcing from ERA-Interim (Fig.~\ref{fig:inputs}c).
+    \item SRTM topography with glaciers removed \citep{Huss.Farinotti.2012}.
+    \end{itemize}
+
 \subsection{Palaeo-climate forcing}
     Table~\ref{tab:records} -- Palaeo-climate records.\\
     Fig.~\ref{fig:timeseries} -- Low-resolution time series.\\
     Fig.~\ref{fig:footprints} -- Low-resolution ice cover.
+
+    \begin{itemize}
+    \item We conducted a 5/,km-resolution sensitivity study.
+    \item We used three palaeo-temperature records (Table~\ref{tab:records}).
+    \item All records scaled to fit the LGM extent (Table~\ref{tab:records}).
+    \item All yield glaciation during MIS~4 and 2 (Fig.~\ref{fig:timeseries}).
+    \item But otherwise very different results (Fig.~\ref{fig:timeseries}).
+    \item Two yield two large MIS~4 ice extent (Fig.~\ref{fig:footprints}).
+    \item Only EPICA yield realistic MIS~4 (Fig.~\ref{fig:footprints}).
+    \end{itemize}
 
 % ----------------------------------------------------------------------
 % References
