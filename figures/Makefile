@@ -1,4 +1,5 @@
 # Figures Makefile
+# ================
 
 
 # Variables
@@ -28,14 +29,14 @@ ALL_FIGS = $(PY_FIGS)
 # Rules
 # -----
 
-# to make all figures
+# default rule
 all: $(ALL_FIGS)
 
 # rules and dependencies for python figures
 $(PY_FIGS): %.pdf : %.py matplotlibrc util
 	$(PY) $<
 
-# clean figures
+# clean up
 .PHONY: clean
 clean:
 	rm $(ALL_FIGS)
