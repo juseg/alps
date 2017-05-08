@@ -43,8 +43,6 @@ ax.scatter(zt, zt+hm, c=ut.pl.palette['darkblue'], alpha=0.75)
 #ax.scatter(zt, zt+wm, c=ut.pl.palette['darkred'], alpha=0.75)
 ax.set_xlabel('observed trimline elevation (m)')
 ax.set_ylabel('modelled surface elevation (m)', labelpad=2)
-ax.set_xlim(1900, 3300)
-ax.set_ylim(1750, 4750)
 
 # compute linear fit
 c = np.polyfit(zt, zt+hm, 1)
