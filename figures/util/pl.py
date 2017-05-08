@@ -52,7 +52,7 @@ regions = {'alps': (150e3, 1050e3, 4820e3, 5420e3),    # model domain 900x600
            'rhone': (230e3, 470e3, 5050e3, 5240e3),    # Guillaume 240x190
            'rhine': (450e3, 625e3, 5075e3, 5325e3),    # Rhine 175x250
            'valais': (310e3, 460e3, 5065e3, 5165e3),   # Trimlines 150x100
-           'aletsch': (413e3, 443e3, 5139e3, 5159e3)}  # Aletsch 30x20
+           'aletsch': (414e3, 444e3, 5139e3, 5159e3)}  # Aletsch 30x20
 
 # cartopy features
 rivers = cfeature.NaturalEarthFeature(
