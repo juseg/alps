@@ -6,7 +6,7 @@ import glob
 import numpy as np
 
 # parameters
-basedir = '/home/juliens/pism/output/0.7.3/alps-wcnn-1km/scalabilitytest'
+basedir = '/home/juliens/pism/output/0.7.3-craypetsc/alps-wcnn-1km/scalabilitytest'
 arches = ['dora-gnu', 'daint-gnu']
 colors = [ut.pl.palette[c] for c in ['darkblue', 'darkred']]
 preferred = 16

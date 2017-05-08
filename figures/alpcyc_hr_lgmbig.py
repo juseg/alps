@@ -20,7 +20,7 @@ xts, yts = 600e3, 5170e3
 # --------
 
 # load extra data
-filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+filepath = 'output/0.7.3-craypetsc/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
 nc = ut.io.load(filepath)
 x = nc.variables['x'][:]
 y = nc.variables['y'][:]
@@ -134,7 +134,7 @@ ax2.plot(0.0, dbdt[-1], 'o',
 nc.close()
 
 # load ts output
-filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/ts.nc'
+filepath = 'output/0.7.3-craypetsc/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/ts.nc'
 nc = ut.io.load(filepath)
 age = -nc.variables['time'][:]/(1e3*365*24*60*60)
 vol = nc.variables['slvol'][:]

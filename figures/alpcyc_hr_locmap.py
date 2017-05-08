@@ -9,7 +9,7 @@ import cartopy.io.shapereader as cshp
 fig, ax, cax = ut.pl.subplots_cax_inset()
 
 # boot topography
-nc = ut.io.load('input/boot/alps-srtm-1km.nc')
+nc = ut.io.load('input/boot/alps-srtm+gou11simi-1km.nc')
 im = nc.imshow('topg', ax=ax, vmin=0e3, vmax=3e3, cmap='Greys', zorder=-1)
 nc.close()
 

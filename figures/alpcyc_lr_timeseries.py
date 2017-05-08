@@ -5,11 +5,10 @@ import util as ut
 import numpy as np
 
 # parameters
-# FIXME: refine offsets
-records = ['GRIP', 'EPICA', 'EPICA', 'MD01-2444']
-configs = ['+esia5', '', '+esia5', '+esia5']
-offsets = [7.6, 9.2, 9.5, 8.0]
-colors = ['darkblue', 'lightred', 'darkred', 'darkgreen']
+records = ['GRIP', 'EPICA', 'MD01-2444']
+configs = ['', '', '']
+offsets = [7.6, 9.4, 7.9]
+colors = ['darkblue', 'darkred', 'darkgreen']
 colors = [ut.pl.palette[c] for c in colors]
 
 # initialize time-series figure
@@ -32,8 +31,8 @@ for i, rec in enumerate(records):
     ax1.plot(age, dt, c=c, alpha=0.75)
 
     # load output time series
-    nc = ut.io.load('output/0.7.3/alps-wcnn-5km/%s+acyc1%s/y0120000-ts.nc'
-                    % (dtfile, conf))
+    nc = ut.io.load('output/0.7.3/alps-wcnn-5km/%s+alpcyc2%s+till1545/'
+                    'y0120000-ts.nc' % (dtfile, conf))
     age = -nc.variables['time'][:]/(1e3*365*24*60*60)
     vol = nc.variables['slvol'][:]
     nc.close()

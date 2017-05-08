@@ -19,7 +19,8 @@ PY_FIGS = $(addprefix alpbou_, locmap) \
                              locmap profiles scalability timestamps \
                              timing totalsliding trimlines uplift \
                              warmdepth warmtime ydthk ydvel) \
-            $(addprefix lr_, footprints glacareas records timeseries))
+            $(addprefix lr_, footprints glacareas records scaleinterval \
+                             timeseries))
 PY_FIGS := $(addsuffix .$(EXT), $(PY_FIGS))
 
 # all figures

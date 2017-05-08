@@ -65,7 +65,6 @@ for i, rec in enumerate(records):
                     clip_on=True)
 
 # set axes properties
-# FIXME: refine limits as new runs become available
 ax.axhspan(240.0, 300.0, fc='0.9', lw=0.0, zorder=0)
 ax.axhline(target, lw=0.1, c='0.5')
 ax.legend(loc='best')

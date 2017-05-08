@@ -44,7 +44,7 @@ fig.text(1-2.5/figw, 2.5/figh, 'J. Seguinot et al. (2016)',
          ha='right', va='bottom')
 
 # load time series data
-filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/ts.nc'
+filepath = 'output/0.7.3-craypetsc/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/ts.nc'
 nc = ut.io.load(filepath)
 age = -nc.variables['time'][:]/(1e3*365*24*60*60)
 vol = nc.variables['slvol'][:]
@@ -59,7 +59,7 @@ tsax.locator_params(axis='y', nbins=6)
 tsax.grid(axis='y')
 
 # load extra data
-filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+filepath = 'output/0.7.3-craypetsc/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
 nc = ut.io.load(filepath)
 x = nc.variables['x'][:]
 y = nc.variables['y'][:]

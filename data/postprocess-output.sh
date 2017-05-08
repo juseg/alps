@@ -9,7 +9,8 @@ cd processed
 # ------------------------------
 
 # pism output file
-odir=$HOME/pism/output/0.7.3
+idir=$HOME/pism/input
+odir=$HOME/pism/output/0.7.3-craypetsc
 runname=alps-wcnn-1km/epica3222cool0950+acyc1+esia5
 ifile=$odir/$runname/extra.nc
 ofile=${runname/"/"/-}-21ka.nc

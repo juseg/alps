@@ -10,7 +10,7 @@ from osgeo import ogr
 from osgeo import osr
 
 # file paths
-outdir = os.environ['HOME'] + '/pism/output/0.7.3/'
+outdir = os.environ['HOME'] + '/pism/output/0.7.3-craypetsc/'
 runname = 'alps-wcnn-1km/epica3222cool0950+acyc1+esia5'
 varname = 'footprint'
 ifilepath = outdir + runname + '/extra.nc'

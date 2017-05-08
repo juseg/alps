@@ -15,7 +15,7 @@ t = -a*1e3
 # --------
 
 # load extra data
-filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+filepath = 'output/0.7.3-craypetsc/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
 nc = ut.io.load(filepath)
 
 # plot
@@ -43,7 +43,7 @@ ut.pl.add_corner_tag('%.1f ka' % a, ax)
 # -----------
 
 # load time series data
-filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/ts.nc'
+filepath = 'output/0.7.3-craypetsc/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/ts.nc'
 nc = ut.io.load(filepath)
 age = -nc.variables['time'][:]/(1e3*365*24*60*60)
 vol = nc.variables['slvol'][:]*1e3

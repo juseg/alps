@@ -27,7 +27,7 @@ ax = ax1
 ax.set_extent(ut.pl.regions['rhine'], crs=ax.projection)
 
 # draw boot topography
-nc = ut.io.load('input/boot/alps-srtm-1km.nc')
+nc = ut.io.load('input/boot/alps-srtm+gou11simi-1km.nc')
 im = nc.imshow('topg', ax=ax, vmin=0e3, vmax=3e3, cmap='Greys', zorder=-1)
 nc.close()
 
@@ -46,7 +46,7 @@ ax.plot(xp, yd, c=c, marker='o')
 ax = ax2
 
 # load extra data
-filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+filepath = 'output/0.7.3-craypetsc/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
 nc = ut.io.load(filepath)
 x = nc.variables['x'][:]
 y = nc.variables['y'][:]

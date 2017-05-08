@@ -8,7 +8,7 @@ import numpy as np
 fig, ax, cax = ut.pl.subplots_cax_inset()
 
 # load extra data
-filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+filepath = 'output/0.7.3-craypetsc/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
 nc = ut.io.load(filepath)
 w, e, s, n = 125, 425, 300, 500  # Swiss foreland
 w, e, s, n = 000, 901, 000, 601  # Whole domain

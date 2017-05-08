@@ -5,10 +5,9 @@ import util as ut
 import numpy as np
 
 # parameters
-# FIXME: refine offsets
 records = ['GRIP', 'EPICA', 'MD01-2444']
 configs = ['', '', '']
-offsets = [7.6, 9.2, 8.0]
+offsets = [7.6, 9.4, 7.9]
 colors = ['darkblue', 'darkred', 'darkgreen']
 colors = [ut.pl.palette[c] for c in colors]
 

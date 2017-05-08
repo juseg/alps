@@ -8,7 +8,7 @@ import numpy as np
 fig, ax = ut.pl.subplots_ts()
 
 # open extra file
-filepath = 'output/0.7.3/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+filepath = 'output/0.7.3-craypetsc/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
 nc = ut.io.load(filepath)
 age = -nc.variables['time'][:]/(365.0*24*60*60*1000)
 stamp = nc.variables['timestamp'][:]
