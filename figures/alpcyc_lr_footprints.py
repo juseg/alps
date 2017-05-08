@@ -7,8 +7,8 @@ import numpy as np
 # parameters
 # FIXME: refine offsets
 records = ['GRIP', 'EPICA', 'MD01-2444']
-configs = ['+esia5', '+esia5', '+esia5']
-offsets = [7.6, 9.5, 8.0]
+configs = ['', '', '']
+offsets = [7.6, 9.2, 8.0]
 colors = ['darkblue', 'darkred', 'darkgreen']
 colors = [ut.pl.palette[c] for c in colors]
 
@@ -23,8 +23,9 @@ fig, grid = ut.pl.subplots_mm(figsize=(170.0, 80.0), projection=ut.pl.utm,
                               hspace=2.5, wspace=2.5)
 
 # add boot topo
-nc = ut.io.load('input/boot/alps-srtm-5km.nc')
+nc = ut.io.load('input/boot/alps-srtmsub+gou11simi-5km.nc')
 for ax in grid.flat:
+    ax.set_extent(ut.pl.regions['alps'], crs=ax.projection)
     ax.set_rasterization_zorder(2.5)
     im = nc.imshow('topg', ax=ax, vmin=0e3, vmax=3e3, cmap='Greys', zorder=-1)
 nc.close()
@@ -40,8 +41,8 @@ for i, rec in enumerate(records):
 
     # load extra output
     dtfile = '%s3222cool%04d' % (rec.replace('-', '').lower(), round(dt*100))
-    nc = ut.io.load('output/0.7.3/alps-wcnn-5km/%s+acyc1%s/y0120000-extra.nc'
-                    % (dtfile, conf))
+    nc = ut.io.load('output/0.7.3/alps-wcnn-5km/%s+alpcyc2%s+till1545/'
+                    'y0120000-extra.nc' % (dtfile, conf))
     x = nc.variables['x'][:]
     y = nc.variables['y'][:]
     age = -nc.variables['time'][:]/(1e3*365.0*24*60*60)
