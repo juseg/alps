@@ -47,6 +47,7 @@ stereo = ccrs.Stereographic(central_latitude=0.0, central_longitude=7.5)
 
 # geographic regions
 regions = {'alps': (150e3, 1050e3, 4820e3, 5420e3),    # model domain 900x600
+           'bern': (390e3, 465e3, 5125e3, 5175e3),     # Bern 75x50
            'crop': (155e3, 1045e3, 4825e3, 5415e3),    # 5 km crop 895x895
            'west': (250e3, 700e3, 4970e3, 5270e3),     # western 450x300
            'rhone': (230e3, 470e3, 5050e3, 5240e3),    # Guillaume 240x190
@@ -111,13 +112,13 @@ def subplots_ts(nrows=1, ncols=1, figw=85.0):
                             hspace=2.5, wspace=2.5)
 
 
-def subplots_cax():
+def subplots_cax(extent='alps'):
     """Init figure with unique subplot and right colorbar."""
     figw, figh = 170.0, 105.0
     fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
                                left=2.5, right=17.5, bottom=2.5, top=2.5)
     cax = fig.add_axes([1-15.0/figw, 2.5/figh, 5.0/figw, 1-5.0/figh])
-    prepare_axes(ax)
+    prepare_axes(ax, extent=extent)
     return fig, ax, cax
 
 
