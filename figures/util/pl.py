@@ -52,6 +52,7 @@ regions = {'alps': (150e3, 1050e3, 4820e3, 5420e3),    # model domain 900x600
            'west': (250e3, 700e3, 4970e3, 5270e3),     # western 450x300
            'rhone': (230e3, 470e3, 5050e3, 5240e3),    # Guillaume 240x190
            'rhine': (450e3, 625e3, 5075e3, 5325e3),    # Rhine 175x250
+           'rhlobe': (450e3, 600e3, 5225e3, 5325e3),   # Rhine lobe 150x100
            'valais': (310e3, 460e3, 5065e3, 5165e3),   # Trimlines 150x100
            'aletsch': (414e3, 444e3, 5139e3, 5159e3)}  # Aletsch 30x20
 
@@ -154,7 +155,7 @@ def subplots_cax_ts_inset(extent='alps', labels=True, mis=True):
                           ec='k', fc='w', alpha=0.75, clip_on=False,
                           transform=fig.transFigure, zorder=-1)
     tsax.add_patch(rect)
-    tsax.set_axis_bgcolor('none')
+    tsax.set_facecolor('none')
     prepare_axes(ax, tsax, extent, labels, mis)
     return fig, ax, cax, tsax
 

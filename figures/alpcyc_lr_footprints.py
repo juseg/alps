@@ -14,7 +14,7 @@ fig, grid = ut.pl.subplots_mm(figsize=(170.0, 80.0), projection=ut.pl.utm,
                               left=2.5, right=2.5, bottom=2.5, top=3.9,
                               hspace=2.5, wspace=2.5)
 
-# add boot topo
+# add boot topo  # FIXME move to util
 nc = ut.io.load('input/boot/alps-srtmsub+gou11simi-5km.nc')
 for ax in grid.flat:
     ax.set_extent(ut.pl.regions['alps'], crs=ax.projection)
