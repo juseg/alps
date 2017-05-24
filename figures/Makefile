@@ -19,7 +19,7 @@ PY_FIGS = $(addprefix alpbou_, locmap) \
                              locmap profiles scalability timestamps \
                              timing totalsliding trimlines uplift \
                              warmdepth warmtime ydthk ydvel) \
-            $(addprefix lr_, footprints glacareas records rhineareas
+            $(addprefix lr_, footprints glacareas records rhineareas \
                              scaleinterval timeseries)) \
           $(addprefix alplgl_, extent)
 PY_FIGS := $(addsuffix .$(EXT), $(PY_FIGS))

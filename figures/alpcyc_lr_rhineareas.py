@@ -4,15 +4,6 @@
 import util as ut
 import numpy as np
 
-# parameters
-records = ['GRIP']*2 + ['EPICA']*2 + ['MD01-2444']*2
-configs = ['alpcyc4%s+till1545' % s for s in ['', '+pp']]*3
-colors = ['%s%s' % (tone, hue) for hue in ['blue', 'red', 'green']
-                               for tone in ['dark', 'light']]
-colors = [ut.pl.palette[c] for c in colors]
-labels = [b*', $\Delta P$' for b in ['pp' in c for c in configs]]
-labels = ['%s%s' % (rec, lab) for (rec, lab) in zip(records, labels)]
-
 # LGM extent UTM 32
 # original?  9304663497.36 m2
 # holefilled 9698970454.26 m2
@@ -23,10 +14,10 @@ target = 9.92007028636
 fig, ax = ut.pl.subplots_ts()
 
 # for each record
-for i, rec in enumerate(records):
-    conf = configs[i]
-    label = labels[i]
-    c = colors[i]
+for i, rec in enumerate(ut.alpcyc_records):
+    label = ut.alpcyc_clabels[i]
+    conf = ut.alpcyc_configs[i]
+    c = ut.alpcyc_colours[i]
     offsets = []
     fpareas = []
 
@@ -65,6 +56,7 @@ for i, rec in enumerate(records):
 
     # plot
     argmin = np.argmin(np.abs(np.array(fpareas)-target))
+    #print label, offsets[argmin]
     ax.plot(offsets, fpareas, c=c, marker='o', label=label)
     ax.plot(offsets[argmin], fpareas[argmin], c=c, marker='D')
     ax.axvline(offsets[argmin], lw=0.1, c=c)
