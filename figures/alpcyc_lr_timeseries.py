@@ -4,21 +4,15 @@
 import util as ut
 import numpy as np
 
-# parameters
-records = ['GRIP', 'EPICA', 'MD01-2444']
-configs = ['', '', '']
-offsets = [7.6, 9.4, 7.9]
-colors = ['darkblue', 'darkred', 'darkgreen']
-colors = [ut.pl.palette[c] for c in colors]
-
 # initialize time-series figure
 fig, (ax1, ax2) = ut.pl.subplots_ts(2, 1, figw=170.0)
 
 # for each record
-for i, rec in enumerate(records):
-    conf = configs[i]
-    dt = offsets[i]
-    c = colors[i]
+for i, rec in enumerate(ut.alpcyc_records):
+    label = ut.alpcyc_clabels[i]
+    conf = ut.alpcyc_configs[i]
+    dt = ut.alpcyc_offsets[i]
+    c = ut.alpcyc_colours[i]
 
     # load temperature time series
     dtfile = '%s3222cool%04d' % (rec.replace('-', '').lower(), round(dt*100))
@@ -31,15 +25,13 @@ for i, rec in enumerate(records):
     ax1.plot(age, dt, c=c, alpha=0.75)
 
     # load output time series
-    nc = ut.io.load('output/0.7.3/alps-wcnn-5km/%s+alpcyc2%s+till1545/'
-                    'y0120000-ts.nc' % (dtfile, conf))
+    nc = ut.io.load('output/e9d2d1f/alps-wcnn-5km/%s+%s/'
+                            'y0120000-ts.nc' % (dtfile, conf))
     age = -nc.variables['time'][:]/(1e3*365*24*60*60)
     vol = nc.variables['slvol'][:]
     nc.close()
 
     # plot time series
-    esia = {'': 2, '+esia5': 5}[conf]
-    label = rec.upper() + ', $E_{SIA} = %d$' % esia
     ax2.plot(age, vol, c=c, label=label)
 
 # add marine isotope stages

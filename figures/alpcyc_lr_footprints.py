@@ -4,13 +4,6 @@
 import util as ut
 import numpy as np
 
-# parameters
-records = ['GRIP', 'EPICA', 'MD01-2444']
-configs = ['', '', '']
-offsets = [7.6, 9.4, 7.9]
-colors = ['darkblue', 'darkred', 'darkgreen']
-colors = [ut.pl.palette[c] for c in colors]
-
 # isotope stage bounds
 agebounds = [[29, 14], [71, 57]]
 idxbounds = [[909, 1059], [489, 629]]
@@ -30,18 +23,22 @@ for ax in grid.flat:
 nc.close()
 
 # for each record
-for i, rec in enumerate(records):
-    conf = configs[i]
-    dt = offsets[i]
-    c = colors[i]
+for i, rec in enumerate(ut.alpcyc_records):
+    label = ut.alpcyc_clabels[i]
+    conf = ut.alpcyc_configs[i]
+    dt = ut.alpcyc_offsets[i]
+    c = ut.alpcyc_colours[i]
 
     # set title
-    grid[0, i].set_title(rec, fontweight='bold', color=c)
+    if 'pp' not in conf:
+        grid[0, i/2].set_title(rec, fontweight='bold', color=c)
+        ut.pl.add_subfig_label('(%s)' % list('abc')[i/2], ax=grid[0, i/2])
+        ut.pl.add_subfig_label('(%s)' % list('def')[i/2], ax=grid[1, i/2])
 
     # load extra output
     dtfile = '%s3222cool%04d' % (rec.replace('-', '').lower(), round(dt*100))
-    nc = ut.io.load('output/0.7.3/alps-wcnn-5km/%s+alpcyc2%s+till1545/'
-                    'y0120000-extra.nc' % (dtfile, conf))
+    nc = ut.io.load('output/e9d2d1f/alps-wcnn-5km/%s+%s/'
+                    'y???????-extra.nc' % (dtfile, conf))
     x = nc.variables['x'][:]
     y = nc.variables['y'][:]
     age = -nc.variables['time'][:]/(1e3*365.0*24*60*60)
@@ -50,12 +47,11 @@ for i, rec in enumerate(records):
 
     # for each stage
     for j in range(2):
-        ax = grid[j, i]
+        ax = grid[j, i/2]
         b0, b1 = idxbounds[j]
         mask = (thk[b0:b1] < 1.0).prod(axis=0)
-        cs = ax.contourf(x, y, mask.T, levels=[-0.5, 0.5], colors=[c], alpha=0.75)
+        cs = ax.contourf(x, y, mask, levels=[-0.5, 0.5], colors=[c], alpha=0.75)
         ut.pl.add_corner_tag('MIS %d' % (2+2*j), ax=ax, va='bottom')
-        ut.pl.add_subfig_label('(%s)' % list('abcdef')[i+3*j], ax=ax)
         ut.pl.draw_natural_earth(ax)
         ut.pl.draw_lgm_outline(ax, c='k')
 
