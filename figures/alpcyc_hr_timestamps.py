@@ -20,13 +20,19 @@ speed = np.where(speed>0, speed, stamp)
 cumnh = speed.cumsum()*16e-3
 
 # plot
-ax.plot(age, cumnh)
-ax.set_xlim(120.0, 0.0)
+c = ut.pl.palette['darkblue']
+ax.plot(age, cumnh, color=c)
 
-# add labels
+# mark scalability test
+testage = 120.0 - 57.5
+ax.plot(testage, cumnh[age == testage], color=c, marker='o')
+ax.text(testage, cumnh[age == testage]+0.5, 'scalability test  ', color=c, ha='right')
+
+# set axes properies
+ax.set_xlim(120.0, 0.0)
 ax.set_xlabel('model time (ka)')
 ax.set_ylabel('computing time (node-hours*1000)')
 ax.grid()
 
-# add legend and save
+# save
 fig.savefig('alpcyc_hr_timestamps')

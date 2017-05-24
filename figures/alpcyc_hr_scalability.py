@@ -59,11 +59,13 @@ for arch, c in zip(arches, colors):
         ax3.plot(nnodes, efficiency, c=c, ls=ls, marker='|', label=label)
 
         # preferred
-        if arch == 'dora-gnu' and ntasks == 36:
+        if arch == 'daint-gnu' and ntasks == 36:
             idx = np.argwhere(nnodes == preferred)
+            label = '%d nodes, %.2f h' % (nnodes[idx], efficiency[idx])
             ax1.plot(nnodes[idx], wtimes[idx], c=c, marker='o')
             ax2.plot(nnodes[idx], speedup[idx], c=c, marker='o')
             ax3.plot(nnodes[idx], efficiency[idx], c=c, marker='o')
+            ax3.text(nnodes[idx]*1.1, efficiency[idx]+0.05, label, color=c)
 
 # add axes grid
 for ax in grid:
