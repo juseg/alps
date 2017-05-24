@@ -13,7 +13,8 @@ w, e, s, n = ut.pl.regions['rhlobe']
 
 # add boot topo  # FIXME move to util
 nc = ut.io.load('input/boot/alps-srtmsub+gou11simi-5km.nc')
-for ax in grid.flat:
+for i, ax in enumerate(grid.flat):
+    ut.pl.add_subfig_label('(%s)' % list('abcdef')[i], ax=ax)
     ax.set_extent(ut.pl.regions['alps'], crs=ax.projection)
     ax.set_rasterization_zorder(2.5)
     im = nc.imshow('topg', ax=ax, vmin=0e3, vmax=3e3, cmap='Greys', zorder=-1)
@@ -25,8 +26,13 @@ for i, rec in enumerate(ut.alpcyc_records):
     conf = ut.alpcyc_configs[i]
     cmap = ut.alpcyc_colmaps[i]
     pick = ut.alpcyc_offsets[i]
+    c = ut.alpcyc_colours[i]
     ax = grid[i%2, i/2]
     stackprint = np.nan
+
+    # set title
+    if 'pp' not in conf:
+        ax.set_title(rec, fontweight='bold', color=c)
 
     # loop on offsets
     for dt in np.arange(14.0, 5.9, -0.1):
