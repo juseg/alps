@@ -6,13 +6,18 @@ import numpy as np
 
 # parameters
 records = ['GRIP']*2 + ['EPICA']*2 + ['MD01-2444']*2
-configs = ['alpcyc2%s+till1545' % s for s in ['', '+pp']]*3
+configs = ['alpcyc4%s+till1545' % s for s in ['', '+pp']]*3
 colors = ['%s%s' % (tone, hue) for hue in ['blue', 'red', 'green']
                                for tone in ['dark', 'light']]
 colors = [ut.pl.palette[c] for c in colors]
 labels = [b*', $\Delta P$' for b in ['pp' in c for c in configs]]
 labels = ['%s%s' % (rec, lab) for (rec, lab) in zip(records, labels)]
-target = 185.0  # LGM extent 149027.868048 km2, hole-filled 216953.838 km2
+
+# LGM extent UTM 32
+# original   131,679.803 km2
+# holefilled 149,027.868 km2
+# fullfilled 150,102.315 km²
+target = 150.102315
 
 # initialize figure
 fig, ax = ut.pl.subplots_ts()
@@ -26,14 +31,14 @@ for i, rec in enumerate(records):
     fpareas = []
 
     # loop on offsets
-    for dt in np.arange(6.0, 10.1, 0.1):
+    for dt in np.arange(6.0, 14.1, 0.1):
 
         # try to find max area
         try:
 
             # load extra file
             dtfile = '%s3222cool%04d' % (rec.replace('-', '').lower(), round(dt*100))
-            nc = ut.io.load('output/0.7.3/alps-wcnn-5km/%s+%s/'
+            nc = ut.io.load('output/e9d2d1f/alps-wcnn-5km/%s+%s/'
                             'y0120000-extra.nc' % (dtfile, conf))
             x = nc.variables['x'][:]
             y = nc.variables['y'][:]
@@ -54,6 +59,10 @@ for i, rec in enumerate(records):
         except (RuntimeError, IndexError):
             pass
 
+    # continue if no files found
+    if fpareas == []:
+        continue
+
     # plot
     argmin = np.argmin(np.abs(np.array(fpareas)-target))
     ax.plot(offsets, fpareas, c=c, marker='o', label=label)
@@ -61,15 +70,13 @@ for i, rec in enumerate(records):
     ax.axvline(offsets[argmin], lw=0.1, c=c)
     for dt, a in zip(offsets, fpareas):
         if a:
-            ax.text(dt, a+5, '%.0f' % a, color=c, fontsize=4, ha='center',
+            ax.text(dt, a+5.0, '%.0f' % a, color=c, fontsize=4, ha='right',
                     clip_on=True)
 
 # set axes properties
-ax.axhspan(240.0, 300.0, fc='0.9', lw=0.0, zorder=0)
 ax.axhline(target, lw=0.1, c='0.5')
-ax.legend(loc='best')
-ax.set_xlim(6.9, 10.1)
-ax.set_ylim(100.0, 300.0)
+ax.legend(loc='upper left', ncol=3)
+ax.set_ylim(ax.get_ylim()[0], ax.get_ylim()[1]+5.0)
 ax.set_xlabel('temperature offset (K)')
 ax.set_ylabel(r'glaciated area ($10^3\,km^2$)')
 
