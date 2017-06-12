@@ -57,7 +57,7 @@ for i, rec in enumerate(ut.alpcyc_records):
                 fpareas.append(a)
 
             # else do nothing
-            except (RuntimeError, IndexError):
+            except (RuntimeError, IndexError, ValueError):
                 pass
 
         # continue if no files found

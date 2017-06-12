@@ -12,7 +12,7 @@ fig, grid = ut.pl.subplots_mm(figsize=(170.0, 80.0), projection=ut.pl.utm,
 w, e, s, n = ut.pl.regions['rhlobe']
 
 # add boot topo  # FIXME move to util
-nc = ut.io.load('input/boot/alps-srtmsub+gou11simi-5km.nc')
+nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-2km.nc')
 for i, ax in enumerate(grid.flat):
     ut.pl.add_subfig_label('(%s)' % list('abcdef')[i], ax=ax)
     ax.set_extent(ut.pl.regions['alps'], crs=ax.projection)
@@ -43,7 +43,7 @@ for i, rec in enumerate(ut.alpcyc_records):
             # load extra file
             dtfile = '%s3222cool%04d' % (rec.replace('-', '').lower(), round(dt*100))
             nc = ut.io.load('output/e9d2d1f/alps-wcnn-5km/%s+%s/'
-                            'y0120000-extra.nc' % (dtfile, conf))
+                            'y???????-extra.nc' % (dtfile, conf))
             x = nc.variables['x'][:]
             y = nc.variables['y'][:]
             thk = nc.variables['thk'][909:1059, :, :]  # 29 to 14 ka
@@ -60,7 +60,7 @@ for i, rec in enumerate(ut.alpcyc_records):
                             colors=['k'], linewidths=lw)
 
         # else do nothing
-        except (RuntimeError, IndexError):
+        except (RuntimeError, IndexError, ValueError):
             pass
 
     # continue if no files found

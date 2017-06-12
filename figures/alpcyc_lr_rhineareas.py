@@ -8,7 +8,7 @@ import numpy as np
 # 5km original?  9304663497.36 m2
 # 5km holefilled 9698970454.26 m2
 # 5km fullfilled 9920070286.36 m2
-# 3km original?   9662196158.76 m2
+# 2km original?   9662196158.76 m2
 # 2km holefilled 10068557699.62 m2
 # 2km fullfilled 10292635994.90 m2
 targets = [9.92007028636, 10.29263599490]
@@ -66,7 +66,7 @@ for i, rec in enumerate(ut.alpcyc_records):
                 fpareas.append(a)
 
             # else do nothing
-            except (RuntimeError, IndexError):
+            except (RuntimeError, IndexError, ValueError):
                 pass
 
         # continue if no files found
