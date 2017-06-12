@@ -15,8 +15,9 @@ fig, ax = ut.pl.subplots_ts()
 
 # resolutions and styles
 resolutions = ['5km', '2km']
-linestyles = ['-', '']
-markers = ['|', '*']
+linestyles = [':', '-']
+linewidths = [0.5, 1.0]
+markers = ['+', '*']
 
 # for each record
 for i, rec in enumerate(ut.alpcyc_records):
@@ -24,8 +25,8 @@ for i, rec in enumerate(ut.alpcyc_records):
     conf = ut.alpcyc_configs[i]
     c = ut.alpcyc_colours[i]
     for j, res in enumerate(resolutions):
-        label = label if j == 0 else None
         ls = linestyles[j]
+        lw = linewidths[j]
         m = markers[j]
         offsets = []
         fpareas = []
@@ -67,19 +68,20 @@ for i, rec in enumerate(ut.alpcyc_records):
         # plot
         argmin = np.argmin(np.abs(np.array(fpareas)-target))
         #print label, offsets[argmin]
-        ax.plot(offsets, fpareas, c=c, ls=ls, marker=m, label=label)
-        if j == 0:
+        ax.plot(offsets, fpareas, c=c, ls=ls, lw=lw, marker=m,
+                label=(label if res == '2km' else None))
+        if res == '2km':
             ax.plot(offsets[argmin], fpareas[argmin], c=c, marker='D')
             ax.axvline(offsets[argmin], lw=0.1, c=c)
             for dt, a in zip(offsets, fpareas):
                 if a:
-                    ax.text(dt, a+5.0, '%.0f' % a, color=c, fontsize=4,
-                            ha='right', clip_on=True)
+                    ax.text(dt+0.1, a, '%.0f' % a, color=c, fontsize=4,
+                            ha='left', va='center', clip_on=True)
 
 # set axes properties
 ax.axhline(target, lw=0.1, c='0.5')
-ax.legend(loc='upper left', ncol=3)
-ax.set_ylim(ax.get_ylim()[0], ax.get_ylim()[1]+5.0)
+ax.legend(loc='lower left', ncol=3)
+ax.set_xlim(ax.get_xlim()[0], ax.get_xlim()[1]+0.1)
 ax.set_xlabel('temperature offset (K)')
 ax.set_ylabel(r'glaciated area ($10^3\,km^2$)')
 
