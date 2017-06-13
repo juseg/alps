@@ -21,3 +21,4 @@ alpcyc_colours = [pl.palette[tone+hue] for hue in ['blue', 'red', 'green']
 alpcyc_colmaps = ['Blues_r']*2 + ['Reds_r']*2 + ['Greens_r']*2
 alpcyc_clabels = [rec + ('pp' in conf)*', $\Delta P$' for (rec, conf) in
                   zip(alpcyc_records, alpcyc_configs)]
+alpcyc_bestrun = 'output/e9d2d1f/alps-wcnn-1km/epica3222cool1220+alpcyc4+pp/'

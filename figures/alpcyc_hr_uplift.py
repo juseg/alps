@@ -15,7 +15,7 @@ fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut()
 # --------
 
 # load boot topography
-nc = ut.io.load('input/boot/alps-srtmsub+gou11simi-1km.nc')
+nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-1km.nc')
 im = nc.imshow('topg', ax, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
 x = nc.variables['x'][:]
 y = nc.variables['y'][:]
@@ -25,7 +25,7 @@ boot = nc.variables['topg'][its, jts]
 nc.close()
 
 # load extra data
-filepath = 'output/0.7.3-craypetsc/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
 nc = ut.io.load(filepath)
 x = nc.variables['x'][:]
 y = nc.variables['y'][:]
@@ -33,7 +33,7 @@ its = np.argmin(abs(x-xts))
 jts = np.argmin(abs(y-yts))
 age = -nc.variables['time'][:]/(1e3*365.0*24*60*60)
 dbdt = nc.variables['dbdt'][-1]*1e3
-topg = nc.variables['topg'][:, its, jts]
+topg = nc.variables['topg'][:, jts, its]
 nc.close()
 
 # set levels and colors
@@ -42,7 +42,7 @@ cmap = ut.pl.get_cmap('Greens', len(levs)+1)
 cols = cmap(range(len(levs)+1))
 
 # plot modern uplift
-cs = ax.contourf(x, y, dbdt.T, thkth=-1, levels=levs, colors=cols,
+cs = ax.contourf(x, y, dbdt, thkth=-1, levels=levs, colors=cols,
                  extend='both', alpha=0.75)
 
 # add location of time series
@@ -63,10 +63,10 @@ cb.set_label(r'modern uplift rate ($mm\,a^{-1}$)')
 diff = topg - boot
 twax = tsax.twinx()
 twax.plot(age, diff, c=ut.pl.palette['darkgreen'])
-twax.plot(0.0, diff[-1], 'o', c=ut.pl.palette['darkgreen'], clip_on=False)
+twax.plot(age[-1], diff[-1], 'o', c=ut.pl.palette['darkgreen'], clip_on=False)
 twax.set_ylabel('uplift (m)', color=ut.pl.palette['darkgreen'])
 twax.set_xlim(120.0, 0.0)
-twax.set_ylim(-150.0, 250.0)
+twax.set_ylim(-125.0, 75.0)
 twax.locator_params(axis='y', nbins=6)
 
 # save figure

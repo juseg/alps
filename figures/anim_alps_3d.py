@@ -31,7 +31,7 @@ def draw(i, ax, nc, label):
 
     # clear axes
     age = -time[i]/1e3
-    print 'plotting at %.1f ka...' % age
+    print 'plotting at %.2f ka...' % age
     ax.cla()
 
     # prepare composite image of topo and velocity
@@ -79,7 +79,7 @@ def saveframe(i):
         return
 
     # load extra data
-    filepath = 'output/0.7.3-craypetsc/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+    filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
     nc = ut.io.load(filepath)
 
     # initialize figure
@@ -97,6 +97,6 @@ def saveframe(i):
 # plot individual frames in parallel
 from multiprocessing import Pool
 pool = Pool(processes=16)
-pool.map(saveframe, xrange(1200))
+pool.map(saveframe, xrange(9, 12000, 10))
 pool.close()
 pool.join()

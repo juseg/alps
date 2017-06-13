@@ -8,7 +8,7 @@ from matplotlib.animation import FuncAnimation
 def draw(t, ax, cursor):
     """What to draw at each animation step."""
     age = -t/1e3
-    print 'plotting at %.1f ka...' % age
+    print 'plotting at %.2f ka...' % age
     ax.cla()
     ax.outline_patch.set_ec('none')
 
@@ -42,7 +42,7 @@ fig.text(1-2.5/figw, 2.5/figh, 'J. Seguinot et al. (in prep.)',
          ha='right', va='bottom')
 
 # load time series data
-filepath = 'output/0.7.3-craypetsc/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/ts.nc'
+filepath = ut.alpcyc_bestrun + 'y???????-ts.nc'
 nc = ut.io.load(filepath)
 age = -nc.variables['time'][:]/(1e3*365*24*60*60)
 vol = nc.variables['slvol'][:]
@@ -61,7 +61,7 @@ tsax.grid(axis='y')
 cursor = tsax.axvline(0.0, c='k', lw=0.25)
 
 # load extra data
-filepath = 'output/0.7.3-craypetsc/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
 nc = ut.io.load(filepath)
 time = nc.variables['time'][:]/(365.0*24*60*60)
 
@@ -71,7 +71,7 @@ cb = fig.colorbar(im, cax, extend='both')
 cb.set_label(r'surface velocity ($m\,a^{-1}$)')
 
 # make animation
-anim = FuncAnimation(fig, draw, frames=time, fargs=(ax, cursor))
+anim = FuncAnimation(fig, draw, frames=time[9::10], fargs=(ax, cursor))
 anim.save('anim_alps_cycle.mp4', fps=25, codec='h264')
 anim.save('anim_alps_cycle.ogg', fps=25, codec='theora')
 

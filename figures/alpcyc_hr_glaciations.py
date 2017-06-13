@@ -8,13 +8,11 @@ import numpy as np
 fig, ax, cax = ut.pl.subplots_cax_inset()
 
 # load extra data
-filepath = 'output/0.7.3-craypetsc/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
 nc = ut.io.load(filepath)
-w, e, s, n = 125, 425, 300, 500  # Swiss foreland
-w, e, s, n = 000, 901, 000, 601  # Whole domain
-x = nc.variables['x'][w:e]
-y = nc.variables['y'][s:n]
-thk = nc.variables['thk'][:, w:e, s:n]
+x = nc.variables['x'][:]
+y = nc.variables['y'][:]
+thk = nc.variables['thk'][:]
 
 # compute footprint
 icy = (thk >= 1.0)
@@ -24,7 +22,7 @@ icy = (thk >= 1.0)
 #icy = (icysum[5:] - icysum[:-5])/5
 
 # compute number of glaciations
-glaciations = (icy[0] + np.diff(icy, axis=0).sum(axis=0) + icy[-1]).T/2
+glaciations = (icy[0] + np.diff(icy, axis=0).sum(axis=0) + icy[-1])/2
 footprint = (glaciations > 0)
 
 # set contour levels and colors

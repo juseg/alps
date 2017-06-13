@@ -12,7 +12,7 @@ fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut()
 # --------
 
 # load extra data
-filepath = 'output/0.7.3-craypetsc/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
 nc = ut.io.load(filepath)
 x = nc.variables['x'][:]
 y = nc.variables['y'][:]
@@ -20,9 +20,9 @@ age = -nc.variables['time'][:]/(1e3*365.0*24*60*60)
 thk = nc.variables['thk'][:]
 
 # compute footprint
-duration = (thk >= 1.0).sum(axis=0).T*0.1
+duration = (thk >= 1.0).sum(axis=0)*0.1
 footprint = (duration > 0)
-duration[-footprint] = -1
+duration[~footprint] = -1
 
 # set contour levels, colors and hatches
 levs = [0, 5, 10, 15, 20, 30, 40, 60, 80, 100, 120]

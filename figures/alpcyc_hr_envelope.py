@@ -8,19 +8,16 @@ import numpy as np
 fig, ax, cax = ut.pl.subplots_cax_inset()
 
 # load extra data
-filepath = 'output/0.7.3-craypetsc/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
 nc = ut.io.load(filepath)
-w, e, s, n = 250, 400, 355, 455  # Zürich
-w, e, s, n = 125, 425, 300, 500  # Swiss foreland
-w, e, s, n = 000, 901, 000, 601  # Whole domain
-x = nc.variables['x'][w:e]
-y = nc.variables['y'][s:n]
-thk = nc.variables['thk'][:, w:e, s:n]
-usurf = nc.variables['usurf'][:, w:e, s:n]
+x = nc.variables['x'][:]
+y = nc.variables['y'][:]
+thk = nc.variables['thk'][:]
+usurf = nc.variables['usurf'][:]
 
 # compute envelope
-mask = (thk < 1.0).prod(axis=0).T
-envelope = usurf.max(axis=0).T
+mask = (thk < 1.0).prod(axis=0)
+envelope = usurf.max(axis=0)
 envelope = np.ma.masked_where(mask, envelope)
 
 # print bounds

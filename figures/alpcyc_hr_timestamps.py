@@ -8,7 +8,7 @@ import numpy as np
 fig, ax = ut.pl.subplots_ts()
 
 # open extra file
-filepath = 'output/0.7.3-craypetsc/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
 nc = ut.io.load(filepath)
 age = -nc.variables['time'][:]/(365.0*24*60*60*1000)
 stamp = nc.variables['timestamp'][:]
@@ -24,9 +24,9 @@ c = ut.pl.palette['darkblue']
 ax.plot(age, cumnh, color=c)
 
 # mark scalability test
-testage = 120.0 - 57.5
-ax.plot(testage, cumnh[age == testage], color=c, marker='o')
-ax.text(testage, cumnh[age == testage]+0.5, 'scalability test  ', color=c, ha='right')
+#testage = 120.0 - 57.5
+#ax.plot(testage, cumnh[age == testage], color=c, marker='o')
+#ax.text(testage, cumnh[age == testage]+0.5, 'scalability test  ', color=c, ha='right')
 
 # set axes properies
 ax.set_xlim(120.0, 0.0)

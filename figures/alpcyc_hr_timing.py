@@ -12,7 +12,7 @@ fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut(mis=False)
 # --------
 
 # load extra data
-filepath = 'output/0.7.3-craypetsc/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
 nc = ut.io.load(filepath)
 x = nc.variables['x'][:]
 y = nc.variables['y'][:]
@@ -21,13 +21,13 @@ thk = nc.variables['thk'][:]
 usurf = nc.variables['usurf'][:]
 
 # compute LGM age and envelope
-argmax = usurf.argmax(axis=0).T
+argmax = usurf.argmax(axis=0)
 lgmage = age[argmax]
 cols, rows = usurf.shape[1:]
-envelope = usurf[argmax, np.arange(cols)[None, :], np.arange(rows)[:, None]]
+envelope = usurf[argmax, np.arange(cols)[:, None], np.arange(rows)[None, :]]
 
 # apply thickness mask
-mask = (thk < 1.0).prod(axis=0).T
+mask = (thk < 1.0).prod(axis=0)
 lgmage = np.ma.masked_where(mask, lgmage)
 envelope = np.ma.masked_where(mask, envelope)
 

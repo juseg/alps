@@ -8,13 +8,13 @@ import numpy as np
 fig, ax, cax = ut.pl.subplots_cax_inset()
 
 # load and plot boot topo
-nc = ut.io.load('input/boot/alps-srtm+gou11simi-1km.nc')
+nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-1km.nc')
 im = nc.imshow('topg', ax, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
-boot = nc.variables['topg'][:].T
+boot = nc.variables['topg'][:]
 nc.close()
 
 # load extra data
-filepath = 'output/0.7.3-craypetsc/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
 nc = ut.io.load(filepath)
 x = nc.variables['x'][:]
 y = nc.variables['y'][:]
@@ -24,8 +24,8 @@ temp = nc.variables['temppabase'][:]
 nc.close()
 
 # compute mask and warm envelope
-mask = (thk < 1.0).prod(axis=0).T
-warm = warm.max(axis=0).T
+mask = (thk < 1.0).prod(axis=0)
+warm = warm.max(axis=0)
 warm = np.ma.masked_where(mask, warm)
 #warm = np.ma.masked_less(warm, 1.0)
 #surf = boot + warm

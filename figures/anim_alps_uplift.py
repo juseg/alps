@@ -13,7 +13,7 @@ cols = cmap(range(len(levs)+1))
 def draw(t, ax, cursor):
     """What to draw at each animation step."""
     age = -t/1e3
-    print 'plotting at %.1f ka...' % age
+    print 'plotting at %.2f ka...' % age
     ax.cla()
 
     # plot
@@ -44,7 +44,7 @@ fig.text(1-2.5/figw, 2.5/figh, 'J. Seguinot et al. (2016)',
          ha='right', va='bottom')
 
 # load time series data
-filepath = 'output/0.7.3-craypetsc/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/ts.nc'
+filepath = ut.alpcyc_bestrun + 'y???????-ts.nc'
 nc = ut.io.load(filepath)
 age = -nc.variables['time'][:]/(1e3*365*24*60*60)
 vol = nc.variables['slvol'][:]
@@ -59,7 +59,7 @@ tsax.locator_params(axis='y', nbins=6)
 tsax.grid(axis='y')
 
 # load extra data
-filepath = 'output/0.7.3-craypetsc/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
 nc = ut.io.load(filepath)
 x = nc.variables['x'][:]
 y = nc.variables['y'][:]
@@ -86,7 +86,7 @@ cb = fig.colorbar(im, cax)
 cb.set_label(r'uplift rate ($m\,a^{-1}$)', labelpad=0)
 
 # make animation
-anim = FuncAnimation(fig, draw, frames=time, fargs=(ax, cursor))
+anim = FuncAnimation(fig, draw, frames=time[9::10], fargs=(ax, cursor))
 anim.save('anim_alps_uplift.mp4', fps=25, codec='h264')
 anim.save('anim_alps_uplift.ogg', fps=25, codec='theora')
 

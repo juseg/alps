@@ -12,7 +12,7 @@ fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut()
 # --------
 
 # load extra data
-filepath = 'output/0.7.3-craypetsc/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
 nc = ut.io.load(filepath)
 x = nc.variables['x'][:]
 y = nc.variables['y'][:]
@@ -35,9 +35,9 @@ cols = cmap(range(len(levs)+1))
 # plot
 im = nc.imshow('topg', ax, 0.0, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
 #norm = ut.pl.iplt.matplotlib.colors.LogNorm(1e-2, 1e5)
-#cs = ax.pcolormesh(x, y, erosion.T, norm=norm, cmap='Reds', alpha=0.75)
-cs = ax.contourf(x, y, erosion.T, levels=levs, colors=cols, extend='both', alpha=0.75)
-ax.contour(x, y, erosion.mask.T, [0.5], colors='k', linewidths=0.5)
+#cs = ax.pcolormesh(x, y, erosion, norm=norm, cmap='Reds', alpha=0.75)
+cs = ax.contourf(x, y, erosion, levels=levs, colors=cols, extend='both', alpha=0.75)
+ax.contour(x, y, erosion, [0.5], colors='k', linewidths=0.5)
 
 # close nc file
 nc.close()

@@ -46,7 +46,7 @@ ax.plot(xp, yd, c=c, marker='o')
 ax = ax2
 
 # load extra data
-filepath = 'output/0.7.3-craypetsc/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
 nc = ut.io.load(filepath)
 x = nc.variables['x'][:]
 y = nc.variables['y'][:]
@@ -54,7 +54,7 @@ y = nc.variables['y'][:]
 # extract space-time slice
 i = np.argmin(np.abs(x-xp))
 age = -nc.variables['time'][:]/(1e3*365*24*60*60)
-thk = nc.variables['thk'][:, i, :]
+thk = nc.variables['thk'][:, :, i]
 nc.close()
 
 # plot isotope stages

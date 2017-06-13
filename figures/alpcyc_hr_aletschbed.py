@@ -7,20 +7,15 @@ import numpy as np
 # initialize figure
 fig, ax, cax = ut.pl.subplots_cax_inset(extent='aletsch')
 
-# load boot topography with glaciers
-nc = ut.io.load('input/boot/alps-srtm+gou11simi-1km.nc')
-surf = nc.variables['topg'][:]
-nc.close()
-
-# load boot topography without glaciers
-nc = ut.io.load('input/boot/alps-srtmsub+gou11simi-1km.nc')
+# load boot topographies
+nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-1km.nc')
 x = nc.variables['x'][:]
 y = nc.variables['y'][:]
 base = nc.variables['topg'][:]
+diff = nc.variables['thk'][:]
 nc.close()
 
-# compute difference
-diff = surf - base
+# mask zero thickness
 diff = np.ma.masked_equal(diff, 0.0)
 
 # plot

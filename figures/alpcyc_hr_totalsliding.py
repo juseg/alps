@@ -12,7 +12,7 @@ fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut()
 # --------
 
 # load extra data
-filepath = 'output/0.7.3-craypetsc/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
 nc = ut.io.load(filepath)
 x = nc.variables['x'][:]
 y = nc.variables['y'][:]
@@ -21,7 +21,7 @@ c = nc.variables['velbase_mag'][:]
 thk = nc.variables['thk'][:]
 
 # compute total basal sliding
-totalsliding = np.ma.array(c, mask=(thk < 1.0)).sum(axis=0).T
+totalsliding = np.ma.array(c, mask=(thk < 1.0)).sum(axis=0)
 footprint = totalsliding.mask
 
 # set levels, colors and hatches

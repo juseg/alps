@@ -8,13 +8,13 @@ import numpy as np
 fig, ax, cax = ut.pl.subplots_cax_inset()
 
 # load and plot boot topo
-nc = ut.io.load('input/boot/alps-srtm+gou11simi-1km.nc')
+nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-1km.nc')
 im = nc.imshow('topg', ax, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
-boot = nc.variables['topg'][:].T
+boot = nc.variables['topg'][:]
 nc.close()
 
 # load extra data
-filepath = 'output/0.7.3-craypetsc/alps-wcnn-1km/epica3222cool0950+acyc1+esia5/extra.nc'
+filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
 nc = ut.io.load(filepath)
 x = nc.variables['x'][:]
 y = nc.variables['y'][:]
@@ -34,9 +34,9 @@ cols = cmap(range(len(levs)-1))
 hats = ['//'] + ['']*(len(cols)-1)
 
 # plot
-im = ax.contourf(x, y, warm.T, levs, colors=cols, hatches=hats, alpha=0.75)
-ax.contour(x, y, warm.T, [1.0], colors='0.25', linewidths=0.25)
-ax.contour(x, y, warm.mask.T, [0.5], colors='k', linewidths=0.5)
+im = ax.contourf(x, y, warm, levs, colors=cols, hatches=hats, alpha=0.75)
+ax.contour(x, y, warm, [1.0], colors='0.25', linewidths=0.25)
+ax.contour(x, y, warm.mask, [0.5], colors='k', linewidths=0.5)
 
 # add vectors
 ut.pl.draw_natural_earth(ax)

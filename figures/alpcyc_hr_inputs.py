@@ -13,7 +13,7 @@ cgrid = [fig.add_axes([(72.5+i*85.0)/figw, (50.0-j*47.5)/figh, 2.5/figw, 45.0/fi
          for j in range(2) for i in range(2)]
 
 # plot boot topo and geographic features
-nc = ut.io.load('input/boot/alps-srtm+gou11simi-1km.nc')
+nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-1km.nc')
 for i, ax in enumerate(grid.flat):
     ax.set_rasterization_zorder(2.5)
     im = nc.imshow('topg', ax, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
