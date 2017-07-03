@@ -20,7 +20,8 @@ age = -nc.variables['time'][:]/(1e3*365.0*24*60*60)
 thk = nc.variables['thk'][:]
 
 # compute footprint
-duration = (thk >= 1.0).sum(axis=0)*0.1
+dt = age[0] - age[1]
+duration = (thk >= 1.0).sum(axis=0)*dt
 footprint = (duration > 0)
 duration[~footprint] = -1
 

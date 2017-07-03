@@ -21,7 +21,8 @@ c = nc.variables['velbase_mag'][:]
 thk = nc.variables['thk'][:]
 
 # compute total basal sliding
-totalsliding = np.ma.array(c, mask=(thk < 1.0)).sum(axis=0)
+dt = age[0] - age[1]
+totalsliding = np.ma.array(c, mask=(thk < 1.0)).sum(axis=0)*dt
 footprint = totalsliding.mask
 
 # set levels, colors and hatches

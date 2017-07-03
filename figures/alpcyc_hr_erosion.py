@@ -21,14 +21,15 @@ thk = nc.variables['thk'][:]
 c = nc.variables['velbase_mag'][:]
 
 # compute erosion rate (Herman et al, 2015)
-kg = 2.7e-7  # m^{1-l} a^{l-1} 
+dt = age[0] - age[1]
+kg = 2.7e-7  # m^{1-l} a^{l-1}
 l = 2.02  # unitless
-c = np.ma.masked_where(thk < 1.0, c)
-erate = (kg*c**l)
-erosion = erate.sum(axis=0)
+c = np.ma.masked_where(thk < 1.0, c)  # m a^{-1}
+erate = kg*c**l  # m a^{-1}
+erosion = erate.sum(axis=0)*dt*1e3  # m
 
 # set levels, colors and hatches
-levs = [10**i for i in range(-2, 3)]
+levs = [10**i for i in range(-1, 4)]
 cmap = ut.pl.get_cmap('Reds', len(levs)+1)
 cols = cmap(range(len(levs)+1))
 
@@ -37,7 +38,7 @@ im = nc.imshow('topg', ax, 0.0, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
 #norm = ut.pl.iplt.matplotlib.colors.LogNorm(1e-2, 1e5)
 #cs = ax.pcolormesh(x, y, erosion, norm=norm, cmap='Reds', alpha=0.75)
 cs = ax.contourf(x, y, erosion, levels=levs, colors=cols, extend='both', alpha=0.75)
-ax.contour(x, y, erosion, [0.5], colors='k', linewidths=0.5)
+ax.contour(x, y, erosion.mask, [0.5], colors='k', linewidths=0.5)
 
 # close nc file
 nc.close()

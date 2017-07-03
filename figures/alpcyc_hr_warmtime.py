@@ -18,14 +18,16 @@ filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
 nc = ut.io.load(filepath)
 x = nc.variables['x'][:]
 y = nc.variables['y'][:]
+age = -nc.variables['time'][:]/(1e3*365.0*24*60*60)
 thk = nc.variables['thk'][:]
 temp = nc.variables['temppabase'][:]
 nc.close()
 
 # compute duration of warm-based coved
+dt = age[0] - age[1]
 warm = temp > -1e-9
 warm = np.ma.masked_where(thk < 1.0, warm)
-warm = warm.sum(axis=0)*0.1
+warm = warm.sum(axis=0)*dt
 
 # set levels, colors and hatches
 levs = [0, 1, 20, 40, 60, 80, 100, 120]
