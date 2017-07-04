@@ -25,7 +25,7 @@ for i, rec in enumerate(ut.alpcyc_records):
     ax1.plot(age, dt, c=c, alpha=0.75)
 
     # load output time series
-    nc = ut.io.load('output/e9d2d1f/alps-wcnn-5km/%s+%s/'
+    nc = ut.io.load('output/e9d2d1f/alps-wcnn-2km/%s+%s/'
                     'y???????-ts.nc' % (dtfile, conf))
     age = -nc.variables['time'][:]/(1e3*365*24*60*60)
     vol = nc.variables['slvol'][:]

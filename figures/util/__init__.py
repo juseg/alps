@@ -16,6 +16,8 @@ alpcyc_offsets = [7.0, 9.0, 8.8, 11.3, 7.3, 9.7]  # total area till1545 5km
 alpcyc_offsets = [7.0, 9.0, 8.8, 11.4, 7.3, 9.8]  # total area till1545 2km
 alpcyc_offsets = [8.3, 10.5, 9.8, 12.3, 8.2, 10.7]  # Rhine area till1545 5km
 alpcyc_offsets = [8.2, 10.4, 9.5, 12.1, 8.1, 10.5]  # Rhine area phi30 5km
+alpcyc_offsets = [8.2, 10.4, 9.6, 12.2, 8.1, 10.7]  # Rhine area phi30 2km (preliminary)
+#              = [8.2, 10.4, 9.7, 12.2, 7.9, 10.7]  # Rhine area phi30 2km (estimate)
 alpcyc_colours = [pl.palette[tone+hue] for hue in ['blue', 'red', 'green']
                                        for tone in ['dark', 'light']]
 alpcyc_colmaps = ['Blues_r']*2 + ['Reds_r']*2 + ['Greens_r']*2

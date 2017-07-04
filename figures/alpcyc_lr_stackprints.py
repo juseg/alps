@@ -42,7 +42,7 @@ for i, rec in enumerate(ut.alpcyc_records):
 
             # load extra file
             dtfile = '%s3222cool%04d' % (rec.replace('-', '').lower(), round(dt*100))
-            nc = ut.io.load('output/e9d2d1f/alps-wcnn-5km/%s+%s/'
+            nc = ut.io.load('output/e9d2d1f/alps-wcnn-2km/%s+%s/'
                             'y???????-extra.nc' % (dtfile, conf))
             x = nc.variables['x'][:]
             y = nc.variables['y'][:]

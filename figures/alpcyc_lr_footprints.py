@@ -15,7 +15,7 @@ fig, grid = ut.pl.subplots_mm(figsize=(170.0, 80.0), projection=ut.pl.utm,
                               hspace=2.5, wspace=2.5)
 
 # add boot topo  # FIXME move to util
-nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-5km.nc')
+nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-2km.nc')
 for ax in grid.flat:
     ax.set_extent(ut.pl.regions['alps'], crs=ax.projection)
     ax.set_rasterization_zorder(2.5)
@@ -37,7 +37,7 @@ for i, rec in enumerate(ut.alpcyc_records):
 
     # load extra output
     dtfile = '%s3222cool%04d' % (rec.replace('-', '').lower(), round(dt*100))
-    nc = ut.io.load('output/e9d2d1f/alps-wcnn-5km/%s+%s/'
+    nc = ut.io.load('output/e9d2d1f/alps-wcnn-2km/%s+%s/'
                     'y???????-extra.nc' % (dtfile, conf))
     x = nc.variables['x'][:]
     y = nc.variables['y'][:]
