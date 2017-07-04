@@ -92,10 +92,5 @@ angles = ax2.transData.transform_angles(angles, points)
 ax2.text(points[0,0], points[0,1], 'ideal speedup', color='0.5',
          ha='center', va='bottom', rotation=angles[0])
 
-# add subfigure labels
-ut.pl.add_subfig_label('(a)', ax=ax1)
-ut.pl.add_subfig_label('(b)', ax=ax2)
-ut.pl.add_subfig_label('(c)', ax=ax3)
-
 # save
 fig.savefig('alpcyc_hr_scalability')

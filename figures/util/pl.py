@@ -107,10 +107,14 @@ def prepare_axes(ax=None, tsax=None, extent='alps', labels=True, mis=True):
 def subplots_ts(nrows=1, ncols=1, figw=85.0):
     """Init figure with margins adapted for simple timeseries."""
     figh = 30.0 + nrows*30.0
-    return iplt.subplots_mm(nrows=nrows, ncols=ncols, figsize=(figw, figh),
-                            sharex=True, sharey=False,
-                            left=10.0, right=2.5, bottom=7.5, top=2.5,
-                            hspace=2.5, wspace=2.5)
+    fig, grid = iplt.subplots_mm(nrows=nrows, ncols=ncols,
+                                 figsize=(figw, figh),
+                                 left=10.0, right=2.5, bottom=7.5, top=2.5,
+                                 sharex=True, sharey=False,
+                                 hspace=2.5, wspace=2.5)
+    for ax, label in zip(grid, list('abcdef')):
+        ut.pl.add_subfig_label('({})'.format(label), ax=ax)
+    return fig, grid
 
 
 def subplots_cax(extent='alps'):
