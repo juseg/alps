@@ -50,9 +50,6 @@
 
 \begin{abstract}
 
-    \note{For the Nature Geoscience format this abstract will need to be
-          converted to an ``introductory paragraph''.}
-
     The European Alps, cradle of pioneer glacial studies, are one of the
     regions where geological markers of past glaciations are most abundant and
     well-studied. Such conditions make the region ideal for testing numerical
@@ -146,7 +143,7 @@
           was less (or equally) extensive than the MIS~2, i.e. that the LGM
           outline from \citet{Ehlers.etal.2011} dates indeed from the LGM
           (MIS~2). A different assumption could be that this outline represents
-          the most extensive glaciation in the last 120\,ka. I we allow the
+          the most extensive glaciation in the last 120\,ka. If we allow the
           MIS~2 glaciation to be a bit smaller than MIS~4, simulations driven
           by GRIP and MD01-2444 also give reasonable results.}
 
@@ -170,13 +167,15 @@
     \end{itemize}
 
     \idea{Matthias: The selection of figures in the main text and SOM is good.
-          I find Figure 2 quite difficult to understand at first glance. I
-          would combine it (already before submission) with Fig. 3. the Figure
+          I find Figure 5 quite difficult to understand at first glance. I
+          would combine it (already before submission) with Fig. 6. the Figure
           can then focus both on the temporal advance/retreat patterns of the 4
           lobes (four panels on the left side of figure) and the spatial
           differences in max. ice elevation (1 panel on right side of figure,
           with centerlines indicated). I would have the one with trimline
           elevation again in the Supplementary.}
+
+    \idea{Add trimline figure in the main text now.}
 
 
 % ----------------------------------------------------------------------
@@ -230,10 +229,7 @@
         to multiple geophysical proxies \citep{Goutorbe.etal.2011} used as a
         boundary condition to the bedrock thermal model 3\,km below the
         ice-bedrock interface.
-        \idea{Since this will be in the supplement, I can also add additional
-              information such as winter temperature, summer precipitation,
-              winter PDD SD, and/or basal topography with modern glaciers
-              removed, e.g. in the Bernese Alps.}}
+        \todo{Fix geothermal plot.}}
       \label{fig:inputs}
     \end{figure}
 
@@ -247,7 +243,8 @@
         expressed in meters of sea level equivalent (m~s.l.e.). Gray fields
         indicate Marine Oxygen Isotope Stage (MIS) boundaries for MIS~2 and
         MIS~4 according to a~global compilation of benthic \chem{\delta^{18}O}
-        records \citep{Lisiecki.Raymo.2005}.}
+        records \citep{Lisiecki.Raymo.2005}.
+        \todo{Add temporary subfigure labels. Refine temperature offsets.}}
       \label{fig:timeseries}
     \end{figure}
 
@@ -261,7 +258,9 @@
         \citep[solid red line,][]{Ehlers.etal.2011}.
         \textbf{(d--f)} Cumulative extent of modelled ice cover during MIS~4
         (71--57\,ka). Only the simulation driven by the EPICA temperature
-        time-series yields reasonable MIS~4 ice cover.}
+        time-series yields reasonable MIS~4 ice cover.
+        \todo{Refine temperature offsets. Try to make reduced precipitation
+              outlines more visible.}}
       \label{fig:footprints}
     \end{figure}
 
@@ -282,7 +281,8 @@
         equivalent (m~s.l.e., blue curve). Gray fields indicate Marine
         Oxygen Isotope Stage (MIS) boundaries for MIS~2 and MIS~4 according to
         a~global compilation of benthic \chem{\delta^{18}O} records
-        \citep{Lisiecki.Raymo.2005}.}
+        \citep{Lisiecki.Raymo.2005}.
+        \note{I expect the simulation to complete in late July.}}
       \label{fig:lgmvel}
     \end{figure}
 
@@ -296,12 +296,7 @@
         used as palaeo-climate forcing for the ice flow model (black curve),
         and modelled glaciated area around the LGM (coloured curve). The LGM
         is here modelled as a time-transgressive event.
-        \note{The Nature Geoscience format is limited to four figures. Now we
-              indeed have four figures, albeit large ones.
-              Figure~\ref{fig:timing} will interest the dating people but is
-              not crucial for the paper. My plan is to include in the main text
-              for the first submission and be prepared that the editor may want
-              to move it into supplementary material.}}
+        \note{I expect the simulation to complete in late July.}}
       \label{fig:timing}
     \end{figure}
 
@@ -314,7 +309,8 @@
               profile, and add the other glaciers.}
         \idea{We can also move this as panel b on Fig.~\ref{fig:timing}, with
               profiles drawn on panel a. But then we should probably limit it
-              to two glaciers instead of four.}}
+              to two glaciers instead of four.}
+        \note{I expect the simulation to complete in late July.}}
       \label{fig:profiles}
     \end{figure}
 
@@ -331,7 +327,8 @@
         the sliding velocity, $\vec{v}_{\mathrm{b}}$, through
         $\dot{e} = K_g \cdot |\vec{v}_{\mathrm{b}}|^{l}$, with
         $l = 2.02$ and $K_g = 2.7\e{-7}\,m^{1-l}\,a^{l-1}$
-        \citep{Herman.etal.2015}.}
+        \citep{Herman.etal.2015}.
+        \note{I expect the simulation to complete in late July.}}
       \label{fig:erosion}
     \end{figure}
 
@@ -344,8 +341,7 @@
     \begin{table*}
       \caption{%
         Parameter values used in the ice sheet model.
-        \idea{If I need to re-run all simulations, we could rethink bedrock,
-              lithosphere and PDD parameters.}}
+        \todo{Update parameters to new configuration.}}
       \label{tab:params}
       \noindent\small\makebox[\textwidth]
       {\begin{tabular}{llrll}
@@ -568,12 +564,8 @@
         (Fig.~\ref{fig:footprints}a), and $[{\Delta}T_{\textrm{TS}}]_{32}^{22}$
         refers to the resulting mean temperature anomaly during the period 32
         to~22\,\unit{ka} after scaling.
-        \note{The EPICA scaling factor is close to one, and that ended up
-              yielding too much ice in the high-resolution simulation
-              (Fig.~\ref{fig:lgmvel}), though not so at low resotion
-              (Fig.~\ref{fig:footprints}b). If I re-run the whole thing, I will
-              probably fix it to one (i.e. use EPICA temperature anomalies
-              without applying any scaling).}}
+        \todo{Correct and refine temperature offsets. Add reduced precipitation
+              runs.}}
       \label{tab:records}
       \noindent\small\makebox[\textwidth]
       {\begin{tabular}{lccccccl}
