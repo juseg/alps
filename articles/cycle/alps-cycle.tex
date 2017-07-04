@@ -3,6 +3,7 @@
 \usepackage{amsmath}
 \usepackage{authblk}
 \usepackage{booktabs}
+\usepackage{multirow}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[pdftex]{xcolor}
@@ -577,41 +578,36 @@
 
         \midrule
 
-        GRIP      &  72{\degree}35$^{\prime}$\,N   % 72.58 (decimal)
-                  &  37{\degree}38$^{\prime}$\,W   % 37.64 (decimal)
-                  & 3238
-                  & \chem{\delta^{18}O}
+        GRIP      & \multirow{2}{*}{ 72{\degree}35$^{\prime}$\,N}   % 72.58 (decimal)
+                  & \multirow{2}{*}{ 37{\degree}38$^{\prime}$\,W}   % 37.64 (decimal)
+                  & \multirow{2}{*}{3238}
+                  & \multirow{2}{*}{\chem{\delta^{18}O}}
                   & 0.50 & $-$8.2  % -16.4126 (before scaling)
-                  & \citet{Dansgaard.etal.1993} \\
+                  & \multirow{2}{*}{\citet{Dansgaard.etal.1993}} \\
 
-        GRIP, $\Delta P$ & " & " & " & "
-                  & 0.63 & $-$10.4  % -16.4126 (before scaling)
-                  & " \\
+        GRIP, $\Delta P$ &&&&& 0.63 & $-$10.4 \\
 
-        EPICA     &  75{\degree}06$^{\prime}$\,S   % 75.1
-                  & 123{\degree}21$^{\prime}$\,E   % 123.35
-                  & 3233
-                  & \chem{\delta^{18}O}
+        EPICA     & \multirow{2}{*}{ 75{\degree}06$^{\prime}$\,S}   % 75.1
+                  & \multirow{2}{*}{123{\degree}21$^{\prime}$\,E}   % 123.35
+                  & \multirow{2}{*}{3233}
+                  & \multirow{2}{*}{\chem{\delta^{18}O}}
                   & 1.05 & $-$9.7  % -9.2055
-                  & \citet{Jouzel.etal.2007} \\
+                  & \multirow{2}{*}{\citet{Jouzel.etal.2007}} \\
 
-        EPICA, $\Delta P$ & " & " & " & "
-                  & 1.33 & $-$12.2  % -9.2055
-                  & " \\
+        EPICA, $\Delta P$ &&&&& 1.33 & $-$12.2 \\
 
-        MD01-2444 &  37{\degree}34$^{\prime}$\,N   % 37.561
-                  &  10{\degree}04$^{\prime}$\,W   % -10.142
-                  & $-$2637
-                  & \chem{U^{K'}_{37}}
+        MD01-2444 & \multirow{2}{*}{ 37{\degree}34$^{\prime}$\,N}   % 37.561
+                  & \multirow{2}{*}{ 10{\degree}04$^{\prime}$\,W}   % -10.142
+                  & \multirow{2}{*}{$-$2637}
+                  & \multirow{2}{*}{\chem{U^{K'}_{37}}}
                   & 1.82 & $-$7.9  % -4.345625
-                  & \citet{Martrat.etal.2007} \\
+                  & \multirow{2}{*}{\citet{Martrat.etal.2007}} \\
 
-        MD01-2444, $\Delta P$ & " & " & " & "
-                  & 2.46 & $-$10.7  % -4.345625
-                  & " \\
+        MD01-2444, $\Delta P$ &&&&& 2.46 & $-$10.7 \\
 
         \bottomrule
       \end{tabular}}
+
     \end{table*}
 
 
