@@ -1,5 +1,6 @@
 \documentclass{article}
 
+\usepackage{doi}
 \usepackage{amsmath}
 \usepackage{authblk}
 \usepackage{booktabs}
@@ -122,6 +123,390 @@
     \end{itemize}
 
 
+
+
+\section{Model setup}
+\label{sec:model}
+
+\subsection{Overview}
+\label{sec:overview}%
+
+      The simulations presented here were run using the Parallel Ice Sheet
+      Model (PISM, version~0.7.2), an open source, finite
+      difference, shallow ice sheet model \citep{PISM-authors.2015}. The
+      model requires input on basal topography, sea level, geothermal heat
+      flux and climate forcing. It computes the evolution of ice extent and
+      thickness over time, the thermal and dynamic states of the ice sheet,
+      and the associated lithospheric response.
+
+      Basal topography is bilinearly interpolated from the ETOPO1 combined
+      topography and bathymetry dataset with a~resolution of 1\,arc-min
+      \citep{Amante.Eakins.2009} to the model grids. It responds to ice load
+      following a~bedrock deformation model that includes local isostasy,
+      elastic lithosphere flexure and viscous astenosphere deformation in an
+      infinite half-space \citep{Lingle.Clark.1985,Bueler.etal.2007}.
+      A~relatively low viscosity value of $\nu_{\mathrm{m}} =
+      1\times10^{19}$\,\unit{Pa\,s} is used for the astenosphere
+      (Table~\ref{tab:params}) in accordance with the results from regional
+      glacial isostatic adjustment modelling at the northern Cascadia
+      subduction zone \citep{James.etal.2009}. Sea level is lowered as
+      a~function of time based on the Spectral Mapping Project
+      \citep[SPECMAP,][]{Imbrie.etal.1989} time scale.
+
+      Ice deformation
+      follows temperature and water-content dependent creep
+      (Sect.~\ref{sec:icedyn}). Default parameter values are given in
+      Table~\ref{tab:params}. Basal sliding follows
+      a~pseudo-plastic law where the yield stress accounts for till
+      deconsolidation under high water pressure (Sect.~\ref{sec:sliding}).
+      Ice shelf calving is simulated using an ice thickness threshold and
+      principle components of the strain rate tensor
+      (Sect.~\ref{sec:calving}). Surface mass balance is
+      computed using a~positive degree-day (PDD) model
+      (Sect.~\ref{sec:surface}). Climate forcing is provided by a~monthly
+      climatology averaged from 1979 to 2000 from the North American
+      Regional Reanalysis \citep[NARR,][]{Mesinger.etal.2006}, perturbed
+      by time-dependent offsets and lapse-rate temperature corrections
+      (Sect.~\ref{sec:atm}, Table~\ref{tab:records}). A~sensitivity study
+      to some of the most influential ice rheology (Sect~\ref{sec:icedyn})
+      and basal sliding (Sect.~\ref{sec:sliding}) parameters is performed
+      (Table~\ref{tab:sens_params}).
+
+      Each simulation starts from assumed ice-free conditions at
+      120\,\unit{ka}, and runs to the present.
+      Our modelling domain of 1\,500 by 3\,000\,\unit{km} encompasses
+      the entire area covered by the Cordilleran ice sheet at the LGM
+      (Fig.~\ref{fig:locmap}). The simulations were run on two distinct
+      grids, using a~lower horizontal resolution of 10\,\unit{km}, and
+      a~higher horizontal resolution of 5\,\unit{km}.
+
+\subsection{Ice rheology}
+\label{sec:icedyn}
+
+      Ice sheet dynamics are typically modelled using a~combination of
+      internal deformation and basal sliding. PISM is a~shallow ice sheet
+      model, which implies that the balance of stresses is approximated
+      based on their predominant components. The Shallow Shelf Approximation
+      (SSA) is combined with the Shallow Ice Approximation
+      (SIA) by adding velocity solutions of the two approximations
+      \citep[Eqs.~7--9 and 15]{Winkelmann.etal.2011}. Although this
+      heuristic approach implies errors in the transition zone where gravitational
+      stresses intervene both in the SIA and SSA velocity computation, this
+      hybrid scheme is computationally much more efficient than a fully
+      three-dimensional model with which the simulations presented here
+      would not be feasible.
+
+      Ice deformation is governed by the constitutive law for ice
+      \citep{Glen.1952, Nye.1953},
+%
+\begin{align}
+&\label{eqn:glenslaw}
+&\vec{\dot{\epsilon}} = A\,\tau_{\mathrm{e}}^{n-1}\,\vec{\tau} \,.
+\end{align}
+%
+      where $\vec{\dot{\epsilon}}$ is the strain-rate tensor,
+      $\vec{\tau}$ the deviatoric stress tensor, and $\tau_{\mathrm{e}}$ the
+      effective stress defined in our case by ${\tau_{\mathrm{e}}}^2 = \frac{1}{2}
+      \mathrm{tr}(\vec{\tau}^2)$. The ice softness coefficient, $A$, depends
+      on ice temperature, $T$, pressure, $p$, and water content, $\omega$,
+      through a~piece-wise Arrhenius-type law,
+%
+\begin{align}
+&\label{eqn:softness}
+&A = E\cdot
+\begin{cases}
+A_{\mathrm{c}} \,e^\frac{-Q_{\mathrm{c}}}{RT_{\text{pa}}}            & \text{if}\ T_{\text{pa}}  <  T_{\mathrm{c}} \,, \\
+A_{\mathrm{w}} (1+f\omega)\,e^\frac{-Q_{\mathrm{w}}}{RT_{\text{pa}}} & \text{if}\ T_{\text{pa}} \ge T_{\mathrm{c}} \,,
+\end{cases}
+\end{align}
+%
+      where $T_{\text{pa}}$ is the pressure-adjusted ice temperature
+      calculated using the Clapeyron relation, ${T_{\text{pa}} = T - \beta
+      p}$. $R=8.31441$\,\unit{J\,mol^{-1}\,K^{-1}} is the ideal gas
+      constant, and $A_{\mathrm{c}}$, $A_{\mathrm{w}}$, $Q_{\mathrm{c}}$ and
+      $Q_{\mathrm{w}}$, are constant parameters corresponding to values
+      measured below and above a~critical temperature threshold
+      $T_{\mathrm{c}}=-10$\,\unit{{\degree}C}
+      \citep[p.~72]{Paterson.Budd.1982,Cuffey.Paterson.2010}. The water
+      fraction, $\omega$, is capped at a~maximum value of 0.01, above which
+      no measurements are available \citep[Eq.~5.7]{Lliboutry.Duval.1985,
+      Greve.1997}. Finally, $E$ is a~non-dimensional enhancement factor
+      which can take different values, $E_{\text{SIA}}$, in the SIA and
+      $E_{\text{SSA}}$, in the SSA.
+
+      In all our simulations, we set constant the power-law exponent, $n=3$,
+      according to \citet[p.~55--57]{Cuffey.Paterson.2010}, the Clapeyron
+      constant, $\beta=7.9\times 10^{-8}$\,\unit{K\,Pa^{-1}}, according to
+      \citet{Luthi.etal.2002}, the water fraction coefficient, $f=181.25$,
+      according to \citet{Lliboutry.Duval.1985}, and the SSA enhancement
+      factor, $E_{\text{SSA}}=1$, according to
+      \citet[p.~77]{Cuffey.Paterson.2010}. These fixed parameter values are
+      summarized in Table~\ref{tab:params}.
+
+      On the other hand, we test the model sensitivity
+      (Sect.~\ref{sec:sens}) to different values for the two creep
+      parameters, $A_{\mathrm{c}}$ and $A_{\mathrm{w}}$, the two activation
+      energies, $Q_{\mathrm{c}}$ and $Q_{\mathrm{w}}$, and the SIA
+      enhancement factor, $E_{\text{SIA}}$, as follows.
+%
+\begin{itemize}
+  \item Our \emph{default} configuration used in the control run of the
+    sensitivity study and all other simulations in the paper includes
+    rheological parameters,
+    $A_{\mathrm{c}}$, $A_{\mathrm{w}}$, $Q_{\mathrm{c}}$ and
+    $Q_{\mathrm{w}}$, derived from \citet{Paterson.Budd.1982} and given in
+    \citet[Eqn.~5]{Bueler.Brown.2009}, and $E_{\text{SIA}}=1$.
+  \item Our \emph{hard ice} configuration includes rheological parameters,
+    $A_{\mathrm{c}}$, $A_{\mathrm{w}}$, $Q_{\mathrm{c}}$ and
+    $Q_{\mathrm{w}}$, derived from \citet[p.~72 and
+    76]{Cuffey.Paterson.2010}, and $E_{\text{SIA}}=1$, which correspond to
+    a~stiffer rheology than that used in the control run.
+  \item Our \emph{soft ice} configuration includes rheological parameters
+    from \citet{Cuffey.Paterson.2010}, and $E_{\text{SIA}}=5$, the
+    recommended value for ice age polar ice
+    \citep[p.~77]{Cuffey.Paterson.2010}.
+\end{itemize}
+%
+      An additional simulation using the ice rheology from
+      \citet{Cuffey.Paterson.2010} and $E_{\text{SIA}}=2$, the recommended
+      value for Holocene polar ice \citep[p.~77]{Cuffey.Paterson.2010} has
+      been performed, but is not presented here, since its results were very
+      similar to that of our default run.
+
+      Actual parameter values for $A_{\mathrm{c}}$, $A_{\mathrm{w}}$,
+      $Q_{\mathrm{c}}$, $Q_{\mathrm{w}}$ and $E_{\text{SIA}}$ used in our
+      simulations are given in Table~\ref{tab:sens_params}, while the effect
+      of the three different parametrisations on temperature-dependent ice
+      softness, $A$, is illustrated in Fig.~\ref{fig:sens_plot_rheo}.
+
+      Surface air
+      temperature derived from the climate forcing (Sect.~\ref{sec:atm})
+      provides the upper boundary condition to the ice enthalpy
+      model. Temperature is computed in the ice and in the bedrock to
+      a~depth of 3\,\unit{km} below the ice-bedrock interface, where it is
+      conditioned by a~lower boundary geothermal heat flux of
+      $q_{\mathrm{G}}=70$\,\unit{mW\,m^{-2}}. Although this uniform value
+      does
+      not account for the high spatial geothermal variability in the region
+      \citep{Blackwell.Richards.2004}, it is, on average, representative of
+      available heat flow measurements. In the low-resolution simulations,
+      the vertical grid consists of 31~temperature layers in the bedrock and
+      up to 51~enthalpy layers in the ice sheet, corresponding to a~vertical
+      resolution of 100\,\unit{m}. The high-resolution simulations use
+      61~bedrock layers and up to 101~ice layers with a~vertical resolution
+      of 50\,\unit{m}.
+
+\subsection{Basal sliding}
+\label{sec:sliding}
+
+      A~pseudo-plastic sliding law,
+%
+\begin{align}
+&\label{eqn:pseudoplastic}
+    \vec{\tau}_{\mathrm{b}} = -\tau_{\mathrm{c}} \frac{\vec{v}_{\mathrm{b}}}{{v_{\text{th}}}^q\,|\vec{v}_{\mathrm{b}}|^{1-q}} \,,
+\end{align}
+%
+      relates the bed-parallel shear stresses, $\vec{\tau}_{\mathrm{b}}$, to
+      the sliding velocity, $\vec{v}_{\mathrm{b}}$.
+      The yield stress, $\tau_{\mathrm{c}}$, is modelled using the
+      Mohr--Coulomb criterion,
+%
+\begin{align}
+&\tau_{\mathrm{c}} = c_0 + N\,\tan{\phi} \,,
+\end{align}
+%
+      where cohesion, $c_0$, is assumed to be zero. Effective pressure, $N$,
+      is related to the ice overburden stress, $P_0=\rho gh$, and the
+      modelled amount of
+      subglacial water, using a~formula derived from laboratory experiments
+      with till extracted from the base of Ice Stream B in West Antarctica
+      \citep{Tulaczyk.etal.2000, Bueler.Pelt.2015},
+%
+\begin{align}
+&\label{eqn:ntil}
+&N = \delta P_0 \, 10^{(e_0/C_{\mathrm{c}}) (1 - (W/W_{\text{max}}))} \,,
+\end{align}
+%
+      where $\delta$ sets the minimum ratio between the effective and
+      overburden pressures, $e_0$ is a~reference void ratio and
+      $C_{\mathrm{c}}$ is the till compressibility coefficient
+      \citep{Tulaczyk.etal.2000}. The amount of water at the base, $W$,
+      varies from zero to $W_{\text{max}}$, a~threshold above which
+      additional melt water is assumed to drain off instantaneously.
+
+      In all our simulations, we set constant the pseudo-plastic sliding
+      exponent, $q=0.25$, and the threshold velocity,
+      $v_{\text{th}}=100$\,\unit{m\,a^{-1}}, according to values used by
+      \citet{Aschwanden.etal.2013}, the till cohesion, $c_0=0$, whose
+      measured values are consistently negligible
+      \citep[p.~268]{Tulaczyk.etal.2000, Cuffey.Paterson.2010}, the till
+      reference void ratio, $e_0=0.69$, and the till compressibility
+      coefficient, $C_{\mathrm{c}}=0.12$, according to the only measurements
+      available to our knowledge, published by \citet{Tulaczyk.etal.2000}.
+      These fixed parameter values are summarized in Table~\ref{tab:params}.
+
+      We also use a~constant spatial distribution of the till friction
+      angle, $\phi$, whose values vary from 15 to 45\unit{\degree} as
+      a~piecewise-linear function of modern bed elevation, with the lowest
+      value occuring below the modern sea level (0\,\unit{m} above sea level,
+      \unit{m\,a.s.l.}) and the highest value occuring above the generalised
+      elevation of the highest shorelines
+      \citep[200\,\unit{m\,a.s.l.},][Fig.~5]{Clague.1981}. This range of
+      values span over the range of measured values for glacial till of 18
+      to 40\unit{\degree} \citep[p.~268]{Cuffey.Paterson.2010}. It accounts
+      for frictional basal conditions associated with discontinuous till
+      cover at high elevations, and for a~weakening of till associated with
+      the presence of marine sediments (cf. \citealp{Martin.etal.2011};
+      \citealp[Supplement]{Aschwanden.etal.2013};
+      \citealp{PISM-authors.2015}).
+
+      An additional simulation with a~constant till friction angle,
+      $\phi=30$\unit{\degree}, corresponding to the average value in
+      \citet[p.~268]{Cuffey.Paterson.2010}, has been performed, but is not
+      presented here, since the induced variability was small.
+
+      On the other hand, we test the model sensitivity
+      (Sect.~\ref{sec:sens}) to different values for the minimum ratio
+      between the effective and overburden pressures, $\delta$, and the
+      maximum water height in the till, $W_{\text{max}}$, as follows.
+%
+\begin{itemize}
+  \item Our \emph{default} configuration used in the control run of the
+    sensitivity study and all other simulations in the paper includes
+    $\delta=0.02$ and $W_{\text{max}}=2$\,\unit{m} as in
+    \citet{Bueler.Pelt.2015}.
+  \item Our \emph{soft bed} configuration use $\delta=0.01$ and
+    $W_{\text{max}}=1$\,\unit{m}.
+  \item Our \emph{hard bed} configuration use $\delta=0.05$ and
+    $W_{\text{max}}=5$\,\unit{m}.
+\end{itemize}
+%
+      The effect of the three different parametrisations on the effective
+      pressure on the till, $N$, in response to water content, $W$, is
+      illustrated in Fig.~\ref{fig:sens_plot_ntil}. All parameter choices
+      are listed in Table~\ref{tab:sens_params}.
+
+\subsection{Ice shelf calving}
+\label{sec:calving}
+
+      Ice shelf calving is computed using a~double criterion. First,
+      a~physically-realistic calving flux is computed based on eigenvalues
+      of the horizontal strain rate tensor \citep{Winkelmann.etal.2011,
+      Levermann.etal.2012}. This allows floating ice to advance in confined
+      embayments, but prevents the formation of extensive ice shelves in the
+      open ocean. Second, floating ice thinner than 50\,\unit{m} is
+      systematically calved off. A~subgrid scheme by
+      \citet{Albrecht.etal.2011} allows for a~continuous migration of the
+      calving front. This formulation of calving has been applied to the
+      Antarctic ice sheet and has shown to produce a~realistic calving front
+      positon for many of the present-day ice shelves
+      \citep{Martin.etal.2011}.
+
+\subsection{Surface mass balance}
+\label{sec:surface}
+
+      Ice surface accumulation and ablation are computed from monthly mean
+      near-surface air temperature, $T_{\mathrm{m}}$, monthly standard
+      deviation of near-surface air temperature, $\sigma$, and monthly
+      precipitation, $P_{\mathrm{m}}$, using a~temperature-index model
+      \citep[e.g.,][]{Hock.2003}. Accumulation is equal to precipitation
+      when air temperatures are below 0\,\unit{{\degree}C}, and decreases to
+      zero linearly with temperatures between 0 and 2\,\unit{{\degree}C}.
+      Ablation is computed from PDD, defined as an integral of temperatures
+      above 0\,\unit{{\degree}C} in one year.
+
+      The PDD computation accounts for stochastic temperature variations by
+      assuming a~normal temperature distribution of standard deviation
+      $\sigma$ around the expected value $T_{\mathrm{m}}$. It is expressed
+      by an error-function formulation \citep{Calov.Greve.2005},
+\begin{align}
+&\label{eqn:calovgreve}
+    {\text{PDD}} = \int_{t_1}^{t_2} \mathrm{d}t
+        \left[\frac{\sigma}{\sqrt{2\pi}}
+                \exp\left({-\frac{T_{\mathrm{m}}^2}{2\sigma^2}}\right)
+              + \frac{T_{\mathrm{m}}}{2} \, {\text{erfc}}
+                \left(-\frac{T_{\mathrm{m}}}{\sqrt{2}\sigma}\right)\right] \,,
+\end{align}
+      which is numerically approximated using week-long sub-intervals. In
+      order to account for the effects of spatial and seasonal variations of
+      temperature variability \citep{Seguinot.2013}, $\sigma$ is computed
+      from NARR daily temperature values from 1979 to 2000
+      \citep{Mesinger.etal.2006}, including variability associated with the
+      seasonal cycle, and bilinearly interpolated to the model grids
+      (Fig.~\ref{fig:atm}). Degree-day factors for snow and
+      ice melt are derived from mass-balance measurements on contemporary
+      glaciers from the Coast Mountains and Rocky Mountains in British
+      Columbia \citep[Table~\ref{tab:params};][]{Shea.etal.2009}.
+
+\subsection{Climate forcing}
+\label{sec:atm}%
+
+      Climate forcing driving ice sheet simulations consists of
+      a~present-day monthly climatology, $\{T_{\mathrm{m}0},
+      P_{\mathrm{m}0}\}$, where temperatures are modified by offset time
+      series, ${\Delta}T_{\text{TS}}$, and lapse-rate corrections,
+      ${\Delta}T_{\text{LR}}$:
+\begin{align}
+&T_{\mathrm{m}}(t, x, y) = T_{\mathrm{m}0}(x, y) + {\Delta}T_{\text{TS}}(t)
+                    + {\Delta}T_{\text{LR}}(t, x, y) \,, \\
+&    P_{\mathrm{m}}(t, x, y) = P_{\mathrm{m}0}(x, y) \,.
+\end{align}
+      The present-day monthly climatology was bilinearly interpolated from
+      near-surface air
+      temperature and precipitation rate fields from the NARR, averaged from
+      1979 to 2000. Modern climate of the North American Cordillera is
+      characterised by strong geographic variations in temperature
+      seasonality, timing of the maximum annual precipitation, and daily
+      temperature variability (Fig.~\ref{fig:atm}). Although the ability
+      of the NARR to reproduce the steep climatic gradients is limited by its
+      spatial resolution of 32\,\unit{km} \citep{Jarosch.etal.2012}, it has
+      been tested against observational data in our previous sensitivity
+      study and identified as yielding a closer fit between the modelled LGM
+      extent of the Cordilleran ice sheet and the geological evidence than
+      other atmospheric reanalyses \citep{Seguinot.etal.2014}.
+
+      Temperature offset time-series, ${\Delta}T_{\text{TS}}$, are derived
+      from palaeo-temperature proxy records from the Greenland Ice Core
+      Project \citep[GRIP,][]{Dansgaard.etal.1993}, the North Greenland Ice
+      Core Project \citep[NGRIP,][]{Andersen.etal.2004}, the European
+      Project for Ice Coring in Antarctica \citep[EPICA,][]
+      {Jouzel.etal.2007}, the Vostok ice core \citep{Petit.etal.1999}, and
+      Ocean Drilling Program (ODP) sites 1012 and 1020, both located off the
+      coast of California \citep{Herbert.etal.2001}. Palaeo-temperature
+      anomalies from the GRIP and NGRIP records were calculated from oxygen
+      isotope (\chem{\delta^{18}O}) measurements using a~quadratic equation
+      \citep{Johnsen.etal.1995},
+\begin{align}
+{\Delta}T_{\text{TS}}(t) ={~}&-11.88 [\chem{\delta^{18}O}(t)
+                                -\chem{\delta^{18}O}(0)] \nonumber \\
+                        &-0.1925[\chem{\delta^{18}O}(t)^2
+                                 -\chem{\delta^{18}O}(0)^2] \,,
+\end{align}
+      while temperature reconstructions from Antarctic and oceanic cores
+      were provided as such. For each proxy record used and each of the
+      parameter setup used in the sensitivity tests, palaeo-temperature
+      anomalies were scaled linearly (Tables~\ref{tab:records}
+      and~\ref{tab:sens_params}) in order to simulate comparable ice extents
+      at the LGM (Table~\ref{tab:extrema}) and realistic outlines
+      (Fig.~\ref{fig:lr_maps}).
+
+      Finally, lapse-rate corrections, ${\Delta}T_{\text{LR}}$, are computed
+      as a~function of ice surface elevation, $s$, using the NARR surface
+      geopotential height invariant field as a~reference topography,
+      $b_{\text{ref}}$:
+\begin{align}
+{\Delta}T_{\text{LR}}(t, x, y) &= -\gamma [s(t, x, y)-b_{\text{ref}}] \\
+                            &= -\gamma [h(t, x, y)+b(t, x, y)-b_{\text{ref}}],
+\end{align}
+      thus accounting for the evolution of ice thickness, ${h=s-b}$, on the
+      one hand, and for differences between the basal topography of the ice
+      flow model, $b$, and the NARR reference topography, $b_{\text{ref}}$,
+      on the other hand. All simulations use an annual temperature lapse
+      rate of $\gamma = 6\,\unit{K\,km^{-1}}$. In the rest of this paper, we
+      refer to different model runs by the name of the proxy record used for
+      the palaeo-temperature forcing.
+
+
 % ----------------------------------------------------------------------
 \section{Palaeo-climate forcing}
 % ----------------------------------------------------------------------
@@ -229,8 +614,7 @@
         \textbf{(d)} Geothermal heat flow from applying the similarity method
         to multiple geophysical proxies \citep{Goutorbe.etal.2011} used as a
         boundary condition to the bedrock thermal model 3\,km below the
-        ice-bedrock interface.
-        \todo{Fix geothermal plot.}}
+        ice-bedrock interface.}
       \label{fig:inputs}
     \end{figure}
 
