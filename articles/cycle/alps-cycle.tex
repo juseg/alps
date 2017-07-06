@@ -123,35 +123,17 @@
     \end{itemize}
 
 
-
-
-\section{Model setup}
-\label{sec:model}
-
 \subsection{Overview}
 \label{sec:overview}%
 
-      The simulations presented here were run using the Parallel Ice Sheet
-      Model (PISM, version~0.7.2), an open source, finite
-      difference, shallow ice sheet model \citep{PISM-authors.2015}. The
-      model requires input on basal topography, sea level, geothermal heat
-      flux and climate forcing. It computes the evolution of ice extent and
-      thickness over time, the thermal and dynamic states of the ice sheet,
-      and the associated lithospheric response.
+    We use the Parallel Ice Sheet
+    Model (PISM, development version~e9d2d1f), an open source, finite
+    difference, shallow ice sheet model \citep{PISM-authors.2017}. The
+    model requires input on basal topography, geothermal heat
+    flux and climate forcing. It computes the evolution of ice extent and
+    thickness over time, the thermal and dynamic states of the ice sheet,
+    and the associated lithospheric response.
 
-      Basal topography is bilinearly interpolated from the ETOPO1 combined
-      topography and bathymetry dataset with a~resolution of 1\,arc-min
-      \citep{Amante.Eakins.2009} to the model grids. It responds to ice load
-      following a~bedrock deformation model that includes local isostasy,
-      elastic lithosphere flexure and viscous astenosphere deformation in an
-      infinite half-space \citep{Lingle.Clark.1985,Bueler.etal.2007}.
-      A~relatively low viscosity value of $\nu_{\mathrm{m}} =
-      1\times10^{19}$\,\unit{Pa\,s} is used for the astenosphere
-      (Table~\ref{tab:params}) in accordance with the results from regional
-      glacial isostatic adjustment modelling at the northern Cascadia
-      subduction zone \citep{James.etal.2009}. Sea level is lowered as
-      a~function of time based on the Spectral Mapping Project
-      \citep[SPECMAP,][]{Imbrie.etal.1989} time scale.
 
       Ice deformation
       follows temperature and water-content dependent creep
@@ -383,6 +365,32 @@ A_{\mathrm{w}} (1+f\omega)\,e^\frac{-Q_{\mathrm{w}}}{RT_{\text{pa}}} & \text{if}
       pressure on the till, $N$, in response to water content, $W$, is
       illustrated in Fig.~\ref{fig:sens_plot_ntil}. All parameter choices
       are listed in Table~\ref{tab:sens_params}.
+
+\subsection{Basal topography}
+\label{sec:bedrock}
+
+    The initial basal topography is bilinearly interpolated from the
+    hole-filled, Shuttle Radar Topography Mission (SRTM) data with a~resolution
+    of 30\,arc-sec \citep{Jarvis.etal.2008}. These data include post-glacial
+    sediment fills and lakes surface topography. However, they were corrected
+    for an estimation of present-day ice thickness according from modern
+    glacier outlines, surface topography and simplified ice physics
+    \citep{Huss.Farinotti.2012}.
+
+    Basal topography responds to ice load following a~bedrock deformation model
+    that includes local isostasy, elastic lithosphere flexure and viscous
+    astenosphere deformation in an infinite half-space
+    \citep{Lingle.Clark.1985,Bueler.etal.2007}. The astenosphere viscosity,
+    $\nu_{\mathrm{m}}=2.2\times10^{20}$\,\unit{Pa\,s}, the astenosphere
+    density, $\rho_{\mathrm{m}}=3300$\,\unit{kg\,m^{-3}}, and the lithosphere
+    elastic rigidity, $D=1.389\e{24}$\,\unit{N\,m}, were set according to
+    results from glacial isostatic adjustment modelling of deglacial rebound in
+    the Alps most closely reproducing observed modern uplift rates
+    \citep[Table~\ref{tab:params};][Supplementary Fig.~7]{Mey.etal.2016}. The
+    latter was computed as $D=YE^3/12(1-\nu)$, where $Y=100$\,GPa is Young's
+    modulus, $\nu=0.25$ is the Poisson ratio, and $E=50$\,km is the average
+    effective elastic thickness of the lithosphere
+    \citep[Table~\ref{tab:params};][]{Mey.etal.2016}.
 
 \subsection{Surface mass balance}
 \label{sec:surface}
@@ -873,7 +881,7 @@ A_{\mathrm{w}} (1+f\omega)\,e^\frac{-Q_{\mathrm{w}}}{RT_{\text{pa}}} & \text{if}
                 & \unit{Pa\,s}
                 & \citet{Mey.etal.2016} \\
 
-        $\rho_{\mathrm{l}}$& Astenosphere density
+        $\rho_{\mathrm{m}}$& Astenosphere density
                 & 3300
                 & \unit{kg\,m^{-3}}
                 & \citet{Mey.etal.2016} \\
