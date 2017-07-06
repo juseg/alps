@@ -26,7 +26,7 @@ cax = cgrid[3]
 levs = range(55, 96, 5)
 cmap = ut.pl.get_cmap('PuOr_r', len(levs)-1)
 cols = cmap(range(len(levs)-1))
-cs = nc.contourf('bheatflx', ax, levels=levs, colors=cols, alpha=0.75)
+cs = nc.contourf('bheatflx', ax, levels=levs, colors=cols, thkth=-1, alpha=0.75)
 cb = fig.colorbar(cs, cax, orientation='vertical', ticks=levs[1::2])
 cb.set_label(r'Geothermal flux ($mW\,m^{-2}$)')
 nc.close()
