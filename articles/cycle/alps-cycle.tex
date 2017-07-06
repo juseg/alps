@@ -159,9 +159,7 @@
       Table~\ref{tab:params}. Basal sliding follows
       a~pseudo-plastic law where the yield stress accounts for till
       deconsolidation under high water pressure (Sect.~\ref{sec:sliding}).
-      Ice shelf calving is simulated using an ice thickness threshold and
-      principle components of the strain rate tensor
-      (Sect.~\ref{sec:calving}). Surface mass balance is
+      Surface mass balance is
       computed using a~positive degree-day (PDD) model
       (Sect.~\ref{sec:surface}). Climate forcing is provided by a~monthly
       climatology averaged from 1979 to 2000 from the North American
@@ -385,22 +383,6 @@ A_{\mathrm{w}} (1+f\omega)\,e^\frac{-Q_{\mathrm{w}}}{RT_{\text{pa}}} & \text{if}
       pressure on the till, $N$, in response to water content, $W$, is
       illustrated in Fig.~\ref{fig:sens_plot_ntil}. All parameter choices
       are listed in Table~\ref{tab:sens_params}.
-
-\subsection{Ice shelf calving}
-\label{sec:calving}
-
-      Ice shelf calving is computed using a~double criterion. First,
-      a~physically-realistic calving flux is computed based on eigenvalues
-      of the horizontal strain rate tensor \citep{Winkelmann.etal.2011,
-      Levermann.etal.2012}. This allows floating ice to advance in confined
-      embayments, but prevents the formation of extensive ice shelves in the
-      open ocean. Second, floating ice thinner than 50\,\unit{m} is
-      systematically calved off. A~subgrid scheme by
-      \citet{Albrecht.etal.2011} allows for a~continuous migration of the
-      calving front. This formulation of calving has been applied to the
-      Antarctic ice sheet and has shown to produce a~realistic calving front
-      positon for many of the present-day ice shelves
-      \citep{Martin.etal.2011}.
 
 \subsection{Surface mass balance}
 \label{sec:surface}
