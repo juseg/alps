@@ -126,39 +126,40 @@
 \subsection{Overview}
 \label{sec:overview}%
 
-    We use the Parallel Ice Sheet
-    Model (PISM, development version~e9d2d1f), an open source, finite
-    difference, shallow ice sheet model \citep{PISM-authors.2017}. The
-    model requires input on basal topography, geothermal heat
-    flux and climate forcing. It computes the evolution of ice extent and
-    thickness over time, the thermal and dynamic states of the ice sheet,
-    and the associated lithospheric response.
+    We use the Parallel Ice Sheet Model (PISM, development version~e9d2d1f), an
+    open source, finite difference, shallow ice sheet model
+    \citep{PISM-authors.2017}. The model requires input on basal
+    topography, geothermal heat flux and climate forcing. It computes the
+    evolution of ice extent and thickness over time, the thermal and dynamic
+    states of the ice sheet, and the associated lithospheric response. The
+    set-up used here is largely based on that used in previous studies of the
+    former Cordilleran ice sheet \citep{Seguinot.2014, Seguinot.etal.2014,
+    Seguinot.etal.2016}.
 
+    \idea{Remove next paragraph?}
 
-      Ice deformation
-      follows temperature and water-content dependent creep
-      (Sect.~\ref{sec:icedyn}). Default parameter values are given in
-      Table~\ref{tab:params}. Basal sliding follows
-      a~pseudo-plastic law where the yield stress accounts for till
-      deconsolidation under high water pressure (Sect.~\ref{sec:sliding}).
-      Surface mass balance is
-      computed using a~positive degree-day (PDD) model
-      (Sect.~\ref{sec:surface}). Climate forcing is provided by a~monthly
-      climatology averaged from 1979 to 2000 from the North American
-      Regional Reanalysis \citep[NARR,][]{Mesinger.etal.2006}, perturbed
-      by time-dependent offsets and lapse-rate temperature corrections
-      (Sect.~\ref{sec:atm}, Table~\ref{tab:records}). A~sensitivity study
-      to some of the most influential ice rheology (Sect~\ref{sec:icedyn})
-      and basal sliding (Sect.~\ref{sec:sliding}) parameters is performed
-      (Table~\ref{tab:sens_params}).
+    Ice deformation follows temperature and water-content dependent creep
+    (Sect.~\ref{sec:icedyn}). Basal sliding follows a~pseudo-plastic law where
+    the yield stress accounts for till deconsolidation under high water
+    pressure (Sect.~\ref{sec:sliding}). Bedrock topography is deflected
+    under the ice load (Sect.~\ref{sec:bedrock}). Surface mass balance is
+    computed using a~positive degree-day (PDD) model (Sect.~\ref{sec:surface}).
+    Climate forcing is provided by a~monthly climatology from interpolated
+    observational data \citep[WorldClim;][]{Hijmans.etal.2005} and the European
+    Centre for Medium-Range Weather Forecasts Reanalysis Interim
+    \citep[ERA-Interim;][]{Dee.etal.2011}, perturbed by time-dependent
+    temperature offsets, temperature lapse-rate corrections, and in some cases,
+    time-dependent paleo-precipitation reductions (Sect.~\ref{sec:atm},
+    Table~\ref{tab:records}).
 
-      Each simulation starts from assumed ice-free conditions at
-      120\,\unit{ka}, and runs to the present.
-      Our modelling domain of 1\,500 by 3\,000\,\unit{km} encompasses
-      the entire area covered by the Cordilleran ice sheet at the LGM
-      (Fig.~\ref{fig:locmap}). The simulations were run on two distinct
-      grids, using a~lower horizontal resolution of 10\,\unit{km}, and
-      a~higher horizontal resolution of 5\,\unit{km}.
+    \idea{Remove next paragraph?}
+
+    Each simulation starts from assumed present-day ice thickness and
+    equilibrium temperature distribution at 120\,\unit{ka}, and runs to the
+    present. Our modelling domain of 900 by 600\,\unit{km} encompasses the
+    entire Alpine range (Fig.~\ref{fig:inputs}). The simulations were run on
+    two distinct grids, using a~lower horizontal resolution of 2\,\unit{km},
+    and a~higher horizontal resolution of 1\,\unit{km}.
 
 \subsection{Ice rheology}
 \label{sec:icedyn}
