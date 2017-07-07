@@ -161,36 +161,39 @@
     two distinct grids, using a~lower horizontal resolution of 2\,\unit{km},
     and a~higher horizontal resolution of 1\,\unit{km}.
 
+    \idea{In the following, I repeat all parameters in the text and table. Is
+          this necessary? Equations are the same as in my Cordillera paper.
+          Should I remove them?}
+
 \subsection{Ice rheology}
 \label{sec:icedyn}
 
-      Ice sheet dynamics are typically modelled using a~combination of
-      internal deformation and basal sliding. PISM is a~shallow ice sheet
-      model, which implies that the balance of stresses is approximated
-      based on their predominant components. The Shallow Shelf Approximation
-      (SSA) is combined with the Shallow Ice Approximation
-      (SIA) by adding velocity solutions of the two approximations
-      \citep[Eqs.~7--9 and 15]{Winkelmann.etal.2011}. Although this
-      heuristic approach implies errors in the transition zone where gravitational
-      stresses intervene both in the SIA and SSA velocity computation, this
-      hybrid scheme is computationally much more efficient than a fully
-      three-dimensional model with which the simulations presented here
-      would not be feasible.
+    Ice sheet dynamics are typically modelled using a~combination of internal
+    deformation and basal sliding. PISM is a~shallow ice sheet model, which
+    implies that the balance of stresses is approximated based on their
+    predominant components. The Shallow Shelf Approximation (SSA) is combined
+    with the Shallow Ice Approximation (SIA) by adding velocity solutions of
+    the two approximations \citep[Eqs.~7--9 and 15]{Winkelmann.etal.2011}.
+    Although this heuristic approach implies errors in the transition zone
+    where gravitational stresses intervene both in the SIA and SSA velocity
+    computation, this hybrid scheme is computationally much more efficient than
+    a fully three-dimensional model with which the simulations presented here
+    would not be feasible.
 
-      Ice deformation is governed by the constitutive law for ice
-      \citep{Glen.1952, Nye.1953},
+    Ice deformation is governed by the constitutive law for ice
+    \citep{Glen.1952, Nye.1953},
 %
 \begin{align}
 &\label{eqn:glenslaw}
 &\vec{\dot{\epsilon}} = A\,\tau_{\mathrm{e}}^{n-1}\,\vec{\tau} \,.
 \end{align}
 %
-      where $\vec{\dot{\epsilon}}$ is the strain-rate tensor,
-      $\vec{\tau}$ the deviatoric stress tensor, and $\tau_{\mathrm{e}}$ the
-      effective stress defined in our case by ${\tau_{\mathrm{e}}}^2 = \frac{1}{2}
-      \mathrm{tr}(\vec{\tau}^2)$. The ice softness coefficient, $A$, depends
-      on ice temperature, $T$, pressure, $p$, and water content, $\omega$,
-      through a~piece-wise Arrhenius-type law,
+    where $\vec{\dot{\epsilon}}$ is the strain-rate tensor, $\vec{\tau}$ the
+    deviatoric stress tensor, and $\tau_{\mathrm{e}}$ the effective stress
+    defined in our case by
+    ${\tau_{\mathrm{e}}}^2=\frac{1}{2}\mathrm{tr}(\vec{\tau}^2)$. The ice
+    softness coefficient, $A$, depends on ice temperature, $T$, pressure, $p$,
+    and water content, $\omega$, through a~piece-wise Arrhenius-type law,
 %
 \begin{align}
 &\label{eqn:softness}
@@ -201,81 +204,40 @@ A_{\mathrm{w}} (1+f\omega)\,e^\frac{-Q_{\mathrm{w}}}{RT_{\text{pa}}} & \text{if}
 \end{cases}
 \end{align}
 %
-      where $T_{\text{pa}}$ is the pressure-adjusted ice temperature
-      calculated using the Clapeyron relation, ${T_{\text{pa}} = T - \beta
-      p}$. $R=8.31441$\,\unit{J\,mol^{-1}\,K^{-1}} is the ideal gas
-      constant, and $A_{\mathrm{c}}$, $A_{\mathrm{w}}$, $Q_{\mathrm{c}}$ and
-      $Q_{\mathrm{w}}$, are constant parameters corresponding to values
-      measured below and above a~critical temperature threshold
-      $T_{\mathrm{c}}=-10$\,\unit{{\degree}C}
-      \citep[p.~72]{Paterson.Budd.1982,Cuffey.Paterson.2010}. The water
-      fraction, $\omega$, is capped at a~maximum value of 0.01, above which
-      no measurements are available \citep[Eq.~5.7]{Lliboutry.Duval.1985,
-      Greve.1997}. Finally, $E$ is a~non-dimensional enhancement factor
-      which can take different values, $E_{\text{SIA}}$, in the SIA and
-      $E_{\text{SSA}}$, in the SSA.
+    where $T_{\text{pa}}$ is the pressure-adjusted ice temperature calculated
+    using the Clapeyron relation, $T_{\text{pa}}=T-{\beta}p$.
+    $R=8.31441$\,\unit{J\,mol^{-1}\,K^{-1}} is the ideal gas constant, and
+    $A_{\mathrm{c}}=2.847\e{-13}$\,\unit{Pa^{-3}\,s^{-1}},
+    $A_{\mathrm{w}}=2.356\e{-2}$\,\unit{Pa^{-3}\,s^{-1}},
+    $Q_{\mathrm{c}}=6.0\e4$\,\unit{J\,mol^{-1}}, and
+    $Q_{\mathrm{w}}=11.5\e4$\,\unit{J\,mol^{-1}} are constant parameters
+    corresponding to values measured below and above a~critical temperature
+    threshold $T_{\mathrm{c}}=-10$\,\unit{{\degree}C}
+    \citep[p.~72]{Cuffey.Paterson.2010}. The water fraction, $\omega$, is
+    capped at a~maximum value of 0.01, above which no measurements are
+    available \citep[Eq.~5.7]{Lliboutry.Duval.1985, Greve.1997}. Finally, $E$
+    is a~non-dimensional enhancement factor which can take different values,
+    $E_{\text{SIA}}=2$, in the SIA and $E_{\text{SSA}}=1$, in the SSA, as
+    recommended for Holocene polar ice \citep[p.~77]{Cuffey.Paterson.2010}.
 
-      In all our simulations, we set constant the power-law exponent, $n=3$,
-      according to \citet[p.~55--57]{Cuffey.Paterson.2010}, the Clapeyron
-      constant, $\beta=7.9\times 10^{-8}$\,\unit{K\,Pa^{-1}}, according to
-      \citet{Luthi.etal.2002}, the water fraction coefficient, $f=181.25$,
-      according to \citet{Lliboutry.Duval.1985}, and the SSA enhancement
-      factor, $E_{\text{SSA}}=1$, according to
-      \citet[p.~77]{Cuffey.Paterson.2010}. These fixed parameter values are
-      summarized in Table~\ref{tab:params}.
+    In all our simulations, we set constant the power-law exponent, $n=3$,
+    according to \citet[p.~55--57]{Cuffey.Paterson.2010}, the Clapeyron
+    constant, $\beta=7.9\times 10^{-8}$\,\unit{K\,Pa^{-1}}, according to
+    \citet{Luthi.etal.2002}, and the water fraction coefficient, $f=181.25$,
+    according to \citet{Lliboutry.Duval.1985}. These fixed parameter values are
+    summarized in Table~\ref{tab:params}.
 
-      On the other hand, we test the model sensitivity
-      (Sect.~\ref{sec:sens}) to different values for the two creep
-      parameters, $A_{\mathrm{c}}$ and $A_{\mathrm{w}}$, the two activation
-      energies, $Q_{\mathrm{c}}$ and $Q_{\mathrm{w}}$, and the SIA
-      enhancement factor, $E_{\text{SIA}}$, as follows.
-%
-\begin{itemize}
-  \item Our \emph{default} configuration used in the control run of the
-    sensitivity study and all other simulations in the paper includes
-    rheological parameters,
-    $A_{\mathrm{c}}$, $A_{\mathrm{w}}$, $Q_{\mathrm{c}}$ and
-    $Q_{\mathrm{w}}$, derived from \citet{Paterson.Budd.1982} and given in
-    \citet[Eqn.~5]{Bueler.Brown.2009}, and $E_{\text{SIA}}=1$.
-  \item Our \emph{hard ice} configuration includes rheological parameters,
-    $A_{\mathrm{c}}$, $A_{\mathrm{w}}$, $Q_{\mathrm{c}}$ and
-    $Q_{\mathrm{w}}$, derived from \citet[p.~72 and
-    76]{Cuffey.Paterson.2010}, and $E_{\text{SIA}}=1$, which correspond to
-    a~stiffer rheology than that used in the control run.
-  \item Our \emph{soft ice} configuration includes rheological parameters
-    from \citet{Cuffey.Paterson.2010}, and $E_{\text{SIA}}=5$, the
-    recommended value for ice age polar ice
-    \citep[p.~77]{Cuffey.Paterson.2010}.
-\end{itemize}
-%
-      An additional simulation using the ice rheology from
-      \citet{Cuffey.Paterson.2010} and $E_{\text{SIA}}=2$, the recommended
-      value for Holocene polar ice \citep[p.~77]{Cuffey.Paterson.2010} has
-      been performed, but is not presented here, since its results were very
-      similar to that of our default run.
-
-      Actual parameter values for $A_{\mathrm{c}}$, $A_{\mathrm{w}}$,
-      $Q_{\mathrm{c}}$, $Q_{\mathrm{w}}$ and $E_{\text{SIA}}$ used in our
-      simulations are given in Table~\ref{tab:sens_params}, while the effect
-      of the three different parametrisations on temperature-dependent ice
-      softness, $A$, is illustrated in Fig.~\ref{fig:sens_plot_rheo}.
-
-      Surface air
-      temperature derived from the climate forcing (Sect.~\ref{sec:atm})
-      provides the upper boundary condition to the ice enthalpy
-      model. Temperature is computed in the ice and in the bedrock to
-      a~depth of 3\,\unit{km} below the ice-bedrock interface, where it is
-      conditioned by a~lower boundary geothermal heat flux of
-      $q_{\mathrm{G}}=70$\,\unit{mW\,m^{-2}}. Although this uniform value
-      does
-      not account for the high spatial geothermal variability in the region
-      \citep{Blackwell.Richards.2004}, it is, on average, representative of
-      available heat flow measurements. In the low-resolution simulations,
-      the vertical grid consists of 31~temperature layers in the bedrock and
-      up to 51~enthalpy layers in the ice sheet, corresponding to a~vertical
-      resolution of 100\,\unit{m}. The high-resolution simulations use
-      61~bedrock layers and up to 101~ice layers with a~vertical resolution
-      of 50\,\unit{m}.
+    Surface air temperature derived from the climate forcing
+    (Sect.~\ref{sec:atm}) provides the upper boundary condition to the ice
+    enthalpy model. Temperature is computed in the ice and in the bedrock to
+    a~depth of 3\,\unit{km} below the ice-bedrock interface, where it is
+    conditioned by a~lower boundary geothermal heat flux estimate from multiple
+    geothermal proxies \citep[similarity method]{Goutorbe.etal.2011}. In the
+    2\,km-resolution simulations, the vertical grid consists of 31~temperature
+    layers in the bedrock and up to 126~enthalpy layers in the ice,
+    corresponding to vertical resolutions of 100 and 40\,\unit{m},
+    respectively. The 1\,km-resolution simulation uses 61~bedrock layers and up
+    to 251~ice layers with a~vertical resolutions of 50 and 20\,\unit{m}.
 
 \subsection{Basal sliding}
 \label{sec:sliding}
