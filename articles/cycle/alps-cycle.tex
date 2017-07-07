@@ -242,92 +242,47 @@ A_{\mathrm{w}} (1+f\omega)\,e^\frac{-Q_{\mathrm{w}}}{RT_{\text{pa}}} & \text{if}
 \subsection{Basal sliding}
 \label{sec:sliding}
 
-      A~pseudo-plastic sliding law,
+    A~pseudo-plastic sliding law,
 %
 \begin{align}
 &\label{eqn:pseudoplastic}
     \vec{\tau}_{\mathrm{b}} = -\tau_{\mathrm{c}} \frac{\vec{v}_{\mathrm{b}}}{{v_{\text{th}}}^q\,|\vec{v}_{\mathrm{b}}|^{1-q}} \,,
 \end{align}
 %
-      relates the bed-parallel shear stresses, $\vec{\tau}_{\mathrm{b}}$, to
-      the sliding velocity, $\vec{v}_{\mathrm{b}}$.
-      The yield stress, $\tau_{\mathrm{c}}$, is modelled using the
-      Mohr--Coulomb criterion,
+    relates the bed-parallel shear stresses, $\vec{\tau}_{\mathrm{b}}$, to the
+    sliding velocity, $\vec{v}_{\mathrm{b}}$. The pseudo-plastic sliding
+    exponent, $q=0.25$, and the threshold velocity,
+    $v_{\text{th}}=100$\,\unit{m\,a^{-1}}, are set to values successfully used
+    to model the Greenland ice sheet \citet{Aschwanden.etal.2013} The yield
+    stress, $\tau_{\mathrm{c}}$, is modelled using the Mohr--Coulomb criterion,
 %
 \begin{align}
 &\tau_{\mathrm{c}} = c_0 + N\,\tan{\phi} \,,
 \end{align}
 %
-      where cohesion, $c_0$, is assumed to be zero. Effective pressure, $N$,
-      is related to the ice overburden stress, $P_0=\rho gh$, and the
-      modelled amount of
-      subglacial water, using a~formula derived from laboratory experiments
-      with till extracted from the base of Ice Stream B in West Antarctica
-      \citep{Tulaczyk.etal.2000, Bueler.Pelt.2015},
+    where the till cohesion, $c_0=0$, was consistently measured to be
+    negligible \citep[p.~268]{Tulaczyk.etal.2000, Cuffey.Paterson.2010}. We use
+    a~constant till friction angle, $\phi=30$\unit{\degree}, corresponding to
+    the average of values presented in \citet[p.~268]{Cuffey.Paterson.2010}.
+
+    Effective pressure, $N$, is related to the ice overburden stress, $P_0=\rho
+    gh$, and the modelled amount of subglacial water, using a~formula derived
+    from laboratory experiments with till extracted from the base of Ice Stream
+    B in West Antarctica \citep{Tulaczyk.etal.2000, Bueler.Pelt.2015},
 %
 \begin{align}
 &\label{eqn:ntil}
 &N = \delta P_0 \, 10^{(e_0/C_{\mathrm{c}}) (1 - (W/W_{\text{max}}))} \,,
 \end{align}
 %
-      where $\delta$ sets the minimum ratio between the effective and
-      overburden pressures, $e_0$ is a~reference void ratio and
-      $C_{\mathrm{c}}$ is the till compressibility coefficient
-      \citep{Tulaczyk.etal.2000}. The amount of water at the base, $W$,
-      varies from zero to $W_{\text{max}}$, a~threshold above which
-      additional melt water is assumed to drain off instantaneously.
-
-      In all our simulations, we set constant the pseudo-plastic sliding
-      exponent, $q=0.25$, and the threshold velocity,
-      $v_{\text{th}}=100$\,\unit{m\,a^{-1}}, according to values used by
-      \citet{Aschwanden.etal.2013}, the till cohesion, $c_0=0$, whose
-      measured values are consistently negligible
-      \citep[p.~268]{Tulaczyk.etal.2000, Cuffey.Paterson.2010}, the till
-      reference void ratio, $e_0=0.69$, and the till compressibility
-      coefficient, $C_{\mathrm{c}}=0.12$, according to the only measurements
-      available to our knowledge, published by \citet{Tulaczyk.etal.2000}.
-      These fixed parameter values are summarized in Table~\ref{tab:params}.
-
-      We also use a~constant spatial distribution of the till friction
-      angle, $\phi$, whose values vary from 15 to 45\unit{\degree} as
-      a~piecewise-linear function of modern bed elevation, with the lowest
-      value occuring below the modern sea level (0\,\unit{m} above sea level,
-      \unit{m\,a.s.l.}) and the highest value occuring above the generalised
-      elevation of the highest shorelines
-      \citep[200\,\unit{m\,a.s.l.},][Fig.~5]{Clague.1981}. This range of
-      values span over the range of measured values for glacial till of 18
-      to 40\unit{\degree} \citep[p.~268]{Cuffey.Paterson.2010}. It accounts
-      for frictional basal conditions associated with discontinuous till
-      cover at high elevations, and for a~weakening of till associated with
-      the presence of marine sediments (cf. \citealp{Martin.etal.2011};
-      \citealp[Supplement]{Aschwanden.etal.2013};
-      \citealp{PISM-authors.2017}).
-
-      An additional simulation with a~constant till friction angle,
-      $\phi=30$\unit{\degree}, corresponding to the average value in
-      \citet[p.~268]{Cuffey.Paterson.2010}, has been performed, but is not
-      presented here, since the induced variability was small.
-
-      On the other hand, we test the model sensitivity
-      (Sect.~\ref{sec:sens}) to different values for the minimum ratio
-      between the effective and overburden pressures, $\delta$, and the
-      maximum water height in the till, $W_{\text{max}}$, as follows.
-%
-\begin{itemize}
-  \item Our \emph{default} configuration used in the control run of the
-    sensitivity study and all other simulations in the paper includes
-    $\delta=0.02$ and $W_{\text{max}}=2$\,\unit{m} as in
-    \citet{Bueler.Pelt.2015}.
-  \item Our \emph{soft bed} configuration use $\delta=0.01$ and
-    $W_{\text{max}}=1$\,\unit{m}.
-  \item Our \emph{hard bed} configuration use $\delta=0.05$ and
-    $W_{\text{max}}=5$\,\unit{m}.
-\end{itemize}
-%
-      The effect of the three different parametrisations on the effective
-      pressure on the till, $N$, in response to water content, $W$, is
-      illustrated in Fig.~\ref{fig:sens_plot_ntil}. All parameter choices
-      are listed in Table~\ref{tab:sens_params}.
+    where $\delta=0.02$ sets the minimum ratio between the effective and
+    overburden pressures. Parameter values for the till reference void ratio,
+    $e_0=0.69$, and the till compressibility coefficient,
+    $C_{\mathrm{c}}=0.12$, were set to the only measurements available to our
+    knowledge \citep{Tulaczyk.etal.2000}. The amount of water at the base, $W$,
+    varies from zero to $W_{\text{max}}=2$\,m, a~threshold above which
+    additional melt water is assumed to drain off instantaneously. These fixed
+    parameter values are summarized in Table~\ref{tab:params}.
 
 \subsection{Basal topography}
 \label{sec:bedrock}
