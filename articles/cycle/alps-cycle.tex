@@ -356,70 +356,89 @@ A_{\mathrm{w}} (1+f\omega)\,e^\frac{-Q_{\mathrm{w}}}{RT_{\text{pa}}} & \text{if}
 \subsection{Climate forcing}
 \label{sec:atm}%
 
-      Climate forcing driving ice sheet simulations consists of
-      a~present-day monthly climatology, $\{T_{\mathrm{m}0},
-      P_{\mathrm{m}0}\}$, where temperatures are modified by offset time
-      series, ${\Delta}T_{\text{TS}}$, and lapse-rate corrections,
-      ${\Delta}T_{\text{LR}}$:
+    Climate forcing driving ice sheet simulations consists of a~present-day
+    monthly climatology, $\{T_{\mathrm{m}0}, P_{\mathrm{m}0}\}$, where
+    temperatures are modified by offset time series, ${\Delta}T_{\text{TS}}$,
+    and lapse-rate corrections, ${\Delta}T_{\text{LR}}$:
+%
 \begin{align}
-&T_{\mathrm{m}}(t, x, y) = T_{\mathrm{m}0}(x, y) + {\Delta}T_{\text{TS}}(t)
+T_{\mathrm{m}}(t, x, y) = T_{\mathrm{m}0}(x, y) + {\Delta}T_{\text{TS}}(t)
                     + {\Delta}T_{\text{LR}}(t, x, y) \,, \\
-&    P_{\mathrm{m}}(t, x, y) = P_{\mathrm{m}0}(x, y) \,.
 \end{align}
-      The present-day monthly climatology was bilinearly interpolated from
-      near-surface air
-      temperature and precipitation rate fields from the NARR, averaged from
-      1979 to 2000. Modern climate of the North American Cordillera is
-      characterised by strong geographic variations in temperature
-      seasonality, timing of the maximum annual precipitation, and daily
-      temperature variability (Fig.~\ref{fig:atm}). Although the ability
-      of the NARR to reproduce the steep climatic gradients is limited by its
-      spatial resolution of 32\,\unit{km} \citep{Jarosch.etal.2012}, it has
-      been tested against observational data in our previous sensitivity
-      study and identified as yielding a closer fit between the modelled LGM
-      extent of the Cordilleran ice sheet and the geological evidence than
-      other atmospheric reanalyses \citep{Seguinot.etal.2014}.
+%
+    The present-day monthly climatology was bilinearly interpolated from
+    near-surface air temperature and precipitation rate fields from
+    \citep[WorldClim;][]{Hijmans.etal.2005}, representative of the period 1960
+    to 1990. Modern climate of the European Alps is characterised by a
+    latitudinal gradient in summer air temperatures, and a longitudinal
+    gradient in winter precipitation (Fig.~\ref{fig:inputs}). WorldClim data
+    were selected as an input to the ice sheet model because they incorporate
+    observations from the dense weather station network of central Europe.
+    Besides, last glacial cycle alpine glaciers did not extend over marine
+    areas where WorldClim data is missing. Finally, WorldClim data were
+    previously used as climate forcing for PISM to model the LGM extent of the
+    former Cordilleran ice sheet in good agreement with geological evidence
+    along the southern margin \citep{Seguinot.etal.2014} were weather station
+    density is lower than in the Alps.
 
-      Temperature offset time-series, ${\Delta}T_{\text{TS}}$, are derived
-      from palaeo-temperature proxy records from the Greenland Ice Core
-      Project \citep[GRIP,][]{Dansgaard.etal.1993}, the North Greenland Ice
-      Core Project \citep[NGRIP,][]{Andersen.etal.2004}, the European
-      Project for Ice Coring in Antarctica \citep[EPICA,][]
-      {Jouzel.etal.2007}, the Vostok ice core \citep{Petit.etal.1999}, and
-      Ocean Drilling Program (ODP) sites 1012 and 1020, both located off the
-      coast of California \citep{Herbert.etal.2001}. Palaeo-temperature
-      anomalies from the GRIP and NGRIP records were calculated from oxygen
-      isotope (\chem{\delta^{18}O}) measurements using a~quadratic equation
-      \citep{Johnsen.etal.1995},
+    Temperature offset time-series, ${\Delta}T_{\text{TS}}$, are derived from
+    palaeo-temperature proxy records from the Greenland Ice Core Project
+    \citep[GRIP,][]{Dansgaard.etal.1993}, the European Project for Ice Coring
+    in Antarctica \citep[EPICA,][] {Jouzel.etal.2007}, and an oceanic sediment
+    core from the Iberian margin \citep[MD01-2444,][]{Martrat.etal.2007}.
+    Palaeo-temperature anomalies from the GRIP record were calculated from
+    oxygen isotope (\chem{\delta^{18}O}) measurements using a~quadratic
+    equation \citep{Johnsen.etal.1995},
+%
 \begin{align}
 {\Delta}T_{\text{TS}}(t) ={~}&-11.88 [\chem{\delta^{18}O}(t)
                                 -\chem{\delta^{18}O}(0)] \nonumber \\
                         &-0.1925[\chem{\delta^{18}O}(t)^2
                                  -\chem{\delta^{18}O}(0)^2] \,,
 \end{align}
-      while temperature reconstructions from Antarctic and oceanic cores
-      were provided as such. For each proxy record used and each of the
-      parameter setup used in the sensitivity tests, palaeo-temperature
-      anomalies were scaled linearly (Tables~\ref{tab:records}
-      and~\ref{tab:sens_params}) in order to simulate comparable ice extents
-      at the LGM (Table~\ref{tab:extrema}) and realistic outlines
-      (Fig.~\ref{fig:lr_maps}).
+%
+    while temperature reconstructions from the EPICA and MD01-2444 records were
+    provided as such. For each proxy record used and each of the parameter
+    setup used in the sensitivity tests, palaeo-temperature anomalies are
+    scaled linearly (Table~\ref{tab:records}) so that the cumulative glaciated
+    area of the Rhine glacier piedmont lobe during Oxygen Marine Isotope Stage
+    (MIS)~2 (29--14\,ka) is modelled comparably to the reconstructions
+    (Fig.~\ref{fig:footprints}).
 
-      Finally, lapse-rate corrections, ${\Delta}T_{\text{LR}}$, are computed
-      as a~function of ice surface elevation, $s$, using the NARR surface
-      geopotential height invariant field as a~reference topography,
-      $b_{\text{ref}}$:
+    The temperature lapse-rate corrections, ${\Delta}T_{\text{LR}}$, are
+    computed as a~function of ice surface elevation, $s$, using the SRTM
+    topography shipped with WorldClimas a~reference, $b_{\text{ref}}$:
+%
 \begin{align}
 {\Delta}T_{\text{LR}}(t, x, y) &= -\gamma [s(t, x, y)-b_{\text{ref}}] \\
                             &= -\gamma [h(t, x, y)+b(t, x, y)-b_{\text{ref}}],
 \end{align}
-      thus accounting for the evolution of ice thickness, ${h=s-b}$, on the
-      one hand, and for differences between the basal topography of the ice
-      flow model, $b$, and the NARR reference topography, $b_{\text{ref}}$,
-      on the other hand. All simulations use an annual temperature lapse
-      rate of $\gamma = 6\,\unit{K\,km^{-1}}$. In the rest of this paper, we
-      refer to different model runs by the name of the proxy record used for
-      the palaeo-temperature forcing.
+%
+    thus accounting for the evolution of ice thickness, ${h=s-b}$, on the one
+    hand, and for differences between the basal topography of the ice flow
+    model, $b$, and the NARR reference topography, $b_{\text{ref}}$, on the
+    other hand. All simulations use an annual temperature lapse rate of $\gamma
+    = 6\,\unit{K\,km^{-1}}$.
+
+    Finally, in some simulations, precipitation was reduced with temperature in
+    order to simulate the potential rarification of atmospheric moisture in
+    colder climates. This was done using an empirical relationship derived from
+    observed accumulation rates and oxygen isotopes concentrations in the GRIP
+    ice core \citep{Dahl-Jensen.etal.1993},
+%
+\begin{align}
+P_{\mathrm{m}}(t, x, y) = P_{\mathrm{m}0}(x, y) \cdot
+                          \exp[\zeta{\Delta}T_{\text{LR}}(t, x, y)] \,.
+\end{align}
+%
+    with $\zeta=0.169/2.4=0.0704$ \citep{Huybrechts.2002}. This simple
+    relationship likely does not reflect the complexity of atmospheric
+    circulation changes that governed moisture availability over the Alps
+    during the last glacial cycle. Thus other simulations use constant
+    precipitation, corresponding to $\zeta=0$. In the rest of this paper, we
+    refer to different model runs by the name of the proxy record used for the
+    palaeo-temperature forcing. Model runs using paleo-precipitation
+    corrections are identified by appending ${\Delta}P$ to their name.
 
 
 % ----------------------------------------------------------------------
@@ -848,7 +867,7 @@ A_{\mathrm{w}} (1+f\omega)\,e^\frac{-Q_{\mathrm{w}}}{RT_{\text{pa}}} & \text{if}
                 & \unit{K\,m{-1}}
                 & -- \\
 
-        $\omega$& Precipitation factor
+        $\zeta$ & Precipitation factor
                 & 0.0704
                 & --
                 & \citet{Huybrechts.2002} \\
