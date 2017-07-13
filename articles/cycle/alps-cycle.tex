@@ -110,27 +110,14 @@
 \section{Ice sheet model set-up}
 % ----------------------------------------------------------------------
 
-    Table~\ref{tab:params} -- Model parameters\\
+    Table~\ref{tab:params} -- Model parameters.\\
     Fig.~\ref{fig:inputs} -- Climate and geothermal model inputs.\\
 
-    \begin{itemize}
-    \item Ice dynamics are approximated by SSA+SIA.
-    \item Ice temperature follows an enthalpy scheme.
-    \item Bedrock temperature computed until 3\,km depth
-    \item Temperature conditioned by geothermal flux (Fig.~\ref{fig:inputs}d).
-    \item Basal sliding follwos a pseudo-plastic law.
-    \item Yield stress is determined by a Mohr-Coulomb criterion.
-    \item Till friction angle is constant.
-    \item Till effective pressure relates to basal melt.
-    \item Surface mass balance is computed by a PDD model.
-    \item Modern T and P forcing from WorldClim (Fig.~\ref{fig:inputs}a and~b).
-    \item Modern PDD SD forcing from ERA-Interim (Fig.~\ref{fig:inputs}c).
-    \item SRTM topography with glaciers removed \citep{Huss.Farinotti.2012}.
-    \end{itemize}
 
-
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 \subsection{Overview}
-\label{sec:overview}%
+\label{sec:overview}
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
     We use the Parallel Ice Sheet Model (PISM, development version~e9d2d1f), an
     open source, finite difference, shallow ice sheet model
@@ -171,8 +158,11 @@
           this necessary? Equations are the same as in my Cordillera paper.
           Should I remove them?}
 
+
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 \subsection{Ice rheology}
 \label{sec:icedyn}
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
     Ice sheet dynamics are typically modelled using a~combination of internal
     deformation and basal sliding. PISM is a~shallow ice sheet model, which
@@ -188,28 +178,28 @@
 
     Ice deformation is governed by the constitutive law for ice
     \citep{Glen.1952, Nye.1953},
-%
-\begin{align}
-&\label{eqn:glenslaw}
-&\vec{\dot{\epsilon}} = A\,\tau_{\mathrm{e}}^{n-1}\,\vec{\tau} \,.
-\end{align}
-%
+    %
+    \begin{align}
+      \vec{\dot{\epsilon}} = A\,\tau_{\mathrm{e}}^{n-1}\,\vec{\tau} \,.
+    \end{align}
+    %
     where $\vec{\dot{\epsilon}}$ is the strain-rate tensor, $\vec{\tau}$ the
     deviatoric stress tensor, and $\tau_{\mathrm{e}}$ the effective stress
     defined in our case by
     ${\tau_{\mathrm{e}}}^2=\frac{1}{2}\mathrm{tr}(\vec{\tau}^2)$. The ice
     softness coefficient, $A$, depends on ice temperature, $T$, pressure, $p$,
     and water content, $\omega$, through a~piece-wise Arrhenius-type law,
-%
-\begin{align}
-&\label{eqn:softness}
-&A = E\cdot
-\begin{cases}
-A_{\mathrm{c}} \,e^\frac{-Q_{\mathrm{c}}}{RT_{\text{pa}}}            & \text{if}\ T_{\text{pa}}  <  T_{\mathrm{c}} \,, \\
-A_{\mathrm{w}} (1+f\omega)\,e^\frac{-Q_{\mathrm{w}}}{RT_{\text{pa}}} & \text{if}\ T_{\text{pa}} \ge T_{\mathrm{c}} \,,
-\end{cases}
-\end{align}
-%
+    %
+    \begin{align}
+    &A = E\cdot
+      \begin{cases}
+        A_{\mathrm{c}} \,e^\frac{-Q_{\mathrm{c}}}{RT_{\text{pa}}}
+            & \text{if}\ T_   {\text{pa}}  <  T_{\mathrm{c}} \,, \\
+        A_{\mathrm{w}} (1+f\omega)\,e^\frac{-Q_{\mathrm{w}}}{RT_{\text{pa}}}
+            & \text{if}\ T_   {\text{pa}} \ge T_{\mathrm{c}} \,,
+      \end{cases}
+    \end{align}
+    %
     where $T_{\text{pa}}$ is the pressure-adjusted ice temperature calculated
     using the Clapeyron relation, $T_{\text{pa}}=T-{\beta}p$.
     $R=8.31441$\,\unit{J\,mol^{-1}\,K^{-1}} is the ideal gas constant, and
@@ -245,27 +235,31 @@ A_{\mathrm{w}} (1+f\omega)\,e^\frac{-Q_{\mathrm{w}}}{RT_{\text{pa}}} & \text{if}
     respectively. The 1\,km-resolution simulation uses 61~bedrock layers and up
     to 251~ice layers with a~vertical resolutions of 50 and 20\,\unit{m}.
 
+
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 \subsection{Basal sliding}
 \label{sec:sliding}
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
     A~pseudo-plastic sliding law,
-%
-\begin{align}
-&\label{eqn:pseudoplastic}
-    \vec{\tau}_{\mathrm{b}} = -\tau_{\mathrm{c}} \frac{\vec{v}_{\mathrm{b}}}{{v_{\text{th}}}^q\,|\vec{v}_{\mathrm{b}}|^{1-q}} \,,
-\end{align}
-%
+    %
+    \begin{align}
+      \vec{\tau}_{\mathrm{b}} = -\tau_{\mathrm{c}}
+        \frac{\vec{v}_{\mathrm{b}}}
+             {{v_{\text  {th}}}^q\,|\vec{v}_{\mathrm{b}}|^{1-q}} \,,
+    \end{align}
+    %
     relates the bed-parallel shear stresses, $\vec{\tau}_{\mathrm{b}}$, to the
     sliding velocity, $\vec{v}_{\mathrm{b}}$. The pseudo-plastic sliding
     exponent, $q=0.25$, and the threshold velocity,
     $v_{\text{th}}=100$\,\unit{m\,a^{-1}}, are set to values successfully used
     to model the Greenland ice sheet \citet{Aschwanden.etal.2013} The yield
     stress, $\tau_{\mathrm{c}}$, is modelled using the Mohr--Coulomb criterion,
-%
-\begin{align}
-&\tau_{\mathrm{c}} = c_0 + N\,\tan{\phi} \,,
-\end{align}
-%
+    %
+    \begin{align}
+      \tau_{\mathrm{c}} = c_0 + N\,\tan{\phi} \,,
+    \end{align}
+    %
     where the till cohesion, $c_0=0$, was consistently measured to be
     negligible \citep[p.~268]{Tulaczyk.etal.2000, Cuffey.Paterson.2010}. We use
     a~constant till friction angle, $\phi=30$\unit{\degree}, corresponding to
@@ -275,12 +269,11 @@ A_{\mathrm{w}} (1+f\omega)\,e^\frac{-Q_{\mathrm{w}}}{RT_{\text{pa}}} & \text{if}
     gh$, and the modelled amount of subglacial water, using a~formula derived
     from laboratory experiments with till extracted from the base of Ice Stream
     B in West Antarctica \citep{Tulaczyk.etal.2000, Bueler.Pelt.2015},
-%
-\begin{align}
-&\label{eqn:ntil}
-&N = \delta P_0 \, 10^{(e_0/C_{\mathrm{c}}) (1 - (W/W_{\text{max}}))} \,,
-\end{align}
-%
+    %
+    \begin{align}
+      N = \delta P_0 \, 10^{(e_0/C_{\mathrm{c}}) (1 - (W/W_{\text{max}}))} \,,
+    \end{align}
+    %
     where $\delta=0.02$ sets the minimum ratio between the effective and
     overburden pressures. Parameter values for the till reference void ratio,
     $e_0=0.69$, and the till compressibility coefficient,
@@ -290,8 +283,11 @@ A_{\mathrm{w}} (1+f\omega)\,e^\frac{-Q_{\mathrm{w}}}{RT_{\text{pa}}} & \text{if}
     additional melt water is assumed to drain off instantaneously. These fixed
     parameter values are summarized in Table~\ref{tab:params}.
 
+
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 \subsection{Basal topography}
 \label{sec:bedrock}
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
     The initial basal topography is bilinearly interpolated from the
     hole-filled, Shuttle Radar Topography Mission (SRTM) data with a~resolution
@@ -316,8 +312,11 @@ A_{\mathrm{w}} (1+f\omega)\,e^\frac{-Q_{\mathrm{w}}}{RT_{\text{pa}}} & \text{if}
     effective elastic thickness of the lithosphere
     \citep[Table~\ref{tab:params};][]{Mey.etal.2016}.
 
+
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 \subsection{Surface mass balance}
 \label{sec:surface}
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
     Ice surface accumulation and ablation are computed from monthly mean
     near-surface air temperature, $T_{\mathrm{m}}$, monthly standard deviation
@@ -333,16 +332,15 @@ A_{\mathrm{w}} (1+f\omega)\,e^\frac{-Q_{\mathrm{w}}}{RT_{\text{pa}}} & \text{if}
     assuming a~normal temperature distribution of standard deviation $\sigma$
     around the expected value $T_{\mathrm{m}}$. It is expressed by an
     error-function formulation \citep{Calov.Greve.2005},
-%
-\begin{align}
-&\label{eqn:calovgreve}
-    {\text{PDD}} = \int_{t_1}^{t_2} \mathrm{d}t
+    %
+    \begin{align}
+      {\text{PDD}} = \int_{t_1}^{t_2} \mathrm{d}t
         \left[\frac{\sigma}{\sqrt{2\pi}}
                 \exp\left({-\frac{T_{\mathrm{m}}^2}{2\sigma^2}}\right)
               + \frac{T_{\mathrm{m}}}{2} \, {\text{erfc}}
                 \left(-\frac{T_{\mathrm{m}}}{\sqrt{2}\sigma}\right)\right] \,,
-\end{align}
-%
+    \end{align}
+    %
     which is numerically approximated using week-long sub-intervals. In
     order to account for the effects of spatial and seasonal variations of
     temperature variability \citep{Seguinot.2013}, $\sigma$ is computed
@@ -353,8 +351,11 @@ A_{\mathrm{w}} (1+f\omega)\,e^\frac{-Q_{\mathrm{w}}}{RT_{\text{pa}}} & \text{if}
     melt are set to values used in the European Ice Sheet Modelling INiTiative
     \citep[Table~\ref{tab:params}; EISMINT,][]{Huybrechts.1998}.
 
+
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 \subsection{Climate forcing}
-\label{sec:atm}%
+\label{sec:atm}
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
     \idea{move paleo-climate forcing info to the next section.}
 
@@ -362,12 +363,13 @@ A_{\mathrm{w}} (1+f\omega)\,e^\frac{-Q_{\mathrm{w}}}{RT_{\text{pa}}} & \text{if}
     monthly climatology, $\{T_{\mathrm{m}0}, P_{\mathrm{m}0}\}$, where
     temperatures are modified by offset time series, ${\Delta}T_{\text{TS}}$,
     and lapse-rate corrections, ${\Delta}T_{\text{LR}}$:
-%
-\begin{align}
-T_{\mathrm{m}}(t, x, y) = T_{\mathrm{m}0}(x, y) + {\Delta}T_{\text{TS}}(t)
-                    + {\Delta}T_{\text{LR}}(t, x, y) \,, \\
-\end{align}
-%
+    %
+    \begin{align}
+      T_{\mathrm{m}}(t, x, y) = T_{\mathrm{m}0}(x, y) +
+                                {\Delta}T_{\text{TS}}(t) +
+                                {\Delta}T_{\text{LR}}(t, x, y) \,, \\
+    \end{align}
+    %
     The present-day monthly climatology was bilinearly interpolated from
     near-surface air temperature and precipitation rate fields from
     \citep[WorldClim;][]{Hijmans.etal.2005}, representative of the period 1960
@@ -391,14 +393,14 @@ T_{\mathrm{m}}(t, x, y) = T_{\mathrm{m}0}(x, y) + {\Delta}T_{\text{TS}}(t)
     Palaeo-temperature anomalies from the GRIP record were calculated from
     oxygen isotope (\chem{\delta^{18}O}) measurements using a~quadratic
     equation \citep{Johnsen.etal.1995},
-%
-\begin{align}
-{\Delta}T_{\text{TS}}(t) ={~}&-11.88 [\chem{\delta^{18}O}(t)
-                                -\chem{\delta^{18}O}(0)] \nonumber \\
-                        &-0.1925[\chem{\delta^{18}O}(t)^2
-                                 -\chem{\delta^{18}O}(0)^2] \,,
-\end{align}
-%
+    %
+    \begin{align}
+      {\Delta}T_{\text{TS}}(t) ={~}&-11.88 [\chem{\delta^{18}O}(t)
+                                    -\chem{\delta^{18}O}(0)] \nonumber \\
+                                   &-0.1925 [\chem{\delta^{18}O}(t)^2
+                                    -\chem{\delta^{18}O}(0)^2] \,,
+    \end{align}
+    %
     while temperature reconstructions from the EPICA and MD01-2444 records were
     provided as such. For each proxy record used and each of the parameter
     setup used in the sensitivity tests, palaeo-temperature anomalies are
@@ -410,29 +412,30 @@ T_{\mathrm{m}}(t, x, y) = T_{\mathrm{m}0}(x, y) + {\Delta}T_{\text{TS}}(t)
     The temperature lapse-rate corrections, ${\Delta}T_{\text{LR}}$, are
     computed as a~function of ice surface elevation, $s$, using the SRTM
     topography shipped with WorldClimas a~reference, $b_{\text{ref}}$:
-%
-\begin{align}
-{\Delta}T_{\text{LR}}(t, x, y) &= -\gamma [s(t, x, y)-b_{\text{ref}}] \\
-                            &= -\gamma [h(t, x, y)+b(t, x, y)-b_{\text{ref}}],
-\end{align}
-%
+    %
+    \begin{align}
+      {\Delta}T_{\text{LR}}(t, x, y) &= -\gamma [s(t, x, y)-b_{\text{ref}}] \\
+                                     &= -\gamma [h(t, x, y)+
+                                                 b(t, x, y)-b_{\text{ref}}],
+    \end{align}
+    %
     thus accounting for the evolution of ice thickness, ${h=s-b}$, on the one
     hand, and for differences between the basal topography of the ice flow
     model, $b$, and the NARR reference topography, $b_{\text{ref}}$, on the
-    other hand. All simulations use an annual temperature lapse rate of $\gamma
-    = 6\,\unit{K\,km^{-1}}$.
+    other hand. All simulations use an annual temperature lapse rate of
+    $\gamma=6\,\unit{K\,km^{-1}}$.
 
     Finally, in some simulations, precipitation was reduced with temperature in
     order to simulate the potential rarification of atmospheric moisture in
     colder climates. This was done using an empirical relationship derived from
     observed accumulation rates and oxygen isotopes concentrations in the GRIP
     ice core \citep{Dahl-Jensen.etal.1993},
-%
-\begin{align}
-P_{\mathrm{m}}(t, x, y) = P_{\mathrm{m}0}(x, y) \cdot
-                          \exp[\zeta{\Delta}T_{\text{LR}}(t, x, y)] \,.
-\end{align}
-%
+    %
+    \begin{align}
+      P_{\mathrm{m}}(t, x, y) = P_{\mathrm{m}0}(x, y) \cdot
+                                \exp[\zeta{\Delta}T_{\text{LR}}(t, x, y)] \,.
+    \end{align}
+    %
     with $\zeta=0.169/2.4=0.0704$ \citep{Huybrechts.2002}. This simple
     relationship likely does not reflect the complexity of atmospheric
     circulation changes that governed moisture availability over the Alps
@@ -451,7 +454,10 @@ P_{\mathrm{m}}(t, x, y) = P_{\mathrm{m}0}(x, y) \cdot
     Fig.~\ref{fig:timeseries} -- Low-resolution time series.\\
     Fig.~\ref{fig:footprints} -- Low-resolution ice cover.
 
+
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 \subsection{Palaeo-temperature forcing}
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
     \begin{itemize}
     \item We conducted a 5\,km-resolution sensitivity study.
@@ -459,20 +465,29 @@ P_{\mathrm{m}}(t, x, y) = P_{\mathrm{m}0}(x, y) \cdot
     \item All records scaled to fit the LGM extent (Table~\ref{tab:records}).
     \end{itemize}
 
+
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 \subsection{Palaeo-precipitation forcing}
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
     \begin{itemize}
     \item Some simulations use reduced precipitation (Table~\ref{tab:records}).
     \end{itemize}
 
+
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 \subsection{Sensitivity of ice volume evolution}
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
     \begin{itemize}
     \item All yield glaciation during MIS~4 and 2 (Fig.~\ref{fig:timeseries}).
     \item But otherwise very different results (Fig.~\ref{fig:timeseries}).
     \end{itemize}
 
+
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 \subsection{Sensitivity of glaciated area}
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
     \begin{itemize}
     \item Two yield two large MIS~4 ice extent (Fig.~\ref{fig:footprints}).
