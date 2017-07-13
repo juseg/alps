@@ -358,14 +358,17 @@
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
     Climate forcing driving ice sheet simulations consists of a~present-day
-    monthly climatology, $\{T_{\mathrm{m}0}, P_{\mathrm{m}0}\}$, where
-    temperatures are modified by offset time series, ${\Delta}T_{\text{TS}}$,
-    and lapse-rate corrections, ${\Delta}T_{\text{LR}}$:
+    monthly climatology, $\{T_{\mathrm{m}0}, P_{\mathrm{m}0}\}$, modified by
+    temperature lapse-rate corrections, ${\Delta}T_{\text{LR}}$, temperature
+    offset time series, ${\Delta}T_{\text{TS}}$, and time-dependent
+    palaeo-precipitation corrections, $\Psi_{\text{PP}}$:
     %
     \begin{align}
-      T_{\mathrm{m}}(t, x, y) = T_{\mathrm{m}0}(x, y) +
-                                {\Delta}T_{\text{TS}}(t) +
-                                {\Delta}T_{\text{LR}}(t, x, y) \,,
+      &T_{\mathrm{m}}(t, x, y) = T_{\mathrm{m}0}(x, y) +
+                                 {\Delta}T_{\text{LR}}(t, x, y) +
+                                 {\Delta}T_{\text{TS}}(t) \,, \\
+      &P_{\mathrm{m}}(t, x, y) = P_{\mathrm{m}0}(x, y) \cdot
+                                 {\Psi}_{\text{PP}}(t) \,, \\
     \end{align}
     %
     The present-day monthly climatology was bilinearly interpolated from
@@ -463,18 +466,17 @@
     ice core \citep{Dahl-Jensen.etal.1993},
     %
     \begin{align}
-      P_{\mathrm{m}}(t, x, y) = P_{\mathrm{m}0}(x, y) \cdot
-                                \exp[\zeta{\Delta}T_{\text{LR}}(t, x, y)] \,.
+      {\Psi}_{\text{PP}}(t) = \exp[\psi{\Delta}T_{\text{TS}}(t)] \,.
     \end{align}
     %
-    with $\zeta=0.169/2.4=0.0704$ \citep{Huybrechts.2002}. This simple
+    with $\psi=0.169/2.4=0.0704$ \citep{Huybrechts.2002}. This simple
     relationship likely does not reflect the complexity of atmospheric
     circulation changes that governed moisture availability over the Alps
     during the last glacial cycle. Thus other simulations use constant
-    precipitation, corresponding to $\zeta=0$. In the rest of this paper, we
+    precipitation, corresponding to $\psi=0$. In the rest of this paper, we
     refer to different model runs by the name of the proxy record used for the
     palaeo-temperature forcing. Model runs using paleo-precipitation
-    corrections are identified by appending ${\Delta}P$ to their name.
+    corrections are labelled PP.
 
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
@@ -906,7 +908,7 @@
                 & \unit{K\,m{-1}}
                 & -- \\
 
-        $\zeta$ & Precipitation factor
+        $\psi$  & Precipitation factor
                 & 0.0704
                 & --
                 & \citet{Huybrechts.2002} \\
