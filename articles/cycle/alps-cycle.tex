@@ -353,11 +353,9 @@
 
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-\subsection{Climate forcing}
+\subsection{Reference climate forcing}
 \label{sec:atm}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-
-    \idea{move paleo-climate forcing info to the next section.}
 
     Climate forcing driving ice sheet simulations consists of a~present-day
     monthly climatology, $\{T_{\mathrm{m}0}, P_{\mathrm{m}0}\}$, where
@@ -367,7 +365,7 @@
     \begin{align}
       T_{\mathrm{m}}(t, x, y) = T_{\mathrm{m}0}(x, y) +
                                 {\Delta}T_{\text{TS}}(t) +
-                                {\Delta}T_{\text{LR}}(t, x, y) \,, \\
+                                {\Delta}T_{\text{LR}}(t, x, y) \,,
     \end{align}
     %
     The present-day monthly climatology was bilinearly interpolated from
@@ -384,6 +382,32 @@
     former Cordilleran ice sheet in good agreement with geological evidence
     along the southern margin \citep{Seguinot.etal.2014} were weather station
     density is lower than in the Alps.
+
+    The temperature lapse-rate corrections, ${\Delta}T_{\text{LR}}$, are
+    computed as a~function of ice surface elevation, $s$, using the SRTM
+    topography shipped with WorldClimas a~reference, $b_{\text{ref}}$:
+    %
+    \begin{align}
+      {\Delta}T_{\text{LR}}(t, x, y) &= -\gamma [s(t, x, y)-b_{\text{ref}}] \\
+                                     &= -\gamma [h(t, x, y)+
+                                                 b(t, x, y)-b_{\text{ref}}],
+    \end{align}
+    %
+    thus accounting for the evolution of ice thickness, ${h=s-b}$, on the one
+    hand, and for differences between the basal topography of the ice flow
+    model, $b$, and the NARR reference topography, $b_{\text{ref}}$, on the
+    other hand. All simulations use an annual temperature lapse rate of
+    $\gamma=6\,\unit{K\,km^{-1}}$.
+
+
+% ----------------------------------------------------------------------
+\section{Palaeo-climate forcing}
+% ----------------------------------------------------------------------
+
+
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+\subsection{Palaeo-temperature forcing}
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
     Temperature offset time-series, ${\Delta}T_{\text{TS}}$, are derived from
     palaeo-temperature proxy records from the Greenland Ice Core Project
@@ -409,21 +433,10 @@
     (MIS)~2 (29--14\,ka) is modelled comparably to the reconstructions
     (Fig.~\ref{fig:footprints}).
 
-    The temperature lapse-rate corrections, ${\Delta}T_{\text{LR}}$, are
-    computed as a~function of ice surface elevation, $s$, using the SRTM
-    topography shipped with WorldClimas a~reference, $b_{\text{ref}}$:
-    %
-    \begin{align}
-      {\Delta}T_{\text{LR}}(t, x, y) &= -\gamma [s(t, x, y)-b_{\text{ref}}] \\
-                                     &= -\gamma [h(t, x, y)+
-                                                 b(t, x, y)-b_{\text{ref}}],
-    \end{align}
-    %
-    thus accounting for the evolution of ice thickness, ${h=s-b}$, on the one
-    hand, and for differences between the basal topography of the ice flow
-    model, $b$, and the NARR reference topography, $b_{\text{ref}}$, on the
-    other hand. All simulations use an annual temperature lapse rate of
-    $\gamma=6\,\unit{K\,km^{-1}}$.
+
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+\subsection{Palaeo-precipitation forcing}
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
     Finally, in some simulations, precipitation was reduced with temperature in
     order to simulate the potential rarification of atmospheric moisture in
@@ -444,35 +457,6 @@
     refer to different model runs by the name of the proxy record used for the
     palaeo-temperature forcing. Model runs using paleo-precipitation
     corrections are identified by appending ${\Delta}P$ to their name.
-
-
-% ----------------------------------------------------------------------
-\section{Palaeo-climate forcing}
-% ----------------------------------------------------------------------
-
-    Table~\ref{tab:records} -- Palaeo-climate records.\\
-    Fig.~\ref{fig:timeseries} -- Low-resolution time series.\\
-    Fig.~\ref{fig:footprints} -- Low-resolution ice cover.
-
-
-% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-\subsection{Palaeo-temperature forcing}
-% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-
-    \begin{itemize}
-    \item We conducted a 5\,km-resolution sensitivity study.
-    \item We used three palaeo-temperature records (Table~\ref{tab:records}).
-    \item All records scaled to fit the LGM extent (Table~\ref{tab:records}).
-    \end{itemize}
-
-
-% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-\subsection{Palaeo-precipitation forcing}
-% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-
-    \begin{itemize}
-    \item Some simulations use reduced precipitation (Table~\ref{tab:records}).
-    \end{itemize}
 
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
