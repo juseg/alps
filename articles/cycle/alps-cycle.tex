@@ -319,20 +319,21 @@ A_{\mathrm{w}} (1+f\omega)\,e^\frac{-Q_{\mathrm{w}}}{RT_{\text{pa}}} & \text{if}
 \subsection{Surface mass balance}
 \label{sec:surface}
 
-      Ice surface accumulation and ablation are computed from monthly mean
-      near-surface air temperature, $T_{\mathrm{m}}$, monthly standard
-      deviation of near-surface air temperature, $\sigma$, and monthly
-      precipitation, $P_{\mathrm{m}}$, using a~temperature-index model
-      \citep[e.g.,][]{Hock.2003}. Accumulation is equal to precipitation
-      when air temperatures are below 0\,\unit{{\degree}C}, and decreases to
-      zero linearly with temperatures between 0 and 2\,\unit{{\degree}C}.
-      Ablation is computed from PDD, defined as an integral of temperatures
-      above 0\,\unit{{\degree}C} in one year.
+    Ice surface accumulation and ablation are computed from monthly mean
+    near-surface air temperature, $T_{\mathrm{m}}$, monthly standard deviation
+    of near-surface air temperature, $\sigma$, and monthly precipitation,
+    $P_{\mathrm{m}}$, using a~temperature-index model
+    \citep[e.g.,][]{Hock.2003}. Accumulation is equal to precipitation when air
+    temperatures are below 0\,\unit{{\degree}C}, and decreases to zero linearly
+    with temperatures between 0 and 2\,\unit{{\degree}C}. Ablation is computed
+    from PDD, defined as an integral of temperatures above 0\,\unit{{\degree}C}
+    in one year.
 
-      The PDD computation accounts for stochastic temperature variations by
-      assuming a~normal temperature distribution of standard deviation
-      $\sigma$ around the expected value $T_{\mathrm{m}}$. It is expressed
-      by an error-function formulation \citep{Calov.Greve.2005},
+    The PDD computation accounts for stochastic temperature variations by
+    assuming a~normal temperature distribution of standard deviation $\sigma$
+    around the expected value $T_{\mathrm{m}}$. It is expressed by an
+    error-function formulation \citep{Calov.Greve.2005},
+%
 \begin{align}
 &\label{eqn:calovgreve}
     {\text{PDD}} = \int_{t_1}^{t_2} \mathrm{d}t
@@ -341,16 +342,16 @@ A_{\mathrm{w}} (1+f\omega)\,e^\frac{-Q_{\mathrm{w}}}{RT_{\text{pa}}} & \text{if}
               + \frac{T_{\mathrm{m}}}{2} \, {\text{erfc}}
                 \left(-\frac{T_{\mathrm{m}}}{\sqrt{2}\sigma}\right)\right] \,,
 \end{align}
-      which is numerically approximated using week-long sub-intervals. In
-      order to account for the effects of spatial and seasonal variations of
-      temperature variability \citep{Seguinot.2013}, $\sigma$ is computed
-      from NARR daily temperature values from 1979 to 2000
-      \citep{Mesinger.etal.2006}, including variability associated with the
-      seasonal cycle, and bilinearly interpolated to the model grids
-      (Fig.~\ref{fig:atm}). Degree-day factors for snow and
-      ice melt are derived from mass-balance measurements on contemporary
-      glaciers from the Coast Mountains and Rocky Mountains in British
-      Columbia \citep[Table~\ref{tab:params};][]{Shea.etal.2009}.
+%
+    which is numerically approximated using week-long sub-intervals. In
+    order to account for the effects of spatial and seasonal variations of
+    temperature variability \citep{Seguinot.2013}, $\sigma$ is computed
+    from ERA-Interim daily temperature values from 1979 to 2012
+    \citep{Mesinger.etal.2006}, including variability associated with the
+    seasonal cycle \citep{Seguinot.2013}, and bilinearly interpolated to the
+    model grids (Fig.~\ref{fig:inputs}). Degree-day factors for snow and ice
+    melt are set to values used in the European Ice Sheet Modelling INiTiative
+    \citep[Table~\ref{tab:params}; EISMINT,][]{Huybrechts.1998}.
 
 \subsection{Climate forcing}
 \label{sec:atm}%
