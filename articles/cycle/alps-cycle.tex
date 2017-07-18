@@ -88,15 +88,86 @@
 
 % ----------------------------------------------------------------------
 \section{Introduction}
+\label{sec:intro}
 % ----------------------------------------------------------------------
 
-    \begin{itemize}
-    \item The European Alps are the cradle of pioneer glacial studies.
-    \item Today, their glacial history is better understood than any other.
-    \item The LGM extent is very well known (Fig.~\ref{fig:lgmvel}a).
-    \item But modelling was difficult due to the steep topography.
-    \item Here, we us PISM to model the last glacial cycle (120--0\,ka).
-    \end{itemize}
+    Glaciers move by a combination of meltwater-induced sliding at the base
+    \citep[\S532]{Saussure.1779}, and viscous deformation within the ice body
+    \citep{Forbes.1846b}. As glaciers flow and slide across their bed, they
+    transport rock debris and erode the landscape, thereby leaving
+    geomorphological traces of their former presence.
+
+    For nearly 300~years, montane people and early explorers of the European
+    Alps learned to read the geomorphological imprint left by glaciers in the
+    landscape, and to understand that glaciers had once been more extensive
+    than today \citep[e.g.,][p.~21]{Windham.Martel.1744}. In the mid-nineteenth
+    century, more systematic studies of glacial features showed that alpine
+    glaciers extended well below their contemporary margins \citep{Venetz.1821}
+    and even onto the alpine foreland \citep{Charpentier.1841}, yielding the
+    idea that, under colder temperatures, expansive ice sheets had once covered
+    much of Europe and North America \citep{Agassiz.1840}.
+
+    However, this glacial theory did not gain general acceptance until the
+    discovery and exploration of the two present-day ice sheets on Earth, the
+    Greenland and Antarctic ice sheets, provided a modern analogue for the
+    proposed European and North American ice sheets. Although it was long
+    unclear whether there had been a single or multiple glaciations, this
+    controversy ended with the large-scale mapping of two distinct moraine
+    systems in North America \citep{Chamberlin.1894}. In the European Alps, the
+    systematic classification of the glaciofluvial terraces on the northern
+    foreland indicated that landscape, that there had been at least four major
+    glaciations in the Alps \citep{Penck.Bruckner.1909}. More recent studies
+    of glaciofluvial stratigraphy in the foreland indicate up to eight
+    glaciations \citep{Ivy-Ochs.etal.2008, Preusser.etal.2011}.
+
+    More recently, palaeoclimate records extracted from deep sea sediments and
+    ice cores have provided a much more detailed picture of the Earth
+    environmental history \citep[e.g.,][]{Emiliani.1955,
+    Shackleton.Opdyke.1973, Dansgaard.etal.1993, Augustin.etal.2004},
+    indicating neither one, nor four, but rather tens of glacial cycles. During
+    the last 800000 years (800\,ka), glacial and interglacial periods have
+    succeeded each other with a 100\,ka periodicity \citep{Hays.etal.1976,
+    Augustin.etal.2004}. However, much of the traces left by glaciers on the
+    landscape date from the most recent of these cycles, the \emph{last glacial
+    cycle}.
+
+    Nevertheless, the landform record is sparse in time and, most often,
+    spatially incomplete. Palaeo-ice sheets did not leave a continuous imprint
+    on the lanscape, and much of this evidence has been overprinted by
+    subsequent glacier re-advances and other geomorphological processes
+    \citep{Kleman.1994, Kleman.etal.2006, Kleman.etal.2010}. The landscape
+    imprint of previous glaciations has been largely overprinted by the more
+    recent ones; therefore most of the glacial features currently left on the
+    foreland present a record of the last major glaciation of the Alps, dating
+    from the Last Glacial Maximum (LGM).
+
+    Because this global signal is largely governed by the North American and
+    Eurasian ice sheet complexes, it is unclear wether glacier advances and
+    retreats in the Alps were in pac(71--57\,ka)e with global sea-level
+    fluctuations. The timing of the LGM in the Alps (Ivy-Ochs et al., 2008;
+    Monegato et al., 2007) is in good agreement with the maximum expansion of
+    continental ice sheets recorded by the Marine Oxygen Isotope Stage (MIS) 2
+    between 29 000 and 14 000 years before present (BP) (Lisiecki and Raymo,
+    2005). There are nonetheless regional variations between different piedmont
+    lobes, that are of the same order of magnitude with the dating
+    uncertainties. Because recent glaciation overprinted older ones, and
+    because dating uncertainties typically increase with age, dated
+    reconstructions are strongly biased towards earlier glaciations
+    \citep{Heyman.etal.2011}, and thus much of the glacial records dates to the
+    Last Glacial Maximum (LGM). The Alps have been studied in more detail than
+    any other glacial region. There is evidence for glaciation during MIS 4
+    (71--57\,ka) but potential foreland glaciations during the rest of the last
+    glacial cycle are still discussed.
+
+    Here, we use the Parallel Ice Sheet Model
+    \citep[PISM,][]{PISM-authors.2017}, a numerical ice sheet model that
+    approximates glacier sliding and deformation (Sect.~\ref{sec:model}), to
+    model alpine glacier dynamics through the last glacial cycle (120--0\,ka),
+    a period for which palaeo-temperature proxies are available, albeit non
+    regional. We test the model sensitivity to multiple palaeo-climate forcing
+    (Sect.~\ref{sec:climate}), and then explore the modelled glacier dynamics
+    at high resolution for the optimal forcing (Sect.~\ref{sec:results}), and
+    the resulting glacial erosion pattern (Sect.~\ref{sec:erosion}).
 
     \idea{Matthias: I think it is very important to emphasize the knowledge gap
           that you fill in with your work in the Intro. (1) it is incompletely
@@ -108,6 +179,7 @@
 
 % ----------------------------------------------------------------------
 \section{Ice sheet model set-up}
+\label{sec:model}
 % ----------------------------------------------------------------------
 
     Table~\ref{tab:params} -- Model parameters.\\
@@ -405,6 +477,7 @@
 
 % ----------------------------------------------------------------------
 \section{Palaeo-climate forcing}
+\label{sec:climate}
 % ----------------------------------------------------------------------
 
     Table~\ref{tab:records} -- Palaeo-climate records.\\
@@ -511,6 +584,7 @@
 
 % ----------------------------------------------------------------------
 \section{Glacier dynamics}
+\label{sec:results}
 % ----------------------------------------------------------------------
 
     Fig.~\ref{fig:lgmvel} -- Snapshot at 21\,ka and volume time series.\\
@@ -541,6 +615,7 @@
 
 % ----------------------------------------------------------------------
 \section{Erosion potential}
+\label{sec:erosion}
 % ----------------------------------------------------------------------
 
     Fig.~\ref{fig:erosion} -- Integrated erosion potential.
