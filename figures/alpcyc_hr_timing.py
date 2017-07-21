@@ -31,9 +31,6 @@ mask = (thk < 1.0).prod(axis=0)
 lgmage = np.ma.masked_where(mask, lgmage)
 envelope = np.ma.masked_where(mask, envelope)
 
-# print bounds
-#print 'LGM age min %.1f, max %.1f' % (lgmage.min(), lgmage.max())
-
 # set contour levels, colors and hatches
 levs = range(21, 28)
 cmap = ut.pl.get_cmap('Paired', 12)
@@ -68,6 +65,9 @@ cb.set_label(r'age of maximum ice surface elevation (ka)')
 dx = x[1] - x[0]
 dy = y[1] - y[0]
 area = (thk >= 1.0).sum(axis=(1, 2))*dx*dy*1e-9
+
+# print age of max area
+#print age[area.argmax()]
 
 # plot time series
 twax = tsax.twinx()

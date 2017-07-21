@@ -7,7 +7,7 @@ import util as ut
 fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut()
 
 # time for plot
-a = 21.0
+a = 24.57
 t = -a*1e3
 
 
@@ -36,7 +36,7 @@ cb.set_label('ice thickness (m)')
 ut.pl.draw_natural_earth(ax)
 ut.pl.draw_lgm_outline(ax)
 ut.pl.draw_footprint(ax)
-ut.pl.add_corner_tag('%.1f ka' % a, ax)
+ut.pl.add_corner_tag('%.2f ka' % a, ax)
 
 
 # Time series

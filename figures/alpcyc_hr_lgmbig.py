@@ -9,7 +9,7 @@ import cartopy.io.shapereader as cshp
 fig, ax, cax1, cax2, tsax = ut.pl.subplots_cax_ts_big()
 
 # time for plot
-a = 21.0
+a = 24.57
 t = -a*1e3
 
 # location of time series
@@ -68,7 +68,7 @@ cb.set_label(r'bedrock topography (m)')
 ut.pl.draw_natural_earth(ax)
 ut.pl.draw_lgm_outline(ax)
 ut.pl.draw_footprint(ax)
-ut.pl.add_corner_tag('%.1f ka' % a, ax)
+ut.pl.add_corner_tag('%.2f ka' % a, ax)
 
 # add cities
 extent = ut.pl.regions['crop']

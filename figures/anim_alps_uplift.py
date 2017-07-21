@@ -28,7 +28,7 @@ def draw(t, ax, cursor):
 
     # add cartopy vectors
     ut.pl.draw_natural_earth(ax)
-    ut.pl.add_corner_tag('%.1f ka' % a, ax)
+    ut.pl.add_corner_tag('%.2f ka' % a, ax)
 
     # update cursor
     cursor.set_data(age, (0, 1))

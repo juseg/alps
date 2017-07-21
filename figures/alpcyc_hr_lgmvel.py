@@ -7,7 +7,7 @@ import util as ut
 fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut()
 
 # time for plot
-a = 21.0
+a = 24.57
 t = -a*1e3
 
 
@@ -36,7 +36,7 @@ cb.set_label(r'surface velocity ($m\,a^{-1}$)')
 ut.pl.draw_natural_earth(ax)
 ut.pl.draw_lgm_outline(ax)
 ut.pl.draw_footprint(ax)
-ut.pl.add_corner_tag('%.1f ka' % a, ax)
+ut.pl.add_corner_tag('%.2f ka' % a, ax)
 
 # Time series
 # -----------
@@ -47,6 +47,9 @@ nc = ut.io.load(filepath)
 age = -nc.variables['time'][:]/(1e3*365*24*60*60)
 vol = nc.variables['slvol'][:]
 nc.close()
+
+# print age of max volume
+#print age[vol.argmax()]
 
 # plot time series
 tsax=tsax.twinx()

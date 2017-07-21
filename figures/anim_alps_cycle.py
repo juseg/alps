@@ -25,7 +25,7 @@ def draw(t, ax, cursor):
     ut.pl.draw_natural_earth(ax)
     ut.pl.draw_lgm_outline(ax)
     ut.pl.draw_footprint(ax)
-    ut.pl.add_corner_tag('%.1f ka' % age, ax)
+    ut.pl.add_corner_tag('%.2f ka' % age, ax)
 
     # update cursor
     cursor.set_data(age, (0, 1))
