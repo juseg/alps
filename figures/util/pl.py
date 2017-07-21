@@ -218,7 +218,7 @@ def subplots_cax_ts_big(extent='crop', labels=False, mis=True):
                           ec='k', fc='w', alpha=1.0, clip_on=False,
                           transform=fig.transFigure, zorder=-1)
     tsax.add_patch(rect)
-    tsax.set_axis_bgcolor('none')
+    tsax.set_facecolor('none')
     prepare_axes(ax, tsax, extent, labels, mis)
     return fig, ax, cax1, cax2, tsax
 

@@ -27,7 +27,7 @@ y = nc.variables['y'][:]
 its = np.argmin(abs(x-xts))
 jts = np.argmin(abs(y-yts))
 age = -nc.variables['time'][:]/(1e3*365.0*24*60*60)
-dbdt = nc.variables['dbdt'][:, its, jts]*1e3
+dbdt = nc.variables['dbdt'][:, jts, its]
 
 # bed topography
 im = nc.imshow('topg', ax, t, vmin=0e3, vmax=3e3, cmap='Greys', zorder=-1)
