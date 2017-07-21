@@ -35,8 +35,8 @@ nc.close()
 # get model elevation at trimline locations
 i = np.argmin(abs(xt[:, None] - x), axis=1)
 j = np.argmin(abs(yt[:, None] - y), axis=1)
-hm = h[i, j]
-#wm = w[i, j]
+hm = h[j, i]
+#wm = w[j, i]
 
 # draw scatter plot
 ax.scatter(zt, zt+hm, c=ut.pl.palette['darkblue'], alpha=0.75)
