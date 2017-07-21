@@ -27,7 +27,7 @@ ax = ax1
 ax.set_extent(ut.pl.regions['rhine'], crs=ax.projection)
 
 # draw boot topography
-nc = ut.io.load('input/boot/alps-srtm+gou11simi-1km.nc')
+nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-1km.nc')
 im = nc.imshow('topg', ax=ax, vmin=0e3, vmax=3e3, cmap='Greys', zorder=-1)
 nc.close()
 

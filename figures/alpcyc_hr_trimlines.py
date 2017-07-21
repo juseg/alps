@@ -19,7 +19,7 @@ zt = trimlines['z']
 xt, yt, zt = ut.pl.utm.transform_points(ut.pl.swiss, xt, yt, zt).T
 
 # load boot topo
-nc = ut.io.load('input/boot/alps-srtm+gou11simi-1km.nc')
+nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-1km.nc')
 b = nc.variables['topg'][:]
 nc.close()
 
