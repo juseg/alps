@@ -66,7 +66,7 @@ twax.plot(age, diff, c=ut.pl.palette['darkgreen'])
 twax.plot(age[-1], diff[-1], 'o', c=ut.pl.palette['darkgreen'], clip_on=False)
 twax.set_ylabel('uplift (m)', color=ut.pl.palette['darkgreen'])
 twax.set_xlim(120.0, 0.0)
-twax.set_ylim(-125.0, 75.0)
+twax.set_ylim(-175.0, 25.0)
 twax.locator_params(axis='y', nbins=6)
 
 # save figure
