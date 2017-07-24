@@ -14,8 +14,8 @@ PY = PYTHONPATH=iceplotlib python2
 # all python figures
 PY_FIGS = $(addprefix alpbou_, locmap) \
           $(addprefix alpcyc_, \
-            $(addprefix hr_, aletschbed cpugrid duration envelope erosion \
-                             glaciations inputs lgmbig lgmthk lgmvel \
+            $(addprefix hr_, aletschbed coldslip cpugrid duration envelope \
+                             erosion glaciations inputs lgmbig lgmthk lgmvel \
                              locmap profiles scalability timestamps \
                              timing totalsliding trimlines uplift \
                              warmdepth warmtime ydthk ydvel) \
