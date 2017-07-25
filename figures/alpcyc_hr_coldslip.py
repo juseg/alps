@@ -5,41 +5,66 @@ import util as ut
 import numpy as np
 
 # initialize figure
-fig, ax = ut.pl.subplots_ts()
-ax.set_rasterization_zorder(2.5)
+fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut(dt=False, mis=False)
+tsax.set_rasterization_zorder(2.5)
 
 # time for plot
 a = 24.57
 t = -a*1e3
 
+
+# Map axes
+# --------
+
 # load extra data
 filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
 nc = ut.io.load(filepath)
-age = -nc.variables['time'][:]/(1e3*365.0*24*60*60)
-idx = ((age-a)**2).argmin()
-tem = nc.variables['temppabase'][idx]
-thk = nc.variables['thk'][idx]
-vel = nc.variables['velbase_mag'][idx]
-nc.close()
+x, y, temp = nc._extract_xyz('temppabase', t)
+x, y, slip = nc._extract_xyz('velbase_mag', t)
 
-# mask ice-free cells
-mask = (thk < 1.0)
-tem = np.ma.masked_where(mask, tem)
-thk = np.ma.masked_where(mask, thk)
-vel = np.ma.masked_where(mask, vel)
+# identify problematic areas
+cold = (temp < -1e-3)
+iscoldslip = (temp < -1e-3) * (slip > 1.0)
+coldslip = np.ma.masked_where(1-cold, slip)
+warmslip = np.ma.masked_where(cold, slip)
 
-# compute color mask for problem area
-cols = (tem < -1e-3) * (vel > 1e1)
-print cols.sum()
-cmap = ut.pl.iplt.matplotlib.colors.ListedColormap([ut.pl.palette['darkblue'],
-                                                    ut.pl.palette['darkred']])
+# set contour levels, colors and hatches
+levs = [1e-1, 1e0, 1e1]
+cmap = ut.pl.get_cmap('Blues', len(levs)+1)
+cols = cmap(range(len(levs)+1))
 
 # plot
-ax.set_xscale('symlog', linthreshx=1e-6)
-ax.set_yscale('log')
-ax.set_xlabel('basal temperature (K)')
-ax.set_ylabel('basal velocity ($m\,a^{-1}$)')
-ax.scatter(tem, vel, c=cols, cmap=cmap, alpha=0.1)
+im = nc.imshow('topg', ax, t, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
+im = nc.imshow('velbase_mag', ax, t, norm=ut.pl.velnorm, cmap='Reds', alpha=0.75)
+im = ax.contourf(x, y, coldslip, levels=levs, colors=cols, extend='both', alpha=0.75)
+cs = nc.contour('temppabase', ax, t, levels=[-1e-3], colors='k',
+                linewidths=0.25, linestyles=['-'], zorder=0)
+cs = nc.contour('usurf', ax, t, levels=ut.pl.inlevs, colors='0.25', linewidths=0.1)
+cs = nc.contour('usurf', ax, t, levels=ut.pl.utlevs, colors='0.25', linewidths=0.25)
+cs = nc.icemargin(ax, t, colors='k', linewidths=0.25)
+
+# close nc file
+nc.close()
+
+# add colorbar
+cb = fig.colorbar(im, cax, extend='both')
+cb.set_label('cold-based sliding ($m\,a^{-1}$)')
+
+# add vector elements
+ut.pl.draw_natural_earth(ax)
+ut.pl.add_corner_tag('%.2f ka' % a, ax)
+
+
+# Time series
+# -----------
+
+# plot scatter
+tsax.set_yscale('log')
+tsax.set_xscale('symlog', linthreshx=1e-12)
+tsax.scatter(temp, coldslip, marker='.', c=ut.pl.palette['darkblue'], alpha=0.1)
+tsax.scatter(temp, warmslip, marker='.', c=ut.pl.palette['darkred'], alpha=0.1)
+tsax.set_xlabel('basal temperature relative to the pressure-melting point (K)')
+tsax.set_ylabel('basal velocity ($m\,a^{-1}$)')
 
 # save figure
 fig.savefig('alpcyc_hr_coldslip')
