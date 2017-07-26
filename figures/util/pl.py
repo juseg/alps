@@ -77,6 +77,7 @@ graticules = cfeature.NaturalEarthFeature(
 figure = iplt.figure
 subplots_mm = iplt.subplots_mm
 get_cmap = iplt.get_cmap
+close = iplt.close
 
 
 # Figures and axes creation
