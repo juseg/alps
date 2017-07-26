@@ -245,6 +245,13 @@ def add_subfig_label(text, ax=None, ha='left', va='top', offset=2.5/25.4):
                    transform=ax.transAxes + offset)
 
 
+def add_signature(text, fig=None, offset=2.5/25.4):
+    """Add signature for animations."""
+    fig = fig or iplt.gcf()
+    figw, figh = fig.get_size_inches()
+    fig.text(1-offset/figw, offset/figh, text, ha='right', va='bottom')
+
+
 # Map elements
 # ------------
 
