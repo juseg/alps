@@ -84,7 +84,7 @@ close = iplt.close
 # -------------------------
 
 def prepare_axes(ax=None, tsax=None, extent='alps', labels=True,
-                 dt=True, mis=True):
+                 dt=True, mis=True, t=0.0):
     """Prepare map and timeseries axes before plotting."""
 
     # prepare map axes
@@ -95,7 +95,7 @@ def prepare_axes(ax=None, tsax=None, extent='alps', labels=True,
     # prepare timeseries axes
     if tsax is not None:
         if dt is True:
-            plot_dt(tsax)
+            plot_dt(tsax, t=t)
         if mis is True:
             plot_mis(tsax)
 
@@ -186,7 +186,8 @@ def subplots_cax_ts_cut(extent='alps', labels=True, dt=True, mis=True):
     return fig, ax, cax, tsax
 
 
-def subplots_cax_ts_anim(extent='alps', labels=False, dt=True, mis=True):
+def subplots_cax_ts_anim(extent='alps', labels=False, dt=True, mis=True,
+                         t=0.0):
     """Init figure with subplot, colorbar inset and timeseries cut."""
     figw, figh = 180.0, 120.0
     fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
@@ -202,7 +203,7 @@ def subplots_cax_ts_anim(extent='alps', labels=False, dt=True, mis=True):
                           clip_on=False, transform=ax.transAxes, zorder=-1)
     tsax.add_line(line)
     tsax.add_patch(rect)
-    prepare_axes(ax, tsax, extent, labels, dt, mis)
+    prepare_axes(ax, tsax, extent, labels, dt, mis, t)
     return fig, ax, cax, tsax
 
 
@@ -318,7 +319,7 @@ def plot_mis(ax=None, y=1.075):
     ax.text((14+0)/2, y, 'MIS 1', **kwa)
 
 
-def plot_dt(ax=None):
+def plot_dt(ax=None, t=0.0):
     """Plot scaled temperature offset time-series."""
     ax = ax or iplt.gca()
 
@@ -329,7 +330,8 @@ def plot_dt(ax=None):
     nc.close()
 
     # plot time series
-    ax.plot(age, dt, c='0.25')
+    mask = age>=-t/1e3
+    ax.plot(age[mask], dt[mask], c='0.25')
     ax.set_xlabel('model age (ka)')
     ax.set_ylabel('temperature offset (K)', color='0.25')
     ax.set_xlim(120.0, 0.0)

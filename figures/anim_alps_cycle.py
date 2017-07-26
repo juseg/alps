@@ -10,7 +10,7 @@ def draw(t):
     """Plot complete figure for given time."""
 
     # initialize figure
-    fig, ax, cax, tsax = ut.pl.subplots_cax_ts_anim()
+    fig, ax, cax, tsax = ut.pl.subplots_cax_ts_anim(t=t)
     ut.pl.add_signature('J. Seguinot et al. (in prep.)')
 
     # load extra data
@@ -33,7 +33,7 @@ def draw(t):
     ut.pl.draw_natural_earth(ax)
     ut.pl.draw_lgm_outline(ax)
     ut.pl.draw_footprint(ax)
-    ut.pl.add_corner_tag('%.2f ka' % (0.0-t/1e3), ax)
+    ut.pl.add_corner_tag('%.1f ka' % (0.0-t/1e3), ax)
 
     # add colorbar
     cb = fig.colorbar(im, cax)
@@ -71,7 +71,7 @@ def saveframe(years):
 
     # plot
     t = years - 120e3
-    print 'plotting at %.2f ka...' % (0.0-t/1e3)
+    print 'plotting at %.1f ka...' % (0.0-t/1e3)
     fig = draw(t)
 
     # save
