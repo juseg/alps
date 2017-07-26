@@ -29,11 +29,11 @@ def plot_map(fig, ax, cax, t):
     ut.pl.draw_natural_earth(ax)
     ut.pl.draw_lgm_outline(ax)
     ut.pl.draw_footprint(ax)
-    ut.pl.add_corner_tag('%.2f ka' % (-t/1e3), ax)
+    ut.pl.add_corner_tag('%.2f ka' % (0.0-t/1e3), ax)
 
     # add colorbar
-    cb = fig.colorbar(im, cax, extend='both')
-    cb.set_label(r'surface velocity ($m\,a^{-1}$)')
+    cb = fig.colorbar(im, cax)
+    cb.set_label('bedrock uplift (m)')
 
 
 def plot_ts(tsax, t):
@@ -57,11 +57,12 @@ def plot_ts(tsax, t):
     tsax.grid(axis='y')
 
 
-def saveframe(age):
+def saveframe(years):
     """Independently plot one frame."""
 
     # check if file exists
-    framepath = '/scratch_net/iceberg/juliens/anim/anim_alps_cycle/%06d.png' % age
+    framename = '{:06d}.png'.format(years)
+    framepath = '/scratch_net/iceberg/juliens/anim/anim_alps_cycle/' + framename
     if os.path.isfile(framepath):
         return
 
@@ -70,9 +71,10 @@ def saveframe(age):
     ut.pl.add_signature('J. Seguinot et al. (in prep.)')
 
     # plot
-    print 'plotting at %.2f ka...' % (age/1e3)
-    plot_map(fig, ax, cax, -age)
-    plot_ts(tsax, -age)
+    t = years - 120000
+    print 'plotting at %.2f ka...' % (0.0-t/1e3)
+    plot_map(fig, ax, cax, t)
+    plot_ts(tsax, t)
 
     # save
     fig.savefig(framepath)
@@ -81,7 +83,8 @@ def saveframe(age):
 
 if __name__ == '__main__':
     """Plot individual frames in parallel."""
+    dt = 100
     pool = mp.Pool(processes=12)
-    pool.map(saveframe, xrange(0, 120000, 100))
+    pool.map(saveframe, xrange(dt, 120001, dt))
     pool.close()
     pool.join()
