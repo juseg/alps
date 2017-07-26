@@ -4,20 +4,20 @@
 import os
 import numpy as np
 import zipfile
-from netCDF4 import Dataset
+from netCDF4 import MFDataset
 from osgeo import gdal
 from osgeo import ogr
 from osgeo import osr
 
 # file paths
-outdir = os.environ['HOME'] + '/pism/output/0.7.3-craypetsc/'
-runname = 'alps-wcnn-1km/epica3222cool0950+acyc1+esia5'
+outdir = os.environ['HOME'] + '/pism/output/e9d2d1f/'
+runname = 'alps-wcnn-1km/epica3222cool1220+alpcyc4+pp'
 varname = 'footprint'
-ifilepath = outdir + runname + '/extra.nc'
+ifilepath = outdir + runname + '/y???????-extra.nc'
 ofilepath = 'processed/%s-%s' % (runname.replace('/', '-'), varname)
 
 # read extra output
-nc = Dataset(ifilepath)
+nc = MFDataset(ifilepath)
 x = nc.variables['x'][:]
 y = nc.variables['y'][:]
 thk = nc.variables['thk'][:]
@@ -46,7 +46,7 @@ rast = driver.Create(ofilepath + '.tif', cols, rows, 1, gdal.GDT_Byte)
 rast.SetGeoTransform((x0, dx, 0, y1, 0, -dy))
 rast.SetProjection(srs.ExportToWkt())
 band = rast.GetRasterBand(1)
-band.WriteArray(np.flipud(footprint.T))
+band.WriteArray(np.flipud(footprint))
 band.ComputeStatistics(0)
 band.FlushCache()
 

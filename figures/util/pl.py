@@ -268,7 +268,7 @@ def draw_lgm_outline(ax=None, c='#e31a1c'):
 def draw_footprint(ax=None):
     """Add modelled LGM footprint."""
     ax = ax or iplt.gca()
-    run = 'alps-wcnn-1km-epica3222cool0950+acyc1+esia5'
+    run = '-'.join(ut.alpcyc_bestrun.rstrip('/').split('/')[-2:])
     shp = cshp.Reader('../data/processed/%s-footprint.shp' % run)
     ax.add_geometries(shp.geometries(), utm, lw=0.5, alpha=0.75,
                       edgecolor=palette['darkorange'], facecolor='none',
