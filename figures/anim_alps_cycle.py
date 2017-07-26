@@ -5,13 +5,17 @@ import os
 import util as ut
 import multiprocessing as mp
 
-def plot_map(fig, ax, cax, t):
-    """Plot map at given time."""
+
+def draw(t):
+    """Plot complete figure for given time."""
+
+    # initialize figure
+    fig, ax, cax, tsax = ut.pl.subplots_cax_ts_anim()
+    ut.pl.add_signature('J. Seguinot et al. (in prep.)')
 
     # load extra data
     filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
     nc = ut.io.load(filepath)
-    time = nc.variables['time'][:]/(365.0*24*60*60)
 
     # plot
     im = nc.imshow('topg', ax, t, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
@@ -35,10 +39,6 @@ def plot_map(fig, ax, cax, t):
     cb = fig.colorbar(im, cax)
     cb.set_label('bedrock uplift (m)')
 
-
-def plot_ts(tsax, t):
-    """Plot timeseries until given time."""
-
     # load time series data
     filepath = ut.alpcyc_bestrun + 'y???????-ts.nc'
     nc = ut.io.load(filepath)
@@ -56,6 +56,9 @@ def plot_ts(tsax, t):
     tsax.locator_params(axis='y', nbins=6)
     tsax.grid(axis='y')
 
+    # return figure
+    return fig
+
 
 def saveframe(years):
     """Independently plot one frame."""
@@ -66,15 +69,10 @@ def saveframe(years):
     if os.path.isfile(framepath):
         return
 
-    # initialize figure
-    fig, ax, cax, tsax = ut.pl.subplots_cax_ts_anim()
-    ut.pl.add_signature('J. Seguinot et al. (in prep.)')
-
     # plot
-    t = years - 120000
+    t = years - 120e3
     print 'plotting at %.2f ka...' % (0.0-t/1e3)
-    plot_map(fig, ax, cax, t)
-    plot_ts(tsax, t)
+    fig = draw(t)
 
     # save
     fig.savefig(framepath)
