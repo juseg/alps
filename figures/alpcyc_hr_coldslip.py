@@ -24,7 +24,6 @@ x, y, slip = nc._extract_xyz('velbase_mag', t)
 
 # identify problematic areas
 cold = (temp < -1e-3)
-iscoldslip = (temp < -1e-3) * (slip > 1.0)
 coldslip = np.ma.masked_where(1-cold, slip)
 warmslip = np.ma.masked_where(cold, slip)
 
@@ -63,7 +62,7 @@ tsax.set_yscale('log')
 tsax.set_xscale('symlog', linthreshx=1e-12)
 tsax.scatter(temp, coldslip, marker='.', c=ut.pl.palette['darkblue'], alpha=0.1)
 tsax.scatter(temp, warmslip, marker='.', c=ut.pl.palette['darkred'], alpha=0.1)
-tsax.set_xlabel('basal temperature relative to the pressure-melting point (K)')
+tsax.set_xlabel('basal temperature below freezing (K)')
 tsax.set_ylabel('basal velocity ($m\,a^{-1}$)')
 
 # save figure
