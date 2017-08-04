@@ -5,23 +5,24 @@ import util as ut
 import numpy as np
 
 # initialize figure
-fig, ax = ut.pl.subplots_ts()
+figw, figh = 85.0, 60.0
+fig = ut.pl.figure(figsize=(figw/25.4, figh/25.4))
+ax = fig.add_axes([10.0/figw, 7.5/figh, 50.0/figw, 50.0/figh])
+hsax = fig.add_axes([62.5/figw, 7.5/figh, 20.0/figw, 50.0/figh], sharey=ax)
+
+
+# Input data
+# ----------
 
 # read trimlines data
 trimlines = np.genfromtxt('../data/native/trimlines_kelly_etal_2004.csv',
                           dtype=None, delimiter=',', names=True)
-
 xt = trimlines['x']
 yt = trimlines['y']
 zt = trimlines['z']
 
 # convert to UTM 32
 xt, yt, zt = ut.pl.utm.transform_points(ut.pl.swiss, xt, yt, zt).T
-
-# load boot topo
-nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-1km.nc')
-b = nc.variables['topg'][:]
-nc.close()
 
 # load extra data
 filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
@@ -36,24 +37,33 @@ i = np.argmin(abs(xt[:, None] - x), axis=1)
 j = np.argmin(abs(yt[:, None] - y), axis=1)
 ht = h[j, i]
 
+
+# Scatter axes
+# ------------
+
 # draw scatter plot
 ax.scatter(zt, ht, c=ut.pl.palette['darkblue'], alpha=0.75)
 ax.set_xlabel('observed trimline elevation $z_t$ (m)')
 ax.set_ylabel('modelled max ice thickness $h_t$ (m)', labelpad=2)
 
-# compute linear fit
-c = np.polyfit(zt, ht, 1)
-p = np.poly1d(c)
-ztfit = np.array([2000, 3200])
-htfit = p(ztfit)
-ax.plot(ztfit, htfit, c=ut.pl.palette['darkblue'], zorder=0)
 
-# add equation and mean diff
-eqn = '$h_t = %.3f \cdot z_t + %.3f$' % tuple(c)
-diff = ht.mean()
-note = '%s\n\nmean difference: %.3f m' % (eqn, diff)
-ax.text(0.95, 0.05, note, ha='right', color=ut.pl.palette['darkblue'],
-        transform=ax.transAxes)
+# Histogram axes
+# --------------
+
+# add histogram
+step = 100.0
+bmin = ht.min() - ht.min() % step
+bmax = ht.max() - ht.max() % step + step
+bins = np.arange(bmin, bmax+step, step)
+hsax.hist(ht, bins=bins, orientation='horizontal', alpha=0.75)
+hsax.set_xlabel('freq.')
+[l.set_visible(False) for l in hsax.get_yticklabels()]
+
+# highlight mean thickness
+havg = ht.mean()
+ax.axhline(havg, c=ut.pl.palette['darkblue'])
+hsax.axhline(havg, c=ut.pl.palette['darkblue'])
+hsax.text(2.0, havg+25.0, '%.0f m' % havg, color=ut.pl.palette['darkblue'])
 
 # save figure
 fig.savefig('alpcyc_hr_trimlines')
