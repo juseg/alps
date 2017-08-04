@@ -29,21 +29,15 @@ nc = ut.io.load(filepath)
 x = nc.variables['x'][:]
 y = nc.variables['y'][:]
 h = nc.variables['thk'][:].max(axis=0)
-w = nc.variables['tempicethk_basal'][:].max(axis=0)
 nc.close()
 
 # get model elevation at trimline locations
 i = np.argmin(abs(xt[:, None] - x), axis=1)
 j = np.argmin(abs(yt[:, None] - y), axis=1)
 ht = h[j, i]
-wt = w[j, i]
 
 # draw scatter plot
 ax.scatter(zt, ht, c=ut.pl.palette['darkblue'], alpha=0.75)
-ax.scatter(zt[wt>=1.0], wt[wt>=1.0],
-           c=ut.pl.palette['darkred'], alpha=0.75)
-ax.scatter(zt[wt<1.0], wt[wt<1.0],
-           facecolors='none', edgecolors=ut.pl.palette['darkred'], alpha=0.75)
 ax.set_xlabel('observed trimline elevation $z_t$ (m)')
 ax.set_ylabel('modelled max ice thickness $h_t$ (m)', labelpad=2)
 
