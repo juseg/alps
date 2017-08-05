@@ -96,8 +96,8 @@ ax.scatter(xt, yt, c=at, cmap=cmap, norm=norm, s=4**2, alpha=0.75)
 
 # draw scatter plot
 sc = scax.scatter(zt, ht, c=at, cmap=cmap, norm=norm, alpha=0.75)
-scax.set_xlabel('observed trimline elevation $z_t$ (m)')
-scax.set_ylabel('modelled max ice thickness $h_t$ (m)', labelpad=2)
+scax.set_xlabel('observed trimline elevation (m)')
+scax.set_ylabel('modelled maximum ice thickness (m)', labelpad=2)
 
 # add colorbar
 cb = fig.colorbar(sc, cax)
