@@ -4,10 +4,9 @@
 import util as ut
 import numpy as np
 import scipy as sp
+import cartopy.io.shapereader as shpreader
 
 # parameters
-xp = np.array([480e3, 510e3, 540e3, 540e3, 550e3, 510e3, 480e3])
-yp = np.array([5170e3, 5180e3, 5190e3, 5230e3, 5260e3, 5290e3, 5290e3])
 c = ut.pl.palette['darkblue']
 
 # initialize figure
@@ -38,6 +37,12 @@ ut.pl.draw_natural_earth(ax)
 ut.pl.draw_lgm_outline(ax)
 ut.pl.draw_footprint(ax)
 
+# read profile from shapefile
+filename = '../data/native/profile_rhine.shp'
+shp = shpreader.Reader(filename)
+geom = shp.geometries().next()[0]
+xp, yp = np.array(geom).T
+
 # add profile line
 ax.plot(xp, yp, c=c, ls='--', dashes=(2, 2))
 ax.plot(xp[0], yp[0], c=c, marker='o')
@@ -64,7 +69,7 @@ dp = (((xp[1:]-xp[:-1])**2+(yp[1:]-yp[:-1])**2)**0.5).cumsum()
 dp = np.insert(dp, 0, 0.0)
 
 # plot isotope stages
-ut.pl.plot_mis(ax, y=0.925)
+ut.pl.plot_mis(tsax, y=0.925)
 
 # plot envelope
 levs = [1.0, 5e3]

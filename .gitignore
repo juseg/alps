@@ -25,16 +25,5 @@
 *.ogg
 
 # Data
-*.aux.xml
-*.dbf
-*.hdr
-*.nc
-*.prj
-*.sbn
-*.sbx
-*.shp
-*.shx
-*.tfw
-*.tif
-*.vrt
-*.zip
+/data/external
+/data/processed
