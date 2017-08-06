@@ -12,21 +12,10 @@ colors = [ut.pl.palette[c] for c in ['darkblue', 'darkred']]
 
 # initialize figure
 figw, figh = 170.0, 115.0
-ax_bottoms = [(7.5+i*52.5)/figh for i in range(2)[::-1]]
-fig = ut.pl.figure(figsize=(figw/25.4, figh/25.4))
-grid = [fig.add_axes([2.5/figw, b, 35.0/figw, 50.0/figh], projection=ut.pl.utm)
-        for b in ax_bottoms]
-tsgrid = [fig.add_axes([40.0/figw, b, 120.0/figw, 50.0/figh])
-          for b in ax_bottoms]
-
-# prepare map axes
-for i, ax in enumerate(grid):
-    ax.set_rasterization_zorder(2.5)
-    ax.set_extent(ut.pl.regions[regions[i]], crs=ax.projection)
-
-# add subfigure labels
-for i, ax in enumerate(grid):
-    ut.pl.add_subfig_label('(%s)' % 'abcdefgh'[i], ax=ax)
+fig, grid = ut.pl.subplots_mm(nrows=2, ncols=1, sharex=False, sharey=False,
+                              figsize=(figw, figh), projection=ut.pl.utm,
+                              left=2.5, right=132.5, bottom=10.0, top=2.5,
+                              hspace=2.5, wspace=2.5)
 
 # load extra data
 filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
@@ -41,10 +30,13 @@ nc.close()
 for i, reg in enumerate(regions):
     c = colors[i]
     ax = grid[i]
-    tsax = tsgrid[i]
 
     # Map axes
     # --------
+
+    # prepare map axes
+    ax.set_rasterization_zorder(2.5)
+    ax.set_extent(ut.pl.regions[reg], crs=ax.projection)
 
     # draw boot topography
     nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-1km.nc')
@@ -57,12 +49,12 @@ for i, reg in enumerate(regions):
     ut.pl.draw_footprint(ax)
 
     # read profile from shapefile
-    filename = '../data/native/profile_%s.shp' % regions[i]
+    filename = '../data/native/profile_%s.shp' % reg
     shp = shpreader.Reader(filename)
     geom = shp.geometries().next()
     geom = geom[0]
     xp, yp = np.array(geom).T
-    del shp
+    del shp, geom
 
     # add profile line
     ax.plot(xp, yp, c=c, ls='--', dashes=(2, 2))
@@ -72,6 +64,12 @@ for i, reg in enumerate(regions):
     # Time series
     # -----------
 
+    # prepare timeseries axes
+    pos = ax.get_position()
+    tsrect = [40.0/figw, pos.y0, 120.0/figw, pos.height]
+    tsax = fig.add_axes(tsrect)
+    ut.pl.plot_mis(tsax, y=0.925)
+
     # extract space-time slice
     xi = t[:, None], yp[None, :], xp[None, :]  # coords to sample at
     hp = sp.interpolate.interpn((t, y, x), h, xi, method='linear')
@@ -79,9 +77,6 @@ for i, reg in enumerate(regions):
     # compute distance along profile
     dp = (((xp[1:]-xp[:-1])**2+(yp[1:]-yp[:-1])**2)**0.5).cumsum()
     dp = np.insert(dp, 0, 0.0)
-
-    # plot isotope stages
-    ut.pl.plot_mis(tsax, y=0.925)
 
     # plot envelope
     levs = [1.0, 5e3]
@@ -91,10 +86,15 @@ for i, reg in enumerate(regions):
     # set axes properties
     tsax.set_xlim(120.0, 0.0)
     tsax.set_xlabel('model age (ka)')
-    tsax.set_ylabel('distance along profile (km)')
+    tsax.set_ylabel('%s glacier lenght (km)' % reg.capitalize())
+    tsax.xaxis.set_visible(i==len(regions)-1)
     tsax.yaxis.set_label_position("right")
     tsax.yaxis.tick_right()
     tsax.grid(axis='y')
+
+    # add subfigure labels
+    ut.pl.add_subfig_label('(%s)' % 'aceg'[i], ax=ax)
+    ut.pl.add_subfig_label('(%s)' % 'bdfh'[i], ax=tsax)
 
 # save
 fig.savefig('alpcyc_hr_profiles')
