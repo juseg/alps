@@ -50,6 +50,7 @@ regions = {'alps': (150e3, 1050e3, 4820e3, 5420e3),    # model domain 900x600
            'bern': (390e3, 465e3, 5125e3, 5175e3),     # Bern 75x50
            'crop': (155e3, 1045e3, 4825e3, 5415e3),    # 5 km crop 895x895
            'west': (250e3, 700e3, 4970e3, 5270e3),     # western 450x300
+           'ivrea': (310e3, 450e3, 4950e3, 5150e3),    # Ivrea 140x100
            'rhone': (230e3, 470e3, 5050e3, 5240e3),    # Guillaume 240x190
            'rhine': (450e3, 625e3, 5075e3, 5325e3),    # Rhine 175x250
            'rhlobe': (450e3, 600e3, 5225e3, 5325e3),   # Rhine lobe 150x100
