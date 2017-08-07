@@ -49,10 +49,12 @@ stereo = ccrs.Stereographic(central_latitude=0.0, central_longitude=7.5)
 regions = {'alps': (150e3, 1050e3, 4820e3, 5420e3),    # model domain 900x600
            'bern': (390e3, 465e3, 5125e3, 5175e3),     # Bern 75x50
            'crop': (155e3, 1045e3, 4825e3, 5415e3),    # 5 km crop 895x895
+           'guil': (230e3, 470e3, 5050e3, 5240e3),     # Guillaume 240x190
            'west': (250e3, 700e3, 4970e3, 5270e3),     # western 450x300
-           'ivrea': (310e3, 450e3, 4950e3, 5150e3),    # Ivrea 140x100
-           'rhone': (230e3, 470e3, 5050e3, 5240e3),    # Guillaume 240x190
-           'rhine': (450e3, 625e3, 5075e3, 5325e3),    # Rhine 175x250
+           'isere': (230e3, 370e3, 5000e3, 5100e3),    # Isère 140x100
+           'ivrea': (300e3, 440e3, 5000e3, 5100e3),    # Ivrea 140x100
+           'rhine': (410e3, 620e3, 5150e3, 5300e3),    # Rhine 210x150
+           'rhone': (300e3, 475e3, 5100e3, 5225e3),    # Rhone 140x100 175x125
            'rhlobe': (450e3, 600e3, 5225e3, 5325e3),   # Rhine lobe 150x100
            'valais': (310e3, 460e3, 5065e3, 5165e3),   # Trimlines 150x100
            'aletsch': (414e3, 444e3, 5139e3, 5159e3)}  # Aletsch 30x20

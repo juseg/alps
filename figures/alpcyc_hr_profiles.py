@@ -7,14 +7,14 @@ import scipy as sp
 import cartopy.io.shapereader as shpreader
 
 # parameters
-regions = ['rhine', 'ivrea']
-colors = [ut.pl.palette[c] for c in ['darkblue', 'darkred']]
+regions = ['rhine', 'rhone', 'ivrea', 'isere']
+colors = [ut.pl.palette['dark'+hue] for hue in ['blue', 'green', 'red', 'orange']]
 
 # initialize figure
 figw, figh = 170.0, 115.0
-fig, grid = ut.pl.subplots_mm(nrows=2, ncols=1, sharex=False, sharey=False,
+fig, grid = ut.pl.subplots_mm(nrows=4, ncols=1, sharex=False, sharey=False,
                               figsize=(figw, figh), projection=ut.pl.utm,
-                              left=2.5, right=132.5, bottom=10.0, top=2.5,
+                              left=2.5, right=132.5, bottom=5.0, top=2.5,
                               hspace=2.5, wspace=2.5)
 
 # load extra data
@@ -57,7 +57,7 @@ for i, reg in enumerate(regions):
     del shp, geom
 
     # add profile line
-    ax.plot(xp, yp, c=c, ls='--', dashes=(2, 2))
+    ax.plot(xp, yp, c=c, dashes=(2, 1))
     ax.plot(xp[0], yp[0], c=c, marker='o')
 
 
@@ -68,7 +68,7 @@ for i, reg in enumerate(regions):
     pos = ax.get_position()
     tsrect = [40.0/figw, pos.y0, 120.0/figw, pos.height]
     tsax = fig.add_axes(tsrect)
-    ut.pl.plot_mis(tsax, y=0.925)
+    ut.pl.plot_mis(tsax, y=0.85)
 
     # extract space-time slice
     xi = t[:, None], yp[None, :], xp[None, :]  # coords to sample at
@@ -85,8 +85,8 @@ for i, reg in enumerate(regions):
 
     # set axes properties
     tsax.set_xlim(120.0, 0.0)
-    tsax.set_xlabel('model age (ka)')
-    tsax.set_ylabel('%s glacier lenght (km)' % reg.capitalize())
+    tsax.set_xlabel('model age (ka)', labelpad=-20)
+    tsax.set_ylabel('%s glacier (km)' % reg.capitalize())
     tsax.xaxis.set_visible(i==len(regions)-1)
     tsax.yaxis.set_label_position("right")
     tsax.yaxis.tick_right()
