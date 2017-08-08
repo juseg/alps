@@ -637,13 +637,14 @@
 
     Fig.~\ref{fig:lgmvel} -- Snapshot at 21\,ka and volume time series.\\
     Fig.~\ref{fig:timing} -- Timing of the LGM and area time series.\\
+    Fig.~\ref{fig:trimlines} -- LGM ice thickness compared to trimlines.\\
     Fig.~\ref{fig:profiles} -- Individual glacier extent profiles.
 
     In this section, we compare the model output to geological evidence from
-    the last glacial cycle, in terms of LGM extent (Sect.~\ref{sec:extent}),
-    ice flow patterns (Sect.~\ref{sec:flow}), ice thickness
-    (Sect.~\ref{sec:thickness}), timing (Sect.~\ref{sec:timing}), and the
-    number of glaciations (Sect.~\ref{sec:glaciations}).
+    the last glacial cycle, in terms of maximum extent and ice flow patterns
+    (Sect.~\ref{sec:flow}), timing of the Last Glacial Maximum
+    (Sect.~\ref{sec:timing}), ice thickness (Sect.~\ref{sec:thickness}), and
+    glacial cycle dynamics (Sect.~\ref{sec:glaciations}).
 
     This simulation is forced by the optimal EPICA palaeo-temperature record
     (Sect.~\ref{sec:paltemp}) and includes palaeo-precipitation reduction
@@ -654,41 +655,25 @@
 
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-\subsection{LGM extent}
-\label{sec:extent}
-% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-
-    \begin{itemize}
-    \item Rapid variations of total ice volume (Fig.~\ref{fig:lgmvel}b).
-    \item Two major glaciations during MIS 4 and 2 (Fig.~\ref{fig:lgmvel}b).
-    \item Maximum extent is farily well reproduced (Fig.~\ref{fig:lgmvel}a).
-    \end{itemize}
-
-
-% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-\subsection{LGM flow pattern}
+\subsection{Maximum configuration}
 \label{sec:flow}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
     \begin{itemize}
+    \item Maximum extent is reached at 24.57 ka (Fig.~\ref{fig:lgmvel}b).
+    \item Some glaciers are not at their maximum (Fig.~\ref{fig:lgmvel}a).
+    \item Maximum extent is farily well reproduced (Fig.~\ref{fig:lgmvel}a).
+    \item Peripheral ice caps well reproduced (Fig.~\ref{fig:lgmvel}a).
+    \item Too much ice in the east (Fig.~\ref{fig:lgmvel}a).
+    \item Too little ice in the west (Fig.~\ref{fig:lgmvel}a).
     \item Maximum stages flow pattern is complex (Fig.~\ref{fig:lgmvel}a).
+    \item Flow goes sometimes across topography (Fig.~\ref{fig:lgmvel}a).
+    \item Transfluences (Montgenèvre, col de l'Échelle, Simplon, Albrun, Gries,
+                        (Brünig, Majola, Tagliamento)
     \end{itemize}
 
-    \idea{Add trimline figure in the main text now.}
-
-
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-\subsection{LGM ice thickness}
-\label{sec:thickness}
-% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-
-    \begin{itemize}
-    \item Ice surface is well above the trimlines (Fig.~\ref{fig:lgmvel}a).
-    \end{itemize}
-
-
-% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-\subsection{Timing of the LGM}
+\subsection{Timing of the Last Glacial Maximum}
 \label{sec:timing}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
@@ -699,11 +684,23 @@
 
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-\subsection{Number of glaciations}
+\subsection{Ice thickness and trimlines}
+\label{sec:thickness}
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+
+    \begin{itemize}
+    \item Ice surface is well above the trimlines (Fig.~\ref{fig:lgmvel}a).
+    \end{itemize}
+
+
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+\subsection{Glacial cycle dynamics}
 \label{sec:glaciations}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
     \begin{itemize}
+    \item Rapid variations of total ice volume (Fig.~\ref{fig:lgmvel}b).
+    \item Two major glaciations during MIS 4 and 2 (Fig.~\ref{fig:lgmvel}b).
     \item Some glaciers advance many times (Fig.~\ref{fig:profiles}).
     \end{itemize}
 
@@ -854,8 +851,6 @@
       \caption{%
         Modelled extent of glaciation along selected profiles for the Lyon,
         Solothurn, Rhine and Ivrea glaciers.
-        \todo{Implement extraction of ice thickness along a more detailed
-              profile, and add the other glaciers.}
         \idea{We can also move this as panel b on Fig.~\ref{fig:timing}, with
               profiles drawn on panel a. But then we should probably limit it
               to two glaciers instead of four.}}
