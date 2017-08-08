@@ -22,6 +22,14 @@ for ax in grid.flat:
     im = nc.imshow('topg', ax=ax, vmin=0e3, vmax=3e3, cmap='Greys', zorder=-1)
 nc.close()
 
+# add Rhine lobe scaling domain  # FIXME move to util
+w, e, s, n = ut.pl.regions['rhlobe']
+x = [w, e, e, w, w]
+y = [s, s, n, n, s]
+for ax in grid[0]:
+    ax.plot(x, y, c='k', lw=0.5)
+
+
 # for each record
 for i, rec in enumerate(ut.alpcyc_records):
     label = ut.alpcyc_clabels[i]
