@@ -5,12 +5,12 @@ import util as ut
 import numpy as np
 
 # initialize figure (one column)
-figw, figh = 85.0, 90.0
+figw, figh = 85.0, 115.0
 fig = ut.pl.figure(figsize=(figw/25.4, figh/25.4))
-ax = fig.add_axes([10.0/figw, 57.5/figh, 45.0/figw, 30.0/figh], projection=ut.pl.utm)
-cax = fig.add_axes([57.5/figw, 57.5/figh, 5.0/figw, 30.0/figh])
-scax = fig.add_axes([10.0/figw, 7.5/figh, 45.0/figw, 47.5/figh])
-hsax = fig.add_axes([57.5/figw, 7.5/figh, 25.0/figw, 47.5/figh], sharey=scax)
+ax = fig.add_axes([2.5/figw, 2.5/figh, 80.0/figw, 80.0*2/3/figh], projection=ut.pl.utm)
+cax = fig.add_axes([12.5/figw, (80.0*2/3-2.5)/figh, 30.0/figw, 2.5/figh])
+scax = fig.add_axes([10.0/figw, 65.0/figh, 45.0/figw, 47.5/figh])
+hsax = fig.add_axes([57.5/figw, 65.0/figh, 25.0/figw, 47.5/figh], sharey=scax)
 
 ## initialize figure (full width)
 #figw, figh = 170.0, 60.0
@@ -25,9 +25,9 @@ ax.set_rasterization_zorder(2.5)
 ax.set_extent(ut.pl.regions['valais'], crs=ax.projection)
 
 # add subfigure labels
-ut.pl.add_subfig_label('(a)', ax=ax)
-ut.pl.add_subfig_label('(b)', ax=scax)
-ut.pl.add_subfig_label('(c)', ax=hsax)
+ut.pl.add_subfig_label('(a)', ax=scax)
+ut.pl.add_subfig_label('(b)', ax=hsax)
+ut.pl.add_subfig_label('(c)', ax=ax)
 
 
 # Input data
@@ -100,7 +100,7 @@ scax.set_xlabel('observed trimline elevation (m)')
 scax.set_ylabel('modelled maximum ice thickness (m)', labelpad=2)
 
 # add colorbar
-cb = fig.colorbar(sc, cax)
+cb = fig.colorbar(sc, cax, orientation='horizontal')
 cb.set_label(r'age (ka)')
 
 
