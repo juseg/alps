@@ -759,9 +759,9 @@
         \textbf{(b)} January precipitation from WorldClim
         \citep[1960--1990]{Hijmans.etal.2005}, and
         \textbf{(c)} Mordern July standard deviation of daily mean temperature
-        from the ERA-Interim \citep[1979--2012]{Dee.etal.2011} from the
-        reference monthly climatology used to force the surface mass balance
-        (PDD) component of the ice sheet model.
+        from the ERA-Interim \citep[1979--2012]{Dee.etal.2011, Seguinot.2013}
+        from the reference monthly climatology used to force the surface mass
+        balance (PDD) component of the ice sheet model.
         \textbf{(d)} Geothermal heat flow from applying the similarity method
         to multiple geophysical proxies \citep{Goutorbe.etal.2011} used as a
         boundary condition to the bedrock thermal model 3\,km below the
@@ -775,11 +775,11 @@
         \textbf{(a)} Temperature offset time-series from ice core and ocean
         records (Table~\ref{tab:records}) used as palaeo-climate forcing for
         the ice sheet model.
-        \textbf{(a)} Modelled total ice volume through the last 120\,ka,
-        expressed in meters of sea level equivalent (m~s.l.e.). Gray fields
-        indicate Marine Oxygen Isotope Stage (MIS) boundaries for MIS~2 and
-        MIS~4 according to a~global compilation of benthic \chem{\delta^{18}O}
-        records \citep{Lisiecki.Raymo.2005}.}
+        \textbf{(b)} Modelled total ice volume through the last 120~thousand
+        years (ka) expressed in meters of sea level equivalent (m~s.l.e.). Gray
+        fields indicate Marine Oxygen Isotope Stage (MIS) boundaries for MIS~2
+        and MIS~4 according to a~global compilation of benthic
+        \chem{\delta^{18}O} records \citep{Lisiecki.Raymo.2005}.}
       \label{fig:timeseries}
     \end{figure}
 
@@ -787,23 +787,26 @@
       \centerline{\includegraphics{alpcyc_lr_footprints}}
       \caption{%
         \textbf{(a--c)} Cumulative extent of modelled ice cover during MIS~2
-        (29--14\,ka) using temperature time-series scaling factors
-        (Table~\ref{tab:records}) adjusted to obtain model results in agreement
-        with the Last Glacial Maximum (LGM) geomorphological reconstruction
-        \citep[solid red line,][]{Ehlers.etal.2011}.
+        (29--14\,ka), with (light colours) and without (dark colours)
+        palaeo-precipitation corrections, and using temperature time-series
+        scaling factors (Table~\ref{tab:records}) adjusted to model the area
+        glaciated by the Rhine glacier piedmont lobe (black rectangle) in
+        agreement with the Last Glacial Maximum (LGM) geomorphological
+        reconstruction \citep[solid red line,][]{Ehlers.etal.2011}.
         \textbf{(d--f)} Cumulative extent of modelled ice cover during MIS~4
         (71--57\,ka). Only the simulation driven by the EPICA temperature
         time-series yields reasonable MIS~4 ice cover.
-        \todo{Try to make reduced precipitation outlines more visible.}}
+        \todo{Add Rhine lobe scaling domain.}}
       \label{fig:footprints}
     \end{figure}
 
     \begin{figure}
       \centerline{\includegraphics{alpcyc_hr_lgmvel}}
       \caption{%
-        \textbf{(a)} Modelled bedrock topography (grey) ice surface topography
-        (200\,m contours) and ice surface velocity (blue) in the Alps
-        21~thousand years (ka) before present. Modelled Last Glacial Maximum
+        \textbf{(a)} Modelled bedrock topography (grey), ice surface topography
+        (200\,m contours), and ice surface velocity (blue) in the Alps
+        24.57\,ka before present, corresponding to the maximum modelled ice
+        cover. Modelled Last Glacial Maximum
         (LGM) ice extent (dashed orange line) and geomorphological
         reconstruction \citep[solid red line,][]{Ehlers.etal.2011}. The
         background map consists of depressed SRTM \citep{Jarvis.etal.2008}
@@ -822,12 +825,12 @@
     \begin{figure}
       \centerline{\includegraphics{alpcyc_hr_timing}}
       \caption{%
-        \textbf{(a)} Timing of the Last Glacial Maximum (LGM) given by the
+        \textbf{(a)} Timing of the LGM given by the
         modelled age (colour mapping) and value (200\,m contours) of maximum
         surface elevation throughout the entire simulation.
         \textbf{(b)} Temperature offset time-series from the EPICA ice core
         used as palaeo-climate forcing for the ice flow model (black curve),
-        and modelled glaciated area around the LGM (coloured curve). The LGM
+        and modelled glaciated area during the LGM (coloured curve). The LGM
         is here modelled as a time-transgressive event.}
       \label{fig:timing}
     \end{figure}
@@ -842,18 +845,18 @@
         elevations \citep[Table~1]{Kelly.etal.2004}.
         \textbf{(c)} Histogram of modelled maximum ice thickness above trimline
         locations (500\,m bands). The average maximum ice thickness above the
-        trimline is 979\,m.}
+        trimline is 979\,m.
+        \todo{Move map below scatter plot and add cold ice areas or so. Use max
+              surface elevation age as in Fig.~\ref{fig:timing}.}}
       \label{fig:trimlines}
     \end{figure}
 
     \begin{figure}
       \centerline{\includegraphics{alpcyc_hr_profiles}}
       \caption{%
-        Modelled extent of glaciation along selected profiles for the Lyon,
-        Solothurn, Rhine and Ivrea glaciers.
-        \idea{We can also move this as panel b on Fig.~\ref{fig:timing}, with
-              profiles drawn on panel a. But then we should probably limit it
-              to two glaciers instead of four.}}
+        Modelled glacier extent and thickess along selected profiles for the
+        Rhine, Rhone, Ivrea and Isère glaciers.
+        \todo{Add accent on Isère, show ice thickness.}}
       \label{fig:profiles}
     \end{figure}
 
