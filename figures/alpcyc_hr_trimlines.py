@@ -49,8 +49,11 @@ nc = ut.io.load(filepath)
 x = nc.variables['x'][:]
 y = nc.variables['y'][:]
 age = -nc.variables['time'][:]/(1e3*365.0*24*60*60)
-thk = nc.variables['thk'][:]
-srf = nc.variables['usurf'][:]
+mis = (age < 29.0) * (age >= 14.0)
+age = age[mis]
+thk = nc.variables['thk'][mis]
+srf = nc.variables['usurf'][mis]
+tpa = nc.variables['temppabase'][mis]
 nc.close()
 
 # compute max thickness and its age
@@ -58,6 +61,12 @@ lgmage = age[thk.argmax(axis=0)]
 maxthk = thk.max(axis=0)
 maxsrf = srf.max(axis=0)
 mask = (thk < 1.0).prod(axis=0)
+maxsrf = np.ma.masked_where(mask, maxsrf)
+
+# compute duration of warm-based coved
+dt = age[0] - age[1]
+warm = ((thk >= 1.0)*(tpa >= -1e-3)).sum(axis=0)*dt
+warm = np.ma.masked_where(mask, warm)
 
 # get model elevation at trimline locations
 i = np.argmin(abs(xt[:, None] - x), axis=1)
@@ -66,8 +75,8 @@ ht = maxthk[j, i]
 at = lgmage[j, i]
 
 
-# Map axes
-# --------
+# Scatter axes
+# ------------
 
 # set contour levels and colors
 mpl = ut.pl.iplt.matplotlib
@@ -76,32 +85,10 @@ cmap = ut.pl.get_cmap('Paired', 12)
 cols = cmap(range(12))[:len(levs)+1]
 cmap, norm = mpl.colors.from_levels_and_colors(levs, cols, extend='both')
 
-# plot boot topo
-nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-1km.nc')
-im = nc.imshow('topg', ax, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
-boot = nc.variables['topg'][:]
-nc.close()
-
-# add ice mask and contour levels
-ax.contourf(x, y, mask, levels=[-0.5, 0.5], colors='w', alpha=0.75)
-ax.contour(x, y, maxsrf, ut.pl.inlevs, colors='0.25', linewidths=0.1)
-ax.contour(x, y, maxsrf, ut.pl.utlevs, colors='0.25', linewidths=0.25)
-
-# draw trimlines
-ax.scatter(xt, yt, c=at, cmap=cmap, norm=norm, s=4**2, alpha=0.75)
-
-
-# Scatter axes
-# ------------
-
 # draw scatter plot
 sc = scax.scatter(zt, ht, c=at, cmap=cmap, norm=norm, alpha=0.75)
 scax.set_xlabel('observed trimline elevation (m)')
 scax.set_ylabel('modelled maximum ice thickness (m)', labelpad=2)
-
-# add colorbar
-cb = fig.colorbar(sc, cax, orientation='horizontal')
-cb.set_label(r'age (ka)')
 
 
 # Histogram axes
@@ -121,6 +108,33 @@ havg = ht.mean()
 scax.axhline(havg, c='0.25')
 hsax.axhline(havg, c='0.25')
 hsax.text(2.0, havg+25.0, '%.0f m' % havg, color='0.25')
+
+# Map axes
+# --------
+
+# plot boot topo
+nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-1km.nc')
+im = nc.imshow('topg', ax, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
+boot = nc.variables['topg'][:]
+nc.close()
+
+# plot areas with less than 1 ka warm ice cover
+im = ax.contourf(x, y, warm, levels=[0.0, 1.0, 120.0], colors=['w', 'w'],
+                 hatches=['////', ''], alpha=0.5)
+cs = ax.contour(x, y, warm, [1.0], colors='0.25', linewidths=0.25)
+cs = ax.contour(x, y, mask, [0.5], colors='k', linewidths=0.25)
+
+# add ice mask and contour levels
+ax.contourf(x, y, mask, levels=[-0.5, 0.5], colors='w', alpha=0.75)
+ax.contour(x, y, maxsrf, ut.pl.inlevs, colors='0.25', linewidths=0.1)
+ax.contour(x, y, maxsrf, ut.pl.utlevs, colors='0.25', linewidths=0.25)
+
+# draw trimlines
+sc = ax.scatter(xt, yt, c=at, cmap=cmap, norm=norm, s=4**2, alpha=0.75)
+
+# add colorbar
+cb = fig.colorbar(sc, cax, orientation='horizontal')
+cb.set_label(r'age (ka)')
 
 # save figure
 fig.savefig('alpcyc_hr_trimlines')
