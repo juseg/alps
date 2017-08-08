@@ -8,6 +8,7 @@ import cartopy.io.shapereader as shpreader
 
 # parameters
 regions = ['rhine', 'rhone', 'ivrea', 'isere']
+labels = ['Rhine', 'Rhone', 'Ivrea', u'Isère']
 colors = [ut.pl.palette['dark'+hue] for hue in ['blue', 'green', 'red', 'orange']]
 
 # initialize figure
@@ -30,6 +31,7 @@ nc.close()
 for i, reg in enumerate(regions):
     c = colors[i]
     ax = grid[i]
+    label = labels[i]
 
     # Map axes
     # --------
@@ -86,7 +88,7 @@ for i, reg in enumerate(regions):
     # set axes properties
     tsax.set_xlim(120.0, 0.0)
     tsax.set_xlabel('model age (ka)', labelpad=-20)
-    tsax.set_ylabel('%s glacier (km)' % reg.capitalize())
+    tsax.set_ylabel('%s glacier (km)' % label)
     tsax.xaxis.set_visible(i==len(regions)-1)
     tsax.yaxis.set_label_position("right")
     tsax.yaxis.tick_right()
