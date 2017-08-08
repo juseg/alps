@@ -57,7 +57,7 @@ tpa = nc.variables['temppabase'][mis]
 nc.close()
 
 # compute max thickness and its age
-lgmage = age[thk.argmax(axis=0)]
+lgmage = age[srf.argmax(axis=0)]
 maxthk = thk.max(axis=0)
 maxsrf = srf.max(axis=0)
 mask = (thk < 1.0).prod(axis=0)
