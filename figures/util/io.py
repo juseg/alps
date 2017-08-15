@@ -5,6 +5,7 @@
 
 import iceplotlib.plot as iplt
 import os
+import numpy as np
 from osgeo import gdal
 
 def load(filepath):
@@ -63,6 +64,11 @@ def open_gtif(filename, extent=None):
 
     # read image data
     data = ds.ReadAsArray(col0, row0, cols, rows)
+
+    # convert to masked array if dataset has nodata value
+    ndval = ds.GetRasterBand(1).GetNoDataValue()
+    if ndval is not None:
+        data = np.ma.masked_equal(data, ndval)
 
     # close dataset and return image data and extent
     ds = None
