@@ -18,7 +18,7 @@ PY_FIGS = $(addprefix alpbou_, locmap) \
                              erosion glaciations inputs lgmbig lgmthk lgmvel \
                              locmap profiles scalability timestamps \
                              timing totalsliding trimlines uplift \
-                             warmdepth warmtime ydthk ydvel) \
+                             ydthk ydvel) \
             $(addprefix lr_, footprints glacareas records rhineareas \
                              scaleinterval stackprints timeseries timing)) \
           $(addprefix alplgl_, extent)
