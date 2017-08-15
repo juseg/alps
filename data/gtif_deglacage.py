@@ -31,5 +31,6 @@ deglacage[alwaysicy] = age[-1]
 deglacage[nevericy] = age[0]
 
 # make geotiff
-ut.make_gtif_shp(x, y, deglacage, ofilepath, dtype='float32', epsg=32632,
-                 varname=varname, interval=0, base=0, levels=range(0, 30001, 1000))
+levs = np.arange(0e3, 30e3+1, 1e3)
+ut.make_gtif_shp(x, y, deglacage, ofilepath, levs, dtype='float32', epsg=32632,
+                 varname=varname)

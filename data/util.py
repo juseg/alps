@@ -27,8 +27,8 @@ def load(filepath):
     return nc4.MFDataset(filepath)
 
 
-def make_gtif_shp(x, y, z, filename, dtype='float32', epsg=32632,
-                  varname='z', interval=10e3, base=50.0, levels=None):
+def make_gtif_shp(x, y, z, filename, levels, dtype='float32', epsg=32632,
+                  varname='z'):
     """Make geotiff and shapefile from given coords and variable."""
 
     # get grid size and origin
@@ -65,8 +65,7 @@ def make_gtif_shp(x, y, z, filename, dtype='float32', epsg=32632,
     dtype = ogr.OFTReal
     f1_defn = ogr.FieldDefn(varname, ogr.OFTReal)
     f1 = lyr.CreateField(f1_defn)
-    levels = levels or []
-    gdal.ContourGenerate(band, interval, base, levels, 0, 0, lyr, f0, f1)
+    gdal.ContourGenerate(band, 0, 0, levels, 0, 0, lyr, f0, f1)
 
     # close datasets
     band = rast = None

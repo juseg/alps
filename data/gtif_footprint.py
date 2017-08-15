@@ -22,5 +22,6 @@ nc.close()
 footprint = 1 - (thk < 1.0).prod(axis=0)
 
 # make geotiff
-ut.make_gtif_shp(x, y, footprint, ofilepath, dtype='byte', epsg=32632,
-                 varname=varname, interval=1.0, base=0.5, levels=None)
+levs = [0.5]
+ut.make_gtif_shp(x, y, footprint, ofilepath, levs, dtype='byte', epsg=32632,
+                 varname=varname)

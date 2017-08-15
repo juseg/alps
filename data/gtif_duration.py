@@ -22,5 +22,6 @@ nc.close()
 duration = (thk >= 1.0).sum(axis=0)*100.0
 
 # make geotiff
-ut.make_gtif_shp(x, y, duration, ofilepath, dtype='float32', epsg=32632,
-                 varname=varname, interval=10e3, base=50.0, levels=None)
+levs = np.arange(50.0, 120e3, 10e3)
+ut.make_gtif_shp(x, y, duration, ofilepath, levs, dtype='float32', epsg=32632,
+                 varname=varname)
