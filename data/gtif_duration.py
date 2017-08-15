@@ -5,9 +5,6 @@ import os
 import util as ut
 import numpy as np
 import zipfile
-from osgeo import gdal
-from osgeo import ogr
-from osgeo import osr
 
 # file paths
 runname = '-'.join(map(os.path.basename, os.path.split(ut.alpcyc_bestrun)))
@@ -22,50 +19,12 @@ y = nc.variables['y'][:]
 thk = nc.variables['thk'][:]
 nc.close()
 
-# get grid size and origin
-cols = len(x)
-rows = len(y)
-dx = x[1] - x[0]
-dy = y[1] - y[0]
-x0 = x[0] - dx/2
-y0 = y[0] - dy/2
-x1 = x[-1] + dx/2
-y1 = y[-1] + dy/2
-
 # compute duration of ice cover
 duration = (thk >= 1.0).sum(axis=0)*100.0
 
-# spatial reference system
-srs = osr.SpatialReference()
-srs.ImportFromEPSG(32632)
-
-# generate geotiff
-driver = gdal.GetDriverByName('GTiff')
-rast = driver.Create(ofilepath + '.tif', cols, rows, 1, gdal.GDT_Float32)
-rast.SetGeoTransform((x0, dx, 0, y1, 0, -dy))
-rast.SetProjection(srs.ExportToWkt())
-band = rast.GetRasterBand(1)
-band.WriteArray(np.flipud(duration))
-band.ComputeStatistics(0)
-band.FlushCache()
-
-# generate contours
-#ContourGenerate(Band srcBand, double contourInterval, double contourBase,
-#                int fixedLevelCount, int useNoData, double noDataValue,
-#                OGRLayerShadow * dstLayer, int idField, int elevField, 
-#                GDALProgressFunc callback=0, void * callback_data=None)
-driver = ogr.GetDriverByName('ESRI Shapefile')
-shp = driver.CreateDataSource('.')
-lyr = shp.CreateLayer(ofilepath, srs, ogr.wkbLineString)
-f0_defn = ogr.FieldDefn('id', ogr.OFTInteger)
-f0 = lyr.CreateField(f0_defn)
-f1_defn = ogr.FieldDefn(varname, ogr.OFTReal)
-f1 = lyr.CreateField(f1_defn)
-gdal.ContourGenerate(band, 10e3, 50.0, [], 0, 0, lyr, f0, f1)
-
-# close datasets
-lyr = shp = None
-band = rast = None
+# make geotiff
+ut.make_gtif_shp(x, y, duration, ofilepath, dtype='float32', epsg=32632,
+                 varname=varname, interval=10e3, base=50.0, levels=None)
 
 # create zip archive
 with zipfile.ZipFile(ofilepath + '.zip', 'w') as zf:

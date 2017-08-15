@@ -5,6 +5,9 @@
 
 import os
 import netCDF4 as nc4
+from osgeo import gdal
+from osgeo import ogr
+from osgeo import osr
 
 
 # Alps cycle parameters
@@ -13,8 +16,57 @@ import netCDF4 as nc4
 alpcyc_bestrun = 'output/e9d2d1f/alps-wcnn-1km/epica3222cool1220+alpcyc4+pp'
 
 
+# Input and output methods
+# ------------------------
+
 def load(filepath):
     """Load file relative to PISM directory."""
 
     filepath = os.path.join(os.environ['HOME'], 'pism', filepath)
     return nc4.MFDataset(filepath)
+
+
+def make_gtif_shp(x, y, z, filename, dtype='float32', epsg=32632,
+                  varname='z', interval=10e3, base=50.0, levels=None):
+    """Make geotiff and shapefile from given coords and variable."""
+
+    # get grid size and origin
+    cols = len(x)
+    rows = len(y)
+    dx = x[1] - x[0]
+    dy = y[1] - y[0]
+    x0 = x[0] - dx/2
+    y0 = y[0] - dy/2
+    x1 = x[-1] + dx/2
+    y1 = y[-1] + dy/2
+
+    # spatial reference system
+    srs = osr.SpatialReference()
+    srs.ImportFromEPSG(epsg)
+
+    # generate geotiff
+    driver = gdal.GetDriverByName('GTiff')
+    gdtype = gdal.GetDataTypeByName(dtype)
+    rast = driver.Create(filename + '.tif', cols, rows, 1, gdtype)
+    rast.SetGeoTransform((x0, dx, 0, y1, 0, -dy))
+    rast.SetProjection(srs.ExportToWkt())
+    band = rast.GetRasterBand(1)
+    band.WriteArray(z[::-1])
+    band.ComputeStatistics(0)
+    band.FlushCache()
+
+    # generate contours
+    driver = ogr.GetDriverByName('ESRI Shapefile')
+    shp = driver.CreateDataSource('.')
+    lyr = shp.CreateLayer(filename, srs, ogr.wkbLineString)
+    f0_defn = ogr.FieldDefn('id', ogr.OFTInteger)
+    f0 = lyr.CreateField(f0_defn)
+    dtype = ogr.OFTReal
+    f1_defn = ogr.FieldDefn(varname, ogr.OFTReal)
+    f1 = lyr.CreateField(f1_defn)
+    levels = levels or []
+    gdal.ContourGenerate(band, interval, base, levels, 0, 0, lyr, f0, f1)
+
+    # close datasets
+    band = rast = None
+    lyr = shp = None
