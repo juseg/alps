@@ -5,6 +5,7 @@
 
 import os.path
 import util as ut
+import numpy as np
 
 # read extra output
 filename = ut.alpcyc_bestrun + '/y???????-extra.nc'
@@ -28,11 +29,15 @@ lgmtiming = age[srf.argmax(axis=0)]
 nlastfree = (thk >= 1.0)[::-1].argmax(axis=0)  # number of last free timesteps
 deglacage = age[-nlastfree] + dt/2
 deglacage[duration==120e3] = age[-1]
-deglacage[duration==0.0] = age[0]
 
 # compute duration of temperate ice cover during MIS 2
 mis = (age < 29.0) * (age >= 14.0)
 warmbased = ((thk[mis] >= 1.0)*(tpa[mis] >= -1e-3)).sum(axis=0)*dt
+
+# apply mask on variables that need one
+deglacage = np.ma.masked_where(~footprint, deglacage)
+envelope = np.ma.masked_where(~footprint, envelope)
+lgmtiming = np.ma.masked_where(~footprint, lgmtiming)
 
 # export geotiffs and shapefiles
 prefix = '-'.join(map(os.path.basename, os.path.split(ut.alpcyc_bestrun)))

@@ -4,8 +4,9 @@
 """Data processing methods."""
 
 import os
-import netCDF4 as nc4
 import zipfile
+import numpy as np
+import netCDF4 as nc4
 from osgeo import gdal
 from osgeo import ogr
 from osgeo import osr
@@ -28,8 +29,8 @@ def load(filepath):
 
 
 def make_gtif_shp(x, y, z, filename, levels, dtype='float32', epsg=32632,
-                  varname='z'):
-    """Make geotiff and shapefile from given coords and variable."""
+                  varname='z', ndval=-9999.0):
+    """Make geotiff and shapefile from given coords and masked array."""
 
     # get grid size and origin
     cols = len(x)
@@ -52,6 +53,9 @@ def make_gtif_shp(x, y, z, filename, levels, dtype='float32', epsg=32632,
     rast.SetGeoTransform((x0, dx, 0, y1, 0, -dy))
     rast.SetProjection(srs.ExportToWkt())
     band = rast.GetRasterBand(1)
+    if np.ma.isMaskedArray(z):
+        band.SetNoDataValue(ndval)
+        z = z.filled(ndval)
     band.WriteArray(z[::-1])
     band.ComputeStatistics(0)
     band.FlushCache()
