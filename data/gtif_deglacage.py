@@ -2,22 +2,21 @@
 # coding: utf-8
 
 import os
+import util as ut
 import numpy as np
 import zipfile
-from netCDF4 import MFDataset
 from osgeo import gdal
 from osgeo import ogr
 from osgeo import osr
 
 # file paths
-outdir = os.environ['HOME'] + '/pism/output/e9d2d1f/'
-runname = 'alps-wcnn-1km/epica3222cool1220+alpcyc4+pp'
+runname = '-'.join(map(os.path.basename, os.path.split(ut.alpcyc_bestrun)))
 varname = 'deglacage'
-ifilepath = outdir + runname + '/y???????-extra.nc'
-ofilepath = 'processed/%s-%s' % (runname.replace('/', '-'), varname)
+ifilepath = ut.alpcyc_bestrun + '/y???????-extra.nc'
+ofilepath = 'processed/%s-%s' % (runname, varname)
 
 # read extra output
-nc = MFDataset(ifilepath)
+nc = ut.load(ifilepath)
 x = nc.variables['x'][:]
 y = nc.variables['y'][:]
 age = -nc.variables['time'][:]/(365.0*24*60*60)
