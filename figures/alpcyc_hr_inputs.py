@@ -12,15 +12,15 @@ fig, grid = ut.pl.subplots_mm(figsize=(figw, figh), projection=ut.pl.utm,
 cgrid = [fig.add_axes([(72.5+i*85.0)/figw, (50.0-j*47.5)/figh, 2.5/figw, 45.0/figh])
          for j in range(2) for i in range(2)]
 
-# plot boot topo and geographic features
-nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-1km.nc')
+# add map elements
 for i, ax in enumerate(grid.flat):
     ax.set_rasterization_zorder(2.5)
-    im = nc.imshow('topg', ax, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
+    ut.pl.draw_boot_topo(ax)
     ut.pl.draw_natural_earth(ax)
     ut.pl.add_subfig_label('(%s)' % list('abcd')[i], ax)
 
 # plot boot geoflux on last panel
+nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-1km.nc')
 ax = grid.flat[3]
 cax = cgrid[3]
 levs = range(55, 96, 5)

@@ -297,6 +297,15 @@ def draw_trimlines(ax=None, c=palette['darkblue'], s=4**2, alpha=0.75):
                transform=ut.pl.swiss)
 
 
+def draw_boot_topo(ax=None, res='1km'):
+    """Add bootstrapping topography image."""
+    ax = ax or iplt.gca()
+    nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-%s.nc' % res)
+    im = nc.imshow('topg', ax, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
+    nc.close()
+    return im
+
+
 # Timeseries elements
 # -------------------
 

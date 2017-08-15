@@ -112,12 +112,6 @@ hsax.text(2.0, havg+25.0, '%.0f m' % havg, color='0.25')
 # Map axes
 # --------
 
-# plot boot topo
-nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-1km.nc')
-im = nc.imshow('topg', ax, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
-boot = nc.variables['topg'][:]
-nc.close()
-
 # plot areas with less than 1 ka warm ice cover
 im = ax.contourf(x, y, warm, levels=[0.0, 1.0, 120.0], colors=['w', 'w'],
                  hatches=['////', ''], alpha=0.5)
@@ -131,6 +125,10 @@ ax.contour(x, y, maxsrf, ut.pl.utlevs, colors='0.25', linewidths=0.25)
 
 # draw trimlines
 sc = ax.scatter(xt, yt, c=at, cmap=cmap, norm=norm, s=4**2, alpha=0.75)
+
+# add map elements
+ut.pl.draw_boot_topo(ax)
+ut.pl.draw_natural_earth(ax)
 
 # add colorbar
 cb = fig.colorbar(sc, cax, orientation='horizontal')
