@@ -4,7 +4,6 @@
 import os
 import util as ut
 import numpy as np
-import zipfile
 
 # file paths
 runname = '-'.join(map(os.path.basename, os.path.split(ut.alpcyc_bestrun)))
@@ -34,10 +33,3 @@ deglacage[nevericy] = age[0]
 # make geotiff
 ut.make_gtif_shp(x, y, deglacage, ofilepath, dtype='float32', epsg=32632,
                  varname=varname, interval=0, base=0, levels=range(0, 30001, 1000))
-
-# create zip archive
-with zipfile.ZipFile(ofilepath + '.zip', 'w') as zf:
-    extensions = ['dbf', 'prj', 'shp', 'shx', 'tif']
-    for f in [ofilepath + '.' + ext for ext in extensions]:
-        zf.write(f, arcname=os.path.basename(f))
-    zf.close()

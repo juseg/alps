@@ -5,6 +5,7 @@
 
 import os
 import netCDF4 as nc4
+import zipfile
 from osgeo import gdal
 from osgeo import ogr
 from osgeo import osr
@@ -70,3 +71,13 @@ def make_gtif_shp(x, y, z, filename, dtype='float32', epsg=32632,
     # close datasets
     band = rast = None
     lyr = shp = None
+
+
+def make_zip(filename):
+    """Make zip file containing all processed data."""
+
+    # create zip archive
+    with zipfile.ZipFile(filename + '.zip', 'w') as zf:
+        extensions = ['dbf', 'prj', 'shp', 'shx', 'tif']
+        for f in [filename + '.' + ext for ext in extensions]:
+            zf.write(f, arcname=os.path.basename(f))
