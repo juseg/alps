@@ -73,12 +73,7 @@ nc.close()
 
 # plot time series
 twax = tsax.twinx()
-for i, c in enumerate(cols):
-    agemax = (120 if i == len(levs) else levs[i])
-    agemin = (0 if i == 0 else levs[i-1])
-    idxmin = np.argmin(abs(age-agemax))
-    idxmax = np.argmin(abs(age-agemin))
-    twax.plot(age[idxmin:idxmax+1], area[idxmin:idxmax+1], c=c, lw=2.0)
+ut.pl.plot_multicolor(age, area, levs[::-1], cols[::-1], ax=twax)
 twax.set_ylabel(r'glaciated area ($10^3\,km^2$)',
                 color=ut.pl.palette['darkblue'])
 twax.set_xlim(29.0, 17.0)

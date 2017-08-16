@@ -309,6 +309,16 @@ def draw_boot_topo(ax=None, res='1km'):
 # Timeseries elements
 # -------------------
 
+def plot_multicolor(x, y, levels, colors, ax=None):
+    """Plot using multiple colors along curve."""
+    ax = ax or iplt.gca()
+    bounds = [0] + [(abs(x-l)).argmin() for l in levels] + [-1]
+    for i, c in enumerate(colors):
+        imin = bounds[i]
+        imax = bounds[i+1]
+        ax.plot(x[imin:imax], y[imin:imax], c=c, lw=2.0)
+
+
 def plot_mis(ax=None, y=1.075):
     """Plot MIS stages."""
     # source: http://www.lorraine-lisiecki.com/LR04_MISboundaries.txt.
