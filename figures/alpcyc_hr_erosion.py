@@ -34,7 +34,6 @@ cmap = ut.pl.get_cmap('Reds', len(levs)+1)
 cols = cmap(range(len(levs)+1))
 
 # plot
-im = nc.imshow('topg', ax, 0.0, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
 #norm = ut.pl.iplt.matplotlib.colors.LogNorm(1e-2, 1e5)
 #cs = ax.pcolormesh(x, y, erosion, norm=norm, cmap='Reds', alpha=0.75)
 cs = ax.contourf(x, y, erosion, levels=levs, colors=cols, extend='both', alpha=0.75)
@@ -43,7 +42,8 @@ ax.contour(x, y, erosion.mask, [0.5], colors='k', linewidths=0.5)
 # close nc file
 nc.close()
 
-# add cartopy vectors
+# add map elements
+ut.pl.draw_boot_topo(ax)
 ut.pl.draw_natural_earth(ax)
 
 # add colorbar

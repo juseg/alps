@@ -31,7 +31,6 @@ cmap = ut.pl.get_cmap('RdBu', len(levs))
 colors = cmap(range(len(levs)))
 
 # plot
-im = nc.imshow('topg', ax, 0.0, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
 cs = ax.contourf(x, y, glaciations, levels=levs-0.5, colors=colors, extend='max', alpha=0.75)
 ax.contour(x, y, glaciations, levels=[9.5], colors='0.75', linewidths=0.25)
 ax.contour(x, y, footprint, [0.5], colors='k', linewidths=0.5)
@@ -40,6 +39,7 @@ ax.contour(x, y, footprint, [0.5], colors='k', linewidths=0.5)
 nc.close()
 
 # add cartopy vectors
+ut.pl.draw_boot_topo(ax)
 ut.pl.draw_natural_earth(ax)
 
 # add colorbar

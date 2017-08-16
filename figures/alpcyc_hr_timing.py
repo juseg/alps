@@ -37,7 +37,6 @@ cmap = ut.pl.get_cmap('Paired', 12)
 cols = cmap(range(12))[:len(levs)+1]
 
 # plot
-im = nc.imshow('topg', ax, 0.0, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
 cs = ax.contourf(x, y, lgmage, levs, colors=cols, extend='both', alpha=0.75)
 
 # contour levels
@@ -51,6 +50,7 @@ ax.contour(x, y, mask, [0.5], colors='k', linewidths=0.5)
 nc.close()
 
 # add cartopy vectors
+ut.pl.draw_boot_topo(ax)
 ut.pl.draw_natural_earth(ax)
 
 # add colorbar

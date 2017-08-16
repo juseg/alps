@@ -31,7 +31,6 @@ cmap = ut.pl.get_cmap('Reds', len(levs)+1)
 cols = cmap(range(len(levs)+1))
 
 # plot
-im = nc.imshow('topg', ax, 0.0, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
 cs = ax.contourf(x, y, totalsliding, levels=levs, colors=cols, extend='both', alpha=0.75)
 ax.contour(x, y, footprint, [0.5], colors='k', linewidths=0.5)
 
@@ -39,6 +38,7 @@ ax.contour(x, y, footprint, [0.5], colors='k', linewidths=0.5)
 nc.close()
 
 # add cartopy vectors
+ut.pl.draw_boot_topo(ax)
 ut.pl.draw_natural_earth(ax)
 
 # add colorbar
