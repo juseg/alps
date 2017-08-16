@@ -40,12 +40,8 @@ for i, reg in enumerate(regions):
     ax.set_rasterization_zorder(2.5)
     ax.set_extent(ut.pl.regions[reg], crs=ax.projection)
 
-    # draw boot topography
-    nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-1km.nc')
-    im = nc.imshow('topg', ax=ax, vmin=0e3, vmax=3e3, cmap='Greys', zorder=-1)
-    nc.close()
-
-    # add vectors
+    # add map elements
+    ut.pl.draw_boot_topo(ax)
     ut.pl.draw_natural_earth(ax)
     ut.pl.draw_lgm_outline(ax)
     ut.pl.draw_footprint(ax)

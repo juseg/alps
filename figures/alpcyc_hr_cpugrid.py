@@ -9,19 +9,15 @@ from matplotlib.collections import LineCollection
 fig, ax, cax = ut.pl.subplots_cax_inset()
 w, e, s, n = 150e3, 1050e3, 4820e3, 5420e3
 
-# boot topography
-nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-1km.nc')
-im = nc.imshow('topg', ax=ax, vmin=0e3, vmax=3e3, cmap='Greys', zorder=-1)
-nc.close()
+# add map elements
+im = ut.pl.draw_boot_topo(ax)
+#ut.pl.draw_natural_earth(ax)
+#ut.pl.draw_lgm_outline(ax)
+#ut.pl.draw_footprint(ax)
 
 # add colorbar
 cb = fig.colorbar(im, cax, extend='both', ticks=range(0, 3001, 1000))
 cb.set_label(r'bedrock topography (m)')
-
-# add vectors
-#ut.pl.draw_natural_earth(ax)
-#ut.pl.draw_lgm_outline(ax)
-#ut.pl.draw_footprint(ax)
 
 # add grid
 x = np.linspace(w, e, 24)

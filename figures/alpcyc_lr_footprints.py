@@ -14,13 +14,10 @@ fig, grid = ut.pl.subplots_mm(figsize=(170.0, 80.0), projection=ut.pl.utm,
                               left=2.5, right=2.5, bottom=2.5, top=3.9,
                               hspace=2.5, wspace=2.5)
 
-# add boot topo  # FIXME move to util
-nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-2km.nc')
+# prepare axes
 for ax in grid.flat:
     ax.set_extent(ut.pl.regions['alps'], crs=ax.projection)
     ax.set_rasterization_zorder(2.5)
-    im = nc.imshow('topg', ax=ax, vmin=0e3, vmax=3e3, cmap='Greys', zorder=-1)
-nc.close()
 
 # add Rhine lobe scaling domain  # FIXME move to util
 w, e, s, n = ut.pl.regions['rhlobe']
@@ -28,7 +25,6 @@ x = [w, e, e, w, w]
 y = [s, s, n, n, s]
 for ax in grid[0]:
     ax.plot(x, y, c='k', lw=0.5)
-
 
 # for each record
 for i, rec in enumerate(ut.alpcyc_records):
@@ -60,6 +56,7 @@ for i, rec in enumerate(ut.alpcyc_records):
         mask = (thk[b0:b1] < 1.0).prod(axis=0)
         cs = ax.contourf(x, y, mask, levels=[-0.5, 0.5], colors=[c], alpha=0.75)
         ut.pl.add_corner_tag('MIS %d' % (2+2*j), ax=ax, va='bottom')
+        ut.pl.draw_boot_topo(ax, res='2km')
         ut.pl.draw_natural_earth(ax)
         ut.pl.draw_lgm_outline(ax, c='k')
 

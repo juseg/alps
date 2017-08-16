@@ -11,14 +11,11 @@ fig, grid = ut.pl.subplots_mm(figsize=(170.0, 80.0), projection=ut.pl.utm,
                               hspace=2.5, wspace=2.5)
 w, e, s, n = ut.pl.regions['rhlobe']
 
-# add boot topo  # FIXME move to util
-nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-2km.nc')
+# prepare axes
 for i, ax in enumerate(grid.flat):
     ut.pl.add_subfig_label('(%s)' % list('abcdef')[i], ax=ax)
     ax.set_extent(ut.pl.regions['alps'], crs=ax.projection)
     ax.set_rasterization_zorder(2.5)
-    im = nc.imshow('topg', ax=ax, vmin=0e3, vmax=3e3, cmap='Greys', zorder=-1)
-nc.close()
 
 # for each record
 for i, rec in enumerate(ut.alpcyc_records):
@@ -76,6 +73,7 @@ for i, rec in enumerate(ut.alpcyc_records):
 
     # add map elements
     ut.pl.add_corner_tag(label, ax=ax, va='bottom')
+    ut.pl.draw_boot_topo(ax, res='2km')
     ut.pl.draw_natural_earth(ax)
     ut.pl.draw_lgm_outline(ax, c='k')
 

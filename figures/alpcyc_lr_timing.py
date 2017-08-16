@@ -11,7 +11,7 @@ fig, grid = ut.pl.subplots_mm(figsize=(170.0, 80.0), projection=ut.pl.utm,
                               left=2.5, right=2.5, bottom=2.5, top=3.9,
                               hspace=2.5, wspace=2.5)
 
-# set extent  # FIXME move to util
+# set extent
 for i, ax in enumerate(grid.flat):
     ut.pl.add_subfig_label('(%s)' % list('abcdef')[i], ax=ax)
     ax.set_extent(ut.pl.regions['alps'], crs=ax.projection)
@@ -57,7 +57,6 @@ for i, rec in enumerate(ut.alpcyc_records):
     cols = cmap(range(12))[:len(levs)+1]
 
     # plot
-    im = nc.imshow('topg', ax, 0.0, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
     cs = ax.contourf(x, y, lgmage, levs, colors=cols, extend='both', alpha=0.75)
 
     # ice margin
@@ -68,6 +67,7 @@ for i, rec in enumerate(ut.alpcyc_records):
 
     # add map elements
     ut.pl.add_corner_tag(label, ax=ax, va='bottom')
+    ut.pl.draw_boot_topo(ax, res='2km')
     ut.pl.draw_natural_earth(ax)
     ut.pl.draw_lgm_outline(ax, c='k')
 

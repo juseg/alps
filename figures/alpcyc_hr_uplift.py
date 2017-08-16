@@ -16,7 +16,6 @@ fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut()
 
 # load boot topography
 nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-1km.nc')
-im = nc.imshow('topg', ax, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
 x = nc.variables['x'][:]
 y = nc.variables['y'][:]
 its = np.argmin(abs(x-xts))
@@ -48,7 +47,8 @@ cs = ax.contourf(x, y, dbdt, thkth=-1, levels=levs, colors=cols,
 # add location of time series
 ax.plot(xts, yts, 'o', c=ut.pl.palette['darkgreen'])
 
-# add cartopy vectors
+# add map elements
+ut.pl.draw_boot_topo(ax)
 ut.pl.draw_natural_earth(ax)
 
 # add colorbar
