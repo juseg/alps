@@ -61,10 +61,12 @@ cb.set_label(r'age of maximum ice surface elevation (ka)')
 # Time series
 # -----------
 
-# compute glaciated areas in 1e3 km2
-dx = x[1] - x[0]
-dy = y[1] - y[0]
-area = (thk >= 1.0).sum(axis=(1, 2))*dx*dy*1e-9
+# load time series
+filepath = ut.alpcyc_bestrun + 'y???????-ts.nc'
+nc = ut.io.load(filepath)
+age = -nc.variables['time'][:]/(1e3*365*24*60*60)
+area = nc.variables['area_glacierized'][:]*1e-9
+nc.close()
 
 # print age of max area
 #print age[area.argmax()]
