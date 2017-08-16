@@ -1,7 +1,7 @@
 #!/usr/bin/env python2
 # coding: utf-8
 
-"""Prepare ALPCYC aggregated geotiffs and shapefiles."""
+"""Prepare ALPCYC aggregated geotiffs, shapefiles and text files."""
 
 import os.path
 import util as ut
@@ -22,6 +22,8 @@ thk = da.from_array(nc.variables['thk'], chunks=chunks)
 srf = da.from_array(nc.variables['usurf'], chunks=chunks)
 tpa = da.from_array(nc.variables['temppabase'], chunks=chunks)
 cba = da.from_array(nc.variables['velbase_mag'], chunks=chunks)
+dx = x[1] - x[0]
+dy = y[1] - y[0]
 dt = age[0] - age[1]
 
 # create shortcut for ice mask
@@ -40,7 +42,8 @@ duration = icy.sum(axis=0).compute()*dt
 print "computing surface envelope..."
 envelope = srf.max(axis=0).compute()
 print "computing total erosion..."
-erosion = 2.7e-7*(cba**2.02).sum(axis=0).compute()*dt*1e3  # (Herman et al, 2015)
+ero = 2.7e-7*cba**2.02  # (Herman et al, 2015)
+erosion = ero.sum(axis=0).compute()*dt
 print "computing number of glaciations..."
 nadvances = (icy[0] + (icy[1:]-icy[:-1]).sum(axis=0) + icy[-1]).compute()/2
 print "computing last glacial maximum timing..."
@@ -58,6 +61,12 @@ warmbased = (tpa[mis2] >= -1e-3).sum(axis=0).compute()*dt
 print "computing footprint..."
 footprint = (duration > 0.0)
 modernice = (duration == 120.0)
+
+# compute timeseries
+print "computing sliding flux..."
+slidingflux = cba.sum(axis=(1, 2)).compute()*dx*dy*1e-9  # km3/a
+print "computing erosion rate..."
+erosionrate = ero.sum(axis=(1, 2)).compute()*dx*dy*1e-9  # m/a
 
 # close extra output
 nc.close()
@@ -86,3 +95,10 @@ ut.make_gtif_shp(x, y, nadvances, prefix+'nadvances', range(13), dtype='byte')
 ut.make_gtif_shp(x, y, maxicethk, prefix+'maxicethk', range(0, 4001, 200))
 ut.make_gtif_shp(x, y, totalslip, prefix+'totalslip', [100, 1000, 10000, 100000])
 ut.make_gtif_shp(x, y, warmbased, prefix+'warmbased', range(0, 15001, 1000))
+
+# export text files
+print "exporting text files..."
+prefix = '-'.join(map(os.path.basename, os.path.split(ut.alpcyc_bestrun)))
+prefix = os.path.join('processed', prefix+'-')
+np.savetxt(prefix+'erosionrate.txt', np.array((age, erosionrate)).T)
+np.savetxt(prefix+'slidingflux.txt', np.array((age, slidingflux)).T)
