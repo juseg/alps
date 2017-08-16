@@ -6,7 +6,6 @@
 import os.path
 import util as ut
 import numpy as np
-import dask
 import dask.array as da
 
 # chunk size
@@ -46,8 +45,10 @@ print "computing number of glaciations..."
 nadvances = (icy[0] + (icy[1:]-icy[:-1]).sum(axis=0) + icy[-1]).compute()/2
 print "computing last glacial maximum timing..."
 lgmtiming = age[srf.argmax(axis=0).compute()]
-print "computing maximum ice thickness"
+print "computing maximum ice thickness..."
 maxicethk = thk.max(axis=0).compute()
+print "computing total basal sliding..."
+totalslip = cba.sum(axis=0).compute()*dt
 print "computing MIS2 warm-based ice cover..."
 mis2 = (age < 29.0) * (age >= 14.0)
 mis2print = ~icy[mis2].prod(axis=0).compute()
@@ -64,9 +65,11 @@ nc.close()
 # apply mask on variables that need one
 print "applying masks..."
 deglacage = np.ma.masked_where(~footprint+modernice, deglacage)
+duration = np.ma.masked_where(~footprint, duration)
 envelope = np.ma.masked_where(~footprint, envelope)
 erosion = np.ma.masked_where(~footprint, erosion)
 lgmtiming = np.ma.masked_where(~footprint, lgmtiming)
+totalslip = np.ma.masked_where(~footprint, totalslip)
 warmbased = np.ma.masked_where(~mis2print, warmbased)
 
 # export geotiffs and shapefiles
@@ -81,4 +84,5 @@ ut.make_gtif_shp(x, y, footprint, prefix+'footprint', [0.5], dtype='byte')
 ut.make_gtif_shp(x, y, lgmtiming, prefix+'lgmtiming', range(21000, 27001, 1000))
 ut.make_gtif_shp(x, y, nadvances, prefix+'nadvances', range(13), dtype='byte')
 ut.make_gtif_shp(x, y, maxicethk, prefix+'maxicethk', range(0, 4001, 200))
+ut.make_gtif_shp(x, y, totalslip, prefix+'totalslip', [100, 1000, 10000, 100000])
 ut.make_gtif_shp(x, y, warmbased, prefix+'warmbased', range(0, 15001, 1000))
