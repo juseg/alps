@@ -62,16 +62,16 @@ regions = {'alps': (150e3, 1050e3, 4820e3, 5420e3),    # model domain 900x600
            'aletsch': (414e3, 444e3, 5139e3, 5159e3)}  # Aletsch 30x20
 
 # cartopy features
-rivers = cfeature.NaturalEarthFeature(
+ne_rivers = cfeature.NaturalEarthFeature(
     category='physical', name='rivers_lake_centerlines', scale='10m',
     edgecolor='0.25', facecolor='none', lw=0.5)
-lakes = cfeature.NaturalEarthFeature(
+ne_lakes = cfeature.NaturalEarthFeature(
     category='physical', name='lakes', scale='10m',
     edgecolor='0.25', facecolor='0.85', lw=0.25)
-coastline = cfeature.NaturalEarthFeature(
+ne_coastline = cfeature.NaturalEarthFeature(
     category='physical', name='coastline', scale='10m',
     edgecolor='0.25', facecolor='none', lw=0.25)
-graticules = cfeature.NaturalEarthFeature(
+ne_graticules = cfeature.NaturalEarthFeature(
     category='physical', name='graticules_1', scale='10m',
     edgecolor='0.25', facecolor='none', lw=0.1)
 
@@ -301,13 +301,18 @@ def draw_cpu_grid(ax=None, extent='alps', nx=24, ny=24):
     ax.add_collection(lcoll)
 
 
-def draw_natural_earth(ax=None):
+def draw_natural_earth(ax=None, rivers=True, lakes=True, coastline=True,
+                       graticules=True):
     """Add Natural Earth geographic data vectors."""
     ax = ax or iplt.gca()
-    ax.add_feature(rivers, zorder=0)
-    ax.add_feature(lakes, zorder=0)
-    ax.add_feature(coastline, zorder=0)
-    ax.add_feature(graticules)
+    if rivers:
+        ax.add_feature(ne_rivers, zorder=0)
+    if lakes:
+        ax.add_feature(ne_lakes, zorder=0)
+    if coastline:
+        ax.add_feature(ne_coastline, zorder=0)
+    if graticules:
+        ax.add_feature(ne_graticules)
 
 
 def draw_lgm_outline(ax=None, c='#e31a1c'):
