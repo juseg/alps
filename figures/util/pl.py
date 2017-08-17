@@ -9,7 +9,9 @@ import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import cartopy.io.shapereader as cshp
 import iceplotlib.plot as iplt
-import matplotlib.transforms as mtrans
+import matplotlib.colors as mcolors
+import matplotlib.collections as mcollections
+import matplotlib.transforms as mtransforms
 
 # Color palette
 # -------------
@@ -26,7 +28,7 @@ palette = dict(zip(colorkeys, colorvals))
 # ------------------
 
 # velocity norm
-velnorm = iplt.matplotlib.colors.LogNorm(1e1, 1e3)
+velnorm = mcolors.LogNorm(1e1, 1e3)
 
 # contour levels
 topolevs = range(0, 4000, 200)
@@ -243,7 +245,7 @@ def add_subfig_label(text, ax=None, ha='left', va='top', offset=2.5/25.4):
     y = (va == 'top')  # 0 for bottom edge, 1 for top edge
     xoffset = (1 - 2*x)*offset
     yoffset = (1 - 2*y)*offset
-    offset = iplt.matplotlib.transforms.ScaledTranslation(
+    offset = mtransforms.ScaledTranslation(
         xoffset, yoffset, ax.figure.dpi_scale_trans)
     return ax.text(x, y, text, ha=ha, va=va, fontweight='bold',
                    transform=ax.transAxes + offset)
@@ -324,8 +326,7 @@ def plot_mis(ax=None, y=1.075):
     # source: http://www.lorraine-lisiecki.com/LR04_MISboundaries.txt.
 
     # prepare blended transform
-    trans = iplt.matplotlib.transforms.blended_transform_factory(
-        ax.transData, ax.transAxes)
+    trans = mtransforms.blended_transform_factory(ax.transData, ax.transAxes)
 
     # add spans
     kwa = dict(fc='0.9', lw=0.25, zorder=0)

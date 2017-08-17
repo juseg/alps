@@ -3,6 +3,7 @@
 
 import util as ut
 import numpy as np
+import matplotlib.colors as mcolors
 
 # initialize figure (one column)
 figw, figh = 85.0, 115.0
@@ -67,11 +68,10 @@ at = lgmtiming[j, i]/1e3
 # ------------
 
 # set contour levels and colors
-mpl = ut.pl.iplt.matplotlib
 levs = range(21, 28)
 cmap = ut.pl.get_cmap('Paired', 12)
 cols = cmap(range(12))[:len(levs)+1]
-cmap, norm = mpl.colors.from_levels_and_colors(levs, cols, extend='both')
+cmap, norm = mcolors.from_levels_and_colors(levs, cols, extend='both')
 
 # draw scatter plot
 sc = scax.scatter(zt, ht, c=at, cmap=cmap, norm=norm, alpha=0.75)

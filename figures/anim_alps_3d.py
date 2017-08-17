@@ -6,9 +6,9 @@ import os.path
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
-from matplotlib.animation import FuncAnimation
 import iceplotlib.cm as icm
-from mpl_toolkits.mplot3d import Axes3D
+import multiprocessing as mp
+
 
 # meshing stride
 stride = 1
@@ -95,8 +95,7 @@ def saveframe(i):
     plt.close(fig)
 
 # plot individual frames in parallel
-from multiprocessing import Pool
-pool = Pool(processes=16)
+pool = mp.Pool(processes=16)
 pool.map(saveframe, xrange(9, 12000, 10))
 pool.close()
 pool.join()

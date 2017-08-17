@@ -4,12 +4,12 @@
 import util as ut
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.patches import FancyArrowPatch
+import matplotlib.patches as mpatches
 import cartopy.crs as ccrs
 import cartopy.io.shapereader as shpreader
 import cartopy.feature as cfeature
 import iceplotlib.cm as icm
-from netCDF4 import Dataset
+import netCDF4 as nc4
 
 # parameters
 bwu = 0.5      # base width unit
@@ -31,7 +31,7 @@ w, e, s, n = 194.25e3-10e3, 505.75e3-10e3, 5040e3, 5250e3  # 311.5x210 km
 # ETOPO1 background topo
 def draw_etopo1(**kwargs):
     """Draw ETOPO1 background and coastline"""
-    nc = Dataset('../data/external/etopo1-alps.nc')
+    nc = nc4.Dataset('../data/external/etopo1-alps.nc')
     x = nc.variables['x']
     y = nc.variables['y']
     z = nc.variables['Band1']
@@ -54,7 +54,7 @@ def draw_srtm(ax=None, azimuth=315.0, altitude=30.0, exag=1.0):
     ax = ax or plt.gca()
 
     # extract data
-    nc = Dataset('../data/external/srtm-west.nc')
+    nc = nc4.Dataset('../data/external/srtm-west.nc')
     x = nc.variables['x'][:]
     y = nc.variables['y'][:]
     z = nc.variables['Band1'][:]
@@ -288,10 +288,10 @@ def draw_arrows(ax=None):
         arrowstyle='-|>',
         mutation_scale=20.0, transform=ll,
         color='#0978ab', lw=2.0, zorder=2)
-    ax.add_patch(FancyArrowPatch((7.05, 46.15), (6.05, 46.20),
+    ax.add_patch(mpatches.FancyArrowPatch((7.05, 46.15), (6.05, 46.20),
         connectionstyle='arc,angleA=115,angleB=45,armA=100,armB=0,rad=50.0',
         **arrowprops))
-    ax.add_patch(FancyArrowPatch((7.05, 46.15), (7.60, 47.20),
+    ax.add_patch(mpatches.FancyArrowPatch((7.05, 46.15), (7.60, 47.20),
         connectionstyle='arc,angleA=115,angleB=-135,armA=100,armB=0,rad=50.0',
         **arrowprops))
 
