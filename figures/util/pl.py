@@ -261,6 +261,21 @@ def add_signature(text, fig=None, offset=2.5/25.4):
 # Map elements
 # ------------
 
+def draw_cpu_grid(ax=None, extent='alps', nx=24, ny=24):
+    """Add CPU partition grid."""
+    ax = ax or iplt.gca()
+    w, e, s, n = regions[extent]
+    x = np.linspace(w, e, 24)
+    y = np.linspace(s, n, 24)
+    xx, yy = np.meshgrid(x, y)
+    vlines = list(np.array([xx, yy]).T)
+    hlines = list(np.array([xx.T, yy.T]).T)
+    lines = hlines + vlines
+    props = dict(color='k', linewidths=0.25, linestyles=':')
+    lcoll = mcollections.LineCollection(lines, **props)
+    ax.add_collection(lcoll)
+
+
 def draw_natural_earth(ax=None):
     """Add Natural Earth geographic data vectors."""
     ax = ax or iplt.gca()
