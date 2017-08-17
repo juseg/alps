@@ -30,10 +30,6 @@ dt = age[0] - age[1]
 # create shortcut for ice mask
 icy = (thk >= 1.0)
 
-# apply pseudo-masks
-cba = icy*cba
-tpa = icy*tpa
-
 # compute aggregated variables (apparently dask fails to perform parallel
 # multiplication on two netCDF variables with posixio assertion failed,
 # therefore we use the serial scheduler dask.get)
@@ -53,11 +49,11 @@ lgmtiming = age[srf.argmax(axis=0).compute()]
 print "computing maximum ice thickness..."
 maxicethk = thk.max(axis=0).compute()
 print "computing total basal sliding..."
-totalslip = cba.sum(axis=0).compute(get=dask.get)*dt
+totalslip = (icy*cba).sum(axis=0).compute(get=dask.get)*dt
 print "computing MIS2 warm-based ice cover..."
-mis2 = (age < 29.0) * (age >= 14.0)
-mis2print = ~icy[mis2].prod(axis=0).compute()
-warmbased = (tpa[mis2] >= -1e-3).sum(axis=0).compute(get=dask.get)*dt
+mis2 = (age < 29e3) * (age >= 14e3)
+mis2print = icy[mis2].any(axis=0).compute()
+warmbased = (icy*(tpa >= -1e-3))[mis2].sum(axis=0).compute(get=dask.get)*dt
 
 # compute derived variables
 print "computing footprint..."
