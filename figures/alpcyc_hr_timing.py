@@ -11,25 +11,9 @@ fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut(mis=False)
 # Map axes
 # --------
 
-# load extra data
-filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
-nc = ut.io.load(filepath)
-x = nc.variables['x'][:]
-y = nc.variables['y'][:]
-age = -nc.variables['time'][:]/(1e3*365.0*24*60*60)
-thk = nc.variables['thk'][:]
-usurf = nc.variables['usurf'][:]
-
-# compute LGM age and envelope
-argmax = usurf.argmax(axis=0)
-lgmage = age[argmax]
-cols, rows = usurf.shape[1:]
-envelope = usurf[argmax, np.arange(cols)[:, None], np.arange(rows)[None, :]]
-
-# apply thickness mask
-mask = (thk < 1.0).prod(axis=0)
-lgmage = np.ma.masked_where(mask, lgmage)
-envelope = np.ma.masked_where(mask, envelope)
+# read postprocessed data
+envelope, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'envelope')
+lgmtiming, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'lgmtiming')
 
 # set contour levels, colors and hatches
 levs = range(21, 28)
@@ -37,17 +21,10 @@ cmap = ut.pl.get_cmap('Paired', 12)
 cols = cmap(range(12))[:len(levs)+1]
 
 # plot
-cs = ax.contourf(x, y, lgmage, levs, colors=cols, extend='both', alpha=0.75)
-
-# contour levels
-ax.contour(x, y, envelope, ut.pl.inlevs, colors='0.25', linewidths=0.1)
-ax.contour(x, y, envelope, ut.pl.utlevs, colors='0.25', linewidths=0.25)
-
-# ice margin
-ax.contour(x, y, mask, [0.5], colors='k', linewidths=0.5)
-
-# close nc file
-nc.close()
+cs = ax.contourf(lgmtiming/1e3, levs, extent=extent, colors=cols, extend='both', alpha=0.75)
+ax.contour(envelope, ut.pl.inlevs, extent=extent, colors='0.25', linewidths=0.1)
+ax.contour(envelope, ut.pl.utlevs, extent=extent, colors='0.25', linewidths=0.25)
+ax.contour(envelope.mask, [0.5], extent=extent, colors='k', linewidths=0.5)
 
 # add cartopy vectors
 ut.pl.draw_boot_topo(ax)

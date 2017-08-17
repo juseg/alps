@@ -15,6 +15,28 @@ def load(filepath):
     return iplt.load(filepath)
 
 
+def load_postproc_gtif(runpath, varname):
+    """Load post-processed geotiff data."""
+
+    runpath = runpath.rstrip('/')
+    prefix = '-'.join(map(os.path.basename, os.path.split(runpath)))
+    prefix = os.path.join('..', 'data', 'processed', prefix+'-')
+    filename = prefix + varname + '.tif'
+    data, extent = open_gtif(filename)
+    return data, extent
+
+
+def load_postproc_txt(runpath, varname):
+    """Load post-processed text data."""
+
+    runpath = runpath.rstrip('/')
+    prefix = '-'.join(map(os.path.basename, os.path.split(runpath)))
+    prefix = os.path.join('..', 'data', 'processed', prefix+'-')
+    filename = prefix + varname + '.txt'
+    age, z = np.loadtxt(filename, unpack=True)
+    return age, z
+
+
 def open_gtif(filename, extent=None):
     """Open GeoTIFF and return data and extent."""
 

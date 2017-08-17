@@ -11,19 +11,8 @@ fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut()
 # Map axes
 # --------
 
-# load extra data
-filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
-nc = ut.io.load(filepath)
-x = nc.variables['x'][:]
-y = nc.variables['y'][:]
-age = -nc.variables['time'][:]/(1e3*365.0*24*60*60)
-thk = nc.variables['thk'][:]
-
-# compute footprint
-dt = age[0] - age[1]
-duration = (thk >= 1.0).sum(axis=0)*dt
-footprint = (duration > 0)
-duration[~footprint] = -1
+# read postprocessed data
+duration, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'duration')
 
 # set contour levels, colors and hatches
 levs = [0, 5, 10, 15, 20, 30, 40, 60, 80, 100, 120]
@@ -31,11 +20,8 @@ cmap = ut.pl.get_cmap('RdBu', 10)
 cols = cmap(range(10))
 
 # plot
-cs = ax.contourf(x, y, duration, levs, colors=cols, alpha=0.75)
-ax.contour(x, y, footprint, [0.5], colors='k', linewidths=0.5)
-
-# close nc file
-nc.close()
+cs = ax.contourf(duration/1e3, levs, extent=extent, colors=cols, alpha=0.75)
+ax.contour(duration.mask, [0.5], extent=extent, colors='k', linewidths=0.5)
 
 # add cartopy vectors
 ut.pl.draw_boot_topo(ax)

@@ -43,36 +43,24 @@ zt = trimlines['z']
 # convert to UTM 32
 xt, yt, zt = ut.pl.utm.transform_points(ut.pl.swiss, xt, yt, zt).T
 
-# load extra data
-filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
+# read postprocessed data
+envelope, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'envelope')
+lgmtiming, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'lgmtiming')
+maxicethk, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'maxicethk')
+warmbased, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'warmbased')
+
+# get coordinates  # FIXME not efficient
+filepath = ut.alpcyc_bestrun + 'y0120000-extra.nc'
 nc = ut.io.load(filepath)
 x = nc.variables['x'][:]
 y = nc.variables['y'][:]
-age = -nc.variables['time'][:]/(1e3*365.0*24*60*60)
-mis = (age < 29.0) * (age >= 14.0)
-age = age[mis]
-thk = nc.variables['thk'][mis]
-srf = nc.variables['usurf'][mis]
-tpa = nc.variables['temppabase'][mis]
 nc.close()
-
-# compute max thickness and its age
-lgmage = age[srf.argmax(axis=0)]
-maxthk = thk.max(axis=0)
-maxsrf = srf.max(axis=0)
-mask = (thk < 1.0).prod(axis=0)
-maxsrf = np.ma.masked_where(mask, maxsrf)
-
-# compute duration of warm-based coved
-dt = age[0] - age[1]
-warm = ((thk >= 1.0)*(tpa >= -1e-3)).sum(axis=0)*dt
-warm = np.ma.masked_where(mask, warm)
 
 # get model elevation at trimline locations
 i = np.argmin(abs(xt[:, None] - x), axis=1)
 j = np.argmin(abs(yt[:, None] - y), axis=1)
-ht = maxthk[j, i]
-at = lgmage[j, i]
+ht = maxicethk[j, i]
+at = lgmtiming[j, i]/1e3
 
 
 # Scatter axes
@@ -113,15 +101,15 @@ hsax.text(2.0, havg+25.0, '%.0f m' % havg, color='0.25')
 # --------
 
 # plot areas with less than 1 ka warm ice cover
-im = ax.contourf(x, y, warm, levels=[0.0, 1.0, 120.0], colors=['w', 'w'],
-                 hatches=['////', ''], alpha=0.5)
-cs = ax.contour(x, y, warm, [1.0], colors='0.25', linewidths=0.25)
-cs = ax.contour(x, y, mask, [0.5], colors='k', linewidths=0.25)
+im = ax.contourf(warmbased, levels=[0e3, 1e3, 120e3], extent=extent,
+                 colors=['w', 'w'], hatches=['////', ''], alpha=0.5)
+cs = ax.contour(warmbased, [1e3], extent=extent, colors='0.25', linewidths=0.25)
 
 # add ice mask and contour levels
-ax.contourf(x, y, mask, levels=[-0.5, 0.5], colors='w', alpha=0.75)
-ax.contour(x, y, maxsrf, ut.pl.inlevs, colors='0.25', linewidths=0.1)
-ax.contour(x, y, maxsrf, ut.pl.utlevs, colors='0.25', linewidths=0.25)
+ax.contourf(envelope.mask, levels=[-0.5, 0.5], extent=extent, colors='w', alpha=0.75)
+ax.contour(envelope, ut.pl.inlevs, extent=extent, colors='0.25', linewidths=0.1)
+ax.contour(envelope, ut.pl.utlevs, extent=extent, colors='0.25', linewidths=0.25)
+ax.contour(envelope.mask, [0.5], extent=extent, colors='k', linewidths=0.5)
 
 # draw trimlines
 sc = ax.scatter(xt, yt, c=at, cmap=cmap, norm=norm, s=4**2, alpha=0.75)

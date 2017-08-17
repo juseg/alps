@@ -7,36 +7,18 @@ import numpy as np
 # initialize figure
 fig, ax, cax = ut.pl.subplots_cax_inset()
 
-# load extra data
-filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
-nc = ut.io.load(filepath)
-x = nc.variables['x'][:]
-y = nc.variables['y'][:]
-thk = nc.variables['thk'][:]
-
-# compute footprint
-icy = (thk >= 1.0)
-
-# filter out short glaciations
-#icysum = icy.cumsum(axis=0)
-#icy = (icysum[5:] - icysum[:-5])/5
-
-# compute number of glaciations
-glaciations = (icy[0] + np.diff(icy, axis=0).sum(axis=0) + icy[-1])/2
-footprint = (glaciations > 0)
+# read postprocessed data
+nadvances, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'nadvances')
 
 # set contour levels and colors
 levs = np.arange(1, 14)
 cmap = ut.pl.get_cmap('RdBu', len(levs))
-colors = cmap(range(len(levs)))
+cols = cmap(range(len(levs)))
 
 # plot
-cs = ax.contourf(x, y, glaciations, levels=levs-0.5, colors=colors, extend='max', alpha=0.75)
-ax.contour(x, y, glaciations, levels=[9.5], colors='0.75', linewidths=0.25)
-ax.contour(x, y, footprint, [0.5], colors='k', linewidths=0.5)
-
-# close nc file
-nc.close()
+cs = ax.contourf(nadvances, levs-0.5, extent=extent, colors=cols, extend='max', alpha=0.75)
+ax.contour(nadvances, [9.5], extent=extent, colors='0.75', linewidths=0.25)
+ax.contour(nadvances, [0.5], extent=extent, colors='k', linewidths=0.5)
 
 # add cartopy vectors
 ut.pl.draw_boot_topo(ax)

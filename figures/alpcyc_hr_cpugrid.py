@@ -20,6 +20,7 @@ cb = fig.colorbar(im, cax, extend='both', ticks=range(0, 3001, 1000))
 cb.set_label(r'bedrock topography (m)')
 
 # add grid
+#FIXME add function to plot cpu grid
 x = np.linspace(w, e, 24)
 y = np.linspace(s, n, 16)  # 16 until y0087500 then 24)
 xx, yy = np.meshgrid(x, y)

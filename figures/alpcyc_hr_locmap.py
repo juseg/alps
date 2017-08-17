@@ -22,6 +22,7 @@ ut.pl.draw_natural_earth(ax)
 ut.pl.draw_lgm_outline(ax)
 
 # add cities
+#FIXME add function to plot city locations
 offset = 5
 shp = cshp.Reader(cshp.natural_earth(resolution='10m',
                                      category='cultural',

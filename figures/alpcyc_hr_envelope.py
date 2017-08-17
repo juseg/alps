@@ -7,18 +7,8 @@ import numpy as np
 # initialize figure
 fig, ax, cax = ut.pl.subplots_cax_inset()
 
-# load extra data
-filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
-nc = ut.io.load(filepath)
-x = nc.variables['x'][:]
-y = nc.variables['y'][:]
-thk = nc.variables['thk'][:]
-usurf = nc.variables['usurf'][:]
-
-# compute envelope
-mask = (thk < 1.0).prod(axis=0)
-envelope = usurf.max(axis=0)
-envelope = np.ma.masked_where(mask, envelope)
+# read postprocessed data
+envelope, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'envelope')
 
 # print bounds
 #print 'LGM envelope min %.1f, max %.1f' % (envelope.min(), envelope.max())
@@ -29,17 +19,10 @@ cmap = ut.pl.get_cmap('Blues_r', len(levs))
 cols = cmap(range(len(levs)))
 
 # plot
-cs = ax.contourf(x, y, envelope, levs, colors=cols, extend='max', alpha=0.75)
-
-# contour levels
-ax.contour(x, y, envelope, ut.pl.inlevs, colors='0.25', linewidths=0.1)
-ax.contour(x, y, envelope, ut.pl.utlevs, colors='0.25', linewidths=0.25)
-
-# ice margin
-ax.contour(x, y, mask, [0.5], colors='k', linewidths=0.5)
-
-# close nc file
-nc.close()
+cs = ax.contourf(envelope, levs, extent=extent, colors=cols, extend='max', alpha=0.75)
+ax.contour(envelope, ut.pl.inlevs, extent=extent, colors='0.25', linewidths=0.1)
+ax.contour(envelope, ut.pl.utlevs, extent=extent, colors='0.25', linewidths=0.25)
+ax.contour(envelope.mask, [0.5], extent=extent, colors='k', linewidths=0.5)
 
 # add map elements
 ut.pl.draw_boot_topo(ax)

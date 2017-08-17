@@ -11,19 +11,8 @@ fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut()
 # Map axes
 # --------
 
-# load extra data
-filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
-nc = ut.io.load(filepath)
-x = nc.variables['x'][:]
-y = nc.variables['y'][:]
-age = -nc.variables['time'][:]/(1e3*365.0*24*60*60)
-c = nc.variables['velbase_mag'][:]
-thk = nc.variables['thk'][:]
-
-# compute total basal sliding
-dt = age[0] - age[1]
-totalsliding = np.ma.array(c, mask=(thk < 1.0)).sum(axis=0)*dt
-footprint = totalsliding.mask
+# read postprocessed data
+totalslip, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'totalslip')
 
 # set levels, colors and hatches
 levs = [10**(0.5*i) for i in range(4, 11)]
@@ -31,11 +20,8 @@ cmap = ut.pl.get_cmap('Reds', len(levs)+1)
 cols = cmap(range(len(levs)+1))
 
 # plot
-cs = ax.contourf(x, y, totalsliding, levels=levs, colors=cols, extend='both', alpha=0.75)
-ax.contour(x, y, footprint, [0.5], colors='k', linewidths=0.5)
-
-# close nc file
-nc.close()
+cs = ax.contourf(totalslip/1e3, levels=levs, extent=extent, colors=cols, extend='both', alpha=0.75)
+ax.contour(totalslip.mask, [0.5], extent=extent, colors='k', linewidths=0.5)
 
 # add cartopy vectors
 ut.pl.draw_boot_topo(ax)
@@ -49,14 +35,12 @@ cb.set_label(r'cumulative basal motion (km)', labelpad=0)
 # Time series
 # -----------
 
-# compute sliding flux in 1e3 km3/a
-dx = x[1] - x[0]
-dy = y[1] - y[0]
-flux = c.sum(axis=(1, 2))*dx*dy*1e-12
+# load postprocessed data
+age, slidingflux = ut.io.load_postproc_txt(ut.alpcyc_bestrun, 'slidingflux')
 
 # plot time series
 twax = tsax.twinx()
-twax.plot(age, flux, c=ut.pl.palette['darkred'])
+twax.plot(age/1e3, slidingflux/1e3, c=ut.pl.palette['darkred'])
 twax.set_ylabel('sliding flux ($10^3\,km^3\,a^{-1}$)', color=ut.pl.palette['darkred'])
 twax.set_xlim(120.0, 0.0)
 twax.set_ylim(-2.5, 17.5)
