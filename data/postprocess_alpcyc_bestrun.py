@@ -31,8 +31,8 @@ icy = (thk >= 1.0)
 
 # pseudo mask certain variables (this is a workaround, apparently dask fails
 # to perform multiplication on two netCDF variables, posixio assertion failed)
-cba[~icy]==0.0
-tpa[~icy]==-99.0
+cba[~icy] = 0.0
+tpa[~icy] = -99.0
 
 # compute aggregated variables
 print "computing deglaciation age..."
