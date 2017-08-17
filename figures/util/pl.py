@@ -261,6 +261,31 @@ def add_signature(text, fig=None, offset=2.5/25.4):
 # Map elements
 # ------------
 
+
+def draw_major_cities(ax=None, maxrank=5, textoffset=4):
+    """Add major city locations with names."""
+    shp = cshp.Reader(cshp.natural_earth(resolution='10m',
+                                         category='cultural',
+                                         name='populated_places_simple'))
+    for rec in shp.records():
+        name = rec.attributes['name'].decode('latin-1')
+        rank = rec.attributes['scalerank']
+        pop = rec.attributes['pop_max']
+        lon = rec.geometry.x
+        lat = rec.geometry.y
+        if rank <= maxrank:
+            xc, yc = ax.projection.transform_point(lon, lat, src_crs=ut.pl.ll)
+            xloc = 'r'  #('l' if xc < center[0] else 'r')
+            yloc = 'u'  #('l' if yc < center[1] else 'u')
+            dx = {'c': 0, 'l': -1, 'r': 1}[xloc]*textoffset
+            dy = {'c': 0, 'l': -1, 'u': 1}[yloc]*textoffset
+            ha = {'c': 'center', 'l': 'right', 'r': 'left'}[xloc]
+            va = {'c': 'center', 'l': 'top', 'u': 'bottom'}[yloc]
+            ax.plot(xc, yc, 'ko')
+            ax.annotate(name, xy=(xc, yc), xytext=(dx, dy),
+                        textcoords='offset points', ha=ha, va=va, clip_on=True)
+
+
 def draw_cpu_grid(ax=None, extent='alps', nx=24, ny=24):
     """Add CPU partition grid."""
     ax = ax or iplt.gca()
