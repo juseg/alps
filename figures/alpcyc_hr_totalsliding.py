@@ -43,7 +43,7 @@ twax = tsax.twinx()
 twax.plot(age/1e3, slidingflux/1e3, c=ut.pl.palette['darkred'])
 twax.set_ylabel('sliding flux ($10^3\,km^3\,a^{-1}$)', color=ut.pl.palette['darkred'])
 twax.set_xlim(120.0, 0.0)
-twax.set_ylim(-2.5, 17.5)
+twax.set_ylim(-1.0, 7.0)
 twax.locator_params(axis='y', nbins=6)
 
 # save figure
