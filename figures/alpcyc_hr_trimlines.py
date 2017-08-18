@@ -58,11 +58,21 @@ x = nc.variables['x'][:]
 y = nc.variables['y'][:]
 nc.close()
 
+# load boot topography
+nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-1km.nc')
+x = nc.variables['x'][:]
+y = nc.variables['y'][:]
+boot = nc.variables['topg'][:]
+nc.close()
+
 # get model elevation at trimline locations
 i = np.argmin(abs(xt[:, None] - x), axis=1)
 j = np.argmin(abs(yt[:, None] - y), axis=1)
 ht = sp.interpolate.interpn((y, x), maxicethk[::-1], (yt, xt), method='linear')
 at = sp.interpolate.interpn((y, x), maxthkage[::-1], (yt, xt), method='linear')/1e3
+bt = sp.interpolate.interpn((x, y), boot, (xt, yt), method='linear')
+st = sp.interpolate.interpn((y, x), maxthksrf[::-1], (yt, xt), method='linear')
+ht = bt + ht - zt
 
 
 # Scatter axes
