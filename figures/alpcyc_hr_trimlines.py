@@ -11,8 +11,8 @@ figw, figh = 85.0, 115.0
 fig = ut.pl.figure(figsize=(figw/25.4, figh/25.4))
 ax = fig.add_axes([2.5/figw, 2.5/figh, 80.0/figw, 80.0*2/3/figh], projection=ut.pl.utm)
 cax = fig.add_axes([12.5/figw, (80.0*2/3-2.5)/figh, 30.0/figw, 2.5/figh])
-scax = fig.add_axes([10.0/figw, 65.0/figh, 45.0/figw, 47.5/figh])
-hsax = fig.add_axes([57.5/figw, 65.0/figh, 25.0/figw, 47.5/figh], sharey=scax)
+scax = fig.add_axes([12.5/figw, 65.0/figh, 47.5/figw, 47.5/figh])
+hsax = fig.add_axes([62.5/figw, 65.0/figh, 10.0/figw, 47.5/figh])
 
 ## initialize figure (full width)
 #figw, figh = 170.0, 60.0
@@ -20,7 +20,7 @@ hsax = fig.add_axes([57.5/figw, 65.0/figh, 25.0/figw, 47.5/figh], sharey=scax)
 #ax = fig.add_axes([2.5/figw, 2.5/figh, 82.5/figw, 55.0/figh], projection=ut.pl.utm)
 #cax = fig.add_axes([5.0/figw, 20.0/figh, 5.0/figw, 30.0/figh])
 #scax = fig.add_axes([97.5/figw, 7.5/figh, 50.0/figw, 50.0/figh])
-#hsax = fig.add_axes([150.0/figw, 7.5/figh, 17.5/figw, 50.0/figh], sharey=scax)
+#hsax = fig.add_axes([150.0/figw, 7.5/figh, 10.0/figw, 50.0/figh])
 
 # prepare map axes
 ax.set_rasterization_zorder(2.5)
@@ -71,8 +71,6 @@ j = np.argmin(abs(yt[:, None] - y), axis=1)
 ht = sp.interpolate.interpn((y, x), maxicethk[::-1], (yt, xt), method='linear')
 at = sp.interpolate.interpn((y, x), maxthkage[::-1], (yt, xt), method='linear')/1e3
 bt = sp.interpolate.interpn((x, y), boot, (xt, yt), method='linear')
-st = sp.interpolate.interpn((y, x), maxthksrf[::-1], (yt, xt), method='linear')
-ht = bt + ht - zt
 
 
 # Scatter axes
@@ -85,28 +83,40 @@ cols = cmap(range(12))[:len(levs)+1]
 cmap, norm = mcolors.from_levels_and_colors(levs, cols, extend='both')
 
 # draw scatter plot
-sc = scax.scatter(zt, ht, c=at, cmap=cmap, norm=norm, alpha=0.75)
+sc = scax.scatter(zt, bt+ht, c=at, cmap=cmap, norm=norm, alpha=0.75)
 scax.set_xlabel('observed trimline elevation (m)')
-scax.set_ylabel('modelled maximum ice thickness (m)', labelpad=2)
+scax.set_ylabel('compensated LGM surface elevation (m)')
 
 
 # Histogram axes
 # --------------
 
+# diff between compensated surface elevation and trimlines
+dt = bt + ht - zt
+
 # add histogram
 step = 100.0
-bmin = ht.min() - ht.min() % step
-bmax = ht.max() - ht.max() % step + step
+bmin = dt.min() - dt.min() % step
+bmax = dt.max() - dt.max() % step + step
 bins = np.arange(bmin, bmax+step, step)
 hsax.hist(ht, bins=bins, orientation='horizontal', alpha=0.75)
 hsax.set_xlabel('frequency')
-[l.set_visible(False) for l in hsax.get_yticklabels()]
+hsax.set_ylabel('difference (m)')
+hsax.yaxis.set_label_position("right")
+hsax.yaxis.tick_right()
 
 # highlight mean thickness
-havg = ht.mean()
-scax.axhline(havg, c='0.25')
-hsax.axhline(havg, c='0.25')
-hsax.text(2.0, havg+25.0, '%.0f m' % havg, color='0.25')
+zavg = zt.mean()
+davg = dt.mean()
+zz = [zt.min(), zt.max()]
+scax.plot(zz, zz+davg, c='0.25')
+scax.axhline(zavg+davg, c='0.25', dashes=(2, 1), lw=0.5)
+hsax.axhline(davg, c='0.25', dashes=(2, 1), lw=0.5)
+hsax.text(2.0, davg+25.0, '%.0f m' % davg, color='0.25')
+
+# align axes bounds
+hsax.set_ylim(l-zavg for l in scax.get_ylim())
+
 
 # Map axes
 # --------
