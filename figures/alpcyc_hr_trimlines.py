@@ -108,10 +108,15 @@ hsax.yaxis.tick_right()
 # highlight mean thickness
 zavg = zt.mean()
 davg = dt.mean()
+dstd = dt.std()
 zz = [zt.min(), zt.max()]
 scax.plot(zz, zz+davg, c='0.25')
+scax.plot(zz, zz+davg-dstd, c='0.25', dashes=(2, 1), lw=0.5)
+scax.plot(zz, zz+davg+dstd, c='0.25', dashes=(2, 1), lw=0.5)
 scax.axhline(zavg+davg, c='0.25', dashes=(2, 1), lw=0.5)
-hsax.axhline(davg, c='0.25', dashes=(2, 1), lw=0.5)
+hsax.axhline(davg, c='0.25')
+hsax.axhline(davg-dstd, c='0.25', dashes=(2, 1), lw=0.5)
+hsax.axhline(davg+dstd, c='0.25', dashes=(2, 1), lw=0.5)
 hsax.text(2.0, davg+25.0, '%.0f m' % davg, color='0.25')
 
 # align axes bounds
