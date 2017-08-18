@@ -57,7 +57,6 @@ def make_gtif_shp(x, y, z, filename, levels, dtype='float32', epsg=32632,
         band.SetNoDataValue(ndval)
         z = z.filled(ndval)
     band.WriteArray(z[::-1])
-    band.ComputeStatistics(0)
     band.FlushCache()
 
     # generate contours
