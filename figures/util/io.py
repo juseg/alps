@@ -31,7 +31,7 @@ def load_postproc_txt(runpath, varname):
 
     runpath = runpath.rstrip('/')
     prefix = '-'.join(map(os.path.basename, os.path.split(runpath)))
-    prefix = os.path.join('..', 'data', 'processed', prefix+'-')
+    prefix = os.path.join('..', 'data', 'processed', prefix+'-ts-')
     filename = prefix + varname + '.txt'
     age, z = np.loadtxt(filename, unpack=True)
     return age, z

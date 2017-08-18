@@ -98,5 +98,5 @@ ut.make_gtif_shp(x, y, warmbased, prefix+'warmbased', range(0, 15001, 1000))
 print "exporting text files..."
 prefix = '-'.join(map(os.path.basename, os.path.split(ut.alpcyc_bestrun)))
 prefix = os.path.join('processed', prefix+'-')
-np.savetxt(prefix+'erosionrate.txt', np.array((age, erosionrate)).T)
-np.savetxt(prefix+'slidingflux.txt', np.array((age, slidingflux)).T)
+np.savetxt(prefix+'ts-erosionrate.txt', np.array((age, erosionrate)).T)
+np.savetxt(prefix+'ts-slidingflux.txt', np.array((age, slidingflux)).T)
