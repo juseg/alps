@@ -45,8 +45,8 @@ zt = trimlines['z']
 xt, yt, zt = ut.pl.utm.transform_points(ut.pl.swiss, xt, yt, zt).T
 
 # read postprocessed data
-envelope, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'envelope')
-lgmtiming, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'lgmtiming')
+maxthksrf, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'maxthksrf')
+maxthkage, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'maxthkage')
 maxicethk, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'maxicethk')
 warmbased, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'warmbased')
 
@@ -61,7 +61,7 @@ nc.close()
 i = np.argmin(abs(xt[:, None] - x), axis=1)
 j = np.argmin(abs(yt[:, None] - y), axis=1)
 ht = maxicethk[-j-1, i]
-at = lgmtiming[-j-1, i]/1e3
+at = maxthkage[-j-1, i]/1e3
 
 
 # Scatter axes
@@ -106,10 +106,10 @@ im = ax.contourf(warmbased, levels=[0e3, 1e3, 120e3], extent=extent,
 cs = ax.contour(warmbased, [1e3], extent=extent, colors='0.25', linewidths=0.25)
 
 # add ice mask and contour levels
-ax.contourf(envelope.mask, levels=[-0.5, 0.5], extent=extent, colors='w', alpha=0.75)
-ax.contour(envelope, ut.pl.inlevs, extent=extent, colors='0.25', linewidths=0.1)
-ax.contour(envelope, ut.pl.utlevs, extent=extent, colors='0.25', linewidths=0.25)
-ax.contour(envelope.mask, [0.5], extent=extent, colors='k', linewidths=0.5)
+ax.contourf(maxthksrf.mask, levels=[-0.5, 0.5], extent=extent, colors='w', alpha=0.75)
+ax.contour(maxthksrf, ut.pl.inlevs, extent=extent, colors='0.25', linewidths=0.1)
+ax.contour(maxthksrf, ut.pl.utlevs, extent=extent, colors='0.25', linewidths=0.25)
+ax.contour(maxthksrf.mask, [0.5], extent=extent, colors='k', linewidths=0.5)
 
 # draw trimlines
 sc = ax.scatter(xt, yt, c=at, cmap=cmap, norm=norm, s=4**2, alpha=0.75)

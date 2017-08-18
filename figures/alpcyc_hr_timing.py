@@ -12,8 +12,8 @@ fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut(mis=False)
 # --------
 
 # read postprocessed data
-envelope, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'envelope')
-lgmtiming, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'lgmtiming')
+maxthksrf, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'maxthksrf')
+maxthkage, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'maxthkage')
 
 # set contour levels, colors and hatches
 levs = range(21, 28)
@@ -21,10 +21,10 @@ cmap = ut.pl.get_cmap('Paired', 12)
 cols = cmap(range(12))[:len(levs)+1]
 
 # plot
-cs = ax.contourf(lgmtiming/1e3, levs, extent=extent, colors=cols, extend='both', alpha=0.75)
-ax.contour(envelope, ut.pl.inlevs, extent=extent, colors='0.25', linewidths=0.1)
-ax.contour(envelope, ut.pl.utlevs, extent=extent, colors='0.25', linewidths=0.25)
-ax.contour(envelope.mask, [0.5], extent=extent, colors='k', linewidths=0.5)
+cs = ax.contourf(maxthkage/1e3, levs, extent=extent, colors=cols, extend='both', alpha=0.75)
+ax.contour(maxthksrf, ut.pl.inlevs, extent=extent, colors='0.25', linewidths=0.1)
+ax.contour(maxthksrf, ut.pl.utlevs, extent=extent, colors='0.25', linewidths=0.25)
+ax.contour(maxthksrf.mask, [0.5], extent=extent, colors='k', linewidths=0.5)
 
 # add cartopy vectors
 ut.pl.draw_boot_topo(ax)
