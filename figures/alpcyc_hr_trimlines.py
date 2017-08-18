@@ -3,6 +3,7 @@
 
 import util as ut
 import numpy as np
+import scipy as sp
 import matplotlib.colors as mcolors
 
 # initialize figure (one column)
@@ -60,8 +61,8 @@ nc.close()
 # get model elevation at trimline locations
 i = np.argmin(abs(xt[:, None] - x), axis=1)
 j = np.argmin(abs(yt[:, None] - y), axis=1)
-ht = maxicethk[-j-1, i]
-at = maxthkage[-j-1, i]/1e3
+ht = sp.interpolate.interpn((y, x), maxicethk[::-1], (yt, xt), method='linear')
+at = sp.interpolate.interpn((y, x), maxthkage[::-1], (yt, xt), method='linear')/1e3
 
 
 # Scatter axes
