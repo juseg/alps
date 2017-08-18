@@ -40,7 +40,7 @@ duration = icy.sum(axis=0).compute()*dt
 print "computing surface envelope..."
 envelope = srf.max(axis=0).compute()
 print "computing total erosion..."
-ero = 2.7e-7*icy*cba**2.02  # m/a (Herman et al, 2015)
+ero = 2.7e-7*(icy*cba)**2.02  # m/a (Herman et al, 2015)
 erosion = ero.sum(axis=0).compute(get=dask.get)*dt  # m
 print "computing number of glaciations..."
 nadvances = (icy[0] + (icy[1:]-icy[:-1]).sum(axis=0) + icy[-1]).compute()/2
@@ -62,7 +62,7 @@ modernice = (duration == 120.0)
 
 # compute timeseries
 print "computing sliding flux..."
-slidingflux = cba.sum(axis=(1, 2)).compute(get=dask.get)*dx*dy*1e-9  # km3/a
+slidingflux = (icy*cba).sum(axis=(1, 2)).compute(get=dask.get)*dx*dy*1e-9  # km3/a
 print "computing erosion rate..."
 erosionrate = ero.sum(axis=(1, 2)).compute(get=dask.get)*dx*dy*1e-9  # km3/a
 
