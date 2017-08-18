@@ -31,12 +31,12 @@ y = nc.variables['y'][:]
 its = np.argmin(abs(x-xts))
 jts = np.argmin(abs(y-yts))
 age = -nc.variables['time'][:]/(1e3*365.0*24*60*60)
-dbdt = nc.variables['dbdt'][-1]*1e3
+dbdt = nc.variables['dbdt'][-1]
 topg = nc.variables['topg'][:, jts, its]
 nc.close()
 
 # set levels and colors
-levs = [0.0, 0.4, 0.8, 1.2, 1.6, 2.0]
+levs = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5]
 cmap = ut.pl.get_cmap('Greens', len(levs)+1)
 cols = cmap(range(len(levs)+1))
 
@@ -45,7 +45,7 @@ cs = ax.contourf(x, y, dbdt, thkth=-1, levels=levs, colors=cols,
                  extend='both', alpha=0.75)
 
 # add location of time series
-ax.plot(xts, yts, 'o', c=ut.pl.palette['darkgreen'])
+ax.plot(xts, yts, 'o', c='w')
 
 # add map elements
 ut.pl.draw_boot_topo(ax)
