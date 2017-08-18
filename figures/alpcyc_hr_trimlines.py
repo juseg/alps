@@ -105,18 +105,13 @@ im = ax.contourf(warmbased, levels=[0e3, 1e3, 120e3], extent=extent,
                  colors=['w', 'w'], hatches=['////', ''], alpha=0.5)
 cs = ax.contour(warmbased, [1e3], extent=extent, colors='0.25', linewidths=0.25)
 
-# add ice mask and contour levels
-ax.contourf(maxthksrf.mask, levels=[-0.5, 0.5], extent=extent, colors='w', alpha=0.75)
-ax.contour(maxthksrf, ut.pl.inlevs, extent=extent, colors='0.25', linewidths=0.1)
-ax.contour(maxthksrf, ut.pl.utlevs, extent=extent, colors='0.25', linewidths=0.25)
-ax.contour(maxthksrf.mask, [0.5], extent=extent, colors='k', linewidths=0.5)
+# add map elements
+ut.pl.draw_boot_topo(ax)
+ut.pl.draw_envelope(ax, levels=[0e3, 3e3], colors='w')
+ut.pl.draw_natural_earth(ax)
 
 # draw trimlines
 sc = ax.scatter(xt, yt, c=at, cmap=cmap, norm=norm, s=4**2, alpha=0.75)
-
-# add map elements
-ut.pl.draw_boot_topo(ax)
-ut.pl.draw_natural_earth(ax)
 
 # add colorbar
 cb = fig.colorbar(sc, cax, orientation='horizontal')

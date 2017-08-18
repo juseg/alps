@@ -22,12 +22,10 @@ cols = cmap(range(12))[:len(levs)+1]
 
 # plot
 cs = ax.contourf(maxthkage/1e3, levs, extent=extent, colors=cols, extend='both', alpha=0.75)
-ax.contour(maxthksrf, ut.pl.inlevs, extent=extent, colors='0.25', linewidths=0.1)
-ax.contour(maxthksrf, ut.pl.utlevs, extent=extent, colors='0.25', linewidths=0.25)
-ax.contour(maxthksrf.mask, [0.5], extent=extent, colors='k', linewidths=0.5)
 
-# add cartopy vectors
+# add map elements
 ut.pl.draw_boot_topo(ax)
+ut.pl.draw_envelope(ax)
 ut.pl.draw_natural_earth(ax)
 
 # add colorbar

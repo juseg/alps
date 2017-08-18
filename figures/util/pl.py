@@ -324,6 +324,21 @@ def draw_lgm_outline(ax=None, c='#e31a1c'):
     del shp
 
 
+def draw_envelope(ax=None, levels=None, colors=None):
+    """Add modelled maximum thickness surface elevation."""
+    ax = ax or iplt.gca()
+    maxthksrf, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'maxicesrf')
+    if levels is not None or colors is not None:
+        cs = ax.contourf(maxthksrf, levels, extent=extent, colors=colors,
+                         extend='max', alpha=0.75)
+    else:
+        cs = None
+    ax.contour(maxthksrf, ut.pl.inlevs, extent=extent, colors='0.25', linewidths=0.1)
+    ax.contour(maxthksrf, ut.pl.utlevs, extent=extent, colors='0.25', linewidths=0.25)
+    ax.contour(maxthksrf.mask, [0.5], extent=extent, colors='k', linewidths=0.5)
+    return cs
+
+
 def draw_footprint(ax=None):
     """Add modelled LGM footprint."""
     ax = ax or iplt.gca()
