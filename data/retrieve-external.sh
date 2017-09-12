@@ -46,6 +46,7 @@ done
 gdalbuildvrt srtm.vrt srtm_??_??.tif
 
 # SRTM UTM 32 entire Alps, 1500x1000 km, 1000 m
+# FIXME: use geotiff format
 gdalwarp -s_srs EPSG:4326 -t_srs EPSG:32632 -r bilinear \
          -te 0 4500000 1500000 5500000 -tr 1000 1000 \
          -srcnodata -32768 -dstnodata -32768 \
