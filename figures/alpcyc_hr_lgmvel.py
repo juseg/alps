@@ -49,7 +49,7 @@ vol = nc.variables['slvol'][:]
 nc.close()
 
 # print age of max volume
-#print age[vol.argmax()]
+#print age[vol.argmax()], vol.max()
 
 # plot time series
 tsax=tsax.twinx()

@@ -44,7 +44,7 @@ area = nc.variables['area_glacierized'][:]*1e-9
 nc.close()
 
 # print age of max area
-#print age[area.argmax()]
+#print age[area.argmax()], area.max()
 
 # plot time series
 twax = tsax.twinx()
