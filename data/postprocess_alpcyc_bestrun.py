@@ -28,6 +28,7 @@ thk = da.from_array(nc.variables['thk'], chunks=chunks)
 srf = da.from_array(nc.variables['usurf'], chunks=chunks)
 tpa = da.from_array(nc.variables['temppabase'], chunks=chunks)
 cba = da.from_array(nc.variables['velbase_mag'], chunks=chunks)
+csu = da.from_array(nc.variables['velsurf_mag'], chunks=chunks)
 dx = x[1] - x[0]
 dy = y[1] - y[0]
 dt = age[0] - age[1]
@@ -39,6 +40,13 @@ icy = (thk >= 1.0)
 cols, rows = thk.shape[1:]
 jj = np.arange(cols)[:, None]
 kk = np.arange(rows)[None, :]
+
+# extract time slices
+a = 24570.0
+lgmidx = abs(age-a).argmin()
+lgmicethk = thk[lgmidx].compute()
+lgmicesrf = srf[lgmidx].compute()
+lgmsrfvel = csu[lgmidx].compute()
 
 # compute aggregated variables (apparently dask fails to perform parallel
 # multiplication on two netCDF variables with posixio assertion failed,
@@ -90,6 +98,9 @@ print "applying masks..."
 deglacage = np.ma.masked_where(~footprint+modernice, deglacage)
 duration = np.ma.masked_where(~footprint, duration)
 erosion = np.ma.masked_where(~footprint, erosion)
+lgmicethk = np.ma.masked_where(lgmicethk<1.0, lgmicethk)
+lgmicesrf = np.ma.masked_where(lgmicethk<1.0, lgmicesrf)
+lgmsrfvel = np.ma.masked_where(lgmicethk<1.0, lgmsrfvel)
 maxicesrf = np.ma.masked_where(~footprint, maxicesrf)
 maxicethk = np.ma.masked_where(~footprint, maxicethk)
 maxsrfage = np.ma.masked_where(~footprint, maxsrfage)
@@ -106,12 +117,15 @@ ut.make_gtif_shp(x, y, deglacage, prefix+'deglacage', range(0, 30001, 1000))
 ut.make_gtif_shp(x, y, duration, prefix+'duration', range(0, 120001, 10000))
 ut.make_gtif_shp(x, y, erosion, prefix+'erosion', [0.1, 1, 10, 100, 1000])
 ut.make_gtif_shp(x, y, footprint, prefix+'footprint', [0.5], dtype='byte')
+ut.make_gtif_shp(x, y, lgmicethk, prefix+'lgmicethk', range(0, 5001, 100))
+ut.make_gtif_shp(x, y, lgmicesrf, prefix+'lgmicesrf', range(0, 5001, 100))
+ut.make_gtif_shp(x, y, lgmsrfvel, prefix+'lgmsrfvel', [1, 10, 100, 1000])
 ut.make_gtif_shp(x, y, nadvances, prefix+'nadvances', range(13), dtype='byte')
-ut.make_gtif_shp(x, y, maxicesrf, prefix+'maxicesrf', range(0, 4001, 200))
-ut.make_gtif_shp(x, y, maxicethk, prefix+'maxicethk', range(0, 4001, 200))
+ut.make_gtif_shp(x, y, maxicesrf, prefix+'maxicesrf', range(0, 5001, 100))
+ut.make_gtif_shp(x, y, maxicethk, prefix+'maxicethk', range(0, 5001, 100))
 ut.make_gtif_shp(x, y, maxthkage, prefix+'maxsrfage', range(21000, 27001, 1000))
 ut.make_gtif_shp(x, y, maxsrfage, prefix+'maxthkage', range(21000, 27001, 1000))
-ut.make_gtif_shp(x, y, maxthksrf, prefix+'maxthksrf', range(0, 4001, 200))
+ut.make_gtif_shp(x, y, maxthksrf, prefix+'maxthksrf', range(0, 5001, 100))
 ut.make_gtif_shp(x, y, totalslip, prefix+'totalslip', [100, 1000, 10000, 100000])
 ut.make_gtif_shp(x, y, warmbased, prefix+'warmbased', range(0, 15001, 1000))
 
