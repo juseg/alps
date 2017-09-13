@@ -1,15 +1,4 @@
-\documentclass{article}
-
-\usepackage{doi}
-\usepackage{amsmath}
-\usepackage{authblk}
-\usepackage{booktabs}
-\usepackage{multirow}
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage[pdftex]{xcolor}
-\usepackage[pdftex]{graphicx}
-\usepackage[authoryear,round]{natbib}
+\documentclass[tc, manuscript]{copernicus}
 
 \graphicspath{{../../figures/}}
 
@@ -30,29 +19,33 @@
 
 \title{Modelling last glacial cycle ice dynamics in the Alps}
 
-\author[1]{Julien Seguinot%
-           \thanks{Correspondence to seguinot@vaw.baug.ethz.ch}}
-\author[1]{Guillaume Jouvet}
-\author[1]{Matthias Huss}
-\author[1]{Martin Funk}
-\author[2]{Frank Preusser}
+\Author[1]{Julien}{Seguinot}
+\Author[1]{Guillaume}{Jouvet}
+\Author[1]{Matthias}{Huss}
+\Author[1]{Martin}{Funk}
+\Author[2]{Frank}{Preusser}
 
 \affil[1]{Laboratory of Hydraulics, Hydrology and Glaciology,
           ETH Zürich, Switzerland}
 \affil[2]{Institute of Earth and Environmental Sciences,
           University of Freiburg, Germany}
 
-% Common units
-\newcommand{\e}[1]{\ensuremath{\times 10^{#1}}}
-\newcommand{\chem}[1]{\ensuremath{\mathrm{#1}}}
-\newcommand{\unit}[1]{\ensuremath{\mathrm{#1}}}
-\newcommand{\degree}[0]{\ensuremath{^{\circ}}}
-\newcommand{\degC}[0]{\unit{{\degree}C}}
+\runningtitle{Modelling last glacial cycle ice dynamics in the Alps}
+\runningauthor{J.~Seguinot et al.}
+\correspondence{J.~Seguinot (seguinot@vaw.baug.ethz.ch)}
+
+\received{}
+\pubdiscuss{}
+\revised{}
+\accepted{}
+\published{}
 
 
 % ======================================================================
 \begin{document}
 % ======================================================================
+
+\firstpage{1}
 
 \maketitle
 
@@ -85,9 +78,11 @@
 
 \end{abstract}
 
+%\copyrightstatement{}
+
 
 % ----------------------------------------------------------------------
-\section{Introduction}
+\introduction
 \label{sec:intro}
 % ----------------------------------------------------------------------
 
@@ -274,10 +269,10 @@
     where $T_{\text{pa}}$ is the pressure-adjusted ice temperature calculated
     using the Clapeyron relation, $T_{\text{pa}}=T-{\beta}p$.
     $R=8.31441$\,\unit{J\,mol^{-1}\,K^{-1}} is the ideal gas constant, and
-    $A_{\mathrm{c}}=2.847\e{-13}$\,\unit{Pa^{-3}\,s^{-1}},
-    $A_{\mathrm{w}}=2.356\e{-2}$\,\unit{Pa^{-3}\,s^{-1}},
-    $Q_{\mathrm{c}}=6.0\e4$\,\unit{J\,mol^{-1}}, and
-    $Q_{\mathrm{w}}=11.5\e4$\,\unit{J\,mol^{-1}} are constant parameters
+    $A_{\mathrm{c}}=2.847 \times 10^{-13}$\,\unit{Pa^{-3}\,s^{-1}},
+    $A_{\mathrm{w}}=2.356 \times 10^{-2}$\,\unit{Pa^{-3}\,s^{-1}},
+    $Q_{\mathrm{c}}=6.0 \times 10^4$\,\unit{J\,mol^{-1}}, and
+    $Q_{\mathrm{w}}=11.5 \times 10^4$\,\unit{J\,mol^{-1}} are constant parameters
     corresponding to values measured below and above a~critical temperature
     threshold $T_{\mathrm{c}}=-10$\,\unit{{\degree}C}
     \citep[p.~72]{Cuffey.Paterson.2010}. The water fraction, $\omega$, is
@@ -374,7 +369,7 @@
     \citep{Lingle.Clark.1985,Bueler.etal.2007}. The astenosphere viscosity,
     $\nu_{\mathrm{m}}=2.2\times10^{20}$\,\unit{Pa\,s}, the astenosphere
     density, $\rho_{\mathrm{m}}=3300$\,\unit{kg\,m^{-3}}, and the lithosphere
-    elastic rigidity, $D=1.389\e{24}$\,\unit{N\,m}, were set according to
+    elastic rigidity, $D=1.389 \times 10^{24}$\,\unit{N\,m}, were set according to
     results from glacial isostatic adjustment modelling of deglacial rebound in
     the Alps most closely reproducing observed modern uplift rates
     \citep[Table~\ref{tab:params};][Supplementary Fig.~7]{Mey.etal.2016}. The
@@ -659,10 +654,10 @@
 \label{sec:extent}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
-    The modelled total ice volume reaches a maximum of 122.5\e{3}\,\unit{km^2},
+    The modelled total ice volume reaches a maximum of $122.5 \times 10^{3}$\,\unit{km^2},
     or 300.4\,mm of sea-level equivalent, at 24.56\,ka
     (Fig.~\ref{fig:lgmvel}b). A maximum glacierized area of
-    163.3\e{3}\,\unit{km^2} is attained shortly aftewards at 24.57\,ka.
+    $163.3 \times 10^{3}$\,\unit{km^2} is attained shortly aftewards at 24.57\,ka.
     (Fig.~\ref{fig:lgmvel}b). Although the modelled timing of the LGM varies
     accross the mountain range (Sect.~\ref{sec:timing}), at 24.57\,ka nearly
     all glaciers extend to within a few km from their modelled maximum stage
@@ -905,7 +900,7 @@
 
 
 % ----------------------------------------------------------------------
-\section{Conclusions}
+\conclusions
 % ----------------------------------------------------------------------
 
     This study consists in the application of the numerical ice sheet model
@@ -982,12 +977,19 @@
 % Acknowledgements
 % ----------------------------------------------------------------------
 
-\subsection*{Author contributions}
+\codedataavailability{%
+    PISM is available as open-source software at http://pism-docs.org/.
+    Please contact the corresponding author for model output data.
+    \idea{Should we make model output available somewhere?}}
 
+\authorcontribution{%
     J.~Seguinot designed the study, ran the simulations, and wrote most of
-    the manuscript. All authors contributed to the text.
+    the manuscript. All authors contributed to the text.}
 
-\subsection*{Acknowledgements}
+\competinginterests{%
+    We have no conflict of interest in publishing these results.}
+
+\begin{acknowledgements}
 
     This manuscript builds largely upon a previous study on the Cordilleran Ice
     Sheet which is part of J.~Seguinot's PhD thesis. The experimental design
@@ -1007,11 +1009,14 @@
     Computer resources were provided by the Swiss National Supercomputing
     Centre (CSCS) allocation no.~s573 to J.~Seguinot.
 
+\end{acknowledgements}
+
+
 % ----------------------------------------------------------------------
 % References
 % ----------------------------------------------------------------------
 
-\bibliographystyle{abbrvnat}
+\bibliographystyle{copernicus}
 \bibliography{../../references/references}
 
 
@@ -1020,7 +1025,7 @@
 \clearpage
 % ----------------------------------------------------------------------
 
-    \begin{figure}
+    \begin{figure*}
       \centerline{\includegraphics{alpcyc_hr_inputs}}
       \caption{%
         \textbf{(a)} July mean near-surface air temperature and
@@ -1035,9 +1040,9 @@
         boundary condition to the bedrock thermal model 3\,km below the
         ice-bedrock interface.}
       \label{fig:inputs}
-    \end{figure}
+    \end{figure*}
 
-    \begin{figure}
+    \begin{figure*}
       \centerline{\includegraphics{alpcyc_lr_timeseries}}
       \caption{%
         \textbf{(a)} Temperature offset time-series from ice core and ocean
@@ -1049,9 +1054,9 @@
         and MIS~4 according to a~global compilation of benthic
         \chem{\delta^{18}O} records \citep{Lisiecki.Raymo.2005}.}
       \label{fig:timeseries}
-    \end{figure}
+    \end{figure*}
 
-    \begin{figure}
+    \begin{figure*}
       \centerline{\includegraphics{alpcyc_lr_footprints}}
       \caption{%
         \textbf{(a--c)} Cumulative extent of modelled ice cover during MIS~2
@@ -1065,9 +1070,9 @@
         (71--57\,ka). Only the simulation driven by the EPICA temperature
         time-series yields reasonable MIS~4 ice cover.}
       \label{fig:footprints}
-    \end{figure}
+    \end{figure*}
 
-    \begin{figure}
+    \begin{figure*}
       \centerline{\includegraphics{alpcyc_hr_lgmvel}}
       \caption{%
         \textbf{(a)} Modelled bedrock topography (grey), ice surface topography
@@ -1087,9 +1092,9 @@
         a~global compilation of benthic \chem{\delta^{18}O} records
         \citep{Lisiecki.Raymo.2005}.}
       \label{fig:lgmvel}
-    \end{figure}
+    \end{figure*}
 
-    \begin{figure}
+    \begin{figure*}
       \centerline{\includegraphics{alpcyc_hr_timing}}
       \caption{%
         \textbf{(a)} Timing of the LGM given by the modelled age of maximum ice
@@ -1100,7 +1105,7 @@
         and modelled glacierized area during the LGM (coloured curve). The LGM
         is here modelled as a time-transgressive event.}
       \label{fig:timing}
-    \end{figure}
+    \end{figure*}
 
     \begin{figure}
       \centerline{\includegraphics{alpcyc_hr_trimlines}}
@@ -1122,7 +1127,7 @@
       \label{fig:trimlines}
     \end{figure}
 
-    \begin{figure}
+    \begin{figure*}
       \centerline{\includegraphics{alpcyc_hr_profiles}}
       \caption{%
         \textbf{(a, c, e, g)} Approximate glacier flowlines drawn by hand
@@ -1132,7 +1137,7 @@
         numerous cycles of advance and retreat over the last glacial cycle.
         Isolated patches indicate periodic surges from tributary glaciers.}
       \label{fig:profiles}
-    \end{figure}
+    \end{figure*}
 
 
 % ----------------------------------------------------------------------
@@ -1146,13 +1151,13 @@
       \label{tab:params}
       \noindent\small\makebox[\textwidth]
       {\begin{tabular}{llrll}
-        \toprule
+        \tophline
 
         Not.    & Name & Value & Unit & Source \\
 
-        \midrule
+        \middlehline
         \multicolumn{2}{l}{{Ice rheology}} \\
-        \midrule
+        \middlehline
 
         $\rho$  & Ice density
                 & 910
@@ -1170,22 +1175,22 @@
                 & \citet{Cuffey.Paterson.2010} \\
 
         $A_{\mathrm{c}}$   & Ice hardness coefficient cold
-                & $2.847\e{-13}$
+                & $2.847 \times 10^{-13}$
                 & \unit{Pa^{-3}\,s^{-1}}
                 & \citet{Cuffey.Paterson.2010} \\
 
         $A_{\mathrm{w}}$   & Ice hardness coefficient warm
-                & $2.356\e{-2}$
+                & $2.356 \times 10^{-2}$
                 & \unit{Pa^{-3}\,s^{-1}}
                 & \citet{Cuffey.Paterson.2010} \\
 
         $Q_{\mathrm{c}}$   & Flow law activation energy cold
-                & $6.0\e4$
+                & $6.0 \times 10^4$
                 & \unit{J\,mol^{-1}}
                 & \citet{Cuffey.Paterson.2010} \\
 
         $Q_{\mathrm{w}}$   & Flow law activation energy warm
-                & $11.5\e4$
+                & $11.5 \times 10^4$
                 & \unit{J\,mol^{-1}}
                 & \citet{Cuffey.Paterson.2010} \\
 
@@ -1215,7 +1220,7 @@
                 & -- \\
 
         $\beta$ & Clapeyron constant
-                & $7.9\e{-8}$
+                & $7.9 \times 10^{-8}$
                 & \unit{K\,Pa^{-1}}
                 & \citet{Luthi.etal.2002} \\
 
@@ -1235,13 +1240,13 @@
                 & \citet{Aschwanden.etal.2012} \\
 
         $L$     & Water latent heat of fusion
-                & $3.34\e5$
+                & $3.34\times10^5$
                 & \unit{J\,kg^{-1}\,K^{-1}}
                 & \citet{Aschwanden.etal.2012} \\
 
-        \midrule
+        \middlehline
         \multicolumn{2}{l}{{Basal sliding}} \\
-        \midrule
+        \middlehline
 
         $q$     & Pseudo-plastic sliding exponent
                 & 0.25
@@ -1283,9 +1288,9 @@
                 & m
                 & \citet{Bueler.Pelt.2015} \\
 
-        \midrule
+        \middlehline
         \multicolumn{2}{l}{{Bedrock and lithosphere}} \\
-        \midrule
+        \middlehline
 
         $\rho_{\mathrm{b}}$& Bedrock density
                 & 3300
@@ -1303,7 +1308,7 @@
                 & -- \\
 
         $\nu_{\mathrm{m}}$ & Astenosphere viscosity
-                & $2.2\e{20}$
+                & $2.2 \times 10^{20}$
                 & \unit{Pa\,s}
                 & \citet{Mey.etal.2016} \\
 
@@ -1313,13 +1318,13 @@
                 & \citet{Mey.etal.2016} \\
 
         $D$     & Lithosphere flexural rigidity
-                & $1.389\e{24}$
+                & $1.389 \times 10^{24}$
                 & \unit{N\,m}
                 & \citet{Mey.etal.2016} \\
 
-        \midrule
+        \middlehline
         \multicolumn{2}{l}{{Surface and atmosphere}} \\
-        \midrule
+        \middlehline
 
         $T_{\mathrm{s}}$   & Temperature of snow precipitation
                 & 273.15
@@ -1332,12 +1337,12 @@
                 & -- \\
 
         $F_{\mathrm{s}}$   & Degree-day factor for snow
-                & $3.297\e{-3}$
+                & $3.297 \times 10^{-3}$
                 & \unit{m\,K^{-1}\,day^{-1}}
                 & \citet{Huybrechts.1998} \\
 
         $F_{\mathrm{i}}$   & Degree-day factor for ice
-                & $8.791\e{-3}$
+                & $8.791 \times 10^{-3}$
                 & \unit{m\,K^{-1}\,day^{-1}}
                 & \citet{Huybrechts.1998} \\
 
@@ -1347,7 +1352,7 @@
                 & -- \\
 
         $\gamma$& Air temperature lapse rate
-                & $6\e{-3}$
+                & $6 \times 10^{-3}$
                 & \unit{K\,m{-1}}
                 & -- \\
 
@@ -1356,7 +1361,7 @@
                 & --
                 & \citet{Huybrechts.2002} \\
 
-        \bottomrule
+        \bottomhline
       \end{tabular}}
     \end{table*}
 
@@ -1373,13 +1378,13 @@
       \label{tab:records}
       \noindent\small\makebox[\textwidth]
       {\begin{tabular}{lccccccl}
-        \toprule
+        \tophline
 
         Forcing   & Latitude & Longitude & Elev. (m~a.s.l.)
                   & Proxy & $f$ & $[{\Delta}\text{TS}]_{32}^{22}$ (K)
                   & Reference\\
 
-        \midrule
+        \middlehline
 
         GRIP      & \multirow{2}{*}{ 72{\degree}35$^{\prime}$\,N}   % 72.58 (decimal)
                   & \multirow{2}{*}{ 37{\degree}38$^{\prime}$\,W}   % 37.64 (decimal)
@@ -1408,12 +1413,12 @@
 
         MD01-2444, $\Delta P$ &&&&& 2.44 & $-$10.6 \\
 
-        \bottomrule
+        \bottomhline
       \end{tabular}}
 
       %\noindent\small\makebox[\textwidth]
       %{\begin{tabular}{llrlrlr}
-      %  \toprule
+      %  \tophline
       %
       %  Record    & \multicolumn{2}{c}{GRIP}
       %            & \multicolumn{2}{c}{EPICA}
@@ -1423,7 +1428,7 @@
       %            & cst. & $\Delta P$
       %            & cst. & $\Delta P$ \\
       %
-      %  \midrule
+      %  \middlehline
       %
       %  Latitude  & \multicolumn{2}{c}{ 72{\degree}35$^{\prime}$\,N}   % 72.58 (decimal)
       %            & \multicolumn{2}{c}{ 75{\degree}06$^{\prime}$\,S}   % 75.1
@@ -1454,7 +1459,7 @@
       %            & \multicolumn{2}{c}{\citet{Jouzel.etal.2007}}
       %            & \multicolumn{2}{c}{\citet{Martrat.etal.2007}} \\
       %
-      %  \bottomrule
+      %  \bottomhline
       %\end{tabular}}
 
     \end{table*}
