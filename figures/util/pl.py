@@ -368,6 +368,13 @@ def draw_boot_topo(ax=None, res='1km'):
     return im
 
 
+def draw_scaling_domain(ax=None):
+    """Add Rhine lobe scaling domain."""
+    w, e, s, n = ut.pl.regions['rhlobe']
+    x = [w, e, e, w, w]
+    y = [s, s, n, n, s]
+    ax.plot(x, y, c='k', lw=0.5)
+
 # Timeseries elements
 # -------------------
 

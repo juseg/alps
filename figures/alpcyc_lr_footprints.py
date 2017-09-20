@@ -19,13 +19,6 @@ for ax in grid.flat:
     ax.set_extent(ut.pl.regions['alps'], crs=ax.projection)
     ax.set_rasterization_zorder(2.5)
 
-# add Rhine lobe scaling domain  # FIXME move to util
-w, e, s, n = ut.pl.regions['rhlobe']
-x = [w, e, e, w, w]
-y = [s, s, n, n, s]
-for ax in grid[0]:
-    ax.plot(x, y, c='k', lw=0.5)
-
 # for each record
 for i, rec in enumerate(ut.alpcyc_records):
     label = ut.alpcyc_clabels[i]
@@ -38,6 +31,7 @@ for i, rec in enumerate(ut.alpcyc_records):
         grid[0, i/2].set_title(rec, fontweight='bold', color=c)
         ut.pl.add_subfig_label('(%s)' % list('abc')[i/2], ax=grid[0, i/2])
         ut.pl.add_subfig_label('(%s)' % list('def')[i/2], ax=grid[1, i/2])
+        ut.pl.draw_scaling_domain(grid[0, i/2])
 
     # load extra output
     dtfile = '%s3222cool%04d' % (rec.replace('-', '').lower(), round(dt*100))
