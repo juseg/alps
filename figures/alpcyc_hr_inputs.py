@@ -19,10 +19,10 @@ for i, ax in enumerate(grid.flat):
     ut.pl.draw_natural_earth(ax)
     ut.pl.add_subfig_label('(%s)' % list('abcd')[i], ax)
 
-# plot boot geoflux on last panel
+# plot boot geoflux on first panel
 nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-1km.nc')
-ax = grid.flat[3]
-cax = cgrid[3]
+ax = grid.flat[0]
+cax = cgrid[0]
 levs = range(55, 96, 5)
 cmap = ut.pl.get_cmap('PuOr_r', len(levs)-1)
 cols = cmap(range(len(levs)-1))
@@ -50,8 +50,8 @@ nc.close()
 
 # plot July temperature
 #print 'July temp min %.1f, max %.1f' % (temp.min(), temp[3:-3, 3:-3].max())
-ax = grid.flat[0]
-cax = cgrid[0]
+ax = grid.flat[2]
+cax = cgrid[2]
 levs = range(-5, 26, 5)
 cmap = ut.pl.get_cmap('RdBu_r', len(levs)-1)
 cols = cmap(range(len(levs)))
@@ -61,8 +61,8 @@ cb.set_label(u'July temperature (°C)')
 
 # plot January precipitation
 #print 'Jan. prec min %.1f, max %.1f' % (prec.min(), prec.max())
-ax = grid.flat[1]
-cax = cgrid[1]
+ax = grid.flat[3]
+cax = cgrid[3]
 levs = range(0, 301, 50)
 cmap = ut.pl.get_cmap('Greens', len(levs)-1)
 cols = cmap(range(len(levs)))
@@ -72,8 +72,8 @@ cb.set_label(r'January precipitation (mm)')
 
 # plot July standard deviation
 #print 'July s.d. min %.1f, max %.1f' % (sd.min(), sd.max())
-ax = grid.flat[2]
-cax = cgrid[2]
+ax = grid.flat[1]
+cax = cgrid[1]
 levs = [1.7, 2.0, 2.3, 2.6, 2.9, 3.2, 3.5]
 cmap = ut.pl.get_cmap('Reds', len(levs)-1)
 cols = cmap(range(len(levs)-1))

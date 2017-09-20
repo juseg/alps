@@ -306,7 +306,8 @@
     enthalpy model. Temperature is computed in the ice and in the bedrock down
     to a~depth of 3\,\unit{km} below the glacier base, where it is
     conditioned by a~lower boundary geothermal heat flux estimate from multiple
-    geothermal proxies \citep[similarity method]{Goutorbe.etal.2011}.
+    geothermal proxies (\citealp[similarity method]{Goutorbe.etal.2011};
+    Fig.~\ref{fig:inputs}a).
 
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
@@ -424,7 +425,7 @@
     from ERA-Interim daily temperature values from 1979 to 2012
     \citep{Mesinger.etal.2006}, including variability associated with the
     seasonal cycle \citep{Seguinot.2013}, and bilinearly interpolated to the
-    model grids (Fig.~\ref{fig:inputs}). Degree-day factors for snow and ice
+    model grids (Fig.~\ref{fig:inputs}b). Degree-day factors for snow and ice
     melt are set to values used in the European Ice Sheet Modelling INiTiative
     \citep[Table~\ref{tab:params}; EISMINT,][]{Huybrechts.1998}.
 
@@ -452,8 +453,9 @@
     near-surface air temperature and precipitation rate fields from
     WorldClim \citep{Hijmans.etal.2005}, representative of the period~1960
     to~1990. Modern climate of the European Alps is characterised by a
-    north-south gradient in summer air temperatures, and an east-west
-    gradient in winter precipitation (Fig.~\ref{fig:inputs}). WorldClim data
+    north-south gradient in summer air temperatures (Fig.~\ref{fig:inputs}c),
+    and an east-west gradient in winter precipitation (Fig.~\ref{fig:inputs}d).
+    WorldClim data
     were selected as an input to the ice sheet model because they incorporate
     observations from the dense weather station network of central Europe
     \citep[Fig.~1]{Hijmans.etal.2005}. Besides, WorldClim data were
@@ -531,10 +533,11 @@
     while temperature reconstructions from the EPICA and MD01-2444 records were
     provided as such. For each proxy record used and each of the parameter
     setup used in the sensitivity tests, palaeo-temperature anomalies are
-    scaled linearly (Table~\ref{tab:records}) so that the cumulative glaciated
-    area of the Rhine glacier piedmont lobe during Oxygen Marine Isotope Stage
-    (MIS)~2 (29--14\,ka) is modelled comparably to the reconstructions
-    (Fig.~\ref{fig:footprints}).
+    scaled linearly (Table~\ref{tab:records}, Fig.~\ref{fig:timeseries}a) so
+    that the cumulative glaciated area of the Rhine glacier piedmont lobe
+    during Oxygen Marine Isotope Stage (MIS)~2 (29--14\,ka) is modelled
+    comparably to the reconstructions (Fig.~\ref{fig:footprints}a, black
+    rectangle).
 
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
@@ -543,7 +546,7 @@
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
     Finally, in some simulations, precipitation was reduced with temperature in
-    order to simulate the potential rarification of atmospheric moisture in
+    order to simulate the potential rarefaction of atmospheric moisture in
     colder climates. This was done using an empirical relationship derived from
     observed accumulation rates and oxygen isotopes concentrations in the GRIP
     ice core \citep{Dahl-Jensen.etal.1993},
@@ -1108,17 +1111,17 @@
     \begin{figure*}
       \centerline{\includegraphics{alpcyc_hr_inputs}}
       \caption{%
-        \textbf{(a)} July mean near-surface air temperature and
-        \textbf{(b)} January precipitation from WorldClim
-        \citep[1960--1990]{Hijmans.etal.2005}, and
-        \textbf{(c)} Mordern July standard deviation of daily mean temperature
+        \textbf{(a)} Geothermal heat flow from applying the similarity method
+        to multiple geophysical proxies \citep{Goutorbe.etal.2011} used as a
+        boundary condition to the bedrock thermal model 3\,km below the
+        ice-bedrock interface.
+        \textbf{(b)} Mordern July standard deviation of daily mean temperature
         from the ERA-Interim \citep[1979--2012]{Dee.etal.2011, Seguinot.2013}
         from the reference monthly climatology used to force the surface mass
         balance (PDD) component of the ice sheet model.
-        \textbf{(d)} Geothermal heat flow from applying the similarity method
-        to multiple geophysical proxies \citep{Goutorbe.etal.2011} used as a
-        boundary condition to the bedrock thermal model 3\,km below the
-        ice-bedrock interface.}
+        \textbf{(c)} Modern July mean near-surface air temperature and
+        \textbf{(d)} January precipitation from WorldClim
+        \citep[1960--1990]{Hijmans.etal.2005}.}
       \label{fig:inputs}
     \end{figure*}
 
