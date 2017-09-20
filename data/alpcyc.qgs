@@ -3,7 +3,7 @@
     <title></title>
     <layer-tree-group expanded="1" checked="Qt::PartiallyChecked" name="">
         <customproperties/>
-        <layer-tree-group expanded="0" checked="Qt::Checked" name="Interpretation">
+        <layer-tree-group expanded="1" checked="Qt::Checked" name="Interpretation">
             <customproperties/>
             <layer-tree-layer expanded="0" checked="Qt::Checked" id="alpcyc_transfluences20170829135800479" name="alpcyc_transfluences">
                 <customproperties/>
@@ -92,10 +92,10 @@
     <mapcanvas>
         <units>meters</units>
         <extent>
-            <xmin>-54490.59945292538031936</xmin>
-            <ymin>4880921.39411563705652952</ymin>
-            <xmax>1387408.39191680448129773</xmax>
-            <ymax>5388408.26332014333456755</ymax>
+            <xmin>162277.33818485640222207</xmin>
+            <ymin>4650040.56879886612296104</ymin>
+            <xmax>1083688.86361048207618296</xmax>
+            <ymax>5404959.41760055348277092</ymax>
         </extent>
         <projections>1</projections>
         <destinationsrs>
@@ -166,7 +166,7 @@
         </custom-order>
     </layer-tree-canvas>
     <legend updateDrawingOrder="true">
-        <legendgroup open="false" checked="Qt::Checked" name="Interpretation">
+        <legendgroup open="true" checked="Qt::Checked" name="Interpretation">
             <legendlayer drawingOrder="-1" open="false" checked="Qt::Checked" name="alpcyc_transfluences" showFeatureCount="0">
                 <filegroup open="false" hidden="false">
                     <legendlayerfile isInOverview="0" layerid="alpcyc_transfluences20170829135800479" visible="1"/>
@@ -292,6 +292,222 @@
             </filegroup>
         </legendlayer>
     </legend>
+    <Composer title="sgm17" visible="0">
+        <Composition snapGridTolerance="2" gridVisible="0" printResolution="300" paperWidth="420" snapGridOffsetX="0" guidesVisible="1" snapGridResolution="10" snapGridOffsetY="0" alignmentSnap="1" snapping="0" numPages="1" paperHeight="297" alignmentSnapTolerance="2" smartGuides="1" printAsRaster="1" generateWorldFile="0">
+            <symbol alpha="1" type="fill" name="">
+                <layer pass="0" class="SimpleFill" locked="0">
+                    <prop k="border_width_map_unit_scale" v="0,0"/>
+                    <prop k="border_width_unit" v="MM"/>
+                    <prop k="color" v="255,255,255,255"/>
+                    <prop k="color_border" v="0,0,0,255"/>
+                    <prop k="joinstyle" v="miter"/>
+                    <prop k="offset" v="0,0"/>
+                    <prop k="offset_map_unit_scale" v="0,0"/>
+                    <prop k="offset_unit" v="MM"/>
+                    <prop k="style" v="solid"/>
+                    <prop k="style_border" v="no"/>
+                    <prop k="width_border" v="0.26"/>
+                </layer>
+            </symbol>
+            <ComposerMap mapRotation="0" keepLayerSet="false" overviewFrameMap="-1" id="0" previewMode="Cache" drawCanvasItems="true">
+                <overviewFrame overviewBlendMode="0" overviewFrameMap="-1" overviewCentered="false" overviewInverted="false">
+                    <symbol alpha="0.3" type="fill" name="">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="border_width_unit" v="MM"/>
+                            <prop k="color" v="255,0,0,255"/>
+                            <prop k="color_border" v="0,0,0,255"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="style" v="no"/>
+                            <prop k="style_border" v="solid"/>
+                            <prop k="width_border" v="1"/>
+                        </layer>
+                    </symbol>
+                </overviewFrame>
+                <Extent ymin="4820000" xmin="150000" ymax="5420000" xmax="1050000"/>
+                <LayerSet/>
+                <Grid gridStyle="0" crossLength="3" gridFramePenThickness="0.5" intervalX="0" offsetX="0" intervalY="0" offsetY="0" gridFrameStyle="0" gridFrameWidth="2" gridBlendMode="0" show="0">
+                    <framePenColor alpha="255" red="0" blue="0" green="0"/>
+                    <frameFillColor1 alpha="255" red="255" blue="255" green="255"/>
+                    <frameFillColor2 alpha="255" red="0" blue="0" green="0"/>
+                    <symbol alpha="1" type="line" name="">
+                        <layer pass="0" class="SimpleLine" locked="0">
+                            <prop k="capstyle" v="flat"/>
+                            <prop k="color" v="0,0,0,255"/>
+                            <prop k="customdash" v="5;2"/>
+                            <prop k="customdash_map_unit_scale" v="0,0"/>
+                            <prop k="customdash_unit" v="MM"/>
+                            <prop k="draw_inside_polygon" v="0"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="penstyle" v="solid"/>
+                            <prop k="use_custom_dash" v="0"/>
+                            <prop k="width" v="0.3"/>
+                            <prop k="width_map_unit_scale" v="0,0"/>
+                            <prop k="width_unit" v="MM"/>
+                        </layer>
+                    </symbol>
+                    <Annotation rightDirection="0" bottomDirection="0" format="0" topPosition="1" precision="3" leftDirection="0" rightPosition="1" bottomPosition="1" frameDistance="1" show="0" font="Sans Serif,9,-1,5,50,0,0,0,0,0" leftPosition="1" topDirection="0">
+                        <fontColor alpha="255" red="0" blue="0" green="0"/>
+                    </Annotation>
+                </Grid>
+                <AtlasMap scalingMode="2" atlasDriven="0" margin="0.10000000000000001"/>
+                <ComposerItem pagey="18.5" page="1" id="" lastValidViewScaleFactor="2.35652" positionMode="0" positionLock="false" x="15" y="18.5" zValue="1" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="390" outlineWidth="0.25" uuid="{217c02d3-437b-4192-be96-b58e2da61fe8}" height="260" itemRotation="0" frame="true" pagex="15">
+                    <FrameColor alpha="255" red="0" blue="0" green="0"/>
+                    <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
+                </ComposerItem>
+            </ComposerMap>
+        </Composition>
+    </Composer>
+    <Composer title="a3west" visible="0">
+        <Composition snapGridTolerance="2" gridVisible="0" printResolution="300" paperWidth="297" snapGridOffsetX="0" guidesVisible="1" snapGridResolution="10" snapGridOffsetY="0" alignmentSnap="1" snapping="0" numPages="1" paperHeight="420" alignmentSnapTolerance="2" smartGuides="1" printAsRaster="1" generateWorldFile="0">
+            <symbol alpha="1" type="fill" name="">
+                <layer pass="0" class="SimpleFill" locked="0">
+                    <prop k="border_width_map_unit_scale" v="0,0"/>
+                    <prop k="border_width_unit" v="MM"/>
+                    <prop k="color" v="255,255,255,255"/>
+                    <prop k="color_border" v="0,0,0,255"/>
+                    <prop k="joinstyle" v="miter"/>
+                    <prop k="offset" v="0,0"/>
+                    <prop k="offset_map_unit_scale" v="0,0"/>
+                    <prop k="offset_unit" v="MM"/>
+                    <prop k="style" v="solid"/>
+                    <prop k="style_border" v="no"/>
+                    <prop k="width_border" v="0.26"/>
+                </layer>
+            </symbol>
+            <ComposerMap mapRotation="0" keepLayerSet="false" overviewFrameMap="-1" id="0" previewMode="Cache" drawCanvasItems="true">
+                <overviewFrame overviewBlendMode="0" overviewFrameMap="-1" overviewCentered="false" overviewInverted="false">
+                    <symbol alpha="0.3" type="fill" name="">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="border_width_unit" v="MM"/>
+                            <prop k="color" v="255,0,0,255"/>
+                            <prop k="color_border" v="0,0,0,255"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="style" v="no"/>
+                            <prop k="style_border" v="solid"/>
+                            <prop k="width_border" v="1"/>
+                        </layer>
+                    </symbol>
+                </overviewFrame>
+                <Extent ymin="4850000" xmin="200000" ymax="5350000" xmax="550000"/>
+                <LayerSet/>
+                <Grid gridStyle="0" crossLength="3" gridFramePenThickness="0.5" intervalX="0" offsetX="0" intervalY="0" offsetY="0" gridFrameStyle="0" gridFrameWidth="2" gridBlendMode="0" show="0">
+                    <framePenColor alpha="255" red="0" blue="0" green="0"/>
+                    <frameFillColor1 alpha="255" red="255" blue="255" green="255"/>
+                    <frameFillColor2 alpha="255" red="0" blue="0" green="0"/>
+                    <symbol alpha="1" type="line" name="">
+                        <layer pass="0" class="SimpleLine" locked="0">
+                            <prop k="capstyle" v="flat"/>
+                            <prop k="color" v="0,0,0,255"/>
+                            <prop k="customdash" v="5;2"/>
+                            <prop k="customdash_map_unit_scale" v="0,0"/>
+                            <prop k="customdash_unit" v="MM"/>
+                            <prop k="draw_inside_polygon" v="0"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="penstyle" v="solid"/>
+                            <prop k="use_custom_dash" v="0"/>
+                            <prop k="width" v="0.3"/>
+                            <prop k="width_map_unit_scale" v="0,0"/>
+                            <prop k="width_unit" v="MM"/>
+                        </layer>
+                    </symbol>
+                    <Annotation rightDirection="0" bottomDirection="0" format="0" topPosition="1" precision="3" leftDirection="0" rightPosition="1" bottomPosition="1" frameDistance="1" show="0" font="Sans Serif,9,-1,5,50,0,0,0,0,0" leftPosition="1" topDirection="0">
+                        <fontColor alpha="255" red="0" blue="0" green="0"/>
+                    </Annotation>
+                </Grid>
+                <AtlasMap scalingMode="2" atlasDriven="0" margin="0.10000000000000001"/>
+                <ComposerItem pagey="10" page="1" id="" lastValidViewScaleFactor="0.920836" positionMode="0" positionLock="false" x="8.5" y="10" zValue="1" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="280" outlineWidth="0.25" uuid="{36582141-2058-423d-b628-8600676f4107}" height="400" itemRotation="0" frame="true" pagex="8.5">
+                    <FrameColor alpha="255" red="0" blue="0" green="0"/>
+                    <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
+                </ComposerItem>
+            </ComposerMap>
+        </Composition>
+    </Composer>
+    <Composer title="a3east" visible="0">
+        <Composition snapGridTolerance="2" gridVisible="0" printResolution="300" paperWidth="420" snapGridOffsetX="0" guidesVisible="1" snapGridResolution="10" snapGridOffsetY="0" alignmentSnap="1" snapping="0" numPages="1" paperHeight="297" alignmentSnapTolerance="2" smartGuides="1" printAsRaster="1" generateWorldFile="0">
+            <symbol alpha="1" type="fill" name="">
+                <layer pass="0" class="SimpleFill" locked="0">
+                    <prop k="border_width_map_unit_scale" v="0,0"/>
+                    <prop k="border_width_unit" v="MM"/>
+                    <prop k="color" v="255,255,255,255"/>
+                    <prop k="color_border" v="0,0,0,255"/>
+                    <prop k="joinstyle" v="miter"/>
+                    <prop k="offset" v="0,0"/>
+                    <prop k="offset_map_unit_scale" v="0,0"/>
+                    <prop k="offset_unit" v="MM"/>
+                    <prop k="style" v="solid"/>
+                    <prop k="style_border" v="no"/>
+                    <prop k="width_border" v="0.26"/>
+                </layer>
+            </symbol>
+            <ComposerMap mapRotation="0" keepLayerSet="false" overviewFrameMap="-1" id="0" previewMode="Cache" drawCanvasItems="true">
+                <overviewFrame overviewBlendMode="0" overviewFrameMap="-1" overviewCentered="false" overviewInverted="false">
+                    <symbol alpha="0.3" type="fill" name="">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="border_width_unit" v="MM"/>
+                            <prop k="color" v="255,0,0,255"/>
+                            <prop k="color_border" v="0,0,0,255"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="style" v="no"/>
+                            <prop k="style_border" v="solid"/>
+                            <prop k="width_border" v="1"/>
+                        </layer>
+                    </symbol>
+                </overviewFrame>
+                <Extent ymin="5025000" xmin="550000" ymax="5375000" xmax="1050000"/>
+                <LayerSet/>
+                <Grid gridStyle="0" crossLength="3" gridFramePenThickness="0.5" intervalX="0" offsetX="0" intervalY="0" offsetY="0" gridFrameStyle="0" gridFrameWidth="2" gridBlendMode="0" show="0">
+                    <framePenColor alpha="255" red="0" blue="0" green="0"/>
+                    <frameFillColor1 alpha="255" red="255" blue="255" green="255"/>
+                    <frameFillColor2 alpha="255" red="0" blue="0" green="0"/>
+                    <symbol alpha="1" type="line" name="">
+                        <layer pass="0" class="SimpleLine" locked="0">
+                            <prop k="capstyle" v="flat"/>
+                            <prop k="color" v="0,0,0,255"/>
+                            <prop k="customdash" v="5;2"/>
+                            <prop k="customdash_map_unit_scale" v="0,0"/>
+                            <prop k="customdash_unit" v="MM"/>
+                            <prop k="draw_inside_polygon" v="0"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="penstyle" v="solid"/>
+                            <prop k="use_custom_dash" v="0"/>
+                            <prop k="width" v="0.3"/>
+                            <prop k="width_map_unit_scale" v="0,0"/>
+                            <prop k="width_unit" v="MM"/>
+                        </layer>
+                    </symbol>
+                    <Annotation rightDirection="0" bottomDirection="0" format="0" topPosition="1" precision="3" leftDirection="0" rightPosition="1" bottomPosition="1" frameDistance="1" show="0" font="Sans Serif,9,-1,5,50,0,0,0,0,0" leftPosition="1" topDirection="0">
+                        <fontColor alpha="255" red="0" blue="0" green="0"/>
+                    </Annotation>
+                </Grid>
+                <AtlasMap scalingMode="2" atlasDriven="0" margin="0.10000000000000001"/>
+                <ComposerItem pagey="8.5" page="1" id="" lastValidViewScaleFactor="0.672881" positionMode="0" positionLock="false" x="10" y="8.5" zValue="1" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="400" outlineWidth="0.25" uuid="{99db5b1a-f31e-4551-acb9-ca7b7d0ed09b}" height="280" itemRotation="0" frame="true" pagex="10">
+                    <FrameColor alpha="255" red="0" blue="0" green="0"/>
+                    <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
+                </ComposerItem>
+            </ComposerMap>
+        </Composition>
+    </Composer>
     <projectlayers layercount="23">
         <maplayer minimumScale="0" maximumScale="1e+08" type="plugin" hasScaleBasedVisibilityFlag="0" name="openlayers">
             <id>OpenLayers_plugin_layer20170823170043078</id>
@@ -480,7 +696,7 @@
         </maplayer>
         <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Point" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
             <id>alpcyc_cross_divides20170829140656992</id>
-            <datasource>native/alpcyc_cross_divides.shp</datasource>
+            <datasource>./native/alpcyc_cross_divides.shp</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -509,7 +725,7 @@
                             <prop k="angle" v="0"/>
                             <prop k="fill" v="#ffffff"/>
                             <prop k="horizontal_anchor_point" v="1"/>
-                            <prop k="name" v="native/symbol_pass.svg"/>
+                            <prop k="name" v="./native/symbol_pass.svg"/>
                             <prop k="offset" v="0,0"/>
                             <prop k="offset_map_unit_scale" v="0,0"/>
                             <prop k="offset_unit" v="MM"/>
@@ -518,7 +734,7 @@
                             <prop k="outline_width_map_unit_scale" v="0,0"/>
                             <prop k="outline_width_unit" v="MM"/>
                             <prop k="scale_method" v="area"/>
-                            <prop k="size" v="5"/>
+                            <prop k="size" v="2"/>
                             <prop k="size_map_unit_scale" v="0,0"/>
                             <prop k="size_unit" v="MM"/>
                             <prop k="vertical_anchor_point" v="1"/>
@@ -526,7 +742,7 @@
                         <layer pass="0" class="SimpleMarker" locked="0">
                             <prop k="angle" v="90"/>
                             <prop k="color" v="0,0,0,255"/>
-                            <prop k="color_border" v="255,255,0,255"/>
+                            <prop k="color_border" v="0,0,0,255"/>
                             <prop k="horizontal_anchor_point" v="1"/>
                             <prop k="name" v="line"/>
                             <prop k="offset" v="0,0"/>
@@ -537,7 +753,7 @@
                             <prop k="outline_width_map_unit_scale" v="0,0"/>
                             <prop k="outline_width_unit" v="MM"/>
                             <prop k="scale_method" v="area"/>
-                            <prop k="size" v="10"/>
+                            <prop k="size" v="4"/>
                             <prop k="size_map_unit_scale" v="0,0"/>
                             <prop k="size_unit" v="MM"/>
                             <prop k="vertical_anchor_point" v="1"/>
@@ -646,14 +862,14 @@
                 <property key="labeling/shadowUnder" value="0"/>
                 <property key="labeling/shapeBlendMode" value="0"/>
                 <property key="labeling/shapeBorderColorA" value="255"/>
-                <property key="labeling/shapeBorderColorB" value="128"/>
-                <property key="labeling/shapeBorderColorG" value="128"/>
-                <property key="labeling/shapeBorderColorR" value="128"/>
-                <property key="labeling/shapeBorderWidth" value="0"/>
+                <property key="labeling/shapeBorderColorB" value="0"/>
+                <property key="labeling/shapeBorderColorG" value="0"/>
+                <property key="labeling/shapeBorderColorR" value="0"/>
+                <property key="labeling/shapeBorderWidth" value="0.25"/>
                 <property key="labeling/shapeBorderWidthMapUnitMaxScale" value="0"/>
                 <property key="labeling/shapeBorderWidthMapUnitMinScale" value="0"/>
                 <property key="labeling/shapeBorderWidthUnits" value="1"/>
-                <property key="labeling/shapeDraw" value="false"/>
+                <property key="labeling/shapeDraw" value="true"/>
                 <property key="labeling/shapeFillColorA" value="255"/>
                 <property key="labeling/shapeFillColorB" value="255"/>
                 <property key="labeling/shapeFillColorG" value="255"/>
@@ -676,14 +892,14 @@
                 <property key="labeling/shapeSizeMapUnitMinScale" value="0"/>
                 <property key="labeling/shapeSizeType" value="0"/>
                 <property key="labeling/shapeSizeUnits" value="1"/>
-                <property key="labeling/shapeSizeX" value="0"/>
-                <property key="labeling/shapeSizeY" value="0"/>
-                <property key="labeling/shapeTransparency" value="0"/>
+                <property key="labeling/shapeSizeX" value="0.25"/>
+                <property key="labeling/shapeSizeY" value="0.25"/>
+                <property key="labeling/shapeTransparency" value="25"/>
                 <property key="labeling/shapeType" value="0"/>
                 <property key="labeling/textColorA" value="255"/>
                 <property key="labeling/textColorB" value="0"/>
-                <property key="labeling/textColorG" value="255"/>
-                <property key="labeling/textColorR" value="255"/>
+                <property key="labeling/textColorG" value="0"/>
+                <property key="labeling/textColorR" value="0"/>
                 <property key="labeling/textTransp" value="0"/>
                 <property key="labeling/upsidedownLabels" value="0"/>
                 <property key="labeling/wrapChar" value=""/>
@@ -734,7 +950,7 @@
         </maplayer>
         <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Line" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
             <id>alpcyc_ice_divides20170901094433113</id>
-            <datasource>native/alpcyc_ice_divides.shp</datasource>
+            <datasource>./native/alpcyc_ice_divides.shp</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -761,7 +977,7 @@
                     <symbol alpha="1" type="line" name="0">
                         <layer pass="0" class="SimpleLine" locked="0">
                             <prop k="capstyle" v="square"/>
-                            <prop k="color" v="170,85,0,255"/>
+                            <prop k="color" v="177,89,40,255"/>
                             <prop k="customdash" v="5;2"/>
                             <prop k="customdash_map_unit_scale" v="0,0"/>
                             <prop k="customdash_unit" v="MM"/>
@@ -779,7 +995,7 @@
                     </symbol>
                 </symbols>
                 <rotation/>
-                <sizescale field="4 - rank" scalemethod="area"/>
+                <sizescale field="0.5 * (4 - rank)" scalemethod="area"/>
             </renderer-v2>
             <customproperties>
                 <property key="labeling" value="pal"/>
@@ -926,7 +1142,7 @@
             </customproperties>
             <blendMode>0</blendMode>
             <featureBlendMode>0</featureBlendMode>
-            <layerTransparency>0</layerTransparency>
+            <layerTransparency>25</layerTransparency>
             <displayfield>rank</displayfield>
             <label>0</label>
             <labelattributes>
@@ -966,9 +1182,9 @@
             <excludeAttributesWFS/>
             <attributeactions/>
         </maplayer>
-        <maplayer minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Point" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+        <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Point" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
             <id>alpcyc_transfluences20170829135800479</id>
-            <datasource>native/alpcyc_transfluences.shp</datasource>
+            <datasource>./native/alpcyc_transfluences.shp</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -995,7 +1211,7 @@
                     <symbol alpha="1" type="marker" name="0">
                         <layer pass="0" class="SimpleMarker" locked="0">
                             <prop k="angle" v="0"/>
-                            <prop k="color" v="255,170,0,255"/>
+                            <prop k="color" v="227,26,28,255"/>
                             <prop k="color_border" v="0,0,0,0"/>
                             <prop k="horizontal_anchor_point" v="1"/>
                             <prop k="name" v="arrow"/>
@@ -1007,7 +1223,7 @@
                             <prop k="outline_width_map_unit_scale" v="0,0"/>
                             <prop k="outline_width_unit" v="MM"/>
                             <prop k="scale_method" v="area"/>
-                            <prop k="size" v="5"/>
+                            <prop k="size" v="2"/>
                             <prop k="size_map_unit_scale" v="0,0"/>
                             <prop k="size_unit" v="MM"/>
                             <prop k="vertical_anchor_point" v="1"/>
@@ -1116,14 +1332,14 @@
                 <property key="labeling/shadowUnder" value="0"/>
                 <property key="labeling/shapeBlendMode" value="0"/>
                 <property key="labeling/shapeBorderColorA" value="255"/>
-                <property key="labeling/shapeBorderColorB" value="128"/>
-                <property key="labeling/shapeBorderColorG" value="128"/>
-                <property key="labeling/shapeBorderColorR" value="128"/>
-                <property key="labeling/shapeBorderWidth" value="0"/>
+                <property key="labeling/shapeBorderColorB" value="0"/>
+                <property key="labeling/shapeBorderColorG" value="0"/>
+                <property key="labeling/shapeBorderColorR" value="0"/>
+                <property key="labeling/shapeBorderWidth" value="0.25"/>
                 <property key="labeling/shapeBorderWidthMapUnitMaxScale" value="0"/>
                 <property key="labeling/shapeBorderWidthMapUnitMinScale" value="0"/>
                 <property key="labeling/shapeBorderWidthUnits" value="1"/>
-                <property key="labeling/shapeDraw" value="false"/>
+                <property key="labeling/shapeDraw" value="true"/>
                 <property key="labeling/shapeFillColorA" value="255"/>
                 <property key="labeling/shapeFillColorB" value="255"/>
                 <property key="labeling/shapeFillColorG" value="255"/>
@@ -1146,14 +1362,14 @@
                 <property key="labeling/shapeSizeMapUnitMinScale" value="0"/>
                 <property key="labeling/shapeSizeType" value="0"/>
                 <property key="labeling/shapeSizeUnits" value="1"/>
-                <property key="labeling/shapeSizeX" value="0"/>
-                <property key="labeling/shapeSizeY" value="0"/>
-                <property key="labeling/shapeTransparency" value="0"/>
+                <property key="labeling/shapeSizeX" value="0.25"/>
+                <property key="labeling/shapeSizeY" value="0.25"/>
+                <property key="labeling/shapeTransparency" value="25"/>
                 <property key="labeling/shapeType" value="0"/>
                 <property key="labeling/textColorA" value="255"/>
                 <property key="labeling/textColorB" value="0"/>
-                <property key="labeling/textColorG" value="170"/>
-                <property key="labeling/textColorR" value="255"/>
+                <property key="labeling/textColorG" value="0"/>
+                <property key="labeling/textColorR" value="0"/>
                 <property key="labeling/textTransp" value="0"/>
                 <property key="labeling/upsidedownLabels" value="0"/>
                 <property key="labeling/wrapChar" value=""/>
@@ -1207,7 +1423,7 @@
         </maplayer>
         <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Line" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
             <id>alpcyc_water_divides20170907095456909</id>
-            <datasource>native/alpcyc_water_divides.shp</datasource>
+            <datasource>./native/alpcyc_water_divides.shp</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -1234,7 +1450,7 @@
                     <symbol alpha="1" type="line" name="0">
                         <layer pass="0" class="SimpleLine" locked="0">
                             <prop k="capstyle" v="square"/>
-                            <prop k="color" v="170,85,0,255"/>
+                            <prop k="color" v="177,89,40,255"/>
                             <prop k="customdash" v="5;2"/>
                             <prop k="customdash_map_unit_scale" v="0,0"/>
                             <prop k="customdash_unit" v="MM"/>
@@ -1245,7 +1461,7 @@
                             <prop k="offset_unit" v="MM"/>
                             <prop k="penstyle" v="dot"/>
                             <prop k="use_custom_dash" v="0"/>
-                            <prop k="width" v="1"/>
+                            <prop k="width" v="0.5"/>
                             <prop k="width_map_unit_scale" v="0,0"/>
                             <prop k="width_unit" v="MM"/>
                         </layer>
@@ -1399,7 +1615,7 @@
             </customproperties>
             <blendMode>0</blendMode>
             <featureBlendMode>0</featureBlendMode>
-            <layerTransparency>0</layerTransparency>
+            <layerTransparency>25</layerTransparency>
             <displayfield>name</displayfield>
             <label>0</label>
             <labelattributes>
@@ -1441,7 +1657,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Line" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
             <id>alps_wcnn_1km_epica3222cool1220_alpcyc4_pp_lgmicesrf20170829100206942</id>
-            <datasource>processed/alps-wcnn-1km-epica3222cool1220+alpcyc4+pp-lgmicesrf.shp</datasource>
+            <datasource>./processed/alps-wcnn-1km-epica3222cool1220+alpcyc4+pp-lgmicesrf.shp</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -1676,7 +1892,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
             <id>alps_wcnn_1km_epica3222cool1220_alpcyc4_pp_lgmicesrf20170829102320022</id>
-            <datasource>processed/alps-wcnn-1km-epica3222cool1220+alpcyc4+pp-lgmicesrf.tif</datasource>
+            <datasource>./processed/alps-wcnn-1km-epica3222cool1220+alpcyc4+pp-lgmicesrf.tif</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -1717,9 +1933,9 @@
             </pipe>
             <blendMode>0</blendMode>
         </maplayer>
-        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+        <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
             <id>alps_wcnn_1km_epica3222cool1220_alpcyc4_pp_lgmsrfvel20170829100312534</id>
-            <datasource>processed/alps-wcnn-1km-epica3222cool1220+alpcyc4+pp-lgmsrfvel.tif</datasource>
+            <datasource>./processed/alps-wcnn-1km-epica3222cool1220+alpcyc4+pp-lgmsrfvel.tif</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -1746,19 +1962,14 @@
                 <noDataList bandNo="1" useSrcNoData="1"/>
             </noData>
             <pipe>
-                <rasterrenderer opacity="0.752941" alphaBand="-1" classificationMax="100" classificationMinMaxOrigin="User" band="1" classificationMin="0" type="singlebandpseudocolor">
+                <rasterrenderer opacity="0.752941" alphaBand="0" classificationMax="1000" classificationMinMaxOrigin="User" band="1" classificationMin="0" type="singlebandpseudocolor">
                     <rasterTransparency/>
                     <rastershader>
                         <colorrampshader colorRampType="INTERPOLATED" clip="0">
-                            <item alpha="255" value="0" label="0.000000" color="#f7fbff"/>
-                            <item alpha="255" value="13" label="13.000000" color="#deebf7"/>
-                            <item alpha="255" value="26" label="26.000000" color="#c7dcef"/>
-                            <item alpha="255" value="39" label="39.000000" color="#a2cbe2"/>
-                            <item alpha="255" value="52" label="52.000000" color="#72b2d7"/>
-                            <item alpha="255" value="65" label="65.000000" color="#4997c9"/>
-                            <item alpha="255" value="78" label="78.000000" color="#2878b8"/>
-                            <item alpha="255" value="90" label="90.000000" color="#0d57a1"/>
-                            <item alpha="255" value="100" label="100.000000" color="#08306b"/>
+                            <item alpha="255" value="10" label="32" color="#f7fbff"/>
+                            <item alpha="255" value="32" label="100" color="#afd1e7"/>
+                            <item alpha="255" value="100" label="316" color="#3d8dc3"/>
+                            <item alpha="255" value="316" label="1000" color="#08306b"/>
                         </colorrampshader>
                     </rastershader>
                 </rasterrenderer>
@@ -1770,7 +1981,7 @@
         </maplayer>
         <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
             <id>lgm_alpen_holefilled20170831154255930</id>
-            <datasource>native/lgm_alpen_holefilled.shp</datasource>
+            <datasource>./native/lgm_alpen_holefilled.shp</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -2006,7 +2217,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
             <id>srtm_37_0320170823170457715</id>
-            <datasource>external/srtm_37_03.tif</datasource>
+            <datasource>./external/srtm_37_03.tif</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -2049,7 +2260,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
             <id>srtm_37_0420170823170457816</id>
-            <datasource>external/srtm_37_04.tif</datasource>
+            <datasource>./external/srtm_37_04.tif</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -2092,7 +2303,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
             <id>srtm_38_0320170823170457911</id>
-            <datasource>external/srtm_38_03.tif</datasource>
+            <datasource>./external/srtm_38_03.tif</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -2135,7 +2346,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
             <id>srtm_38_0420170823170458009</id>
-            <datasource>external/srtm_38_04.tif</datasource>
+            <datasource>./external/srtm_38_04.tif</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -2178,7 +2389,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
             <id>srtm_39_0320170823170458111</id>
-            <datasource>external/srtm_39_03.tif</datasource>
+            <datasource>./external/srtm_39_03.tif</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -2221,7 +2432,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
             <id>srtm_39_0420170823170458211</id>
-            <datasource>external/srtm_39_04.tif</datasource>
+            <datasource>./external/srtm_39_04.tif</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -2264,7 +2475,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
             <id>srtm_40_0320170823170458310</id>
-            <datasource>external/srtm_40_03.tif</datasource>
+            <datasource>./external/srtm_40_03.tif</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -2307,7 +2518,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
             <id>srtm_40_0420170823170458409</id>
-            <datasource>external/srtm_40_04.tif</datasource>
+            <datasource>./external/srtm_40_04.tif</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -2350,7 +2561,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
             <id>srtm_41_0320170823170458507</id>
-            <datasource>external/srtm_41_03.tif</datasource>
+            <datasource>./external/srtm_41_03.tif</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -2393,7 +2604,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
             <id>srtm_41_0420170823170458605</id>
-            <datasource>external/srtm_41_04.tif</datasource>
+            <datasource>./external/srtm_41_04.tif</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
