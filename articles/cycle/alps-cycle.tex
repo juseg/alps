@@ -207,11 +207,11 @@
     topography, geothermal heat flux and climate forcing. It computes the
     evolution of ice extent and thickness over time, the thermal and dynamic
     states of the ice sheet, and the associated lithospheric response. The
-    set-up used here is largely based on that used in previous studies of the
-    former Cordilleran ice sheet \citep{Seguinot.2014, Seguinot.etal.2014,
-    Seguinot.etal.2016}.
-
-    \idea{Remove next paragraph?}
+    model set-up used here was previously developed and tested on the former
+    Cordilleran ice sheet \citep{Seguinot.2014, Seguinot.etal.2014,
+    Seguinot.etal.2016} and subsequently adapted for steady climate
+    \citep{Becker.etal.2016} and regional \citep{Jouvet.etal.2017a}
+    applications to the European Alps.
 
     Ice deformation follows temperature and water-content dependent creep
     (Sect.~\ref{sec:icedyn}). Basal sliding follows a~pseudo-plastic law where
@@ -222,23 +222,17 @@
     Climate forcing is provided by a~monthly climatology from interpolated
     observational data \citep[WorldClim;][]{Hijmans.etal.2005} and the European
     Centre for Medium-Range Weather Forecasts Reanalysis Interim
-    \citep[ERA-Interim;][]{Dee.etal.2011}, perturbed by time-dependent
-    temperature offsets, temperature lapse-rate corrections, and in some cases,
-    time-dependent paleo-precipitation reductions (Sect.~\ref{sec:atm},
-    Table~\ref{tab:records}).
-
-    \idea{Remove next paragraph?}
+    \citep[ERA-Interim;][]{Dee.etal.2011}, perturbed by temperature lapse-rate
+    corrections (Sect.~\ref{sec:atm}), time-dependent temperature offsets, and
+    in some cases, time-dependent paleo-precipitation reductions
+    (Sect.~\ref{sec:climate}).
 
     Each simulation starts from assumed present-day ice thickness and
     equilibrium temperature distribution at 120\,\unit{ka}, and runs to the
     present. Our modelling domain of 900 by 600\,\unit{km} encompasses the
     entire Alpine range (Fig.~\ref{fig:inputs}). The simulations were run on
-    two distinct grids, using a~lower horizontal resolution of 2\,\unit{km},
-    and a~higher horizontal resolution of 1\,\unit{km}.
-
-    \idea{In the following, I repeat all parameters in the text and table. Is
-          this necessary? Equations are the same as in my Cordillera paper.
-          Should I remove them?}
+    two distinct grids, using horizontal resolutions of 2 and 1\,\unit{km}.
+    All parameter values are summarized in Table~\ref{tab:params}.
 
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
@@ -254,9 +248,12 @@
     the two approximations \citep[Eqs.~7--9 and 15]{Winkelmann.etal.2011}.
     Although this heuristic approach implies errors in the transition zone
     where gravitational stresses intervene both in the SIA and SSA velocity
-    computation, this hybrid scheme is computationally much more efficient than
-    a fully three-dimensional model with which the simulations presented here
-    would not be feasible.
+    computation, it was shown to effectively approximate complex ice field flow
+    dynamics over mountainous topographies similar to that of the European Alps
+    \citep{Golledge.etal.2012, Ziemen.etal.2016}. Beside, this hybrid scheme is
+    computationally much more efficient than a fully three-dimensional model
+    with which the simulations of the scale presented here would not be
+    feasible.
 
     Ice deformation is governed by the constitutive law for ice
     \citep{Glen.1952, Nye.1953},
@@ -268,7 +265,9 @@
     where $\vec{\dot{\epsilon}}$ is the strain-rate tensor, $\vec{\tau}$ the
     deviatoric stress tensor, and $\tau_{\mathrm{e}}$ the effective stress
     defined in our case by
-    ${\tau_{\mathrm{e}}}^2=\frac{1}{2}\mathrm{tr}(\vec{\tau}^2)$. The ice
+    ${\tau_{\mathrm{e}}}^2=\frac{1}{2}\mathrm{tr}(\vec{\tau}^2)$. We set the
+    power-law exponent, $n=3$, according to
+    \citet[p.~55--57]{Cuffey.Paterson.2010}. The ice
     softness coefficient, $A$, depends on ice temperature, $T$, pressure, $p$,
     and water content, $\omega$, through a~piece-wise Arrhenius-type law,
     %
@@ -291,31 +290,23 @@
     $Q_{\mathrm{w}}=11.5 \times 10^4$\,\unit{J\,mol^{-1}} are constant parameters
     corresponding to values measured below and above a~critical temperature
     threshold $T_{\mathrm{c}}=-10$\,\unit{{\degree}C}
-    \citep[p.~72]{Cuffey.Paterson.2010}. The water fraction, $\omega$, is
+    \citep[p.~72]{Cuffey.Paterson.2010}. We set the Clapeyron constant,
+    $\beta=7.9\times 10^{-8}$\,\unit{K\,Pa^{-1}}, according to
+    \citet{Luthi.etal.2002}, and the water fraction coefficient, $f=181.25$,
+    according to \citet{Lliboutry.Duval.1985}. The water fraction, $\omega$, is
     capped at a~maximum value of 0.01, above which no measurements are
     available \citep[Eq.~5.7]{Lliboutry.Duval.1985, Greve.1997}. Finally, $E$
-    is a~non-dimensional enhancement factor which can take different values,
+    is a~non-dimensional enhancement factor which take the values,
     $E_{\text{SIA}}=2$, in the SIA and $E_{\text{SSA}}=1$, in the SSA, as
     recommended for Holocene polar ice \citep[p.~77]{Cuffey.Paterson.2010}.
 
-    In all our simulations, we set constant the power-law exponent, $n=3$,
-    according to \citet[p.~55--57]{Cuffey.Paterson.2010}, the Clapeyron
-    constant, $\beta=7.9\times 10^{-8}$\,\unit{K\,Pa^{-1}}, according to
-    \citet{Luthi.etal.2002}, and the water fraction coefficient, $f=181.25$,
-    according to \citet{Lliboutry.Duval.1985}. These fixed parameter values are
-    summarized in Table~\ref{tab:params}.
-
     Surface air temperature derived from the climate forcing
-    (Sect.~\ref{sec:atm}) provides the upper boundary condition to the ice
-    enthalpy model. Temperature is computed in the ice and in the bedrock to
-    a~depth of 3\,\unit{km} below the ice-bedrock interface, where it is
+    (Sects.~\ref{sec:atm}, ~\ref{sec:paltemp}) provides the upper boundary
+    condition to the ice
+    enthalpy model. Temperature is computed in the ice and in the bedrock down
+    to a~depth of 3\,\unit{km} below the glacier base, where it is
     conditioned by a~lower boundary geothermal heat flux estimate from multiple
-    geothermal proxies \citep[similarity method]{Goutorbe.etal.2011}. In the
-    2\,km-resolution simulations, the vertical grid consists of 31~temperature
-    layers in the bedrock and up to 126~enthalpy layers in the ice,
-    corresponding to vertical resolutions of 100 and 40\,\unit{m},
-    respectively. The 1\,km-resolution simulation uses 61~bedrock layers and up
-    to 251~ice layers with a~vertical resolutions of 50 and 20\,\unit{m}.
+    geothermal proxies \citep[similarity method]{Goutorbe.etal.2011}.
 
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
@@ -335,14 +326,14 @@
     sliding velocity, $\vec{v}_{\mathrm{b}}$. The pseudo-plastic sliding
     exponent, $q=0.25$, and the threshold velocity,
     $v_{\text{th}}=100$\,\unit{m\,a^{-1}}, are set to values successfully used
-    to model the Greenland ice sheet \citet{Aschwanden.etal.2013} The yield
+    to model the Greenland ice sheet \citep{Aschwanden.etal.2013}. The yield
     stress, $\tau_{\mathrm{c}}$, is modelled using the Mohr--Coulomb criterion,
     %
     \begin{align}
       \tau_{\mathrm{c}} = c_0 + N\,\tan{\phi} \,,
     \end{align}
     %
-    where the till cohesion, $c_0=0$, was consistently measured to be
+    where the till cohesion, $c_0=0$, was oftentimes measured to be
     negligible \citep[p.~268]{Tulaczyk.etal.2000, Cuffey.Paterson.2010}. We use
     a~constant till friction angle, $\phi=30$\unit{\degree}, corresponding to
     the average of values presented in \citet[p.~268]{Cuffey.Paterson.2010}.
@@ -362,8 +353,7 @@
     $C_{\mathrm{c}}=0.12$, were set to the only measurements available to our
     knowledge \citep{Tulaczyk.etal.2000}. The amount of water at the base, $W$,
     varies from zero to $W_{\text{max}}=2$\,m, a~threshold above which
-    additional melt water is assumed to drain off instantaneously. These fixed
-    parameter values are summarized in Table~\ref{tab:params}.
+    additional melt water is assumed to drain off instantaneously.
 
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
@@ -388,11 +378,16 @@
     elastic rigidity, $D=1.389 \times 10^{24}$\,\unit{N\,m}, were set according to
     results from glacial isostatic adjustment modelling of deglacial rebound in
     the Alps most closely reproducing observed modern uplift rates
-    \citep[Table~\ref{tab:params};][Supplementary Fig.~7]{Mey.etal.2016}. The
-    latter was computed as $D=YE^3/12(1-\nu)$, where $Y=100$\,GPa is Young's
-    modulus, $\nu=0.25$ is the Poisson ratio, and $E=50$\,km is the average
-    effective elastic thickness of the lithosphere
-    \citep[Table~\ref{tab:params};][]{Mey.etal.2016}.
+    \citep[Supplementary Fig.~7]{Mey.etal.2016}. Unfortunately, the latter was
+    computed using the erroneous formula, ${D=YE^3/12(1-\nu)}$
+    \citep{Mey.etal.2016}. The correct formula is ${D=YE^3/12(1-\nu^2)}$.
+    Using the Young's modulus, $Y=100$\,GPa, and the Poisson ratio, $\nu=0.25$
+    \citep{Mey.etal.2016}, our value for lithosphere rigidity thus correspond
+    to an effective elastic thickness of the lithosphere of $E=52.415$\,km,
+    instead of the 50\,km value used by \citet{Mey.etal.2016}.
+
+    \note{This is embarrassing, but I realised too late that the formula in
+          \citet{Mey.etal.2016} was wrong.}
 
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
@@ -411,8 +406,8 @@
     in one year.
 
     The PDD computation accounts for stochastic temperature variations by
-    assuming a~normal temperature distribution of standard deviation $\sigma$
-    around the expected value $T_{\mathrm{m}}$. It is expressed by an
+    assuming a~normal temperature distribution of standard deviation, $\sigma$,
+    around the expected value, $T_{\mathrm{m}}$. It is expressed by an
     error-function formulation \citep{Calov.Greve.2005},
     %
     \begin{align}
@@ -455,22 +450,26 @@
     %
     The present-day monthly climatology was bilinearly interpolated from
     near-surface air temperature and precipitation rate fields from
-    \citep[WorldClim;][]{Hijmans.etal.2005}, representative of the period 1960
-    to 1990. Modern climate of the European Alps is characterised by a
-    latitudinal gradient in summer air temperatures, and a longitudinal
+    WorldClim \citep{Hijmans.etal.2005}, representative of the period~1960
+    to~1990. Modern climate of the European Alps is characterised by a
+    north-south gradient in summer air temperatures, and an east-west
     gradient in winter precipitation (Fig.~\ref{fig:inputs}). WorldClim data
     were selected as an input to the ice sheet model because they incorporate
-    observations from the dense weather station network of central Europe.
-    Besides, last glacial cycle alpine glaciers did not extend over marine
-    areas where WorldClim data is missing. Finally, WorldClim data were
+    observations from the dense weather station network of central Europe
+    \citep[Fig.~1]{Hijmans.etal.2005}. Besides, WorldClim data were
     previously used as climate forcing for PISM to model the LGM extent of the
     former Cordilleran ice sheet in good agreement with geological evidence
     along the southern margin \citep{Seguinot.etal.2014} were weather station
-    density is lower than in the Alps.
+    density is lower than in the Alps. Finally, the last glacial cycle alpine
+    glaciers did not extend over marine areas where WorldClim data is missing.
+    Although low station density in the Arctic and missing data on marine
+    surfaces were major setbacks against accurate representation of Cordilleran
+    climate \citep{Seguinot.etal.2014}, these concerns are irrelevant to the
+    European Alps.
 
     The temperature lapse-rate corrections, ${\Delta}T_{\text{LR}}$, are
     computed as a~function of ice surface elevation, $s$, using the SRTM
-    topography shipped with WorldClimas a~reference, $b_{\text{ref}}$:
+    topography shipped with WorldClim as a~reference, $b_{\text{ref}}$:
     %
     \begin{align}
       {\Delta}T_{\text{LR}}(t, x, y) &= -\gamma [s(t, x, y)-b_{\text{ref}}] \\
