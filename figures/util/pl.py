@@ -359,6 +359,19 @@ def draw_trimlines(ax=None, c=palette['darkblue'], s=4**2, alpha=0.75):
                transform=ut.pl.swiss)
 
 
+def draw_glacier_names(ax=None):
+    """Add glacier lobes and ice cap names."""
+    shp = cshp.Reader('../data/native/alpcyc_glacier_names.shp')
+    for rec in shp.records():
+        name = rec.attributes['name'].decode('utf-8').replace(' ', '\n')
+        sort = rec.attributes['type']
+        lon = rec.geometry.x
+        lat = rec.geometry.y
+        x, y = ax.projection.transform_point(lon, lat, src_crs=ut.pl.ll)
+        style = ('italic' if sort == 'cap' else 'normal')
+        ax.text(x, y, name, fontsize=6, style=style, ha='center', va='center')
+
+
 def draw_boot_topo(ax=None, res='1km'):
     """Add bootstrapping topography image."""
     ax = ax or iplt.gca()

@@ -27,6 +27,7 @@ cs = ax.contourf(maxthkage/1e3, levs, extent=extent, colors=cols, extend='both',
 ut.pl.draw_boot_topo(ax)
 ut.pl.draw_envelope(ax)
 ut.pl.draw_natural_earth(ax)
+ut.pl.draw_glacier_names(ax)
 
 # add colorbar
 cb = fig.colorbar(cs, cax)

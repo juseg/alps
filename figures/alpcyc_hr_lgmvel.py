@@ -36,6 +36,7 @@ cb.set_label(r'surface velocity ($m\,a^{-1}$)')
 ut.pl.draw_natural_earth(ax)
 ut.pl.draw_lgm_outline(ax)
 ut.pl.draw_footprint(ax)
+ut.pl.draw_glacier_names(ax)
 ut.pl.add_corner_tag('%.2f ka' % a, ax)
 
 # Time series
