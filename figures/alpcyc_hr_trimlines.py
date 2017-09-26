@@ -113,7 +113,11 @@ zz = [zt.min(), zt.max()]
 scax.plot(zz, zz+davg, c='0.25')
 scax.plot(zz, zz+davg-dstd, c='0.25', dashes=(2, 1), lw=0.5)
 scax.plot(zz, zz+davg+dstd, c='0.25', dashes=(2, 1), lw=0.5)
+scax.axvline(zavg, c='0.25', dashes=(2, 1), lw=0.5)
 scax.axhline(zavg+davg, c='0.25', dashes=(2, 1), lw=0.5)
+scax.text(zavg-25.0, (bt+ht).min(), '%.0f m' % zavg, color='0.25',
+          rotation=90, rotation_mode='anchor')
+scax.text(zz[0], zavg+davg+25.0, '%.0f m' % (zavg+davg), color='0.25')
 hsax.axhline(davg, c='0.25')
 hsax.axhline(davg-dstd, c='0.25', dashes=(2, 1), lw=0.5)
 hsax.axhline(davg+dstd, c='0.25', dashes=(2, 1), lw=0.5)
