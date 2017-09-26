@@ -372,6 +372,55 @@ def draw_glacier_names(ax=None):
         ax.text(x, y, name, fontsize=6, style=style, ha='center', va='center')
 
 
+def draw_ice_domes(ax=None, textoffset=4):
+    """Add ice domes."""
+    shp = cshp.Reader('../data/native/alpcyc_ice_domes.shp')
+    for rec in shp.records():
+        name = rec.attributes['name'].decode('utf-8')
+        lon = rec.geometry.x
+        lat = rec.geometry.y
+        x, y = ax.projection.transform_point(lon, lat, src_crs=ut.pl.ll)
+        ax.plot(x, y, 'k^')
+        ax.annotate(name, xy=(x, y), xytext=(0, textoffset), style='italic',
+                    textcoords='offset points', ha='center', va='bottom')
+
+
+def draw_major_transfluences(ax=None, textoffset=4):
+    """Add major transfluences."""
+    locations = {u'Col de Montgenèvre': 'lc',
+                 u'Col du Mont-Cenis': 'uc',
+                 u'Simplon Pass': 'uc',
+                 u'Brünig Pass': 'uc',
+                 u'Fern Pass': 'cl',
+                 u'Seefeld Saddle': 'cr',
+                 u'Gailberg Saddle': 'cl',
+                 u'Kreuzberg Saddle': 'cr',
+                 u'Straniger Alp': 'cr',
+                 u'Pyhrn Pass': 'lc'}
+    shp = cshp.Reader('../data/native/alpcyc_transfluences.shp')
+    for rec in shp.records():
+        name = rec.attributes['name'].decode('utf-8')
+        if name in locations:
+            lon = rec.geometry.x
+            lat = rec.geometry.y
+            x, y = ax.projection.transform_point(lon, lat, src_crs=ut.pl.ll)
+            xloc = locations[name][1]
+            yloc = locations[name][0]
+            dx = {'c': 0, 'l': -1, 'r': 1}[xloc]*textoffset
+            dy = {'c': 0, 'l': -1, 'u': 1}[yloc]*textoffset
+            ha = {'c': 'center', 'l': 'right', 'r': 'left'}[xloc]
+            va = {'c': 'center', 'l': 'top', 'u': 'bottom'}[yloc]
+            name = name.replace('Col de ', '')
+            name = name.replace('Col du ', '')
+            name = name.replace(' Alp', '')
+            name = name.replace(' Pass', '')
+            name = name.replace(' Saddle', '')
+            #azim = rec.attributes['azimuth']
+            ax.plot(x, y, 'k+')  # for rotated marks use marker=(2, 0, -azim)
+            ax.annotate(name, xy=(x, y), xytext=(dx, dy),
+                        textcoords='offset points', ha=ha, va=va)
+
+
 def draw_boot_topo(ax=None, res='1km'):
     """Add bootstrapping topography image."""
     ax = ax or iplt.gca()
