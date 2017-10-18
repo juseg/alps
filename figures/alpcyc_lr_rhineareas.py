@@ -11,7 +11,8 @@ import numpy as np
 # 2km original?   9662196158.76 m2
 # 2km holefilled 10068557699.62 m2
 # 2km fullfilled 10292635994.90 m2
-targets = [9.92007028636, 10.29263599490]
+#targets = [9.92007028636, 10.29263599490]
+target = 10.29263599490
 
 # initialize figure
 fig, ax = ut.pl.subplots_ts()
@@ -27,66 +28,59 @@ for i, rec in enumerate(ut.alpcyc_records):
     label = ut.alpcyc_clabels[i]
     conf = ut.alpcyc_configs[i]
     c = ut.alpcyc_colours[i]
-    for j, res in enumerate(resolutions):
-        target = targets[j]
-        ls = linestyles[j]
-        lw = linewidths[j]
-        m = markers[j]
-        offsets = []
-        fpareas = []
+    offsets = []
+    fpareas = []
 
-        # loop on offsets
-        for dt in np.arange(6.0, 14.1, 0.1):
+    # loop on offsets
+    for dt in np.arange(6.0, 14.1, 0.1):
 
-            # try to find max area
-            try:
+        # try to find max area
+        try:
 
-                # load extra file
-                dtfile = '%s3222cool%04d' % (rec.replace('-', '').lower(),
-                                             round(dt*100))
-                nc = ut.io.load('output/e9d2d1f/alps-wcnn-%s/%s+%s/'
-                                'y???????-extra.nc' % (res, dtfile, conf))
-                w, e, s, n = ut.pl.regions['rhlobe']
-                x = nc.variables['x'][:]
-                y = nc.variables['y'][:]
-                xmask = (w < x)*(x < e)
-                ymask = (s < y)*(y < n)
-                x = x[xmask]
-                y = y[ymask]
-                thk = nc.variables['thk'][909:1059, ymask, xmask]  # 29--14 ka
-                nc.close()
+            # load extra file
+            dtfile = '%s3222cool%04d' % (rec.replace('-', '').lower(),
+                                         round(dt*100))
+            nc = ut.io.load('output/e9d2d1f/alps-wcnn-2km/%s+%s/'
+                            'y???????-extra.nc' % (dtfile, conf))
+            w, e, s, n = ut.pl.regions['rhlobe']
+            x = nc.variables['x'][:]
+            y = nc.variables['y'][:]
+            xmask = (w < x)*(x < e)
+            ymask = (s < y)*(y < n)
+            x = x[xmask]
+            y = y[ymask]
+            thk = nc.variables['thk'][909:1059, ymask, xmask]  # 29--14 ka
+            nc.close()
 
-                # compute footprint area in 1e3 km2
-                dx = x[1] - x[0]
-                dy = y[1] - y[0]
-                footprint = 1 - (thk < 1.0).prod(axis=0)
-                a = footprint.sum()*dx*dy*1e-9
+            # compute footprint area in 1e3 km2
+            dx = x[1] - x[0]
+            dy = y[1] - y[0]
+            footprint = 1 - (thk < 1.0).prod(axis=0)
+            a = footprint.sum()*dx*dy*1e-9
 
-                # append to lists
-                offsets.append(dt)
-                fpareas.append(a)
+            # append to lists
+            offsets.append(dt)
+            fpareas.append(a)
 
-            # else do nothing
-            except (RuntimeError, IndexError, ValueError):
-                pass
+        # else do nothing
+        except (RuntimeError, IndexError, ValueError):
+            pass
 
-        # continue if no files found
-        if fpareas == []:
-            continue
+    # continue if no files found
+    if fpareas == []:
+        continue
 
-        # plot
-        argmin = np.argmin(np.abs(np.array(fpareas)-target))
-        #print label, offsets[argmin]
-        ax.plot(offsets, fpareas, c=c, ls=ls, lw=lw, marker=m,
-                label=(label if res == '2km' else None))
-        ax.axhline(target, ls=ls, lw=0.1, c='0.5')
-        if res == '2km':
-            ax.plot(offsets[argmin], fpareas[argmin], c=c, marker='D')
-            ax.axvline(offsets[argmin], lw=0.1, c=c)
-            for dt, a in zip(offsets, fpareas):
-                if a:
-                    ax.text(dt+0.1, a, '%.1f' % a, color=c, fontsize=4,
-                            ha='left', va='center', clip_on=True)
+    # plot
+    argmin = np.argmin(np.abs(np.array(fpareas)-target))
+    #print label, offsets[argmin]
+    ax.plot(offsets, fpareas, c=c, marker='+', label=label)
+    ax.axhline(target, lw=0.1, c='0.5')
+    ax.plot(offsets[argmin], fpareas[argmin], c=c, marker='D')
+    ax.axvline(offsets[argmin], lw=0.1, c=c)
+    for dt, a in zip(offsets, fpareas):
+        if a:
+            ax.text(dt+0.1, a, '%.1f' % a, color=c, fontsize=4,
+                    ha='left', va='center', clip_on=True)
 
 # set axes properties
 ax.legend(loc='lower left', ncol=3)
