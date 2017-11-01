@@ -17,7 +17,7 @@ nc.close()
 # calculate computing speed and node hours
 speed = stamp - np.insert(stamp[:-1], 0, 0.0)
 speed = np.where(speed>0, speed, stamp)
-cumnh = speed.cumsum()*16e-3
+cumnh = speed.cumsum()/24.0
 
 # plot
 c = ut.pl.palette['darkblue']
@@ -31,7 +31,7 @@ ax.plot(age, cumnh, color=c)
 # set axes properies
 ax.set_xlim(120.0, 0.0)
 ax.set_xlabel('model time (ka)')
-ax.set_ylabel('computing time (node-hours*1000)')
+ax.set_ylabel('computing time (days)')
 ax.grid()
 
 # save
