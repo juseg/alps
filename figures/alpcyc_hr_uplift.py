@@ -41,7 +41,7 @@ cmap = ut.pl.get_cmap('Greens', len(levs)+1)
 cols = cmap(range(len(levs)+1))
 
 # plot modern uplift
-cs = ax.contourf(x, y, dbdt, thkth=-1, levels=levs, colors=cols,
+cs = ax.contourf(x, y, dbdt, levels=levs, colors=cols,
                  extend='both', alpha=0.75)
 
 # add location of time series
