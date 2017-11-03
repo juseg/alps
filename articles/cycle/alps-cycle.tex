@@ -73,12 +73,12 @@
     may have advanced many times over the foreland during the last glacial
     cycle. Ice flow patterns during peak glaciation are largely governed by
     subglacial topography but include occasional transfluences and
-    self-sustained ice domes. Finally, the Last
+    self-sustained ice domes. Modelled maximum ice surface is about 900\,m higher
+    than observed trimline elevations, yet our simulation predicts little
+    erosion at high elevation due to cold ice conditions. Finally, the Last
     Glacial Maximum advance, often considered synchronous, is here modelled as
     a time-transgressive event, with some glacier lobes reaching their maximum
-    as early as 27\,ka, and some as late as 21\,ka. Modelled ice thickness is
-    about 900\,m higher than observed trimline elevations, yet our simulation
-    predicts little erosion at high elevation due to cold ice conditions.
+    as early as 27\,ka, and some as late as 21\,ka.
 
 \end{abstract}
 
@@ -127,7 +127,7 @@
     indicating neither one, nor four, but rather tens of glacial and
     interglacial periods. During the last 800000 years (800\,ka), these
     \emph{glacial cycles}
-    have succeeded each other with a 100\,ka periodicity \citep{Hays.etal.1976,
+    have succeeded each other with a periodicity about 100\,ka \citep{Hays.etal.1976,
     Augustin.etal.2004}. Nevertheless, this global signal is largely governed
     by the North American and Eurasian ice sheet complexes. It is thus unclear
     whether glacier advances and retreats in the Alps were in pace with global
@@ -135,7 +135,7 @@
 
     Besides, the landform record is typically sparse in time and, most often,
     spatially incomplete. Palaeo-ice sheets did not leave a continuous imprint
-    on the lanscape, and much of this evidence has been overprinted by
+    on the landscape, and much of this evidence has been overprinted by
     subsequent glacier re-advances and other geomorphological processes
     \citep[e.g.,][]{Kleman.1994, Kleman.etal.2006, Kleman.etal.2010}. Dating
     uncertainties typically increase with age, such that dated reconstructions
@@ -511,7 +511,8 @@
     These simulations use an horizontal resolution of 2\,km. The vertical grid
     consists of 31~temperature layers in the bedrock and up to 126~enthalpy
     layers in the ice, corresponding to vertical resolutions of 100 and
-    40\,\unit{m}, respectively.
+    40\,\unit{m}, respectively. Simulations ran for \todo{how long?}
+    using 36~processors.
 
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
@@ -583,13 +584,15 @@
     glaciation periods in the Alps \citep{Preusser.2004, Ivy-Ochs.etal.2008}.
     All simulations also yield important glaciations during MIS~5 and 3, but
     their timing and amplitude varies significantly depending on the climate
-    forcing used. All six simulations overestimate
-    ice cover during the Younger Dryas \citep[cf. e.g.,][]{Ivy-Ochs.etal.2009}.
+    forcing used. All six simulations overestimate the late-glacial re-advance
+    during the Younger Dryas
+    \citep[\todo{timing}, cf. e.g.,][]{Ivy-Ochs.etal.2009}.
     This is partly because the 2\,km resolution is too coarse to resolve
     Younger Dryas Alpine glaciers, but the large total ice volume
     overestimation resulting from the GRIP temperature forcing
-    (Fig.~\ref{fig:timeseries}b, blue curves) can not be explained by
-    resolution alone.
+    (Fig.~\ref{fig:timeseries}b, blue curves) certainly indicates that the
+    vigorous cooling experienced in Greenland is certainly not representative
+    of the Alps.
 
     Geological data from the best documented Alpine piedmont lobes indicate
     that their maximum extension during MIS~2 occurred at around 25.5--24.0\,ka
@@ -600,7 +603,7 @@
     early maximum ice volume at 25.2/24.6 (without/with palaeo-precipitation
     reductions) followed by a standstill until 17.3\,ka
     (Fig.~\ref{fig:timeseries}b, blue curves). The GRIP palaeo-temperature
-    forcing, on the other hand, yield two distinct total ice volume maxima
+    forcing, on the other hand, yields two distinct total ice volume maxima
     at 27.3/27.0 and 21.8/21.7\,ka followed by an early deglaciation of the
     foreland by 21.4\,ka. The MD01-2444 palaeo-temperature forcing yields
     a late LGM peak ice volume at 16.5/15.7\,ka several thousand years after
@@ -653,9 +656,9 @@
     contain brief spells of cold temperatures, which are too short to develop a
     fully grown Alpine ice sheet, but long enough to build up ice cover on a
     smaller scale on these peripheral ranges (Fig.~\ref{fig:timeseries}). On
-    the other hand, peripheral glaciation modelled in the EPICA simulation
-    (Fig.~\ref{fig:footprints}b) is in relatively good agreement with the
-    geomorphological reconstructions.
+    the other hand, peripheral glaciation modelled using the EPICA record
+    (Fig.~\ref{fig:footprints}b), which has less temperature variability,
+    is in relatively good agreement with the geomorphological reconstructions.
 
     The modelled extent of glaciation during MIS~4 depicts a more pronounced
     sensitivity to the choice of palaeo-climate forcing used. Using the GRIP
@@ -672,9 +675,8 @@
     (Fig.~\ref{fig:timeseries}b) higher during MIS~4 than
     during MIS~2. This is in contradiction with geological evidence
     \citep{Preusser.2004, Ivy-Ochs.etal.2008}.
-
     The EPICA palaeo-temperature forcing, on the other hand, yields a MIS~4
-    glaciation that is only slightly less expensive than the MIS~2 glaciation
+    glaciation that is only slightly less expansive than the MIS~2 glaciation
     (Fig.~\ref{fig:footprints}e). The sensitivity of the glaciated area to
     palaeo-precipitation reductions is mostly limited to the southern terminal
     lobes of central-Alpine glaciers, which are slightly less extensive during
@@ -682,7 +684,7 @@
 
     Based on the above considerations on timing of the LGM during MIS~2, and
     modelled ice
-    extent during MIS~4, we chose EPICA as our optimal palaeo-temperature
+    extent during MIS~4, we select EPICA as our optimal palaeo-temperature
     record for a more detailed and higher-resolution comparison of modelled
     glacier dynamics to available geological evidence
     (Sect.~\ref{sec:results}). As a conservative approach in regard to the
@@ -713,7 +715,8 @@
     (Sect.~\ref{sec:palprec}). It uses an horizontal resolution of 1\,km. The
     vertical grid consists of 61~temperature layers in the bedrock and up to
     251~enthalpy layers in the ice, corresponding to vertical resolutions of 50
-    and 20\,\unit{m}, respectively.
+    and 20\,\unit{m}, respectively. This simulation ran for 33~days using
+    576~processors.
 
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
@@ -819,11 +822,14 @@
     Kelly.etal.2004, Bini.etal.2009}.
 
     The modelled flow pattern at 24.57\,ka is complex (Fig.~\ref{fig:lgmvel}a,
-    blue colour mapping). Fast-flow regions generally occur along the main
-    river valleys, while ice domes and ice divides are predominantly located
-    over major reliefs (Fig.~\ref{fig:lgmvel}a). Nevertheless, the model
-    results depict occasional ice flow across the modern water divides, i.e.
-    transfluences.
+    blue colour mapping). Ice velocities of several hundred metres per year,
+    characterising basal sliding, generally occur along the main river valleys,
+    while ice domes and ice divides are predominantly located over major
+    reliefs areas, where ice moves only by a few metres per year,
+    characterising internal deformation without basal sliding
+    (Fig.~\ref{fig:lgmvel}a). Nevertheless, the model results depict exceptions
+    to this general pattern as occasional ice flow across the modern water
+    divides, i.e. transfluences.
 
     In the Western Alps, major transfluences occur for instance across Col de
     Montgenèvre, Col du Mont-Cenis, Simplon Pass and Brünig Pass
@@ -894,11 +900,8 @@
     palaeo-climate forcing. The LGM timing differences modelled here are
     thus not related to climate, but are inherent to modelled glacier dynamics.
     They result from differences in the subglacial topography, in particular
-    catchment sizes and bed roughness, of the different outlet glaciers.
+    catchment sizes and hypsometry, of the different outlet glaciers.
 
-    PISM is a polythermal ice sheet model, i.e. it computes the distribution
-    of englacial temperatures resulting from heat advection, vertical
-    diffusion in ice and rock, and strain heat release, in three dimensions.
     For large Alpine glaciers flowing in deep valleys, such as the Rhone,
     Rhine and Garda glaciers, several thousand model years are needed to attain
     a thermodynamical equilibrium between cold ice advection from the high
@@ -909,11 +912,11 @@
     For larger glaciers, this thermodynamical equilibrium is typically not yet
     attained around 25\,ka. This is why several Alpine lobes overshoot their
     balanced extent before thinning and receding towards the mountains as they
-    warm towards thermodynamical equilibrium.
+    warm towards thermodynamical equilibrium (supplementary animation).
 
     Our results indicate that even for a relatively small ice sheet like that
     found in the Alps, the LGM glacier extent corresponds to a transient
-    stage, while ka-scale differences in its timing can
+    stage, while ka-scale inherent differences in its timing can
     result from complex glacier dynamics. Further differences in LGM timing
     caused by heterogeneous climatic anomalies, such as precipitation
     anomaly gradients, not included in our model set-up, may have
@@ -945,8 +948,9 @@
     during MIS~2 in our simulation, corrected for bedrock deformation, is
     consistently modelled to have occured several hundred metres above the
     observed trimline elevations (Fig.~\ref{fig:trimlines}a and b), with a mean
-    difference of 861\,m (Fig.~\ref{fig:trimlines}b). This result is
-    somewhat depedent on uncertain basal sliding and ice rheological parameters
+    difference of 861\,m (Fig.~\ref{fig:trimlines}b), wich is significant in
+    respect to the modelled regional ice thickness. This result is
+    somewhat dependent on uncertain basal sliding and ice rheological parameters
     to which the model sensitivity was not tested here. However, a previous
     sensitivity study conducted with PISM and a very similar model set-up on
     the Cordillera ice sheet show that varying ice rheological parameters
@@ -961,7 +965,7 @@
     thickness and strain heating contribute to form a layer of temperate ice
     near the glacier base, allowing basal melt, sliding and potentially
     erosion (Fig.~\ref{fig:trimlines}c, white areas). On the other hand, on the
-    highest mountains ice cover is to thin and too static to form temperate
+    highest mountains ice cover is too thin and too static to form temperate
     ice, resulting in cold ice down to the bed, preventing potential erosion
     (Fig.~\ref{fig:trimlines}c, hatched areas).
 
@@ -974,7 +978,7 @@
     sliding and ice rheological parameters, the presence of an upper layer of
     cold ice during the LGM, already found at high altitude in the much warmer
     climate of today \citep[e.g.,][]{Suter.etal.2001, Bohleber.etal.2017}, is
-    inevitable. Thus we want to challenge the assumption that
+    inevitable. In this context, the model results challenge the assumption that
     Alpine trimlines mark the maximum upper ice surface elevation of the LGM
     ice cover and call for a more accurate estimation of the thickness of the
     upper layer of cold ice in the Alps.
@@ -1065,7 +1069,7 @@
       \item The EPICA palaeo-temperature forcing yields cumulative ice extent
             compatible with geological evidence during MIS~4 and 2, whereas
             both GRIP and MD01-2444 forcings result in MIS~4 glaciation well
-            beyong the mapped LGM ice limits  (Sect.~\ref{sec:footprints}).
+            beyond the mapped LGM ice limits  (Sect.~\ref{sec:footprints}).
     \end{itemize}
 
     We then use this optimal palaeo-temperature forcing and, as a conservative
@@ -1086,7 +1090,7 @@
             subglacial topography, but several transfluences and two
             self-sustained ice domes may have occurred (Sect.~\ref{sec:flow}).
       \item The LGM was a transient stage in which glaciers were not in
-            equilibrium with climate. Timing potentially varied across the
+            equilibrium with climate. Its timing potentially varied across the
             range due to inherent glacier dynamics (Sect.~\ref{sec:timing}).
       \item Ice thickness during the LGM is modelled to be much higher than in
             reconstructions. In average, modelled surface elevation is 861\,m
@@ -1191,7 +1195,9 @@
         years (ka) expressed in meters of sea level equivalent (m~s.l.e.). Gray
         fields indicate Marine Oxygen Isotope Stage (MIS) boundaries for MIS~2
         and MIS~4 according to a~global compilation of benthic
-        \chem{\delta^{18}O} records \citep{Lisiecki.Raymo.2005}.}
+        \chem{\delta^{18}O} records \citep{Lisiecki.Raymo.2005}. The simulation
+        driven by the EPICA temperature yields smaller ice volume variability
+        and a more realistic timing of deglaciation.}
       \label{fig:timeseries}
     \end{figure*}
 
@@ -1270,7 +1276,8 @@
       \centerline{\includegraphics{alpcyc_hr_profiles}}
       \caption{%
         \textbf{(a, c, e, g)} Approximate glacier flowlines drawn by hand
-        rougly following selected glacial valley centerlines.
+        rougly following selected glacial valley centerlines for the Rhine,
+        Rhone, Ivrea and Isère glaciers.
         \textbf{(b, d, f, h)} Evolution of modelled glacier extent in time,
         bilinearly interpolated along the corresponding profiles, showing
         numerous cycles of advance and retreat over the last glacial cycle
