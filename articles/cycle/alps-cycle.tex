@@ -254,41 +254,14 @@
     with which simulations of the scale presented here would not be feasible.
 
     Ice deformation is governed by the constitutive law for ice
-    \citep{Glen.1952, Nye.1953},
-    %
-    \begin{align}
-      \vec{\dot{\epsilon}} = A\,\tau_{\mathrm{e}}^{n-1}\,\vec{\tau} \,.
-    \end{align}
-    %
-    where $\vec{\dot{\epsilon}}$ is the strain-rate tensor, $\vec{\tau}$ the
-    deviatoric stress tensor, and $\tau_{\mathrm{e}}$ the effective stress
-    defined in our case by
-    ${\tau_{\mathrm{e}}}^2=\frac{1}{2}\mathrm{tr}(\vec{\tau}^2)$. The ice
-    softness coefficient, $A$, depends on ice temperature, $T$, pressure, $p$,
-    and water content, $\omega$, through a~piece-wise Arrhenius-type law,
-    %
-    \begin{align}
-    &A = E\cdot
-      \begin{cases}
-        A_{\mathrm{c}} \,e^\frac{-Q_{\mathrm{c}}}{RT_{\text{pa}}}
-            & \text{if}\ T_   {\text{pa}}  <  T_{\mathrm{c}} \,, \\
-        A_{\mathrm{w}} (1+f\omega)\,e^\frac{-Q_{\mathrm{w}}}{RT_{\text{pa}}}
-            & \text{if}\ T_   {\text{pa}} \ge T_{\mathrm{c}} \,,
-      \end{cases}
-    \end{align}
-    %
-    where $T_{\text{pa}}$ is the pressure-adjusted ice temperature calculated
-    using the Clapeyron relation, $T_{\text{pa}}=T-{\beta}p$.
-    $R$ is the ideal gas constant, and $A_{\mathrm{c}}$, $A_{\mathrm{w}}$,
-    $Q_{\mathrm{c}}$, and $Q_{\mathrm{w}}$ are constant parameters
-    corresponding to values measured below and above a~critical temperature
-    threshold $T_{\mathrm{c}}$. The Clapeyron constant,
-    $\beta$, the water fraction coefficient, $f$,
-    The water fraction, $\omega$, is
+    \citep{Glen.1952, Nye.1953}. Ice softness depends on ice temperature,
+    pressure, and water content, through an enthalpy scheme
+    \citep[Table~\ref{tab:params};]{Aschwanden.etal.2012} and piece-wise
+    Arrhenius-type rheology representative of Holocene polar ice
+    \citep[Table~\ref{tab:params};][p.~77]{Cuffey.Paterson.2010}.
+    The englacial water fraction is
     capped at a~maximum value of 0.01, above which no measurements are
-    available \citep[Eq.~5.7]{Lliboutry.Duval.1985, Greve.1997}. Finally, $E$
-    is an SIA enhancement factor which reflects the observed rheology of
-    Holocene polar ice \citep[p.~77]{Cuffey.Paterson.2010}.
+    available \citep[Eq.~5.7]{Lliboutry.Duval.1985, Greve.1997}.
 
     Surface air temperature derived from the climate forcing
     (Sects.~\ref{sec:atm}, ~\ref{sec:paltemp}) provides the upper boundary
@@ -305,35 +278,15 @@
 \label{sec:sliding}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
-    A~pseudo-plastic sliding law,
-    %
-    \begin{align}
-      \vec{\tau}_{\mathrm{b}} = -\tau_{\mathrm{c}}
-        \frac{\vec{v}_{\mathrm{b}}}
-             {{v_{\text  {th}}}^q\,|\vec{v}_{\mathrm{b}}|^{1-q}} \,,
-    \end{align}
-    %
-    relates the bed-parallel shear stresses, $\vec{\tau}_{\mathrm{b}}$, to the
-    sliding velocity, $\vec{v}_{\mathrm{b}}$. The yield
-    stress, $\tau_{\mathrm{c}}$, is modelled using the Mohr--Coulomb criterion,
-    %
-    \begin{align}
-      \tau_{\mathrm{c}} = c_0 + N\,\tan{\phi} \,.
-    \end{align}
-    %
-
-    Effective pressure, $N$, is related to the ice overburden stress, $P_0=\rho
-    gh$, and the modelled amount of subglacial water, using a~formula derived
-    from laboratory experiments with till extracted from the base of Ice Stream
-    B in West Antarctica \citep{Tulaczyk.etal.2000, Bueler.Pelt.2015},
-    %
-    \begin{align}
-      N = \delta P_0 \, 10^{(e_0/C_{\mathrm{c}}) (1 - (W/W_{\text{max}}))} \,.
-    \end{align}
-    %
-    The amount of water at the base, $W$,
-    varies from zero to $W_{\text{max}}$, a~threshold above which
-    additional melt water is assumed to drain off instantaneously.
+    A~pseudo-plastic sliding law relates the bed-parallel shear stresses to the
+    sliding velocity. The yield stress is modelled using the Mohr--Coulomb
+    criterion using a constant basal friction angle (Table~\ref{tab:params}).
+    Effective pressure is related to the ice overburden stress and the modelled
+    amount of subglacial water, using a~formula derived from laboratory
+    experiments with till extracted from the base of Ice Stream B in West
+    Antarctica \citep[Table~\ref{tab:params};][]{Tulaczyk.etal.2000,
+    Bueler.Pelt.2015}. When the till becomes saturated, additional melt water
+    is assumed to drain off instantaneously.
 
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
@@ -352,9 +305,8 @@
     Basal topography responds to ice load following a~bedrock deformation model
     that includes local isostasy, elastic lithosphere flexure and viscous
     asthenosphere deformation in an infinite half-space
-    \citep{Lingle.Clark.1985,Bueler.etal.2007}. The asthenosphere viscosity,
-    $\nu_{\mathrm{m}}$, the asthenosphere density, $\rho_{\mathrm{m}}$, and the
-    lithosphere elastic rigidity, $D$, were set according to
+    \citep{Lingle.Clark.1985, Bueler.etal.2007}. Model parameters were set
+    according to
     results from glacial isostatic adjustment modelling of deglacial rebound in
     the Alps most closely reproducing observed modern uplift rates
     \citep[Supplementary Fig.~7]{Mey.etal.2016}.\footnote{Lithosphere rigidity
@@ -383,16 +335,7 @@
     The PDD computation accounts for stochastic temperature variations by
     assuming a~normal temperature distribution of standard deviation, $\sigma$,
     around the expected value, $T_{\mathrm{m}}$. It is expressed by an
-    error-function formulation \citep{Calov.Greve.2005},
-    %
-    \begin{align}
-      {\text{PDD}} = \int_{t_1}^{t_2} \mathrm{d}t
-        \left[\frac{\sigma}{\sqrt{2\pi}}
-                \exp\left({-\frac{T_{\mathrm{m}}^2}{2\sigma^2}}\right)
-              + \frac{T_{\mathrm{m}}}{2} \, {\text{erfc}}
-                \left(-\frac{T_{\mathrm{m}}}{\sqrt{2}\sigma}\right)\right] \,,
-    \end{align}
-    %
+    error-function formulation \citep{Calov.Greve.2005}
     which is numerically approximated using week-long sub-intervals. In
     order to account for the effects of spatial and seasonal variations of
     temperature variability \citep{Seguinot.2013}, $\sigma$ is computed
@@ -420,7 +363,7 @@
                                  {\Delta}T_{\text{LR}}(t, x, y) +
                                  {\Delta}T_{\text{TS}}(t) \,, \\
       &P_{\mathrm{m}}(t, x, y) = P_{\mathrm{m}0}(x, y) \cdot
-                                 {\Psi}_{\text{PP}}(t) \,, \\
+                                 {\Psi}_{\text{PP}}(t) \,,
     \end{align}
     %
     The present-day monthly climatology was bilinearly interpolated from
@@ -842,8 +785,7 @@
     The timing of the LGM has been documented by radiocarbon and cosmogenic
     isotope dating techniques at multiple locations around the Alps (cf.
     \citealp[Fig.~5]{Wirsig.etal.2016}, for a review and the more recent
-    publications by \citealp{Monegato.etal.2017} and
-    \citealp{Federici.etal.2017}). These
+    publications by \citealp{Monegato.etal.2017, Federici.etal.2017}). These
     data indicate that Alpine glaciers reached their maximum extent between 26
     and 20\,ka (calibrated \chem{^{14}C} and \chem{^{10}Be} ages), but also
     that terminal lobes stayed in the foreland until as late as 22 to 17\,ka,
@@ -1273,7 +1215,8 @@
 
     \begin{table*}
       \caption{%
-        Parameter values used in the ice sheet model.}
+        Parameter values used in the ice sheet model. Symbols refer to
+        equations used by \citet{Seguinot.2014, Seguinot.etal.2016}.}
       \label{tab:params}
       \scalebox{0.8}
       {\begin{tabular}{llrll}
