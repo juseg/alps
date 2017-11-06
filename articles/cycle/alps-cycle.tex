@@ -96,7 +96,7 @@
     than today \citep[e.g.,][p.~21]{Windham.Martel.1744}. Contemporaneously,
     it was also observed in the Alps that glaciers move by a combination of
     meltwater-induced \emph{sliding} at the base \citep[\S532]{Saussure.1779},
-    and viscous \emph{deformation} within the ice body \citep{Forbes.1846b}.
+    and viscous \emph{deformation} within the ice body \citep{Forbes.1846b}
     \todo{check ref. history from Guillaume}. As
     glaciers flow and slide across their bed, they transport rock debris and
     erode the landscape, thereby leaving geomorphological traces of their
@@ -208,8 +208,8 @@
     model set-up used here was previously developed and tested on the former
     Cordilleran ice sheet \citep{Seguinot.2014, Seguinot.etal.2014,
     Seguinot.etal.2016} and subsequently adapted for steady climate
-    \citep{Becker.etal.2016} and regional \citep{Jouvet.etal.2017a,
-    Cohen.etal.2017} applications to the European Alps.
+    \citep{Becker.etal.2016} and regional \citep{Jouvet.etal.2017a}
+    applications to the European Alps.
 
     Ice deformation follows temperature and water-content dependent creep
     (Sect.~\ref{sec:icedyn}). Basal sliding follows a~pseudo-plastic law where
@@ -220,17 +220,16 @@
     Climate forcing is provided by a~monthly climatology from interpolated
     observational data \citep[WorldClim;][]{Hijmans.etal.2005} and the European
     Centre for Medium-Range Weather Forecasts Reanalysis Interim
-    \citep[ERA-Interim;][]{Dee.etal.2011} over the period 1979--2012,
-    perturbed by temperature lapse-rate
+    \citep[ERA-Interim;][]{Dee.etal.2011}, perturbed by temperature lapse-rate
     corrections (Sect.~\ref{sec:atm}), time-dependent temperature offsets, and
     in some cases, time-dependent palaeo-precipitation reductions
     (Sect.~\ref{sec:climate}).
 
     Each simulation starts from assumed present-day ice thickness and
-    equilibrium ice and bedrock temperature at 120\,\unit{ka}, and runs to the
-    present. Our modelling domain of 900 by 600\,\unit{km} encompasses the
+    equilibrium ice and bedrock temperature at 120\,ka, and runs to the
+    present. Our modelling domain of 900 by 600\,km encompasses the
     entire Alpine range (Fig.~\ref{fig:inputs}). The simulations were run on
-    two distinct grids, using horizontal resolutions of 2 and 1\,\unit{km}.
+    two distinct grids, using horizontal resolutions of 2 and 1\,km.
     All parameter values are summarized in Table~\ref{tab:params}.
 
 
@@ -251,12 +250,13 @@
     dynamics over mountainous topographies similar to that of the European Alps
     \citep{Golledge.etal.2012, Ziemen.etal.2016}. This hybrid scheme is
     computationally much more efficient than a fully three-dimensional model
+    \citep[e.g.,][]{Cohen.etal.2017}
     with which simulations of the scale presented here would not be feasible.
 
     Ice deformation is governed by the constitutive law for ice
     \citep{Glen.1952, Nye.1953}. Ice softness depends on ice temperature,
     pressure, and water content, through an enthalpy scheme
-    \citep[Table~\ref{tab:params};]{Aschwanden.etal.2012} and piece-wise
+    \citep[Table~\ref{tab:params};][]{Aschwanden.etal.2012} and a piece-wise
     Arrhenius-type rheology representative of Holocene polar ice
     \citep[Table~\ref{tab:params};][p.~77]{Cuffey.Paterson.2010}.
     The englacial water fraction is
@@ -267,7 +267,7 @@
     (Sects.~\ref{sec:atm}, ~\ref{sec:paltemp}) provides the upper boundary
     condition to the ice
     enthalpy model. Temperature is computed in the ice and in the bedrock down
-    to a~depth of 3\,\unit{km} below the glacier base, where it is
+    to a~depth of 3\,km below the glacier base, where it is
     conditioned by a~lower boundary geothermal heat flux estimate from multiple
     geothermal proxies (\citealp[similarity method]{Goutorbe.etal.2011};
     Fig.~\ref{fig:inputs}a).
@@ -311,7 +311,7 @@
     the Alps most closely reproducing observed modern uplift rates
     \citep[Supplementary Fig.~7]{Mey.etal.2016}.\footnote{Lithosphere rigidity
     was computed using the erroneous formula, ${D=YE^3/12(1-\nu)}$, in
-    \citep{Mey.etal.2016}. The correct formula is ${D=YE^3/12(1-\nu^2)}$.
+    \citet{Mey.etal.2016}. The correct formula is ${D=YE^3/12(1-\nu^2)}$.
     Using the Young's modulus, $Y=100$\,GPa, and the Poisson ratio, $\nu=0.25$
     \citep{Mey.etal.2016}, our value for lithosphere rigidity thus corresponds
     to an effective elastic thickness of the lithosphere of $E=52.4$\,km,
@@ -414,7 +414,7 @@
     These simulations use a horizontal resolution of 2\,km. The vertical grid
     consists of 31~temperature layers in the bedrock and up to 126~enthalpy
     layers in the ice, corresponding to vertical resolutions of 100 and
-    40\,\unit{m}, respectively. Simulations ran for \todo{how long?}
+    40\,m, respectively. Simulations ran for \todo{how long?}
     using 36~processors.
 
 
@@ -443,8 +443,8 @@
     provided as such. For each proxy record used and each of the parameter
     set-ups used in the sensitivity tests, palaeo-temperature anomalies are
     scaled linearly (Table~\ref{tab:records}, Fig.~\ref{fig:timeseries}a) so
-    that the modelled cumulative glaciated area during Oxygen Marine Isotope
-    Stage (MIS)~2 (29--14\,ka), within a rectangular region covering the Rhine
+    that the modelled cumulative glaciated area during MIS~2 (29--14\,ka)
+    and within a rectangular region covering the Rhine
     glacier piedmont lobe (Fig.~\ref{fig:footprints}a, black rectangle) is
     consistent with the glaciated area of the geological reconstruction
     \citep{Ehlers.etal.2011}.
@@ -472,9 +472,7 @@
     during the last glacial cycle, of which little is known apart from the
     LGM \citep[cf.][]{Wu.etal.2007, Strandberg.etal.2011, Ludwig.etal.2016}.
     Thus, another set of simulations presented here use constant
-    precipitation, corresponding to $\psi=0$. In the rest of this paper, we
-    refer to different model runs by the name of the proxy record used for the
-    palaeo-temperature forcing.
+    precipitation, corresponding to $\psi=0$.
 
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
@@ -549,7 +547,7 @@
     palaeo-climate forcing approach used, which involves a linear scaling of
     each palaeo-temperature anomaly record to a geomorphological
     reconstruction of the area glaciated by the Rhine Glacier piedmont lobe
-    (Sect.~\ref{sec:paltemp}, Fig.~\ref{fig:footprints}a, black rectangle).
+    (Sect.~\ref{sec:paltemp}; Fig.~\ref{fig:footprints}a, black rectangle).
     Outside this benchmark, all simulations underestimate glaciated area in the
     western part of the model domain, and overestimate it in the eastern
     part, relative to the geomorphological ice limits
@@ -632,10 +630,10 @@
 
     This simulation is forced by the optimal EPICA palaeo-temperature record
     (Sect.~\ref{sec:paltemp}) and includes palaeo-precipitation reductions
-    (Sect.~\ref{sec:palprec}). It uses an horizontal resolution of 1\,km. The
+    (Sect.~\ref{sec:palprec}). It uses a horizontal resolution of 1\,km. The
     vertical grid consists of 61~temperature layers in the bedrock and up to
     251~enthalpy layers in the ice, corresponding to vertical resolutions of 50
-    and 20\,\unit{m}, respectively. This simulation ran for 33~days using
+    and 20\,m, respectively. This simulation ran for 33~days using
     576~processors.
 
 
@@ -658,7 +656,7 @@
     10^{3}$\,\unit{km^3}, or 300\,mm of sea-level equivalent, at 24.56\,ka
     (Fig.~\ref{fig:lgmvel}b). A maximum glacierized area of $163 \times
     10^{3}$\,\unit{km^2} is attained shortly afterwards at 24.57\,ka
-    (Fig.~\ref{fig:lgmvel}b). Although the modelled timing of the LGM varies
+    (Fig.~\ref{fig:lgmvel}a). Although the modelled timing of the LGM varies
     accross the mountain range (Sect.~\ref{sec:timing}), at 24.57\,ka nearly
     all outlet glaciers extend to within a few kilometres from their modelled
     maximum stage (Fig.~\ref{fig:lgmvel}a, dashed orange line).
@@ -688,8 +686,8 @@
     bias as compared to the mapped LGM margins (Fig.~\ref{fig:lgmvel}a) despite
     the homogeneous temperature and precipitation anomalies applied relative to
     present. Although this may appear as a contradiction with previous,
-    constant-climate modelling results \citep{Becker.etal.2016}, it is the
-    result of introducing a time-dependent palaeo-temperature forcing. Constant
+    constant-climate modelling results \citep{Becker.etal.2016}, it follows
+    from introducing a time-dependent palaeo-temperature forcing. Constant
     climate forcing systematically resulted in extraneous
     \citep[Fig.~3]{Becker.etal.2016} and premature
     \citep[Fig.~4]{Becker.etal.2016} glaciation on the north slope of the Alps.
@@ -772,7 +770,7 @@
     Saddle are known from the geomorphology
     \citep[Fig.~2.4]{Penck.Bruckner.1909, Husen.2011}. It is also known that
     ice flew across the Gailberg and Kreuzberg saddles \citep{Husen.1985}, and
-    Pyhrn Pass \citep[Fig.~\ref{fig:lgmvel}a; cf.][Fig.~2.5]{Husen.2011}.
+    Pyhrn Pass \citep[Fig.~2.5]{Husen.2011}.
     On the other hand, no transfluence has previously been documented at the
     Straniger Alp. The Tagliamento catchment is usually assumed to not have
     received tranfluences from the Drava catchment \citep{Monegato.etal.2007},
@@ -827,8 +825,8 @@
     a thermodynamical equilibrium between cold-ice advection from the high
     accumulation areas, upward diffusion of geothermal heat, and heat release
     from strong basal shear strain. Temperature evolution is, in part, limited
-    by the slow warming of subglacial bedrock, that has been previously cooled
-    downed by subfreezing air temperature before glacier advance.
+    by the slow warming of the subglacial bedrock, that has been previously
+    cooled downed by subfreezing air temperature before glacier advance.
     For larger glaciers, this thermodynamical equilibrium is typically not yet
     attained around 25\,ka. This is why several Alpine lobes overshoot their
     balanced extent before thinning and receding towards the mountains as they
@@ -868,6 +866,8 @@
     \citep{Stroeven.etal.2002}. Thus, the trimline could also mark the
     maximum elevation of the transition from temperate to cold-based ice, or a
     late-glacial ice surface elevation \citep[Fig.~1, p.~403]{Coutterand.2010}.
+    However, no evidence for cold-based glaciation has yet been reported in the
+    Alps.
 
     In the upper Rhone Valley, the maximum ice surface elevation reached
     during MIS~2 in our simulation, corrected for bedrock deformation, is
@@ -878,7 +878,7 @@
     somewhat dependent on uncertain basal sliding and ice rheological parameters
     to which the model sensitivity was not tested here. However, a previous
     sensitivity study conducted with PISM and a very similar model set-up on
-    the Cordillera ice sheet show that varying ice rheological parameters
+    the Cordilleran ice sheet show that varying ice rheological parameters
     resulted in relative errors in modelled total ice volume of 25\,\unit{\%}
     with regard to ice rheological parameters and 14\,\unit{\%} regarding basal
     sliding parameters \citep[Fig.~7]{Seguinot.etal.2016}.
@@ -891,16 +891,17 @@
     near the glacier base, allowing basal melt, sliding and potentially
     erosion (Fig.~\ref{fig:trimlines}c, white areas). On the other hand, on the
     highest mountains, ice cover is too thin and too static to form temperate
-    ice, resulting in cold ice down to the bed, preventing potential erosion
+    ice, resulting in cold ice down to the bed and preventing potential erosion
     (Fig.~\ref{fig:trimlines}c, hatched areas).
 
     In the upper Rhone valley, the geographical location of observed trimlines
-    show remarkable agreement with the areal extent of regions that are
+    show a remarkable agreement with the areal extent of regions that are
     modelled to have experienced warm-based ice for less than 1\,ka (7\,\%) of the
     MIS~2 (Fig.~\ref{fig:trimlines}c). Although this result calls for more
     detailed comparisons across the
     entire Alpine range and specific sensitivity studies to relevant basal
-    sliding and ice rheological parameters, the presence of an upper layer of
+    sliding and ice rheological parameters, and to the uncertain subglacial
+    topography the presence of an upper layer of
     cold ice during the LGM, already found at high altitude in the much warmer
     climate of today \citep[e.g.,][]{Suter.etal.2001, Bohleber.etal.2017}, is
     inevitable. In this context, our results challenge the assumption that
@@ -943,14 +944,14 @@
     minor late-glacial readvance at the onset of MIS~1
     (Fig.~\ref{fig:lgmvel}b). These episodes are the result of synchronous
     advances of several Alpine glaciers well into the major valleys and sometimes
-    even onto the foreland (Fig.~\ref{fig:profiles}, Supplementary animation).
+    even onto the foreland (Fig.~\ref{fig:profiles}; supplementary animation).
 
     For instance the Rhine Glacier (Fig.~\ref{fig:profiles}a) reaches a length
     exceeding 130\,km, roughly corresponding to the location of the last major
     Alpine reliefs and the beginning of the foothills, six times during the
-    simulation, and sometimes retreats almost completely between advances
+    simulation, and sometimes retreats almost completely between two advances
     (Fig.~\ref{fig:profiles}b). The Rhone Glacier, fed by several high-altitude
-    accumulation areas, advanced eight times onto of modern Lake
+    accumulation areas, advanced eight times onto modern Lake
     Geneva (Fig.~\ref{fig:profiles}c and d). The Dora Baltea Glacier, characterised
     by a very steep catchment, and mutliple tributaries, shows even a higher
     variability and reaches close to its maximum position six times throughout
@@ -979,17 +980,17 @@
     set-up based on that previously developed and validated for the Cordilleran
     ice sheet (Sect.~\ref{sec:model}).
     Using three different palaeo-temperature forcing records (GRIP, EPICA, and
-    MD01-2444, Sect.~\ref{sec:paltemp}), scaled to reproduce the Rhine Glacier
+    MD01-2444; Sect.~\ref{sec:paltemp}), scaled to reproduce the Rhine Glacier
     piedmont lobe in agreement with the mapped LGM ice margin, and two
     different palaeo-precipitation parametrizations (with and without
-    precipitation reductions, Sect.~\ref{sec:palprec}), we find that only the
+    precipitation reductions; Sect.~\ref{sec:palprec}), we find that only the
     EPICA palaeo-temperature record yields model results in agreement with
     geological findings, in the sense that:
 
     \begin{itemize}
       \item The EPICA palaeo-temperature forcing yields maximum ice volume at
             25.2/24.6\,ka (without/with palaeo-precipitation reduction),
-            followed by a standstill of major piedmont lobe in the forelands
+            followed by a standstill of major piedmont lobes in the forelands
             until 17.3\,ka, both compatible with much of the dating results,
             whereas the GRIP forcing results in early deglaciation of the
             foreland complete by 21.4\,ka, and the MD01-2444 forcing results in
@@ -997,7 +998,7 @@
             (Sect.~\ref{sec:timeseries}).
       \item The EPICA palaeo-temperature forcing yields cumulative ice extent
             compatible with geological evidence during MIS~4 and 2, whereas
-            both GRIP and MD01-2444 forcings result in MIS~4 glaciation well
+            both GRIP and MD01-2444 forcing result in MIS~4 glaciation well
             beyond the mapped LGM ice limits (Sect.~\ref{sec:footprints}).
     \end{itemize}
 
@@ -1051,15 +1052,17 @@
 % ----------------------------------------------------------------------
 
 \codedataavailability{%
-    PISM is available as open-source software at http://pism-docs.org/.
-    Please contact the corresponding author for model output data.
-    \idea{Should we make model output available somewhere?}}
+    PISM is available as open-source software at http://pism-docs.org/. Upon
+    publication, we will be happy to make aggregated model output available
+    through The Cryosphere. Please contact the corresponding author for mode
+    detailed model output data.}
 
 \authorcontribution{%
     J.~Seguinot designed the study, ran the simulations, and wrote most of
     the manuscript. M.~Huss provided modern ice thickness data. All authors
-    contributed to the text. The idea for this study stems in part from an
-    excursion organised by F.~Preusser in the central Alps in 2012.}
+    contributed to interpreting results and improving the text. The idea for
+    this study stems in part from an excursion organised by F.~Preusser in the
+    central Alps in 2012.}
 
 \competinginterests{%
     We have no conflict of interest in publishing these results.}
@@ -1068,20 +1071,18 @@
 
     This manuscript is partly based on a previous study on the Cordilleran Ice
     Sheet which is part of J.~Seguinot's PhD thesis. The experimental design
-    used here, as well as the general layout of this study, are in important
-    proportions the work of Irina Rogozhina, Arjen~P. Stroeven, Martin Margold
-    and Johan Kleman. We
-    are very thankful to Constantine Khroulev, Ed Bueler, and Andy Aschwanden
-    for providing constant help and development with PISM, in particular with
-    recent issues with the computation of ice temperature (Github issue
-    no.~371) and with the computation of bedrock deformation (Github issues
-    no.~370 and 377). We are equally thankful to Giovanni Monegato and Marc
-    Luetscher for very insightful discussions of preliminary model results during
-    the European Geoscience Union General Assembly~2017.
-    This work was supported by the Swiss National Foundation grant
-    no.~200021-153179/1 to M.~Funk.
-    Computer resources were provided by the Swiss National Supercomputing
-    Centre (CSCS) allocation no.~s573 to J.~Seguinot.
+    used here, as well as the general layout of this study, are largely
+    inspired by Irina Rogozhina and Arjen~P. Stroeven. We are very thankful to
+    Constantine Khroulev, Ed Bueler, and Andy Aschwanden for providing constant
+    help and development with PISM, in particular with recent issues with the
+    computation of ice temperature (Github issue no.~371) and with the
+    computation of bedrock deformation (Github issues no.~370 and 377). We are
+    equally thankful to Giovanni Monegato and Marc Luetscher for very
+    insightful discussions of preliminary model results during the European
+    Geoscience Union General Assembly~2017. This work was supported by the
+    Swiss National Foundation grant no.~200021-153179/1 to M.~Funk. Computer
+    resources were provided by the Swiss National Supercomputing Centre (CSCS)
+    allocation no.~s573 to J.~Seguinot.
 
 \end{acknowledgements}
 
@@ -1293,7 +1294,7 @@
 
         $T_{\mathrm{c}}$   & Flow law critical temperature
                 & 263.15
-                & \unit{K}
+                & K
                 & \citet{Paterson.Budd.1982} \\
 
         $f$     & Flow law water fraction coeff.
@@ -1415,12 +1416,12 @@
 
         $T_{\mathrm{s}}$   & Temperature of snow precipitation
                 & 273.15
-                & \unit{K}
+                & K
                 & -- \\
 
         $T_{\mathrm{r}}$   & Temperature of rain precipitation
                 & 275.15
-                & \unit{K}
+                & K
                 & -- \\
 
         $F_{\mathrm{s}}$   & Degree-day factor for snow
@@ -1461,7 +1462,7 @@
         ice limits in the vicinity of mapped end moraines
         (Fig.~\ref{fig:footprints}a), and $[{\Delta}T_{\textrm{TS}}]_{32}^{22}$
         refers to the resulting mean temperature anomaly during the period 32
-        to~22\,\unit{ka} after scaling.}
+        to~22\,ka after scaling.}
       \label{tab:records}
       {\begin{tabular}{lccccccl}
         \tophline
