@@ -2,84 +2,178 @@
 # coding: utf-8
 
 import util as ut
+import numpy as np
+import matplotlib.pyplot as plt
+
+# colorbar orientation
+mode = 'vertical'
 
 # initialize figure
-figw, figh = 170.0, 97.5
-fig, grid = ut.pl.subplots_mm(figsize=(figw, figh), projection=ut.pl.utm,
-                             nrows=2, ncols=2, sharex=True, sharey=True,
-                             left=2.5, right=15.0, bottom=2.5, top=2.5,
-                             hspace=2.5, wspace=17.5)
-cgrid = [fig.add_axes([(72.5+i*85.0)/figw, (50.0-j*47.5)/figh, 2.5/figw, 45.0/figh])
-         for j in range(2) for i in range(2)]
+if mode == 'horizontal':
+    axw, axh = 55.0, 55.0*2/3
+    figw, figh = 175.0, 140.0
+    fig = plt.figure(figsize=(figw/25.4, figh/25.4))
+    grid1 = fig.subplots(nrows=1, ncols=3, squeeze=False,
+                         gridspec_kw=dict(left=2.5/figw, right=1-2.5/figw,
+                                          bottom=(27.5+2*axh)/figh, top=137.5/figh,
+                                          wspace=2.5/axw, hspace=2.5/axh),
+                         subplot_kw=dict(projection=ut.pl.utm))
+    grid2 = fig.subplots(nrows=2, ncols=3, squeeze=False,
+                         gridspec_kw=dict(left=2.5/figw, right=1-2.5/figw,
+                                          bottom=12.5/figh, top=(15.0+2*axh)/figh,
+                                          wspace=2.5/axw, hspace=2.5/axh),
+                         subplot_kw=dict(projection=ut.pl.utm))
+else:
+    axw, axh = 45.0, 30.0
+    figw, figh = 175.0, 100.0
+    fig = plt.figure(figsize=(figw/25.4, figh/25.4))
+    grid1 = fig.subplots(nrows=3, ncols=1, squeeze=False,
+                         gridspec_kw=dict(left=2.5/figw, right=(2.5+axw)/figw,
+                                          bottom=2.5/figh, top=1-2.5/figh,
+                                          wspace=2.5/axw, hspace=2.5/axh),
+                         subplot_kw=dict(projection=ut.pl.utm)).T
+    grid2 = fig.subplots(nrows=3, ncols=2, squeeze=False,
+                         gridspec_kw=dict(left=65.0/figw, right=157.5/figw,
+                                          bottom=2.5/figh, top=1-2.5/figh,
+                                          wspace=2.5/axw, hspace=2.5/axh),
+                         subplot_kw=dict(projection=ut.pl.utm)).T
+
+# merge axes grids
+grid = np.concatenate((grid1, grid2))
+
+# add colorbars
+for ax in grid[[0, 2], :].flat:
+    pos = ax.get_position()
+    if mode == 'horizontal':
+        rect = [pos.x0, pos.y0-5.0/figh, pos.x1-pos.x0, 2.5/figh]
+    else:
+        rect = [pos.x1+2.5/figw, pos.y0, 2.5/figw, pos.y1-pos.y0]
+    ax.cax = fig.add_axes(rect)
 
 # add map elements
 for i, ax in enumerate(grid.flat):
     ax.set_rasterization_zorder(2.5)
-    ut.pl.draw_boot_topo(ax)
+    ax.set_extent(ut.pl.regions['alps'], crs=ax.projection)
+    im = ut.pl.draw_boot_topo(ax)
     ut.pl.draw_natural_earth(ax)
-    ut.pl.add_subfig_label('(%s)' % list('abcd')[i], ax)
+    ut.pl.add_subfig_label('(%s)' % list('abcdefghi')[i], ax)
 
-# plot boot geoflux on first panel
+# add boot topo colorbar
+ticks = range(500, 3000, 1000)
+ax = grid[0, 1]
+cb = fig.colorbar(im, ax.cax, orientation=mode, ticks=ticks)
+ax.cax.set_yticklabels([t*1e-3 for t in ticks])
+cb.set_label(r'Basal topography (km)')
+
+# add LGM outline on these axes
+ut.pl.draw_lgm_outline(ax)
+
+# Boot file
+# ---------
+
+# open boot file
 nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-1km.nc')
-ax = grid.flat[0]
-cax = cgrid[0]
+
+# contour levels and colors
 levs = range(55, 96, 5)
 cmap = ut.pl.get_cmap('PuOr_r', len(levs)-1)
 cols = cmap(range(len(levs)-1))
+
+# plot geothermal flux
+ax = grid[0, 0]
 cs = nc.contourf('bheatflx', ax, levels=levs, colors=cols, thkth=-1, alpha=0.75)
-cb = fig.colorbar(cs, cax, orientation='vertical', ticks=levs[1::2])
+
+# add colorbar
+cb = fig.colorbar(cs, ax.cax, orientation=mode, ticks=levs[1::2])
 cb.set_label(r'Geothermal flux ($mW\,m^{-2}$)')
+
+# contour levels and colors
+levs = range(55, 96, 5)
+cmap = ut.pl.get_cmap('PuOr_r', len(levs)-1)
+cols = cmap(range(len(levs)-1))
+
+# plot boot ice thickness
+ax = grid[0, 2]
+ax.set_extent(ut.pl.regions['bern'], crs=ax.projection)
+im = nc.imshow('thk', ax, vmin=0e2, vmax=6e2, cmap='Blues', alpha=0.75)
+
+# add colorbar
+cb = fig.colorbar(im, ax.cax, orientation=mode, ticks=range(100, 600, 200))
+cb.set_label(r'Initial ice thickness (m)')
+
+# close boot file
 nc.close()
 
-# load atm file
-# FIXME: add unit conversion to iceplotlib
-nc = ut.io.load('input/atm/alps-wcnn-1km.nc')
-x = nc.variables['x'][:]
-y = nc.variables['y'][:]
-temp = nc.variables['air_temp'][6].T-273.15
-prec = nc.variables['precipitation'][0].T*910.0/12
-nc.close()
+
+# Standard deviation
+# ------------------
 
 # load standard deviation file
 # FIXME: add unit conversion to iceplotlib
 nc = ut.io.load('input/sd/alps-erai-1km.nc')
 x = nc.variables['x'][:]
 y = nc.variables['y'][:]
-sd = nc.variables['air_temp_sd'][6].T
+sd = nc.variables['air_temp_sd'][:]
 nc.close()
 
-# plot July temperature
-#print 'July temp min %.1f, max %.1f' % (temp.min(), temp[3:-3, 3:-3].max())
-ax = grid.flat[2]
-cax = cgrid[2]
-levs = range(-5, 26, 5)
-cmap = ut.pl.get_cmap('RdBu_r', len(levs)-1)
-cols = cmap(range(len(levs)))
-cs = ax.contourf(x, y, temp, levs, colors=cols, alpha=0.75)
-cb = fig.colorbar(cs, cax, orientation='vertical', ticks=levs[1::2])
-cb.set_label(u'July temperature (°C)')
-
-# plot January precipitation
-#print 'Jan. prec min %.1f, max %.1f' % (prec.min(), prec.max())
-ax = grid.flat[3]
-cax = cgrid[3]
-levs = range(0, 301, 50)
-cmap = ut.pl.get_cmap('Greens', len(levs)-1)
-cols = cmap(range(len(levs)))
-cs = ax.contourf(x, y, prec, levs, colors=cols, alpha=0.75)
-cb = fig.colorbar(cs, cax, orientation='vertical', ticks=levs[::2])
-cb.set_label(r'January precipitation (mm)')
-
-# plot July standard deviation
-#print 'July s.d. min %.1f, max %.1f' % (sd.min(), sd.max())
-ax = grid.flat[1]
-cax = cgrid[1]
+# contour levels and colors
 levs = [1.7, 2.0, 2.3, 2.6, 2.9, 3.2, 3.5]
 cmap = ut.pl.get_cmap('Reds', len(levs)-1)
 cols = cmap(range(len(levs)-1))
-cs = ax.contourf(x, y, sd, levs, colors=cols, alpha=0.75)
-cb = fig.colorbar(cs, cax, orientation='vertical', ticks=levs[1::2])
-cb.set_label(u'July PDD SD (°C)')
+
+# plot standard deviation
+for i in range(2):
+    ax = grid[i+1, 0]
+    cs = ax.contourf(x, y, sd[6*i].T, levs, colors=cols, alpha=0.75)
+    ut.pl.add_corner_tag(['Jan.', 'July'][i], ax=ax, va='bottom')
+
+# add colorbar
+cb = fig.colorbar(cs, ax.cax, orientation=mode, ticks=levs[1::2])
+cb.set_label(u'PDD SD (°C)')
+
+
+# Temperature and precipitation
+# -----------------------------
+
+# load atm file
+# FIXME: add unit conversion to iceplotlib
+nc = ut.io.load('input/atm/alps-wcnn-1km.nc')
+x = nc.variables['x'][:]
+y = nc.variables['y'][:]
+temp = nc.variables['air_temp'][:]
+prec = nc.variables['precipitation'][:]
+nc.close()
+
+# contour levels and colors
+levs = range(-5, 26, 5)
+cmap = ut.pl.get_cmap('RdBu_r', len(levs)-1)
+cols = cmap(range(len(levs)))
+
+# plot January and July temperature
+ax = grid.flat[2]
+for i in range(2):
+    ax = grid[i+1, 1]
+    cs = ax.contourf(x, y, temp[6*i].T-273.15, levs, colors=cols, alpha=0.75)
+    ut.pl.add_corner_tag(['Jan.', 'July'][i], ax=ax, va='bottom')
+
+# add colorbar
+cb = fig.colorbar(cs, ax.cax, orientation=mode, ticks=levs[1::2])
+cb.set_label(u'Air temperature (°C)')
+
+# contour levels and colors
+levs = range(0, 301, 50)
+cmap = ut.pl.get_cmap('Greens', len(levs)-1)
+cols = cmap(range(len(levs)))
+
+# plot January and July precipitation
+for i in range(2):
+    ax = grid[i+1, 2]
+    cs = ax.contourf(x, y, prec[6*i].T*910.0/12, levs, colors=cols, alpha=0.75)
+    ut.pl.add_corner_tag(['Jan.', 'July'][i], ax=ax, va='bottom')
+
+# add colorbar
+cb = fig.colorbar(cs, ax.cax, orientation=mode, ticks=levs[::2])
+cb.set_label(r'Monthly precipitation (mm)')
 
 # save
 fig.savefig('alpcyc_hr_inputs')
