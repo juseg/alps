@@ -26,13 +26,12 @@ for i, rec in enumerate(ut.alpcyc_records):
     conf = ut.alpcyc_configs[i]
     dt = ut.alpcyc_offsets[i]
     c = ut.alpcyc_colours[i]
+    ax = grid[0, i/2]
+    pp = 'pp' in conf
 
     # set title
-    if 'pp' not in conf:
-        grid[0, i/2].set_title(rec, fontweight='bold', color=c)
-        ut.pl.add_subfig_label('(%s)' % list('abc')[i/2], ax=grid[0, i/2])
-        ut.pl.add_subfig_label('(%s)' % list('def')[i/2], ax=grid[1, i/2])
-        ut.pl.draw_scaling_domain(grid[0, i/2])
+    ax.text(0.4+0.1*pp, 1.05, label, color=c, fontweight='bold',
+            ha=('left' if pp else 'right'), transform=ax.transAxes)
 
     # load extra output
     dtfile = '%s3222cool%04d' % (rec.replace('-', '').lower(), round(dt*100))
@@ -51,9 +50,13 @@ for i, rec in enumerate(ut.alpcyc_records):
         mask = (thk[b0:b1] < 1.0).prod(axis=0)
         cs = ax.contourf(x, y, mask, levels=[-0.5, 0.5], colors=[c], alpha=0.75)
         ut.pl.add_corner_tag('MIS %d' % (2+2*j), ax=ax, va='bottom')
+        ut.pl.add_subfig_label('(%s)' % list('abcdef')[i/2+j], ax=ax)
         ut.pl.draw_boot_topo(ax, res='2km')
         ut.pl.draw_natural_earth(ax)
         ut.pl.draw_lgm_outline(ax, c='k')
+
+    # draw scaling domain
+    ut.pl.draw_scaling_domain(ax)
 
 # save
 fig.savefig('alpcyc_lr_footprints')
