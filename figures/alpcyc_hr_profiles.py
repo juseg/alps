@@ -13,10 +13,10 @@ colors = ['blue', 'green', 'red', 'orange', 'purple', 'brown']
 colors = [ut.pl.palette['dark'+hue] for hue in colors]
 
 # initialize figure
-figw, figh = 170.0, 175.0
+figw, figh = 175.0, 175.0
 fig, grid = ut.pl.subplots_mm(nrows=6, ncols=1, sharex=False, sharey=False,
                               figsize=(figw, figh), projection=ut.pl.utm,
-                              left=2.5, right=132.5, bottom=10.0, top=2.5,
+                              left=2.5, right=137.5, bottom=10.0, top=2.5,
                               hspace=2.5, wspace=2.5)
 
 # load extra data
@@ -66,7 +66,7 @@ for i, reg in enumerate(regions):
 
     # prepare timeseries axes
     pos = ax.get_position()
-    tsrect = [40.0/figw, pos.y0, 120.0/figw, pos.height]
+    tsrect = [40.0/figw, pos.y0, 125.0/figw, pos.height]
     tsax = fig.add_axes(tsrect)
     ut.pl.plot_mis(tsax, y=(0.15 if i==len(regions)-1 else None))
 

@@ -5,7 +5,7 @@ import util as ut
 import numpy as np
 
 # initialize time-series figure
-fig, (ax1, ax2) = ut.pl.subplots_ts(2, 1, figw=170.0)
+fig, (ax1, ax2) = ut.pl.subplots_ts(2, 1, figw=175.0, figh=85.0)
 
 # for each record
 for i, rec in enumerate(ut.alpcyc_records):

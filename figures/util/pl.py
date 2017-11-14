@@ -112,9 +112,9 @@ def prepare_axes(ax=None, tsax=None, extent='alps', labels=True,
         add_subfig_label('(b)', ax=tsax)
 
 
-def subplots_ts(nrows=1, ncols=1, figw=85.0):
+def subplots_ts(nrows=1, ncols=1, figw=85.0, figh=None):
     """Init figure with margins adapted for simple timeseries."""
-    figh = 30.0 + nrows*30.0
+    figh = figh or 30.0 + nrows*30.0
     fig, grid = iplt.subplots_mm(nrows=nrows, ncols=ncols,
                                  figsize=(figw, figh),
                                  left=10.0, right=2.5, bottom=7.5, top=2.5,
