@@ -295,11 +295,12 @@
 
     The initial basal topography is bilinearly interpolated from the
     hole-filled, Shuttle Radar Topography Mission (SRTM) data with a~resolution
-    of 30\,arc-sec \citep{Jarvis.etal.2008}. These data include post-glacial
+    of 30\,arc-sec \citep[Fig.~\ref{fig:inputs}b;][]{Jarvis.etal.2008}. These
+    data include post-glacial
     sediment fills and lakes surface topography. However, they were corrected
     for an estimation of present-day ice thickness based on modern
     glacier outlines, surface topography and simplified ice physics
-    \citep{Huss.Farinotti.2012}.
+    \citep[Fig.~\ref{fig:inputs}c;][]{Huss.Farinotti.2012}.
 
     Basal topography responds to ice load following a~bedrock deformation model
     that includes local isostasy, elastic lithosphere flexure and viscous
@@ -341,7 +342,7 @@
     from ERA-Interim daily temperature values from 1979 to 2012
     \citep{Mesinger.etal.2006}, including variability associated with the
     seasonal cycle \citep{Seguinot.2013}, and bilinearly interpolated to the
-    model grids (Fig.~\ref{fig:inputs}b). Degree-day factors for snow and ice
+    model grids (Fig.~\ref{fig:inputs}d and e). Degree-day factors for snow and ice
     melt are set to values used in the European Ice Sheet Modelling INiTiative
     \citep[Table~\ref{tab:params}; EISMINT,][]{Huybrechts.1998}.
 
@@ -369,9 +370,10 @@
     near-surface air temperature and precipitation rate fields from
     WorldClim \citep{Hijmans.etal.2005}, representative of the period~1960
     to~1990. Modern climate of the European Alps is characterised by a
-    north-south gradient in summer air temperatures (Fig.~\ref{fig:inputs}c),
-    and an east-west gradient in winter precipitation (Fig.~\ref{fig:inputs}d).
-    WorldClim data
+    north-south gradient in winter and summer air temperatures
+    (Fig.~\ref{fig:inputs}f and g), and an east-west gradient in winter
+    precipitation (Fig.~\ref{fig:inputs}h) which is reversed in summer
+    (Fig.~\ref{fig:inputs}h). WorldClim data
     were selected as an input to the ice sheet model because they incorporate
     observations from the dense weather station network of central Europe
     \citep[Fig.~1]{Hijmans.etal.2005}. Besides, WorldClim data were
@@ -553,8 +555,8 @@
     temperature depression, here considered homogeneous, was actually lower in
     the Eastern Alps than in the Western Alps, as previously shown by positive
     degree-day modelling of the central European palaeo-ice caps
-    \citep{Heyman.etal.2013}. Alternatively, the east-west
-    gradient in precipitation existing today (Fig.~\ref{fig:inputs}d) was
+    \citep{Heyman.etal.2013}. Alternatively, the east-west gradient in winter
+    precipitation existing today (Fig.~\ref{fig:inputs}h) was
     perhaps enhanced during the LGM, as indicated by pollen reconstructions
     \citep{Wu.etal.2007}. Finally, the LGM extent of Alpine glaciers might have
     been affected by east-west gradient in variables not accounted for
@@ -1105,12 +1107,19 @@
         to multiple geophysical proxies \citep{Goutorbe.etal.2011} used as a
         boundary condition to the bedrock thermal model 3\,km below the
         ice-bedrock interface.
-        \textbf{(b)} Modern July standard deviation \citep{Seguinot.2013} of
-        daily mean temperature from the ERA-Interim \citep[1979--2012;][]{Dee.etal.2011}
-        from the reference monthly climatology used to force the surface mass
-        balance (PDD) component of the ice sheet model.
-        \textbf{(c)} Modern July mean near-surface air temperature, and
-        \textbf{(d)} January precipitation from WorldClim
+        \textbf{(b)} Initial basal topography from SRTM
+        \citep{Jarvis.etal.2008} and geomorphological reconstruction of Last
+        Glacial Maximum Alpine glacier extent \citep[solid red
+        line,][]{Ehlers.etal.2011}.
+        \textbf{(c)} Extract from the estimated of present-day ice thickness
+        \citep{Huss.Farinotti.2012} substracted from the SRTM topography.
+        \textbf{(d)} Modern January and \textbf{(e)} July standard deviation
+        \citep{Seguinot.2013} of daily mean temperature from the ERA-Interim
+        \citep[1979--2012;][]{Dee.etal.2011} from the reference monthly
+        climatology used to force the surface mass balance (PDD) component of
+        the ice sheet model.
+        \textbf{(f)} Modern January and \textbf{(g)} July mean near-surface air
+        temperature, and \textbf{(h, i)} precipitation from WorldClim
         \citep[1960--1990;][]{Hijmans.etal.2005}.}
       \label{fig:inputs}
     \end{figure*}
@@ -1154,8 +1163,8 @@
         (200\,m contours), and ice surface velocity (blue) in the Alps
         24.57\,ka before present, corresponding to the maximum modelled ice
         cover. Modelled self-sustained ice domes (triangles) and some major
-        transfluences (crosses) are shown. Modelled Last Glacial Maximum
-        (LGM) ice extent (dashed orange line) and geomorphological
+        transfluences (crosses) are shown. Modelled LGM
+        ice extent (dashed orange line) and geomorphological
         reconstruction \citep[solid red line,][]{Ehlers.etal.2011}. The
         background map consists of depressed SRTM \citep{Jarvis.etal.2008}
         topography and Natural Earth Data \citep{Patterson.Kelso.2017}.
