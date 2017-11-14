@@ -383,7 +383,7 @@ def draw_ice_domes(ax=None, textoffset=4):
         lon = rec.geometry.x
         lat = rec.geometry.y
         x, y = ax.projection.transform_point(lon, lat, src_crs=ut.pl.ll)
-        ax.plot(x, y, 'k^')
+        ax.plot(x, y, 'k^', ms=6, mew=0)
         ax.annotate(name, xy=(x, y), xytext=(0, textoffset), style='italic',
                     textcoords='offset points', ha='center', va='bottom')
 
@@ -419,7 +419,7 @@ def draw_major_transfluences(ax=None, textoffset=4):
             name = name.replace(' Pass', '')
             name = name.replace(' Saddle', '')
             #azim = rec.attributes['azimuth']
-            ax.plot(x, y, 'k+')  # for rotated marks use marker=(2, 0, -azim)
+            ax.plot(x, y, 'kP', ms=6, mew=0)  # or marker=(2, 0, -azim)
             ax.annotate(name, xy=(x, y), xytext=(dx, dy),
                         textcoords='offset points', ha=ha, va=va)
 
