@@ -59,10 +59,10 @@ for i, ax in enumerate(grid.flat):
     ut.pl.add_subfig_label('(%s)' % list('abcdefghi')[i], ax)
 
 # add boot topo colorbar
-ticks = range(500, 3000, 1000)
+ticks = range(0, 3001, 1000)
 ax = grid[0, 1]
-cb = fig.colorbar(im, ax.cax, orientation=mode, ticks=ticks)
-ax.cax.set_yticklabels([t*1e-3 for t in ticks])
+cb = fig.colorbar(im, ax.cax, orientation=mode, extend='max', ticks=ticks)
+ax.cax.set_yticklabels(['%.0f' % (t*1e-3) for t in ticks])
 cb.set_label(r'Basal topography (km)')
 
 # add LGM outline on these axes
@@ -75,22 +75,18 @@ ut.pl.draw_lgm_outline(ax)
 nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-1km.nc')
 
 # contour levels and colors
-levs = range(55, 96, 5)
-cmap = ut.pl.get_cmap('PuOr_r', len(levs)-1)
-cols = cmap(range(len(levs)-1))
+levs = range(60, 91, 5)
+cmap = ut.pl.get_cmap('PuOr_r', len(levs)+1)
+cols = cmap(range(len(levs)+1))
 
 # plot geothermal flux
 ax = grid[0, 0]
-cs = nc.contourf('bheatflx', ax, levels=levs, colors=cols, thkth=-1, alpha=0.75)
+cs = nc.contourf('bheatflx', ax, levels=levs, colors=cols, thkth=-1,
+                 extend='both', alpha=0.75)
 
 # add colorbar
-cb = fig.colorbar(cs, ax.cax, orientation=mode, ticks=levs[1::2])
+cb = fig.colorbar(cs, ax.cax, orientation=mode, extend='both', ticks=levs[::2])
 cb.set_label(r'Geothermal flux ($mW\,m^{-2}$)')
-
-# contour levels and colors
-levs = range(55, 96, 5)
-cmap = ut.pl.get_cmap('PuOr_r', len(levs)-1)
-cols = cmap(range(len(levs)-1))
 
 # plot boot ice thickness
 ax = grid[0, 2]
@@ -98,8 +94,9 @@ ax.set_extent(ut.pl.regions['bern'], crs=ax.projection)
 im = nc.imshow('thk', ax, vmin=0e2, vmax=6e2, cmap='Blues', alpha=0.75)
 
 # add colorbar
-cb = fig.colorbar(im, ax.cax, orientation=mode, ticks=range(100, 600, 200))
-cb.set_label(r'Initial ice thickness (m)')
+cb = fig.colorbar(im, ax.cax, orientation=mode, extend='max',
+                  ticks=range(0, 601, 200))
+cb.set_label(r'Modern ice thickness (m)')
 
 # close boot file
 nc.close()
@@ -117,18 +114,18 @@ sd = nc.variables['air_temp_sd'][:]
 nc.close()
 
 # contour levels and colors
-levs = [1.7, 2.0, 2.3, 2.6, 2.9, 3.2, 3.5]
-cmap = ut.pl.get_cmap('Reds', len(levs)-1)
-cols = cmap(range(len(levs)-1))
+levs = [2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0]
+cmap = ut.pl.get_cmap('Purples', len(levs)+1)
+cols = cmap(range(len(levs)+1))
 
 # plot standard deviation
 for i in range(2):
     ax = grid[i+1, 0]
-    cs = ax.contourf(x, y, sd[6*i].T, levs, colors=cols, alpha=0.75)
+    cs = ax.contourf(x, y, sd[6*i].T, levs, colors=cols, extend='both', alpha=0.75)
     ut.pl.add_corner_tag(['Jan.', 'July'][i], ax=ax, va='bottom')
 
 # add colorbar
-cb = fig.colorbar(cs, ax.cax, orientation=mode, ticks=levs[1::2])
+cb = fig.colorbar(cs, ax.cax, orientation=mode, ticks=levs[::2])
 cb.set_label(u'PDD SD (°C)')
 
 
@@ -145,34 +142,34 @@ prec = nc.variables['precipitation'][:]
 nc.close()
 
 # contour levels and colors
-levs = range(-5, 26, 5)
-cmap = ut.pl.get_cmap('RdBu_r', len(levs)-1)
-cols = cmap(range(len(levs)))
+levs = range(-10, 21, 5)
+cmap = ut.pl.get_cmap('RdBu_r', len(levs)+1)
+cols = cmap(range(len(levs)+1))
 
 # plot January and July temperature
 ax = grid.flat[2]
 for i in range(2):
     ax = grid[i+1, 1]
-    cs = ax.contourf(x, y, temp[6*i].T-273.15, levs, colors=cols, alpha=0.75)
-    ut.pl.add_corner_tag(['Jan.', 'July'][i], ax=ax, va='bottom')
-
-# add colorbar
-cb = fig.colorbar(cs, ax.cax, orientation=mode, ticks=levs[1::2])
-cb.set_label(u'Air temperature (°C)')
-
-# contour levels and colors
-levs = range(0, 301, 50)
-cmap = ut.pl.get_cmap('Greens', len(levs)-1)
-cols = cmap(range(len(levs)))
-
-# plot January and July precipitation
-for i in range(2):
-    ax = grid[i+1, 2]
-    cs = ax.contourf(x, y, prec[6*i].T*910.0/12, levs, colors=cols, alpha=0.75)
+    cs = ax.contourf(x, y, temp[6*i].T-273.15, levs, colors=cols, extend='both', alpha=0.75)
     ut.pl.add_corner_tag(['Jan.', 'July'][i], ax=ax, va='bottom')
 
 # add colorbar
 cb = fig.colorbar(cs, ax.cax, orientation=mode, ticks=levs[::2])
+cb.set_label(u'Air temperature (°C)')
+
+# contour levels and colors
+levs = range(50, 251, 50)
+cmap = ut.pl.get_cmap('Greens', len(levs)+1)
+cols = cmap(range(len(levs)+1))
+
+# plot January and July precipitation
+for i in range(2):
+    ax = grid[i+1, 2]
+    cs = ax.contourf(x, y, prec[6*i].T*910.0/12, levs, colors=cols, extend='both', alpha=0.75)
+    ut.pl.add_corner_tag(['Jan.', 'July'][i], ax=ax, va='bottom')
+
+# add colorbar
+cb = fig.colorbar(cs, ax.cax, orientation=mode, ticks=levs[1::2])
 cb.set_label(r'Monthly precipitation (mm)')
 
 # save
