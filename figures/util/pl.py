@@ -138,10 +138,10 @@ def subplots_cax(extent='alps'):
 
 def subplots_cax_inset(extent='alps'):
     """Init figure with unique subplot and colorbar inset."""
-    figw, figh = 170.0, 115.0
+    figw, figh = 230.0, 155.0
     fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
                                left=2.5, right=2.5, bottom=2.5, top=2.5)
-    cax = fig.add_axes([5.0/figw, 65.0/figh, 5.0/figw, 40.0/figh])
+    cax = fig.add_axes([5.0/figw, 95.0/figh, 5.0/figw, 50.0/figh])
     prepare_axes(ax, extent=extent)
     return fig, ax, cax
 
@@ -159,12 +159,12 @@ def subplots_cax_ts(extent='alps', labels=True, dt=True, mis=True):
 
 def subplots_cax_ts_inset(extent='alps', labels=True, dt=True, mis=True):
     """Init figure with subplot, colorbar and timeseries insets."""
-    figw, figh = 170.0, 115.0
+    figw, figh = 230.0, 155.0
     fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
                                left=2.5, right=2.5, bottom=2.5, top=2.5)
-    cax = fig.add_axes([5.0/figw, 65.0/figh, 5.0/figw, 40.0/figh])
-    tsax = fig.add_axes([67.5/figw, 15.0/figh, 85.0/figw, 20.0/figh])
-    rect = iplt.Rectangle((55.0/figw, 5.0/figh), 110.0/figw, 35.0/figh,
+    cax = fig.add_axes([5.0/figw, 95.0/figh, 5.0/figw, 50.0/figh])
+    tsax = fig.add_axes([87.5/figw, 15.0/figh, 125.0/figw, 30.0/figh])
+    rect = iplt.Rectangle((75.0/figw, 5.0/figh), 150.0/figw, 45.0/figh,
                           ec='k', fc='w', alpha=0.75, clip_on=False,
                           transform=fig.transFigure, zorder=-1)
     tsax.add_patch(rect)
@@ -175,11 +175,11 @@ def subplots_cax_ts_inset(extent='alps', labels=True, dt=True, mis=True):
 
 def subplots_cax_ts_cut(extent='alps', labels=True, dt=True, mis=True):
     """Init figure with subplot, colorbar inset and timeseries cut."""
-    figw, figh = 170.0, 115.0
+    figw, figh = 230.0, 155.0
     fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
                                left=2.5, right=2.5, bottom=2.5, top=2.5)
-    cax = fig.add_axes([5.0/figw, 65.0/figh, 5.0/figw, 40.0/figh])
-    tsax = fig.add_axes([70.0/figw, 10.0/figh, 87.5/figw, 22.5/figh])
+    cax = fig.add_axes([5.0/figw, 95.0/figh, 5.0/figw, 50.0/figh])
+    tsax = fig.add_axes([90.0/figw, 10.0/figh, 127.5/figw, 35.0/figh])
     ax.outline_patch.set_ec('none')
     x = [0.0, 1/3., 1/3., 1.0, 1.0, 0.0, 0.0]
     y = [0.0, 0.0, 1/3., 1/3., 1.0, 1.0, 0.0]
