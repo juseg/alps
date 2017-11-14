@@ -320,7 +320,7 @@ def draw_lgm_outline(ax=None, c='#e31a1c'):
     ax = ax or iplt.gca()
     shp = cshp.Reader('../data/native/lgm_alpen_holefilled.shp')
     ax.add_geometries(shp.geometries(), ll, lw=0.5, alpha=0.75,
-                      edgecolor=c, facecolor='none', zorder=0)
+                      edgecolor=c, facecolor='none')
     del shp
 
 
@@ -339,14 +339,14 @@ def draw_envelope(ax=None, levels=None, colors=None):
     return cs
 
 
-def draw_footprint(ax=None):
+def draw_footprint(ax=None, ec=palette['darkorange'], fc='none', alpha=1.0):
     """Add modelled LGM footprint."""
     ax = ax or iplt.gca()
     run = '-'.join(ut.alpcyc_bestrun.rstrip('/').split('/')[-2:])
     shp = cshp.Reader('../data/processed/%s-footprint.shp' % run)
-    ax.add_geometries(shp.geometries(), utm, lw=0.5, alpha=0.75,
-                      edgecolor=palette['darkorange'], facecolor='none',
-                      linestyles=[(0, [3, 1])], zorder=0)
+    ax.add_geometries(shp.geometries(), utm, lw=0.5, alpha=alpha,
+                      edgecolor=ec, facecolor=fc,
+                      linestyles=[(0, [3, 1])])
     del shp
 
 

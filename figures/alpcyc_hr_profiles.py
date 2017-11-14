@@ -43,8 +43,8 @@ for i, reg in enumerate(regions):
     # add map elements
     ut.pl.draw_boot_topo(ax)
     ut.pl.draw_natural_earth(ax)
-    ut.pl.draw_lgm_outline(ax)
     ut.pl.draw_footprint(ax)
+    ut.pl.draw_lgm_outline(ax)
 
     # read profile from shapefile
     filename = '../data/native/profile_%s.shp' % reg
