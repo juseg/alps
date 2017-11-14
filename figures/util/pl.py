@@ -112,7 +112,7 @@ def prepare_axes(ax=None, tsax=None, extent='alps', labels=True,
         add_subfig_label('(b)', ax=tsax)
 
 
-def subplots_ts(nrows=1, ncols=1, figw=85.0, figh=None):
+def subplots_ts(nrows=1, ncols=1, figw=85.0, figh=None, labels=True):
     """Init figure with margins adapted for simple timeseries."""
     figh = figh or 30.0 + nrows*30.0
     fig, grid = iplt.subplots_mm(nrows=nrows, ncols=ncols,
@@ -120,7 +120,7 @@ def subplots_ts(nrows=1, ncols=1, figw=85.0, figh=None):
                                  left=10.0, right=2.5, bottom=7.5, top=2.5,
                                  sharex=True, sharey=False,
                                  hspace=2.5, wspace=2.5)
-    if nrows*ncols > 1:
+    if nrows*ncols > 1 and labels is True:
         for ax, label in zip(grid, list('abcdef')):
             ut.pl.add_subfig_label('({})'.format(label), ax=ax)
     return fig, grid
@@ -240,11 +240,12 @@ def add_corner_tag(text, ax=None, ha='right', va='top', offset=2.5/25.4):
     return add_subfig_label(text, ax=ax, ha=ha, va=va, offset=offset)
 
 
-def add_subfig_label(text, ax=None, ha='left', va='top', offset=2.5/25.4):
+def add_subfig_label(text, ax=None, x=None, y=None, ha='left', va='top',
+                     offset=2.5/25.4):
     """Add figure label in bold."""
     ax = ax or iplt.gca()
-    x = (ha == 'right')  # 0 for left edge, 1 for right edge
-    y = (va == 'top')  # 0 for bottom edge, 1 for top edge
+    x = x or (ha == 'right')  # 0 for left edge, 1 for right edge
+    y = y or (va == 'top')  # 0 for bottom edge, 1 for top edge
     xoffset = (1 - 2*x)*offset
     yoffset = (1 - 2*y)*offset
     offset = mtransforms.ScaledTranslation(
