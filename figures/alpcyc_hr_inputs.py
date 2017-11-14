@@ -56,7 +56,7 @@ for i, ax in enumerate(grid.flat):
     ax.set_extent(ut.pl.regions['alps'], crs=ax.projection)
     im = ut.pl.draw_boot_topo(ax)
     ut.pl.draw_natural_earth(ax)
-    ut.pl.add_subfig_label('(%s)' % list('abcdefghi')[i], ax)
+    ut.pl.add_subfig_label('(%s)' % list('abcdfhegi')[i], ax)
 
 # add boot topo colorbar
 ticks = range(0, 3001, 1000)
