@@ -8,7 +8,7 @@ import cartopy.io.shapereader as shpreader
 
 # parameters
 regions = ['rhine', 'rhone', 'ivrea', 'isere', 'inn', 'taglia']
-labels = ['Rhine', 'Rhone', 'Ivrea', u'Isère', 'Inn', 'Tagliamento']
+labels = ['Rhine', 'Rhone', 'Dora Baltea', u'Isère', 'Inn', 'Tagliamento']
 colors = ['blue', 'green', 'red', 'orange', 'purple', 'brown']
 colors = [ut.pl.palette['dark'+hue] for hue in colors]
 
