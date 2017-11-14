@@ -11,6 +11,7 @@ fig, grid = ut.pl.subplots_mm(figsize=(figw, figh), projection=ut.pl.utm,
                               nrows=2, ncols=3, sharex=True, sharey=True,
                               left=2.5, right=2.5, bottom=2.5, top=20/3.,
                               hspace=2.5, wspace=2.5)
+cax = fig.add_axes([77.5/figw, 11.125/figh, 20.0/figw, 2.5/figh])
 
 # set extent
 for i, ax in enumerate(grid.flat):
@@ -71,6 +72,10 @@ for i, rec in enumerate(ut.alpcyc_records):
     ut.pl.draw_boot_topo(ax, res='2km')
     ut.pl.draw_natural_earth(ax)
     ut.pl.draw_lgm_outline(ax, c='k')
+
+# add colorbar
+cb = fig.colorbar(cs, cax, orientation='horizontal')
+cb.set_label(r'LGM age (ka)')
 
 # save
 fig.savefig('alpcyc_lr_timing')
