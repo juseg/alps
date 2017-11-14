@@ -7,15 +7,16 @@ import scipy as sp
 import cartopy.io.shapereader as shpreader
 
 # parameters
-regions = ['rhine', 'rhone', 'ivrea', 'isere']
-labels = ['Rhine', 'Rhone', 'Ivrea', u'Isère']
-colors = [ut.pl.palette['dark'+hue] for hue in ['blue', 'green', 'red', 'orange']]
+regions = ['rhine', 'rhone', 'ivrea', 'isere', 'inn', 'taglia']
+labels = ['Rhine', 'Rhone', 'Ivrea', u'Isère', 'Inn', 'Tagliamento']
+colors = ['blue', 'green', 'red', 'orange', 'purple', 'brown']
+colors = [ut.pl.palette['dark'+hue] for hue in colors]
 
 # initialize figure
-figw, figh = 170.0, 115.0
-fig, grid = ut.pl.subplots_mm(nrows=4, ncols=1, sharex=False, sharey=False,
+figw, figh = 170.0, 175.0
+fig, grid = ut.pl.subplots_mm(nrows=6, ncols=1, sharex=False, sharey=False,
                               figsize=(figw, figh), projection=ut.pl.utm,
-                              left=2.5, right=132.5, bottom=5.0, top=2.5,
+                              left=2.5, right=132.5, bottom=10.0, top=2.5,
                               hspace=2.5, wspace=2.5)
 
 # load extra data
@@ -91,8 +92,8 @@ for i, reg in enumerate(regions):
     tsax.grid(axis='y')
 
     # add subfigure labels
-    ut.pl.add_subfig_label('(%s)' % 'aceg'[i], ax=ax)
-    ut.pl.add_subfig_label('(%s)' % 'bdfh'[i], ax=tsax)
+    ut.pl.add_subfig_label('(%s)' % 'acegik'[i], ax=ax)
+    ut.pl.add_subfig_label('(%s)' % 'bdfhjl'[i], ax=tsax)
 
 # save
 fig.savefig('alpcyc_hr_profiles')
