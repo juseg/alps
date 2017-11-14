@@ -465,12 +465,13 @@ def plot_mis(ax=None, y=1.075):
     ax.axvspan(29, 14, **kwa)
 
     # add text
-    kwa = dict(ha='center', va='center', transform=trans)
-    ax.text((120+71)/2, y, 'MIS 5', **kwa)
-    ax.text((71+57)/2, y, 'MIS 4', **kwa)
-    ax.text((57+29)/2, y, 'MIS 3', **kwa)
-    ax.text((29+14)/2, y, 'MIS 2', **kwa)
-    ax.text((14+0)/2, y, 'MIS 1', **kwa)
+    if y is not None:
+        kwa = dict(ha='center', va='center', transform=trans)
+        ax.text((120+71)/2, y, 'MIS 5', **kwa)
+        ax.text((71+57)/2, y, 'MIS 4', **kwa)
+        ax.text((57+29)/2, y, 'MIS 3', **kwa)
+        ax.text((29+14)/2, y, 'MIS 2', **kwa)
+        ax.text((14+0)/2, y, 'MIS 1', **kwa)
 
 
 def plot_dt(ax=None, t=0.0):

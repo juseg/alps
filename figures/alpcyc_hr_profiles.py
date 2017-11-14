@@ -44,6 +44,7 @@ for i, reg in enumerate(regions):
     # add map elements
     ut.pl.draw_boot_topo(ax)
     ut.pl.draw_natural_earth(ax)
+    ut.pl.draw_footprint(ax, ec='none', fc='w', alpha=0.75)
     ut.pl.draw_footprint(ax)
     ut.pl.draw_lgm_outline(ax)
 
@@ -67,7 +68,7 @@ for i, reg in enumerate(regions):
     pos = ax.get_position()
     tsrect = [40.0/figw, pos.y0, 120.0/figw, pos.height]
     tsax = fig.add_axes(tsrect)
-    ut.pl.plot_mis(tsax, y=0.85)
+    ut.pl.plot_mis(tsax, y=(0.15 if i==len(regions)-1 else None))
 
     # extract space-time slice
     xi = t[:, None], yp[None, :], xp[None, :]  # coords to sample at
@@ -80,12 +81,12 @@ for i, reg in enumerate(regions):
     # plot envelope
     levs = [1.0, 5e3]
     cols = [c]
-    cs = tsax.contourf(-t/1e3, dp/1e3, hp.T, levels=levs, colors=cols)
+    cs = tsax.contourf(-t/1e3, dp/1e3, hp.T, levels=levs, colors=cols, alpha=0.75)
 
     # set axes properties
     tsax.set_xlim(120.0, 0.0)
-    tsax.set_xlabel('model age (ka)', labelpad=-20)
-    tsax.set_ylabel('%s glacier (km)' % label)
+    tsax.set_xlabel('model age (ka)')
+    tsax.set_ylabel('glacier length (km)')
     tsax.xaxis.set_visible(i==len(regions)-1)
     tsax.yaxis.set_label_position("right")
     tsax.yaxis.tick_right()
@@ -93,7 +94,7 @@ for i, reg in enumerate(regions):
 
     # add subfigure labels
     ut.pl.add_subfig_label('(%s)' % 'acegik'[i], ax=ax)
-    ut.pl.add_subfig_label('(%s)' % 'bdfhjl'[i], ax=tsax)
+    ut.pl.add_subfig_label('(%s) ' % 'bdfhjl'[i] + label, ax=tsax)
 
 # save
 fig.savefig('alpcyc_hr_profiles')
