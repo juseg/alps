@@ -29,6 +29,10 @@ for i, rec in enumerate(ut.alpcyc_records):
     ax = grid[0, i/2]
     pp = 'pp' in conf
 
+    # add scaling domain and outline on top panel only
+    ut.pl.draw_scaling_domain(ax)
+    ut.pl.draw_lgm_outline(ax, c='k')
+
     # set title
     ax.text(0.4+0.1*pp, 1.05, label, color=c, fontweight='bold',
             ha=('left' if pp else 'right'), transform=ax.transAxes)
@@ -53,10 +57,6 @@ for i, rec in enumerate(ut.alpcyc_records):
         ut.pl.add_subfig_label('(%s)' % list('abcdef')[i/2+j], ax=ax)
         ut.pl.draw_boot_topo(ax, res='2km')
         ut.pl.draw_natural_earth(ax)
-        ut.pl.draw_lgm_outline(ax, c='k')
-
-    # draw scaling domain
-    ut.pl.draw_scaling_domain(ax)
 
 # save
 fig.savefig('alpcyc_lr_footprints')
