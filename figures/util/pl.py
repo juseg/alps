@@ -376,6 +376,31 @@ def draw_footprint(ax=None, ec=palette['darkorange'], fc='none', alpha=1.0):
     del shp
 
 
+def draw_ice_divides(ax=None):
+    """Add plotted ice divides."""
+    ax = ax or iplt.gca()
+    run = '-'.join(ut.alpcyc_bestrun.rstrip('/').split('/')[-2:])
+    shp = cshp.Reader('../data/native/alpcyc_ice_divides.shp')
+    for rec in shp.records():
+        rank = rec.attributes['rank']
+        ax.add_geometries(shp.geometries(), ll, lw=2.0-0.5*rank, alpha=0.75,
+                          edgecolor=ut.pl.palette['darkorange'],
+                          facecolor='none')
+    del shp
+
+
+def draw_water_divides(ax=None):
+    """Add plotted water divides."""
+    ax = ax or iplt.gca()
+    run = '-'.join(ut.alpcyc_bestrun.rstrip('/').split('/')[-2:])
+    shp = cshp.Reader('../data/native/alpcyc_water_divides.shp')
+    for rec in shp.records():
+        ax.add_geometries(shp.geometries(), ll, lw=1.0, alpha=0.75,
+                          edgecolor=ut.pl.palette['darkorange'],
+                          facecolor='none', linestyles=[(0, [3, 1])])
+    del shp
+
+
 def draw_trimlines(ax=None, c=palette['darkblue'], s=4**2, alpha=0.75):
     """Add trimline locations."""
     ax = ax or iplt.gca()
