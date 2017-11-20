@@ -214,24 +214,6 @@ def subplots_cax_ts_anim(extent='alps', labels=False, dt=True, mis=True,
     return fig, ax, cax, tsax
 
 
-def subplots_cax_ts_big(extent='crop', labels=False, dt=True, mis=True):
-    """Init big figure with subplot, colorbar and timeseries insets."""
-    # initialize figure
-    figw, figh = 405.0, 270.0
-    fig, ax = ut.pl.subplots_mm(figsize=(figw, figh), projection=ut.pl.utm,
-                                left=2.5, right=2.5, bottom=2.5, top=2.5)
-    cax1 = fig.add_axes([12.5/figw, 1-32.5/figh, 50.0/figw, 5.0/figh])
-    cax2 = fig.add_axes([12.5/figw, 1-52.5/figh, 50.0/figw, 5.0/figh])
-    tsax = fig.add_axes([157.5/figw, 27.5/figh, 205.0/figw, 40.0/figh])
-    rect = iplt.Rectangle((142.5/figw, 12.5/figh), 250.0/figw, 75.0/figh,
-                          ec='k', fc='w', alpha=1.0, clip_on=False,
-                          transform=fig.transFigure, zorder=-1)
-    tsax.add_patch(rect)
-    tsax.set_facecolor('none')
-    prepare_axes(ax, tsax, extent, labels, dt, mis)
-    return fig, ax, cax1, cax2, tsax
-
-
 def subplots_cax_ts_sgm(extent='alps', labels=False, dt=True, mis=True):
     """Init A3 figure with subplot, colorbar inset and timeseries cut."""
     figw, figh = 405.0, 271 + 1/3.
