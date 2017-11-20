@@ -432,8 +432,34 @@ def draw_ice_domes(ax=None, textoffset=4):
         lat = rec.geometry.y
         x, y = ax.projection.transform_point(lon, lat, src_crs=ut.pl.ll)
         ax.plot(x, y, 'k^', ms=6, mew=0)
-        ax.annotate(name, xy=(x, y), xytext=(0, textoffset), style='italic',
-                    textcoords='offset points', ha='center', va='bottom')
+        ax.annotate(name, xy=(x, y), xytext=(0, -textoffset), style='italic',
+                    textcoords='offset points', ha='center', va='top')
+
+
+def draw_all_transfluences(ax=None, textoffset=4, strip=True):
+    """Add major transfluences."""
+    shp = cshp.Reader('../data/native/alpcyc_transfluences.shp')
+    c = palette['darkpurple']
+    for rec in shp.records():
+        lon = rec.geometry.x
+        lat = rec.geometry.y
+        xi, yi = ax.projection.transform_point(lon, lat, src_crs=ut.pl.ll)
+        name = rec.attributes['name'].decode('utf-8')
+        alti = rec.attributes['altitude']
+        azim = rec.attributes['azimuth']
+        label = '%s, %s m' % (name, alti)
+        xloc = 'r'
+        yloc = 'l'
+        dx = {'c': 0, 'l': -1, 'r': 1}[xloc]*textoffset
+        dy = {'c': 0, 'l': -1, 'u': 1}[yloc]*textoffset
+        ha = {'c': 'center', 'l': 'right', 'r': 'left'}[xloc]
+        va = {'c': 'center', 'l': 'top', 'u': 'bottom'}[yloc]
+        ax.text(xi, yi, '$\Rightarrow$', fontsize=8, color=c,
+                ha='center', va='center', rotation=90-azim)
+        ax.annotate(label, xy=(xi, yi), xytext=(dx, dy), fontsize=4,
+                    textcoords='offset points', ha=ha, va=va, color=c,
+                    bbox=dict(ec=c, fc='w', pad=0.5, alpha=0.75))
+    del shp
 
 
 def draw_major_transfluences(ax=None, textoffset=4):
