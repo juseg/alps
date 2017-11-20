@@ -61,7 +61,8 @@
     reconstructions, and vice-versa.
 
     Here, we use the Parallel Ice Sheet Model (PISM) to model the entire last
-    glacial cycle (120--0\,ka) in the Alps, with a horizontal resolution of
+    glacial cycle (120--0\,ka) in the Alps, using 576~processors and a
+    horizontal resolution of
     1\,km. Climate forcing is derived using present-day climate data from
     WorldClim and the ERA-Interim reanalysis, and time-dependent temperature
     offsets from multiple palaeo-climate proxies, among which only the EPICA ice
@@ -203,8 +204,9 @@
 
     We use the Parallel Ice Sheet Model (PISM, development version~e9d2d1f), an
     open source, finite difference, shallow ice sheet model
-    \citep{PISM-authors.2017}. The model requires input on basal
-    topography, geothermal heat flux and climate forcing. It computes the
+    \citep{PISM-authors.2017}. The model requires input on initial bedrock and
+    glacier topographies, geothermal heat flux and climate forcing. It computes
+    the
     evolution of ice extent and thickness over time, the thermal and dynamic
     states of the ice sheet, and the associated lithospheric response. The
     model set-up used here was previously developed and tested on the former
@@ -222,7 +224,7 @@
     Climate forcing is provided by a~monthly climatology from interpolated
     observational data \citep[WorldClim;][]{Hijmans.etal.2005} and the European
     Centre for Medium-Range Weather Forecasts Reanalysis Interim
-    \citep[ERA-Interim;][]{Dee.etal.2011}, perturbed by temperature lapse-rate
+    \citep[ERA-Interim;][]{Dee.etal.2011}, amended with temperature lapse-rate
     corrections (Sect.~\ref{sec:atm}), time-dependent temperature offsets, and
     in some cases, time-dependent palaeo-precipitation reductions
     (Sect.~\ref{sec:climate}).
