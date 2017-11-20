@@ -50,7 +50,7 @@ stereo = ccrs.Stereographic(central_latitude=0.0, central_longitude=7.5)
 # geographic regions
 regions = {'alps': (150e3, 1050e3, 4820e3, 5420e3),    # model domain 900x600
            'bern': (390e3, 465e3, 5125e3, 5175e3),     # Bern 75x50
-           'crop': (155e3, 1045e3, 4825e3, 5415e3),    # 5 km crop 895x895
+           'crop': (155e3, 1045e3, 4825e3, 5415e3),    # 5 km crop 890x590
            'guil': (230e3, 470e3, 5050e3, 5240e3),     # Guillaume 240x190
            'west': (250e3, 700e3, 4970e3, 5270e3),     # western 450x300
            'inn':   (500e3, 815e3, 5125e3, 5350e3),    # Inn 315x225
@@ -228,6 +228,29 @@ def subplots_cax_ts_big(extent='crop', labels=False, dt=True, mis=True):
                           transform=fig.transFigure, zorder=-1)
     tsax.add_patch(rect)
     tsax.set_facecolor('none')
+    prepare_axes(ax, tsax, extent, labels, dt, mis)
+    return fig, ax, cax1, cax2, tsax
+
+
+def subplots_cax_ts_sgm(extent='alps', labels=False, dt=True, mis=True):
+    """Init A3 figure with subplot, colorbar inset and timeseries cut."""
+    figw, figh = 405.0, 271 + 1/3.
+    fig, ax = ut.pl.subplots_mm(figsize=(figw, figh), projection=ut.pl.utm,
+                                left=2.5, right=2.5, bottom=2.5, top=2.5)
+    cax1 = fig.add_axes([12.5/figw, 1-32.5/figh, 50.0/figw, 5.0/figh])
+    cax2 = fig.add_axes([12.5/figw, 1-52.5/figh, 50.0/figw, 5.0/figh])
+    tsax = fig.add_axes([147.5/figw, 15.0/figh, 240.0/figw, 60.0/figh])
+    ax.outline_patch.set_ec('none')
+    xcut = 130.0/400.0  # ca. 1/3.
+    ycut = 85.0/400.0*3/2  # ca. 1/3.
+    x = [0.0, xcut, xcut, 1.0, 1.0, 0.0, 0.0]
+    y = [0.0, 0.0, ycut, ycut, 1.0, 1.0, 0.0]
+    poly = iplt.Polygon(zip(x, y), ec='k', fc='none', clip_on=False,
+                        transform=ax.transAxes, zorder=3)
+    rect = iplt.Rectangle((xcut, 0.0), 1-xcut, ycut, ec='w', fc='w',
+                          clip_on=False, transform=ax.transAxes, zorder=-1)
+    tsax.add_patch(poly)
+    tsax.add_patch(rect)
     prepare_axes(ax, tsax, extent, labels, dt, mis)
     return fig, ax, cax1, cax2, tsax
 
