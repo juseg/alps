@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 xts, yts = 600e3, 5170e3
 
 # initialize figure
-fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut()
+fig, ax, cax, tsax = ut.pl.subplots_cax_ts()
 
 
 # Map axes

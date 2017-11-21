@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # initialize figure
-fig, ax, cax = ut.pl.subplots_cax_inset()
+fig, ax, cax = ut.pl.subplots_cax()
 
 # read postprocessed data
 nadvances, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'nadvances')

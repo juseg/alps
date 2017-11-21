@@ -4,7 +4,7 @@
 import util as ut
 
 # initialize figure
-fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut(extent='west')
+fig, ax, cax, tsax = ut.pl.subplots_cax_ts(extent='west')
 
 # time for plot
 a = 12.5

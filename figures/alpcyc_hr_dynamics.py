@@ -16,7 +16,7 @@ colors = [ut.pl.palette['dark'+hue] for hue in colors]
 direcs = [1, -1, -1, 1, 1, -1]
 
 # initialize figure
-fig, ax, cax, scax, tsax = ut.pl.subplots_cax_sc_ts_nat()
+fig, ax, cax, tsax, scax = ut.pl.subplots_cax_ts_sc()
 
 # Map axes
 # --------

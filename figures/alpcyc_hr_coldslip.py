@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # initialize figure
-fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut(dt=False, mis=False)
+fig, ax, cax, tsax = ut.pl.subplots_cax_ts(dt=False, mis=False)
 tsax.set_rasterization_zorder(2.5)
 
 # time for plot

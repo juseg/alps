@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # initialize figure
-fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut(mis=False)
+fig, ax, cax, tsax = ut.pl.subplots_cax_ts(mis=False)
 
 
 # Map axes
