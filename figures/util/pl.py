@@ -98,6 +98,27 @@ def prepare_ts_axes(ax, dt=True, mis=True, t=0.0):
         plot_mis(ax)
 
 
+def cut_ts_axes(ax, tsw=2/3., tsh=1/3.):
+    """Cut timeseries inset into main axes."""
+    fig = ax.figure
+    pos = ax.get_position()
+    figw, figh = fig.get_size_inches()*25.4
+    ax.outline_patch.set_ec('none')
+    x = [0.0, 1-tsw, 1-tsw, 1.0, 1.0, 0.0, 0.0]
+    y = [0.0, 0.0, tsh, tsh, 1.0, 1.0, 0.0]
+    commkw = dict(clip_on=False, transform=ax.transAxes)
+    polykw = dict(ec='k', fc='none', zorder=3, **commkw)
+    rectkw = dict(ec='w', fc='w', zorder=-1, **commkw)
+    poly = iplt.Polygon(zip(x, y), **polykw)
+    rect = iplt.Rectangle((1-tsw, 0.0), tsw, tsh, **rectkw)
+    tsax = fig.add_axes([pos.x1-tsw*(pos.x1-pos.x0)+12.5/figw, 10.0/figh,
+                         tsw*(pos.x1-pos.x0)-20.0/figw,
+                         tsh*(pos.y1-pos.y0)-15.0/figh])
+    tsax.add_patch(poly)
+    tsax.add_patch(rect)
+    return tsax
+
+
 # FIXME add specific subplot helpers for profiles etc
 def subplots_ts(nrows=1, ncols=1, figw=85.0, figh=None, labels=True):
     """Init figure with margins adapted for simple timeseries."""
@@ -128,21 +149,11 @@ def subplots_cax(extent='alps'):
 def subplots_cax_ts(extent='alps', labels=True, dt=True, mis=True):
     """Init figure with subplot, colorbar inset and timeseries cut."""
     figw, figh = 230.0, 155.0
-    tspw, tsph = 2/3., 1/3.  # ts panel dims relative to map axes
     fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
                                gridspec_kw=dict(left=2.5, right=2.5,
                                                 bottom=2.5, top=2.5))
     cax = fig.add_axes([5.0/figw, 95.0/figh, 5.0/figw, 50.0/figh])
-    tsax = fig.add_axes([90.0/figw, 10.0/figh, 127.5/figw, 35.0/figh])
-    ax.outline_patch.set_ec('none')
-    x = [0.0, 1-tspw, 1-tspw, 1.0, 1.0, 0.0, 0.0]
-    y = [0.0, 0.0, tsph, tsph, 1.0, 1.0, 0.0]
-    poly = iplt.Polygon(zip(x, y), ec='k', fc='none', clip_on=False,
-                        transform=ax.transAxes, zorder=3)
-    rect = iplt.Rectangle((1-tspw, 0.0), tspw, tsph, ec='w', fc='w',
-                          clip_on=False, transform=ax.transAxes, zorder=-1)
-    tsax.add_patch(poly)
-    tsax.add_patch(rect)
+    tsax = cut_ts_axes(ax)
     prepare_map_axes(ax, extent=extent)
     prepare_ts_axes(tsax, dt=dt, mis=mis)
     if labels is True:
