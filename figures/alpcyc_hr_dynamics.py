@@ -37,7 +37,7 @@ cs = ax.contour(warmbased, [1e3], extent=extent, colors='0.25', linewidths=0.25)
 im = ax.contourf(maxthkage/1e3, levs, extent=extent, colors=cols, extend='both', alpha=0.75)
 
 # add colorbar
-cb = fig.colorbar(im, cax, orientation='horizontal')
+cb = ut.pl.add_colorbar(im, cax)
 cb.set_label(r'age of maximum ice surface elevation (ka)')
 
 # add map elements

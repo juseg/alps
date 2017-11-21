@@ -61,7 +61,7 @@ for i, ax in enumerate(grid.flat):
 # add boot topo colorbar
 ticks = range(0, 3001, 1000)
 ax = grid[0, 1]
-cb = fig.colorbar(im, ax.cax, orientation=mode, extend='max', ticks=ticks)
+cb = ut.pl.add_colorbar(im, ax.cax, orientation=mode, extend='max', ticks=ticks)
 ax.cax.set_yticklabels(['%.0f' % (t*1e-3) for t in ticks])
 cb.set_label(r'Basal topography (km)')
 
@@ -85,7 +85,7 @@ cs = nc.contourf('bheatflx', ax, levels=levs, colors=cols, thkth=-1,
                  extend='both', alpha=0.75)
 
 # add colorbar
-cb = fig.colorbar(cs, ax.cax, orientation=mode, extend='both', ticks=levs[::2])
+cb = ut.pl.add_colorbar(cs, ax.cax, orientation=mode, extend='both', ticks=levs[::2])
 cb.set_label(r'Geothermal flux ($mW\,m^{-2}$)')
 
 # plot boot ice thickness
@@ -94,7 +94,7 @@ ax.set_extent(ut.pl.regions['bern'], crs=ax.projection)
 im = nc.imshow('thk', ax, vmin=0e2, vmax=6e2, cmap='Blues', alpha=0.75)
 
 # add colorbar
-cb = fig.colorbar(im, ax.cax, orientation=mode, extend='max',
+cb = ut.pl.add_colorbar(im, ax.cax, orientation=mode, extend='max',
                   ticks=range(0, 601, 200))
 cb.set_label(r'Modern ice thickness (m)')
 
@@ -125,7 +125,7 @@ for i in range(2):
     ut.pl.add_corner_tag(['Jan.', 'July'][i], ax=ax, va='bottom')
 
 # add colorbar
-cb = fig.colorbar(cs, ax.cax, orientation=mode, ticks=levs[::2])
+cb = ut.pl.add_colorbar(cs, ax.cax, orientation=mode, ticks=levs[::2])
 cb.set_label(u'PDD SD (°C)')
 
 
@@ -154,7 +154,7 @@ for i in range(2):
     ut.pl.add_corner_tag(['Jan.', 'July'][i], ax=ax, va='bottom')
 
 # add colorbar
-cb = fig.colorbar(cs, ax.cax, orientation=mode, ticks=levs[::2])
+cb = ut.pl.add_colorbar(cs, ax.cax, orientation=mode, ticks=levs[::2])
 cb.set_label(u'Air temperature (°C)')
 
 # contour levels and colors
@@ -169,7 +169,7 @@ for i in range(2):
     ut.pl.add_corner_tag(['Jan.', 'July'][i], ax=ax, va='bottom')
 
 # add colorbar
-cb = fig.colorbar(cs, ax.cax, orientation=mode, ticks=levs[1::2])
+cb = ut.pl.add_colorbar(cs, ax.cax, orientation=mode, ticks=levs[1::2])
 cb.set_label(r'Monthly precipitation (mm)')
 
 # save

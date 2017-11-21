@@ -29,7 +29,7 @@ ut.pl.draw_natural_earth(ax)
 ut.pl.draw_lgm_outline(ax)
 
 # add colorbar
-cb = fig.colorbar(cs, cax)
+cb = ut.pl.add_colorbar(cs, cax)
 cb.set_label(r'duration of glaciation (ka)')
 
 

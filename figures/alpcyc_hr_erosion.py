@@ -28,7 +28,7 @@ ut.pl.draw_boot_topo(ax)
 ut.pl.draw_natural_earth(ax)
 
 # add colorbar
-cb = fig.colorbar(cs, cax, format='%g')
+cb = ut.pl.add_colorbar(cs, cax, format='%g')
 cb.set_label(r'total erosion (m)')
 
 

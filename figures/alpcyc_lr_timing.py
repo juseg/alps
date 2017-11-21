@@ -74,7 +74,7 @@ for i, rec in enumerate(ut.alpcyc_records):
     ut.pl.draw_lgm_outline(ax, c='k')
 
 # add colorbar
-cb = fig.colorbar(cs, cax, orientation='horizontal')
+cb = ut.pl.add_colorbar(cs, cax)
 cb.set_label(r'LGM age (ka)')
 
 # save

@@ -25,7 +25,7 @@ ut.pl.draw_boot_topo(ax)
 ut.pl.draw_natural_earth(ax)
 
 # add colorbar
-cb = fig.colorbar(cs, cax, ticks=levs)
+cb = ut.pl.add_colorbar(cs, cax, ticks=levs)
 cb.set_label(r'number of glaciations')
 
 # save figure

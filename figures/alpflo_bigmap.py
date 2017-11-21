@@ -42,9 +42,9 @@ cs = nc.icemargin(ax, t, colors='k', linewidths=0.25)
 nc.close()
 
 # add colorbars
-cb = fig.colorbar(im1, cax1, orientation='horizontal', extend='both')
+cb = ut.pl.add_colorbar(im1, cax1, extend='both')
 cb.set_label(r'bedrock topography (m)')
-cb = fig.colorbar(im2, cax2, orientation='horizontal', extend='both')
+cb = ut.pl.add_colorbar(im2, cax2, extend='both')
 cb.set_label(r'surface velocity ($m\,a^{-1}$)')
 
 # add vector polygons

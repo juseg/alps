@@ -274,6 +274,33 @@ def subplots_cax_ts_sgm(extent='alps', labels=False, dt=True, mis=True):
 # Text annotations
 # ----------------
 
+def add_colorbar(mappable, cax=None, ax=None, fig=None, label=None, **kw):
+    """Add colorbar with auto orientation."""
+
+    # try to figure out orientation
+    orientation = kw.pop('orientation', None)
+    if orientation is None and cax is not None:
+        fig = cax.figure
+        pos = cax.get_position().transformed(fig.dpi_scale_trans.inverted())
+        ratio = abs(pos.height/pos.width)
+        orientation = 'horizontal' if ratio < 1.0 else 'vertical'
+
+    # find figure
+    if fig is None:
+        if cax is not None:
+            fig = cax.figure
+        elif ax is not None:
+            fig = ax.figure
+        else:
+            fig = plt.gcf()
+
+    # add colorbar
+    cb = fig.colorbar(mappable, cax, orientation=orientation, **kw)
+
+    # return colorbar
+    return cb
+
+
 def add_corner_tag(text, ax=None, ha='right', va='top', offset=2.5/25.4):
     """Add text in figure corner."""
     return add_subfig_label(text, ax=ax, ha=ha, va=va, offset=offset)

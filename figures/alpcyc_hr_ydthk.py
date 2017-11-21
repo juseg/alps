@@ -29,7 +29,7 @@ cs = nc.icemargin(ax, t, colors='k', linewidths=0.25)
 nc.close()
 
 # add colorbar
-cb = fig.colorbar(im, cax)
+cb = ut.pl.add_colorbar(im, cax)
 cb.set_label('ice thickness (m)')
 
 # add vector elements

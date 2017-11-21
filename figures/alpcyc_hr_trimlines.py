@@ -144,7 +144,7 @@ ut.pl.draw_natural_earth(ax)
 sc = ax.scatter(xt, yt, c=at, cmap=cmap, norm=norm, s=4**2, alpha=0.75)
 
 # add colorbar
-cb = fig.colorbar(sc, cax, orientation='horizontal')
+cb = ut.pl.add_colorbar(sc, cax)
 cb.set_label(r'age (ka)')
 
 # save figure

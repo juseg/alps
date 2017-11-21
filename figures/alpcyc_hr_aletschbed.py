@@ -33,7 +33,7 @@ for (i, j), z in np.ndenumerate(diff):
 ax.text(434.5e3, 5140.5e3, 'Fiesch', ha='center', va='center', color='k')
 
 # add colorbar
-cb = fig.colorbar(im, cax, extend='both', ticks=[0e2, 5e2])
+cb = ut.pl.add_colorbar(im, cax, extend='both', ticks=[0e2, 5e2])
 cb.set_label(r'glacier thickness removed (m)', labelpad=0)
 
 # save figure

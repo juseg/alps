@@ -30,7 +30,7 @@ ut.pl.draw_natural_earth(ax)
 ut.pl.draw_glacier_names(ax)
 
 # add colorbar
-cb = fig.colorbar(cs, cax)
+cb = ut.pl.add_colorbar(cs, cax)
 cb.set_label(r'age of maximum ice surface elevation (ka)')
 
 
