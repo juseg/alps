@@ -7,20 +7,7 @@ import matplotlib.pyplot as plt
 import iceplotlib.plot as iplt
 
 # initialize figure
-# FIXME add colorbar
-figw, figh = 175.0, 85.0
-fig, grid = iplt.subplots_mm(figsize=(figw, figh), projection=ut.pl.utm,
-                             nrows=2, ncols=3, sharex=True, sharey=True,
-                             gridspec_kw=dict(left=2.5, right=2.5,
-                                              bottom=2.5, top=20/3.,
-                                              hspace=2.5, wspace=2.5))
-cax = fig.add_axes([77.5/figw, 11.125/figh, 20.0/figw, 2.5/figh])
-
-# set extent
-for i, ax in enumerate(grid.flat):
-    ut.pl.add_subfig_label('(%s)' % list('abcdef')[i], ax=ax)
-    ax.set_extent(ut.pl.regions['alps'], crs=ax.projection)
-    ax.set_rasterization_zorder(2.5)
+fig, grid, cax = ut.pl.subplots_6_cax()
 
 # for each record
 for i, rec in enumerate(ut.alpcyc_records):

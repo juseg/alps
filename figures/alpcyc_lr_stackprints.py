@@ -3,22 +3,9 @@
 
 import util as ut
 import numpy as np
-import iceplotlib.plot as iplt
 
 # initialize figure
-figw, figh = 175.0, 85.0
-fig, grid = iplt.subplots_mm(figsize=(figw, figh), projection=ut.pl.utm,
-                             nrows=2, ncols=3, sharex=True, sharey=True,
-                             gridspec_kw=dict(left=2.5, right=2.5,
-                                              bottom=2.5, top=20/3.,
-                                              hspace=2.5, wspace=2.5))
-w, e, s, n = ut.pl.regions['rhlobe']
-
-# prepare axes
-for i, ax in enumerate(grid.flat):
-    ut.pl.add_subfig_label('(%s)' % list('abcdef')[i], ax=ax)
-    ax.set_extent(ut.pl.regions['alps'], crs=ax.projection)
-    ax.set_rasterization_zorder(2.5)
+fig, grid = ut.pl.subplots_6()
 
 # for each record
 for i, rec in enumerate(ut.alpcyc_records):

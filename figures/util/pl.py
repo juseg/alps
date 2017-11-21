@@ -266,6 +266,28 @@ def subplots_cax_ts_sgm(extent='alps', labels=False, dt=True, mis=True):
 # Multi map subplot helpers
 # --------------------------
 
+def subplots_6(extent='alps'):
+    """Init figure with six subplot."""
+    figw, figh = 175.0, 85.0
+    fig, grid = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
+                                 nrows=2, ncols=3, sharex=True, sharey=True,
+                                 gridspec_kw=dict(left=2.5, right=2.5,
+                                                  bottom=2.5, top=20/3.,
+                                                  hspace=2.5, wspace=2.5))
+    for ax, l in zip(grid.flat, 'abcdef'):
+        prepare_map_axes(ax, extent=extent)
+        add_subfig_label('(%s)' % l, ax=ax)
+    return fig, grid
+
+
+def subplots_6_cax(extent='alps'):
+    """Init figure with six subplot and colorbar inset."""
+    fig, grid = subplots_6()
+    figw, figh = fig.get_size_inches()
+    cax = fig.add_axes([0.5-10.0/figw, 11.125/figh, 20.0/figw, 2.5/figh])
+    return fig, grid, cax
+
+
 def subplots_inputs(extent='alps', mode='vertical'):
 
     # prepare two grids
