@@ -330,4 +330,4 @@ draw_graticules(ax)
 add_names(ax)
 
 # save
-fig.savefig('alpbou_locmap')
+ut.pl.savefig()

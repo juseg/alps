@@ -54,4 +54,4 @@ ax.plot(optend, optlen, 'o')
 ax.plot(22, 32-22, 'ko')
 
 # save
-fig.savefig('alpcyc_lr_scaleinterval')
+ut.pl.savefig()

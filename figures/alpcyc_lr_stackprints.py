@@ -79,4 +79,4 @@ for i, rec in enumerate(ut.alpcyc_records):
     ut.pl.draw_lgm_outline(ax, c='k')
 
 # save
-fig.savefig('alpcyc_lr_stackprints')
+ut.pl.savefig()

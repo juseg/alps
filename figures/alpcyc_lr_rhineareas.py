@@ -89,4 +89,4 @@ ax.set_xlabel('temperature offset (K)')
 ax.set_ylabel(r'glaciated area ($10^3\,km^2$)')
 
 # save
-fig.savefig('alpcyc_lr_rhineareas')
+ut.pl.savefig()

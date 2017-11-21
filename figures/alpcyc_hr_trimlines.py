@@ -148,4 +148,4 @@ cb = fig.colorbar(sc, cax, orientation='horizontal')
 cb.set_label(r'age (ka)')
 
 # save figure
-fig.savefig('alpcyc_hr_trimlines')
+ut.pl.savefig()

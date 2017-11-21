@@ -38,4 +38,4 @@ ax.grid()
 ax.legend(loc='best')
 
 # save
-fig.savefig('alpcyc_lr_timestamps')
+ut.pl.savefig()

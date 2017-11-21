@@ -78,4 +78,4 @@ cb = fig.colorbar(cs, cax, orientation='horizontal')
 cb.set_label(r'LGM age (ka)')
 
 # save
-fig.savefig('alpcyc_lr_timing')
+ut.pl.savefig()

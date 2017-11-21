@@ -36,4 +36,4 @@ cb = fig.colorbar(cs, cax, ticks=offsets)
 cb.set_label(u'temperature offset (°C)')
 
 # save
-fig.savefig('alplgl_extent')
+ut.pl.savefig()

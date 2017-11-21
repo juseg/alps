@@ -97,4 +97,4 @@ for i, reg in enumerate(regions):
     ut.pl.add_subfig_label('(%s) ' % 'bdfhjl'[i] + label, ax=tsax)
 
 # save
-fig.savefig('alpcyc_hr_profiles')
+ut.pl.savefig()

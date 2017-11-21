@@ -59,4 +59,4 @@ for i, rec in enumerate(ut.alpcyc_records):
         ut.pl.draw_natural_earth(ax)
 
 # save
-fig.savefig('alpcyc_lr_footprints')
+ut.pl.savefig()

@@ -66,4 +66,4 @@ tsax.set_xlabel('basal temperature below freezing (K)')
 tsax.set_ylabel('basal velocity ($m\,a^{-1}$)')
 
 # save figure
-fig.savefig('alpcyc_hr_coldslip')
+ut.pl.savefig()

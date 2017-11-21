@@ -173,4 +173,4 @@ cb = fig.colorbar(cs, ax.cax, orientation=mode, ticks=levs[1::2])
 cb.set_label(r'Monthly precipitation (mm)')
 
 # save
-fig.savefig('alpcyc_hr_inputs')
+ut.pl.savefig()

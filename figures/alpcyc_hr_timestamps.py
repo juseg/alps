@@ -35,4 +35,4 @@ ax.set_ylabel('computing time (days)')
 ax.grid()
 
 # save
-fig.savefig('alpcyc_hr_timestamps')
+ut.pl.savefig()

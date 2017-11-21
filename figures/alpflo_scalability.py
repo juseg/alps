@@ -70,4 +70,4 @@ angle = ax2.transData.transform_angles(np.array([45.0]),
 ax2.text(20.0, 30.0, 'ideal speedup', color='0.5', rotation=angle)
 
 # save
-fig.savefig('alpflo_scalability')
+ut.pl.savefig()

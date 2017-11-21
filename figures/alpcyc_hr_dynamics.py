@@ -155,4 +155,4 @@ for i, reg in enumerate(regions):
     cs = twax.contourf(-t/1e3, dp/1e3, hp.T, levels=[1.0, 5e3], colors=[c], alpha=0.75)
 
 # save figure
-fig.savefig('alpcyc_hr_dynamics')
+ut.pl.savefig()

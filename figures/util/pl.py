@@ -3,12 +3,15 @@
 
 """Plotting functions."""
 
+import os
+import sys
 import util as ut
 import numpy as np
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import cartopy.io.shapereader as cshp
 import iceplotlib.plot as iplt
+import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import matplotlib.collections as mcollections
 import matplotlib.transforms as mtransforms
@@ -605,3 +608,13 @@ def plot_dt(ax=None, t=0.0):
     ax.set_ylim(-12.5, 7.5)
     ax.grid(axis='y')
     ax.locator_params(axis='y', nbins=6)
+
+
+# Saving figures
+# --------------
+
+def savefig(fig=None):
+    """Save figure to script filename."""
+    fig = fig or plt.gcf()
+    res = fig.savefig(os.path.splitext(sys.argv[0])[0])
+    return res

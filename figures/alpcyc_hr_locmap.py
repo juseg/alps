@@ -18,4 +18,4 @@ cb = fig.colorbar(im, cax, extend='both', ticks=range(0, 3001, 1000))
 cb.set_label(r'bedrock topography (m)')
 
 # save figure
-fig.savefig('alpcyc_hr_locmap')
+ut.pl.savefig()

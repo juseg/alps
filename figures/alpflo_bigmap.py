@@ -88,4 +88,4 @@ tsax.locator_params(axis='y', nbins=6)
 cursor = tsax.axvline(a, c='k', lw=0.25)
 
 # save figure
-fig.savefig('alpflo_bigmap', dpi=508)
+ut.pl.savefig()

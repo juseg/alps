@@ -47,4 +47,4 @@ twax.set_ylim(-1.0, 7.0)
 twax.locator_params(axis='y', nbins=6)
 
 # save figure
-fig.savefig('alpcyc_hr_totalsliding')
+ut.pl.savefig()

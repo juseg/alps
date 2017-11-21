@@ -47,4 +47,4 @@ twax.set_ylim(-0.5, 3.5)
 twax.locator_params(axis='y', nbins=6)
 
 # save figure
-fig.savefig('alpcyc_hr_erosion')
+ut.pl.savefig()

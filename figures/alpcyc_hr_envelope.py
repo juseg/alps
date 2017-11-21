@@ -24,4 +24,4 @@ cb = fig.colorbar(cs, cax)
 cb.set_label(r'maximum thickness surface elevation (m)')
 
 # save figure
-fig.savefig('alpcyc_hr_envelope')
+ut.pl.savefig()
