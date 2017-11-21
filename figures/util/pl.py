@@ -84,6 +84,7 @@ ne_graticules = cfeature.NaturalEarthFeature(
 # Iceplotlib functions
 # --------------------
 
+# FIXME use explicit imports
 figure = iplt.figure
 subplots_mm = iplt.subplots_mm
 get_cmap = iplt.get_cmap
@@ -119,10 +120,11 @@ def subplots_ts(nrows=1, ncols=1, figw=85.0, figh=None, labels=True):
     """Init figure with margins adapted for simple timeseries."""
     figh = figh or 30.0 + nrows*30.0
     fig, grid = iplt.subplots_mm(nrows=nrows, ncols=ncols,
-                                 figsize=(figw, figh),
-                                 left=10.0, right=2.5, bottom=7.5, top=2.5,
                                  sharex=True, sharey=False,
-                                 hspace=2.5, wspace=2.5)
+                                 figsize=(figw, figh),
+                                 gridspec_kw=dict(left=10.0, right=2.5,
+                                                  bottom=7.5, top=2.5,
+                                                  hspace=2.5, wspace=2.5))
     if nrows*ncols > 1 and labels is True:
         for ax, label in zip(grid, list('abcdef')):
             ut.pl.add_subfig_label('({})'.format(label), ax=ax)
@@ -133,7 +135,8 @@ def subplots_cax(extent='alps'):
     """Init figure with unique subplot and right colorbar."""
     figw, figh = 170.0, 105.0
     fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
-                               left=2.5, right=17.5, bottom=2.5, top=2.5)
+                               gridspec_kw=dict(left=2.5, right=17.5,
+                                                bottom=2.5, top=2.5))
     cax = fig.add_axes([1-15.0/figw, 2.5/figh, 5.0/figw, 1-5.0/figh])
     prepare_axes(ax, extent=extent)
     return fig, ax, cax
@@ -143,7 +146,8 @@ def subplots_cax_inset(extent='alps'):
     """Init figure with unique subplot and colorbar inset."""
     figw, figh = 230.0, 155.0
     fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
-                               left=2.5, right=2.5, bottom=2.5, top=2.5)
+                               gridspec_kw=dict(left=2.5, right=2.5,
+                                                bottom=2.5, top=2.5))
     cax = fig.add_axes([5.0/figw, 95.0/figh, 5.0/figw, 50.0/figh])
     prepare_axes(ax, extent=extent)
     return fig, ax, cax
@@ -153,7 +157,8 @@ def subplots_cax_ts(extent='alps', labels=True, dt=True, mis=True):
     """Init figure with subplot, side colorbar and timeseries."""
     figw, figh = 170.0, 145.0
     fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
-                               left=2.5, right=17.5, bottom=42.5, top=2.5)
+                               gridspec_kw=dict(left=2.5, right=17.5,
+                                                bottom=42.5, top=2.5))
     cax = fig.add_axes([1-15.0/figw, 42.5/figh, 5.0/figw, 100.0/figh])
     tsax = fig.add_axes([12.5/figw, 10.0/figh, 1-22.5/figw, 30.0/figh])
     prepare_axes(ax, tsax, extent, labels, dt, mis)
@@ -164,7 +169,8 @@ def subplots_cax_ts_inset(extent='alps', labels=True, dt=True, mis=True):
     """Init figure with subplot, colorbar and timeseries insets."""
     figw, figh = 230.0, 155.0
     fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
-                               left=2.5, right=2.5, bottom=2.5, top=2.5)
+                               gridspec_kw=dict(left=2.5, right=2.5,
+                                                bottom=2.5, top=2.5))
     cax = fig.add_axes([5.0/figw, 95.0/figh, 5.0/figw, 50.0/figh])
     tsax = fig.add_axes([87.5/figw, 15.0/figh, 125.0/figw, 30.0/figh])
     rect = iplt.Rectangle((75.0/figw, 5.0/figh), 150.0/figw, 45.0/figh,
@@ -180,7 +186,8 @@ def subplots_cax_ts_cut(extent='alps', labels=True, dt=True, mis=True):
     """Init figure with subplot, colorbar inset and timeseries cut."""
     figw, figh = 230.0, 155.0
     fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
-                               left=2.5, right=2.5, bottom=2.5, top=2.5)
+                               gridspec_kw=dict(left=2.5, right=2.5,
+                                                bottom=2.5, top=2.5))
     cax = fig.add_axes([5.0/figw, 95.0/figh, 5.0/figw, 50.0/figh])
     tsax = fig.add_axes([90.0/figw, 10.0/figh, 127.5/figw, 35.0/figh])
     ax.outline_patch.set_ec('none')
@@ -200,7 +207,8 @@ def subplots_cax_sc_ts_nat(extent='alps', labels=True, dt=True, mis=True):
     """Init figure with subplot, colorbar, scatter plot and timeseries."""
     figw, figh = 183.0, 123.0
     fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
-                               left=1.5, right=1.5, bottom=1.5, top=1.5)
+                               gridspec_kw=dict(left=1.5, right=1.5,
+                                                bottom=1.5, top=1.5))
     cax = fig.add_axes([71.5/figw, 116.5/figh, 40.0/figw, 2.5/figh])
     scax = fig.add_axes([9.0/figw, 91.5/figh, 25.0/figw, 30.0/figh])
     tsax = fig.add_axes([71.5/figw, 6.5/figh, 100.0/figw, 30.0/figh])
@@ -232,7 +240,8 @@ def subplots_cax_ts_anim(extent='alps', labels=False, dt=True, mis=True,
     """Init figure with subplot, colorbar inset and timeseries cut."""
     figw, figh = 180.0, 120.0
     fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
-                               left=0.0, right=0.0, bottom=0.0, top=0.0)
+                               gridspec_kw=dict(left=0.0, right=0.0,
+                                                bottom=0.0, top=0.0))
     cax = fig.add_axes([5.0/figw, 70.0/figh, 5.0/figw, 40.0/figh])
     tsax = fig.add_axes([75.0/figw, 10.0/figh, 90.0/figw, 22.5/figh])
     ax.outline_patch.set_ec('none')
@@ -252,7 +261,8 @@ def subplots_cax_ts_sgm(extent='alps', labels=False, dt=True, mis=True):
     """Init A3 figure with subplot, colorbar inset and timeseries cut."""
     figw, figh = 405.0, 271 + 1/3.
     fig, ax = ut.pl.subplots_mm(figsize=(figw, figh), projection=ut.pl.utm,
-                                left=2.5, right=2.5, bottom=2.5, top=2.5)
+                                gridspec_kw=dict(left=2.5, right=2.5,
+                                                 bottom=2.5, top=2.5))
     cax1 = fig.add_axes([12.5/figw, 1-32.5/figh, 50.0/figw, 5.0/figh])
     cax2 = fig.add_axes([12.5/figw, 1-52.5/figh, 50.0/figw, 5.0/figh])
     tsax = fig.add_axes([147.5/figw, 15.0/figh, 240.0/figw, 60.0/figh])

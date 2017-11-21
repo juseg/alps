@@ -12,8 +12,9 @@ idxbounds = [[909, 1059], [489, 629]]
 figw, figh = 175.0, 85.0
 fig, grid = ut.pl.subplots_mm(figsize=(figw, figh), projection=ut.pl.utm,
                               nrows=2, ncols=3, sharex=True, sharey=True,
-                              left=2.5, right=2.5, bottom=2.5, top=20/3.,
-                              hspace=2.5, wspace=2.5)
+                              gridspec_kw=dict(left=2.5, right=2.5, bottom=2.5,
+                                               top=20/3., hspace=2.5,
+                                               wspace=2.5))
 
 # prepare axes
 for ax in grid.flat:

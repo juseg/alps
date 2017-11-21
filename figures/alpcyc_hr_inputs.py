@@ -3,6 +3,7 @@
 
 import util as ut
 import numpy as np
+import iceplotlib.plot as iplt
 import matplotlib.pyplot as plt
 
 # colorbar orientation
@@ -10,33 +11,32 @@ mode = 'vertical'
 
 # initialize figure
 if mode == 'horizontal':
-    axw, axh = 55.0, 55.0*2/3
+    axh = 55.0*2/3
     figw, figh = 175.0, 140.0
-    fig = plt.figure(figsize=(figw/25.4, figh/25.4))
-    grid1 = fig.subplots(nrows=1, ncols=3, squeeze=False,
-                         gridspec_kw=dict(left=2.5/figw, right=1-2.5/figw,
-                                          bottom=(27.5+2*axh)/figh, top=137.5/figh,
-                                          wspace=2.5/axw, hspace=2.5/axh),
-                         subplot_kw=dict(projection=ut.pl.utm))
-    grid2 = fig.subplots(nrows=2, ncols=3, squeeze=False,
-                         gridspec_kw=dict(left=2.5/figw, right=1-2.5/figw,
-                                          bottom=12.5/figh, top=(15.0+2*axh)/figh,
-                                          wspace=2.5/axw, hspace=2.5/axh),
-                         subplot_kw=dict(projection=ut.pl.utm))
+    fig = iplt.figure_mm(figsize=(figw, figh))
+    grid1 = fig.subplots_mm(nrows=1, ncols=3, squeeze=False,
+                            gridspec_kw=dict(left=2.5, right=2.5,
+                                             bottom=27.5+2*axh, top=2.5,
+                                             wspace=2.5, hspace=2.5),
+                            subplot_kw=dict(projection=ut.pl.utm))
+    grid2 = fig.subplots_mm(nrows=2, ncols=3, squeeze=False,
+                            gridspec_kw=dict(left=2.5, right=2.5,
+                                             bottom=12.5, top=15.0+axh,
+                                             wspace=2.5, hspace=2.5),
+                            subplot_kw=dict(projection=ut.pl.utm))
 else:
-    axw, axh = 45.0, 30.0
     figw, figh = 175.0, 100.0
-    fig = plt.figure(figsize=(figw/25.4, figh/25.4))
-    grid1 = fig.subplots(nrows=3, ncols=1, squeeze=False,
-                         gridspec_kw=dict(left=2.5/figw, right=(2.5+axw)/figw,
-                                          bottom=2.5/figh, top=1-2.5/figh,
-                                          wspace=2.5/axw, hspace=2.5/axh),
-                         subplot_kw=dict(projection=ut.pl.utm)).T
-    grid2 = fig.subplots(nrows=3, ncols=2, squeeze=False,
-                         gridspec_kw=dict(left=65.0/figw, right=157.5/figw,
-                                          bottom=2.5/figh, top=1-2.5/figh,
-                                          wspace=2.5/axw, hspace=2.5/axh),
-                         subplot_kw=dict(projection=ut.pl.utm)).T
+    fig = iplt.figure_mm(figsize=(figw, figh))
+    grid1 = fig.subplots_mm(nrows=3, ncols=1, squeeze=False,
+                            gridspec_kw=dict(left=2.5, right=127.5,
+                                             bottom=2.5, top=2.5,
+                                             wspace=2.5, hspace=2.5),
+                            subplot_kw=dict(projection=ut.pl.utm)).T
+    grid2 = fig.subplots_mm(nrows=3, ncols=2, squeeze=False,
+                            gridspec_kw=dict(left=65.0, right=17.5,
+                                             bottom=2.5, top=2.5,
+                                             wspace=2.5, hspace=2.5),
+                            subplot_kw=dict(projection=ut.pl.utm)).T
 
 # merge axes grids
 grid = np.concatenate((grid1, grid2))

@@ -6,7 +6,8 @@ import numpy as np
 
 # initialize figure
 fig, ax = ut.pl.subplots_mm(figsize=(45.0, 90.0), projection=ut.pl.stereo,
-            left=2.5, right=2.5, bottom=2.5, top=2.5)
+                            gridspec_kw=dict(left=2.5, right=2.5,
+                                             bottom=2.5, top=2.5))
 ax.set_rasterization_zorder(2.5)
 ax.set_xlim(-15000e3, 15000e3)
 ax.set_ylim(-36875e3, 26875e3)
