@@ -5,11 +5,12 @@ import os
 import util as ut
 import numpy as np
 import multiprocessing as mp
+import matplotlib.pyplot as plt
 
 
 # set contour levels, colors and hatches
 levs = [1e-1, 1e0, 1e1]
-cmap = ut.pl.get_cmap('Blues', len(levs)+1)
+cmap = plt.get_cmap('Blues', len(levs)+1)
 cols = cmap(range(len(levs)+1))
 
 
@@ -82,7 +83,7 @@ def saveframe(years):
 
     # save
     fig.savefig(framepath)
-    ut.pl.close(fig)
+    plt.close(fig)
 
 
 if __name__ == '__main__':

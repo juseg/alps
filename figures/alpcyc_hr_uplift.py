@@ -3,6 +3,7 @@
 
 import util as ut
 import numpy as np
+import matplotlib.pyplot as plt
 
 # location of time series
 xts, yts = 600e3, 5170e3
@@ -37,7 +38,7 @@ nc.close()
 
 # set levels and colors
 levs = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5]
-cmap = ut.pl.get_cmap('Greens', len(levs)+1)
+cmap = plt.get_cmap('Greens', len(levs)+1)
 cols = cmap(range(len(levs)+1))
 
 # plot modern uplift

@@ -4,11 +4,13 @@
 import util as ut
 import numpy as np
 import scipy as sp
+import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
+import iceplotlib.plot as iplt
 
 # initialize figure (one column)
 figw, figh = 85.0, 115.0
-fig = ut.pl.figure(figsize=(figw/25.4, figh/25.4))
+fig = iplt.figure_mm(figsize=(figw, figh))
 ax = fig.add_axes([2.5/figw, 2.5/figh, 80.0/figw, 80.0*2/3/figh], projection=ut.pl.utm)
 cax = fig.add_axes([12.5/figw, (80.0*2/3-2.5)/figh, 30.0/figw, 2.5/figh])
 scax = fig.add_axes([12.5/figw, 65.0/figh, 47.5/figw, 47.5/figh])
@@ -78,7 +80,7 @@ bt = sp.interpolate.interpn((x, y), boot, (xt, yt), method='linear')
 
 # set contour levels and colors
 levs = range(21, 28)
-cmap = ut.pl.get_cmap('Paired', 12)
+cmap = plt.get_cmap('Paired', 12)
 cols = cmap(range(12))[:len(levs)+1]
 cmap, norm = mcolors.from_levels_and_colors(levs, cols, extend='both')
 

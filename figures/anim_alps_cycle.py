@@ -4,6 +4,7 @@
 import os
 import util as ut
 import multiprocessing as mp
+import matplotlib.pyplot as plt
 
 
 def draw(t):
@@ -76,7 +77,7 @@ def saveframe(years):
 
     # save
     fig.savefig(framepath)
-    ut.pl.close(fig)
+    plt.close(fig)
 
 
 if __name__ == '__main__':

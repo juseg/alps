@@ -4,6 +4,7 @@
 import util as ut
 import numpy as np
 import scipy as sp
+import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import cartopy.io.shapereader as shpreader
 
@@ -28,7 +29,7 @@ warmbased, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'warmbased')
 
 # set contour levels, colors and hatches
 levs = range(21, 28)
-cmap = ut.pl.get_cmap('Paired', 12)
+cmap = plt.get_cmap('Paired', 12)
 cols = cmap(range(12))[:len(levs)+1]
 
 # plot
@@ -88,7 +89,7 @@ bt = sp.interpolate.interpn((x, y), boot, (xt, yt), method='linear')/1e3
 
 # set contour levels and colors
 levs = range(21, 28)
-cmap = ut.pl.get_cmap('Paired', 12)
+cmap = plt.get_cmap('Paired', 12)
 cols = cmap(range(12))[:len(levs)+1]
 cmap, norm = mcolors.from_levels_and_colors(levs, cols, extend='both')
 

@@ -3,13 +3,14 @@
 
 import util as ut
 import numpy as np
+import matplotlib.pyplot as plt
 
 # initialize figure
 fig, ax, cax = ut.pl.subplots_cax_inset()
 
 # set contour levels, colors and hatches
 levs = range(0, 3001, 1000)
-cmap = ut.pl.get_cmap('Blues_r', len(levs))
+cmap = plt.get_cmap('Blues_r', len(levs))
 cols = cmap(range(len(levs)))
 
 # plot

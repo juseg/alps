@@ -5,6 +5,7 @@ import util as ut
 import numpy as np
 import scipy as sp
 import cartopy.io.shapereader as shpreader
+import iceplotlib.plot as iplt
 
 # parameters
 regions = ['rhine', 'rhone', 'ivrea', 'isere', 'inn', 'taglia']
@@ -14,11 +15,11 @@ colors = [ut.pl.palette['dark'+hue] for hue in colors]
 
 # initialize figure
 figw, figh = 175.0, 175.0
-fig, grid = ut.pl.subplots_mm(nrows=6, ncols=1, sharex=False, sharey=False,
-                              figsize=(figw, figh), projection=ut.pl.utm,
-                              gridspec_kw=dict(left=2.5, right=137.5,
-                                               bottom=10.0, top=2.5,
-                                               hspace=2.5, wspace=2.5))
+fig, grid = iplt.subplots_mm(nrows=6, ncols=1, sharex=False, sharey=False,
+                             figsize=(figw, figh), projection=ut.pl.utm,
+                             gridspec_kw=dict(left=2.5, right=137.5,
+                                              bottom=10.0, top=2.5,
+                                              hspace=2.5, wspace=2.5))
 
 # load extra data
 filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'

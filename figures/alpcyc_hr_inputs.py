@@ -3,8 +3,8 @@
 
 import util as ut
 import numpy as np
-import iceplotlib.plot as iplt
 import matplotlib.pyplot as plt
+import iceplotlib.plot as iplt
 
 # colorbar orientation
 mode = 'vertical'
@@ -76,7 +76,7 @@ nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-1km.nc')
 
 # contour levels and colors
 levs = range(60, 91, 5)
-cmap = ut.pl.get_cmap('PuOr_r', len(levs)+1)
+cmap = plt.get_cmap('PuOr_r', len(levs)+1)
 cols = cmap(range(len(levs)+1))
 
 # plot geothermal flux
@@ -115,7 +115,7 @@ nc.close()
 
 # contour levels and colors
 levs = [2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0]
-cmap = ut.pl.get_cmap('Purples', len(levs)+1)
+cmap = plt.get_cmap('Purples', len(levs)+1)
 cols = cmap(range(len(levs)+1))
 
 # plot standard deviation
@@ -143,7 +143,7 @@ nc.close()
 
 # contour levels and colors
 levs = range(-10, 21, 5)
-cmap = ut.pl.get_cmap('RdBu_r', len(levs)+1)
+cmap = plt.get_cmap('RdBu_r', len(levs)+1)
 cols = cmap(range(len(levs)+1))
 
 # plot January and July temperature
@@ -159,7 +159,7 @@ cb.set_label(u'Air temperature (°C)')
 
 # contour levels and colors
 levs = range(50, 251, 50)
-cmap = ut.pl.get_cmap('Greens', len(levs)+1)
+cmap = plt.get_cmap('Greens', len(levs)+1)
 cols = cmap(range(len(levs)+1))
 
 # plot January and July precipitation

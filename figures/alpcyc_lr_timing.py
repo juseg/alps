@@ -3,15 +3,17 @@
 
 import util as ut
 import numpy as np
+import matplotlib.pyplot as plt
+import iceplotlib.plot as iplt
 
 # initialize figure
 # FIXME add colorbar
 figw, figh = 175.0, 85.0
-fig, grid = ut.pl.subplots_mm(figsize=(figw, figh), projection=ut.pl.utm,
-                              nrows=2, ncols=3, sharex=True, sharey=True,
-                              gridspec_kw=dict(left=2.5, right=2.5,
-                                               bottom=2.5, top=20/3.,
-                                               hspace=2.5, wspace=2.5))
+fig, grid = iplt.subplots_mm(figsize=(figw, figh), projection=ut.pl.utm,
+                             nrows=2, ncols=3, sharex=True, sharey=True,
+                             gridspec_kw=dict(left=2.5, right=2.5,
+                                              bottom=2.5, top=20/3.,
+                                              hspace=2.5, wspace=2.5))
 cax = fig.add_axes([77.5/figw, 11.125/figh, 20.0/figw, 2.5/figh])
 
 # set extent
@@ -56,7 +58,7 @@ for i, rec in enumerate(ut.alpcyc_records):
 
     # set contour levels, colors and hatches
     levs = range(19, 26)
-    cmap = ut.pl.get_cmap('Paired', 12)
+    cmap = plt.get_cmap('Paired', 12)
     cols = cmap(range(12))[:len(levs)+1]
 
     # plot

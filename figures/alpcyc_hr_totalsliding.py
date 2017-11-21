@@ -3,6 +3,7 @@
 
 import util as ut
 import numpy as np
+import matplotlib.pyplot as plt
 
 # initialize figure
 fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut()
@@ -16,7 +17,7 @@ totalslip, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'totalslip')
 
 # set levels, colors and hatches
 levs = [10**(0.5*i) for i in range(4, 11)]
-cmap = ut.pl.get_cmap('Reds', len(levs)+1)
+cmap = plt.get_cmap('Reds', len(levs)+1)
 cols = cmap(range(len(levs)+1))
 
 # plot

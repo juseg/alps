@@ -3,6 +3,7 @@
 
 import util as ut
 import numpy as np
+import matplotlib.pyplot as plt
 
 # initialize figure
 fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut(mis=False)
@@ -17,7 +18,7 @@ maxthkage, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'maxthkage')
 
 # set contour levels, colors and hatches
 levs = range(21, 28)
-cmap = ut.pl.get_cmap('Paired', 12)
+cmap = plt.get_cmap('Paired', 12)
 cols = cmap(range(12))[:len(levs)+1]
 
 # plot

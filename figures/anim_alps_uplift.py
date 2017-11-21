@@ -4,11 +4,12 @@
 import os
 import util as ut
 import multiprocessing as mp
+import matplotlib.pyplot as plt
 
 
 # uplift contour levels and colors
 levs = [-100.0, -50.0, -20.0, 0.0, 2.0, 5.0, 10.0]
-cmap = ut.pl.get_cmap('PRGn_r', len(levs)+1)
+cmap = plt.get_cmap('PRGn_r', len(levs)+1)
 cols = cmap(range(len(levs)+1))
 
 
@@ -130,7 +131,7 @@ def saveframe(years):
 
     # save
     fig.savefig(framepath)
-    ut.pl.close(fig)
+    plt.close(fig)
 
 
 if __name__ == '__main__':

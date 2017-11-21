@@ -81,19 +81,10 @@ ne_graticules = cfeature.NaturalEarthFeature(
     edgecolor='0.25', facecolor='none', lw=0.1)
 
 
-# Iceplotlib functions
-# --------------------
-
-# FIXME use explicit imports
-figure = iplt.figure
-subplots_mm = iplt.subplots_mm
-get_cmap = iplt.get_cmap
-close = iplt.close
-
-
 # Figures and axes creation
 # -------------------------
 
+# FIXME break this into multiple functions
 def prepare_axes(ax=None, tsax=None, extent='alps', labels=True,
                  dt=True, mis=True, t=0.0):
     """Prepare map and timeseries axes before plotting."""
@@ -116,6 +107,7 @@ def prepare_axes(ax=None, tsax=None, extent='alps', labels=True,
         add_subfig_label('(b)', ax=tsax)
 
 
+# FIXME add specific subplot helpers for profiles etc
 def subplots_ts(nrows=1, ncols=1, figw=85.0, figh=None, labels=True):
     """Init figure with margins adapted for simple timeseries."""
     figh = figh or 30.0 + nrows*30.0
@@ -260,9 +252,9 @@ def subplots_cax_ts_anim(extent='alps', labels=False, dt=True, mis=True,
 def subplots_cax_ts_sgm(extent='alps', labels=False, dt=True, mis=True):
     """Init A3 figure with subplot, colorbar inset and timeseries cut."""
     figw, figh = 405.0, 271 + 1/3.
-    fig, ax = ut.pl.subplots_mm(figsize=(figw, figh), projection=ut.pl.utm,
-                                gridspec_kw=dict(left=2.5, right=2.5,
-                                                 bottom=2.5, top=2.5))
+    fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=ut.pl.utm,
+                               gridspec_kw=dict(left=2.5, right=2.5,
+                                                bottom=2.5, top=2.5))
     cax1 = fig.add_axes([12.5/figw, 1-32.5/figh, 50.0/figw, 5.0/figh])
     cax2 = fig.add_axes([12.5/figw, 1-52.5/figh, 50.0/figw, 5.0/figh])
     tsax = fig.add_axes([147.5/figw, 15.0/figh, 240.0/figw, 60.0/figh])

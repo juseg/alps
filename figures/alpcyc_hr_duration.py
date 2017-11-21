@@ -3,6 +3,7 @@
 
 import util as ut
 import numpy as np
+import matplotlib.pyplot as plt
 
 # initialize figure
 fig, ax, cax, tsax = ut.pl.subplots_cax_ts_cut()
@@ -16,7 +17,7 @@ duration, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'duration')
 
 # set contour levels, colors and hatches
 levs = [0, 5, 10, 15, 20, 30, 40, 60, 80, 100, 120]
-cmap = ut.pl.get_cmap('RdBu', 10)
+cmap = plt.get_cmap('RdBu', 10)
 cols = cmap(range(10))
 
 # plot

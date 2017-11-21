@@ -3,6 +3,7 @@
 
 import util as ut
 import numpy as np
+import matplotlib.pyplot as plt
 
 # initialize figure
 fig, ax, cax = ut.pl.subplots_cax_inset()
@@ -12,7 +13,7 @@ nadvances, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'nadvances')
 
 # set contour levels and colors
 levs = np.arange(1, 14)
-cmap = ut.pl.get_cmap('RdBu', len(levs))
+cmap = plt.get_cmap('RdBu', len(levs))
 cols = cmap(range(len(levs)))
 
 # plot
