@@ -5,7 +5,6 @@ import util as ut
 import numpy as np
 import scipy as sp
 import cartopy.io.shapereader as shpreader
-import iceplotlib.plot as iplt
 
 # parameters
 regions = ['rhine', 'rhone', 'ivrea', 'isere', 'inn', 'taglia']
@@ -14,12 +13,7 @@ colors = ['blue', 'green', 'red', 'orange', 'purple', 'brown']
 colors = [ut.pl.palette['dark'+hue] for hue in colors]
 
 # initialize figure
-figw, figh = 175.0, 175.0
-fig, grid = iplt.subplots_mm(nrows=6, ncols=1, sharex=False, sharey=False,
-                             figsize=(figw, figh), projection=ut.pl.utm,
-                             gridspec_kw=dict(left=2.5, right=137.5,
-                                              bottom=10.0, top=2.5,
-                                              hspace=2.5, wspace=2.5))
+fig, grid, tsgrid = ut.pl.subplots_profiles(regions, labels)
 
 # load extra data
 filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
@@ -34,14 +28,11 @@ nc.close()
 for i, reg in enumerate(regions):
     c = colors[i]
     ax = grid[i]
+    tsax = tsgrid[i]
     label = labels[i]
 
     # Map axes
     # --------
-
-    # prepare map axes
-    ax.set_rasterization_zorder(2.5)
-    ax.set_extent(ut.pl.regions[reg], crs=ax.projection)
 
     # add map elements
     ut.pl.draw_boot_topo(ax)
@@ -66,12 +57,6 @@ for i, reg in enumerate(regions):
     # Time series
     # -----------
 
-    # prepare timeseries axes
-    pos = ax.get_position()
-    tsrect = [40.0/figw, pos.y0, 125.0/figw, pos.height]
-    tsax = fig.add_axes(tsrect)
-    ut.pl.plot_mis(tsax, y=(0.15 if i==len(regions)-1 else None))
-
     # extract space-time slice
     xi = t[:, None], yp[None, :], xp[None, :]  # coords to sample at
     hp = sp.interpolate.interpn((t, y, x), h, xi, method='linear')
@@ -93,10 +78,6 @@ for i, reg in enumerate(regions):
     tsax.yaxis.set_label_position("right")
     tsax.yaxis.tick_right()
     tsax.grid(axis='y')
-
-    # add subfigure labels
-    ut.pl.add_subfig_label('(%s)' % 'acegik'[i], ax=ax)
-    ut.pl.add_subfig_label('(%s) ' % 'bdfhjl'[i] + label, ax=tsax)
 
 # save
 ut.pl.savefig()

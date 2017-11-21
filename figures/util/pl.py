@@ -318,6 +318,29 @@ def subplots_inputs(extent='alps', mode='vertical'):
     return fig, grid
 
 
+def subplots_profiles(regions, labels):
+    figw, figh = 175.0, 175.0
+    nrows = len(regions)
+    fig = iplt.figure_mm(figsize=(figw, figh))
+    grid = fig.subplots_mm(nrows=nrows, ncols=1, sharex=False, sharey=False,
+                           gridspec_kw=dict(left=2.5, right=137.5,
+                                            bottom=10.0, top=2.5,
+                                            hspace=2.5, wspace=2.5),
+                           subplot_kw=dict(projection=utm))
+    tsgrid = fig.subplots_mm(nrows=nrows, ncols=1, sharex=True, sharey=False,
+                             gridspec_kw=dict(left=40.0, right=10.0,
+                                              bottom=10.0, top=2.5,
+                                              hspace=2.5, wspace=2.5))
+    for i, reg in enumerate(regions):
+        ax = grid[i]
+        tsax = tsgrid[i]
+        prepare_map_axes(ax, extent=reg)
+        plot_mis(tsax, y=(0.15 if i==nrows-1 else None))
+        add_subfig_label('(%s)' % 'acegik'[i], ax=ax)
+        add_subfig_label('(%s) ' % 'bdfhjl'[i] + labels[i], ax=tsax)
+    return fig, grid, tsgrid
+
+
 # Text annotations
 # ----------------
 
