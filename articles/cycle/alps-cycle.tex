@@ -1,5 +1,8 @@
 \documentclass[tc, manuscript]{copernicus}
 
+\usepackage{framed}
+\usepackage{verbatim}
+
 \graphicspath{{../../figures/}}
 
 \definecolor{darkblue}{cmyk}{0.9,0.3,0.0,0.0}
@@ -42,10 +45,19 @@
 \accepted{}
 \published{}
 
-
 % ======================================================================
 \begin{document}
 % ======================================================================
+
+% Texcount template
+%TC:newtemplate
+%TC:template Word counts (text, headers, other):\n
+%TC:template  {SUB?* {title}: {text}, {headerword}, {otherword}\n?SUB}
+%TC:template Total: {text}, {headerword}, {otherword}
+
+\begin{framed}
+\small\verbatiminput{alps-cycle.sum}
+\end{framed}
 
 \firstpage{1}
 
