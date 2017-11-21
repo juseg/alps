@@ -9,11 +9,10 @@ import matplotlib.colors as mcolors
 import cartopy.io.shapereader as shpreader
 
 # profile parameters
-regions = ['rhine', 'rhone', 'ivrea', 'isere', 'inn', 'taglia']
-labels = ['Rhine', 'Rhone', 'Dora Baltea', u'Isère', 'Inn', 'Tagliamento']
-colors = ['blue', 'green', 'red', 'orange', 'purple', 'brown']
-colors = [ut.pl.palette['dark'+hue] for hue in colors]
-direcs = [1, -1, -1, 1, 1, -1]
+regions = ['rhone', 'inn']
+labels = ['Rhone', 'Inn']
+colors = ['darkred', 'darkblue']
+direcs = [-1, 1]
 
 # initialize figure
 fig, ax, cax, tsax, scax = ut.pl.subplots_cax_ts_sc()
@@ -125,6 +124,7 @@ scax.text(zz[0], zavg+davg+0.025, '%.0f m' % ((zavg+davg)*1e3), color='0.25')
 twax = tsax.twinx()
 twax.set_ylim((-300.0, 500.0))
 twax.set_ylabel('glacier length (km)')
+tsax.locator_params(axis='y', nbins=6)
 
 # loop on regions
 for i, reg in enumerate(regions):
@@ -154,6 +154,10 @@ for i, reg in enumerate(regions):
 
     # plot envelope
     cs = twax.contourf(-t/1e3, dp/1e3, hp.T, levels=[1.0, 5e3], colors=[c], alpha=0.75)
+
+    # add label
+    twax.text(1/6.*(1+i/2), 0.1+0.8*(i%2), label, color=c, fontweight='bold',
+              va='center', transform=twax.transAxes)
 
 # save figure
 ut.pl.savefig()
