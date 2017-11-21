@@ -4,64 +4,19 @@
 import util as ut
 import numpy as np
 import matplotlib.pyplot as plt
-import iceplotlib.plot as iplt
-
-# colorbar orientation
-mode = 'vertical'
 
 # initialize figure
-if mode == 'horizontal':
-    axh = 55.0*2/3
-    figw, figh = 175.0, 140.0
-    fig = iplt.figure_mm(figsize=(figw, figh))
-    grid1 = fig.subplots_mm(nrows=1, ncols=3, squeeze=False,
-                            gridspec_kw=dict(left=2.5, right=2.5,
-                                             bottom=27.5+2*axh, top=2.5,
-                                             wspace=2.5, hspace=2.5),
-                            subplot_kw=dict(projection=ut.pl.utm))
-    grid2 = fig.subplots_mm(nrows=2, ncols=3, squeeze=False,
-                            gridspec_kw=dict(left=2.5, right=2.5,
-                                             bottom=12.5, top=15.0+axh,
-                                             wspace=2.5, hspace=2.5),
-                            subplot_kw=dict(projection=ut.pl.utm))
-else:
-    figw, figh = 175.0, 100.0
-    fig = iplt.figure_mm(figsize=(figw, figh))
-    grid1 = fig.subplots_mm(nrows=3, ncols=1, squeeze=False,
-                            gridspec_kw=dict(left=2.5, right=127.5,
-                                             bottom=2.5, top=2.5,
-                                             wspace=2.5, hspace=2.5),
-                            subplot_kw=dict(projection=ut.pl.utm)).T
-    grid2 = fig.subplots_mm(nrows=3, ncols=2, squeeze=False,
-                            gridspec_kw=dict(left=65.0, right=17.5,
-                                             bottom=2.5, top=2.5,
-                                             wspace=2.5, hspace=2.5),
-                            subplot_kw=dict(projection=ut.pl.utm)).T
-
-# merge axes grids
-grid = np.concatenate((grid1, grid2))
-
-# add colorbars
-for ax in grid[[0, 2], :].flat:
-    pos = ax.get_position()
-    if mode == 'horizontal':
-        rect = [pos.x0, pos.y0-5.0/figh, pos.x1-pos.x0, 2.5/figh]
-    else:
-        rect = [pos.x1+2.5/figw, pos.y0, 2.5/figw, pos.y1-pos.y0]
-    ax.cax = fig.add_axes(rect)
+fig, grid = ut.pl.subplots_inputs()
 
 # add map elements
 for i, ax in enumerate(grid.flat):
-    ax.set_rasterization_zorder(2.5)
-    ax.set_extent(ut.pl.regions['alps'], crs=ax.projection)
     im = ut.pl.draw_boot_topo(ax)
     ut.pl.draw_natural_earth(ax)
-    ut.pl.add_subfig_label('(%s)' % list('abcdfhegi')[i], ax)
 
 # add boot topo colorbar
 ticks = range(0, 3001, 1000)
 ax = grid[0, 1]
-cb = ut.pl.add_colorbar(im, ax.cax, orientation=mode, extend='max', ticks=ticks)
+cb = ut.pl.add_colorbar(im, ax.cax, extend='max', ticks=ticks)
 ax.cax.set_yticklabels(['%.0f' % (t*1e-3) for t in ticks])
 cb.set_label(r'Basal topography (km)')
 
@@ -85,7 +40,7 @@ cs = nc.contourf('bheatflx', ax, levels=levs, colors=cols, thkth=-1,
                  extend='both', alpha=0.75)
 
 # add colorbar
-cb = ut.pl.add_colorbar(cs, ax.cax, orientation=mode, extend='both', ticks=levs[::2])
+cb = ut.pl.add_colorbar(cs, ax.cax, extend='both', ticks=levs[::2])
 cb.set_label(r'Geothermal flux ($mW\,m^{-2}$)')
 
 # plot boot ice thickness
@@ -94,8 +49,7 @@ ax.set_extent(ut.pl.regions['bern'], crs=ax.projection)
 im = nc.imshow('thk', ax, vmin=0e2, vmax=6e2, cmap='Blues', alpha=0.75)
 
 # add colorbar
-cb = ut.pl.add_colorbar(im, ax.cax, orientation=mode, extend='max',
-                  ticks=range(0, 601, 200))
+cb = ut.pl.add_colorbar(im, ax.cax, extend='max', ticks=range(0, 601, 200))
 cb.set_label(r'Modern ice thickness (m)')
 
 # close boot file
@@ -125,7 +79,7 @@ for i in range(2):
     ut.pl.add_corner_tag(['Jan.', 'July'][i], ax=ax, va='bottom')
 
 # add colorbar
-cb = ut.pl.add_colorbar(cs, ax.cax, orientation=mode, ticks=levs[::2])
+cb = ut.pl.add_colorbar(cs, ax.cax, ticks=levs[::2])
 cb.set_label(u'PDD SD (°C)')
 
 
@@ -154,7 +108,7 @@ for i in range(2):
     ut.pl.add_corner_tag(['Jan.', 'July'][i], ax=ax, va='bottom')
 
 # add colorbar
-cb = ut.pl.add_colorbar(cs, ax.cax, orientation=mode, ticks=levs[::2])
+cb = ut.pl.add_colorbar(cs, ax.cax, ticks=levs[::2])
 cb.set_label(u'Air temperature (°C)')
 
 # contour levels and colors
@@ -169,7 +123,7 @@ for i in range(2):
     ut.pl.add_corner_tag(['Jan.', 'July'][i], ax=ax, va='bottom')
 
 # add colorbar
-cb = ut.pl.add_colorbar(cs, ax.cax, orientation=mode, ticks=levs[1::2])
+cb = ut.pl.add_colorbar(cs, ax.cax, ticks=levs[1::2])
 cb.set_label(r'Monthly precipitation (mm)')
 
 # save

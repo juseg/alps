@@ -263,6 +263,61 @@ def subplots_cax_ts_sgm(extent='alps', labels=False, dt=True, mis=True):
     return fig, ax, cax1, cax2, tsax
 
 
+# Multi map subplot helpers
+# --------------------------
+
+def subplots_inputs(extent='alps', mode='vertical'):
+
+    # prepare two grids
+    if mode == 'horizontal':
+        axh = 55.0*2/3
+        figw, figh = 175.0, 140.0
+        fig = iplt.figure_mm(figsize=(figw, figh))
+        grid1 = fig.subplots_mm(nrows=1, ncols=3, squeeze=False,
+                                gridspec_kw=dict(left=2.5, right=2.5,
+                                                 bottom=27.5+2*axh, top=2.5,
+                                                 wspace=2.5, hspace=2.5),
+                                subplot_kw=dict(projection=utm))
+        grid2 = fig.subplots_mm(nrows=2, ncols=3, squeeze=False,
+                                gridspec_kw=dict(left=2.5, right=2.5,
+                                                 bottom=12.5, top=15.0+axh,
+                                                 wspace=2.5, hspace=2.5),
+                                subplot_kw=dict(projection=utm))
+    else:
+        figw, figh = 175.0, 100.0
+        fig = iplt.figure_mm(figsize=(figw, figh))
+        grid1 = fig.subplots_mm(nrows=3, ncols=1, squeeze=False,
+                                gridspec_kw=dict(left=2.5, right=127.5,
+                                                 bottom=2.5, top=2.5,
+                                                 wspace=2.5, hspace=2.5),
+                                subplot_kw=dict(projection=utm)).T
+        grid2 = fig.subplots_mm(nrows=3, ncols=2, squeeze=False,
+                                gridspec_kw=dict(left=65.0, right=17.5,
+                                                 bottom=2.5, top=2.5,
+                                                 wspace=2.5, hspace=2.5),
+                                subplot_kw=dict(projection=utm)).T
+
+    # merge axes grids
+    grid = np.concatenate((grid1, grid2))
+
+    # add colorbar axes
+    for ax in grid[[0, 2], :].flat:
+        pos = ax.get_position()
+        if mode == 'horizontal':
+            rect = [pos.x0, pos.y0-5.0/figh, pos.x1-pos.x0, 2.5/figh]
+        else:
+            rect = [pos.x1+2.5/figw, pos.y0, 2.5/figw, pos.y1-pos.y0]
+        ax.cax = fig.add_axes(rect)
+
+    # prepare axes
+    for ax, l in zip(grid.flat, 'abcdfhegi'):
+        prepare_map_axes(ax, extent=extent)
+        add_subfig_label('(%s)' % l, ax=ax)
+
+    # return figure and axes
+    return fig, grid
+
+
 # Text annotations
 # ----------------
 
