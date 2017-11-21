@@ -193,6 +193,37 @@ def subplots_cax_ts_cut(extent='alps', labels=True, dt=True, mis=True):
     return fig, ax, cax, tsax
 
 
+def subplots_cax_sc_ts_nat(extent='alps', labels=True, dt=True, mis=True):
+    """Init figure with subplot, colorbar, scatter plot and timeseries."""
+    figw, figh = 183.0, 123.0
+    fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
+                               left=1.5, right=1.5, bottom=1.5, top=1.5)
+    cax = fig.add_axes([71.5/figw, 116.5/figh, 40.0/figw, 2.5/figh])
+    scax = fig.add_axes([9.0/figw, 91.5/figh, 25.0/figw, 30.0/figh])
+    tsax = fig.add_axes([71.5/figw, 6.5/figh, 100.0/figw, 30.0/figh])
+    ax.outline_patch.set_ec('none')
+    scrw = 35.0/180.0
+    scrh = 37.5/120.0
+    tsrw = 2/3.
+    tsrh = 1/3.
+    x = [0.0, 1/3., 1/3., 1.0, 1.0, 35.0/180, 35.0/180, 0.0, 0.0]
+    y = [0.0, 0.0, 1/3., 1/3., 1.0, 1.0, 82.5/120, 82.5/120, 0.0]
+    poly = iplt.Polygon(zip(x, y), ec='k', fc='none', clip_on=False,
+                        transform=ax.transAxes, zorder=3)
+    rectkw = dict(clip_on=False, transform=ax.transAxes, zorder=-1)
+    screct = iplt.Rectangle((0.0, 82.5/120), 7/36., 37.5/120, ec='w', fc='w', **rectkw)
+    tsrect = iplt.Rectangle((1/3., 0.0), 2/3., 1/3., ec='w', fc='w', **rectkw)
+    tsax.add_patch(poly)
+    tsax.add_patch(tsrect)
+    scax.add_patch(screct)
+    prepare_axes(ax, tsax, extent, False, dt, mis)
+    if labels is True:
+        add_subfig_label('(a)', ax=ax, x=35.0/180.0)
+        add_subfig_label('(b)', ax=scax)
+        add_subfig_label('(c)', ax=tsax)
+    return fig, ax, cax, scax, tsax
+
+
 def subplots_cax_ts_anim(extent='alps', labels=False, dt=True, mis=True,
                          t=0.0):
     """Init figure with subplot, colorbar inset and timeseries cut."""
