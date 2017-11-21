@@ -1100,8 +1100,8 @@
     rapid ice volume fluctuations, we choose to include palaeo-precipitation
     corrections in the following higher-resolution run.
 
+%TC:break Acknowledgements
 % ----------------------------------------------------------------------
-%TC: break Acknowledgements
 % Acknowledgements
 % ----------------------------------------------------------------------
 
@@ -1141,8 +1141,8 @@
 \end{acknowledgements}
 
 
+%TC:break References
 % ----------------------------------------------------------------------
-%TC: break References
 % References
 % ----------------------------------------------------------------------
 
@@ -1150,67 +1150,11 @@
 \bibliography{../../references/references}
 
 
+%TC:break Figures
 % ----------------------------------------------------------------------
-%TC: break Figures
 % Figures
 \clearpage
 % ----------------------------------------------------------------------
-
-    \begin{figure*}
-      \centerline{\includegraphics{alpcyc_hr_inputs}}
-      \caption{%
-        \textbf{(a)} Geothermal heat flow from applying the similarity method
-        to multiple geophysical proxies \citep{Goutorbe.etal.2011} used as a
-        boundary condition to the bedrock thermal model 3\,km below the
-        ice-bedrock interface.
-        \textbf{(b)} Initial basal topography from SRTM
-        \citep{Jarvis.etal.2008} and geomorphological reconstruction of Last
-        Glacial Maximum Alpine glacier extent \citep[solid red
-        line,][]{Ehlers.etal.2011}.
-        \textbf{(c)} Extract from the estimated of present-day ice thickness
-        \citep{Huss.Farinotti.2012} substracted from the SRTM topography.
-        \textbf{(d)} Modern January and \textbf{(e)} July standard deviation
-        \citep{Seguinot.2013} of daily mean temperature from the ERA-Interim
-        \citep[1979--2012;][]{Dee.etal.2011} from the reference monthly
-        climatology used to force the surface mass balance (PDD) component of
-        the ice sheet model.
-        \textbf{(f)} Modern January and \textbf{(g)} July mean near-surface air
-        temperature, and \textbf{(h, i)} precipitation from WorldClim
-        \citep[1960--1990;][]{Hijmans.etal.2005}.}
-      \label{fig:inputs}
-    \end{figure*}
-
-    \begin{figure*}
-      \centerline{\includegraphics{alpcyc_lr_timeseries}}
-      \caption{%
-        \textbf{(a)} Temperature offset time-series from ice core and ocean
-        records (Table~\ref{tab:records}) used as palaeo-climate forcing for
-        the ice sheet model.
-        \textbf{(b)} Modelled total ice volume through the last 120~thousand
-        years (ka) expressed in meters of sea-level equivalent (m~s.l.e.). Gray
-        fields indicate Marine Oxygen Isotope Stage (MIS) boundaries for MIS~2
-        and MIS~4 according to a~global compilation of benthic
-        \chem{\delta^{18}O} records \citep{Lisiecki.Raymo.2005}. The simulation
-        driven by the EPICA temperature yields smaller ice volume variability
-        and a more realistic timing of deglaciation.}
-      \label{fig:timeseries}
-    \end{figure*}
-
-    \begin{figure*}
-      \centerline{\includegraphics{alpcyc_lr_footprints}}
-      \caption{%
-        \textbf{(a--c)} Cumulative extent of modelled ice cover during MIS~2
-        (29--14\,ka), without (dark colours) and with (light colours)
-        palaeo-precipitation corrections, and using temperature time-series
-        scaling factors (Table~\ref{tab:records}) adjusted to model the area
-        glaciated by the Rhine glacier piedmont lobe (black rectangle) in
-        agreement with the Last Glacial Maximum (LGM) geomorphological
-        reconstruction \citep[solid red line,][]{Ehlers.etal.2011}.
-        \textbf{(d--f)} Cumulative extent of modelled ice cover during MIS~4
-        (71--57\,ka). Only the simulation driven by the EPICA temperature
-        time-series yields reasonable MIS~4 ice cover.}
-      \label{fig:footprints}
-    \end{figure*}
 
     \begin{figure*}
       \centerline{\includegraphics{alpcyc_hr_lgmvel}}
@@ -1282,10 +1226,76 @@
       \label{fig:profiles}
     \end{figure*}
 
-
+%TC:break Supplementary figures
 % ----------------------------------------------------------------------
-% Tables
+% Supplementary figures
 \clearpage
+\setcounter{figure}{0}
+\renewcommand{\thefigure}{S\arabic{figure}}%
+% ----------------------------------------------------------------------
+
+    \begin{figure*}
+      \centerline{\includegraphics{alpcyc_hr_inputs}}
+      \caption{%
+        \textbf{(a)} Geothermal heat flow from applying the similarity method
+        to multiple geophysical proxies \citep{Goutorbe.etal.2011} used as a
+        boundary condition to the bedrock thermal model 3\,km below the
+        ice-bedrock interface.
+        \textbf{(b)} Initial basal topography from SRTM
+        \citep{Jarvis.etal.2008} and geomorphological reconstruction of Last
+        Glacial Maximum Alpine glacier extent \citep[solid red
+        line,][]{Ehlers.etal.2011}.
+        \textbf{(c)} Extract from the estimated of present-day ice thickness
+        \citep{Huss.Farinotti.2012} substracted from the SRTM topography.
+        \textbf{(d)} Modern January and \textbf{(e)} July standard deviation
+        \citep{Seguinot.2013} of daily mean temperature from the ERA-Interim
+        \citep[1979--2012;][]{Dee.etal.2011} from the reference monthly
+        climatology used to force the surface mass balance (PDD) component of
+        the ice sheet model.
+        \textbf{(f)} Modern January and \textbf{(g)} July mean near-surface air
+        temperature, and \textbf{(h, i)} precipitation from WorldClim
+        \citep[1960--1990;][]{Hijmans.etal.2005}.}
+      \label{fig:inputs}
+    \end{figure*}
+
+    \begin{figure*}
+      \centerline{\includegraphics{alpcyc_lr_timeseries}}
+      \caption{%
+        \textbf{(a)} Temperature offset time-series from ice core and ocean
+        records (Table~\ref{tab:records}) used as palaeo-climate forcing for
+        the ice sheet model.
+        \textbf{(b)} Modelled total ice volume through the last 120~thousand
+        years (ka) expressed in meters of sea-level equivalent (m~s.l.e.). Gray
+        fields indicate Marine Oxygen Isotope Stage (MIS) boundaries for MIS~2
+        and MIS~4 according to a~global compilation of benthic
+        \chem{\delta^{18}O} records \citep{Lisiecki.Raymo.2005}. The simulation
+        driven by the EPICA temperature yields smaller ice volume variability
+        and a more realistic timing of deglaciation.}
+      \label{fig:timeseries}
+    \end{figure*}
+
+    \begin{figure*}
+      \centerline{\includegraphics{alpcyc_lr_footprints}}
+      \caption{%
+        \textbf{(a--c)} Cumulative extent of modelled ice cover during MIS~2
+        (29--14\,ka), without (dark colours) and with (light colours)
+        palaeo-precipitation corrections, and using temperature time-series
+        scaling factors (Table~\ref{tab:records}) adjusted to model the area
+        glaciated by the Rhine glacier piedmont lobe (black rectangle) in
+        agreement with the Last Glacial Maximum (LGM) geomorphological
+        reconstruction \citep[solid red line,][]{Ehlers.etal.2011}.
+        \textbf{(d--f)} Cumulative extent of modelled ice cover during MIS~4
+        (71--57\,ka). Only the simulation driven by the EPICA temperature
+        time-series yields reasonable MIS~4 ice cover.}
+      \label{fig:footprints}
+    \end{figure*}
+
+%TC:break Supplementary tables
+% ----------------------------------------------------------------------
+% Supplementary tables
+\clearpage
+\setcounter{table}{0}
+\renewcommand{\thetable}{S\arabic{table}}%
 % ----------------------------------------------------------------------
 
     \begin{table*}
