@@ -6,32 +6,8 @@ import numpy as np
 import scipy as sp
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
-import iceplotlib.plot as iplt
 
-# initialize figure (one column)
-figw, figh = 85.0, 115.0
-fig = iplt.figure_mm(figsize=(figw, figh))
-ax = fig.add_axes([2.5/figw, 2.5/figh, 80.0/figw, 80.0*2/3/figh], projection=ut.pl.utm)
-cax = fig.add_axes([12.5/figw, (80.0*2/3-2.5)/figh, 30.0/figw, 2.5/figh])
-scax = fig.add_axes([12.5/figw, 65.0/figh, 47.5/figw, 47.5/figh])
-hsax = fig.add_axes([62.5/figw, 65.0/figh, 10.0/figw, 47.5/figh])
-
-## initialize figure (full width)
-#figw, figh = 170.0, 60.0
-#fig = ut.pl.figure(figsize=(figw/25.4, figh/25.4))
-#ax = fig.add_axes([2.5/figw, 2.5/figh, 82.5/figw, 55.0/figh], projection=ut.pl.utm)
-#cax = fig.add_axes([5.0/figw, 20.0/figh, 5.0/figw, 30.0/figh])
-#scax = fig.add_axes([97.5/figw, 7.5/figh, 50.0/figw, 50.0/figh])
-#hsax = fig.add_axes([150.0/figw, 7.5/figh, 10.0/figw, 50.0/figh])
-
-# prepare map axes
-ax.set_rasterization_zorder(2.5)
-ax.set_extent(ut.pl.regions['valais'], crs=ax.projection)
-
-# add subfigure labels
-ut.pl.add_subfig_label('(a)', ax=scax)
-ut.pl.add_subfig_label('(b)', ax=hsax)
-ut.pl.add_subfig_label('(c)', ax=ax)
+fig, ax, cax, scax, hsax = ut.pl.subplots_trimlines()
 
 
 # Input data

@@ -341,6 +341,36 @@ def subplots_profiles(regions, labels):
     return fig, grid, tsgrid
 
 
+def subplots_trimlines(extent='alps'):
+
+    # initialize figure (one column)
+    figw, figh = 85.0, 115.0
+    fig = iplt.figure_mm(figsize=(figw, figh))
+    ax = fig.add_axes([2.5/figw, 2.5/figh, 80.0/figw, 80.0*2/3/figh], projection=utm)
+    cax = fig.add_axes([12.5/figw, (80.0*2/3-2.5)/figh, 30.0/figw, 2.5/figh])
+    scax = fig.add_axes([12.5/figw, 65.0/figh, 47.5/figw, 47.5/figh])
+    hsax = fig.add_axes([62.5/figw, 65.0/figh, 10.0/figw, 47.5/figh])
+
+    ## initialize figure (full width)
+    #figw, figh = 170.0, 60.0
+    #fig = iplt.figure_mm(figsize=(figw, figh))
+    #ax = fig.add_axes([2.5/figw, 2.5/figh, 82.5/figw, 55.0/figh], projection=utm)
+    #cax = fig.add_axes([5.0/figw, 20.0/figh, 5.0/figw, 30.0/figh])
+    #scax = fig.add_axes([97.5/figw, 7.5/figh, 50.0/figw, 50.0/figh])
+    #hsax = fig.add_axes([150.0/figw, 7.5/figh, 10.0/figw, 50.0/figh])
+
+    # prepare map axes
+    prepare_map_axes(ax, extent='valais')
+
+    # add subfigure labels
+    ut.pl.add_subfig_label('(a)', ax=scax)
+    ut.pl.add_subfig_label('(b)', ax=hsax)
+    ut.pl.add_subfig_label('(c)', ax=ax)
+
+    # return figure and axes
+    return fig, ax, cax, scax, hsax
+
+
 # Text annotations
 # ----------------
 
