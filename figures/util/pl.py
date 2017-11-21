@@ -81,22 +81,8 @@ ne_graticules = cfeature.NaturalEarthFeature(
     edgecolor='0.25', facecolor='none', lw=0.1)
 
 
-# Figures and axes creation
-# -------------------------
-
-def prepare_map_axes(ax, extent='alps'):
-    """Prepare map axes before plotting."""
-    ax.set_rasterization_zorder(2.5)
-    ax.set_extent(regions[extent], crs=ax.projection)
-
-
-def prepare_ts_axes(ax, dt=True, mis=True, t=0.0):
-    """Prepare timeseries axes before plotting."""
-    if dt is True:
-        plot_dt(ax, t=t)
-    if mis is True:
-        plot_mis(ax)
-
+# Axes preparation
+# ----------------
 
 def cut_ts_axes(ax, tsw=2/3., tsh=1/3.):
     """Cut timeseries inset into main axes."""
@@ -145,6 +131,23 @@ def cut_ts_sc_axes(ax, tsw=2/3., tsh=1/3., scw=1/5., sch=1/3.):
     tsax.add_patch(tsrect)
     return tsax, scax
 
+
+def prepare_map_axes(ax, extent='alps'):
+    """Prepare map axes before plotting."""
+    ax.set_rasterization_zorder(2.5)
+    ax.set_extent(regions[extent], crs=ax.projection)
+
+
+def prepare_ts_axes(ax, dt=True, mis=True, t=0.0):
+    """Prepare timeseries axes before plotting."""
+    if dt is True:
+        plot_dt(ax, t=t)
+    if mis is True:
+        plot_mis(ax)
+
+
+# Single map subplot helpers
+# --------------------------
 
 # FIXME add specific subplot helpers for profiles etc
 def subplots_ts(nrows=1, ncols=1, figw=85.0, figh=None, labels=True):
@@ -235,7 +238,7 @@ def subplots_cax_ts_anim(extent='alps', labels=False, dt=True, mis=True,
 def subplots_cax_ts_sgm(extent='alps', labels=False, dt=True, mis=True):
     """Init A3 figure with subplot, colorbar inset and timeseries cut."""
     figw, figh = 405.0, 271 + 1/3.
-    fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=ut.pl.utm,
+    fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
                                gridspec_kw=dict(left=2.5, right=2.5,
                                                 bottom=2.5, top=2.5))
     cax1 = fig.add_axes([12.5/figw, 1-32.5/figh, 50.0/figw, 5.0/figh])
