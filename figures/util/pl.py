@@ -160,7 +160,7 @@ def subplots_ts(nrows=1, ncols=1, mode='column', labels=True):
                                                   hspace=2.5, wspace=2.5))
     if nrows*ncols > 1 and labels is True:
         for ax, l in zip(grid, list('abcdef')):
-            ut.pl.add_subfig_label('({})'.format(l), ax=ax)
+            add_subfig_label('({})'.format(l), ax=ax)
     return fig, grid
 
 
@@ -356,7 +356,7 @@ def subplots_profiles(regions, labels):
         ax = grid[i]
         tsax = tsgrid[i]
         prepare_map_axes(ax, extent=reg)
-        plot_mis(tsax, y=(0.15 if i==nrows-1 else None))
+        plot_mis(tsax, y=(0.15 if i == nrows-1 else None))
         add_subfig_label('(%s)' % 'acegik'[i], ax=ax)
         add_subfig_label('(%s) ' % 'bdfhjl'[i] + labels[i], ax=tsax)
     return fig, grid, tsgrid
@@ -384,9 +384,9 @@ def subplots_trimlines(extent='alps'):
     prepare_map_axes(ax, extent='valais')
 
     # add subfigure labels
-    ut.pl.add_subfig_label('(a)', ax=scax)
-    ut.pl.add_subfig_label('(b)', ax=hsax)
-    ut.pl.add_subfig_label('(c)', ax=ax)
+    add_subfig_label('(a)', ax=scax)
+    add_subfig_label('(b)', ax=hsax)
+    add_subfig_label('(c)', ax=ax)
 
     # return figure and axes
     return fig, ax, cax, scax, hsax
@@ -464,9 +464,9 @@ def draw_major_cities(ax=None, maxrank=5, textoffset=4):
         lon = rec.geometry.x
         lat = rec.geometry.y
         if rank <= maxrank:
-            xc, yc = ax.projection.transform_point(lon, lat, src_crs=ut.pl.ll)
-            xloc = 'r'  #('l' if xc < center[0] else 'r')
-            yloc = 'u'  #('l' if yc < center[1] else 'u')
+            xc, yc = ax.projection.transform_point(lon, lat, src_crs=ll)
+            xloc = 'r'  # ('l' if xc < center[0] else 'r')
+            yloc = 'u'  # ('l' if yc < center[1] else 'u')
             dx = {'c': 0, 'l': -1, 'r': 1}[xloc]*textoffset
             dy = {'c': 0, 'l': -1, 'u': 1}[yloc]*textoffset
             ha = {'c': 'center', 'l': 'right', 'r': 'left'}[xloc]
@@ -548,7 +548,7 @@ def draw_ice_divides(ax=None):
     for rec in shp.records():
         rank = rec.attributes['rank']
         ax.add_geometries(shp.geometries(), ll, lw=2.0-0.5*rank, alpha=0.75,
-                          edgecolor=ut.pl.palette['darkorange'],
+                          edgecolor=palette['darkorange'],
                           facecolor='none')
     del shp
 
@@ -560,7 +560,7 @@ def draw_water_divides(ax=None):
     shp = cshp.Reader('../data/native/alpcyc_water_divides.shp')
     for rec in shp.records():
         ax.add_geometries(shp.geometries(), ll, lw=1.0, alpha=0.75,
-                          edgecolor=ut.pl.palette['darkorange'],
+                          edgecolor=palette['darkorange'],
                           facecolor='none', linestyles=[(0, [3, 1])])
     del shp
 
@@ -571,7 +571,7 @@ def draw_trimlines(ax=None, c=palette['darkblue'], s=4**2, alpha=0.75):
     trimlines = np.genfromtxt('../data/native/trimlines_kelly_etal_2004.csv',
                               dtype=None, delimiter=',', names=True)
     ax.scatter(trimlines['x'], trimlines['y'], c=c, s=s, alpha=alpha,
-               transform=ut.pl.swiss)
+               transform=swiss)
 
 
 def draw_glacier_names(ax=None):
@@ -582,7 +582,7 @@ def draw_glacier_names(ax=None):
         sort = rec.attributes['type']
         lon = rec.geometry.x
         lat = rec.geometry.y
-        x, y = ax.projection.transform_point(lon, lat, src_crs=ut.pl.ll)
+        x, y = ax.projection.transform_point(lon, lat, src_crs=ll)
         style = ('italic' if sort == 'cap' else 'normal')
         ax.text(x, y, name, fontsize=6, style=style, ha='center', va='center')
 
@@ -594,7 +594,7 @@ def draw_ice_domes(ax=None, textoffset=4):
         name = rec.attributes['name'].decode('utf-8')
         lon = rec.geometry.x
         lat = rec.geometry.y
-        x, y = ax.projection.transform_point(lon, lat, src_crs=ut.pl.ll)
+        x, y = ax.projection.transform_point(lon, lat, src_crs=ll)
         ax.plot(x, y, 'k^', ms=6, mew=0)
         ax.annotate(name, xy=(x, y), xytext=(0, -textoffset), style='italic',
                     textcoords='offset points', ha='center', va='top')
@@ -607,7 +607,7 @@ def draw_cross_divides(ax=None, textoffset=4, strip=True):
     for rec in shp.records():
         lon = rec.geometry.x
         lat = rec.geometry.y
-        xi, yi = ax.projection.transform_point(lon, lat, src_crs=ut.pl.ll)
+        xi, yi = ax.projection.transform_point(lon, lat, src_crs=ll)
         name = rec.attributes['name'].decode('utf-8')
         azim = rec.attributes['azimuth']
         xloc = 'l'
@@ -631,7 +631,7 @@ def draw_all_transfluences(ax=None, textoffset=4, strip=True):
     for rec in shp.records():
         lon = rec.geometry.x
         lat = rec.geometry.y
-        xi, yi = ax.projection.transform_point(lon, lat, src_crs=ut.pl.ll)
+        xi, yi = ax.projection.transform_point(lon, lat, src_crs=ll)
         name = rec.attributes['name'].decode('utf-8')
         alti = rec.attributes['altitude']
         azim = rec.attributes['azimuth']
@@ -668,7 +668,7 @@ def draw_major_transfluences(ax=None, textoffset=4):
         if name in locations:
             lon = rec.geometry.x
             lat = rec.geometry.y
-            x, y = ax.projection.transform_point(lon, lat, src_crs=ut.pl.ll)
+            x, y = ax.projection.transform_point(lon, lat, src_crs=ll)
             xloc = locations[name][1]
             yloc = locations[name][0]
             dx = {'c': 0, 'l': -1, 'r': 1}[xloc]*textoffset
@@ -680,7 +680,7 @@ def draw_major_transfluences(ax=None, textoffset=4):
             name = name.replace(' Alp', '')
             name = name.replace(' Pass', '')
             name = name.replace(' Saddle', '')
-            #azim = rec.attributes['azimuth']
+            # azim = rec.attributes['azimuth']
             ax.plot(x, y, 'kP', ms=6, mew=0)  # or marker=(2, 0, -azim)
             ax.annotate(name, xy=(x, y), xytext=(dx, dy),
                         textcoords='offset points', ha=ha, va=va)
@@ -697,10 +697,11 @@ def draw_boot_topo(ax=None, res='1km'):
 
 def draw_scaling_domain(ax=None):
     """Add Rhine lobe scaling domain."""
-    w, e, s, n = ut.pl.regions['rhlobe']
+    w, e, s, n = regions['rhlobe']
     x = [w, e, e, w, w]
     y = [s, s, n, n, s]
     ax.plot(x, y, c='k', lw=0.5)
+
 
 # Timeseries elements
 # -------------------
@@ -748,7 +749,7 @@ def plot_dt(ax=None, t=0.0):
     nc.close()
 
     # plot time series
-    mask = age>=-t/1e3
+    mask = age >= -t/1e3
     ax.plot(age[mask], dt[mask], c='0.25')
     ax.set_xlabel('model age (ka)')
     ax.set_ylabel('temperature offset (K)', color='0.25')
