@@ -100,8 +100,7 @@
 
 
 % ----------------------------------------------------------------------
-%TC: break Introduction
-\introduction
+\section{Main}
 \label{sec:intro}
 % ----------------------------------------------------------------------
 
@@ -205,438 +204,7 @@
 
 
 % ----------------------------------------------------------------------
-\section{Ice sheet model set-up}
-\label{sec:model}
-% ----------------------------------------------------------------------
-
-% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-\subsection{Overview}
-\label{sec:overview}
-% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-
-    We use the Parallel Ice Sheet Model (PISM, development version~e9d2d1f), an
-    open source, finite difference, shallow ice sheet model
-    \citep{PISM-authors.2017}. The model requires input on initial bedrock and
-    glacier topographies, geothermal heat flux and climate forcing. It computes
-    the
-    evolution of ice extent and thickness over time, the thermal and dynamic
-    states of the ice sheet, and the associated lithospheric response. The
-    model set-up used here was previously developed and tested on the former
-    Cordilleran ice sheet \citep{Seguinot.2014, Seguinot.etal.2014,
-    Seguinot.etal.2016} and subsequently adapted for steady climate
-    \citep{Becker.etal.2016} and regional \citep{Jouvet.etal.2017a}
-    applications to the European Alps.
-
-    Ice deformation follows temperature and water-content dependent creep
-    (Sect.~\ref{sec:icedyn}). Basal sliding follows a~pseudo-plastic law where
-    the yield stress accounts for till deconsolidation under high water
-    pressure (Sect.~\ref{sec:sliding}). Bedrock topography is deflected
-    under the ice load (Sect.~\ref{sec:bedrock}). Surface mass balance is
-    computed using a~positive degree-day (PDD) model (Sect.~\ref{sec:surface}).
-    Climate forcing is provided by a~monthly climatology from interpolated
-    observational data \citep[WorldClim;][]{Hijmans.etal.2005} and the European
-    Centre for Medium-Range Weather Forecasts Reanalysis Interim
-    \citep[ERA-Interim;][]{Dee.etal.2011}, amended with temperature lapse-rate
-    corrections (Sect.~\ref{sec:atm}), time-dependent temperature offsets, and
-    in some cases, time-dependent palaeo-precipitation reductions
-    (Sect.~\ref{sec:climate}).
-
-    Each simulation starts from assumed present-day ice thickness and
-    equilibrium ice and bedrock temperature at 120\,ka, and runs to the
-    present. Our modelling domain of 900 by 600\,km encompasses the
-    entire Alpine range (Fig.~\ref{fig:inputs}). The simulations were run on
-    two distinct grids, using horizontal resolutions of 2 and 1\,km,
-    respectively.
-    All parameter values are summarized in Table~\ref{tab:params}.
-
-
-% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-\subsection{Ice rheology}
-\label{sec:icedyn}
-% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-
-    Ice sheet dynamics are typically modelled using a~combination of internal
-    deformation and basal sliding. PISM is a~shallow ice sheet model, which
-    implies that the balance of stresses is approximated based on their
-    predominant components. The Shallow Shelf Approximation (SSA) is combined
-    with the Shallow Ice Approximation (SIA) by adding velocity solutions of
-    the two approximations \citep[Eqs.~7--9 and 15]{Winkelmann.etal.2011}.
-    Although this heuristic approach implies errors in the transition zone
-    where gravitational stresses intervene both in the SIA and SSA velocity
-    computation, it was shown to effectively approximate complex ice field flow
-    dynamics over mountainous topographies similar to that of the European Alps
-    \citep{Golledge.etal.2012, Ziemen.etal.2016}. This hybrid scheme is
-    computationally much more efficient than a fully three-dimensional model
-    \citep[e.g.,][]{Cohen.etal.2017}
-    with which simulations of the scale presented here would not be feasible.
-
-    Ice deformation is governed by the constitutive law for ice
-    \citep{Glen.1952, Nye.1953}. Ice softness depends on ice temperature,
-    pressure, and water content, through an enthalpy scheme
-    \citep[Table~\ref{tab:params};][]{Aschwanden.etal.2012} and a piece-wise
-    Arrhenius-type rheology representative of Holocene polar ice
-    \citep[Table~\ref{tab:params};][p.~77]{Cuffey.Paterson.2010}.
-    The englacial water fraction is
-    capped at a~maximum value of 0.01, above which no measurements are
-    available \citep[Eq.~5.7]{Lliboutry.Duval.1985, Greve.1997}.
-
-    Surface air temperature derived from the climate forcing
-    (Sects.~\ref{sec:atm}, ~\ref{sec:paltemp}) provides the upper boundary
-    condition to the ice
-    enthalpy model. Temperature is computed in the ice and in the bedrock down
-    to a~depth of 3\,km below the glacier base, where it is
-    conditioned by a~lower boundary geothermal heat flux estimate from multiple
-    geothermal proxies (\citealp[similarity method]{Goutorbe.etal.2011};
-    Fig.~\ref{fig:inputs}a).
-
-
-% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-\subsection{Basal sliding}
-\label{sec:sliding}
-% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-
-    A~pseudo-plastic sliding law relates the bed-parallel shear stresses to the
-    sliding velocity. The yield stress is modelled using the Mohr--Coulomb
-    criterion using a constant basal friction angle (Table~\ref{tab:params}).
-    Effective pressure is related to the ice overburden stress and the modelled
-    amount of subglacial water, using a~formula derived from laboratory
-    experiments with till extracted from the base of Ice Stream B in West
-    Antarctica \citep[Table~\ref{tab:params};][]{Tulaczyk.etal.2000,
-    Bueler.Pelt.2015}. When the till becomes saturated, additional melt water
-    is assumed to drain off instantaneously.
-
-
-% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-\subsection{Basal topography}
-\label{sec:bedrock}
-% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-
-    The initial basal topography is bilinearly interpolated from the
-    hole-filled, Shuttle Radar Topography Mission (SRTM) data with a~resolution
-    of 30\,arc-sec \citep[Fig.~\ref{fig:inputs}b;][]{Jarvis.etal.2008}. These
-    data include post-glacial
-    sediment fills and lakes surface topography. However, they were corrected
-    for an estimation of present-day ice thickness based on modern
-    glacier outlines, surface topography and simplified ice physics
-    \citep[Fig.~\ref{fig:inputs}c;][]{Huss.Farinotti.2012}.
-
-    Basal topography responds to ice load following a~bedrock deformation model
-    that includes local isostasy, elastic lithosphere flexure and viscous
-    asthenosphere deformation in an infinite half-space
-    \citep{Lingle.Clark.1985, Bueler.etal.2007}. Model parameters were set
-    according to
-    results from glacial isostatic adjustment modelling of deglacial rebound in
-    the Alps most closely reproducing observed modern uplift rates
-    \citep[Supplementary Fig.~7]{Mey.etal.2016}.\footnote{Lithosphere rigidity
-    was computed using the erroneous formula, ${D=YE^3/12(1-\nu)}$, in
-    \citet{Mey.etal.2016}. The correct formula is ${D=YE^3/12(1-\nu^2)}$.
-    Using the Young's modulus, $Y=100$\,GPa, and the Poisson ratio, $\nu=0.25$
-    \citep{Mey.etal.2016}, our simulations effectively use an elastic thickness
-    of the lithosphere of $E=52.4$\,km, instead of the 50\,km value used by
-    \citet{Mey.etal.2016}, introducing in a small change in the lenght scale of
-    bedrock deformation well within uncertainties \citep{Mey.etal.2016}.}
-
-
-% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-\subsection{Surface mass balance}
-\label{sec:surface}
-% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-
-    Ice surface accumulation and ablation are computed from monthly mean
-    near-surface air temperature, $T_{\mathrm{m}}$, monthly standard deviation
-    of near-surface air temperature, $\sigma$, and monthly precipitation,
-    $P_{\mathrm{m}}$, using a~temperature-index model
-    \citep[e.g.,][]{Hock.2003}. Accumulation is equal to precipitation when air
-    temperatures are below 0\,\unit{{\degree}C}, and decreases to zero linearly
-    with temperatures between 0 and 2\,\unit{{\degree}C}. Ablation is computed
-    from PDD, the integral of temperatures above 0\,\unit{{\degree}C}.
-
-    The PDD computation accounts for stochastic temperature variations by
-    assuming a~normal temperature distribution of standard deviation, $\sigma$,
-    around the expected value, $T_{\mathrm{m}}$. It is expressed by an
-    error-function formulation \citep{Calov.Greve.2005}
-    which is numerically approximated using week-long sub-intervals. In
-    order to account for the effects of spatial and seasonal variations of
-    temperature variability \citep{Seguinot.2013}, $\sigma$ is computed
-    from ERA-Interim daily temperature values from 1979 to 2012
-    \citep{Mesinger.etal.2006}, including variability associated with the
-    seasonal cycle \citep{Seguinot.2013}, and bilinearly interpolated to the
-    model grids (Fig.~\ref{fig:inputs}d and e). Degree-day factors for snow and ice
-    melt are set to values used in the European Ice Sheet Modelling INiTiative
-    \citep[Table~\ref{tab:params}; EISMINT,][]{Huybrechts.1998}.
-
-
-% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-\subsection{Reference climate forcing}
-\label{sec:atm}
-% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-
-    Climate forcing driving ice sheet simulations consists of a~present-day
-    monthly climatology, $\{T_{\mathrm{m}0}, P_{\mathrm{m}0}\}$, modified by
-    temperature lapse-rate corrections, ${\Delta}T_{\text{LR}}$, temperature
-    offset time series, ${\Delta}T_{\text{TS}}$, and time-dependent
-    palaeo-precipitation corrections, $\Psi_{\text{PP}}$:
-    %
-    \begin{align}
-      &T_{\mathrm{m}}(t, x, y) = T_{\mathrm{m}0}(x, y) +
-                                 {\Delta}T_{\text{LR}}(t, x, y) +
-                                 {\Delta}T_{\text{TS}}(t) \,, \\
-      &P_{\mathrm{m}}(t, x, y) = P_{\mathrm{m}0}(x, y) \cdot
-                                 {\Psi}_{\text{PP}}(t) \,,
-    \end{align}
-    %
-    The present-day monthly climatology was bilinearly interpolated from
-    near-surface air temperature and precipitation rate fields from
-    WorldClim \citep{Hijmans.etal.2005}, representative of the period~1960
-    to~1990. Modern climate of the European Alps is characterised by a
-    north-south gradient in winter and summer air temperatures
-    (Fig.~\ref{fig:inputs}f and g), and an east-west gradient in winter
-    precipitation (Fig.~\ref{fig:inputs}h) which is reversed in summer
-    (Fig.~\ref{fig:inputs}h). WorldClim data
-    were selected as an input to the ice sheet model because they incorporate
-    observations from the dense weather station network of central Europe
-    \citep[Fig.~1]{Hijmans.etal.2005}. Besides, WorldClim data were
-    previously used as climate forcing for PISM to model the LGM extent of the
-    former Cordilleran ice sheet in good agreement with geological evidence
-    along the southern margin \citep{Seguinot.etal.2014} where weather station
-    density is lower than in the Alps. Finally, the last glacial cycle Alpine
-    glaciers did not extend over marine areas where WorldClim data is missing.
-
-    The temperature lapse-rate corrections, ${\Delta}T_{\text{LR}}$, are
-    computed as a~function of ice surface elevation, $s$, using the SRTM
-    topography shipped with WorldClim as a~reference, $b_{\text{ref}}$:
-    %
-    \begin{align}
-      {\Delta}T_{\text{LR}}(t, x, y) &= -\gamma [s(t, x, y)-b_{\text{ref}}] \\
-                                     &= -\gamma [h(t, x, y)+
-                                                 b(t, x, y)-b_{\text{ref}}],
-    \end{align}
-    %
-    thus accounting for the evolution of ice thickness, ${h=s-b}$, on the one
-    hand, and for differences between the basal topography of the ice flow
-    model, $b$, and the WorldClim reference topography, $b_{\text{ref}}$, on
-    the other hand. All simulations use an annual temperature lapse rate of
-    $\gamma=6\,\unit{K\,km^{-1}}$.
-
-
-% ----------------------------------------------------------------------
-\section{Palaeo-climate forcing}
-\label{sec:climate}
-% ----------------------------------------------------------------------
-
-    In this section, we analyze the model sensitivity to palaeo-climate forcing
-    through the last glacial cycle, using three palaeo-temperature records
-    (Sect.~\ref{sec:paltemp}) and two parametrizations of palaeo-precipitation
-    (Sect.~\ref{sec:palprec}), in terms of modelled evolution of total ice
-    volume (Sect.~\ref{sec:timeseries}) and glaciated area during MIS~2 and~4
-    (Sect.~\ref{sec:footprints}).
-
-    These simulations use a horizontal resolution of 2\,km. The vertical grid
-    consists of 31~temperature layers in the bedrock and up to 126~enthalpy
-    layers in the ice, corresponding to vertical resolutions of 100 and
-    40\,m, respectively. Simulations ran for two to four days
-    using 144~processors.
-
-
-% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-\subsection{Palaeo-temperature forcing}
-\label{sec:paltemp}
-% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-
-    Temperature offset time-series, ${\Delta}T_{\text{TS}}$, are derived from
-    palaeo-temperature proxy records from the Greenland Ice Core Project
-    \citep[GRIP;][]{Dansgaard.etal.1993}, the European Project for Ice Coring
-    in Antarctica \citep[EPICA;][] {Jouzel.etal.2007}, and an oceanic sediment
-    core from the Iberian margin \citep[MD01-2444;][]{Martrat.etal.2007}.
-    Palaeo-temperature anomalies from the GRIP record are calculated from
-    oxygen isotope (\chem{\delta^{18}O}) measurements using a~quadratic
-    equation \citep{Johnsen.etal.1995},
-    %
-    \begin{align}
-      {\Delta}T_{\text{TS}}(t) ={~}&-11.88 [\chem{\delta^{18}O}(t)
-                                    -\chem{\delta^{18}O}(0)] \nonumber \\
-                                   &-0.1925 [\chem{\delta^{18}O}(t)^2
-                                    -\chem{\delta^{18}O}(0)^2] \,,
-    \end{align}
-    %
-    while temperature reconstructions from the EPICA and MD01-2444 records are
-    provided as such. For each proxy record used and each of the parameter
-    set-ups used in the sensitivity tests, palaeo-temperature anomalies are
-    scaled linearly (Table~\ref{tab:records}, Fig.~\ref{fig:timeseries}a) so
-    that the modelled cumulative glaciated area during MIS~2 (29--14\,ka)
-    and within a rectangular region covering the Rhine
-    glacier piedmont lobe (Fig.~\ref{fig:footprints}a, black rectangle) is
-    consistent with the glaciated area of the geological reconstruction
-    \citep{Ehlers.etal.2011}.
-
-
-% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-\subsection{Palaeo-precipitation forcing}
-\label{sec:palprec}
-% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-
-    Finally, in some simulations (hereafter labelled PP), precipitation was
-    reduced with air temperature in
-    order to simulate the potential rarefaction of atmospheric moisture in
-    colder climates. This was done using an empirical relationship derived from
-    observed accumulation rates and oxygen isotopes concentrations in the GRIP
-    ice core \citep{Dahl-Jensen.etal.1993},
-    %
-    \begin{align}
-      {\Psi}_{\text{PP}}(t) = \exp[\psi{\Delta}T_{\text{TS}}(t)] \,,
-    \end{align}
-    %
-    with $\psi=0.169/2.4=0.0704$ \citep{Huybrechts.2002}. This simple
-    relationship likely does not reflect the complexity of atmospheric
-    circulation changes that governed moisture availability over the Alps
-    during the last glacial cycle, of which little is known apart from the
-    LGM \citep[cf.][]{Wu.etal.2007, Strandberg.etal.2011, Ludwig.etal.2016}.
-    Thus, another set of simulations presented here use constant
-    precipitation, corresponding to $\psi=0$.
-
-
-% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-\subsection{Sensitivity of ice volume evolution}
-\label{sec:timeseries}
-% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-
-    For the three palaeo-temperature records and the two palaeo-precipitation
-    parametrizations used, the model yields significant ice volume build-up
-    during MIS~4 and 2 (Fig.~\ref{fig:timeseries}b), corresponding to documented
-    glaciation periods in the Alps \citep{Preusser.2004, Ivy-Ochs.etal.2008}.
-    All simulations also yield important glaciations during MIS~5 and 3, but
-    their timing and amplitude varies significantly depending on the climate
-    forcing used. All six simulations overestimate the late-glacial re-advance
-    during the Younger Dryas
-    \citep[12.9--11.7\,ka; cf. e.g.,][]{Ivy-Ochs.etal.2009}.
-    This is partly because the 2\,km resolution used in these simulations is
-    too coarse to resolve
-    Younger Dryas Alpine glaciers. However, the large total ice volume
-    overestimation resulting from the GRIP temperature forcing
-    (Fig.~\ref{fig:timeseries}b, blue curves) certainly indicates that the
-    vigorous cooling experienced in Greenland is not representative of the
-    Alps.
-
-    Geological data from the best documented Alpine piedmont lobes indicate
-    that their maximum extension during MIS~2 occurred at around 25.5--24.0\,ka
-    \citep{Monegato.etal.2017}, after which Alpine glaciers remained or
-    potentially re-advanced to within close reach of this maximum extent, until
-    as late as 22 to 17\,ka \citep[Fig.~5]{Wirsig.etal.2016}. This is in very
-    good agreement with the result of the EPICA simulations, which yield an
-    early maximum ice volume at 25.2/24.6 (without/with palaeo-precipitation
-    reductions) followed by a standstill until 17.3\,ka
-    (Fig.~\ref{fig:timeseries}b, blue curves). The GRIP palaeo-temperature
-    forcing, on the other hand, yields two distinct total ice volume maxima
-    at 27.3/27.0 and 21.8/21.7\,ka followed by an early deglaciation of the
-    foreland by 21.4\,ka. The MD01-2444 palaeo-temperature forcing yields
-    a late LGM peak ice volume at 16.5/15.7\,ka several thousand years after
-    the dated geological evidence.
-
-    Finally, all simulations yield very strong ice volume
-    variability, indicative of many more than two or three cycles of glacier
-    advance and retreats onto the foreland (Fig.~\ref{fig:timeseries}b).
-    Palaeo-precipitation reductions dampen some of the small-scale variability,
-    but they have little effect on the millennial scales that characterise
-    those cycles (Fig.~\ref{fig:timeseries}b, light colour curves). In
-    particular, strong millennial variability recorded in GRIP
-    \chem{\delta^{18}O} (Dansgaard-Oeschger events) have large repercussions
-    on the modelled Alpine ice volume, including around six glaciations of LGM
-    magnitude (Fig.~\ref{fig:timeseries}b, blue curves), which is not supported
-    by geologic evidence \citep{Preusser.2004, Ivy-Ochs.etal.2008}.
-    Dansgaard-Oeschger events, however, have been recorded in Central European
-    lake sediments \citep{Wohlfarth.etal.2008} and cave speleothems
-    \citep{Spotl.Mangini.2002, Luetscher.etal.2015}. Our results indicate that
-    their magnitude in Central Europe was likely lower than that recorded in
-    GRIP \chem{\delta^{18}O}, which either implies smaller associated
-    palaeo-temperature fluctuations in Central Europe than Greenland, or
-    temperature-independent controls on GRIP \chem{\delta^{18}O}. In contrast,
-    the EPICA palaeo-temperature record has least variability among the records
-    used (Fig.~\ref{fig:timeseries}a, red curves). This results in smaller
-    variability in the total ice volume, and more restrictive glaciations
-    during MIS~5 and~3, (Fig.~\ref{fig:timeseries}b, red curves).
-
-
-% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-\subsection{Sensitivity of glaciated area}
-\label{sec:footprints}
-% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-
-    During MIS~2, all six simulations yield comparative cumulative glaciated
-    areas (Fig.~\ref{fig:footprints}a). This result is inherent to the
-    palaeo-climate forcing approach used, which involves a linear scaling of
-    each palaeo-temperature anomaly record to a geomorphological
-    reconstruction of the area glaciated by the Rhine Glacier piedmont lobe
-    (Sect.~\ref{sec:paltemp}; Fig.~\ref{fig:footprints}a, black rectangle).
-    Outside this benchmark, all simulations underestimate glaciated area in the
-    western part of the model domain, and overestimate it in the eastern
-    part, relative to the geomorphological ice limits
-    (Fig.~\ref{fig:footprints}a). This result might indicate that the LGM
-    temperature depression, here considered homogeneous, was actually lower in
-    the Eastern Alps than in the Western Alps, as previously shown by positive
-    degree-day modelling of the central European palaeo-ice caps
-    \citep{Heyman.etal.2013}. Alternatively, the east-west gradient in winter
-    precipitation existing today (Fig.~\ref{fig:inputs}h) was
-    perhaps enhanced during the LGM, as indicated by pollen reconstructions
-    \citep{Wu.etal.2007}. Finally, the LGM extent of Alpine glaciers might have
-    been affected by east-west gradient in variables not accounted for
-    by the PDD model, such as cloud cover or dust deposition.
-
-    Besides this general pattern, there exist differences in glaciated area
-    depending on the palaeo-climate forcing used. The MD01-2444, and to a
-    greater extent, the GRIP palaeo-temperature records, tend to overestimate
-    MIS~2 ice cover on all peripheral ranges that surround the Alps
-    (Fig.~\ref{fig:footprints}a and c). This is particularly true when no
-    precipitation corrections are applied (bright colours). In fact, both
-    palaeo-temperature records have a higher temperature variability and
-    contain brief spells of cold temperatures, which are too short to develop a
-    fully grown Alpine ice sheet, but long enough to build up ice cover on a
-    smaller scale on these peripheral ranges (Fig.~\ref{fig:timeseries}). On
-    the other hand, peripheral glaciation modelled using the EPICA record
-    (Fig.~\ref{fig:footprints}b), which has smaller temperature variability,
-    is in relatively good agreement with the geomorphological reconstructions.
-
-    The modelled extent of glaciation during MIS~4 depicts a more pronounced
-    sensitivity to the choice of palaeo-climate forcing used. Using the GRIP
-    and MD01-2444 palaeo-temperature records, Alpine glaciers are modelled to
-    extend well beyond the reach of documented LGM end-moraines
-    (Fig.~\ref{fig:footprints}d and f). Because, in both cases,
-    the modelled glaciation extent corresponds to brief cold spells in the
-    palaeo-temperature forcing (Fig.~\ref{fig:timeseries}a),
-    palaeo-precipitation reductions greatly reduce the excessive modelled ice
-    cover (Figs.~\ref{fig:timeseries}b and \ref{fig:footprints}d and f, light
-    colours). However, with or without palaeo-precipitation corrections,
-    the GRIP and MD01-2444 forcing yield
-    modelled ice extents (Fig.~\ref{fig:footprints}d and f) and volumes
-    (Fig.~\ref{fig:timeseries}b) considerably larger during MIS~4 than
-    during MIS~2, which is not supported by geological evidence
-    \citep{Preusser.2004, Ivy-Ochs.etal.2008, Husen.Reitner.2011,
-    Barrett.etal.2017, Haldimann.etal.2017}. Gravel deposits from the Rhine
-    Glacier indicate an early last glacial cycle foreland glaciation, but the
-    extent reached is less than that in MIS~2 \citep{Keller.Krayss.2010}.
-    Dropstones in lake sediments indicate a late MIS~4 advance restricted to
-    the upper Inn Valley \citep{Barrett.etal.2017}. For the Reuss Glacier, no
-    evidence for a pre-LGM glacier advance during the last glacial cycle is
-    available \citep{Haldimann.etal.2017}.
-
-    The EPICA palaeo-temperature forcing, on the other hand, yields a MIS~4
-    glaciation that is only slightly less expansive than the MIS~2 glaciation
-    (Fig.~\ref{fig:footprints}e). The sensitivity of the glaciated area to
-    palaeo-precipitation reductions is mostly limited to the southern terminal
-    lobes of central-Alpine glaciers, which are slightly less extensive during
-    MIS~2 and 4 under reduced precipitation (Fig.~\ref{fig:footprints}b and e).
-
-    Based on the above considerations on timing of the LGM during MIS~2, and
-    modelled ice
-    extent during MIS~4, we select EPICA as our optimal palaeo-temperature
-    record for a more detailed and higher-resolution comparison of modelled
-    glacier dynamics to available geological evidence
-    (Sect.~\ref{sec:results}). As a conservative approach in regard to the
-    rapid ice volume fluctuations, we choose to include palaeo-precipitation
-    corrections in the following higher-resolution run.
-
-
-% ----------------------------------------------------------------------
-\section{Results and discussion}
+\subsection{Results and discussion}
 \label{sec:results}
 % ----------------------------------------------------------------------
 
@@ -996,8 +564,7 @@
 
 
 % ----------------------------------------------------------------------
-%TC: break Conclusions
-\conclusions
+\subsection{conclusions}
 % ----------------------------------------------------------------------
 
     This study consists in the application of the numerical ice sheet model
@@ -1071,6 +638,437 @@
     homogenization of glacial geological data to form a basis for model
     validation across the entire Alpine range.
 
+
+
+% ----------------------------------------------------------------------
+\section{Methods}
+\label{sec:model}
+% ----------------------------------------------------------------------
+
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+\subsection{Overview}
+\label{sec:overview}
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+
+    We use the Parallel Ice Sheet Model (PISM, development version~e9d2d1f), an
+    open source, finite difference, shallow ice sheet model
+    \citep{PISM-authors.2017}. The model requires input on initial bedrock and
+    glacier topographies, geothermal heat flux and climate forcing. It computes
+    the
+    evolution of ice extent and thickness over time, the thermal and dynamic
+    states of the ice sheet, and the associated lithospheric response. The
+    model set-up used here was previously developed and tested on the former
+    Cordilleran ice sheet \citep{Seguinot.2014, Seguinot.etal.2014,
+    Seguinot.etal.2016} and subsequently adapted for steady climate
+    \citep{Becker.etal.2016} and regional \citep{Jouvet.etal.2017a}
+    applications to the European Alps.
+
+    Ice deformation follows temperature and water-content dependent creep
+    (Sect.~\ref{sec:icedyn}). Basal sliding follows a~pseudo-plastic law where
+    the yield stress accounts for till deconsolidation under high water
+    pressure (Sect.~\ref{sec:sliding}). Bedrock topography is deflected
+    under the ice load (Sect.~\ref{sec:bedrock}). Surface mass balance is
+    computed using a~positive degree-day (PDD) model (Sect.~\ref{sec:surface}).
+    Climate forcing is provided by a~monthly climatology from interpolated
+    observational data \citep[WorldClim;][]{Hijmans.etal.2005} and the European
+    Centre for Medium-Range Weather Forecasts Reanalysis Interim
+    \citep[ERA-Interim;][]{Dee.etal.2011}, amended with temperature lapse-rate
+    corrections (Sect.~\ref{sec:atm}), time-dependent temperature offsets, and
+    in some cases, time-dependent palaeo-precipitation reductions
+    (Sect.~\ref{sec:climate}).
+
+    Each simulation starts from assumed present-day ice thickness and
+    equilibrium ice and bedrock temperature at 120\,ka, and runs to the
+    present. Our modelling domain of 900 by 600\,km encompasses the
+    entire Alpine range (Fig.~\ref{fig:inputs}). The simulations were run on
+    two distinct grids, using horizontal resolutions of 2 and 1\,km,
+    respectively.
+    All parameter values are summarized in Table~\ref{tab:params}.
+
+
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+\subsection{Ice rheology}
+\label{sec:icedyn}
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+
+    Ice sheet dynamics are typically modelled using a~combination of internal
+    deformation and basal sliding. PISM is a~shallow ice sheet model, which
+    implies that the balance of stresses is approximated based on their
+    predominant components. The Shallow Shelf Approximation (SSA) is combined
+    with the Shallow Ice Approximation (SIA) by adding velocity solutions of
+    the two approximations \citep[Eqs.~7--9 and 15]{Winkelmann.etal.2011}.
+    Although this heuristic approach implies errors in the transition zone
+    where gravitational stresses intervene both in the SIA and SSA velocity
+    computation, it was shown to effectively approximate complex ice field flow
+    dynamics over mountainous topographies similar to that of the European Alps
+    \citep{Golledge.etal.2012, Ziemen.etal.2016}. This hybrid scheme is
+    computationally much more efficient than a fully three-dimensional model
+    \citep[e.g.,][]{Cohen.etal.2017}
+    with which simulations of the scale presented here would not be feasible.
+
+    Ice deformation is governed by the constitutive law for ice
+    \citep{Glen.1952, Nye.1953}. Ice softness depends on ice temperature,
+    pressure, and water content, through an enthalpy scheme
+    \citep[Table~\ref{tab:params};][]{Aschwanden.etal.2012} and a piece-wise
+    Arrhenius-type rheology representative of Holocene polar ice
+    \citep[Table~\ref{tab:params};][p.~77]{Cuffey.Paterson.2010}.
+    The englacial water fraction is
+    capped at a~maximum value of 0.01, above which no measurements are
+    available \citep[Eq.~5.7]{Lliboutry.Duval.1985, Greve.1997}.
+
+    Surface air temperature derived from the climate forcing
+    (Sects.~\ref{sec:atm}, ~\ref{sec:paltemp}) provides the upper boundary
+    condition to the ice
+    enthalpy model. Temperature is computed in the ice and in the bedrock down
+    to a~depth of 3\,km below the glacier base, where it is
+    conditioned by a~lower boundary geothermal heat flux estimate from multiple
+    geothermal proxies (\citealp[similarity method]{Goutorbe.etal.2011};
+    Fig.~\ref{fig:inputs}a).
+
+
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+\subsection{Basal sliding}
+\label{sec:sliding}
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+
+    A~pseudo-plastic sliding law relates the bed-parallel shear stresses to the
+    sliding velocity. The yield stress is modelled using the Mohr--Coulomb
+    criterion using a constant basal friction angle (Table~\ref{tab:params}).
+    Effective pressure is related to the ice overburden stress and the modelled
+    amount of subglacial water, using a~formula derived from laboratory
+    experiments with till extracted from the base of Ice Stream B in West
+    Antarctica \citep[Table~\ref{tab:params};][]{Tulaczyk.etal.2000,
+    Bueler.Pelt.2015}. When the till becomes saturated, additional melt water
+    is assumed to drain off instantaneously.
+
+
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+\subsection{Basal topography}
+\label{sec:bedrock}
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+
+    The initial basal topography is bilinearly interpolated from the
+    hole-filled, Shuttle Radar Topography Mission (SRTM) data with a~resolution
+    of 30\,arc-sec \citep[Fig.~\ref{fig:inputs}b;][]{Jarvis.etal.2008}. These
+    data include post-glacial
+    sediment fills and lakes surface topography. However, they were corrected
+    for an estimation of present-day ice thickness based on modern
+    glacier outlines, surface topography and simplified ice physics
+    \citep[Fig.~\ref{fig:inputs}c;][]{Huss.Farinotti.2012}.
+
+    Basal topography responds to ice load following a~bedrock deformation model
+    that includes local isostasy, elastic lithosphere flexure and viscous
+    asthenosphere deformation in an infinite half-space
+    \citep{Lingle.Clark.1985, Bueler.etal.2007}. Model parameters were set
+    according to
+    results from glacial isostatic adjustment modelling of deglacial rebound in
+    the Alps most closely reproducing observed modern uplift rates
+    \citep[Supplementary Fig.~7]{Mey.etal.2016}.\footnote{Lithosphere rigidity
+    was computed using the erroneous formula, ${D=YE^3/12(1-\nu)}$, in
+    \citet{Mey.etal.2016}. The correct formula is ${D=YE^3/12(1-\nu^2)}$.
+    Using the Young's modulus, $Y=100$\,GPa, and the Poisson ratio, $\nu=0.25$
+    \citep{Mey.etal.2016}, our simulations effectively use an elastic thickness
+    of the lithosphere of $E=52.4$\,km, instead of the 50\,km value used by
+    \citet{Mey.etal.2016}, introducing in a small change in the lenght scale of
+    bedrock deformation well within uncertainties \citep{Mey.etal.2016}.}
+
+
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+\subsection{Surface mass balance}
+\label{sec:surface}
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+
+    Ice surface accumulation and ablation are computed from monthly mean
+    near-surface air temperature, $T_{\mathrm{m}}$, monthly standard deviation
+    of near-surface air temperature, $\sigma$, and monthly precipitation,
+    $P_{\mathrm{m}}$, using a~temperature-index model
+    \citep[e.g.,][]{Hock.2003}. Accumulation is equal to precipitation when air
+    temperatures are below 0\,\unit{{\degree}C}, and decreases to zero linearly
+    with temperatures between 0 and 2\,\unit{{\degree}C}. Ablation is computed
+    from PDD, the integral of temperatures above 0\,\unit{{\degree}C}.
+
+    The PDD computation accounts for stochastic temperature variations by
+    assuming a~normal temperature distribution of standard deviation, $\sigma$,
+    around the expected value, $T_{\mathrm{m}}$. It is expressed by an
+    error-function formulation \citep{Calov.Greve.2005}
+    which is numerically approximated using week-long sub-intervals. In
+    order to account for the effects of spatial and seasonal variations of
+    temperature variability \citep{Seguinot.2013}, $\sigma$ is computed
+    from ERA-Interim daily temperature values from 1979 to 2012
+    \citep{Mesinger.etal.2006}, including variability associated with the
+    seasonal cycle \citep{Seguinot.2013}, and bilinearly interpolated to the
+    model grids (Fig.~\ref{fig:inputs}d and e). Degree-day factors for snow and ice
+    melt are set to values used in the European Ice Sheet Modelling INiTiative
+    \citep[Table~\ref{tab:params}; EISMINT,][]{Huybrechts.1998}.
+
+
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+\subsection{Reference climate forcing}
+\label{sec:atm}
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+
+    Climate forcing driving ice sheet simulations consists of a~present-day
+    monthly climatology, $\{T_{\mathrm{m}0}, P_{\mathrm{m}0}\}$, modified by
+    temperature lapse-rate corrections, ${\Delta}T_{\text{LR}}$, temperature
+    offset time series, ${\Delta}T_{\text{TS}}$, and time-dependent
+    palaeo-precipitation corrections, $\Psi_{\text{PP}}$:
+    %
+    \begin{align}
+      &T_{\mathrm{m}}(t, x, y) = T_{\mathrm{m}0}(x, y) +
+                                 {\Delta}T_{\text{LR}}(t, x, y) +
+                                 {\Delta}T_{\text{TS}}(t) \,, \\
+      &P_{\mathrm{m}}(t, x, y) = P_{\mathrm{m}0}(x, y) \cdot
+                                 {\Psi}_{\text{PP}}(t) \,,
+    \end{align}
+    %
+    The present-day monthly climatology was bilinearly interpolated from
+    near-surface air temperature and precipitation rate fields from
+    WorldClim \citep{Hijmans.etal.2005}, representative of the period~1960
+    to~1990. Modern climate of the European Alps is characterised by a
+    north-south gradient in winter and summer air temperatures
+    (Fig.~\ref{fig:inputs}f and g), and an east-west gradient in winter
+    precipitation (Fig.~\ref{fig:inputs}h) which is reversed in summer
+    (Fig.~\ref{fig:inputs}h). WorldClim data
+    were selected as an input to the ice sheet model because they incorporate
+    observations from the dense weather station network of central Europe
+    \citep[Fig.~1]{Hijmans.etal.2005}. Besides, WorldClim data were
+    previously used as climate forcing for PISM to model the LGM extent of the
+    former Cordilleran ice sheet in good agreement with geological evidence
+    along the southern margin \citep{Seguinot.etal.2014} where weather station
+    density is lower than in the Alps. Finally, the last glacial cycle Alpine
+    glaciers did not extend over marine areas where WorldClim data is missing.
+
+    The temperature lapse-rate corrections, ${\Delta}T_{\text{LR}}$, are
+    computed as a~function of ice surface elevation, $s$, using the SRTM
+    topography shipped with WorldClim as a~reference, $b_{\text{ref}}$:
+    %
+    \begin{align}
+      {\Delta}T_{\text{LR}}(t, x, y) &= -\gamma [s(t, x, y)-b_{\text{ref}}] \\
+                                     &= -\gamma [h(t, x, y)+
+                                                 b(t, x, y)-b_{\text{ref}}],
+    \end{align}
+    %
+    thus accounting for the evolution of ice thickness, ${h=s-b}$, on the one
+    hand, and for differences between the basal topography of the ice flow
+    model, $b$, and the WorldClim reference topography, $b_{\text{ref}}$, on
+    the other hand. All simulations use an annual temperature lapse rate of
+    $\gamma=6\,\unit{K\,km^{-1}}$.
+
+
+% ----------------------------------------------------------------------
+\section{Supplementary}
+\label{sec:climate}
+% ----------------------------------------------------------------------
+
+    In this section, we analyze the model sensitivity to palaeo-climate forcing
+    through the last glacial cycle, using three palaeo-temperature records
+    (Sect.~\ref{sec:paltemp}) and two parametrizations of palaeo-precipitation
+    (Sect.~\ref{sec:palprec}), in terms of modelled evolution of total ice
+    volume (Sect.~\ref{sec:timeseries}) and glaciated area during MIS~2 and~4
+    (Sect.~\ref{sec:footprints}).
+
+    These simulations use a horizontal resolution of 2\,km. The vertical grid
+    consists of 31~temperature layers in the bedrock and up to 126~enthalpy
+    layers in the ice, corresponding to vertical resolutions of 100 and
+    40\,m, respectively. Simulations ran for two to four days
+    using 144~processors.
+
+
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+\subsection{Palaeo-temperature forcing}
+\label{sec:paltemp}
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+
+    Temperature offset time-series, ${\Delta}T_{\text{TS}}$, are derived from
+    palaeo-temperature proxy records from the Greenland Ice Core Project
+    \citep[GRIP;][]{Dansgaard.etal.1993}, the European Project for Ice Coring
+    in Antarctica \citep[EPICA;][] {Jouzel.etal.2007}, and an oceanic sediment
+    core from the Iberian margin \citep[MD01-2444;][]{Martrat.etal.2007}.
+    Palaeo-temperature anomalies from the GRIP record are calculated from
+    oxygen isotope (\chem{\delta^{18}O}) measurements using a~quadratic
+    equation \citep{Johnsen.etal.1995},
+    %
+    \begin{align}
+      {\Delta}T_{\text{TS}}(t) ={~}&-11.88 [\chem{\delta^{18}O}(t)
+                                    -\chem{\delta^{18}O}(0)] \nonumber \\
+                                   &-0.1925 [\chem{\delta^{18}O}(t)^2
+                                    -\chem{\delta^{18}O}(0)^2] \,,
+    \end{align}
+    %
+    while temperature reconstructions from the EPICA and MD01-2444 records are
+    provided as such. For each proxy record used and each of the parameter
+    set-ups used in the sensitivity tests, palaeo-temperature anomalies are
+    scaled linearly (Table~\ref{tab:records}, Fig.~\ref{fig:timeseries}a) so
+    that the modelled cumulative glaciated area during MIS~2 (29--14\,ka)
+    and within a rectangular region covering the Rhine
+    glacier piedmont lobe (Fig.~\ref{fig:footprints}a, black rectangle) is
+    consistent with the glaciated area of the geological reconstruction
+    \citep{Ehlers.etal.2011}.
+
+
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+\subsection{Palaeo-precipitation forcing}
+\label{sec:palprec}
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+
+    Finally, in some simulations (hereafter labelled PP), precipitation was
+    reduced with air temperature in
+    order to simulate the potential rarefaction of atmospheric moisture in
+    colder climates. This was done using an empirical relationship derived from
+    observed accumulation rates and oxygen isotopes concentrations in the GRIP
+    ice core \citep{Dahl-Jensen.etal.1993},
+    %
+    \begin{align}
+      {\Psi}_{\text{PP}}(t) = \exp[\psi{\Delta}T_{\text{TS}}(t)] \,,
+    \end{align}
+    %
+    with $\psi=0.169/2.4=0.0704$ \citep{Huybrechts.2002}. This simple
+    relationship likely does not reflect the complexity of atmospheric
+    circulation changes that governed moisture availability over the Alps
+    during the last glacial cycle, of which little is known apart from the
+    LGM \citep[cf.][]{Wu.etal.2007, Strandberg.etal.2011, Ludwig.etal.2016}.
+    Thus, another set of simulations presented here use constant
+    precipitation, corresponding to $\psi=0$.
+
+
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+\subsection{Sensitivity of ice volume evolution}
+\label{sec:timeseries}
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+
+    For the three palaeo-temperature records and the two palaeo-precipitation
+    parametrizations used, the model yields significant ice volume build-up
+    during MIS~4 and 2 (Fig.~\ref{fig:timeseries}b), corresponding to documented
+    glaciation periods in the Alps \citep{Preusser.2004, Ivy-Ochs.etal.2008}.
+    All simulations also yield important glaciations during MIS~5 and 3, but
+    their timing and amplitude varies significantly depending on the climate
+    forcing used. All six simulations overestimate the late-glacial re-advance
+    during the Younger Dryas
+    \citep[12.9--11.7\,ka; cf. e.g.,][]{Ivy-Ochs.etal.2009}.
+    This is partly because the 2\,km resolution used in these simulations is
+    too coarse to resolve
+    Younger Dryas Alpine glaciers. However, the large total ice volume
+    overestimation resulting from the GRIP temperature forcing
+    (Fig.~\ref{fig:timeseries}b, blue curves) certainly indicates that the
+    vigorous cooling experienced in Greenland is not representative of the
+    Alps.
+
+    Geological data from the best documented Alpine piedmont lobes indicate
+    that their maximum extension during MIS~2 occurred at around 25.5--24.0\,ka
+    \citep{Monegato.etal.2017}, after which Alpine glaciers remained or
+    potentially re-advanced to within close reach of this maximum extent, until
+    as late as 22 to 17\,ka \citep[Fig.~5]{Wirsig.etal.2016}. This is in very
+    good agreement with the result of the EPICA simulations, which yield an
+    early maximum ice volume at 25.2/24.6 (without/with palaeo-precipitation
+    reductions) followed by a standstill until 17.3\,ka
+    (Fig.~\ref{fig:timeseries}b, blue curves). The GRIP palaeo-temperature
+    forcing, on the other hand, yields two distinct total ice volume maxima
+    at 27.3/27.0 and 21.8/21.7\,ka followed by an early deglaciation of the
+    foreland by 21.4\,ka. The MD01-2444 palaeo-temperature forcing yields
+    a late LGM peak ice volume at 16.5/15.7\,ka several thousand years after
+    the dated geological evidence.
+
+    Finally, all simulations yield very strong ice volume
+    variability, indicative of many more than two or three cycles of glacier
+    advance and retreats onto the foreland (Fig.~\ref{fig:timeseries}b).
+    Palaeo-precipitation reductions dampen some of the small-scale variability,
+    but they have little effect on the millennial scales that characterise
+    those cycles (Fig.~\ref{fig:timeseries}b, light colour curves). In
+    particular, strong millennial variability recorded in GRIP
+    \chem{\delta^{18}O} (Dansgaard-Oeschger events) have large repercussions
+    on the modelled Alpine ice volume, including around six glaciations of LGM
+    magnitude (Fig.~\ref{fig:timeseries}b, blue curves), which is not supported
+    by geologic evidence \citep{Preusser.2004, Ivy-Ochs.etal.2008}.
+    Dansgaard-Oeschger events, however, have been recorded in Central European
+    lake sediments \citep{Wohlfarth.etal.2008} and cave speleothems
+    \citep{Spotl.Mangini.2002, Luetscher.etal.2015}. Our results indicate that
+    their magnitude in Central Europe was likely lower than that recorded in
+    GRIP \chem{\delta^{18}O}, which either implies smaller associated
+    palaeo-temperature fluctuations in Central Europe than Greenland, or
+    temperature-independent controls on GRIP \chem{\delta^{18}O}. In contrast,
+    the EPICA palaeo-temperature record has least variability among the records
+    used (Fig.~\ref{fig:timeseries}a, red curves). This results in smaller
+    variability in the total ice volume, and more restrictive glaciations
+    during MIS~5 and~3, (Fig.~\ref{fig:timeseries}b, red curves).
+
+
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+\subsection{Sensitivity of glaciated area}
+\label{sec:footprints}
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+
+    During MIS~2, all six simulations yield comparative cumulative glaciated
+    areas (Fig.~\ref{fig:footprints}a). This result is inherent to the
+    palaeo-climate forcing approach used, which involves a linear scaling of
+    each palaeo-temperature anomaly record to a geomorphological
+    reconstruction of the area glaciated by the Rhine Glacier piedmont lobe
+    (Sect.~\ref{sec:paltemp}; Fig.~\ref{fig:footprints}a, black rectangle).
+    Outside this benchmark, all simulations underestimate glaciated area in the
+    western part of the model domain, and overestimate it in the eastern
+    part, relative to the geomorphological ice limits
+    (Fig.~\ref{fig:footprints}a). This result might indicate that the LGM
+    temperature depression, here considered homogeneous, was actually lower in
+    the Eastern Alps than in the Western Alps, as previously shown by positive
+    degree-day modelling of the central European palaeo-ice caps
+    \citep{Heyman.etal.2013}. Alternatively, the east-west gradient in winter
+    precipitation existing today (Fig.~\ref{fig:inputs}h) was
+    perhaps enhanced during the LGM, as indicated by pollen reconstructions
+    \citep{Wu.etal.2007}. Finally, the LGM extent of Alpine glaciers might have
+    been affected by east-west gradient in variables not accounted for
+    by the PDD model, such as cloud cover or dust deposition.
+
+    Besides this general pattern, there exist differences in glaciated area
+    depending on the palaeo-climate forcing used. The MD01-2444, and to a
+    greater extent, the GRIP palaeo-temperature records, tend to overestimate
+    MIS~2 ice cover on all peripheral ranges that surround the Alps
+    (Fig.~\ref{fig:footprints}a and c). This is particularly true when no
+    precipitation corrections are applied (bright colours). In fact, both
+    palaeo-temperature records have a higher temperature variability and
+    contain brief spells of cold temperatures, which are too short to develop a
+    fully grown Alpine ice sheet, but long enough to build up ice cover on a
+    smaller scale on these peripheral ranges (Fig.~\ref{fig:timeseries}). On
+    the other hand, peripheral glaciation modelled using the EPICA record
+    (Fig.~\ref{fig:footprints}b), which has smaller temperature variability,
+    is in relatively good agreement with the geomorphological reconstructions.
+
+    The modelled extent of glaciation during MIS~4 depicts a more pronounced
+    sensitivity to the choice of palaeo-climate forcing used. Using the GRIP
+    and MD01-2444 palaeo-temperature records, Alpine glaciers are modelled to
+    extend well beyond the reach of documented LGM end-moraines
+    (Fig.~\ref{fig:footprints}d and f). Because, in both cases,
+    the modelled glaciation extent corresponds to brief cold spells in the
+    palaeo-temperature forcing (Fig.~\ref{fig:timeseries}a),
+    palaeo-precipitation reductions greatly reduce the excessive modelled ice
+    cover (Figs.~\ref{fig:timeseries}b and \ref{fig:footprints}d and f, light
+    colours). However, with or without palaeo-precipitation corrections,
+    the GRIP and MD01-2444 forcing yield
+    modelled ice extents (Fig.~\ref{fig:footprints}d and f) and volumes
+    (Fig.~\ref{fig:timeseries}b) considerably larger during MIS~4 than
+    during MIS~2, which is not supported by geological evidence
+    \citep{Preusser.2004, Ivy-Ochs.etal.2008, Husen.Reitner.2011,
+    Barrett.etal.2017, Haldimann.etal.2017}. Gravel deposits from the Rhine
+    Glacier indicate an early last glacial cycle foreland glaciation, but the
+    extent reached is less than that in MIS~2 \citep{Keller.Krayss.2010}.
+    Dropstones in lake sediments indicate a late MIS~4 advance restricted to
+    the upper Inn Valley \citep{Barrett.etal.2017}. For the Reuss Glacier, no
+    evidence for a pre-LGM glacier advance during the last glacial cycle is
+    available \citep{Haldimann.etal.2017}.
+
+    The EPICA palaeo-temperature forcing, on the other hand, yields a MIS~4
+    glaciation that is only slightly less expansive than the MIS~2 glaciation
+    (Fig.~\ref{fig:footprints}e). The sensitivity of the glaciated area to
+    palaeo-precipitation reductions is mostly limited to the southern terminal
+    lobes of central-Alpine glaciers, which are slightly less extensive during
+    MIS~2 and 4 under reduced precipitation (Fig.~\ref{fig:footprints}b and e).
+
+    Based on the above considerations on timing of the LGM during MIS~2, and
+    modelled ice
+    extent during MIS~4, we select EPICA as our optimal palaeo-temperature
+    record for a more detailed and higher-resolution comparison of modelled
+    glacier dynamics to available geological evidence
+    (Sect.~\ref{sec:results}). As a conservative approach in regard to the
+    rapid ice volume fluctuations, we choose to include palaeo-precipitation
+    corrections in the following higher-resolution run.
 
 % ----------------------------------------------------------------------
 %TC: break Acknowledgements
