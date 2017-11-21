@@ -149,10 +149,9 @@ def prepare_ts_axes(ax, dt=True, mis=True, t=0.0):
 # Single map subplot helpers
 # --------------------------
 
-# FIXME add specific subplot helpers for profiles etc
-def subplots_ts(nrows=1, ncols=1, figw=85.0, figh=None, labels=True):
+def subplots_ts(nrows=1, ncols=1, mode='column', labels=True):
     """Init figure with margins adapted for simple timeseries."""
-    figh = figh or 30.0 + nrows*30.0
+    figw, figh = (175.0, 85.0) if mode == 'page' else (85.0, 60.0)
     fig, grid = iplt.subplots_mm(nrows=nrows, ncols=ncols,
                                  sharex=True, sharey=False,
                                  figsize=(figw, figh),
@@ -160,8 +159,8 @@ def subplots_ts(nrows=1, ncols=1, figw=85.0, figh=None, labels=True):
                                                   bottom=7.5, top=2.5,
                                                   hspace=2.5, wspace=2.5))
     if nrows*ncols > 1 and labels is True:
-        for ax, label in zip(grid, list('abcdef')):
-            ut.pl.add_subfig_label('({})'.format(label), ax=ax)
+        for ax, l in zip(grid, list('abcdef')):
+            ut.pl.add_subfig_label('({})'.format(l), ax=ax)
     return fig, grid
 
 
