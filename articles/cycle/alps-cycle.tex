@@ -5,6 +5,7 @@
 
 \graphicspath{{../../figures/}}
 
+\definecolor{gray}{gray}{0.75}
 \definecolor{darkblue}{cmyk}{0.9,0.3,0.0,0.0}
 \definecolor{darkgreen}{cmyk}{0.8,0.0,1.0,0.0}
 \definecolor{darkred}{cmyk}{0.1,0.9,0.8,0.0}
@@ -16,6 +17,9 @@
 \newcommand{\note}[1]{\textcolor{darkblue}{\emph{[\textbf{NOTE:} #1]}}}
 \newcommand{\todo}[1]{\textcolor{darkred}{\emph{[\textbf{TODO:} #1]}}}
 \newcommand{\aref}[0]{\textcolor{darkblue}{\textbf{[REF.]}}}
+\newenvironment{mask}{\color{gray}}{\color{black}}
+%TC:newcounter mask
+%TC:envir mask [] mask
 
 \hypersetup{colorlinks, linkcolor=darkorange,
             urlcolor=darkbrown, citecolor=darkpurple}
@@ -51,9 +55,9 @@
 
 % Texcount template
 %TC:newtemplate
-%TC:template Word counts (text, headers, other):\n
-%TC:template  {SUB?* {title}: {text}, {headerword}, {otherword}\n?SUB}
-%TC:template Total: {text}, {headerword}, {otherword}
+%TC:template Word counts (text (masked), headers, other):\n
+%TC:template  {SUB?* {title}: {text} ({mask}), {headerword}, {otherword}\n?SUB}
+%TC:template Total: {text} ({mask}), {headerword}, {otherword}
 
 \begin{framed}
 \small\verbatiminput{alps-cycle.sum}
@@ -120,6 +124,8 @@
     idea that, under colder temperatures, expansive \emph{ice sheets} had once
     covered much of Europe and North America \citep{Agassiz.1840}.
 
+    \begin{mask}
+
     However, this glacial theory did not gain general acceptance until the
     discovery and exploration of the two present-day ice sheets on Earth, the
     Greenland and Antarctic ice sheets, provided a modern analogue for the
@@ -159,6 +165,8 @@
     Ivy-Ochs.etal.2008}, most glacial features currently left on the foreland
     present a record of the last major glaciation of the Alps, dating from the
     \emph{Last Glacial Maximum} (LGM).
+
+    \end{mask}
 
     The spatial extent and thickness of Alpine glaciers during the LGM, an
     integrated footprint of thousands of years of climate history and glacier
@@ -203,6 +211,8 @@
     at high resolution for the optimal forcing (Sect.~\ref{sec:results}).
 
 
+    \begin{mask}
+
 % ----------------------------------------------------------------------
 \subsection{Results and discussion}
 \label{sec:results}
@@ -223,6 +233,7 @@
     and 20\,m, respectively. This simulation ran for 33~days using
     576~processors.
 
+    \end{mask}
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 \subsection{Last Glacial Maximum ice extent}
@@ -321,6 +332,8 @@
 \label{sec:flow}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
+    \begin{mask}
+
     The LGM Alpine ice flow pattern was traditionally described as that of a
     network of interconnected valley glaciers, primarily controlled by
     subglacial topography. However, geomorphology shows that ice was thick
@@ -329,6 +342,8 @@
     Husen.2011, Kelly.etal.2004, Coutterand.2010}, and even perhaps to form
     self-sustained ice domes \citep{Florineth.1998, Florineth.Schluchter.1998,
     Kelly.etal.2004, Bini.etal.2009}.
+
+    \end{mask}
 
     The modelled flow pattern at 24.57\,ka is complex (Fig.~\ref{fig:lgmvel}a,
     blue colour mapping). Ice velocities of several hundred metres per year,
@@ -378,6 +393,8 @@
 \label{sec:timing}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
+    \begin{mask}
+
     The timing of the LGM has been documented by radiocarbon and cosmogenic
     isotope dating techniques at multiple locations around the Alps (cf.
     \citealp[Fig.~5]{Wirsig.etal.2016}, for a review and the more recent
@@ -388,6 +405,8 @@
     when they experienced rapid retreat synchronously to lowering of the ice
     surface in the mountains (\citealp[Fig.~5]{Wirsig.etal.2016};
     \citealp[Fig.~3]{Monegato.etal.2017}).
+
+    \end{mask}
 
     In our simulation, the maximum areal cover is reached at 24.57\,ka
     (Fig.~\ref{fig:lgmvel}a), yet individual glacier lobes reach their
@@ -438,6 +457,8 @@
 \label{sec:thickness}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
+    \begin{mask}
+
     Following the general assumption that trimlines, which mark the transition
     between the steep frost-shattered ridges and the more gentle glacially eroded
     valley troughs, represent the maximum elevation of the LGM ice surface,
@@ -455,6 +476,8 @@
     late-glacial ice surface elevation \citep[Fig.~1, p.~403]{Coutterand.2010}.
     However, no evidence for cold-based glaciation has yet been reported in the
     Alps.
+
+    \end{mask}
 
     In the upper Rhone Valley, the maximum ice surface elevation reached
     during MIS~2 in our simulation, corrected for bedrock deformation, is
@@ -503,6 +526,8 @@
 \label{sec:glaciations}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
+    \begin{mask}
+
     Glacial history of the Alps prior to the LGM remains poorly constrained.
     Although the four glaciations model \citep{Penck.Bruckner.1909} has long
     been used, it is now known that glaciers advanced onto the foreland many
@@ -516,6 +541,8 @@
     sparse \citep[Sect.~\ref{sec:footprints};][]{Keller.Krayss.2010,
     Barrett.etal.2017, Haldimann.etal.2017}, and its timing remains uncertain
     \citep[e.g.,][]{Link.Preusser.2006, Preusser.etal.2007}.
+
+    \end{mask}
 
     As previously mentioned (Sect.~\ref{sec:timeseries}), independently of the
     palaeo-temperature (GRIP, EPICA, or MD01-2444) and palaeo-precipitation
@@ -563,6 +590,8 @@
     here.
 
 
+    \begin{mask}
+
 % ----------------------------------------------------------------------
 \subsection{conclusions}
 % ----------------------------------------------------------------------
@@ -593,6 +622,8 @@
             both GRIP and MD01-2444 forcing result in MIS~4 glaciation well
             beyond the mapped LGM ice limits (Sect.~\ref{sec:footprints}).
     \end{itemize}
+
+    \end{mask}
 
     We then use this optimal palaeo-temperature forcing and, as a conservative
     approach, palaeo-precipitation reductions, to force a 1-km resolution
@@ -637,7 +668,6 @@
     geology in the Alps, and call for a more systematic aggregation and
     homogenization of glacial geological data to form a basis for model
     validation across the entire Alpine range.
-
 
 
 % ----------------------------------------------------------------------
