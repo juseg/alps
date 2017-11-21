@@ -84,22 +84,18 @@ ne_graticules = cfeature.NaturalEarthFeature(
 # Figures and axes creation
 # -------------------------
 
-# FIXME break this into multiple functions
-def prepare_axes(ax=None, tsax=None, extent='alps',
-                 dt=True, mis=True, t=0.0):
-    """Prepare map and timeseries axes before plotting."""
+def prepare_map_axes(ax, extent='alps'):
+    """Prepare map axes before plotting."""
+    ax.set_rasterization_zorder(2.5)
+    ax.set_extent(regions[extent], crs=ax.projection)
 
-    # prepare map axes
-    if ax is not None:
-        ax.set_rasterization_zorder(2.5)
-        ax.set_extent(regions[extent], crs=ax.projection)
 
-    # prepare timeseries axes
-    if tsax is not None:
-        if dt is True:
-            plot_dt(tsax, t=t)
-        if mis is True:
-            plot_mis(tsax)
+def prepare_ts_axes(ax, dt=True, mis=True, t=0.0):
+    """Prepare timeseries axes before plotting."""
+    if dt is True:
+        plot_dt(ax, t=t)
+    if mis is True:
+        plot_mis(ax)
 
 
 # FIXME add specific subplot helpers for profiles etc
@@ -125,7 +121,7 @@ def subplots_cax(extent='alps'):
                                gridspec_kw=dict(left=2.5, right=17.5,
                                                 bottom=2.5, top=2.5))
     cax = fig.add_axes([1-15.0/figw, 2.5/figh, 5.0/figw, 1-5.0/figh])
-    prepare_axes(ax, extent=extent)
+    prepare_map_axes(ax, extent=extent)
     return fig, ax, cax
 
 
@@ -136,7 +132,7 @@ def subplots_cax_inset(extent='alps'):
                                gridspec_kw=dict(left=2.5, right=2.5,
                                                 bottom=2.5, top=2.5))
     cax = fig.add_axes([5.0/figw, 95.0/figh, 5.0/figw, 50.0/figh])
-    prepare_axes(ax, extent=extent)
+    prepare_map_axes(ax, extent=extent)
     return fig, ax, cax
 
 
@@ -148,7 +144,8 @@ def subplots_cax_ts(extent='alps', labels=True, dt=True, mis=True):
                                                 bottom=42.5, top=2.5))
     cax = fig.add_axes([1-15.0/figw, 42.5/figh, 5.0/figw, 100.0/figh])
     tsax = fig.add_axes([12.5/figw, 10.0/figh, 1-22.5/figw, 30.0/figh])
-    prepare_axes(ax, tsax, extent, dt, mis)
+    prepare_map_axes(ax, extent=extent)
+    prepare_ts_axes(tsax, dt=dt, mis=mis)
     if labels is True:
         add_subfig_label('(a)', ax=ax)
         add_subfig_label('(b)', ax=tsax)
@@ -168,7 +165,8 @@ def subplots_cax_ts_inset(extent='alps', labels=True, dt=True, mis=True):
                           transform=fig.transFigure, zorder=-1)
     tsax.add_patch(rect)
     tsax.set_facecolor('none')
-    prepare_axes(ax, tsax, extent, dt, mis)
+    prepare_map_axes(ax, extent=extent)
+    prepare_ts_axes(tsax, dt=dt, mis=mis)
     if labels is True:
         add_subfig_label('(a)', ax=ax)
         add_subfig_label('(b)', ax=tsax)
@@ -192,7 +190,8 @@ def subplots_cax_ts_cut(extent='alps', labels=True, dt=True, mis=True):
                           clip_on=False, transform=ax.transAxes, zorder=-1)
     tsax.add_patch(poly)
     tsax.add_patch(rect)
-    prepare_axes(ax, tsax, extent, dt, mis)
+    prepare_map_axes(ax, extent=extent)
+    prepare_ts_axes(tsax, dt=dt, mis=mis)
     if labels is True:
         add_subfig_label('(a)', ax=ax)
         add_subfig_label('(b)', ax=tsax)
@@ -223,7 +222,8 @@ def subplots_cax_sc_ts_nat(extent='alps', labels=True, dt=True, mis=True):
     tsax.add_patch(poly)
     tsax.add_patch(tsrect)
     scax.add_patch(screct)
-    prepare_axes(ax, tsax, extent, dt, mis)
+    prepare_map_axes(ax, extent=extent)
+    prepare_ts_axes(tsax, dt=dt, mis=mis)
     if labels is True:
         add_subfig_label('(a)', ax=ax, x=35.0/180.0)
         add_subfig_label('(b)', ax=scax)
@@ -249,7 +249,8 @@ def subplots_cax_ts_anim(extent='alps', labels=False, dt=True, mis=True,
                           clip_on=False, transform=ax.transAxes, zorder=-1)
     tsax.add_line(line)
     tsax.add_patch(rect)
-    prepare_axes(ax, tsax, extent, dt, mis, t)
+    prepare_map_axes(ax, extent=extent)
+    prepare_ts_axes(tsax, dt=dt, mis=mis, t=t)
     if labels is True:
         add_subfig_label('(a)', ax=ax)
         add_subfig_label('(b)', ax=tsax)
@@ -276,7 +277,8 @@ def subplots_cax_ts_sgm(extent='alps', labels=False, dt=True, mis=True):
                           clip_on=False, transform=ax.transAxes, zorder=-1)
     tsax.add_patch(poly)
     tsax.add_patch(rect)
-    prepare_axes(ax, tsax, extent, dt, mis)
+    prepare_map_axes(ax, extent=extent)
+    prepare_ts_axes(tsax, dt=dt, mis=mis)
     if labels is True:
         add_subfig_label('(a)', ax=ax)
         add_subfig_label('(b)', ax=tsax)
