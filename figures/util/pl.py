@@ -97,8 +97,8 @@ def cut_ts_axes(ax, tsw=2/3., tsh=1/3.):
     rectkw = dict(ec='w', fc='w', zorder=-1, **commkw)
     poly = iplt.Polygon(zip(x, y), **polykw)
     rect = iplt.Rectangle((1-tsw, 0.0), tsw, tsh, **rectkw)
-    tsax = fig.add_axes([pos.x1-tsw*(pos.x1-pos.x0)+12.5/figw, 10.0/figh,
-                         tsw*(pos.x1-pos.x0)-25.0/figw,
+    tsax = fig.add_axes([pos.x1-tsw*(pos.x1-pos.x0)+12.0/figw, 9.0/figh,
+                         tsw*(pos.x1-pos.x0)-24.0/figw,
                          tsh*(pos.y1-pos.y0)-15.0/figh])
     tsax.add_patch(poly)
     tsax.add_patch(rect)
@@ -119,11 +119,11 @@ def cut_ts_sc_axes(ax, tsw=2/3., tsh=1/3., scw=1/5., sch=1/3.):
     poly = iplt.Polygon(zip(x, y), **polykw)
     screct = iplt.Rectangle((0.0, 1-sch), scw, sch, **rectkw)
     tsrect = iplt.Rectangle((1-tsw, 0.0), tsw, tsh, **rectkw)
-    scax = fig.add_axes([pos.x0+7.5/figw, pos.y1-sch*(pos.y1-pos.y0)+10.0/figh,
-                         scw*(pos.x1-pos.x0)-10.0/figw,
-                         sch*(pos.y1-pos.y0)-10.0/figh])
-    tsax = fig.add_axes([pos.x1-tsw*(pos.x1-pos.x0)+12.5/figw, 10.0/figh,
-                         tsw*(pos.x1-pos.x0)-25.0/figw,
+    scax = fig.add_axes([pos.x0+7.5/figw, pos.y1-sch*(pos.y1-pos.y0)+9.0/figh,
+                         scw*(pos.x1-pos.x0)-9.0/figw,
+                         sch*(pos.y1-pos.y0)-9.0/figh])
+    tsax = fig.add_axes([pos.x1-tsw*(pos.x1-pos.x0)+12.0/figw, 9.0/figh,
+                         tsw*(pos.x1-pos.x0)-24.0/figw,
                          tsh*(pos.y1-pos.y0)-15.0/figh])
     scax.add_patch(screct)
     tsax.add_patch(poly)
@@ -150,13 +150,13 @@ def prepare_ts_axes(ax, dt=True, mis=True, t=0.0):
 
 def subplots_ts(nrows=1, ncols=1, mode='column', labels=True):
     """Init figure with margins adapted for simple timeseries."""
-    figw, figh = (175.0, 85.0) if mode == 'page' else (85.0, 60.0)
+    figw, figh = (177.0, 85.0) if mode == 'page' else (85.0, 60.0)
     fig, grid = iplt.subplots_mm(nrows=nrows, ncols=ncols,
                                  sharex=True, sharey=False,
                                  figsize=(figw, figh),
-                                 gridspec_kw=dict(left=10.0, right=2.5,
-                                                  bottom=7.5, top=2.5,
-                                                  hspace=2.5, wspace=2.5))
+                                 gridspec_kw=dict(left=12.0, right=1.5,
+                                                  bottom=9.0, top=1.5,
+                                                  hspace=1.5, wspace=1.5))
     if nrows*ncols > 1 and labels is True:
         for ax, l in zip(grid, list('abcdef')):
             add_subfig_label('({})'.format(l), ax=ax)
@@ -169,7 +169,7 @@ def subplots_cax(extent='alps'):
     fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
                                gridspec_kw=dict(left=1.5, right=1.5,
                                                 bottom=1.5, top=1.5))
-    cax = fig.add_axes([6.5/figw, 71.5/figh, 5.0/figw, 40.0/figh])
+    cax = fig.add_axes([4.5/figw, 1-52.0/figh, 3.0/figw, 40.0/figh])
     prepare_map_axes(ax, extent=extent)
     return fig, ax, cax
 
@@ -180,7 +180,7 @@ def subplots_cax_ts(extent='alps', labels=True, dt=True, mis=True):
     fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
                                gridspec_kw=dict(left=1.5, right=1.5,
                                                 bottom=1.5, top=1.5))
-    cax = fig.add_axes([6.5/figw, 71.5/figh, 5.0/figw, 40.0/figh])
+    cax = fig.add_axes([4.5/figw, 1-50.5/figh, 3.0/figw, 40.0/figh])
     tsax = cut_ts_axes(ax)
     prepare_map_axes(ax, extent=extent)
     prepare_ts_axes(tsax, dt=dt, mis=mis)
@@ -196,8 +196,8 @@ def subplots_cax_ts_sc(extent='alps', labels=True, dt=True, mis=True):
     fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
                                gridspec_kw=dict(left=1.5, right=1.5,
                                                 bottom=1.5, top=1.5))
-    cax = fig.add_axes([0.5-25.0/figw, 1-9.0/figh, 50.0/figw, 5.0/figh])
-    tsax, scax = cut_ts_sc_axes(ax, scw=35.0/174.0, sch=37.5/116.0)
+    cax = fig.add_axes([0.5-20.0/figw, 1-6.0/figh, 40.0/figw, 3.0/figh])
+    tsax, scax = cut_ts_sc_axes(ax) #, scw=35.0/174.0, sch=37.5/116.0)
     prepare_map_axes(ax, extent=extent)
     prepare_ts_axes(tsax, dt=dt, mis=mis)
     if labels is True:
@@ -266,12 +266,12 @@ def subplots_cax_ts_sgm(extent='alps', labels=False, dt=True, mis=True):
 
 def subplots_6(extent='alps'):
     """Init figure with six subplot."""
-    figw, figh = 175.0, 85.0
+    figw, figh = 177.0, 85.0
     fig, grid = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
                                  nrows=2, ncols=3, sharex=True, sharey=True,
-                                 gridspec_kw=dict(left=2.5, right=2.5,
-                                                  bottom=2.5, top=20/3.,
-                                                  hspace=2.5, wspace=2.5))
+                                 gridspec_kw=dict(left=1.5, right=1.5,
+                                                  bottom=1.5, top=6.0,
+                                                  hspace=1.5, wspace=1.5))
     for ax, l in zip(grid.flat, 'abcdef'):
         prepare_map_axes(ax, extent=extent)
         add_subfig_label('(%s)' % l, ax=ax)
@@ -281,42 +281,41 @@ def subplots_6(extent='alps'):
 def subplots_6_cax(extent='alps'):
     """Init figure with six subplot and colorbar inset."""
     fig, grid = subplots_6()
-    figw, figh = fig.get_size_inches()
-    cax = fig.add_axes([0.5-10.0/figw, 11.125/figh, 20.0/figw, 2.5/figh])
+    figw, figh = fig.get_size_inches()*25.4
+    cax = fig.add_axes([0.5-10.0/figw, 10.5/figh, 20.0/figw, 2.5/figh])
     return fig, grid, cax
 
 
 def subplots_inputs(extent='alps', mode='vertical'):
 
     # initialize figure
-    figw, figh = 175.0, 140 if mode == 'horizontal' else 100.0
+    figw, figh = 177.0, 142.5 if mode == 'horizontal' else 102.0
     fig = iplt.figure_mm(figsize=(figw, figh))
 
     # prepare two grids in horizontal mode
     if mode == 'horizontal':
-        axh = 55.0*2/3
         grid1 = fig.subplots_mm(nrows=1, ncols=3, squeeze=False,
-                                gridspec_kw=dict(left=2.5, right=2.5,
-                                                 bottom=27.5+2*axh, top=2.5,
-                                                 wspace=2.5, hspace=2.5),
+                                gridspec_kw=dict(left=1.5, right=1.5,
+                                                 bottom=103.0, top=1.5,
+                                                 wspace=1.5, hspace=1.5),
                                 subplot_kw=dict(projection=utm))
         grid2 = fig.subplots_mm(nrows=2, ncols=3, squeeze=False,
-                                gridspec_kw=dict(left=2.5, right=2.5,
-                                                 bottom=12.5, top=15.0+axh,
-                                                 wspace=2.5, hspace=2.5),
+                                gridspec_kw=dict(left=1.5, right=1.5,
+                                                 bottom=12.0, top=53.0,
+                                                 wspace=1.5, hspace=1.5),
                                 subplot_kw=dict(projection=utm))
 
     # prepare two grids in vertical mode
     else:
         grid1 = fig.subplots_mm(nrows=3, ncols=1, squeeze=False,
-                                gridspec_kw=dict(left=2.5, right=127.5,
-                                                 bottom=2.5, top=2.5,
-                                                 wspace=2.5, hspace=2.5),
+                                gridspec_kw=dict(left=1.5, right=127.5,
+                                                 bottom=1.5, top=1.5,
+                                                 wspace=1.5, hspace=1.5),
                                 subplot_kw=dict(projection=utm)).T
         grid2 = fig.subplots_mm(nrows=3, ncols=2, squeeze=False,
-                                gridspec_kw=dict(left=65.0, right=17.5,
-                                                 bottom=2.5, top=2.5,
-                                                 wspace=2.5, hspace=2.5),
+                                gridspec_kw=dict(left=64.5, right=15.0,
+                                                 bottom=1.5, top=1.5,
+                                                 wspace=1.5, hspace=1.5),
                                 subplot_kw=dict(projection=utm)).T
 
     # merge axes grids
@@ -326,9 +325,9 @@ def subplots_inputs(extent='alps', mode='vertical'):
     for ax in grid[[0, 2], :].flat:
         pos = ax.get_position()
         if mode == 'horizontal':
-            rect = [pos.x0, pos.y0-5.0/figh, pos.x1-pos.x0, 2.5/figh]
+            rect = [pos.x0, pos.y0-4.5/figh, pos.x1-pos.x0, 3.0/figh]
         else:
-            rect = [pos.x1+2.5/figw, pos.y0, 2.5/figw, pos.y1-pos.y0]
+            rect = [pos.x1+1.5/figw, pos.y0, 3.0/figw, pos.y1-pos.y0]
         ax.cax = fig.add_axes(rect)
 
     # prepare axes
@@ -341,18 +340,18 @@ def subplots_inputs(extent='alps', mode='vertical'):
 
 
 def subplots_profiles(regions, labels):
-    figw, figh = 175.0, 175.0
+    figw, figh = 177.0, 168.0
     nrows = len(regions)
     fig = iplt.figure_mm(figsize=(figw, figh))
     grid = fig.subplots_mm(nrows=nrows, ncols=1, sharex=False, sharey=False,
-                           gridspec_kw=dict(left=2.5, right=137.5,
-                                            bottom=10.0, top=2.5,
-                                            hspace=2.5, wspace=2.5),
+                           gridspec_kw=dict(left=1.5, right=figw-36.5,
+                                            bottom=9.0, top=1.5,
+                                            hspace=1.5, wspace=1.5),
                            subplot_kw=dict(projection=utm))
     tsgrid = fig.subplots_mm(nrows=nrows, ncols=1, sharex=True, sharey=False,
-                             gridspec_kw=dict(left=40.0, right=10.0,
-                                              bottom=10.0, top=2.5,
-                                              hspace=2.5, wspace=2.5))
+                             gridspec_kw=dict(left=38.0, right=12.0,
+                                              bottom=9.0, top=1.5,
+                                              hspace=1.5, wspace=1.5))
     for i, reg in enumerate(regions):
         ax = grid[i]
         tsax = tsgrid[i]
@@ -363,30 +362,30 @@ def subplots_profiles(regions, labels):
     return fig, grid, tsgrid
 
 
-def subplots_trimlines(extent='alps', mode='column'):
+def subplots_trimlines(extent='valais', mode='column'):
 
     # initialize figure
-    figw, figh = (175.0, 60.0) if mode == 'page' else (85.0, 115.0)
+    figw, figh = (177.0, 59.0) if mode == 'page' else (85.0, 115.0)
     fig = iplt.figure_mm(figsize=(figw, figh))
 
     # add axes in page mode
     if mode == 'page':
-        ax = fig.add_axes([2.5/figw, 2.5/figh, 82.5/figw, 55.0/figh],
+        ax = fig.add_axes([1.5/figw, 1.5/figh, 84.0/figw, 56.0/figh],
                           projection=utm)
-        cax = fig.add_axes([5.0/figw, 20.0/figh, 5.0/figw, 30.0/figh])
-        scax = fig.add_axes([97.5/figw, 7.5/figh, 50.0/figw, 50.0/figh])
-        hsax = fig.add_axes([150.0/figw, 7.5/figh, 12.5/figw, 50.0/figh])
+        cax = fig.add_axes([12.0/figw, 53.0/figh, 30.0/figw, 3.0/figh])
+        scax = fig.add_axes([103.0/figw, 9.0/figh, 48.5/figw, 48.5/figh])
+        hsax = fig.add_axes([153.0/figw, 9.0/figh, 12.0/figw, 48.5/figh])
 
     # add axes in column mode
     else:
-        ax = fig.add_axes([2.5/figw, 2.5/figh, 80.0/figw, 80.0*2/3/figh],
+        ax = fig.add_axes([0.5/figw, 0.5/figh, 84.0/figw, 56.0/figh],
                           projection=utm)
-        cax = fig.add_axes([12.5/figw, (80.0*2/3-2.5)/figh, 30.0/figw, 2.5/figh])
-        scax = fig.add_axes([12.5/figw, 65.0/figh, 47.5/figw, 47.5/figh])
-        hsax = fig.add_axes([62.5/figw, 65.0/figh, 10.0/figw, 47.5/figh])
+        cax = fig.add_axes([12.0/figw, 52.0/figh, 30.0/figw, 3.0/figh])
+        scax = fig.add_axes([11.75/figw, 65.5/figh, 48.0/figw, 48.0/figh])
+        hsax = fig.add_axes([61.25/figw, 65.5/figh, 12.0/figw, 48.0/figh])
 
     # prepare map axes
-    prepare_map_axes(ax, extent='valais')
+    prepare_map_axes(ax, extent=extent)
 
     # add subfigure labels
     add_subfig_label('(a)', ax=scax)
