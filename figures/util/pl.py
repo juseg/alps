@@ -98,7 +98,7 @@ def cut_ts_axes(ax, tsw=2/3., tsh=1/3.):
     poly = iplt.Polygon(zip(x, y), **polykw)
     rect = iplt.Rectangle((1-tsw, 0.0), tsw, tsh, **rectkw)
     tsax = fig.add_axes([pos.x1-tsw*(pos.x1-pos.x0)+12.5/figw, 10.0/figh,
-                         tsw*(pos.x1-pos.x0)-20.0/figw,
+                         tsw*(pos.x1-pos.x0)-25.0/figw,
                          tsh*(pos.y1-pos.y0)-15.0/figh])
     tsax.add_patch(poly)
     tsax.add_patch(rect)
@@ -106,7 +106,6 @@ def cut_ts_axes(ax, tsw=2/3., tsh=1/3.):
 
 
 def cut_ts_sc_axes(ax, tsw=2/3., tsh=1/3., scw=1/5., sch=1/3.):
-    # scw=45.0/225.0, sch=45.0/150.0):
     """Cut timeseries and scatter plot insets into main axes."""
     fig = ax.figure
     pos = ax.get_position()
@@ -124,7 +123,7 @@ def cut_ts_sc_axes(ax, tsw=2/3., tsh=1/3., scw=1/5., sch=1/3.):
                          scw*(pos.x1-pos.x0)-10.0/figw,
                          sch*(pos.y1-pos.y0)-10.0/figh])
     tsax = fig.add_axes([pos.x1-tsw*(pos.x1-pos.x0)+12.5/figw, 10.0/figh,
-                         tsw*(pos.x1-pos.x0)-20.0/figw,
+                         tsw*(pos.x1-pos.x0)-25.0/figw,
                          tsh*(pos.y1-pos.y0)-15.0/figh])
     scax.add_patch(screct)
     tsax.add_patch(poly)
@@ -166,22 +165,22 @@ def subplots_ts(nrows=1, ncols=1, mode='column', labels=True):
 
 def subplots_cax(extent='alps'):
     """Init figure with unique subplot and colorbar inset."""
-    figw, figh = 230.0, 155.0
+    figw, figh = 177.0, 119.0
     fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
-                               gridspec_kw=dict(left=2.5, right=2.5,
-                                                bottom=2.5, top=2.5))
-    cax = fig.add_axes([5.0/figw, 95.0/figh, 5.0/figw, 50.0/figh])
+                               gridspec_kw=dict(left=1.5, right=1.5,
+                                                bottom=1.5, top=1.5))
+    cax = fig.add_axes([6.5/figw, 71.5/figh, 5.0/figw, 40.0/figh])
     prepare_map_axes(ax, extent=extent)
     return fig, ax, cax
 
 
 def subplots_cax_ts(extent='alps', labels=True, dt=True, mis=True):
     """Init figure with subplot, colorbar inset and timeseries cut."""
-    figw, figh = 230.0, 155.0
+    figw, figh = 177.0, 119.0
     fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
-                               gridspec_kw=dict(left=2.5, right=2.5,
-                                                bottom=2.5, top=2.5))
-    cax = fig.add_axes([5.0/figw, 95.0/figh, 5.0/figw, 50.0/figh])
+                               gridspec_kw=dict(left=1.5, right=1.5,
+                                                bottom=1.5, top=1.5))
+    cax = fig.add_axes([6.5/figw, 71.5/figh, 5.0/figw, 40.0/figh])
     tsax = cut_ts_axes(ax)
     prepare_map_axes(ax, extent=extent)
     prepare_ts_axes(tsax, dt=dt, mis=mis)
@@ -193,12 +192,12 @@ def subplots_cax_ts(extent='alps', labels=True, dt=True, mis=True):
 
 def subplots_cax_ts_sc(extent='alps', labels=True, dt=True, mis=True):
     """Init with subplot, colorbar, timeseries and scatter plot."""
-    figw, figh = 230.0, 155.0  # Nature 183.0, 123.0 with 1.5 mm margin
+    figw, figh = 177.0, 119.0
     fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
-                               gridspec_kw=dict(left=2.5, right=2.5,
-                                                bottom=2.5, top=2.5))
-    cax = fig.add_axes([0.5-30.0/figw, 1-10.0/figh, 60.0/figw, 5.0/figh])
-    tsax, scax = cut_ts_sc_axes(ax)  # Nature scw=35.0/180.0, sch=37.5/120.0
+                               gridspec_kw=dict(left=1.5, right=1.5,
+                                                bottom=1.5, top=1.5))
+    cax = fig.add_axes([0.5-25.0/figw, 1-9.0/figh, 50.0/figw, 5.0/figh])
+    tsax, scax = cut_ts_sc_axes(ax, scw=35.0/174.0, sch=37.5/116.0)
     prepare_map_axes(ax, extent=extent)
     prepare_ts_axes(tsax, dt=dt, mis=mis)
     if labels is True:
