@@ -92,16 +92,16 @@ def cut_ts_axes(ax, tsw=2/3., tsh=1/3.):
     ax.outline_patch.set_ec('none')
     x = [0.0, 1-tsw, 1-tsw, 1.0, 1.0, 0.0, 0.0]
     y = [0.0, 0.0, tsh, tsh, 1.0, 1.0, 0.0]
-    commkw = dict(clip_on=False, transform=ax.transAxes)
-    polykw = dict(ec='k', fc='none', zorder=3, **commkw)
-    rectkw = dict(ec='w', fc='w', zorder=-1, **commkw)
+    commkw = dict(clip_on=False, transform=ax.transAxes, zorder=3)
+    polykw = dict(ec='k', fc='none', **commkw)
+    rectkw = dict(ec='w', fc='w', **commkw)
     poly = iplt.Polygon(zip(x, y), **polykw)
     rect = iplt.Rectangle((1-tsw, 0.0), tsw, tsh, **rectkw)
     tsax = fig.add_axes([pos.x1-tsw*(pos.x1-pos.x0)+12.0/figw, 9.0/figh,
                          tsw*(pos.x1-pos.x0)-24.0/figw,
                          tsh*(pos.y1-pos.y0)-15.0/figh])
-    tsax.add_patch(poly)
-    tsax.add_patch(rect)
+    ax.add_patch(rect)
+    ax.add_patch(poly)
     return tsax
 
 
@@ -113,9 +113,9 @@ def cut_ts_sc_axes(ax, tsw=2/3., tsh=1/3., scw=1/5., sch=1/3.):
     ax.outline_patch.set_ec('none')
     x = [0.0, 1-tsw, 1-tsw, 1.0, 1.0, scw, scw, 0.0, 0.0]
     y = [0.0, 0.0, tsh, tsh, 1.0, 1.0, 1-sch, 1-sch, 0.0]
-    commkw = dict(clip_on=False, transform=ax.transAxes)
-    polykw = dict(ec='k', fc='none', zorder=3, **commkw)
-    rectkw = dict(ec='w', fc='w', zorder=-1, **commkw)
+    commkw = dict(clip_on=False, transform=ax.transAxes, zorder=3)
+    polykw = dict(ec='k', fc='none', **commkw)
+    rectkw = dict(ec='w', fc='w', **commkw)
     poly = iplt.Polygon(zip(x, y), **polykw)
     screct = iplt.Rectangle((0.0, 1-sch), scw, sch, **rectkw)
     tsrect = iplt.Rectangle((1-tsw, 0.0), tsw, tsh, **rectkw)
