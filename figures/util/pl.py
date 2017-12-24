@@ -131,6 +131,33 @@ def cut_ts_sc_axes(ax, tsw=2/3., tsh=1/3., scw=1/5., sch=1/3.):
     return tsax, scax
 
 
+def cut_sc_hs_pf_axes(ax, tsw=2/3., tsh=1/3.):
+    """Cut scatter plots and profiles axes."""
+    fig = ax.figure
+    pos = ax.get_position()
+    figw, figh = fig.get_size_inches()*25.4
+    ax.outline_patch.set_ec('none')
+    x = [0.0, 1-tsw, 1-tsw, 1.0, 1.0, 0.0, 0.0]
+    y = [0.0, 0.0, tsh, tsh, 1.0, 1.0, 0.0]
+    commkw = dict(clip_on=False, transform=ax.transAxes)
+    polykw = dict(ec='k', fc='none', zorder=3, **commkw)
+    rectkw = dict(ec='w', fc='w', zorder=3, **commkw)
+    poly = iplt.Polygon(zip(x, y), **polykw)
+    tsrect = iplt.Rectangle((1-tsw, 0.0), tsw, tsh, **rectkw)
+    scah = pos.y0*figh-10.5
+    hsaw = (pos.x1-tsw*(pos.x1-pos.x0))*figw-scah-21.0
+    scax = fig.add_axes([12.0/figw, 9.0/figh, scah/figw, scah/figh])
+    hsax = fig.add_axes([(13.5+scah)/figw, 9.0/figh, 9.0/figw, scah/figh])
+    spec = dict(left=(pos.x1-tsw*(pos.x1-pos.x0))*figw+1.5, right=12.0,
+                bottom=9.0, top=(pos.y0+tsh*(pos.y1-pos.y0))*figh+1.5,
+                hspace=1.5, wspace=1.5)
+    grid = fig.subplots_mm(nrows=4, ncols=1, sharex=True, sharey=False,
+                           gridspec_kw=spec)
+    ax.add_patch(tsrect)
+    ax.add_patch(poly)
+    return scax, hsax, grid
+
+
 def prepare_map_axes(ax, extent='alps'):
     """Prepare map axes before plotting."""
     ax.set_rasterization_zorder(2.5)
@@ -205,6 +232,26 @@ def subplots_cax_ts_sc(extent='alps', labels=True, dt=True, mis=True):
         add_subfig_label('(b)', ax=scax)
         add_subfig_label('(c)', ax=tsax)
     return fig, ax, cax, tsax, scax
+
+
+def subplots_cax_sc_hs_pf(extent='alps', labels=True, dt=True, mis=True):
+    """Init with subplot, colorbar, scatter plot, histogram and profiles."""
+    figw, figh = 177.0, 119.0+39.0
+    fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
+                               gridspec_kw=dict(left=1.5, right=1.5,
+                                                bottom=39.0+1.5, top=1.5))
+    cax = fig.add_axes([4.5/figw, 1-50.5/figh, 3.0/figw, 40.0/figh])
+    scax, hsax, grid = cut_sc_hs_pf_axes(ax)
+    prepare_map_axes(ax, extent=extent)
+    if labels is True:
+        add_subfig_label('(a)', ax=ax)
+        add_subfig_label('(b)', ax=scax)
+        add_subfig_label('(c)', ax=hsax)
+        # FIXME region labels
+        for i, tsax in enumerate(grid):
+            plot_mis(tsax, y=(0.15 if i == 4-1 else None))
+            add_subfig_label('(%s)' % 'defg'[i], ax=tsax)
+    return fig, ax, cax, scax, hsax, grid
 
 
 def subplots_cax_ts_anim(extent='alps', labels=False, dt=True, mis=True,
