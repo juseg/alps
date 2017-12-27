@@ -18,10 +18,7 @@ ax.gridlines(color='0.5', linestyle='-', linewidth=0.1)
 ax.coastlines(edgecolor='k', lw=0.25)
 
 # add modelling domain
-w, e, s, n = 150e3, 1050e3, 4800e3, 5475e3
-x = [w, w, e, e, w]
-y = [s, n, n, s, s]
-ax.plot(x, y, 'k', lw=1.0, transform=ut.pl.utm, zorder=3)
+ut.pl.draw_model_domain(ax=ax, extent='alps')
 
 # add record locations
 records = ['GRIP', 'EPICA', 'MD01-2444']

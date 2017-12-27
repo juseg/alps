@@ -21,7 +21,7 @@ for i, rec in enumerate(ut.alpcyc_records):
     pp = 'pp' in conf
 
     # add scaling domain and outline on top panel only
-    ut.pl.draw_scaling_domain(ax)
+    ut.pl.draw_model_domain(ax, extent='rhlobe')
     ut.pl.draw_lgm_outline(ax, c='k')
 
     # set title
