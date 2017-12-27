@@ -118,6 +118,15 @@ ut.pl.draw_boot_topo(ax)
 ut.pl.draw_envelope(ax, levels=[0e3, 3e3], colors='w')
 ut.pl.draw_natural_earth(ax)
 
+# add text labels
+kw = dict(ha='center', va='center', transform=ut.pl.ll)
+ax.text(6.865, 45.834, 'Mont\nBlanc', **kw)
+ax.text(7.659, 45.976, 'Matter-\nhorn', **kw)
+ax.text(7.867, 45.937, 'Monte\nRosa', **kw)
+ax.text(7.963, 46.537, 'Jungfrau', **kw)
+#ax.text(8.126, 46.537, 'Finsternaarhorn', **kw)
+ax.text(7.367, 46.233, 'Rhone', rotation=30, **kw)
+
 # draw trimlines
 sc = ax.scatter(xt, yt, c=at, cmap=cmap, norm=norm, s=4**2, alpha=0.75)
 
