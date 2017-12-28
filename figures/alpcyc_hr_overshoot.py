@@ -3,10 +3,10 @@
 
 import util as ut
 import numpy as np
-import scipy as sp
-import iceplotlib.plot as iplt
+import matplotlib.pyplot as plt
 import cartopy.io.shapereader as shpreader
-from scipy import interpolate
+import scipy.interpolate as sinterpolate
+import iceplotlib.plot as iplt
 
 # parameters
 reg = 'rhine'
@@ -17,9 +17,10 @@ mode = 'column'
 figw, figh = (177.0, 85.0) if mode == 'page' else (85.0, 60.0)
 fig, grid = iplt.subplots_mm(nrows=1, ncols=len(tp), sharex=True, sharey=True,
                              figsize=(figw, figh),
-                             gridspec_kw=dict(left=12.0, right=1.5,
+                             gridspec_kw=dict(left=12.0, right=15.0,
                                               bottom=9.0, top=1.5,
                                               hspace=1.5, wspace=1.5))
+cax = fig.add_axes([1-14.5/figw, 9.0/figh, 3.0/figw, 1-10.5/figh])
 
 # load final data
 filepath = ut.alpcyc_bestrun + 'y???????.nc'
@@ -58,24 +59,32 @@ T = nc.variables['temp_pa'][tidx]
 
 # extract space-time slice
 xi = tp[:, None], yp[None, :], xp[None, :]  # coords to sample at
-hp = sp.interpolate.interpn((t, y, x), h, xi, method='linear')
-Tp = sp.interpolate.interpn((t, y, x), T, xi, method='linear')
+hp = sinterpolate.interpn((t, y, x), h, xi, method='linear')
+Tp = sinterpolate.interpn((t, y, x), T, xi, method='linear')
 
 # compute distance along profile
 dp = (((xp[1:]-xp[:-1])**2+(yp[1:]-yp[:-1])**2)**0.5).cumsum()
 dp = np.insert(dp, 0, 0.0)
 
 # mask above ice surface
-# FIXME
+mask = (z[None, None, :] > hp[:, :, None])
+Tp = np.ma.masked_where(mask, Tp)
+
+# set contour levels, colors and hatches
+levs = range(-18, 1, 3)
+cmap = plt.get_cmap('Blues_r', len(levs))
+cols = cmap(range(len(levs)))
 
 # plot profiles
 for i, ax in enumerate(grid):
-    cs = ax.plot(hp[i].T/1e3, dp/1e3, 'k-')
-    cs = ax.contourf(z/1e3, dp/1e3, Tp[i], cmap='Blues_r')
+    ax.plot(hp[i].T*0.0, dp/1e3, 'k-')
+    ax.plot(hp[i].T/1e3, dp/1e3, 'k-')
+    cs = ax.contourf(z/1e3, dp/1e3, Tp[i], levels=levs, colors=cols, extend='min')
     ut.pl.add_subfig_label('%.0f ka' % (-t[i]/1e3), ax=ax)
 
 # add colorbar
-# FIXME
+cb = fig.colorbar(cs, cax)
+cb.set_label(u'ice temperature (°C)')
 
 # close extra file
 nc.close()
