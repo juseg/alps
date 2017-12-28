@@ -4,6 +4,7 @@
 import util as ut
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.tri as tri
 import cartopy.io.shapereader as shpreader
 import scipy.interpolate as sinterpolate
 import iceplotlib.plot as iplt
@@ -20,7 +21,7 @@ fig, grid = iplt.subplots_mm(nrows=1, ncols=len(tp), sharex=True, sharey=True,
                              gridspec_kw=dict(left=12.0, right=15.0,
                                               bottom=9.0, top=1.5,
                                               hspace=1.5, wspace=1.5))
-cax = fig.add_axes([1-14.5/figw, 9.0/figh, 3.0/figw, 1-10.5/figh])
+cax = fig.add_axes([1-13.5/figw, 9.0/figh, 3.0/figw, 1-10.5/figh])
 
 # load final data
 filepath = ut.alpcyc_bestrun + 'y???????.nc'
@@ -54,32 +55,49 @@ del shp, geom
 tp = np.array(tp)
 tidx = ((t[:, None]-tp[None, :])**2).argmin(axis=0)
 t = t[tidx]
-h = nc.variables['thk'][tidx]
+b = nc.variables['topg'][tidx]
+s = nc.variables['usurf'][tidx]
 T = nc.variables['temp_pa'][tidx]
 
 # extract space-time slice
 xi = tp[:, None], yp[None, :], xp[None, :]  # coords to sample at
-hp = sinterpolate.interpn((t, y, x), h, xi, method='linear')
+bp = sinterpolate.interpn((t, y, x), b, xi, method='linear')
+sp = sinterpolate.interpn((t, y, x), s, xi, method='linear')
 Tp = sinterpolate.interpn((t, y, x), T, xi, method='linear')
 
 # compute distance along profile
 dp = (((xp[1:]-xp[:-1])**2+(yp[1:]-yp[:-1])**2)**0.5).cumsum()
 dp = np.insert(dp, 0, 0.0)
 
-# mask above ice surface
-mask = (z[None, None, :] > hp[:, :, None])
-Tp = np.ma.masked_where(mask, Tp)
+# create mesh grid and add basal topo
+dd, tt, zz = np.meshgrid(dp, tp, z)
+zz += bp[:, :, None]
 
 # set contour levels, colors and hatches
 levs = range(-18, 1, 3)
 cmap = plt.get_cmap('Blues_r', len(levs))
 cols = cmap(range(len(levs)))
 
-# plot profiles
+# for each axes
 for i, ax in enumerate(grid):
-    ax.plot(hp[i].T*0.0, dp/1e3, 'k-')
-    ax.plot(hp[i].T/1e3, dp/1e3, 'k-')
-    cs = ax.contourf(z/1e3, dp/1e3, Tp[i], levels=levs, colors=cols, extend='min')
+
+    # plot topographic profiles
+    ax.plot(bp[i].T/1e3, dp/1e3, 'k-', lw=0.5)
+    ax.plot(sp[i].T/1e3, dp/1e3, 'k-', lw=0.5)
+
+    # prepare triangulation
+    trix = zz[i].flatten()/1e3
+    triy = dd[i].flatten()/1e3
+    triang = tri.Triangulation(trix, triy)
+
+    # set mask above ice surface
+    mask = (zz[i] > sp[i, :, None]).flatten()
+    mask = np.all(mask[triang.triangles], axis=1)
+    triang.set_mask(mask)
+
+    # plot temperature profile
+    cs = ax.tricontourf(triang, Tp[i].flatten(),
+                        levels=levs, colors=cols, extend='min')
     ut.pl.add_subfig_label('%.0f ka' % (-t[i]/1e3), ax=ax)
 
 # add colorbar
@@ -90,9 +108,9 @@ cb.set_label(u'ice temperature (°C)')
 nc.close()
 
 # set axes properties
-grid[0].set_xlim(2.25, -0.25)
+grid[0].set_xlim(3.5, -0.5)
 grid[0].set_ylabel('glacier length (km)')
-grid[len(tp)/2].set_xlabel('ice thickness (km)')
+grid[len(tp)/2].set_xlabel('elevation (km)')
 
 # save
 ut.pl.savefig()
