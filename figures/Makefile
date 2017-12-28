@@ -16,7 +16,7 @@ PY_FIGS = $(addprefix alpbou_, locmap) \
           $(addprefix alpcyc_, \
             $(addprefix hr_, aletschbed coldslip duration deglacage dynamics \
                              envelope erosion glaciations inputs lgmthk lgmvel \
-                             locmap profiles timestamps \
+                             locmap overshoot profiles timestamps \
                              timing totalsliding trimlines uplift \
                              ydthk ydvel) \
             $(addprefix lr_, footprints glacareas records rhineareas \
