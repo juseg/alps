@@ -3,35 +3,34 @@
 
 import util as ut
 import numpy as np
+import iceplotlib.plot as iplt
 
 # parameters
+c = ut.pl.palette['darkblue']
 versions = ['e9d2d1f', '1.0']
 resolutions = ['1km', '500m']
 linestyles = ['-', '--']
 
 # initialize time-series figure
-fig, grid = ut.pl.subplots_ts(2, 1)
+figw, figh = 85.0, 60.0
+fig, grid = iplt.subplots_mm(nrows=2, ncols=1, figsize=(figw, figh),
+                             gridspec_kw=dict(left=12.0, right=12.0,
+                                              bottom=9.0, top=1.5,
+                                              hspace=4.5, wspace=1.5))
+ut.pl.add_subfig_label('(a)', ax=grid[0])
+ut.pl.add_subfig_label('(b)', ax=grid[1], y=0.6)
+twgrid = [ax.twinx() for ax in grid]
 
-# load temperature time series
+# plot temperature time series
 dtfile = 'epica3222cool1220'
-nc = ut.io.load('input/dt/%s.nc' % dtfile)
-age = -nc.variables['time'][:]/1e3
-dt = nc.variables['delta_T'][:]
-nc.close()
-
-# plot time series
-ax = grid[0]
-ax.plot(age, dt)
-
-# set axes properties
-ax.set_ylabel('temperature offset (K)')
-ax.set_ylim(-14.5, -10.5)
-ax.grid(axis='y')
-ax.locator_params(axis='y', nbins=6)
+for ax in grid:
+    ut.pl.plot_dt(ax=ax)
+    ax.axvspan(25.0, 24.5, fc='0.9', lw=0.25, zorder=0)
 
 # for each resolution
 for i, res in enumerate(resolutions):
     ver = versions[i]
+    ls = linestyles[i]
 
     # load output time series
     runname = 'output/%s/alps-wcnn-%s/%s+alpcyc4+pp/' % (ver, res, dtfile)
@@ -41,18 +40,23 @@ for i, res in enumerate(resolutions):
     vol = nc.variables['slvol'][:]*100.0
     nc.close()
 
+    # print LGM age
+    #print age[vol.argmax()]
+
     # plot time series
-    ax = grid[1]
-    ax.plot(age, vol, label=res)
+    for ax in twgrid:
+        ax.plot(age, vol, c=c, ls=ls, label=res)
 
 # set axes properties
-ax.set_xlim(25.05, 24.45)
-ax.set_ylim(28.5, 31.5)
-ax.set_ylabel('ice volume (cm s.l.e.)')
-ax.set_xlabel('model age (ka)')
+grid[0].set_xlim(120.0, 0.0)  # no need
+grid[1].set_xlim(25.05, 24.45)
+grid[0].set_ylim(-17.5, 2.5)  # no need
+grid[1].set_ylim(-14.5, -10.5)
+twgrid[0].set_ylim(-5.0, 35.0)
+twgrid[1].set_ylim(28.5, 32.5)
+twgrid[0].set_ylabel('ice volume (cm s.l.e.)')
+twgrid[1].set_ylabel('ice volume (cm s.l.e.)')
 ax.legend()
-ax.grid(axis='y')
-ax.locator_params(axis='y', nbins=6)
 
 # save
 ut.pl.savefig()
