@@ -15,7 +15,8 @@ t = -a*1e3
 # --------
 
 # load extra data
-filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
+runname = 'output/1.0/alps-wcnn-500m/epica3222cool1220+alpcyc4+pp/'
+filepath = runname + 'y0095500-extra.nc'
 nc = ut.io.load(filepath)
 
 # more contour levels than other plots
