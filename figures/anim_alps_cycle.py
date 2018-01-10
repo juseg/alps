@@ -37,8 +37,8 @@ def draw(t):
     ut.pl.add_corner_tag('%.1f ka' % (0.0-t/1e3), ax)
 
     # add colorbar
-    cb = fig.colorbar(im, cax)
-    cb.set_label('bedrock uplift (m)')
+    cb = ut.pl.add_colorbar(im, cax, extend='both')
+    cb.set_label(r'surface velocity ($m\,a^{-1}$)')
 
     # load time series data
     filepath = ut.alpcyc_bestrun + 'y???????-ts.nc'
