@@ -7,7 +7,7 @@ import util as ut
 fig, ax, cax1, cax2, tsax = ut.pl.subplots_cax_ts_sgm()
 
 # time for plot
-a = 24.57
+a = 24.559
 t = -a*1e3
 
 
@@ -16,7 +16,7 @@ t = -a*1e3
 
 # load extra data
 runname = 'output/1.0/alps-wcnn-500m/epica3222cool1220+alpcyc4+pp/'
-filepath = runname + 'y0095500-extra.nc'
+filepath = runname + 'y0095460-extra.nc'
 nc = ut.io.load(filepath)
 
 # more contour levels than other plots
