@@ -175,11 +175,12 @@ def prepare_ts_axes(ax, dt=True, mis=True, t=0.0):
 # Single map subplot helpers
 # --------------------------
 
-def subplots_ts(nrows=1, ncols=1, mode='column', labels=True):
+def subplots_ts(nrows=1, ncols=1, sharex=True, sharey=False,
+                mode='column', labels=True):
     """Init figure with margins adapted for simple timeseries."""
     figw, figh = (177.0, 85.0) if mode == 'page' else (85.0, 60.0)
     fig, grid = iplt.subplots_mm(nrows=nrows, ncols=ncols,
-                                 sharex=True, sharey=False,
+                                 sharex=sharex, sharey=sharey,
                                  figsize=(figw, figh),
                                  gridspec_kw=dict(left=12.0, right=1.5,
                                                   bottom=9.0, top=1.5,
