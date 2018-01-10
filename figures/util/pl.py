@@ -795,7 +795,7 @@ def plot_dt(ax=None, t=0.0):
     ax = ax or iplt.gca()
 
     # load time series
-    nc = ut.io.load('input/dt/epica3222cool0950.nc')
+    nc = ut.io.load('input/dt/epica3222cool1220.nc')
     age = -nc.variables['time'][:]/1e3
     dt = nc.variables['delta_T'][:]
     nc.close()
@@ -806,7 +806,7 @@ def plot_dt(ax=None, t=0.0):
     ax.set_xlabel('model age (ka)')
     ax.set_ylabel('temperature offset (K)', color='0.25')
     ax.set_xlim(120.0, 0.0)
-    ax.set_ylim(-12.5, 7.5)
+    ax.set_ylim(-17.5, 2.5)
     ax.grid(axis='y')
     ax.locator_params(axis='y', nbins=6)
 
