@@ -12,7 +12,7 @@ def draw(t):
 
     # initialize figure
     fig, ax, cax, tsax = ut.pl.subplots_cax_ts_anim(t=t)
-    ut.pl.add_signature('J. Seguinot et al. (in prep.)')
+    ut.pl.add_signature('J. Seguinot et al. (2018)')
 
     # load extra data
     filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'

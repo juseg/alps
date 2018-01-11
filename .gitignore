@@ -24,6 +24,7 @@
 *.png
 *.mp4
 *.ogg
+*.zip
 
 # Data
 /data/external
