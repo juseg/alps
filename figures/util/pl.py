@@ -80,6 +80,38 @@ ne_graticules = cfeature.NaturalEarthFeature(
     category='physical', name='graticules_1', scale='10m',
     edgecolor='0.25', facecolor='none', lw=0.1)
 
+# Geographic analysis
+# -------------------
+
+def shading(z, dx=None, dy=None, extent=None, azimuth=315.0, altitude=30.0,
+            transparent=False):
+    """Compute shaded relief map."""
+    # FIXME: move to iceplotlib
+
+    # get horizontal resolution
+    if (dx is None or dy is None) and (extent is None):
+        raise ValueError("Either dx and dy or extent must be given.")
+    rows, cols = z.shape
+    dx = dx or (extent[1]-extent[0])/cols
+    dy = dy or (extent[2]-extent[3])/rows
+
+    # convert to anti-clockwise rad
+    azimuth = -azimuth*np.pi / 180.
+    altitude = altitude*np.pi / 180.
+
+    # compute cartesian coords of the illumination direction
+    xlight = np.cos(azimuth) * np.cos(altitude)
+    ylight = np.sin(azimuth) * np.cos(altitude)
+    zlight = np.sin(altitude)
+
+    # for transparent shades set horizontal surfaces to zero
+    if transparent is True:
+        zlight = 0.0
+
+    # compute hillshade (dot product of normal and light direction vectors)
+    u, v = np.gradient(z, dx, dy)
+    return (zlight - u*xlight - v*ylight) / (1 + u**2 + v**2)**(0.5)
+
 
 # Axes preparation
 # ----------------
