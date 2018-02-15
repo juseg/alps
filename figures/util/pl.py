@@ -255,6 +255,18 @@ def subplots_cax(extent='alps'):
     return fig, ax, cax
 
 
+def subplots_cax_anim_1609(extent='alps', labels=False, dt=True, mis=True, t=0.0):
+    """Init figure with unique subplot for 16:9 animation."""
+    figw, figh = 192.0, 108.0
+    fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
+                               gridspec_kw=dict(left=0.0, right=0.0,
+                                                bottom=0.0, top=0.0))
+    cax = fig.add_axes([5.0/figw, 1-50.0/figh, 5.0/figw, 40.0/figh])
+    ax.outline_patch.set_ec('none')
+    prepare_map_axes(ax, extent=extent)
+    return fig, ax, cax
+
+
 def subplots_cax_ts(extent='alps', labels=True, dt=True, mis=True):
     """Init figure with subplot, colorbar inset and timeseries cut."""
     figw, figh = 177.0, 119.0
@@ -557,7 +569,7 @@ def add_signature(text, fig=None, offset=2.5/25.4):
 # ------------
 
 
-def draw_major_cities(ax=None, maxrank=5, textoffset=4):
+def draw_major_cities(ax=None, maxrank=5, textoffset=2):
     """Add major city locations with names."""
     shp = cshp.Reader(cshp.natural_earth(resolution='10m',
                                          category='cultural',
@@ -576,8 +588,8 @@ def draw_major_cities(ax=None, maxrank=5, textoffset=4):
             dy = {'c': 0, 'l': -1, 'u': 1}[yloc]*textoffset
             ha = {'c': 'center', 'l': 'right', 'r': 'left'}[xloc]
             va = {'c': 'center', 'l': 'top', 'u': 'bottom'}[yloc]
-            ax.plot(xc, yc, 'ko')
-            ax.annotate(name, xy=(xc, yc), xytext=(dx, dy),
+            ax.plot(xc, yc, marker='o', color='0.25', ms=2)
+            ax.annotate(name, xy=(xc, yc), xytext=(dx, dy), color='0.25',
                         textcoords='offset points', ha=ha, va=va, clip_on=True)
 
 
