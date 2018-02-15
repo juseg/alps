@@ -66,7 +66,7 @@ regions = {'alps': (150e3, 1050e3, 4820e3, 5420e3),    # model domain 900x600
            'valais': (310e3, 460e3, 5065e3, 5165e3),   # Trimlines 150x100
            'aletsch': (414e3, 444e3, 5139e3, 5159e3)}  # Aletsch 30x20
 
-# cartopy features
+# cartopy features monochromatic
 ne_rivers = cfeature.NaturalEarthFeature(
     category='physical', name='rivers_lake_centerlines', scale='10m',
     edgecolor='0.25', facecolor='none', lw=0.5)
@@ -76,9 +76,30 @@ ne_lakes = cfeature.NaturalEarthFeature(
 ne_coastline = cfeature.NaturalEarthFeature(
     category='physical', name='coastline', scale='10m',
     edgecolor='0.25', facecolor='none', lw=0.25)
+ne_countries = cfeature.NaturalEarthFeature(
+    category='cultural', name='admin_0_boundary_lines_land', scale='10m',
+    edgecolor='0.75', facecolor='none', lw=0.50, linestyle='-.')
 ne_graticules = cfeature.NaturalEarthFeature(
     category='physical', name='graticules_1', scale='10m',
     edgecolor='0.25', facecolor='none', lw=0.1)
+
+# cartopy features color
+ne_rivers_color = cfeature.NaturalEarthFeature(
+    category='physical', name='rivers_lake_centerlines', scale='10m',
+    edgecolor='#0978ab', facecolor='none', lw=0.5)
+ne_lakes_color = cfeature.NaturalEarthFeature(
+    category='physical', name='lakes', scale='10m',
+    edgecolor='#0978ab', facecolor='#c6ecff', lw=0.25)
+ne_coastline_color = cfeature.NaturalEarthFeature(
+    category='physical', name='coastline', scale='10m',
+    edgecolor='#0978ab', facecolor='none', lw=0.25)
+ne_countries_color = cfeature.NaturalEarthFeature(
+    category='cultural', name='admin_0_boundary_lines_land', scale='10m',
+    edgecolor='#646464', facecolor='none', lw=0.5, linestyle='-.')
+ne_graticules_color = cfeature.NaturalEarthFeature(
+    category='physical', name='graticules_1', scale='10m',
+    edgecolor='0.25', facecolor='none', lw=0.1)
+
 
 # Geographic analysis
 # -------------------
@@ -576,7 +597,7 @@ def draw_cpu_grid(ax=None, extent='alps', nx=24, ny=24):
 
 
 def draw_natural_earth(ax=None, rivers=True, lakes=True, coastline=True,
-                       graticules=True):
+                       countries=False, graticules=True):
     """Add Natural Earth geographic data vectors."""
     ax = ax or iplt.gca()
     if rivers:
@@ -585,8 +606,26 @@ def draw_natural_earth(ax=None, rivers=True, lakes=True, coastline=True,
         ax.add_feature(ne_lakes, zorder=0)
     if coastline:
         ax.add_feature(ne_coastline, zorder=0)
+    if countries:
+        ax.add_feature(ne_countries, zorder=0)
     if graticules:
         ax.add_feature(ne_graticules)
+
+
+def draw_natural_earth_color(ax=None, rivers=True, lakes=True, coastline=True,
+                             countries=False, graticules=True):
+    """Add Natural Earth geographic data color vectors."""
+    ax = ax or iplt.gca()
+    if rivers:
+        ax.add_feature(ne_rivers_color, zorder=0)
+    if lakes:
+        ax.add_feature(ne_lakes_color, zorder=0)
+    if coastline:
+        ax.add_feature(ne_coastline_color, zorder=0)
+    if countries:
+        ax.add_feature(ne_countries_color, zorder=0)
+    if graticules:
+        ax.add_feature(ne_graticules_color)
 
 
 def draw_lgm_outline(ax=None, c='#e31a1c'):
