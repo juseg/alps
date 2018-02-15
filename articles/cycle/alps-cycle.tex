@@ -63,9 +63,9 @@
     reconstructions, and vice-versa.
 
     Here, we use the Parallel Ice Sheet Model (PISM) to model the entire last
-    glacial cycle (120--0\,ka) in the Alps, using 576~processors and a
-    horizontal resolution of
-    1\,km. Climate forcing is derived using present-day climate data from
+    glacial cycle (120--0\,ka) in the Alps, using horizontal resolutions of 2
+    and 1\,km and up to 576~processors.
+    Climate forcing is derived using present-day climate data from
     WorldClim and the ERA-Interim reanalysis, and time-dependent temperature
     offsets from multiple palaeo-climate proxies, among which only the EPICA ice
     core record yields glaciation during marine oxygen isotope stages~4
@@ -131,8 +131,8 @@
     ice cores have provided a much more detailed picture of the Earth's
     environmental history \citep[e.g.,][]{Emiliani.1955,
     Shackleton.Opdyke.1973, Dansgaard.etal.1993, Augustin.etal.2004},
-    indicating tens of glacial and interglacial periods. During the last
-    800\,000 years before present (800\,ka), these \emph{glacial cycles}
+    indicating several tens of glacial and interglacial periods. During the
+    last 800\,ka before present, these \emph{glacial cycles}
     have succeeded each other with a periodicity about 100\,ka \citep{Hays.etal.1976,
     Augustin.etal.2004}. Nevertheless, this global signal is largely governed
     by the North American and Eurasian ice sheet complexes. It is thus unclear
@@ -346,7 +346,8 @@
         Glacial Maximum Alpine glacier extent \citep[solid red
         line,][]{Ehlers.etal.2011}.
         \textbf{(c)} Extract from the estimated of present-day ice thickness
-        \citep{Huss.Farinotti.2012} substracted from the SRTM topography.
+        \citep{Huss.Farinotti.2012} substracted from the SRTM topography and
+        aggregated to a 1\,km horizontal resolution.
         \textbf{(d)} Modern January and \textbf{(e)} July standard deviation
         \citep{Seguinot.2013} of daily mean temperature from the ERA-Interim
         \citep[1979--2012;][]{Dee.etal.2011} from the reference monthly
@@ -899,7 +900,7 @@
     precipitation existing today (Fig.~\ref{fig:inputs}h) was
     perhaps enhanced during the LGM, as indicated by pollen reconstructions
     \citep{Wu.etal.2007}. Finally, the LGM extent of Alpine glaciers might have
-    been affected by east-west gradient in variables not accounted for
+    been affected by an east-west gradient in variables not accounted for
     by the PDD model, such as cloud cover or dust deposition.
 
     Besides this general pattern, there exist differences in glaciated area
@@ -1126,7 +1127,10 @@
     \citep[Fig.~3.18, p.~284]{Onde.1938, Coutterand.2010}. Similarly,
     tranfluences have been previously identified from the geomorphology across
     Simplon Pass \citep{Kelly.etal.2004} and from the distribution of glacial
-    erratics across Brünig Pass \citep{Jackli.1962}.
+    erratics across Brünig Pass \citep{Jackli.1962}. On the other hand, the
+    simplified climate forcing used in this sumulation could not reproduced
+    the transport of glacial erratics from southern Valais to observed
+    deposition sites in the Solothurn region \citep[cf.~][]{Jouvet.etal.2017a}.
 
     In the Eastern Alps, major transfluences are modelled to have occur for
     instance across Fern Pass, the Seefeld Saddle, the Gailberg Saddle, the
@@ -1251,7 +1255,7 @@
         show the age of maximum ice thickness (as in Fig.~\ref{fig:timing}).
         Model variables were bilinearly interpolated to the trimline locations.
         \textbf{(b)} Histogram of differences between modelled LGM ice surface
-        elevation and trimline elevations (500\,m bands). The average
+        elevation and trimline elevations (50\,m bands). The average
         difference is 861\,m.
         \textbf{(c)} Observed upper Rhone Valley trimline locations
         \citep[Table~1]{Kelly.etal.2004}, modelled age of maximum ice thickness
@@ -1284,14 +1288,18 @@
     consistently modelled to have occured several hundred metres above the
     observed trimline elevations (Fig.~\ref{fig:trimlines}a and b), with a mean
     difference of 861\,m (Fig.~\ref{fig:trimlines}b), wich is significant in
-    respect to the modelled regional ice thickness. This result is
+    respect to the modelled regional ice thickness. The result is
     somewhat dependent on uncertain basal sliding and ice rheological parameters
     to which the model sensitivity was not tested here. However, a previous
     sensitivity study conducted with PISM and a very similar model set-up on
     the Cordilleran ice sheet show that varying ice rheological parameters
     resulted in relative errors in modelled total ice volume of 25\,\unit{\%}
     with regard to ice rheological parameters and 14\,\unit{\%} regarding basal
-    sliding parameters \citep[Fig.~7]{Seguinot.etal.2016}.
+    sliding parameters \citep[Fig.~7]{Seguinot.etal.2016}. In addition,
+    regional sensitivity tests in the Rhone Valley show that a modelled ice
+    surface compatible with the trimline elevations is incompatible with the
+    documented overspilling flow to the south across the Simplon pass
+    \citep{Becker.etal.2017}.
 
     Our model results depict a polythermal LGM Alpine ice cover.
     Due to sub-freezing temperatures applied in the climate forcing of the
