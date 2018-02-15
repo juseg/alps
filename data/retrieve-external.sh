@@ -52,21 +52,6 @@ gdalwarp -s_srs EPSG:4326 -t_srs EPSG:32632 -r bilinear \
          -wm 1024 -wo SOURCE_EXTRA=100 -overwrite \
          srtm.vrt srtm.tif
 
-# SRTM UTM 32 entire Alps, 1500x1000 km, 1000 m
-# FIXME: use geotiff format
-gdalwarp -s_srs EPSG:4326 -t_srs EPSG:32632 -r bilinear \
-         -te 0 4500000 1500000 5500000 -tr 1000 1000 \
-         -srcnodata -32768 -dstnodata -32768 \
-         -wm 1024 -wo SOURCE_EXTRA=100 -of netcdf -overwrite \
-         srtm.vrt srtm-alps.nc
-
-# SRTM UTM 32 Western Alps, 315x210 km, 175 m
-gdalwarp -s_srs EPSG:4326 -t_srs EPSG:32632 -r bilinear \
-         -te 180000 5040000 495000 5250000 -tr 175 175 \
-         -srcnodata -32768 -dstnodata -32768 \
-         -wm 512 -wo SOURCE_EXTRA=100 -of netcdf -overwrite \
-         srtm.vrt srtm-west.nc
-
 # Swisstopo Geology 500
 orig=http://data.geo.admin.ch/ch.swisstopo.geologie-geologische_karte/data.zip
 dest=swisstopo-geology.shp

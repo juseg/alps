@@ -4,6 +4,7 @@
 import util as ut
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
 import matplotlib.patches as mpatches
 import cartopy.crs as ccrs
 import cartopy.io.shapereader as shpreader
@@ -27,6 +28,11 @@ w, e, s, n = 230e3, 470e3, 5050e3, 5240e3  # west alps 240x190 km
 w, e, s, n = 172e3, 528e3, 5025e3, 5265e3  # west alps 356x240 km
 w, e, s, n = 194.25e3-10e3, 505.75e3-10e3, 5040e3, 5250e3  # 311.5x210 km
 
+# relief shading colormap
+cols = [(0.0, (1,1,1,1)), (0.5, (1,1,1,0)),
+        (0.5, (0,0,0,0)), (1.0, (0,0,0,1))]  # white transparent black
+shinemap = mcolors.LinearSegmentedColormap.from_list('shines', cols)
+
 
 # ETOPO1 background topo
 def draw_etopo1(**kwargs):
@@ -47,48 +53,20 @@ def draw_etopo1(**kwargs):
     nc.close()
 
 # ETOPO1 background topo
-def draw_srtm(ax=None, azimuth=315.0, altitude=30.0, exag=1.0):
+def draw_srtm(ax=None, extent=None):
     """Draw SRTM background"""
 
     # get axes if None provided
     ax = ax or plt.gca()
 
-    # extract data
-    nc = nc4.Dataset('../data/external/srtm-west.nc')
-    x = nc.variables['x'][:]
-    y = nc.variables['y'][:]
-    z = nc.variables['Band1'][:]
-    nc.close()
-
-    # get extent
-    w = (3*x[0]-x[1])/2
-    e = (3*x[-1]-x[-2])/2
-    s = (3*y[0]-y[1])/2
-    n = (3*y[-1]-y[-2])/2
-
-    # convert to rad from the x-axis
-    azimuth = (90.0-azimuth)*np.pi / 180.
-    altitude = altitude*np.pi / 180.
-
-    # compute cartesian coords of the illumination direction
-    xlight = np.cos(azimuth) * np.cos(altitude)
-    ylight = np.sin(azimuth) * np.cos(altitude)
-    zlight = np.sin(altitude)
-    zlight = 0.0  # remove shades from horizontal surfaces
-
-    # compute hillshade (dot product of normal and light direction vectors)
-    dx = x[1] - x[0]
-    dy = y[1] - y[0]
-    u, v = np.gradient(z*exag, dx, dy)
-    shade = (zlight - u*xlight - v*ylight) / (1 + u**2 + v**2)**(0.5)
-
-    # plot color map
-    im = ax.imshow(z, extent=(w, e, s, n),
-                   cmap=icm.topo, vmin=-6e3, vmax=6e3)
-
-    # plot shadows only (white transparency is not possible)
-    im = ax.imshow((shade>0)*shade, extent=(w, e, s, n),
-                    cmap=icm.shades, vmin=0.0, vmax=1.0)
+    # plot SRTM data
+    z, extent = ut.io.open_gtif('../data/external/srtm.tif', extent=extent)
+    s300 = ut.pl.shading(z, extent=extent, azimuth=300.0, altitude=30.0, transparent=True)
+    s315 = ut.pl.shading(z, extent=extent, azimuth=315.0, altitude=30.0, transparent=True)
+    s330 = ut.pl.shading(z, extent=extent, azimuth=330.0, altitude=30.0, transparent=True)
+    s = (s300+s315+s330) / 3.0
+    im = ax.imshow(z, extent=extent, vmin=-3e3, vmax=3e3, cmap=icm.topo, zorder=-1)
+    im = ax.imshow(s, extent=extent, vmin=-1.0, vmax=1.0, cmap=shinemap, zorder=-1)
 
 # Ehlers and Gibbard LGM
 def draw_lgm_bini(ax=None):
@@ -318,7 +296,7 @@ ax.set_ylim((s, n))
 ax.set_rasterization_zorder(2)
 
 # draw stuff
-draw_srtm(ax)
+draw_srtm(ax, extent=(w, e, s, n))
 draw_rivers(ax)
 draw_lakes(ax)
 draw_lgm_ehlers(ax)
