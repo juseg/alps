@@ -45,6 +45,13 @@ done
 # SRTM mosaic vrt
 gdalbuildvrt srtm.vrt srtm_??_??.tif
 
+# SRTM UTM 32 entire Alps, 900x600 km, 25 m
+gdalwarp -s_srs EPSG:4326 -t_srs EPSG:32632 -r bilinear \
+         -te 150000 4820000 1050000 5420000 -tr 100 100 \
+         -srcnodata -32768 -dstnodata -32768 \
+         -wm 1024 -wo SOURCE_EXTRA=100 -overwrite \
+         srtm.vrt srtm.tif
+
 # SRTM UTM 32 entire Alps, 1500x1000 km, 1000 m
 # FIXME: use geotiff format
 gdalwarp -s_srs EPSG:4326 -t_srs EPSG:32632 -r bilinear \
