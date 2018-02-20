@@ -38,8 +38,10 @@ def draw(t):
     s315 = ut.pl.shading(z, extent=extent, azimuth=315.0, altitude=30.0, transparent=True)
     s330 = ut.pl.shading(z, extent=extent, azimuth=330.0, altitude=30.0, transparent=True)
     s = (s300+s315+s330) / 3.0
-    im = ax.imshow(z, extent=extent, vmin=-3e3, vmax=3e3, cmap=icm.topo, zorder=-1)
-    im = ax.imshow(s, extent=extent, vmin=-1.0, vmax=1.0, cmap=shinemap, zorder=-1)
+    im = ax.imshow(z, extent=extent, vmin=-3e3, vmax=3e3, cmap=icm.topo,
+                   interpolation='bilinear', zorder=-1)
+    im = ax.imshow(s, extent=extent, vmin=-1.0, vmax=1.0, cmap=shinemap,
+                   interpolation='bilinear', zorder=-1)
 
     # add vectors
     ut.pl.draw_natural_earth_color(ax, countries=True)
