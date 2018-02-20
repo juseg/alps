@@ -58,15 +58,11 @@ fi
 
 
 # Swisstopo Geology 500
-orig=http://data.geo.admin.ch/ch.swisstopo.geologie-geologische_karte/data.zip
-dest=swisstopo-geology.shp
-if [ ! -f swisstopo-geology.shp ]
+if [ ! -f PY_Surface_Base.shp ]
 then
-    wget $orig -O ${dest%.shp}.zip
-    unzip -jn ${dest%.shp}.zip "Shapes/Geologie_Fl?chen.???"
-    for f in Geologie_Fl?chen.???
-    do
-        mv $f swisstopo-geology.${f#*.}
-    done
-    rm ${dest%.shp}.zip
+    wget https://data.geo.admin.ch/ch.swisstopo.geologie-geologische_karte/data.zip
+    unzip -jn data.zip GK500_V1_3_Vector.zip
+    unzip -jn GK500_V1_3_Vector.zip \
+        "GK500_V1_3_FR/Shapes/PY_Surface_Base.???"
+    rm data.zip GK500_V1_3_Vector.zip
 fi

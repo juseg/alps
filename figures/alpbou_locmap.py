@@ -120,7 +120,7 @@ def draw_lithos(ax=None):
     gabbro = ut.pl.palette['darkgreen']
 
     # draw swisstopo geology polygons
-    filename = '../data/external/swisstopo-geology.shp'
+    filename = '../data/external/PY_Surface_Base.shp'
     shp = shpreader.Reader(filename)
     for rec in shp.records():
         atts = rec.attributes
