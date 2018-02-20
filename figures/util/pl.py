@@ -248,6 +248,17 @@ def subplots_ts(nrows=1, ncols=1, sharex=True, sharey=False,
     return fig, grid
 
 
+def subplots_anim(extent='alps', labels=False, dt=True, mis=True, t=0.0):
+    """Init figure with unique subplot for animation."""
+    figw, figh = 180.0, 120.0
+    fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
+                               gridspec_kw=dict(left=0.0, right=0.0,
+                                                bottom=0.0, top=0.0))
+    ax.outline_patch.set_ec('none')
+    prepare_map_axes(ax, extent=extent)
+    return fig, ax
+
+
 def subplots_cax(extent='alps'):
     """Init figure with unique subplot and colorbar inset."""
     figw, figh = 177.0, 119.0
