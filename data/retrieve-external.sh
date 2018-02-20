@@ -24,11 +24,14 @@ then
 fi
 
 # ETOPO1 reprojection for the Alps
-gdalwarp -s_srs EPSG:4326 -t_srs EPSG:32632 -r bilinear \
-         -te 0 4500000 1500000 5500000 -tr 1000 1000 \
-         -srcnodata -2147483648 -dstnodata -32768 \
-         -wm 512 -wo SOURCE_EXTRA=100 -of netcdf -overwrite \
-         $dest etopo1-alps.nc
+if [ ! -f etopo1-alps.nc ]
+then
+    gdalwarp -s_srs EPSG:4326 -t_srs EPSG:32632 -r bilinear \
+             -te 0 4500000 1500000 5500000 -tr 1000 1000 \
+             -srcnodata -2147483648 -dstnodata -32768 \
+             -wm 512 -wo SOURCE_EXTRA=100 -of netcdf -overwrite \
+             $dest etopo1-alps.nc
+fi
 
 # SRTM original cell-registered data
 root=http://srtm.csi.cgiar.org/SRT-ZIP/SRTM_V41/SRTM_Data_GeoTiff/
@@ -42,15 +45,17 @@ do
     fi
 done
 
-# SRTM mosaic vrt
-gdalbuildvrt srtm.vrt srtm_??_??.tif
+# SRTM reprojection for the Alps, UTM 32, 900x600 km, 50 m
+if [ ! srtm.tif ]
+then
+    gdalbuildvrt srtm.vrt srtm_??_??.tif
+    gdalwarp -s_srs EPSG:4326 -t_srs EPSG:32632 -r bilinear \
+             -te 150000 4820000 1050000 5420000 -tr 50 50 \
+             -srcnodata -32768 -dstnodata -32768 \
+             -wm 1024 -wo SOURCE_EXTRA=100 -overwrite \
+             srtm.vrt srtm.tif
+fi
 
-# SRTM UTM 32 entire Alps, 900x600 km, 25 m
-gdalwarp -s_srs EPSG:4326 -t_srs EPSG:32632 -r bilinear \
-         -te 150000 4820000 1050000 5420000 -tr 100 100 \
-         -srcnodata -32768 -dstnodata -32768 \
-         -wm 1024 -wo SOURCE_EXTRA=100 -overwrite \
-         srtm.vrt srtm.tif
 
 # Swisstopo Geology 500
 orig=http://data.geo.admin.ch/ch.swisstopo.geologie-geologische_karte/data.zip
