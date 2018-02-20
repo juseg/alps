@@ -4,6 +4,7 @@
 """Plotting functions."""
 
 import os
+import re
 import sys
 import util as ut
 import numpy as np
@@ -48,6 +49,9 @@ utm = ccrs.UTM(32)
 swiss = ccrs.TransverseMercator(
     central_longitude=7.439583333333333, central_latitude=46.95240555555556,
     false_easting=600e3, false_northing=200e3)
+swissplus = ccrs.TransverseMercator(
+    central_longitude=7.439583333333333, central_latitude=46.95240555555556,
+    false_easting=2600e3, false_northing=1200e3)
 stereo = ccrs.Stereographic(central_latitude=0.0, central_longitude=7.5)
 
 # geographic regions
@@ -638,6 +642,29 @@ def draw_natural_earth_color(ax=None, rivers=True, lakes=True, coastline=True,
         ax.add_feature(ne_countries_color, zorder=0)
     if graticules:
         ax.add_feature(ne_graticules_color)
+
+
+def draw_swisstopo_hydrology(ax=None, ec='#0978ab', fc='#c6ecff', lw=0.25):
+
+    # get axes if None provided
+    ax = ax or plt.gca()
+
+    # draw swisstopo rivers
+    filename = '../data/external/25_DKM500_GEWAESSER_LIN.shp'
+    shp = cshp.Reader(filename)
+    for rec in shp.records():
+        symb = rec.attributes['Symbol']
+        geom = rec.geometry
+        if symb != '':
+            lw = float(re.sub('[^0-9\.]', '', symb))
+            ax.add_geometries(geom, swissplus, lw=lw,
+                              edgecolor=ec, facecolor='none', zorder=0)
+
+    # draw swisstopo lakes
+    filename = '../data/external/22_DKM500_GEWAESSER_PLY.shp'
+    shp = cshp.Reader(filename)
+    ax.add_geometries(shp.geometries(), swissplus, lw=0.25,
+                      edgecolor=ec, facecolor=fc, zorder=0)
 
 
 def draw_lgm_outline(ax=None, c='#e31a1c'):
