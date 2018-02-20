@@ -88,6 +88,8 @@ ne_graticules = cfeature.NaturalEarthFeature(
     edgecolor='0.25', facecolor='none', lw=0.1)
 
 # cartopy features color
+# FIXME actually it is possible to change the color at plotting time
+# FIXME add rivers_europe and lakes_europe
 ne_rivers_color = cfeature.NaturalEarthFeature(
     category='physical', name='rivers_lake_centerlines', scale='10m',
     edgecolor='#0978ab', facecolor='none', lw=0.5)
@@ -111,31 +113,29 @@ ne_graticules_color = cfeature.NaturalEarthFeature(
 def shading(z, dx=None, dy=None, extent=None, azimuth=315.0, altitude=30.0,
             transparent=False):
     """Compute shaded relief map."""
-    # FIXME: move to iceplotlib
+    # FIXME: move to iceplotlib / cartowik and fix potential bugs there
 
     # get horizontal resolution
     if (dx is None or dy is None) and (extent is None):
         raise ValueError("Either dx and dy or extent must be given.")
     rows, cols = z.shape
     dx = dx or (extent[1]-extent[0])/cols
-    dy = dy or (extent[2]-extent[3])/rows
+    dy = dy or (extent[3]-extent[2])/rows
 
-    # convert to anti-clockwise rad
-    azimuth = -azimuth*np.pi / 180.
+    # convert to rad
+    azimuth = azimuth*np.pi / 180.
     altitude = altitude*np.pi / 180.
 
     # compute cartesian coords of the illumination direction
-    xlight = np.cos(azimuth) * np.cos(altitude)
-    ylight = np.sin(azimuth) * np.cos(altitude)
-    zlight = np.sin(altitude)
-
     # for transparent shades set horizontal surfaces to zero
-    if transparent is True:
-        zlight = 0.0
+    xlight = np.sin(azimuth) * np.cos(altitude)
+    ylight = np.cos(azimuth) * np.cos(altitude)
+    zlight = (0.0 if transparent else np.sin(altitude))
 
-    # compute hillshade (dot product of normal and light direction vectors)
-    u, v = np.gradient(z, dx, dy)
-    return (zlight - u*xlight - v*ylight) / (1 + u**2 + v**2)**(0.5)
+    # compute hillshade (minus dot product of normal and light direction)
+    v, u = np.gradient(z, dy, dx)
+    shade = - (zlight - u*xlight - v*ylight) / (1 + u**2 + v**2)**(0.5)
+    return shade
 
 
 # Axes preparation
