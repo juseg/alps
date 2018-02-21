@@ -60,17 +60,31 @@ def draw(t):
     srb, sre = ut.io.open_gtif('../data/external/srtm.tif', extent=axe)
     srx, sry = coords_from_extent(sre, *srb.shape[::-1])
 
+    # load boot topo
+    filepath = 'input/boot/alps-srtm+thk+gou11simi-1km.nc'
+    nc = ut.io.load(filepath)
+    bref = nc.variables['topg'][:].T
+    nc.close()
+
     # load extra data
     filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
     nc = ut.io.load(filepath)
+    ncx, ncy, ncb = nc._extract_xyz('topg', t)
     ncx, ncy, ncs = nc._extract_xyz('usurf', t)
+
+    # compute bedrock uplift
+    ncu = ncb - bref
 
     # interpolate surfaces to axes coords (interp2d seem faster than interp)
     bi = sinterp.interp2d(srx, sry, srb, kind='quintic')(axx, axy)
     si = sinterp.interp2d(ncx, ncy, ncs, kind='quintic')(axx, axy)
     mi = sinterp.interp2d(ncx, ncy, ncs.mask, kind='quintic')(axx, axy)
+    ui = sinterp.interp2d(ncx, ncy, ncu, kind='quintic')(axx, axy)
     mi = (mi > 0.5) + (si < bi)
     si = np.ma.masked_array(si, mi)
+
+    # correct basal topo for uplift
+    bi = bi + ui
 
     # compute relief shading
     kw = dict(extent=axe, altitude=30.0, transparent=True)
