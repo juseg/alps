@@ -107,6 +107,38 @@ ne_graticules_color = cfeature.NaturalEarthFeature(
     edgecolor='0.25', facecolor='none', lw=0.1)
 
 
+# Convert between coords and extent
+# ---------------------------------
+
+
+def extent_from_coords(x, y):
+    """Compute image extent from coordinate vectors."""
+    w = (3*x[0]-x[1])/2
+    e = (3*x[-1]-x[-2])/2
+    s = (3*y[0]-y[1])/2
+    n = (3*y[-1]-y[-2])/2
+    return w, e, s, n
+
+
+def coords_from_extent(extent, cols, rows):
+    """Compute coordinate vectors from image extent."""
+
+    # compute dx and dy
+    (w, e, s, n) = extent
+    dx = (e-w) / cols
+    dy = (n-s) / rows
+
+    # prepare coordinate vectors
+    xwcol = w + 0.5*dx  # x-coord of W row cell centers
+    ysrow = s + 0.5*dy  # y-coord of N row cell centers
+    x = xwcol + np.arange(cols)*dx  # from W to E
+    y = ysrow + np.arange(rows)*dy  # from S to N
+
+    # return coordinate vectors
+    return x, y
+
+
+
 # Geographic analysis
 # -------------------
 

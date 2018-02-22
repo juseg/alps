@@ -20,24 +20,6 @@ cols = [(0.0, (1,1,1,1)), (0.5, (1,1,1,0)),
 shinemap = mcolors.LinearSegmentedColormap.from_list('shines', cols)
 
 
-def coords_from_extent(extent, cols, rows):
-    """Compute coordinate vectors from image extent."""
-
-    # compute dx and dy
-    (w, e, s, n) = extent
-    dx = (e-w) / cols
-    dy = (n-s) / rows
-
-    # prepare coordinate vectors
-    xwcol = w + 0.5*dx  # x-coord of W row cell centers
-    ysrow = s + 0.5*dy  # y-coord of N row cell centers
-    x = xwcol + np.arange(cols)*dx  # from W to E
-    y = ysrow + np.arange(rows)*dy  # from S to N
-
-    # return coordinate vectors
-    return x, y
-
-
 def draw(t):
     """Plot complete figure for given time."""
 
@@ -54,11 +36,11 @@ def draw(t):
 
     # create axes coordinates
     cols, rows = [d*254 for d in fig.get_size_inches()]
-    axx, axy = coords_from_extent(axe, cols, rows)
+    axx, axy = ut.pl.coords_from_extent(axe, cols, rows)
 
     # load SRTM bedrock topography
     srb, sre = ut.io.open_gtif('../data/external/srtm.tif', extent=axe)
-    srx, sry = coords_from_extent(sre, *srb.shape[::-1])
+    srx, sry = ut.pl.coords_from_extent(sre, *srb.shape[::-1])
 
     # load boot topo
     filepath = 'input/boot/alps-srtm+thk+gou11simi-1km.nc'
