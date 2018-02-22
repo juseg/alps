@@ -27,6 +27,8 @@ age = -nc.variables['time'][:]/(365.0*24*60*60)
 thk = da.from_array(nc.variables['thk'], chunks=chunks)
 srf = da.from_array(nc.variables['usurf'], chunks=chunks)
 tpa = da.from_array(nc.variables['temppabase'], chunks=chunks)
+uba = da.from_array(nc.variables['uvelbase'], chunks=chunks)
+vba = da.from_array(nc.variables['vvelbase'], chunks=chunks)
 cba = da.from_array(nc.variables['velbase_mag'], chunks=chunks)
 csu = da.from_array(nc.variables['velsurf_mag'], chunks=chunks)
 dx = x[1] - x[0]
@@ -37,9 +39,7 @@ dt = age[0] - age[1]
 icy = (thk >= 1.0)
 
 # mesh grid for broadcasting (nd fancy indexing is not yet implemented in dask)
-cols, rows = thk.shape[1:]
-jj = np.arange(cols)[:, None]
-kk = np.arange(rows)[None, :]
+jj, kk = np.mgrid[:icy.shape[1], :icy.shape[2]]
 
 # extract time slices
 a = 24570.0
@@ -58,6 +58,13 @@ duration = icy.sum(axis=0).compute()*dt
 print "computing total erosion..."
 ero = 2.7e-7*(icy*cba)**2.02  # m/a (Herman et al, 2015)
 erosion = ero.sum(axis=0).compute(get=dask.get)*dt  # m
+print "computing last flow age..."
+lastflowi = -(icy*(cba>=1.0))[::-1].argmax(axis=0).compute(get=dask.get)
+lastflowa = age[lastflowi]
+print "computing last flow x-component..."
+lastflowu = uba.compute()[lastflowi, jj, kk]  # no dask, very slow
+print "computing last flow y-component..."
+lastflowv = vba.compute()[lastflowi, jj, kk]  # no dask, very slow
 print "computing number of glaciations..."
 nadvances = (icy[0] + (icy[1:]-icy[:-1]).sum(axis=0) + icy[-1]).compute()/2
 print "computing age of maximum surface elevation..."
@@ -98,6 +105,9 @@ print "applying masks..."
 deglacage = np.ma.masked_where(~footprint+modernice, deglacage)
 duration = np.ma.masked_where(~footprint, duration)
 erosion = np.ma.masked_where(~footprint, erosion)
+lastflowa = np.ma.masked_where(lastflowi==0, lastflowa)
+lastflowu = np.ma.masked_where(lastflowi==0, lastflowu)
+lastflowv = np.ma.masked_where(lastflowi==0, lastflowv)
 lgmicethk = np.ma.masked_where(lgmicethk<1.0, lgmicethk)
 lgmicesrf = np.ma.masked_where(lgmicethk<1.0, lgmicesrf)
 lgmsrfvel = np.ma.masked_where(lgmicethk<1.0, lgmsrfvel)
@@ -117,6 +127,9 @@ ut.make_gtif_shp(x, y, deglacage, prefix+'deglacage', range(0, 30001, 1000))
 ut.make_gtif_shp(x, y, duration, prefix+'duration', range(0, 120001, 10000))
 ut.make_gtif_shp(x, y, erosion, prefix+'erosion', [0.1, 1, 10, 100, 1000])
 ut.make_gtif_shp(x, y, footprint, prefix+'footprint', [0.5], dtype='byte')
+ut.make_gtif_shp(x, y, lastflowa, prefix+'lastflowa', range(0, 30001, 1000))
+ut.make_gtif_shp(x, y, lastflowu, prefix+'lastflowu', [-100, -1, 0, 1, 100])
+ut.make_gtif_shp(x, y, lastflowv, prefix+'lastflowv', [-100, -1, 0, 1, 100])
 ut.make_gtif_shp(x, y, lgmicethk, prefix+'lgmicethk', range(0, 5001, 100))
 ut.make_gtif_shp(x, y, lgmicesrf, prefix+'lgmicesrf', range(0, 5001, 100))
 ut.make_gtif_shp(x, y, lgmsrfvel, prefix+'lgmsrfvel', [1, 10, 100, 1000])
