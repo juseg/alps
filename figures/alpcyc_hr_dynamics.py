@@ -52,7 +52,8 @@ ut.pl.draw_glacier_names(ax)
 
 # read trimlines data
 trimlines = np.genfromtxt('../data/native/trimlines_kelly_etal_2004.csv',
-                          dtype=None, delimiter=',', names=True)
+                          dtype=None, delimiter=',', encoding='utf8',
+                          names=True)
 xt = trimlines['x']
 yt = trimlines['y']
 zt = trimlines['z']
