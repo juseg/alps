@@ -14,10 +14,10 @@ nnodes = []
 wtimes = []
 
 # get simulation time
-for n in [2, 3, 4, 6, 12, 24, 54, 96, 150, 216]:
+for n in [2, 6, 12, 24, 54, 96, 150]:
 
-    filename = ('/home/juliens/pism/output/1.0/alps-wcnn-500m/'
-                'epica3222cool1220+alpcyc4+pp/sctest%03d' % n)
+    filename = (ut.alpflo_bestrun+'sctest%03d' % n)
+    filename = os.path.join(os.environ['HOME'], 'pism', filename)
     start = os.stat(filename + '.err').st_mtime
     end = os.stat(filename + '.log').st_mtime
     hours = (end-start) / 3600.0

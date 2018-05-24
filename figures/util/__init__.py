@@ -23,3 +23,9 @@ alpcyc_colmaps = ['Blues_r']*2 + ['Reds_r']*2 + ['Greens_r']*2
 alpcyc_clabels = [rec + ('pp' in conf)*', PP' for (rec, conf) in
                   zip(alpcyc_records, alpcyc_configs)]
 alpcyc_bestrun = 'output/e9d2d1f/alps-wcnn-1km/epica3222cool1220+alpcyc4+pp/'
+
+
+# Alps flow parameters
+# --------------------
+
+alpflo_bestrun = 'output/1.0/alps-wcnn-500m/epica3222cool1220+alpcyc4+pp/'
