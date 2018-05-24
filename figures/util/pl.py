@@ -35,7 +35,7 @@ palette = dict(zip(colorkeys, colorvals))
 velnorm = mcolors.LogNorm(1e1, 1e3)
 
 # contour levels
-topolevs = range(0, 4000, 200)
+topolevs = range(0, 5000, 200)
 inlevs = [l for l in topolevs if l % 1000 != 0]
 utlevs = [l for l in topolevs if l % 1000 == 0]
 
