@@ -16,6 +16,7 @@ from osgeo import osr
 # ---------------------
 
 alpcyc_bestrun = 'output/e9d2d1f/alps-wcnn-1km/epica3222cool1220+alpcyc4+pp'
+alpflo_bestrun = 'output/1.0/alps-wcnn-500m/epica3222cool1220+alpcyc4+pp'
 
 
 # Input and output methods
