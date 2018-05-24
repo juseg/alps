@@ -5,55 +5,42 @@ mkdir -p external
 touch external
 cd external
 
-# Ehlers et al. (2011) LGM outline
-#orig=http://static.us.elsevierhealth.com/ehlers_digital_maps/\
-#digital_maps_02_all_other_files.zip
-#dest=ehlers-etal-2011.zip
-#[ -f "$dest" ] || wget $orig -O $dest
-#unzip -jn $dest lgm_alpen.???
+## Ehlers et al. (2011) LGM outline
+#if [ ! -f lgm_alpen.shp.tif ]
+#then
+#   root="http://static.us.elsevierhealth.com/ehlers_digital_maps"
+#   arch="digital_maps_02_all_other_files.zip"
+#   wget -nc $root/$name
+#   unzip -jn $name lgm_alpen.???
+#fi
 
-# ETOPO1 Bed original cell-registered data
-orig=http://www.ngdc.noaa.gov/mgg/global/relief/ETOPO1/data/bedrock/\
-cell_registered/georeferenced_tiff/ETOPO1_Bed_c_geotiff.zip
-dest=etopo1-world.tif
-if [ ! -f "$dest" ]
+# SRTM surface topographic data
+if [ ! -f srtm.tif ]
 then
-    wget $orig -O ${dest%.tif}.zip
-    unzip -n ${dest%.tif}.zip
-    rm ${dest%.tif}.zip
-fi
 
-# ETOPO1 reprojection for the Alps
-if [ ! -f etopo1-alps.nc ]
-then
-    gdalwarp -s_srs EPSG:4326 -t_srs EPSG:32632 -r bilinear \
-             -te 0 4500000 1500000 5500000 -tr 1000 1000 \
-             -srcnodata -2147483648 -dstnodata -32768 \
-             -wm 512 -wo SOURCE_EXTRA=100 -of netcdf -overwrite \
-             $dest etopo1-alps.nc
-fi
+    # download ETOPO1 data
+    eroot="https://www.ngdc.noaa.gov/mgg/global/relief/ETOPO1/data/bedrock/"\
+         "cell_registered/georeferenced_tiff"
+    efile="ETOPO1_Bed_c_geotiff"
+    wget -nc $eroot/$efile
+    unzip -n $efile
 
-# SRTM original cell-registered data
-root=http://srtm.csi.cgiar.org/SRT-ZIP/SRTM_V41/SRTM_Data_GeoTiff/
-for tile in srtm_{37..41}_{03..04}
-do
-    if [ ! -f $tile.tif ]
-    then
-        wget $root/$tile.zip -O $tile.zip
-        unzip -n $tile.zip $tile.{hdr,tfw,tif}
-        rm $tile.zip
-    fi
-done
+    # download SRTM data
+    sroot="https://srtm.csi.cgiar.org/SRT-ZIP/SRTM_V41/SRTM_Data_GeoTiff"
+    for sfile in srtm_{37..41}_{03..04}
+    do
+        wget -nc $sroot/$sfile.zip
+        unzip -n $sfile.zip $sfile.{hdr,tfw,tif}
+    done
 
-# SRTM reprojection for the Alps, UTM 32, 900x600 km, 50 m
-if [ ! srtm.tif ]
-then
-    gdalbuildvrt srtm.vrt srtm_??_??.tif
-    gdalwarp -s_srs EPSG:4326 -t_srs EPSG:32632 -r bilinear \
-             -te 150000 4820000 1050000 5420000 -tr 50 50 \
-             -srcnodata -32768 -dstnodata -32768 \
-             -wm 1024 -wo SOURCE_EXTRA=100 -overwrite \
-             srtm.vrt srtm.tif
+    # patch and reproject for the Alps
+    # -te 150000 4820000 1050000 5420000 #  900x600 km domain
+    # -te 112500 4855000 1087500 5355000 #  950x500 km poster
+    # -te 100000 4820000 1100000 5420000 # 1000x600 km both
+    gdalwarp -r cubic -s_srs EPSG:4326 -t_srs EPSG:32632 \
+             -te 100000 4820000 1100000 5420000 -tr 100 100 \
+             $efile.tif srtm_??_??.tif srtm.tif
+
 fi
 
 # Swisstopo Vector 500
