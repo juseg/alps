@@ -47,8 +47,8 @@ ut.pl.draw_natural_earth(ax)
 ut.pl.draw_glacier_names(ax)
 
 
-# Trimlines map
-# -------------
+# Scatter axes
+# ------------
 
 # read trimlines data
 trimlines = np.genfromtxt('../data/native/trimlines_kelly_etal_2004.csv',
@@ -75,51 +75,6 @@ ht = sp.interpolate.interpn((y, x), maxicethk[::-1], (yt, xt), method='linear')
 at = sp.interpolate.interpn((y, x), maxthkage[::-1], (yt, xt), method='linear')/1e3
 bt = sp.interpolate.interpn((x, y), boot, (xt, yt), method='linear')
 
-
-# Trimlines scatter
-# -----------------
-
-# read trimlines data
-trimlines = np.genfromtxt('../data/native/trimlines_kelly_etal_2004.csv',
-                          dtype=None, delimiter=',', names=True)
-xt = trimlines['x']
-yt = trimlines['y']
-zt = trimlines['z']
-
-# convert to UTM 32
-xt, yt, zt = ut.pl.utm.transform_points(ut.pl.swiss, xt, yt, zt).T
-
-# read postprocessed data
-maxthksrf, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'maxthksrf')
-maxthkage, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'maxthkage')
-maxicethk, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'maxicethk')
-warmbased, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'warmbased')
-
-# get coordinates  # FIXME not efficient
-filepath = ut.alpcyc_bestrun + 'y0120000-extra.nc'
-nc = ut.io.load(filepath)
-x = nc.variables['x'][:]
-y = nc.variables['y'][:]
-nc.close()
-
-# load boot topography
-nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-1km.nc')
-x = nc.variables['x'][:]
-y = nc.variables['y'][:]
-boot = nc.variables['topg'][:]
-nc.close()
-
-# get model elevation at trimline locations
-i = np.argmin(abs(xt[:, None] - x), axis=1)
-j = np.argmin(abs(yt[:, None] - y), axis=1)
-ht = sp.interpolate.interpn((y, x), maxicethk[::-1], (yt, xt), method='linear')
-at = sp.interpolate.interpn((y, x), maxthkage[::-1], (yt, xt), method='linear')/1e3
-bt = sp.interpolate.interpn((x, y), boot, (xt, yt), method='linear')
-
-
-# Scatter axes
-# ------------
-
 # set contour levels and colors
 levs = range(21, 28)
 cmap = plt.get_cmap('Paired', 12)
@@ -130,6 +85,7 @@ cmap, norm = mcolors.from_levels_and_colors(levs, cols, extend='both')
 sc = scax.scatter(zt, bt+ht, c=at, cmap=cmap, norm=norm, alpha=0.75)
 scax.set_xlabel('observed trimline (m)')
 scax.set_ylabel('compensated LGM surface (m)', y=0.4)
+
 
 # Trimlines histogram
 # -----------------
