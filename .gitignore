@@ -20,10 +20,11 @@
 *.ttt
 
 # Python
-*.pyc
-*.png
+*.jpg
 *.mp4
 *.ogg
+*.pyc
+*.png
 *.zip
 
 # Data
