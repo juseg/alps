@@ -55,7 +55,8 @@ swissplus = ccrs.TransverseMercator(
 stereo = ccrs.Stereographic(central_latitude=0.0, central_longitude=7.5)
 
 # geographic regions
-regions = {'alps': (150e3, 1050e3, 4820e3, 5420e3),    # model domain 900x600
+regions = {'egu': (112.5e3, 1087.5e3, 4855e3, 5355e3), # egu poster 975x500
+           'alps': (150e3, 1050e3, 4820e3, 5420e3),    # model domain 900x600
            'bern': (390e3, 465e3, 5125e3, 5175e3),     # Bern 75x50
            'crop': (155e3, 1045e3, 4825e3, 5415e3),    # 5 km crop 890x590
            'guil': (230e3, 470e3, 5050e3, 5240e3),     # Guillaume 240x190
@@ -391,6 +392,20 @@ def subplots_cax_ts_anim(extent='alps', labels=False, dt=True, mis=True,
         add_subfig_label('(a)', ax=ax)
         add_subfig_label('(b)', ax=tsax)
     return fig, ax, cax, tsax
+
+
+def subplots_cax_ts_egu(extent='egu', labels=False, dt=True, mis=True):
+    """Init large figure with subplot, colorbar and timeseries insets."""
+    figw, figh = 975.0, 500.0
+    fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
+                               gridspec_kw=dict(left=0.0, right=0.0,
+                                                bottom=0.0, top=0.0))
+    cax1 = fig.add_axes([20.0/figw, 60.0/figh, 50.0/figw, 5.0/figh])
+    cax2 = fig.add_axes([20.0/figw, 40.0/figh, 50.0/figw, 5.0/figh])
+    ax.outline_patch.set_ec('none')
+    prepare_map_axes(ax, extent=extent)
+    tsax = None
+    return fig, ax, cax1, cax2, tsax
 
 
 def subplots_cax_ts_sgm(extent='alps', labels=False, dt=True, mis=True):
