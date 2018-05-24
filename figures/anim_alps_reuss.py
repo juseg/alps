@@ -2,6 +2,7 @@
 # coding: utf-8
 
 import os
+import sys
 import util as ut
 import numpy as np
 import multiprocessing as mp
@@ -108,8 +109,9 @@ def saveframe(years):
     """Independently plot one frame."""
 
     # check if file exists
-    framename = '{:06d}.png'.format(years)
-    framepath = '/scratch_net/iceberg/juliens/anim/anim_alps_reuss/' + framename
+    framepath = os.path.join(os.environ['HOME'], 'anim',
+                             os.path.splitext(sys.argv[0])[0],
+                             '{:06d}.png'.format(years))
     if os.path.isfile(framepath):
         return
 
