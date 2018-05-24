@@ -22,7 +22,7 @@ PY_FIGS = $(addprefix alpbou_, locmap) \
             $(addprefix lr_, footprints glacareas records rhineareas \
                              scaleinterval stackprints timeseries timestamps \
                              timing)) \
-          $(addprefix alpflo_, bigmap scalability timeseries) \
+          $(addprefix alpflo_, scalability timeseries timestamps) \
           $(addprefix alplgl_, extent)
 PY_FIGS := $(addsuffix .$(EXT), $(PY_FIGS))
 
