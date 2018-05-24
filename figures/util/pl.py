@@ -745,31 +745,6 @@ def draw_footprint(ax=None, ec=palette['darkorange'], fc='none', alpha=1.0):
     del shp
 
 
-def draw_ice_divides(ax=None):
-    """Add plotted ice divides."""
-    ax = ax or iplt.gca()
-    run = '-'.join(ut.alpcyc_bestrun.rstrip('/').split('/')[-2:])
-    shp = cshp.Reader('../data/native/alpcyc_ice_divides.shp')
-    for rec in shp.records():
-        rank = rec.attributes['rank']
-        ax.add_geometries(shp.geometries(), ll, lw=2.0-0.5*rank, alpha=0.75,
-                          edgecolor=palette['darkorange'],
-                          facecolor='none')
-    del shp
-
-
-def draw_water_divides(ax=None):
-    """Add plotted water divides."""
-    ax = ax or iplt.gca()
-    run = '-'.join(ut.alpcyc_bestrun.rstrip('/').split('/')[-2:])
-    shp = cshp.Reader('../data/native/alpcyc_water_divides.shp')
-    for rec in shp.records():
-        ax.add_geometries(shp.geometries(), ll, lw=1.0, alpha=0.75,
-                          edgecolor=palette['darkorange'],
-                          facecolor='none', linestyles=[(0, [3, 1])])
-    del shp
-
-
 def draw_trimlines(ax=None, c=palette['darkblue'], s=4**2, alpha=0.75):
     """Add trimline locations."""
     ax = ax or iplt.gca()
@@ -804,55 +779,6 @@ def draw_ice_domes(ax=None, textoffset=4):
         ax.annotate(name, xy=(x, y), xytext=(0, -textoffset), style='italic',
                     textcoords='offset points', ha='center', va='top')
 
-
-def draw_cross_divides(ax=None, textoffset=4, strip=True):
-    """Add crosswise divides."""
-    shp = cshp.Reader('../data/native/alpcyc_cross_divides.shp')
-    c = palette['darkbrown']
-    for rec in shp.records():
-        lon = rec.geometry.x
-        lat = rec.geometry.y
-        xi, yi = ax.projection.transform_point(lon, lat, src_crs=ll)
-        name = rec.attributes['name'].decode('utf-8')
-        azim = rec.attributes['azimuth']
-        xloc = 'l'
-        yloc = 'u'
-        dx = {'c': 0, 'l': -1, 'r': 1}[xloc]*textoffset
-        dy = {'c': 0, 'l': -1, 'u': 1}[yloc]*textoffset
-        ha = {'c': 'center', 'l': 'right', 'r': 'left'}[xloc]
-        va = {'c': 'center', 'l': 'top', 'u': 'bottom'}[yloc]
-        ax.text(xi, yi, '$\Leftrightarrow$', fontsize=8, color=c,
-                ha='center', va='center', rotation=90-azim)
-        ax.annotate(name, xy=(xi, yi), xytext=(dx, dy), fontsize=4,
-                    textcoords='offset points', ha=ha, va=va, color=c,
-                    bbox=dict(ec=c, fc='w', pad=0.5, alpha=0.75))
-    del shp
-
-
-def draw_all_transfluences(ax=None, textoffset=4, strip=True):
-    """Add major transfluences."""
-    shp = cshp.Reader('../data/native/alpcyc_transfluences.shp')
-    c = palette['darkpurple']
-    for rec in shp.records():
-        lon = rec.geometry.x
-        lat = rec.geometry.y
-        xi, yi = ax.projection.transform_point(lon, lat, src_crs=ll)
-        name = rec.attributes['name'].decode('utf-8')
-        alti = rec.attributes['altitude']
-        azim = rec.attributes['azimuth']
-        label = '%s, %s m' % (name, alti)
-        xloc = 'r'
-        yloc = 'l'
-        dx = {'c': 0, 'l': -1, 'r': 1}[xloc]*textoffset
-        dy = {'c': 0, 'l': -1, 'u': 1}[yloc]*textoffset
-        ha = {'c': 'center', 'l': 'right', 'r': 'left'}[xloc]
-        va = {'c': 'center', 'l': 'top', 'u': 'bottom'}[yloc]
-        ax.text(xi, yi, '$\Rightarrow$', fontsize=8, color=c,
-                ha='center', va='center', rotation=90-azim)
-        ax.annotate(label, xy=(xi, yi), xytext=(dx, dy), fontsize=4,
-                    textcoords='offset points', ha=ha, va=va, color=c,
-                    bbox=dict(ec=c, fc='w', pad=0.5, alpha=0.75))
-    del shp
 
 
 def draw_major_transfluences(ax=None, textoffset=4):
@@ -906,6 +832,94 @@ def draw_model_domain(ax=None, extent='alps'):
     x = [w, e, e, w, w]
     y = [s, s, n, n, s]
     ax.plot(x, y, c='k', lw=0.5)
+
+# Alps flow map elements
+# ----------------------
+
+def draw_alpflo_ice_divides(ax=None):
+    """Add plotted ice divides."""
+    ax = ax or iplt.gca()
+    shp = cshp.Reader('../data/native/alpflo_ice_divides.shp')
+    for rec in shp.records():
+        rank = rec.attributes['rank']
+        ax.add_geometries(shp.geometries(), ll, lw=2.0-0.5*rank, alpha=0.75,
+                          edgecolor=palette['darkorange'],
+                          facecolor='none')
+    del shp
+
+
+def draw_alpflo_water_divides(ax=None):
+    """Add plotted water divides."""
+    ax = ax or iplt.gca()
+    shp = cshp.Reader('../data/native/alpflo_water_divides.shp')
+    for rec in shp.records():
+        ax.add_geometries(shp.geometries(), ll, lw=1.0, alpha=0.75,
+                          edgecolor=palette['darkorange'],
+                          facecolor='none', linestyles=[(0, [3, 1])])
+    del shp
+
+
+def draw_alpflo_cross_divides(ax=None, textoffset=4, strip=True):
+    """Add crosswise divides."""
+    shp = cshp.Reader('../data/native/alpflo_cross_divides.shp')
+    c = palette['darkbrown']
+    for rec in shp.records():
+        lon = rec.geometry.x
+        lat = rec.geometry.y
+        xi, yi = ax.projection.transform_point(lon, lat, src_crs=ll)
+        name = rec.attributes['name'].decode('utf-8')
+        azim = rec.attributes['azimuth']
+        xloc = 'l'
+        yloc = 'u'
+        dx = {'c': 0, 'l': -1, 'r': 1}[xloc]*textoffset
+        dy = {'c': 0, 'l': -1, 'u': 1}[yloc]*textoffset
+        ha = {'c': 'center', 'l': 'right', 'r': 'left'}[xloc]
+        va = {'c': 'center', 'l': 'top', 'u': 'bottom'}[yloc]
+        ax.text(xi, yi, '$\Leftrightarrow$', fontsize=8, color=c,
+                ha='center', va='center', rotation=90-azim)
+        ax.annotate(name, xy=(xi, yi), xytext=(dx, dy), fontsize=4,
+                    textcoords='offset points', ha=ha, va=va, color=c,
+                    bbox=dict(ec=c, fc='w', pad=0.5, alpha=0.75))
+    del shp
+
+
+def draw_alpflo_transfluences(ax=None, textoffset=4, strip=True):
+    """Add major transfluences."""
+    shp = cshp.Reader('../data/native/alpflo_transfluences.shp')
+    c = palette['darkpurple']
+    for rec in shp.records():
+        lon = rec.geometry.x
+        lat = rec.geometry.y
+        xi, yi = ax.projection.transform_point(lon, lat, src_crs=ll)
+        name = rec.attributes['name'].decode('utf-8')
+        alti = rec.attributes['altitude']
+        azim = rec.attributes['azimuth']
+        label = '%s, %s m' % (name, alti)
+        xloc = 'r'
+        yloc = 'l'
+        dx = {'c': 0, 'l': -1, 'r': 1}[xloc]*textoffset
+        dy = {'c': 0, 'l': -1, 'u': 1}[yloc]*textoffset
+        ha = {'c': 'center', 'l': 'right', 'r': 'left'}[xloc]
+        va = {'c': 'center', 'l': 'top', 'u': 'bottom'}[yloc]
+        ax.text(xi, yi, '$\Rightarrow$', fontsize=8, color=c,
+                ha='center', va='center', rotation=90-azim)
+        ax.annotate(label, xy=(xi, yi), xytext=(dx, dy), fontsize=4,
+                    textcoords='offset points', ha=ha, va=va, color=c,
+                    bbox=dict(ec=c, fc='w', pad=0.5, alpha=0.75))
+    del shp
+
+
+def draw_alpflo_glacier_names(ax=None):
+    """Add glacier lobes and ice cap names."""
+    shp = cshp.Reader('../data/native/alpflo_glacier_names.shp')
+    for rec in shp.records():
+        name = rec.attributes['name'].decode('utf-8').replace(' ', '\n')
+        sort = rec.attributes['type']
+        lon = rec.geometry.x
+        lat = rec.geometry.y
+        x, y = ax.projection.transform_point(lon, lat, src_crs=ll)
+        style = ('italic' if sort == 'cap' else 'normal')
+        ax.text(x, y, name, fontsize=6, style=style, ha='center', va='center')
 
 
 # Timeseries elements
