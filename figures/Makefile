@@ -11,7 +11,7 @@ EXT = pdf
 # python executable
 PY = PYTHONPATH=iceplotlib python2
 
-# all python figures
+# all python figures (broken alpflo_egumap alpflo_profiles)
 PY_FIGS = $(addprefix alpbou_, locmap) \
           $(addprefix alpcyc_, \
             $(addprefix hr_, aletschbed coldslip duration deglacage dynamics \
