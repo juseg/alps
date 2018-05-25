@@ -44,4 +44,4 @@ $(PY_FIGS): %.pdf : %.py matplotlibrc util
 # clean up
 .PHONY: clean
 clean:
-	rm -f $(ALL_FIGS)
+	rm -f $(ALL_FIGS) alpflo_egumap.jpg
