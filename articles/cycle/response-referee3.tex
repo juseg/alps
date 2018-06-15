@@ -1,0 +1,180 @@
+% response-editor.tex
+% ----------------------------------------------------------------------
+\input{response-header}
+
+\title{Authors' response to Anonymous Referee \#3}
+\author{J.~Seguinot et al.}
+%\date{}
+
+\begin{document}
+\maketitle
+\bigskip
+
+% ----------------------------------------------------------------------
+% Interactive comment text begins
+% ----------------------------------------------------------------------
+
+\newcommand{\sechead}[1]{\bigskip\noindent\textbf{#1}}
+\newcommand{\referee}[1]{\bigskip\noindent\textcolor{darkblue}{#1}}
+\newcommand{\msquote}[1]{\begin{quote}\textit{#1}\end{quote}}
+\newcommand{\doi}[1]{doi:\allowbreak\href{http://dx.doi.org/#1}{#1}}
+
+Dear Anonymous Referee \#3,
+
+Thank you very much for your detailed review of our manuscript.
+
+    \referee{%
+        This is an excellent manuscript and I highly recommend publication
+        after a few minor changes. The authors present a well thought out
+        modelling experiment which they combine (albeit in a qualitative
+        manner) with extensive palaeo-glaciological data and cumulative work. I
+        can see this work being extended into more extensive and rigorous work
+        (RCM forcing, ice dynamic sensitivity, quantitative fitting to
+        geomorphological record etc), but this is an important leap forward.}
+
+% ----------------------------------------------------------------------
+
+\sechead{Abstract}
+
+    \referee{\textbf{p.1, l.~2:}
+        ``pioneer'' should be ``pioneering'' P1, L16: I think the finding that
+        you get asynchronous glaciation extents with a uniform climate offset
+        is due to glacier hypsometry and setting should be stated here. i.e.
+        that the timing of maximum glaciation and recession isn't purely a
+        function of climate. This finding needs to be highlighted better in the
+        abstract.}
+
+% ----------------------------------------------------------------------
+
+\sechead{Introduction}
+
+    \referee{\textbf{p.2, l.~28:}
+        Ballantyne and Stone (2015) should be added to this list.}
+
+    \referee{\textbf{p.2, l.~34:}
+        It should be stated that it could be a consequence of both
+        glaioclimatic interactions and uncertainties in dating methods.}
+
+
+    \referee{\textbf{p.3, l.~2:}
+        These points serve the literature well to highlight gaps for future
+        research. However, I would argue that you do not get very far here on 1
+        and 5 and do not completely solve the other 3 points. Your text
+        reflects these shortcomings very well, for which you should be
+        applauded. Though I think at this stage of the manuscript, your
+        statement of intent, you should state that you do not claim to solve
+        these questions, but rather push forward on all of them using your new
+        approach of ice sheet modelling.}
+
+% ----------------------------------------------------------------------
+
+\sechead{Section 2.6}
+
+    \referee{\textbf{p.7:}
+        The spatial distribution of your modern climate variables (precip,
+        temp) will be massively influenced by elevation. Though there is a
+        lapse rate, does this pattern of high precip and low temp over
+        mountains remain throughout the simulation despite ice surface
+        topography, and if so, how does this influence your results?}
+
+% ----------------------------------------------------------------------
+
+\sechead{Section 3}
+
+    \referee{\textbf{p.7, l.~14:}
+        You keep mentioning the number of processors. I find this infor- mation
+        slightly irrelevant, and it will soon become outdated as processing
+        speed and models increase (GPUs for example). The only way it will
+        serve the community is if there is a full description of the computer
+        set up. For example, it could be that the simulations took 4 days on
+        144 processors, but the processors were slow. Suggest removing these
+        references.}
+
+    \referee{\textbf{p.10, l.~14:}
+        This is a more general point. You eventually choose the EPICA record,
+        and for justifiable reasons based on comparison to reconstructed ice
+        extent and timing.  However, this is likely coincidence. EPICA is
+        likely a complex record containing global and local antarctic
+        influences upon climate. The ``real'' climate over the alps during
+        glaciation is like decoupled from that of Antarctica to an extent.
+        Therefore, the match you find is not an inference about climate, as
+        different combinations of offsets may have made the same result
+        (smoothed GRIP to remove some of the D-O scale noise?). You should make
+        this explicit somewhere in the manuscript.}
+
+    \referee{\textbf{p.11, l.~2:}
+        First sentence needs reconsidering as it is slightly broken in its
+        current form. Perhaps ``Figure 3a shows the cumulative extent of
+        glaciated area during MIS2''.}
+
+    \referee{\textbf{p.11, l.~10:}
+        Is it possible some ice is missing from the geological reconstruction
+        in some instances? I guess some outlets are well constrained, whilst
+        others areas could be ``filled in'' by this modelling experiment.}
+
+% ----------------------------------------------------------------------
+
+\sechead{Section 4}
+
+    \referee{\textbf{p.14, l.~15--31:}
+        I find this description of sites and timing of glacier extent compared
+        to dates difficult to follow. I suggest a new figure to convey this
+        important comparison: Have the reconstructed and modelled ice extents
+        at key times for each of the mentioned glaciers on several smaller
+        maps, including geochronological constraints.}
+
+    \referee{\textbf{p.17, l.~17:}
+        This finding is important and should be highlighted better in abstract
+        and conclusion.}
+
+    \referee{\textbf{p.17, l.~22:}
+        Is the model recreating possible surging? Or would this be an
+        over-interpretation given the uncertainty in climate and physics. Seems
+        to fit with the enthalpy model of Benn and others for surging. As
+        reads, it suggests that these areas were possible palaeo-surges, please
+        clarify.}
+
+    \referee{\textbf{p.19, l.~9--12:}
+        On trimlines: I think you justify well why you haven't yet modelled the
+        sensitivity to your trimline result - previous work backs this up. But,
+        I think you should consider the following: Adding a plus/minus to your
+        results to reflect the uncertainty.  The importance of resolution -
+        many trimlines will be below the resolution of your model, so perhaps
+        aren't resolved enough for model-data comparison. They may have acted
+        to deflect ice flow around mountain peaks for example. This resolution
+        caveat should be mentioned. I would be surprised if all trimlines are
+        subglacial transitions as this paper suggests - perhaps you need to
+        directly challenge the geochronological community to find better
+        trimline constraints (sub/supra) as a statement in this paper. Your
+        mean value of 861 m is unrepresentative of your sample. Your sample is
+        highly skewed, so a modal value (1050 m ish from Fig 6) is more
+        appropriate. A similar finding with a similar approach has already been
+        found for the British Isles, with the added constraint of GIA
+        observations. I suggest referencing Kuchar et al. 2011 for this
+        reason.}
+
+    \referee{%
+        A philosophical but important point is that your discussion throughout
+        is written from the standpoint of the geochronological/geomorphological
+        data and reconstructions as being ``truth''. It should consider
+        somewhere that perhaps data is missing as it is hard-won in the places
+        it exists and interpretations may be slightly wrong. The model is also
+        not the ``truth'' and there is probably a blurred line inbetween upon
+        which we can proceed.}
+
+    \referee{\textbf{p.21, l.~11--19:}
+        Be really clear here that these are modelled, and perhaps not
+        geologically recorded, advances of the ice sheet. If there is no data,
+        it might be correct, might be just a modelled result.}
+
+    \referee{%
+        Additional references: Ballantyne, C.K. and Stone, J.O., 2015.
+        Trimlines, blockfields and the vertical extent of the last ice sheet in
+        southern Ireland. Boreas, 44(2), pp.277- 287. Kuchar, J., Milne, G.,
+        Hubbard, A., Patton, H., Bradley, S., Shennan, I. and Edwards, R.,
+        2012. Evaluation of a numerical model of the British–Irish ice sheet
+        using relative sea-level data: implications for the interpretation of
+        trimline observations.  Journal of Quaternary Science, 27(6),
+        pp.597-605.}
+
+\end{document}
