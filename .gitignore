@@ -12,6 +12,7 @@
 *.pdf
 *.rtf
 *.sum
+*-diff.tex
 
 # Endfloat
 *.fff

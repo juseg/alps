@@ -6,20 +6,41 @@
 # ---------
 
 PAPER = alps-cycle
+REV = $(shell git describe --abbrev=0 --match=alpcyc*)
 
 
-# Rules
-# -----
+# Named rules
+# -----------
 
 # default rule
-$(PAPER).pdf: $(PAPER).tex
-	latexmk -pdf -dvi- -ps- $<
+pdf: $(PAPER).pdf
 
 # word count
-$(PAPER).sum: $(PAPER).tex
+sum: $(PAPER).sum
+
+# latex diff
+diff: $(PAPER)-diff.pdf
+
+
+# Patterned rules
+# ---------------
+
+# latex to pdf
+%.pdf: %.tex
+	latexmk -pdf -dvi- -ps- $<
+
+# latex word count
+%.sum: %.tex
 	texcount -sub=section $< -out=$@
 
-# clean up
+# latex diff
+%-diff.tex: %.tex
+	latexdiff-vc --force --git -r $(REV) $<
+	mv $(basename $@)$(REV).tex $@
+
+# Clean up
+# --------
+
 .PHONY: clean
 clean:
 	latexmk -CA
