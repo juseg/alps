@@ -436,6 +436,22 @@ def subplots_cax_ts_sgm(extent='alps', labels=False, dt=True, mis=True):
     return fig, ax, cax1, cax2, tsax
 
 
+def subplots_fancy(extent='alps', t=0.0):
+    """Init figure with fullscreen map and transparent time series."""
+    figw, figh = 180.0, 120.0
+    fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
+                               gridspec_kw=dict(left=0.0, right=0.0,
+                                                bottom=0.0, top=0.0))
+    tsax = fig.add_axes([7.5/figw, 1-20.0/figh, 30.0/figw, 15.0/figh])
+    ax.outline_patch.set_ec('none')
+    tsax.set_facecolor('none')
+    tsax.add_patch(plt.Rectangle((0.0, 1-25.0/figh), 45.0/figw, 25.0/figh,
+                                 ec='w', fc='w', alpha=0.5, zorder=-1,
+                                 clip_on=False, transform=ax.transAxes))
+    prepare_map_axes(ax, extent=extent)
+    return fig, ax, tsax
+
+
 # Multi map subplot helpers
 # --------------------------
 
