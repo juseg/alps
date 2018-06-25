@@ -1096,6 +1096,29 @@ def plot_dt(ax=None, t=0.0):
     ax.locator_params(axis='y', nbins=6)
 
 
+def plot_slvol(ax=None, t=0.0):
+    """Plot ice volume time-series."""
+    ax = ax or iplt.gca()
+
+    # load time series
+    filepath = ut.alpcyc_bestrun + 'y???????-ts.nc'
+    nc = ut.io.load(filepath)
+    age = -nc.variables['time'][:]/(1e3*365*24*60*60)
+    vol = nc.variables['slvol'][:]
+    nc.close()
+
+    # print age of max volume
+    #print age[vol.argmax()], vol.max()
+
+    # plot time series
+    mask = age >= -t/1e3
+    ax.plot(age[mask], vol[mask], c=ut.pl.palette['darkblue'])
+    ax.set_ylabel('ice volume (m s.l.e.)', color=ut.pl.palette['darkblue'])
+    ax.set_xlim(120.0, 0.0)
+    ax.set_ylim(-0.05, 0.35)
+    ax.locator_params(axis='y', nbins=6)
+
+
 # Saving figures
 # --------------
 
