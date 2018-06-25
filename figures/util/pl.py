@@ -1096,6 +1096,28 @@ def plot_dt(ax=None, t=0.0):
     ax.locator_params(axis='y', nbins=6)
 
 
+def plot_dt_fancy(ax=None, t=0.0):
+    """Plot scaled temperature offset time-series in fancy animations."""
+    ax = ax or iplt.gca()
+
+    # plot time series
+    plot_dt(ax, t)
+
+    # language-dependent labels
+    lx = u'thousand years ago'
+    ly = u'temperature change (°C)'
+
+    # set axes properties
+    ax.grid(False)
+    ax.set_ylim(-20.0, 5.0)
+    ax.set_yticks([-15.0, 0.0])
+    ax.set_xlabel(lx, color='0.25', labelpad=-6)
+    ax.set_ylabel('')
+    ax.text(0.05, 0.05, ly, color='0.25', transform=ax.transAxes)
+    ax.tick_params(axis='x', colors='0.25')
+    ax.tick_params(axis='y', colors='0.25')
+
+
 def plot_slvol(ax=None, t=0.0):
     """Plot ice volume time-series."""
     ax = ax or iplt.gca()
@@ -1117,6 +1139,25 @@ def plot_slvol(ax=None, t=0.0):
     ax.set_xlim(120.0, 0.0)
     ax.set_ylim(-0.05, 0.35)
     ax.locator_params(axis='y', nbins=6)
+
+
+def plot_slvol_fancy(ax=None, t=0.0):
+    """Plot ice volume time-series for fancy animations."""
+    ax = ax or iplt.gca()
+
+    # plot time series
+    ut.pl.plot_slvol(ax, t=t)
+
+    # language labels
+    ly = u'ice volume (m sea level)'
+
+    # set axes properties
+    c = ut.pl.palette['darkblue']
+    ax.set_ylim(-0.1, 0.4)
+    ax.set_yticks([-0.0, 0.3])
+    ax.set_ylabel('')
+    ax.text(0.05, 0.85, ly, color=c, transform=ax.transAxes)
+    ax.tick_params(axis='y', colors=c)
 
 
 # Saving figures
