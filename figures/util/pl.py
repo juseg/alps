@@ -8,10 +8,12 @@ import re
 import sys
 import util as ut
 import numpy as np
+import scipy.interpolate as sinterp
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import cartopy.io.shapereader as cshp
 import iceplotlib.plot as iplt
+import iceplotlib.cm as icm
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import matplotlib.collections as mcollections
@@ -26,6 +28,16 @@ colorkeys = [tone+hue
              for tone in ('light', 'dark')]
 colorvals = iplt.get_cmap('Paired', 12)(range(12))
 palette = dict(zip(colorkeys, colorvals))
+
+# personal colormaps
+# FIXME move to iceplotlib
+cols = [(0.0, (0,0,0,0)), (1.0, (0,0,0,1))]  # transparent to black
+shademap = mcolors.LinearSegmentedColormap.from_list('shades', cols)
+cols = [(0.0, (1,1,1,0)), (1.0, (1,1,1,1))]  # transparent to white
+whitemap = mcolors.LinearSegmentedColormap.from_list('whites', cols)
+cols = [(0.0, (1,1,1,1)), (0.5, (1,1,1,0)),
+        (0.5, (0,0,0,0)), (1.0, (0,0,0,1))]  # white transparent black
+shinemap = mcolors.LinearSegmentedColormap.from_list('shines', cols)
 
 
 # Mapping properties
@@ -951,6 +963,81 @@ def draw_alpflo_glacier_names(ax=None):
         x, y = ax.projection.transform_point(lon, lat, src_crs=ll)
         style = ('italic' if sort == 'cap' else 'normal')
         ax.text(x, y, name, fontsize=6, style=style, ha='center', va='center')
+
+
+def draw_fancy_map(ax=None, t=0, density=(12, 8)):
+    """Fancy visualization of model results using high-res SRTM."""
+
+    # get current axes if none
+    ax = ax or plt.gca()
+    axe = ax.get_extent()
+
+    # prepare axes coordinates
+    fig = ax.figure
+    bbox = ax.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
+    axx, axy = ut.pl.coords_from_extent(axe, fig.dpi*bbox.width, fig.dpi*bbox.height)
+
+    # estimate sea level drop
+    nc = ut.io.load('input/dsl/specmap.nc')
+    dsl = np.interp(t, nc.variables['time'][:], nc.variables['delta_SL'][:])
+    nc.close()
+
+    # load SRTM bedrock topography
+    srb, sre = ut.io.open_gtif('../data/external/srtm.tif', extent=axe)
+    srx, sry = ut.pl.coords_from_extent(sre, *srb.shape[::-1])
+
+    # load boot topo
+    filepath = 'input/boot/alps-srtm+thk+gou11simi-1km.nc'
+    nc = ut.io.load(filepath)
+    bref = nc.variables['topg'][:].T
+    nc.close()
+
+    # load extra data
+    filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
+    nc = ut.io.load(filepath)
+    ncx, ncy, ncb = nc._extract_xyz('topg', t)
+    ncx, ncy, ncs = nc._extract_xyz('usurf', t)
+
+    # compute bedrock uplift
+    ncu = ncb - bref
+
+    # select interpolation coordinates
+    xi, yi, ei = axx, axy, axe
+
+    # interpolate surfaces to axes coords (interp2d seem faster than interp)
+    bi = sinterp.interp2d(srx, sry, srb, kind='quintic')(xi, yi)
+    si = sinterp.interp2d(ncx, ncy, ncs, kind='quintic')(xi, yi)
+    mi = sinterp.interp2d(ncx, ncy, ncs.mask, kind='quintic')(xi, yi)
+    ui = sinterp.interp2d(ncx, ncy, ncu, kind='quintic')(xi, yi)
+    mi = (mi > 0.5) + (si < bi)
+    si = np.ma.masked_array(si, mi)
+
+    # correct basal topo for uplift and sea-level drop
+    bi = bi + ui - dsl
+
+    # compute relief shading
+    kw = dict(extent=ei, altitude=30.0, transparent=True)
+    s300 = ut.pl.shading(bi, azimuth=300.0, **kw)
+    s315 = ut.pl.shading(bi, azimuth=315.0, **kw)
+    s330 = ut.pl.shading(bi, azimuth=330.0, **kw)
+    sh = (s300+s315+s330) / 3.0
+
+    # plot interpolated results
+    im = ax.imshow(bi, extent=ei, vmin=-3e3, vmax=3e3, cmap=icm.topo, zorder=-1)
+    im = ax.imshow(sh, extent=ei, vmin=-1.0, vmax=1.0, cmap=shinemap, zorder=-1)
+    if bi.min() < 0.0:
+        cs = ax.contour(bi, extent=ei, levels=[0.0], colors='#0978ab')
+    cs = ax.contourf(xi, yi, mi, levels=[0.0, 0.5], colors='w', alpha=0.75)
+    cs = ax.contour(xi, yi, mi, levels=[0.5], colors='0.25', linewidths=0.25)
+    cs = ax.contour(xi, yi, si, levels=ut.pl.inlevs, colors='0.25', linewidths=0.1)
+    cs = ax.contour(xi, yi, si, levels=ut.pl.utlevs, colors='0.25', linewidths=0.25)
+
+    # add streamplot
+    ss = nc.streamplot('velsurf', ax, t, cmap='Blues', norm=ut.pl.velnorm,
+                       density=density, linewidth=0.5, arrowsize=0.25)
+
+    # close extra data
+    nc.close()
 
 
 # Timeseries elements
