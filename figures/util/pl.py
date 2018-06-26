@@ -68,6 +68,7 @@ stereo = ccrs.Stereographic(central_latitude=0.0, central_longitude=7.5)
 
 # geographic regions
 regions = {'egu': (112.5e3, 1087.5e3, 4855e3, 5355e3), # egu poster 975x500
+           '1609': (120e3, 1080e3, 4820e3, 5360e3),    # alps 16:9 960x540
            'alps': (150e3, 1050e3, 4820e3, 5420e3),    # model domain 900x600
            'bern': (390e3, 465e3, 5125e3, 5175e3),     # Bern 75x50
            'crop': (155e3, 1045e3, 4825e3, 5415e3),    # 5 km crop 890x590
@@ -78,6 +79,8 @@ regions = {'egu': (112.5e3, 1087.5e3, 4855e3, 5355e3), # egu poster 975x500
            'ivrea': (300e3, 440e3, 5000e3, 5100e3),    # Ivrea 140x100
            'rhine': (410e3, 620e3, 5150e3, 5300e3),    # Rhine 210x150
            'rhone': (300e3, 475e3, 5100e3, 5225e3),    # Rhone 175x125
+           'reuss0': (416e3, 512e3, 5200e3, 5254e3),   # Luzern  96x54 km
+           'reuss1': (392e3, 520e3, 5196e3, 5268e3),   # Luzern 128x72 km
            'rhlobe': (450e3, 600e3, 5225e3, 5325e3),   # Rhine lobe 150x100
            'taglia': (760e3, 865e3, 5105e3, 5180e3),   # Tagliamento 105x75
            'valais': (310e3, 460e3, 5065e3, 5165e3),   # Trimlines 150x100
@@ -272,6 +275,14 @@ def prepare_ts_axes(ax, dt=True, mis=True, t=0.0):
         plot_dt(ax, t=t)
     if mis is True:
         plot_mis(ax)
+
+
+def set_dynamic_extent(ax=None, t=0, e0='alps', e1='alps', t0=-120e3, t1=-0e3):
+    ax = ax or iplt.gca()
+    zf = (t-t0)/(t1-t0)  # linear increase between 0 and 1
+    zf = zf**2*(3-2*zf)  # smooth zoom factor between 0 and 1
+    axe = [c0 + (c1-c0)*zf for (c0, c1) in zip(regions[e0], regions[e1])]
+    ax.set_extent(axe, crs=ax.projection)
 
 
 # Single map subplot helpers

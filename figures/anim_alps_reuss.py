@@ -8,6 +8,9 @@ import multiprocessing as mp
 import matplotlib.pyplot as plt
 
 
+# start and end of animation
+t0, t1 = -45e3, -15e3
+
 def draw(t):
     """Plot complete figure for given time."""
 
@@ -15,14 +18,7 @@ def draw(t):
     fig, ax, tsax = ut.pl.subplots_fancy(t=t)
     ut.pl.add_signature(u'J. Seguinot (2018)')
 
-    # set dynamics axes extent
-    a0 = 40e3  # age of animation start
-    a1 = 15e3  # age of animation end
-    zf = 1 - ((t+a1)/(a0-a1))**2  # zoom factor between 0 and 1
-    e0 = 415e3, 505e3, 5195e3, 5255e3  # Luzern 90x60 km
-    e1 = 400e3, 520e3, 5190e3, 5270e3  # Luzern 120x80 km
-    axe = [c0 + (c1-c0)*zf for (c0, c1) in zip(e0, e1)]
-    ax.set_extent(axe, crs=ax.projection)
+    ut.pl.set_dynamic_extent(ax, t, 'reuss0', 'reuss1', t0, t1)
 
     # plot model results
     ut.pl.draw_fancy_map(ax, t=t)
