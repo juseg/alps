@@ -16,22 +16,12 @@ def draw(t):
 
     # initialize figure
     fig, ax, tsax = ut.pl.subplots_fancy(t=t)
-    ut.pl.add_signature(u'J. Seguinot (2018)')
-
     ut.pl.set_dynamic_extent(ax, t, 'reuss0', 'reuss1', t0, t1)
 
-    # plot model results
-    ut.pl.draw_fancy_map(ax, t=t)
-
-    ## add colorbar
-    #cb = ut.pl.add_colorbar(ss.lines, cax, extend='both', format='%g')
-    #cb.set_label(r'surface velocity ($m\,a^{-1}$)')
-    #cb.set_ticks([1e1, 1e2, 1e3])
-
-    # add vectors
+    # draw map elements
+    ut.pl.draw_fancy_map(ax, t)
     ut.pl.draw_swisstopo_hydrology(ax)
     ut.pl.draw_major_cities(ax, maxrank=8)
-    ut.pl.add_corner_tag('%.0f years ago' % (0.0-t), ax)
 
     # plot time series
     ut.pl.plot_dt_fancy(tsax, t, t0, t1)
@@ -45,7 +35,7 @@ def saveframe(years):
     """Independently plot one frame."""
 
     # check if file exists
-    videoname = os.path.splitext(sys.argv[0])[0]
+    videoname = os.path.basename(os.path.splitext(sys.argv[0])[0])
     framesdir = os.path.join(os.environ['HOME'], 'anim', videoname)
     framepath = os.path.join(framesdir, '{:06d}.png'.format(years))
     if os.path.isfile(framepath):
@@ -67,7 +57,10 @@ def saveframe(years):
 
 if __name__ == '__main__':
     """Plot individual frames in parallel."""
-    dt = 10
+    y0 = int(round(120e3+t0))
+    y1 = int(round(120e3+t1))
+    dy = 10
     pool = mp.Pool(processes=12)
-    pool.map(saveframe, xrange(80000, 105001, dt))
+    pool.map(saveframe, xrange(y0, y1+1, dy))
+    pool.close()
     pool.join()
