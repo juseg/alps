@@ -1037,15 +1037,20 @@ def draw_fancy_map(ax=None, t=0):
     im = ax.imshow(bi, extent=ei, vmin=-3e3, vmax=3e3, cmap=icm.topo, zorder=-1)
     im = ax.imshow(sh, extent=ei, vmin=-1.0, vmax=1.0, cmap=shinemap, zorder=-1)
     if bi.min() < 0.0:
-        cs = ax.contour(bi, extent=ei, levels=[0.0], colors='#0978ab')
+        cs = ax.contour(bi, extent=ei, levels=[0.0], colors='#0978ab',
+                        linewidths=0.25)
     cs = ax.contourf(xi, yi, mi, levels=[0.0, 0.5], colors='w', alpha=0.75)
     cs = ax.contour(xi, yi, mi, levels=[0.5], colors='0.25', linewidths=0.25)
     cs = ax.contour(xi, yi, si, levels=ut.pl.inlevs, colors='0.25', linewidths=0.1)
     cs = ax.contour(xi, yi, si, levels=ut.pl.utlevs, colors='0.25', linewidths=0.25)
 
-    # add streamplot
-    ss = nc.streamplot('velsurf', ax, t, cmap='Blues', norm=ut.pl.velnorm,
-                       density=density, linewidth=0.5, arrowsize=0.25)
+    # add streamplot (not enough data result in ValueError)
+    try:
+        ss = nc.streamplot('velsurf', ax, t, cmap='Blues', norm=ut.pl.velnorm,
+                           density=(12.8, 7.2), linewidth=0.5, arrowsize=0.25,
+                           velth=10.0)
+    except ValueError:
+        pass
 
     # close extra data
     nc.close()
