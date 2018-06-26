@@ -465,10 +465,10 @@ def subplots_fancy(extent='alps', t=0.0):
     fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
                                gridspec_kw=dict(left=0.0, right=0.0,
                                                 bottom=0.0, top=0.0))
-    tsax = fig.add_axes([7.5/figw, 1-20.0/figh, 30.0/figw, 15.0/figh])
+    tsax = fig.add_axes([12.0/figw, 3.0/figh, 1-24.0/figw, 12.0/figh])
     ax.outline_patch.set_ec('none')
     tsax.set_facecolor('none')
-    tsax.add_patch(plt.Rectangle((0.0, 1-25.0/figh), 45.0/figw, 25.0/figh,
+    tsax.add_patch(plt.Rectangle((0.0, 0.0), 1.0, 20.0/figh,
                                  ec='w', fc='w', alpha=0.5, zorder=-1,
                                  clip_on=False, transform=ax.transAxes))
     prepare_map_axes(ax, extent=extent)
@@ -1107,26 +1107,46 @@ def plot_dt(ax=None, t=0.0):
     ax.locator_params(axis='y', nbins=6)
 
 
-def plot_dt_fancy(ax=None, t=0.0):
+def plot_dt_fancy(ax=None, t=0.0, t0=-120e3, t1=-0e3):
     """Plot scaled temperature offset time-series in fancy animations."""
     ax = ax or iplt.gca()
+    c = '0.25'
+
+    # load time series
+    nc = ut.io.load('input/dt/epica3222cool1220.nc')
+    age = -nc.variables['time'][:]
+    dt = nc.variables['delta_T'][:]
+    nc.close()
 
     # plot time series
-    plot_dt(ax, t)
+    mask = age >= -t
+    ax.plot(age[mask], dt[mask], c=c)
+    ax.text(-t, dt[mask][-1], '  % d' % round(dt[mask][-1]),
+            color=c, ha='left', va='center', clip_on=True)
 
     # language-dependent labels
-    lx = u'thousand years ago'
-    ly = u'temperature change (°C)'
+    lx = u'%d years ago' % -t
+    ly = u'temperature\nchange (°C)'
+
+    # color axes spines
+    for k, v in ax.spines.iteritems():
+        v.set_color(c if k == 'left' else 'none')
 
     # set axes properties
-    ax.grid(False)
-    ax.set_ylim(-20.0, 5.0)
+    ax.set_xlim(-t0, -t1)
+    ax.set_ylim(-17.5, 2.5)
     ax.set_yticks([-15.0, 0.0])
-    ax.set_xlabel(lx, color='0.25', labelpad=-6)
-    ax.set_ylabel('')
-    ax.text(0.05, 0.05, ly, color='0.25', transform=ax.transAxes)
-    ax.tick_params(axis='x', colors='0.25')
-    ax.tick_params(axis='y', colors='0.25')
+    ax.set_ylabel(ly, color=c, labelpad=-1)
+    ax.tick_params(axis='x', colors=c)
+    ax.tick_params(axis='y', colors=c)
+
+    # add moving cursor and adaptive ticks
+    ax.axvline(-t, c=c, lw=0.5)
+    ax.set_xticks([-t0, -t, -t1])
+    rt = (t-t0)/(t1-t0)  # relative cursor position
+    ax.set_xticklabels([('%d' % round(-t0))*(rt>=1/12.0), lx,
+                        ('%d' % round(-t1))*(rt<=11/12.0)])
+    ax.xaxis.tick_top()
 
 
 def plot_slvol(ax=None, t=0.0):
@@ -1155,19 +1175,33 @@ def plot_slvol(ax=None, t=0.0):
 def plot_slvol_fancy(ax=None, t=0.0):
     """Plot ice volume time-series for fancy animations."""
     ax = ax or iplt.gca()
+    c = ut.pl.palette['darkblue']
+
+    # load time series
+    filepath = ut.alpcyc_bestrun + 'y???????-ts.nc'
+    nc = ut.io.load(filepath)
+    age = -nc.variables['time'][:]/(365*24*60*60)
+    vol = nc.variables['slvol'][:]*100.0
+    nc.close()
 
     # plot time series
-    ut.pl.plot_slvol(ax, t=t)
+    mask = age >= -t
+    ax.plot(age[mask], vol[mask], c=c)
+    ax.text(age[mask][-1], vol[mask][-1], '  % d' % round(vol[mask][-1]),
+            color=c, ha='left', va='center', clip_on=True)
 
     # language labels
-    ly = u'ice volume (m sea level)'
+    ly = u'ice volume\n(cm sea level)'
+
+    # color axes spines
+    for k, v in ax.spines.iteritems():
+        v.set_color(c if k == 'right' else 'none')
 
     # set axes properties
-    c = ut.pl.palette['darkblue']
-    ax.set_ylim(-0.1, 0.4)
-    ax.set_yticks([-0.0, 0.3])
-    ax.set_ylabel('')
-    ax.text(0.05, 0.85, ly, color=c, transform=ax.transAxes)
+    ax.set_ylim(-5.0, 35.0)
+    ax.set_yticks([0.0, 30.0])
+    ax.set_ylabel(ly, color=c)
+    #ax.text(0.02, -0.05, ly, color=c, transform=ax.transAxes)
     ax.tick_params(axis='y', colors=c)
 
 

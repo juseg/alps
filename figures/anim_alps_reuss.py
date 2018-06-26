@@ -34,10 +34,8 @@ def draw(t):
     ut.pl.add_corner_tag('%.0f years ago' % (0.0-t), ax)
 
     # plot time series
-    ut.pl.plot_dt_fancy(tsax, t=t)
-    ut.pl.plot_slvol_fancy(tsax.twinx(), t=t)
-    tsax.set_xlim(a0/1e3, a1/1e3)
-    tsax.set_xticks(tsax.get_xlim())
+    ut.pl.plot_dt_fancy(tsax, t, t0, t1)
+    ut.pl.plot_slvol_fancy(tsax.twinx(), t)
 
     # return figure
     return fig
