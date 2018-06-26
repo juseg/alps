@@ -450,7 +450,7 @@ def subplots_cax_ts_sgm(extent='alps', labels=False, dt=True, mis=True):
 
 def subplots_fancy(extent='alps', t=0.0):
     """Init figure with fullscreen map and transparent time series."""
-    figw, figh = 180.0, 120.0
+    figw, figh = 192.0, 108.0
     fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
                                gridspec_kw=dict(left=0.0, right=0.0,
                                                 bottom=0.0, top=0.0))
@@ -965,7 +965,7 @@ def draw_alpflo_glacier_names(ax=None):
         ax.text(x, y, name, fontsize=6, style=style, ha='center', va='center')
 
 
-def draw_fancy_map(ax=None, t=0, density=(12, 8)):
+def draw_fancy_map(ax=None, t=0):
     """Fancy visualization of model results using high-res SRTM."""
 
     # get current axes if none
@@ -974,8 +974,8 @@ def draw_fancy_map(ax=None, t=0, density=(12, 8)):
 
     # prepare axes coordinates
     fig = ax.figure
-    bbox = ax.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
-    axx, axy = ut.pl.coords_from_extent(axe, fig.dpi*bbox.width, fig.dpi*bbox.height)
+    bbox = ax.get_window_extent()
+    axx, axy = ut.pl.coords_from_extent(axe, *fig.get_size_inches()*fig.dpi)
 
     # estimate sea level drop
     nc = ut.io.load('input/dsl/specmap.nc')
