@@ -1034,11 +1034,11 @@ def draw_fancy_map(ax=None, t=0):
     sh = (s300+s315+s330) / 3.0
 
     # plot interpolated results
-    im = ax.imshow(bi, extent=ei, vmin=-3e3-dsl, vmax=3e3-dsl, cmap=icm.topo, zorder=-1)
+    im = ax.imshow(bi, extent=ei, vmin=dsl-3e3, vmax=dsl+3e3, cmap=icm.topo, zorder=-1)
     im = ax.imshow(sh, extent=ei, vmin=-1.0, vmax=1.0, cmap=shinemap, zorder=-1)
     if bi.min() < 0.0:
-        cs = ax.contour(bi, extent=ei, levels=[0.0], colors='#0978ab',
-                        linewidths=0.25)
+        cs = ax.contour(bi, extent=ei, levels=[dsl], colors='#0978ab',
+                        linestyles='dashed', linewidths=0.25)
     cs = ax.contourf(xi, yi, mi, levels=[0.0, 0.5], colors='w', alpha=0.75)
     cs = ax.contour(xi, yi, mi, levels=[0.5], colors='0.25', linewidths=0.25)
     cs = ax.contour(xi, yi, si, levels=ut.pl.inlevs, colors='0.25', linewidths=0.1)
