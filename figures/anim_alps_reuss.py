@@ -7,14 +7,24 @@ import util as ut
 import multiprocessing as mp
 import matplotlib.pyplot as plt
 
+# frames output directory
+videoname = os.path.basename(os.path.splitext(sys.argv[0])[0])
+framesdir = os.path.join(os.environ['HOME'], 'anim', videoname)
 
 # start and end of animation
-t0, t1 = -45e3, -15e3
+t0, t1, dt = -45000, -15000, 10
+
 
 def draw(t):
     """Plot complete figure for given time."""
 
+    # check if file exists
+    framepath = os.path.join(framesdir, '{:06d}.png'.format(t+120000))
+    if os.path.isfile(framepath):
+        return
+
     # initialize figure
+    print 'plotting at %.0f a...' % (0.0-t)
     fig, ax, tsax = ut.pl.subplots_fancy(t=t)
     ut.pl.set_dynamic_extent(ax, t, 'reuss0', 'reuss1', t0, t1)
 
@@ -27,29 +37,6 @@ def draw(t):
     ut.pl.plot_dt_fancy(tsax, t, t0, t1)
     ut.pl.plot_slvol_fancy(tsax.twinx(), t)
 
-    # return figure
-    return fig
-
-
-def saveframe(years):
-    """Independently plot one frame."""
-
-    # check if file exists
-    videoname = os.path.basename(os.path.splitext(sys.argv[0])[0])
-    framesdir = os.path.join(os.environ['HOME'], 'anim', videoname)
-    framepath = os.path.join(framesdir, '{:06d}.png'.format(years))
-    if os.path.isfile(framepath):
-        return
-
-    # create tmp directory if missing
-    if not os.path.exists(framesdir):
-        os.makedirs(framesdir)
-
-    # plot
-    t = years - 120e3
-    print 'plotting at %.0f a...' % (0.0-t)
-    fig = draw(t)
-
     # save
     fig.savefig(framepath)
     plt.close(fig)
@@ -57,10 +44,15 @@ def saveframe(years):
 
 if __name__ == '__main__':
     """Plot individual frames in parallel."""
-    y0 = int(round(120e3+t0))
-    y1 = int(round(120e3+t1))
-    dy = 10
+
+    # create frames directory if missing
+    videoname = os.path.basename(os.path.splitext(sys.argv[0])[0])
+    framesdir = os.path.join(os.environ['HOME'], 'anim', videoname)
+    if not os.path.isdir(framesdir):
+        os.mkdir(framesdir)
+
+    # plot all frames in parallel
     pool = mp.Pool(processes=12)
-    pool.map(saveframe, xrange(y0, y1+1, dy))
+    pool.map(draw, xrange(t0, t1+1, dt))
     pool.close()
     pool.join()

@@ -279,7 +279,7 @@ def prepare_ts_axes(ax, dt=True, mis=True, t=0.0):
 
 def set_dynamic_extent(ax=None, t=0, e0='alps', e1='alps', t0=-120e3, t1=-0e3):
     ax = ax or iplt.gca()
-    zf = (t-t0)/(t1-t0)  # linear increase between 0 and 1
+    zf = 1.0*(t-t0)/(t1-t0)  # linear increase between 0 and 1
     zf = zf**2*(3-2*zf)  # smooth zoom factor between 0 and 1
     axe = [c0 + (c1-c0)*zf for (c0, c1) in zip(regions[e0], regions[e1])]
     ax.set_extent(axe, crs=ax.projection)
