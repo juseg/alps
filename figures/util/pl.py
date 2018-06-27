@@ -1020,11 +1020,11 @@ def draw_fancy_map(ax=None, t=0):
     si = sinterp.interp2d(ncx, ncy, ncs, kind='quintic')(xi, yi)
     mi = sinterp.interp2d(ncx, ncy, ncs.mask, kind='quintic')(xi, yi)
     ui = sinterp.interp2d(ncx, ncy, ncu, kind='quintic')(xi, yi)
+
+    # correct basal topo for uplift and pop nunataks
+    bi = bi + ui
     mi = (mi > 0.5) + (si < bi)
     si = np.ma.masked_array(si, mi)
-
-    # correct basal topo for uplift and sea-level drop
-    bi = bi + ui - dsl
 
     # compute relief shading
     kw = dict(extent=ei, altitude=30.0, transparent=True)
@@ -1034,7 +1034,7 @@ def draw_fancy_map(ax=None, t=0):
     sh = (s300+s315+s330) / 3.0
 
     # plot interpolated results
-    im = ax.imshow(bi, extent=ei, vmin=-3e3, vmax=3e3, cmap=icm.topo, zorder=-1)
+    im = ax.imshow(bi, extent=ei, vmin=-3e3-dsl, vmax=3e3-dsl, cmap=icm.topo, zorder=-1)
     im = ax.imshow(sh, extent=ei, vmin=-1.0, vmax=1.0, cmap=shinemap, zorder=-1)
     if bi.min() < 0.0:
         cs = ax.contour(bi, extent=ei, levels=[0.0], colors='#0978ab',
@@ -1148,7 +1148,7 @@ def plot_dt_fancy(ax=None, t=0.0, t0=-120e3, t1=-0e3):
     # add moving cursor and adaptive ticks
     ax.axvline(-t, c=c, lw=0.5)
     ax.set_xticks([-t0, -t, -t1])
-    rt = (t-t0)/(t1-t0)  # relative cursor position
+    rt = 1.0*(t-t0)/(t1-t0)  # relative cursor position
     ax.set_xticklabels([('%d' % round(-t0))*(rt>=1/12.0), lx,
                         ('%d' % round(-t1))*(rt<=11/12.0)])
     ax.xaxis.tick_top()
