@@ -43,6 +43,18 @@ then
 
 fi
 
+# Modern glacier thickness
+if [ ! -f thk.tif ]
+then
+    root="/run/media/julien/archive/orig/geodata/glaciers/thickness/original"
+    gdalbuildvrt thk32.vrt -a_srs EPSG:32632 -srcnodata 0 \
+        $root/europe-utm32/thick/thick_?????.agr
+    gdalbuildvrt thk33.vrt -a_srs EPSG:32633 -srcnodata 0 \
+        $root/europe-utm33/thick/thick_?????.agr
+    gdalwarp -t_srs EPSG:32632 -te 100000 4820000 1100000 5420000 -tr 100 100 \
+             -r cubic -ot Int16 thk{32,33}.vrt thk.tif
+fi
+
 # Swisstopo Vector 500
 if [ ! -f 22_DKM500_GEWAESSER_PLY.shp ] || [ ! -f 25_DKM500_GEWAESSER_LIN.shp ]
 then

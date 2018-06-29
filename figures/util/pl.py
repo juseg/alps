@@ -997,6 +997,11 @@ def draw_fancy_map(ax=None, t=0):
     srb, sre = ut.io.open_gtif('../data/external/srtm.tif', extent=axe)
     srx, sry = ut.pl.coords_from_extent(sre, *srb.shape[::-1])
 
+    # substract glacier thicknesses
+    thk, the = ut.io.open_gtif('../data/external/thk.tif', extent=axe)
+    assert the == sre
+    srb -= thk
+
     # load boot topo
     filepath = 'input/boot/alps-srtm+thk+gou11simi-1km.nc'
     nc = ut.io.load(filepath)
