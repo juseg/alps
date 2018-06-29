@@ -81,6 +81,8 @@ regions = {'egu': (112.5e3, 1087.5e3, 4855e3, 5355e3), # egu poster 975x500
            'rhone': (300e3, 475e3, 5100e3, 5225e3),    # Rhone 175x125
            'reuss0': (416e3, 512e3, 5200e3, 5254e3),   # Luzern  96x54 km
            'reuss1': (392e3, 520e3, 5196e3, 5268e3),   # Luzern 128x72 km
+           'swiss0': (380e3, 476e3, 5120e3, 5174e3),   # Swiss  96x54 km
+           'swiss1': (252e3, 636e3, 5072e3, 5288e3),   # Swiss 384x216 km
            'rhlobe': (450e3, 600e3, 5225e3, 5325e3),   # Rhine lobe 150x100
            'taglia': (760e3, 865e3, 5105e3, 5180e3),   # Tagliamento 105x75
            'valais': (310e3, 460e3, 5065e3, 5165e3),   # Trimlines 150x100
