@@ -672,7 +672,7 @@ def add_signature(text, fig=None, offset=2.5/25.4):
 # ------------
 
 
-def draw_major_cities(ax=None, maxrank=5, textoffset=2):
+def draw_major_cities(ax=None, maxrank=5, textoffset=2, request=None):
     """Add major city locations with names."""
     shp = cshp.Reader(cshp.natural_earth(resolution='10m',
                                          category='cultural',
@@ -683,7 +683,7 @@ def draw_major_cities(ax=None, maxrank=5, textoffset=2):
         pop = rec.attributes['pop_max']
         lon = rec.geometry.x
         lat = rec.geometry.y
-        if rank <= maxrank:
+        if rank <= maxrank or name in request:
             xc, yc = ax.projection.transform_point(lon, lat, src_crs=ll)
             xloc = 'r'  # ('l' if xc < center[0] else 'r')
             yloc = 'u'  # ('l' if yc < center[1] else 'u')
