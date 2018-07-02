@@ -1,8 +1,6 @@
 #!/bin/bash
 
-name="anim_alps_reuss"
-frames="/scratch_net/iceberg/juliens/anim/$name/%04d00.png"
-options="-i $frames -r 25 -pix_fmt yuv420p"
+name=$(basename "${0%.sh}")
 
-avconv $options -c:v libx264 $name.mp4 -y
-avconv $options -c:v theora $name.ogg -y
+ffmpeg -pattern_type glob -i "$HOME/anim/$name/??????.png" -r 25 \
+    -pix_fmt yuv420p -c:v libx264 $name.mp4 -y

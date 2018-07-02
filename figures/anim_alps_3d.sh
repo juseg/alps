@@ -1,7 +1,6 @@
 #!/bin/bash
 
-frames="/scratch_net/ogive/juliens/anim/anim_alps_3d_v01/%04d.png"
-options="-i $frames -r 25 -pix_fmt yuv420p"
+name=$(basename "${0%.sh}")
 
-avconv $options -c:v libx264 anim_alps_3d.mp4 -y
-avconv $options -c:v theora anim_alps_3d.ogg -y
+ffmpeg -pattern_type glob -i "$HOME/anim/${name}_v01/????.png" -r 25 \
+    -pix_fmt yuv420p -c:v libx264 $name.mp4 -y

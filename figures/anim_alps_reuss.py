@@ -53,6 +53,6 @@ if __name__ == '__main__':
 
     # plot all frames in parallel
     pool = mp.Pool(processes=12)
-    pool.map(draw, xrange(t0, t1+1, dt))
+    pool.map(draw, xrange(t0+dt, t1+1, dt))
     pool.close()
     pool.join()
