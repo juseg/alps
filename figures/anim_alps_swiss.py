@@ -46,8 +46,6 @@ if __name__ == '__main__':
     """Plot individual frames in parallel."""
 
     # create frames directory if missing
-    videoname = os.path.basename(os.path.splitext(sys.argv[0])[0])
-    framesdir = os.path.join(os.environ['HOME'], 'anim', videoname)
     if not os.path.isdir(framesdir):
         os.mkdir(framesdir)
 

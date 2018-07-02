@@ -7,12 +7,16 @@ import util as ut
 import multiprocessing as mp
 import matplotlib.pyplot as plt
 
+# animation language
+lang = 'fr'
+
 # frames output directory
 videoname = os.path.basename(os.path.splitext(sys.argv[0])[0])
+videoname += (lang != 'en') * ('_'+lang)
 framesdir = os.path.join(os.environ['HOME'], 'anim', videoname)
 
 # start and end of animation
-t0, t1, dt = -45000, -15000, 10
+t0, t1, dt = -120000, 0, 40
 
 
 def draw(t):
@@ -26,16 +30,16 @@ def draw(t):
     # initialize figure
     print 'plotting at %.0f a...' % (0.0-t)
     fig, ax, tsax = ut.pl.subplots_fancy(t=t)
-    ut.pl.set_dynamic_extent(ax, t, 'reuss0', 'reuss1', t0, t1)
+    ut.pl.set_dynamic_extent(ax, t, 'swiss0', '1609', t0, t1)
 
     # draw map elements
     ut.pl.draw_fancy_map(ax, t)
-    ut.pl.draw_swisstopo_hydrology(ax)
-    ut.pl.draw_major_cities(ax, maxrank=8)
+    ut.pl.draw_natural_earth_color(ax)
+    ut.pl.draw_major_cities(ax, maxrank=6, lang=lang, request='Sion')
 
     # plot time series
-    ut.pl.plot_dt_fancy(tsax, t, t0, t1)
-    ut.pl.plot_slvol_fancy(tsax.twinx(), t)
+    ut.pl.plot_dt_fancy(tsax, t, t0, t1, lang=lang)
+    ut.pl.plot_slvol_fancy(tsax.twinx(), t, lang=lang)
 
     # save
     fig.savefig(framepath)
