@@ -672,15 +672,15 @@ def add_signature(text, fig=None, offset=2.5/25.4):
 # ------------
 
 
-def draw_major_cities(ax=None, maxrank=5, textoffset=2, request=None):
+def draw_major_cities(ax=None, maxrank=5, textoffset=2, lang='en',
+                      request=None):
     """Add major city locations with names."""
     shp = cshp.Reader(cshp.natural_earth(resolution='10m',
                                          category='cultural',
-                                         name='populated_places_simple'))
+                                         name='populated_places'))
     for rec in shp.records():
-        name = rec.attributes['name'].decode('latin-1')
-        rank = rec.attributes['scalerank']
-        pop = rec.attributes['pop_max']
+        name = rec.attributes['name_'+lang].decode('utf8')
+        rank = rec.attributes['SCALERANK']
         lon = rec.geometry.x
         lat = rec.geometry.y
         if rank <= maxrank or name in request:
@@ -1119,7 +1119,7 @@ def plot_dt(ax=None, t=0.0):
     ax.locator_params(axis='y', nbins=6)
 
 
-def plot_dt_fancy(ax=None, t=0.0, t0=-120e3, t1=-0e3):
+def plot_dt_fancy(ax=None, t=0.0, t0=-120e3, t1=-0e3, lang='en'):
     """Plot scaled temperature offset time-series in fancy animations."""
     ax = ax or iplt.gca()
     c = '0.25'
@@ -1137,8 +1137,10 @@ def plot_dt_fancy(ax=None, t=0.0, t0=-120e3, t1=-0e3):
             color=c, ha='left', va='center', clip_on=True)
 
     # language-dependent labels
-    lx = u'%d years ago' % -t
-    ly = u'temperature\nchange (°C)'
+    lx = dict(en=u'%d years ago',
+              fr=u'il y a %d ans')[lang] % -t
+    ly = dict(en=u'temperature\nchange (°C)',
+              fr=u'écart (°C) de\ntempérature')[lang]
 
     # color axes spines
     for k, v in ax.spines.iteritems():
@@ -1184,7 +1186,7 @@ def plot_slvol(ax=None, t=0.0):
     ax.locator_params(axis='y', nbins=6)
 
 
-def plot_slvol_fancy(ax=None, t=0.0):
+def plot_slvol_fancy(ax=None, t=0.0, lang='en'):
     """Plot ice volume time-series for fancy animations."""
     ax = ax or iplt.gca()
     c = ut.pl.palette['darkblue']
@@ -1203,7 +1205,8 @@ def plot_slvol_fancy(ax=None, t=0.0):
             color=c, ha='left', va='center', clip_on=True)
 
     # language labels
-    ly = u'ice volume\n(cm sea level)'
+    ly = dict(en=u'ice volume\n(cm sea level)',
+              fr=u'vol. de glace\n(cm niv. marin)')[lang]
 
     # color axes spines
     for k, v in ax.spines.iteritems():
