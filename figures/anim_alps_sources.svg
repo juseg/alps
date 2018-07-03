@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="192mm"
+   height="108mm"
+   viewBox="0 0 192 108"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.2 2405546, 2018-03-11"
+   sodipodi:docname="anim_jump01.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.74909125"
+     inkscape:cx="272.59398"
+     inkscape:cy="250.03667"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer2"
+     showgrid="true"
+     inkscape:snap-page="true"
+     showguides="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1024"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:snap-text-baseline="true"
+     inkscape:pagecheckerboard="false"
+     viewbox-width="192"
+     units="px">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3899"
+       empspacing="8"
+       units="mm"
+       spacingx="1"
+       spacingy="1"
+       dotted="false"
+       originy="2"
+       visible="true" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Background"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-189)"
+     sodipodi:insensitive="true">
+    <rect
+       style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect11"
+       width="192"
+       height="107.99999"
+       x="0"
+       y="189" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Text">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#bfbfbf;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="64"
+       y="25.999996"
+       id="text23"><tspan
+         sodipodi:role="line"
+         x="64"
+         y="25.999996"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;fill:#bfbfbf;fill-opacity:1;stroke-width:0.26458332px"
+         id="tspan7713">Glacier model :</tspan><tspan
+         sodipodi:role="line"
+         x="64"
+         y="31.291664"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;fill:#bfbfbf;fill-opacity:1;stroke-width:0.26458332px"
+         id="tspan34" /><tspan
+         sodipodi:role="line"
+         x="64"
+         y="36.583328"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;fill:#bfbfbf;fill-opacity:1;stroke-width:0.26458332px"
+         id="tspan27">Climate inputs :</tspan><tspan
+         sodipodi:role="line"
+         x="64"
+         y="41.874996"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;fill:#bfbfbf;fill-opacity:1;stroke-width:0.26458332px"
+         id="tspan44" /><tspan
+         sodipodi:role="line"
+         x="64"
+         y="47.16666"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;fill:#bfbfbf;fill-opacity:1;stroke-width:0.26458332px"
+         id="tspan66" /><tspan
+         sodipodi:role="line"
+         x="64"
+         y="52.458328"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;fill:#bfbfbf;fill-opacity:1;stroke-width:0.26458332px"
+         id="tspan46" /><tspan
+         sodipodi:role="line"
+         x="64"
+         y="57.749992"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;fill:#bfbfbf;fill-opacity:1;stroke-width:0.26458332px"
+         id="tspan38">Other inputs :</tspan><tspan
+         sodipodi:role="line"
+         x="64"
+         y="63.041664"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;fill:#bfbfbf;fill-opacity:1;stroke-width:0.26458332px"
+         id="tspan76" /><tspan
+         sodipodi:role="line"
+         x="64"
+         y="68.333328"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;fill:#bfbfbf;fill-opacity:1;stroke-width:0.26458332px"
+         id="tspan52" /><tspan
+         sodipodi:role="line"
+         x="64"
+         y="73.624992"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;fill:#bfbfbf;fill-opacity:1;stroke-width:0.26458332px"
+         id="tspan78" /><tspan
+         sodipodi:role="line"
+         x="64"
+         y="78.916656"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;fill:#bfbfbf;fill-opacity:1;stroke-width:0.26458332px"
+         id="tspan70">Animation data :</tspan></text>
+    <text
+       id="text7810"
+       y="25.999996"
+       x="72"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#bfbfbf;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         sodipodi:role="line"
+         id="tspan7986"
+         x="72"
+         y="25.999996">PISM</tspan><tspan
+         sodipodi:role="line"
+         id="tspan7994"
+         x="72"
+         y="31.291664" /><tspan
+         sodipodi:role="line"
+         x="72"
+         y="36.583328"
+         id="tspan42">WorldClim</tspan><tspan
+         sodipodi:role="line"
+         x="72"
+         y="41.874996"
+         id="tspan25">ERA-Interim</tspan><tspan
+         sodipodi:role="line"
+         id="tspan8024"
+         x="72"
+         y="47.16666">EPICA</tspan><tspan
+         sodipodi:role="line"
+         x="72"
+         y="52.458328"
+         id="tspan21" /><tspan
+         sodipodi:role="line"
+         x="72"
+         y="57.749992"
+         id="tspan28">SRTM</tspan><tspan
+         sodipodi:role="line"
+         x="72"
+         y="63.041664"
+         id="tspan91">Geothermy</tspan><tspan
+         sodipodi:role="line"
+         x="72"
+         y="68.333328"
+         id="tspan58">Ice thickness</tspan><tspan
+         sodipodi:role="line"
+         x="72"
+         y="73.624992"
+         id="tspan72" /><tspan
+         sodipodi:role="line"
+         x="72"
+         y="78.916656"
+         id="tspan80">SPECMAP</tspan><tspan
+         sodipodi:role="line"
+         x="72"
+         y="84.208328"
+         id="tspan23">Natural Earth</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#bfbfbf;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="104"
+       y="25.999996"
+       id="text127"><tspan
+         y="25.999996"
+         x="104"
+         id="tspan103"
+         sodipodi:role="line">(pism-docs.org)</tspan><tspan
+         y="31.291664"
+         x="104"
+         id="tspan105"
+         sodipodi:role="line" /><tspan
+         id="tspan107"
+         y="36.583328"
+         x="104"
+         sodipodi:role="line">(Hijmans et al., 2005)</tspan><tspan
+         id="tspan109"
+         y="41.874996"
+         x="104"
+         sodipodi:role="line">(Dee et al., 2011)</tspan><tspan
+         y="47.16666"
+         x="104"
+         id="tspan111"
+         sodipodi:role="line">(Jouzel et al., 2007)</tspan><tspan
+         id="tspan113"
+         y="52.458328"
+         x="104"
+         sodipodi:role="line" /><tspan
+         id="tspan115"
+         y="57.749992"
+         x="104"
+         sodipodi:role="line">(Jarvis et al., 2008.)</tspan><tspan
+         id="tspan117"
+         y="63.041664"
+         x="104"
+         sodipodi:role="line">(Goutorbe et al., 2011)</tspan><tspan
+         id="tspan119"
+         y="68.333328"
+         x="104"
+         sodipodi:role="line">(Huss and Farinotti, 2012)</tspan><tspan
+         id="tspan121"
+         y="73.624992"
+         x="104"
+         sodipodi:role="line" /><tspan
+         id="tspan123"
+         y="78.916656"
+         x="104"
+         sodipodi:role="line">(Imbrie et al., 1989)</tspan><tspan
+         id="tspan125"
+         y="84.208328"
+         x="104"
+         sodipodi:role="line">(Patterson and Kelso, 2016)</tspan></text>
+  </g>
+</svg>
