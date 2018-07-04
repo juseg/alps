@@ -477,6 +477,18 @@ def subplots_fancy(extent='alps', t=0.0):
     return fig, ax, tsax
 
 
+def subplots_large(extent='alps'):
+    """Init large figure for a zoomable map."""
+    figw, figh = 900.0, 600.0
+    fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
+                               gridspec_kw=dict(left=0.0, right=0.0,
+                                                bottom=10.0, top=0.0))
+    ax.outline_patch.set_ec('none')
+    ax.background_patch.set_fc('none')
+    prepare_map_axes(ax, extent=extent)
+    return fig, ax
+
+
 # Multi map subplot helpers
 # --------------------------
 
@@ -978,7 +990,7 @@ def draw_alpflo_glacier_names(ax=None):
         ax.text(x, y, name, fontsize=6, style=style, ha='center', va='center')
 
 
-def draw_fancy_map(ax=None, t=0):
+def draw_fancy_map(ax=None, t=0, density=(12.8, 7.2), bg=True):
     """Fancy visualization of model results using high-res SRTM."""
 
     # get current axes if none
@@ -1033,19 +1045,26 @@ def draw_fancy_map(ax=None, t=0):
     mi = (mi > 0.5) + (si < bi)
     si = np.ma.masked_array(si, mi)
 
-    # compute relief shading
-    kw = dict(extent=ei, altitude=30.0, transparent=True)
-    s300 = ut.pl.shading(bi, azimuth=300.0, **kw)
-    s315 = ut.pl.shading(bi, azimuth=315.0, **kw)
-    s330 = ut.pl.shading(bi, azimuth=330.0, **kw)
-    sh = (s300+s315+s330) / 3.0
+    # if background map was requested
+    if bg == True:
 
-    # plot interpolated results
-    im = ax.imshow(bi, extent=ei, vmin=dsl-3e3, vmax=dsl+3e3, cmap=icm.topo, zorder=-1)
-    im = ax.imshow(sh, extent=ei, vmin=-1.0, vmax=1.0, cmap=shinemap, zorder=-1)
-    if bi.min() < 0.0:
-        cs = ax.contour(bi, extent=ei, levels=[dsl], colors='#0978ab',
-                        linestyles='dashed', linewidths=0.25)
+        # compute relief shading
+        kw = dict(extent=ei, altitude=30.0, transparent=True)
+        s300 = ut.pl.shading(bi, azimuth=300.0, **kw)
+        s315 = ut.pl.shading(bi, azimuth=315.0, **kw)
+        s330 = ut.pl.shading(bi, azimuth=330.0, **kw)
+        sh = (s300+s315+s330) / 3.0
+
+        # plot basal topography
+        im = ax.imshow(bi, extent=ei, vmin=dsl-3e3, vmax=dsl+3e3,
+                       cmap=icm.topo, zorder=-1)
+        im = ax.imshow(sh, extent=ei, vmin=-1.0, vmax=1.0, cmap=shinemap,
+                       zorder=-1)
+        if bi.min() < 0.0:
+            cs = ax.contour(bi, extent=ei, levels=[dsl], colors='#0978ab',
+                            linestyles='dashed', linewidths=0.25)
+
+    # plot surface topofraphy
     cs = ax.contourf(xi, yi, mi, levels=[0.0, 0.5], colors='w', alpha=0.75)
     cs = ax.contour(xi, yi, mi, levels=[0.5], colors='0.25', linewidths=0.25)
     cs = ax.contour(xi, yi, si, levels=ut.pl.inlevs, colors='0.25', linewidths=0.1)
@@ -1054,8 +1073,8 @@ def draw_fancy_map(ax=None, t=0):
     # add streamplot (not enough data result in ValueError)
     try:
         ss = nc.streamplot('velsurf', ax, t, cmap='Blues', norm=ut.pl.velnorm,
-                           density=(12.8, 7.2), linewidth=0.5, arrowsize=0.25,
-                           velth=10.0)
+                           density=density, linewidth=0.5, arrowsize=0.25,
+                           velth=1.0)
     except ValueError:
         pass
 
