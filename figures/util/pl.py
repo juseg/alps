@@ -1073,8 +1073,7 @@ def draw_fancy_map(ax=None, t=0, density=(12.8, 7.2), bg=True):
     # add streamplot (not enough data result in ValueError)
     try:
         ss = nc.streamplot('velsurf', ax, t, cmap='Blues', norm=ut.pl.velnorm,
-                           density=density, linewidth=0.5, arrowsize=0.25,
-                           velth=1.0)
+                           density=density, linewidth=0.5, arrowsize=0.25)
     except ValueError:
         pass
 
