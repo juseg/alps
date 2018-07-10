@@ -68,7 +68,7 @@ stereo = ccrs.Stereographic(central_latitude=0.0, central_longitude=7.5)
 
 # geographic regions
 regions = {'egu': (112.5e3, 1087.5e3, 4855e3, 5355e3), # egu poster 975x500
-           '1609': (120e3, 1080e3, 4820e3, 5360e3),    # alps 16:9 960x540
+           '1609': (120e3, 1080e3, 4835e3, 5375e3),    # alps 16:9 960x540
            'alps': (150e3, 1050e3, 4820e3, 5420e3),    # model domain 900x600
            'bern': (390e3, 465e3, 5125e3, 5175e3),     # Bern 75x50
            'crop': (155e3, 1045e3, 4825e3, 5415e3),    # 5 km crop 890x590
@@ -306,13 +306,14 @@ def subplots_ts(nrows=1, ncols=1, sharex=True, sharey=False,
     return fig, grid
 
 
-def subplots_anim(extent='alps', labels=False, dt=True, mis=True, t=0.0):
+def subplots_anim(extent='1609', figsize=(192.0, 108.0)):
     """Init figure with unique subplot for animation."""
-    figw, figh = 180.0, 120.0
-    fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
+    # FIXME make 4k 16:9 the default for all animations?
+    fig, ax = iplt.subplots_mm(figsize=figsize, projection=utm,
                                gridspec_kw=dict(left=0.0, right=0.0,
                                                 bottom=0.0, top=0.0))
     ax.outline_patch.set_ec('none')
+    ax.background_patch.set_fc('none')
     prepare_map_axes(ax, extent=extent)
     return fig, ax
 
