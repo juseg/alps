@@ -482,7 +482,7 @@ def subplots_large(extent='alps'):
     figw, figh = 900.0, 600.0
     fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
                                gridspec_kw=dict(left=0.0, right=0.0,
-                                                bottom=10.0, top=0.0))
+                                                bottom=0.0, top=0.0))
     ax.outline_patch.set_ec('none')
     ax.background_patch.set_fc('none')
     prepare_map_axes(ax, extent=extent)
