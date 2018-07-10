@@ -16,7 +16,7 @@ prefix = os.path.basename(os.path.splitext(sys.argv[0])[0])
 prefix = os.path.join(os.environ['HOME'], 'anim', prefix)
 
 # start and end of animation
-# FIXME this depends on crop region
+# FIXME this depends on crop region, suffix = '_%d%d' % (-t0/1e3, t1/1e3)
 t0, t1, dt = -120000, -0, 40
 
 
@@ -59,6 +59,29 @@ def plot_city():
         plt.close(fig)
 
 
+def plot_tbar(t):
+    """Plot time bar overlay for given time."""
+
+    # check if file exists
+    fname = os.path.join(prefix+'_tbar_'+lang, '{:06d}.png').format(t+120000)
+    if not os.path.isfile(fname):
+
+        # initialize figure
+        print 'plotting {:s} ...'.format(fname)
+        figw, figh = 192.0, 20.0
+        fig = plt.figure(figsize=(figw/25.4, figh/25.4))
+        ax = fig.add_axes([12.0/figw, 3.0/figh, 1-24.0/figw, 12.0/figh])
+        ax.set_facecolor('none')
+
+        # plot time series
+        ut.pl.plot_dt_fancy(ax, t, t0, t1, lang=lang)
+        ut.pl.plot_slvol_fancy(ax.twinx(), t, lang=lang)
+
+        # save
+        fig.savefig(fname, dpi=508.0, facecolor='none')
+        plt.close(fig)
+
+
 def plot_ttag(t):
     """Plot time tag overlay for given time."""
 
@@ -87,13 +110,14 @@ if __name__ == '__main__':
     """Plot individual frames in parallel."""
 
     # create frame directories if missing
-    for suffix in ['_main_'+crop, '_city_'+crop, '_ttag_'+lang]:
+    for suffix in ['_main_'+crop, '_city_'+crop, '_ttag_'+lang, '_tbar_'+lang]:
         if not os.path.isdir(prefix + suffix):
             os.mkdir(prefix + suffix)
 
     # plot all frames in parallel
     pool = mp.Pool(processes=4)
     pool.map(plot_main, xrange(t0+dt, t1+1, dt))
+    pool.map(plot_tbar, xrange(t0+dt, t1+1, dt))
     pool.map(plot_ttag, xrange(t0+dt, t1+1, dt))
     pool.apply(plot_city)
     pool.close()
