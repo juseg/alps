@@ -24,11 +24,11 @@ def plot_main(t):
     """Plot main figure for given time."""
 
     # check if file exists
-    of = os.path.join('{:s}_{:s}', '{:06d}.png').format(prefix, crop, t+120000)
-    if not os.path.isfile(of):
+    fname = os.path.join(prefix+'_main_'+crop, '{:06d}.png'.format(t+120000))
+    if not os.path.isfile(fname):
 
         # initialize figure
-        print 'plotting {:s} ...'.format(of)
+        print 'plotting {:s} ...'.format(fname)
         fig, ax = ut.pl.subplots_anim(figsize=(384.0, 216.0))
 
         # draw map elements
@@ -36,19 +36,40 @@ def plot_main(t):
         ut.pl.draw_natural_earth_color(ax, graticules=False)
 
         # save
-        fig.savefig(of)
+        fig.savefig(fname)
+        plt.close(fig)
+
+
+def plot_city():
+    """Plot city overlay for given language."""
+
+    # check if file exists
+    fname = os.path.join(prefix+'_city_'+crop, lang+'.png')
+    if not os.path.isfile(fname):
+
+        # initialize figure
+        print 'plotting {:s} ...'.format(fname)
+        fig, ax = ut.pl.subplots_anim(figsize=(384.0, 216.0))
+
+        # draw map elements
+        ut.pl.draw_major_cities(ax, maxrank=8, lang=lang, request='Sion')
+
+        # save
+        fig.savefig(fname, facecolor='none')
         plt.close(fig)
 
 
 if __name__ == '__main__':
     """Plot individual frames in parallel."""
 
-    # create frames directory if missing
-    if not os.path.isdir(prefix + '_' + crop):
-        os.mkdir(prefix + '_' + crop)
+    # create frame directories if missing
+    for suffix in ['_main_'+crop, '_city_'+crop]:
+        if not os.path.isdir(prefix + suffix):
+            os.mkdir(prefix + suffix)
 
     # plot all frames in parallel
     pool = mp.Pool(processes=4)
     pool.map(plot_main, xrange(t0+dt, t1+1, dt))
+    pool.apply(plot_city)
     pool.close()
     pool.join()
