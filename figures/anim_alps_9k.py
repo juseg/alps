@@ -20,19 +20,18 @@ def draw(t):
 
     # check if file exists
     framepath = os.path.join(framesdir, '{:06d}.png'.format(t+120000))
-    if os.path.isfile(framepath):
-        return
+    if not os.path.isfile(framepath):
 
-    # initialize figure
-    print 'plotting at %.0f a...' % (0.0-t)
-    fig, ax = ut.pl.subplots_large()
+        # initialize figure
+        print 'plotting at %.0f a...' % (0.0-t)
+        fig, ax = ut.pl.subplots_anim(extent='alps', figsize=(900.0, 600.0))
 
-    # plot model results
-    ut.pl.draw_fancy_map(ax, t, density=(60, 40), bg=False)
+        # plot model results
+        ut.pl.draw_fancy_map(ax, t, density=(60, 40), bg=False)
 
-    # save
-    fig.savefig(framepath, facecolor='none')
-    plt.close(fig)
+        # save
+        fig.savefig(framepath, facecolor='none')
+        plt.close(fig)
 
 
 if __name__ == '__main__':
@@ -43,7 +42,7 @@ if __name__ == '__main__':
         os.mkdir(framesdir)
 
     # plot all frames in parallel
-    pool = mp.Pool(processes=12)
+    pool = mp.Pool(processes=4)
     pool.map(draw, xrange(t0+dt, t1+1, dt))
     pool.close()
     pool.join()

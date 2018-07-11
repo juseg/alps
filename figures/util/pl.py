@@ -462,9 +462,9 @@ def subplots_cax_ts_sgm(extent='alps', labels=False, dt=True, mis=True):
     return fig, ax, cax1, cax2, tsax
 
 
-def subplots_fancy(extent='alps', t=0.0):
+def subplots_fancy(extent='1609', t=0.0, figsize=(192.0, 108.0)):
     """Init figure with fullscreen map and transparent time series."""
-    figw, figh = 192.0, 108.0
+    figw, figh = figsize
     fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
                                gridspec_kw=dict(left=0.0, right=0.0,
                                                 bottom=0.0, top=0.0))
@@ -476,18 +476,6 @@ def subplots_fancy(extent='alps', t=0.0):
                                  clip_on=False, transform=ax.transAxes))
     prepare_map_axes(ax, extent=extent)
     return fig, ax, tsax
-
-
-def subplots_large(extent='alps'):
-    """Init large figure for a zoomable map."""
-    figw, figh = 900.0, 600.0
-    fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
-                               gridspec_kw=dict(left=0.0, right=0.0,
-                                                bottom=0.0, top=0.0))
-    ax.outline_patch.set_ec('none')
-    ax.background_patch.set_fc('none')
-    prepare_map_axes(ax, extent=extent)
-    return fig, ax
 
 
 # Multi map subplot helpers
