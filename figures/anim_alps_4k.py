@@ -95,10 +95,10 @@ def plot_ttag(t):
         fig = plt.figure(figsize=(figw/25.4, figh/25.4))
 
         # add text
-        tag = dict(de=u'{:d} Jahre früher',
-                   en=u'{:d} years ago',
-                   fr=u'il y a {:d} ans')[lang]
-        fig.text(2.5/figw, 1-2.5/figh, tag.format(0-t),
+        tag = dict(de=u'{:,d} Jahre früher',
+                   en=u'{:,d} years ago',
+                   fr=u'il y a {:,d} ans')[lang]
+        fig.text(2.5/figw, 1-2.5/figh, tag.format(0-t).replace(',', r'$\,$'),
                  ha='left', va='top', fontweight='bold')
 
         # save

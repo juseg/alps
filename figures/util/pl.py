@@ -1144,8 +1144,8 @@ def plot_dt_fancy(ax=None, t=0.0, t0=-120e3, t1=-0e3, lang='en'):
             color=c, ha='left', va='center', clip_on=True)
 
     # language-dependent labels
-    lx = dict(en=u'%d years ago',
-              fr=u'il y a %d ans')[lang] % -t
+    lx = dict(en=u'{:,d} years ago',
+              fr=u'il y a {:,d} ans')[lang].format(0-t).replace(',', r'$\,$')
     ly = dict(en=u'temperature\nchange (°C)',
               fr=u'écart (°C) de\ntempérature')[lang]
 
@@ -1165,8 +1165,9 @@ def plot_dt_fancy(ax=None, t=0.0, t0=-120e3, t1=-0e3, lang='en'):
     ax.axvline(-t, c=c, lw=0.5)
     ax.set_xticks([-t0, -t, -t1])
     rt = 1.0*(t-t0)/(t1-t0)  # relative cursor position
-    ax.set_xticklabels([('%d' % round(-t0))*(rt>=1/12.0), lx,
-                        ('%d' % round(-t1))*(rt<=11/12.0)])
+    l0 = r'{:,d}'.format(0-t0).replace(',', r'$\,$')
+    l1 = r'{:,d}'.format(0-t1).replace(',', r'$\,$')
+    ax.set_xticklabels([l0*(rt>=1/12.0), lx, l1*(rt<=11/12.0)])
     ax.xaxis.tick_top()
 
 
