@@ -21,6 +21,10 @@ sum: $(PAPER).sum
 # latex diff
 diff: $(PAPER)-diff.pdf
 
+# responses
+resp: $(addprefix response-, monegato.pdf prereview.pdf \
+			     referee1.pdf referee2.pdf referee3.pdf )
+
 
 # Patterned rules
 # ---------------
