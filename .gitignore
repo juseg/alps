@@ -26,6 +26,7 @@
 *.ogg
 *.pyc
 *.png
+*.tms
 *.zip
 
 # Data
