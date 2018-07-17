@@ -56,7 +56,7 @@
 %TC: break Abstract
 \begin{abstract}
 
-    The European Alps, cradle of pioneer glacial studies, are one of the
+    The European Alps, cradle of pioneering glacial studies, are one of the
     regions where geological markers of past glaciations are most abundant and
     well-studied. Such conditions make the region ideal for testing numerical
     glacier models based on simplified ice flow physics against field-based
@@ -64,8 +64,7 @@
 
     Here, we use the Parallel Ice Sheet Model (PISM) to model the entire last
     glacial cycle (120--0\,ka) in the Alps, using horizontal resolutions of 2
-    and 1\,km and up to 576~processors.
-    Climate forcing is derived using present-day climate data from
+    and 1\,km. Climate forcing is derived using present-day climate data from
     WorldClim and the ERA-Interim reanalysis, and time-dependent temperature
     offsets from multiple palaeo-climate proxies, among which only the EPICA ice
     core record yields glaciation during marine oxygen isotope stages~4
@@ -80,10 +79,10 @@
     self-sustained ice domes. Modelled maximum ice surface is 861\,m
     higher than observed trimline elevations in the upper Rhone Valley, yet
     our simulation predicts little erosion at high elevation due to cold-based
-    ice. Finally, the Last
-    Glacial Maximum advance, often considered synchronous, is here modelled as
-    a time-transgressive event, with some glacier lobes reaching their maximum
-    as early as 27\,ka, and some as late as 21\,ka.
+    ice. Finally, despite the uniform climate forcing, differences in glacier
+    catchment hypsometry cause the Last Glacial Maximum advance to be modelled
+    as a time-transgressive event, with some glaciers reaching their maximum as
+    early as 26\,ka, and others as late as 20\,ka.
 
 \end{abstract}
 
@@ -161,7 +160,8 @@
     trimlines, the upper limit of glacial
     erosion, represent the maximum ice surface elevation, has
     been repeatedly invalidated in other glaciated regions of the globe
-    \citep[e.g.,][]{Kleman.1994, Kleman.etal.2010, Fabel.etal.2012}. Although
+    \citep[e.g.,][]{Kleman.1994, Kleman.etal.2010, Fabel.etal.2012,
+    Ballantyne.Stone.2015}. Although
     no evidence for cold-based glaciation has been reported in the Alps to
     date, it is supported by numerical modelling
     \citep[Fig.~3]{Haeberli.Schluchter.1987}. Alpine ice flow
@@ -175,8 +175,8 @@
     \citep[29--14\,ka;][]{Lisiecki.Raymo.2005}. Regional variation between
     different piedmont
     lobes exists \citep[Fig.~5]{Wirsig.etal.2016}, but it is unclear whether
-    this relates to climate or glacier dynamics \citep{Monegato.etal.2017} or
-    uncertainties in the dating methods.
+    this relates to climate or glacier dynamics \citep{Monegato.etal.2017},
+    uncertainties in the dating methods, or both.
 
     Although the glacial history of the European Alps has been studied for
     nearly three hundred years, it still remains incompletely known
@@ -185,8 +185,10 @@
       (3) what drove the different responses of the individual lobes,
       (4) how far above the trimline was the ice surface located, and
       (5) how many advances occurred during the last glacial cycle.
+    Additional geological research will be needed to complete our knowledge.
 
-    Here, we use the Parallel Ice Sheet Model
+    But here, we intend to explore these open questions from a new angle and
+    use the Parallel Ice Sheet Model
     \citep[PISM,][]{PISM-authors.2017}, a numerical ice sheet model that
     approximates glacier sliding and deformation (Sect.~\ref{sec:model}), to
     model Alpine glacier dynamics through the last glacial cycle (120--0\,ka),
@@ -679,8 +681,7 @@
     These simulations use a horizontal resolution of 2\,km. The vertical grid
     consists of 31~temperature layers in the bedrock and up to 126~enthalpy
     layers in the ice, corresponding to vertical resolutions of 100 and
-    40\,m, respectively. Simulations ran for two to four days
-    using 144~processors.
+    40\,m, respectively.
 
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
@@ -984,8 +985,7 @@
     (Sect.~\ref{sec:palprec}). It uses a horizontal resolution of 1\,km. The
     vertical grid consists of 61~temperature layers in the bedrock and up to
     251~enthalpy layers in the ice, corresponding to vertical resolutions of 50
-    and 20\,m, respectively. This simulation ran for 33~days using
-    576~processors.
+    and 20\,m, respectively.
 
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
@@ -1071,7 +1071,7 @@
     in thinner glaciers and limits overshoot of the equilibrium state
     (discussed further in Sect.~\ref{sec:timing}).
 
-    On a more regional level, the maximum extent of the Ticino, Oglio,
+    On a more regional level, the maximum extent of the Adda, Oglio,
     Adige and Piave Glaciers in the central southern Alps is modelled
     several kilometres within the mapped LGM moraines (Fig.~\ref{fig:lgmvel}a).
     This appears to result
@@ -1283,8 +1283,8 @@
     Kelly.etal.2004, Bini.etal.2009, Coutterand.2010, Cossart.etal.2012}.
     However, this assumption is challenged by geomorphological and cosmogenic
     nuclide dating evidence from
-    Scandinavia \citep[e.g.,][]{Kleman.1994, Kleman.Borgstrom.1994},
-    the British Isles \citep[e.g.,][]{Fabel.etal.2012}, and
+    Scandinavia \citep[e.g.,][]{Kleman.1994, Kleman.Borgstrom.1994}, the
+    British Isles \citep[e.g.,][]{Fabel.etal.2012, Ballantyne.Stone.2015}, and
     North America \citep[e.g.,][]{Kleman.etal.2010}, that pre-glacial landscapes
     located well above the trimlines have been glaciated and preserved
     under cold-based ice, sometimes for several glacial cycles
@@ -1461,10 +1461,10 @@
             that east-west
             gradients in temperature or precipitation change, absent from our
             model forcing, probably controlled the LGM extent of ice cover in
-            the Alps. The asymmetric extent north and south of the Alps
-            can be explained by the transient nature of the LGM extent without
-            involving north-south gradients in temperature and precipitation
-            change (Sect.~\ref{sec:extent}).
+            the Alps. The observed asymmetric extent of ice north and south of
+            the Alps can be explained by the modelled transient nature of the
+            LGM extent without involving north-south gradients in temperature
+            and precipitation change (Sect.~\ref{sec:extent}).
       \item The LGM ice flow pattern in the Alps was largely controlled by
             subglacial topography, but several transfluences and two
             self-sustained ice domes may have occurred (Sect.~\ref{sec:flow}).
