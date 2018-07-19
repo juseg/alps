@@ -44,6 +44,9 @@
         constituting a thorough assessment of model performance. An impressive
         animation of the whole cycle is included as supplementary material.}
 
+    Thank you very much for this elogious summary.
+
+
 % ----------------------------------------------------------------------
 
 \sechead{Specific comments}
@@ -53,6 +56,50 @@
         results be summarized briefly? This is not a usual component in
         ice-sheet models. Is the cap value ("capped at 0.01") well constrained,
         and does it have a significant effect on results?}
+
+    Laboratory experiments have demonstrated that the rheology of temperate,
+    polycrystalline ice depends on its content in liquid water
+    \citep[p.~65--66]{Cuffey.Paterson.2010}. Unfortunately, the only
+    measurements available to date \citep{Duval.1977}, used to quantify the
+    effect of liquid water on ice softness, the creep parameter $A$ in Glen's
+    flow law \citep{Lliboutry.Duval.1985}, only extend to fractions of liquid
+    water content between 0 and 0.8\%. They show a three-fold increase of ice
+    softness over this range \citep[Fig.~1]{Duval.1977}.
+
+    Although ice sheet models have previously ignored this effect, it has now
+    become a typical component of polythermal models such as SICOPOLIS
+    \citep{Greve.1997}, COMICE \citep{Ruckamp.etal.2010}, PISM
+    \citep{Aschwanden.etal.2012}, ISSM \citep{Seroussi.etal.2013}, and
+    TIM-FD$\unit{^{3}}$ \citep{Kleiner.Humbert.2014}.
+
+    Water fractions between 1 and 5\,\% have repreatedly been observed in
+    temperate glaciers \citep{Murray.etal.2000, Murray.etal.2007,
+    Bradford.Harper.2005, Bradford.etal.2009}, and also occur in model results
+    \citep[e.g.,][]{Blatter.Greve.2015}, but it is not known whether ice
+    viscosity continues to decrease substancially for values above 0.8\,\%.
+    Previous modelling studies have commonly assumed constant ice viscosity
+    above 1\,\%. This arbitrary threshold is not constrained at all, and the
+    urgent need for new ice deformation experiments has been pointed out
+    \citep{Kleiner.etal.2015}.
+
+    The sensitivity of our results to the 1\,\% threshold was not tested.
+    However, in our model results, liquid water fractions above 1\,\% typically
+    only occur within the basal temperate layer of the fastest-moving glaciers
+    where ice movement is dominated by basal sliding. We suspect that a local
+    increase of ice deformation there is negligible in comparaison to
+    uncertainties caused by basal sliding and more importantly climate forcing.
+
+    We prefer to avoid including the above discussion in the manuscript, but we
+    have reworked the sentence on water content:
+
+    \msquote{%
+        [Ice softness] increases with liquid water fractions up to 0.01
+        \citep[p.~65--66]{Duval.1977, Lliboutry.Duval.1985,
+        Cuffey.Paterson.2010}, an arbitrary threshold above which new
+        measurements are critically needed \citep{Kleiner.etal.2015}.}
+
+    The uncertainty to unknown rheology of water-rich temperate ice was also
+    mentioned in the conclusions.
 
     \referee{\textbf{p.~4, l.~19--20:}
         The sub-glacial hydrologic component should be described more (even if
@@ -182,5 +229,12 @@
         ``estimated''.}
 
         Done.
+
+% ----------------------------------------------------------------------
+
+\sechead{References}
+
+\bibliographystyle{copernicus}
+\bibliography{../../references/references}
 
 \end{document}
