@@ -26,7 +26,7 @@ y = nc.variables['y'][:]
 age = -nc.variables['time'][:]/(365.0*24*60*60)
 thk = da.from_array(nc.variables['thk'], chunks=chunks)
 srf = da.from_array(nc.variables['usurf'], chunks=chunks)
-tpa = da.from_array(nc.variables['temppabase'], chunks=chunks)
+tba = da.from_array(nc.variables['temppabase'], chunks=chunks)
 uba = da.from_array(nc.variables['uvelbase'], chunks=chunks)
 vba = da.from_array(nc.variables['vvelbase'], chunks=chunks)
 cba = da.from_array(nc.variables['velbase_mag'], chunks=chunks)
@@ -79,12 +79,14 @@ print "computing maximum ice thickness..."
 maxicethk = thk.max(axis=0).compute()  # could use nd fancy indexing
 print "computing max thickness surface elevation..."
 maxthksrf = srf.compute()[argmaxthk, jj, kk]  # no dask, very slow
+print "computing max thickness basal temperature..."
+maxthktba = tba.compute()[argmaxthk, jj, kk]  # no dask, very slow
 print "computing total basal sliding..."
 totalslip = (icy*cba).sum(axis=0).compute(get=dask.get)*dt
 print "computing MIS2 warm-based ice cover..."
 mis2 = (age < 29e3) * (age >= 14e3)
 mis2print = icy[mis2].any(axis=0).compute()
-warmbased = (icy*(tpa >= -1e-3))[mis2].sum(axis=0).compute(get=dask.get)*dt
+warmbased = (icy*(tba >= -1e-3))[mis2].sum(axis=0).compute(get=dask.get)*dt
 
 # compute derived variables
 print "computing footprint..."
@@ -116,6 +118,7 @@ maxicethk = np.ma.masked_where(~footprint, maxicethk)
 maxsrfage = np.ma.masked_where(~footprint, maxsrfage)
 maxthkage = np.ma.masked_where(~footprint, maxthkage)
 maxthksrf = np.ma.masked_where(~footprint, maxthksrf)
+maxthktba = np.ma.masked_where(~footprint, maxthktba)
 totalslip = np.ma.masked_where(~footprint, totalslip)
 warmbased = np.ma.masked_where(~mis2print, warmbased)
 
@@ -139,6 +142,7 @@ ut.make_gtif_shp(x, y, maxicethk, prefix+'maxicethk', range(0, 5001, 100))
 ut.make_gtif_shp(x, y, maxthkage, prefix+'maxsrfage', range(21000, 27001, 1000))
 ut.make_gtif_shp(x, y, maxsrfage, prefix+'maxthkage', range(21000, 27001, 1000))
 ut.make_gtif_shp(x, y, maxthksrf, prefix+'maxthksrf', range(0, 5001, 100))
+ut.make_gtif_shp(x, y, maxthktba, prefix+'maxthktba', range(-30, 0, 1) + [-1e-3])
 ut.make_gtif_shp(x, y, totalslip, prefix+'totalslip', [100, 1000, 10000, 100000])
 ut.make_gtif_shp(x, y, warmbased, prefix+'warmbased', range(0, 15001, 1000))
 
