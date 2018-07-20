@@ -62,9 +62,9 @@ print "computing last flow age..."
 lastflowi = -(icy*(cba>=1.0))[::-1].argmax(axis=0).compute(get=dask.get)
 lastflowa = age[lastflowi]
 print "computing last flow x-component..."
-lastflowu = uba[lastflowi, jj, kk].compute()
+lastflowu = uba.compute()[lastflowi, jj, kk]  # no dask, very slow
 print "computing last flow y-component..."
-lastflowv = vba[lastflowi, jj, kk].compute()
+lastflowv = vba.compute()[lastflowi, jj, kk]  # no dask, very slow
 print "computing number of glaciations..."
 nadvances = (icy[0] + (icy[1:]-icy[:-1]).sum(axis=0) + icy[-1]).compute()/2
 print "computing age of maximum surface elevation..."
@@ -74,11 +74,11 @@ print "computing age of maximum thickness..."
 argmaxthk = thk.argmax(axis=0).compute()
 maxthkage = age[argmaxthk]
 print "computing maximum ice surface elevation..."
-maxicesrf = srf[argmaxsrf, jj, kk].compute()
+maxicesrf = srf.max(axis=0).compute()  # could use nd fancy indexing
 print "computing maximum ice thickness..."
-maxicethk = thk[argmaxthk, jj, kk].compute()
+maxicethk = thk.max(axis=0).compute()  # could use nd fancy indexing
 print "computing max thickness surface elevation..."
-maxthksrf = srf[argmaxthk, jj, kk].compute()
+maxthksrf = srf.compute()[argmaxthk, jj, kk]  # no dask, very slow
 print "computing total basal sliding..."
 totalslip = (icy*cba).sum(axis=0).compute(get=dask.get)*dt
 print "computing MIS2 warm-based ice cover..."
