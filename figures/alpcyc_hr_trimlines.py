@@ -25,10 +25,10 @@ zt = trimlines['z']
 xt, yt, zt = ut.pl.utm.transform_points(ut.pl.swiss, xt, yt, zt).T
 
 # read postprocessed data
-maxthksrf, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'maxthksrf')
-maxthkage, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'maxthkage')
 maxicethk, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'maxicethk')
-warmbased, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'warmbased')
+maxthkage, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'maxthkage')
+maxthksrf, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'maxthksrf')
+maxthktba, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'maxthktba')
 
 # get coordinates  # FIXME not efficient
 filepath = ut.alpcyc_bestrun + 'y0120000-extra.nc'
@@ -109,10 +109,11 @@ hsax.set_ylim(l-zavg for l in scax.get_ylim())
 # Map axes
 # --------
 
-# plot areas with less than 1 ka warm ice cover
-im = ax.contourf(warmbased, levels=[0e3, 1e3, 120e3], extent=extent,
+# plot cold-based areas at max thickness age
+im = ax.contourf(maxthktba, levels=[-50.0, -1e-3, 0.0], extent=extent,
                  colors=['w', 'w'], hatches=['////', ''], alpha=0.5)
-cs = ax.contour(warmbased, [1e3], extent=extent, colors='0.25', linewidths=0.25)
+cs = ax.contour(maxthktba, [-1e-3], extent=extent, colors='0.25',
+                linestyles='-', linewidths=0.25)
 
 # add map elements
 ut.pl.draw_boot_topo(ax)
