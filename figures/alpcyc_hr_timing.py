@@ -32,7 +32,7 @@ ut.pl.draw_glacier_names(ax)
 
 # add colorbar
 cb = ut.pl.add_colorbar(cs, cax)
-cb.set_label(r'age of maximum ice surface elevation (ka)')
+cb.set_label(r'age of maximum ice thickness (ka)')
 
 
 # Time series

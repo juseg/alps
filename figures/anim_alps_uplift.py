@@ -70,7 +70,7 @@ def draw(t):
                     colors='0.25', linewidths=0.25)
     cs = nc.icemargin(ax, t, colors='k', linewidths=0.25)
 
-    # locate maximum depression    
+    # locate maximum depression
     i = (z-zref).argmin() / z.shape[-1]
     j = (z-zref).argmin() % z.shape[-1]
     maxdep = (zref-z)[i, j]
