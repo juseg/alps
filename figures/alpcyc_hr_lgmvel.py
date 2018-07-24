@@ -37,7 +37,6 @@ ut.pl.draw_natural_earth(ax)
 ut.pl.draw_footprint(ax)
 ut.pl.draw_lgm_outline(ax)
 ut.pl.draw_glacier_names(ax)
-ut.pl.draw_ice_domes(ax)
 ut.pl.draw_major_transfluences(ax)
 ut.pl.add_corner_tag('%.2f ka' % a, ax)
 

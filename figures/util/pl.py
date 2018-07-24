@@ -848,7 +848,8 @@ def draw_major_transfluences(ax=None, textoffset=4):
                  u'Seefeld Saddle': 'cr',
                  u'Gailberg Saddle': 'cl',
                  u'Kreuzberg Saddle': 'cr',
-                 u'Straniger Alp': 'cr',
+                 u'Kronhofer Törl': 'cl',
+                 u'Stutenbodenalm': 'cr',
                  u'Pyhrn Pass': 'lc'}
     shp = cshp.Reader('../data/native/alpcyc_transfluences.shp')
     for rec in shp.records():
