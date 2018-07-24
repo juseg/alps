@@ -66,6 +66,16 @@ w, e, s, n = ax.get_extent()
 ax.plot([e-25e3, e-5e3], [s+5e3]*2, 'w|-')
 ax.text(e-15e3, s+7.5e3, r'20$\,$km', color='w', ha='center', fontweight='bold')
 
+# mark inset
+origax = grid[0, 1]
+ut.pl.draw_model_domain(origax, 'bern')
+switch = origax.transData - ax.transAxes
+w0, s0 = switch.transform((w, s))
+e0, s0 = switch.transform((e, s))
+kwargs = dict(lw=0.5, clip_on=False, transform=ax.transAxes, zorder=3)
+ax.plot((w0, 0), (s0, 1), 'k--', **kwargs)
+ax.plot((e0, 1), (s0, 1), 'k--', **kwargs)
+
 
 # Standard deviation
 # ------------------
