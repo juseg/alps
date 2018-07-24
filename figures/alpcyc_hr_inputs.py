@@ -4,6 +4,7 @@
 import util as ut
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 
 # initialize figure
 fig, grid = ut.pl.subplots_inputs()
@@ -43,6 +44,11 @@ cs = nc.contourf('bheatflx', ax, levels=levs, colors=cols, thkth=-1,
 cb = ut.pl.add_colorbar(cs, ax.cax, extend='both', ticks=levs[::2])
 cb.set_label(r'Geothermal flux ($mW\,m^{-2}$)')
 
+# add scale
+w, e, s, n = ax.get_extent()
+ax.plot([e-260e3, e-60e3], [s+60e3]*2, 'w|-')
+ax.text(e-160e3, s+90e3, r'100$\,$km', color='w', ha='center', fontweight='bold')
+
 # plot boot ice thickness
 ax = grid[0, 2]
 ax.set_extent(ut.pl.regions['bern'], crs=ax.projection)
@@ -54,6 +60,11 @@ cb.set_label(r'Modern ice thickness (m)')
 
 # close boot file
 nc.close()
+
+# add scale
+w, e, s, n = ax.get_extent()
+ax.plot([e-25e3, e-5e3], [s+5e3]*2, 'w|-')
+ax.text(e-15e3, s+7.5e3, r'20$\,$km', color='w', ha='center', fontweight='bold')
 
 
 # Standard deviation
