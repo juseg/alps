@@ -7,6 +7,7 @@
 
 PAPER = alps-cycle
 REV = $(shell git describe --abbrev=0 --match=alpcyc*)
+REV = alpcyc-2.1
 
 
 # Named rules
@@ -22,7 +23,7 @@ sum: $(PAPER).sum
 diff: $(PAPER)-diff.pdf
 
 # responses
-resp: $(addprefix response-, monegato.pdf prereview.pdf \
+resp: $(addprefix response-, editor.pdf monegato.pdf prereview.pdf \
 			     referee1.pdf referee2.pdf referee3.pdf )
 
 
