@@ -23,7 +23,7 @@ sum: $(PAPER).sum
 diff: $(PAPER)-diff.pdf
 
 # responses
-resp: $(addprefix response-, editor.pdf monegato.pdf prereview.pdf \
+resp: $(addprefix response-, editor1.pdf editor2.pdf monegato.pdf \
 			     referee1.pdf referee2.pdf referee3.pdf )
 
 
