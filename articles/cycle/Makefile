@@ -7,7 +7,6 @@
 
 PAPER = alps-cycle
 REV = $(shell git describe --abbrev=0 --match=alpcyc*)
-REV = alpcyc-2.1
 
 
 # Named rules

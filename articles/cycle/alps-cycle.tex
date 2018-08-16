@@ -81,8 +81,8 @@
     higher than observed trimline elevations in the upper Rhone Valley, yet
     our simulation predicts little erosion at high elevation due to cold-based
     ice. Finally, despite the uniform climate forcing, differences in glacier
-    catchment hypsometry cause the Last Glacial Maximum advance to be modelled
-    as a time-transgressive event, with some glaciers reaching their maximum as
+    catchment hypsometry produce a time-transgressive Last Glacial Maximum
+    advance, with some glaciers reaching their modelled maximum extent as
     early as 27\,ka, and others as late as 21\,ka.
 
 \end{abstract}
@@ -180,15 +180,14 @@
     uncertainties in the dating methods, or both.
 
     Although the glacial history of the European Alps has been studied for
-    nearly three hundred years, it still remains incompletely known
+    nearly three hundred years, uncertainties remain on
       (1) what climate evolution led to the known maximum ice limits,
       (2) to what extent ice flow was controlled by subglacial topography,
       (3) what drove the different responses of the individual lobes,
       (4) how far above the trimline was the ice surface located, and
       (5) how many advances occurred during the last glacial cycle.
-    Additional geological research will be needed to complete our knowledge.
 
-    But here, we intend to explore these open questions from a new angle and
+    Here, we intend to explore these open questions from a new angle and
     use the Parallel Ice Sheet Model
     \citep[PISM,][]{PISM-authors.2017}, a numerical ice sheet model that
     approximates glacier sliding and deformation (Sect.~\ref{sec:model}), to
@@ -198,6 +197,7 @@
     above, we test the model sensitivity to multiple palaeo-climate forcing
     (Sect.~\ref{sec:climate}), and then explore the modelled glacier dynamics
     at high resolution for the optimal forcing (Sect.~\ref{sec:results}).
+    Additional geological research will be needed to complete our knowledge.
 
 
 % ----------------------------------------------------------------------
@@ -242,7 +242,7 @@
     equilibrium ice and bedrock temperature at 120\,ka, and runs to the
     present. Our modelling domain of 900 by 600\,km encompasses the
     entire Alpine range (Fig.~\ref{fig:inputs}). The simulations were run on
-    two distinct grids, using horizontal resolutions of 2 and 1\,km,
+    two different grids, using horizontal resolutions of 2 and 1\,km,
     respectively.
     All parameter values are summarized in Table~\ref{tab:params}.
 
@@ -258,12 +258,13 @@
     predominant components. The Shallow Shelf Approximation (SSA) is combined
     with the Shallow Ice Approximation (SIA) by adding velocity solutions of
     the two approximations \citep[Eqs.~7--9 and 15]{Winkelmann.etal.2011}.
-    Although this heuristic approach is inaccurate in the transition zone
+    In the SIA, topographic roughness is parametrized using a bed smoother
+    range of 5\,km \citep{Schoof.2003}.
+    Although the SSA-SIA heuristic is inaccurate in the transition zone
     where both vertical shear and longitudinal stretch are significant,
     it was shown to effectively approximate complex ice sheet flow
     dynamics over mountainous topographies similar to that of the European Alps
-    \citep{Golledge.etal.2012, Ziemen.etal.2016}. In the SIA, topographic
-    roughness using a bed smoother range of 5\,km \citep{Schoof.2003}.
+    \citep{Golledge.etal.2012, Ziemen.etal.2016}.
 
     Ice deformation is governed by the constitutive law for ice
     \citep{Glen.1952, Nye.1953}. Ice softness depends on ice temperature,
@@ -301,9 +302,9 @@
     experiments with till extracted from the base of Ice Stream B in West
     Antarctica \citep[Table~\ref{tab:params};][Eqs~23 and
     24]{Tulaczyk.etal.2000, Bueler.Pelt.2015}. Basal meltwater is accumulated
-    locally without transportation. When the till becomes saturated, additional
-    meltwater assumed to drain off instantaneously outside the glacier margins,
-    i.e. it is removed from the system in an accountable way. Other parameters
+    locally without horizontal transport. When the till becomes saturated,
+    additional meltwater assumed to drain instantaneously and is removed from
+    the system in an accountable way. Other parameters
     (Table~\ref{tab:params}) follow simulations of the Greenland ice sheet
     \citep{Aschwanden.etal.2013}, or benchmarks when other data is missing
     \citep{Bueler.Pelt.2015}.
@@ -448,9 +449,9 @@
     hand, and for differences between the basal topography of the ice flow
     model, $b$, and the WorldClim reference topography, $b_{\text{ref}}$, on
     the other hand. All simulations use an annual temperature lapse rate of
-    $\gamma=6\,\unit{K\,km^{-1}}$, which is slightly above average but more
-    representative of summer months when surface melt occurs
-    \citep[Fig.~3]{Rolland.2003}.
+    $\gamma=6\,\unit{K\,km^{-1}}$, which is slightly above annual lapse rates
+    measured in the Alps but more representative of summer months when surface
+    melt occurs \citep[Fig.~3]{Rolland.2003}.
 
     \begin{table*}[p]
       \caption{%
@@ -1026,7 +1027,7 @@
       \caption{%
         \textbf{(a)} Modelled bedrock topography (grey), ice surface topography
         (200\,m contours), and ice surface velocity (blue) in the Alps
-        24.57\,ka before present, corresponding to the maximum modelled ice
+        24.57\,ka before present, corresponding to the modelled maximum ice
         cover. The modelled LGM ice extent (dashed orange line) and
         geomorphological reconstruction \citep[solid red
         line,][]{Ehlers.etal.2011}, and some major transfluences across
@@ -1038,7 +1039,8 @@
         equivalent (m~s.l.e., blue curve). Shaded gray areas indicate the
         timing for Marine Oxygen Isotope Stage (MIS)~2 and MIS~4 according to
         a~global compilation of benthic \chem{\delta^{18}O} records
-        \citep{Lisiecki.Raymo.2005}.}
+        \citep{Lisiecki.Raymo.2005}. The black vertical line indicates the
+        modelled age of maximum ice cover at 24.57\,ka.}
       \label{fig:lgmvel}
     \end{figure*}
 
@@ -1086,7 +1088,8 @@
     bias as compared to the mapped LGM margins (Fig.~\ref{fig:lgmvel}a) despite
     the homogeneous temperature and precipitation anomalies applied relative to
     present. Although this may appear as a contradiction with previous,
-    constant-climate modelling results \citep{Becker.etal.2016}, it follows
+    constant-climate modelling results \citep{Becker.etal.2016,
+    Jouvet.etal.2017}, it follows
     from introducing a time-dependent palaeo-temperature forcing. Without
     introducing differential precipitation change north and south of the Alps,
     constant climate forcing systematically resulted in extraneous
@@ -1166,7 +1169,7 @@
     tranfluences have been previously identified from the geomorphology across
     Simplon Pass \citep{Kelly.etal.2004} and from the distribution of glacial
     erratics across Brünig Pass \citep{Jackli.1962}. On the other hand, the
-    simplified climate forcing used in this sumulation could not reproduce
+    simplified climate forcing used in this simulation could not reproduce
     the transport of glacial erratics from southern Valais to observed
     deposition sites in the Solothurn region \citep[cf.~][]{Jouvet.etal.2017a}.
 
@@ -1214,14 +1217,14 @@
     The timing of the LGM has been documented by radiocarbon and cosmogenic
     isotope dating techniques at multiple locations around the Alps (cf.
     \citealp{Ivy-Ochs.2015};
-    \citealp[Fig.~5]{Wirsig.etal.2016} for reviews; and the more recent
+    \citealp{Wirsig.etal.2016} for reviews; and the more recent
     publications by \citealp{Monegato.etal.2017, Federici.etal.2017}). These
     data indicate that Alpine glaciers reached their maximum extent between 26
     and 20\,ka (calibrated \chem{^{14}C} and \chem{^{10}Be} ages), but also
     that terminal lobes stayed in the foreland until 22\,ka to 17\,ka,
     when they experienced rapid retreat synchronously to lowering of the ice
-    surface in the mountains (\citealp{Ivy-Ochs.2015}; \citealp[Fig.~5]{Wirsig.etal.2016};
-    \citealp[Fig.~3]{Monegato.etal.2017}).
+    surface in the mountains (\citealp{Ivy-Ochs.2015};
+    \citealp[Fig.~5]{Wirsig.etal.2016}; \citealp[Fig.~3]{Monegato.etal.2017}).
 
     In our simulation, the maximum areal cover is reached at 24.57\,ka
     (Fig.~\ref{fig:lgmvel}a), yet individual glacier lobes reach their
@@ -1321,10 +1324,10 @@
     Fig.~\ref{fig:trimlines}b), which is significant in respect to the modelled
     maximum ice thickness in the Rhone Valley (and the Alps) of 2586\,m. This
     result depends on uncertain basal sliding and ice rheological parameters
-    to which the model sensitivity was not tested here.
-    However, regional model sensitivity tests show that a modelled surface
-    compatible with the trimline elevations is incompatible with the documented
-    overspilling flow across the Simplon Pass \citep{Becker.etal.2017}, and LGM
+    to which the model sensitivity was not tested here.  However, regional
+    model sensitivity tests show that a modelled surface compatible with the
+    trimline elevations is incompatible with the documented overspilling flow
+    across the Simplon Pass \citep{Becker.2017, Becker.etal.2017}, and LGM
     palaeo-climate proxy records \citep{Cohen.etal.2017}. Unfortunately,
     validation through the bedrock uplift rate \citep[cf.][]{Kuchar.etal.2012}
     is not doable in the Alps due its lower values, active tectonics and
@@ -1417,12 +1420,11 @@
     advances of several Alpine glaciers well into the major valleys and sometimes
     even onto the foreland (Fig.~\ref{fig:profiles}; supplementary animation).
 
-    For instance the Rhine Glacier (Fig.~\ref{fig:profiles}a) reaches a length
-    exceeding 130\,km, roughly corresponding to the location of the last major
-    Alpine reliefs and the beginning of the foothills, six times during the
+    For instance the Rhine Glacier (Fig.~\ref{fig:profiles}a) extends beyond
+    the outermost limestone reliefs six times during the
     simulation, and sometimes retreats almost completely between two advances
     (Fig.~\ref{fig:profiles}b). The Rhone Glacier, fed by several high-altitude
-    accumulation areas, advanced eight times onto modern Lake Geneva
+    accumulation areas, advances eight times onto modern Lake Geneva
     (Fig.~\ref{fig:profiles}c and d). The Dora Baltea Glacier, characterised
     by a very steep catchment, and mutliple tributaries, shows even a higher
     variability and reaches close to its maximum position six times throughout
@@ -1513,7 +1515,7 @@
             (Sect.~\ref{sec:glaciations}).
     \end{itemize}
 
-    However, these results are limited by uncertainties on ice physics. The
+    However, these results are limited by uncertainties on glacier physics. The
     till deformation model used here does not hold for sliding over
     bedrock surfaces. On the other hand, the constant friction angle used is
     representative of wet till but weaker basal conditions may have applied
