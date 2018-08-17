@@ -3,7 +3,7 @@
 
 import util as ut
 import numpy as np
-import scipy as sp
+import scipy.interpolate as sinterp
 import cartopy.io.shapereader as shpreader
 
 # parameters
@@ -20,7 +20,7 @@ filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
 nc = ut.io.load(filepath)
 x = nc.variables['x'][:]
 y = nc.variables['y'][:]
-t = nc.variables['time'][9::10]/(365.0*24*60*60)
+t = nc.variables['time'][9::10]/(365.0*24*60*60*1e3)
 h = nc.variables['thk'][9::10]
 nc.close()
 
@@ -49,6 +49,16 @@ for i, reg in enumerate(regions):
     xp, yp = np.array(geom).T
     del shp, geom
 
+    # compute distance along profile
+    dp = (((xp[1:]-xp[:-1])**2+(yp[1:]-yp[:-1])**2)**0.5).cumsum()/1e3
+    dp = np.insert(dp, 0, 0.0)
+
+    # spline-interpolate profile
+    di = np.arange(0.0, dp[-1], 0.5)
+    xp = sinterp.spline(dp, xp, di)
+    yp = sinterp.spline(dp, yp, di)
+    dp = di
+
     # add profile line
     ax.plot(xp, yp, c=c, dashes=(2, 1))
     ax.plot(xp[0], yp[0], c=c, marker='o')
@@ -59,16 +69,12 @@ for i, reg in enumerate(regions):
 
     # extract space-time slice
     xi = t[:, None], yp[None, :], xp[None, :]  # coords to sample at
-    hp = sp.interpolate.interpn((t, y, x), h, xi, method='linear')
-
-    # compute distance along profile
-    dp = (((xp[1:]-xp[:-1])**2+(yp[1:]-yp[:-1])**2)**0.5).cumsum()
-    dp = np.insert(dp, 0, 0.0)
+    hp = sinterp.interpn((t, y, x), h, xi, method='linear')
 
     # plot envelope
     levs = [1.0, 5e3]
     cols = [c]
-    cs = tsax.contourf(-t/1e3, dp/1e3, hp.T, levels=levs, colors=cols, alpha=0.75)
+    cs = tsax.contourf(-t, dp, hp.T, levels=levs, colors=cols, alpha=0.75)
 
     # set axes properties
     tsax.set_xlim(120.0, 0.0)
