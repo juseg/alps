@@ -19,5 +19,5 @@ do
 done
 
 # put them in zip archive
-zip figures.zip fig??.pdf
+zip $paper-figs.zip fig??.pdf
 rm fig??.pdf
