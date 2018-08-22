@@ -42,6 +42,12 @@ ex = xr.open_mfdataset(os.environ['HOME']+'/pism/output/e9d2d1f/alps-wcnn-1km/'
                        'epica3222cool1220+alpcyc4+pp/y???????-extra.nc',
                        chunks={'time': 50}, decode_times=False, decode_cf=True)
 
+# get global attributes from last file (netcdf4 issue #835)
+last = xr.open_dataset(os.environ['HOME']+'/pism/output/e9d2d1f/alps-wcnn-1km/'
+                     'epica3222cool1220+alpcyc4+pp/y0120000-extra.nc')
+ex.attrs = last.attrs
+last.close()
+
 # create age coordinate and extract time step
 ex['age'] = -ex['time']/(365.0*24*60*60)
 ex['age'].attrs['units'] = 'years'
