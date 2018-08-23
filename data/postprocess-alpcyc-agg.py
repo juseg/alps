@@ -40,11 +40,13 @@ long_names = dict(age='age',
 print "loading extra output..."
 ex = xr.open_mfdataset(os.environ['HOME']+'/pism/output/e9d2d1f/alps-wcnn-1km/'
                        'epica3222cool1220+alpcyc4+pp/y???????-extra.nc',
-                       chunks={'time': 50}, decode_times=False, decode_cf=True)
+                       chunks={'time': 50}, data_vars='minimal',
+                       decode_times=False, decode_cf=False)
 
 # get global attributes from last file (netcdf4 issue #835)
 last = xr.open_dataset(os.environ['HOME']+'/pism/output/e9d2d1f/alps-wcnn-1km/'
-                     'epica3222cool1220+alpcyc4+pp/y0120000-extra.nc')
+                       'epica3222cool1220+alpcyc4+pp/y0120000-extra.nc',
+                       decode_times=False, decode_cf=False)
 ex.attrs = last.attrs
 last.close()
 
@@ -55,7 +57,7 @@ dt = ex['age'][0] - ex['age'][1]
 ex = ex.drop('time')
 
 # init postprocessed dataset with global attributes
-pp = xr.Dataset(attrs=ex.attrs)
+pp = xr.Dataset(attrs=ex.attrs, coords=dict(lon=ex.lon, lat=ex.lat))
 pp.attrs['title'] = ('Alpine ice sheet glacial cycle simulations '
                      'aggregated variables')
 pp.attrs['author'] = 'Julien Seguinot'
@@ -75,9 +77,9 @@ pp.attrs['comment'] = """Aggregated dataset contents:
   temporal resolution of 10 a.
 """
 
-# copy pism configuration parameters
+# copy grid mapping and pism config
+pp['mapping'] = ex.mapping
 pp['pism_config'] = ex.pism_config
-
 
 # Prepare max extent snapshot variables
 # -------------------------------------
@@ -94,7 +96,8 @@ for var in ['thk', 'btp', 'btt', 'bvx', 'bvy', 'srf', 'svx', 'svy', 'tpg']:
     pp['maxext'+var] = ex[pism_names[var]][i].compute()
     if var != 'tpg':
         pp['maxext'+var] = pp['maxext'+var].where(pp.maxextthk >= 1.0)
-    pp['maxext'+var].attrs = dict(long_name=ln, units=pp['maxext'+var].units)
+    pp['maxext'+var].attrs = dict(long_name=ln, grid_mapping='mapping',
+                                  units=pp['maxext'+var].units)
 
 
 # Prepare max thickness transgressive variables
@@ -110,7 +113,8 @@ for var in ['thk', 'age', 'btp', 'btt', 'bvn', 'srf']:
     print "computing " + ln + "..."
     pp['maxthk'+var] = ex[pism_names[var]][i].compute()
     pp['maxthk'+var] = pp['maxthk'+var].where(pp.maxthkthk >= 1.0)
-    pp['maxthk'+var].attrs = dict(long_name=ln, units=pp['maxthk'+var].units)
+    pp['maxthk'+var].attrs = dict(long_name=ln, grid_mapping='mapping',
+                                  units=pp['maxthk'+var].units)
 
 
 # Prepare glacial cycle integrated variables
@@ -119,16 +123,16 @@ for var in ['thk', 'age', 'btp', 'btt', 'bvn', 'srf']:
 ln = 'ice cover duration'
 print "computing " + ln + "..."
 pp['covertime'] = (ex.thk >= 1.0).sum(axis=0).compute()*dt
-pp['covertime'].attrs = dict(long_name=ln, units='years')
+pp['covertime'].attrs = dict(long_name=ln, grid_mapping='mapping', units='years')
 ln = 'deglaciation age'
 print "computing " + ln + "..."
 i = (ex.thk >= 1.0)[::-1].argmax(axis=0).compute()
 pp['deglacage'] = ex.age[-i].where(i > 0)
-pp['deglacage'].attrs = dict(long_name=ln, units='years')
+pp['deglacage'].attrs = dict(long_name=ln, grid_mapping='mapping', units='years')
 ln = 'ice cover footprint'
 print "computing " + ln + "..."
 pp['footprint'] = (pp.covertime > 0.0).compute()
-pp['footprint'].attrs = dict(long_name=ln, units='')
+pp['footprint'].attrs = dict(long_name=ln, grid_mapping='mapping', units='')
 
 
 # Export aggregated data
