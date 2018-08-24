@@ -59,14 +59,14 @@ offsets = [8.2, 10.4, 9.7, 12.2, 8.0, 10.6, 12.2]
 for i in range(7):
     res = gridres[i]
     rec = records[i]
-    pp = pparams[i]
+    dp = pparams[i]
     dt = offsets[i]
-    conf = 'alpcyc4' + ('+pp' if pp == 'pp' else '')
+    conf = 'alpcyc4' + ('+pp' if dp == 'pp' else '')
 
     # input and output file paths
     rname = 'alps-wcnn-{}/{}3222cool{:04.0f}+{}'.format(res, rec, 100*dt, conf)
     ipath = os.environ['HOME'] + '/pism/output/e9d2d1f/' + rname
-    ofile = 'processed/alpcyc.{}.{}.{}.agg.nc'.format(res, rec[:4], pp)
+    ofile = 'processed/alpcyc.{}.{}.{}.agg.nc'.format(res, rec[:4], dp)
 
 
     # Load model output
@@ -145,7 +145,7 @@ for i in range(7):
     # add global attributes
     pp.attrs.update(globs)
     pp.attrs['subtitle'] = ('{} {} simulation '.format(res, rec.upper()) +
-                            ('with ' if pp == 'pp' else 'without ') +
+                            ('with ' if dp == 'pp' else 'without ') +
                             'precipitation reductions')
     pp.attrs['history'] = pp.attrs['command'] + pp.attrs['history']
 
@@ -162,7 +162,7 @@ for i in range(7):
         os.makedirs('processed')
 
     # export to netcdf
-    print "exporting aggregated data..."
+    print "* exporting aggregated data..."
     pp.drop('time')
     pp.to_netcdf(ofile, mode='w',
                  encoding={var: {'zlib': True, 'shuffle': True, 'complevel': 5}
