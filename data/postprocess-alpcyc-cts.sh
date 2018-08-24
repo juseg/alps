@@ -76,6 +76,12 @@ do
     ncatted -h -a title,global,o,c,"$prefix spatial diagnostics" $pexfile
     ncatted -h -a title,global,o,c,"$prefix scalar time series" $ptsfile
 
+    # add subtitles
+    [ "$pp" == "pp" ] && wo="with" || wo="without"
+    subtitle="$res ${rec^^} simulation $wo precipitation reductions"
+    ncatted -h -a subtitle,global,o,c,"$subtitle" $pexfile
+    ncatted -h -a subtitle,global,o,c,"$subtitle" $ptsfile
+
     # remove (mostly) duplicate history and add global attributes
     inst="ETH Zürich, Switzerland and Hokkaido University, Japan"
 
