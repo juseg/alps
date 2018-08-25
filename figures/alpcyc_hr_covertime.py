@@ -31,20 +31,14 @@ ut.pl.draw_lgm_outline(ax)
 # -----------
 
 # load time series
-filepath = ut.alpcyc_bestrun + 'y???????-ts.nc'
-nc = ut.io.load(filepath)
-age = -nc.variables['time'][:]/(1e3*365*24*60*60)
-area = nc.variables['area_glacierized'][:]*1e-9
-nc.close()
+with ut.io.load_postproc('alpcyc.1km.epic.pp.ts.10a.nc') as ds:
 
-# plot time series
-c = 'C1'
-twax = tsax.twinx()
-twax.plot(age, area, c=c)
-twax.set_ylabel(r'glaciated area ($10^3\,km^2$)', color=c)
-twax.set_xlim(120.0, 0.0)
-twax.set_ylim(-25.0, 175.0)
-twax.locator_params(axis='y', nbins=6)
+    # plot time series
+    twax = tsax.twinx()
+    (ds.area_glacierized/1e9).plot(c='C1')
+    twax.set_ylabel(r'glaciated area ($10^3\,km^2$)', color='C1')
+    twax.set_xlim(120.0, 0.0)
+    twax.set_ylim(-25.0, 175.0)
 
 # save figure
 ut.pl.savefig()

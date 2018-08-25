@@ -18,7 +18,12 @@ def load(filepath):
 
 def load_postproc(filename):
     """Load post-processed netcdf data."""
-    return xr.open_dataset('../data/processed/'+filename, decode_times=False)
+    ds = xr.open_dataset('../data/processed/'+filename, decode_times=False)
+    if 'time' in ds.coords:
+        ds = ds.assign_coords(age=-ds.time/(1e3*365*24*60*60))
+    if 'time' in ds.dims:
+        ds = ds.swap_dims(dict(time='age'))
+    return ds
 
 
 def load_postproc_txt(runpath, varname):

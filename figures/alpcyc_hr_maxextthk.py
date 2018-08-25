@@ -28,16 +28,9 @@ with ut.io.load_postproc('alpcyc.1km.epic.pp.agg.nc') as ds:
     srf.plot.contour(ax=ax, colors='0.25', levels=ut.pl.utlevs, linewidths=0.25)
     ext.plot.contour(ax=ax, levels=[0.5], colors='k', linewidths=0.25)
 
-# load extra data
-filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
-nc = ut.io.load(filepath)
-
-# close nc file
-nc.close()
-
 # add vector elements
 ut.pl.draw_natural_earth(ax)
-ut.pl.add_corner_tag('%.2f ka' % (age/1e3), ax)
+ut.pl.add_corner_tag('%.2f ka' % age, ax)
 
 # save figure
 ut.pl.savefig()

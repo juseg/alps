@@ -39,30 +39,21 @@ ut.pl.draw_natural_earth(ax)
 ut.pl.draw_lgm_outline(ax)
 ut.pl.draw_glacier_names(ax)
 ut.pl.draw_major_transfluences(ax)
-ut.pl.add_corner_tag('%.2f ka' % (age/1e3), ax)
+ut.pl.add_corner_tag('%.2f ka' % age, ax)
 
 
 # Time series
 # -----------
 
-# load time series data
-# FIXME use xarray timeseries
-filepath = ut.alpcyc_bestrun + 'y???????-ts.nc'
-nc = ut.io.load(filepath)
-a = -nc.variables['time'][:]/(1e3*365*24*60*60)
-v = nc.variables['slvol'][:]
-nc.close()
+# load time series
+with ut.io.load_postproc('alpcyc.1km.epic.pp.ts.10a.nc') as ds:
 
-# print age of max volume
-#print age[vol.argmax()], vol.max()
-
-# plot time series
-tsax=tsax.twinx()
-tsax.plot(a, v, c='C1')
-tsax.set_ylabel('ice volume (m s.l.e.)', color='C1')
-tsax.set_xlim(120.0, 0.0)
-tsax.set_ylim(-0.05, 0.35)
-tsax.locator_params(axis='y', nbins=6)
+    # plot time series
+    twax = tsax.twinx()
+    ds.slvol.plot(c='C1')
+    twax.set_ylabel('ice volume (m s.l.e.)', color='C1')
+    twax.set_xlim(120.0, 0.0)
+    twax.set_ylim(-0.05, 0.35)
 
 # add cursor
 cursor = tsax.axvline(age/1e3, c='k', lw=0.25)
