@@ -14,7 +14,6 @@ PY = PYTHONPATH=iceplotlib python2
 # all python figures
 # (tmp broken:	     alpflo_, egumap profiles )
 # (mpl issue #4900:  alpcyc_hr, deformation )
-# (erosion needed:   alpcyc_hr, erosion lastflow totalsliding )
 PY_FIGS = $(addprefix alpbou_, locmap) \
           $(addprefix alpcyc_, \
             $(addprefix hr_, coldslip duration \
@@ -27,6 +26,7 @@ PY_FIGS = $(addprefix alpbou_, locmap) \
                              timeseries timestamps \
                              )) \
           $(addprefix alpflo_, scalability timeseries timestamps) \
+          $(addprefix alpero_, glerosion lastbvdir totalslip ) \
           $(addprefix alplgl_, extent)
 PY_FIGS := $(addsuffix .$(EXT), $(PY_FIGS))
 
