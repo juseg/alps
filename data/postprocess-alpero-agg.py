@@ -75,23 +75,23 @@ for i in range(7):
 
     # compute index of last basal velocity
     print "* computing index of last basal velocity..."
-    i = (ex.icy*(ex.velbase_mag>=1.0))[::-1].argmax(axis=0).compute()
+    i = (ex.icy*(ex.velbase_mag >= 1.0))[::-1].argmax(axis=0).compute()
 
     # compute last basal velocity transgressive variables
     ln = 'last basal velocity age'
     print "* computing " + ln + "..."
-    pp['lastvbage'] = ex.age[-i].where(i > 0).compute()
-    pp['lastvbage'].attrs = dict(long_name=ln, grid_mapping='mapping',
+    pp['lastbvage'] = ex.age[-i].where(i > 0).compute()
+    pp['lastbvage'].attrs = dict(long_name=ln, grid_mapping='mapping',
                                  units=ex.age.units)
     ln = 'last basal velocity x-component'
     print "* computing " + ln + "..."
-    pp['lastvbvbx'] = ex.uvelbase[i].compute()
-    pp['lastvbvbx'].attrs = dict(long_name=ln, grid_mapping='mapping',
+    pp['lastbvbvx'] = ex.uvelbase[-i].where(i > 0).compute()
+    pp['lastbvbvx'].attrs = dict(long_name=ln, grid_mapping='mapping',
                                  units=ex.uvelbase.units)
     ln = 'last basal velocity y-component'
     print "* computing " + ln + "..."
-    pp['lastvbvby'] = ex.vvelbase[i].compute()
-    pp['lastvbvby'].attrs = dict(long_name=ln, grid_mapping='mapping',
+    pp['lastbvbvy'] = ex.vvelbase[-i].where(i > 0).compute()
+    pp['lastbvbvy'].attrs = dict(long_name=ln, grid_mapping='mapping',
                                  units=ex.vvelbase.units)
 
     # compute glacial cycle integrated variables
