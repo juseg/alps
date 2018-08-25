@@ -2,57 +2,48 @@
 # coding: utf-8
 
 import util as ut
-import numpy as np
-import matplotlib.pyplot as plt
 
 # initialize figure
 fig, ax, cax, tsax = ut.pl.subplots_cax_ts(dt=False, mis=False)
 tsax.set_rasterization_zorder(2.5)
-
-# time for plot
-a = 24.57
-t = -a*1e3
 
 
 # Map axes
 # --------
 
 # load extra data
-filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
-nc = ut.io.load(filepath)
-x, y, temp = nc._extract_xyz('temppabase', t)
-x, y, slip = nc._extract_xyz('velbase_mag', t)
+with ut.io.load_postproc('alpcyc.1km.epic.pp.agg.nc') as ds:
+    tpg = ds.maxexttpg
+    srf = ds.maxextsrf
+    fpt = ds.footprint
+    ext = ds.maxextthk.notnull()
+    age = ds.maxexttpg.age
+    btp = ds.maxextbtp
+    bvn = (ds.maxextbvx**2 + ds.maxextbvy**2)**0.5
 
-# identify problematic areas
-cold = (temp < -1e-3)
-coldslip = np.ma.masked_where(1-cold, slip)
-warmslip = np.ma.masked_where(cold, slip)
+    # identify problematic areas
+    bvc = bvn.where(btp < -1e-3)
+    bvw = bvn.where(btp >= -1e-3)
 
-# set contour levels, colors and hatches
-levs = [1e-1, 1e0, 1e1]
-cmap = plt.get_cmap('Blues', len(levs)+1)
-cols = cmap(range(len(levs)+1))
-
-# plot
-im = nc.imshow('topg', ax, t, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
-im = nc.imshow('velbase_mag', ax, t, norm=ut.pl.velnorm, cmap='Reds', alpha=0.75)
-im = ax.contourf(x, y, coldslip, levels=levs, colors=cols, extend='both', alpha=0.75)
-cs = nc.contour('temppabase', ax, t, levels=[-1e-3], colors='k',
-                linewidths=0.25, linestyles=['-'], zorder=0)
-cs = nc.contour('usurf', ax, t, levels=ut.pl.inlevs, colors='0.25', linewidths=0.1)
-cs = nc.contour('usurf', ax, t, levels=ut.pl.utlevs, colors='0.25', linewidths=0.25)
-cs = nc.icemargin(ax, t, colors='k', linewidths=0.25)
-
-# close nc file
-nc.close()
-
-# add colorbar
-cb = ut.pl.add_colorbar(im, cax, extend='both')
-cb.set_label('cold-based sliding ($m\,a^{-1}$)')
+    # plot
+    ckw = dict(label='cold-based sliding ($m\,a^{-1}$)')
+    tpg.plot.imshow(ax=ax, add_colorbar=False, cmap='Greys',
+                    vmin=0.0, vmax=3e3, zorder=-1)
+    bvn.plot.imshow(ax=ax, add_colorbar=False, alpha=0.75, cmap='Reds',
+                    norm=ut.pl.velnorm,
+                    vmin=ut.pl.velnorm.vmin, vmax=ut.pl.velnorm.vmax)
+    bvc.plot.contourf(ax=ax, alpha=0.75, cbar_ax=cax, cbar_kwargs=ckw,
+                      cmap='Blues', levels=[1e-1, 1e0, 1e1])
+    btp.plot.contour(ax=ax, colors='k', levels=[-1e-3],
+                     linewidths=0.25, linestyles=['-'], zorder=0)
+    srf.plot.contour(ax=ax, colors='0.25', levels=ut.pl.inlevs,
+                     linewidths=0.1)
+    srf.plot.contour(ax=ax, colors='0.25', levels=ut.pl.utlevs, linewidths=0.25)
+    ext.plot.contour(ax=ax, levels=[0.5], colors='k', linewidths=0.25)
 
 # add vector elements
 ut.pl.draw_natural_earth(ax)
-ut.pl.add_corner_tag('%.2f ka' % a, ax)
+ut.pl.add_corner_tag('%.2f ka' % age, ax)
 
 
 # Time series
@@ -61,8 +52,8 @@ ut.pl.add_corner_tag('%.2f ka' % a, ax)
 # plot scatter
 tsax.set_yscale('log')
 tsax.set_xscale('symlog', linthreshx=1e-12)
-tsax.scatter(temp, coldslip, marker='.', c='C1', alpha=0.1)
-tsax.scatter(temp, warmslip, marker='.', c='C5', alpha=0.1)
+tsax.scatter(btp, bvc, marker='.', c='C1', alpha=0.1)
+tsax.scatter(btp, bvw, marker='.', c='C5', alpha=0.1)
 tsax.set_xlabel('basal temperature below freezing (K)')
 tsax.set_ylabel('basal velocity ($m\,a^{-1}$)')
 
