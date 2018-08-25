@@ -35,7 +35,7 @@ shinemap = mcolors.LinearSegmentedColormap.from_list('shines', cols)
 
 
 # ETOPO1 background topo
-def draw_etopo1(**kwargs):
+def draw_etopo1(ax=None):
     """Draw ETOPO1 background and coastline"""
     nc = nc4.Dataset('../data/external/etopo1-alps.nc')
     x = nc.variables['x']
@@ -46,10 +46,10 @@ def draw_etopo1(**kwargs):
     n = (3*y[0]-y[1])/2
     s = (3*y[-1]-y[-2])/2 - (y[-1]-y[-2])/2  # weird but works
     ax = ax or plt.gca()
-    im = ax.imshow(z, extent=(w, e, n, s),
-                   cmap=icm.topo, norm=Normalize(-6e3, 6e3))
-    cs = ax.contour(x[:], y[:], z[:], levels=[0],
-                    colors='#0978ab', linewidths=0.5*bwu, zorder=0.5)
+    ax.imshow(z, extent=(w, e, n, s),
+              cmap=icm.topo, norm=mcolors.Normalize(-6e3, 6e3))
+    ax.contour(x[:], y[:], z[:], levels=[0],
+               colors='#0978ab', linewidths=0.5*bwu, zorder=0.5)
     nc.close()
 
 # ETOPO1 background topo
@@ -65,8 +65,8 @@ def draw_srtm(ax=None, extent=None):
     s315 = ut.pl.shading(z, extent=extent, azimuth=315.0, altitude=30.0, transparent=True)
     s330 = ut.pl.shading(z, extent=extent, azimuth=330.0, altitude=30.0, transparent=True)
     s = (s300+s315+s330) / 3.0
-    im = ax.imshow(z, extent=extent, vmin=-3e3, vmax=3e3, cmap=icm.topo, zorder=-1)
-    im = ax.imshow(s, extent=extent, vmin=-1.0, vmax=1.0, cmap=shinemap, zorder=-1)
+    ax.imshow(z, extent=extent, vmin=-3e3, vmax=3e3, cmap=icm.topo, zorder=-1)
+    ax.imshow(s, extent=extent, vmin=-1.0, vmax=1.0, cmap=shinemap, zorder=-1)
 
 # Ehlers and Gibbard LGM
 def draw_lgm_bini(ax=None):

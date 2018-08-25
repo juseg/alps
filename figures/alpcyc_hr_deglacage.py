@@ -2,8 +2,6 @@
 # coding: utf-8
 
 import util as ut
-import numpy as np
-import matplotlib.pyplot as plt
 
 # initialize figure
 fig, ax, cax = ut.pl.subplots_cax(extent='west')

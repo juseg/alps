@@ -2,14 +2,8 @@
 # coding: utf-8
 
 import util as ut
-import numpy as np
 import iceplotlib.plot as iplt
-from mpl_toolkits.axes_grid1.inset_locator import mark_inset
-
-from matplotlib.patches import ConnectionPatch
-
 import matplotlib.transforms as mtrans
-
 from mpl_toolkits.axes_grid1.inset_locator import BboxPatch, BboxConnector, BboxConnectorPatch
 
 # parameters

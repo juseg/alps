@@ -2,7 +2,6 @@
 # coding: utf-8
 
 import util as ut
-import numpy as np
 
 # isotope stage bounds
 agebounds = [[29, 14], [71, 57]]

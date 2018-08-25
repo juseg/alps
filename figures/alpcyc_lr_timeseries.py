@@ -2,7 +2,6 @@
 # coding: utf-8
 
 import util as ut
-import numpy as np
 
 # initialize time-series figure
 fig, (ax1, ax2) = ut.pl.subplots_ts(2, 1, mode='page', labels=False)

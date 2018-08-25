@@ -25,7 +25,6 @@ def draw(i, ax, nc, label):
     time = nc.variables['time'][:]/(365.0*24*60*60)
     xx, yy = np.meshgrid(x, y)
     thk = nc.variables['thk'][i, w:e:stride, s:n:stride].T
-    topg = nc.variables['topg'][i, w:e:stride, s:n:stride].T
     usurf = nc.variables['usurf'][i, w:e:stride, s:n:stride].T
     velsurf = nc.variables['velsurf_mag'][i, w:e:stride, s:n:stride].T
 
@@ -54,9 +53,9 @@ def draw(i, ax, nc, label):
                     rstride=1, cstride=1, linewidth=0, alpha=1.0)
 
     # set axes limits
-    xlm = ax.set_xlim3d((400e3, 575e3))
-    ylm = ax.set_ylim3d((5075e3, 5250e3))
-    zlm = ax.set_zlim3d((-6e3, 9e3))
+    ax.set_xlim3d((400e3, 575e3))
+    ax.set_ylim3d((5075e3, 5250e3))
+    ax.set_zlim3d((-6e3, 9e3))
     ax.set_axis_off()
 
     # add text tag
