@@ -12,27 +12,21 @@ fig, ax, cax = ut.pl.subplots_cax(extent='west')
 # Map axes
 # --------
 
-# read postprocessed data
-deglacage, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'deglacage')
+# load aggregated data
+with ut.io.load_postproc('alpcyc.1km.epic.pp.agg.nc') as ds:
+    age = ds.deglacage/1e3
+    ext = ds.deglacage.notnull()
 
-# set contour levels, colors and hatches
-levs = range(0, 25, 2)
-cmap = plt.get_cmap('Spectral', len(levs)+1)
-cols = cmap(range(len(levs)+1))
-
-# plot
-cs = ax.contourf(deglacage/1e3, levs, extent=extent, colors=cols, extend='both', alpha=0.75)
-ax.contour(deglacage.mask, [0.5], extent=extent, colors='k', linewidths=0.5)
+    # plot
+    ckw = dict(label=r'age of deglaciation (ka)')
+    age.plot.contourf(ax=ax, alpha=0.75, cbar_ax=cax, cbar_kwargs=ckw,
+                      cmap='Spectral', levels=range(0, 25, 3))
+    ext.plot.contour(ax=ax, colors='k', levels=[0.5], linewidths=0.5)
 
 # add cartopy vectors
 ut.pl.draw_boot_topo(ax)
 ut.pl.draw_natural_earth(ax)
 ut.pl.draw_lgm_outline(ax)
-ut.pl.draw_footprint(ax)
-
-# add colorbar
-cb = ut.pl.add_colorbar(cs, cax)
-cb.set_label(r'age of glaciation (ka)')
 
 # save figure
 ut.pl.savefig()

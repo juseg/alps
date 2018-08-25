@@ -12,27 +12,26 @@ fig, ax, cax, tsax = ut.pl.subplots_cax_ts(mis=False)
 # Map axes
 # --------
 
-# read postprocessed data
-maxthksrf, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'maxthksrf')
-maxthkage, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'maxthkage')
+# load aggregated data
+with ut.io.load_postproc('alpcyc.1km.epic.pp.agg.nc') as ds:
+    age = ds.maxthkage/1e3
+    srf = ds.maxthksrf
+    ext = ds.maxthksrf.notnull()
 
-# set contour levels, colors and hatches
-levs = range(21, 28)
-cmap = plt.get_cmap('Paired', 12)
-cols = cmap(range(12))[:len(levs)+1]
-
-# plot
-cs = ax.contourf(maxthkage/1e3, levs, extent=extent, colors=cols, extend='both', alpha=0.75)
+    # plot
+    ckw = dict(label=r'age of maximum ice thickness (ka)')
+    age.plot.contourf(ax=ax, alpha=0.75, cbar_ax=cax, cbar_kwargs=ckw,
+                      cmap='Paired', levels=range(21, 28))
+    srf.plot.contour(ax=ax, colors='0.25', levels=ut.pl.inlevs,
+                     linewidths=0.1)
+    srf.plot.contour(ax=ax, colors='0.25', levels=ut.pl.utlevs,
+                     linewidths=0.25)
+    ext.plot.contour(ax=ax, colors='k', levels=[0.5], linewidths=0.25)
 
 # add map elements
 ut.pl.draw_boot_topo(ax)
-ut.pl.draw_envelope(ax)
 ut.pl.draw_natural_earth(ax)
 ut.pl.draw_glacier_names(ax)
-
-# add colorbar
-cb = ut.pl.add_colorbar(cs, cax)
-cb.set_label(r'age of maximum ice thickness (ka)')
 
 
 # Time series
@@ -50,6 +49,9 @@ nc.close()
 
 # plot time series
 twax = tsax.twinx()
+levs = range(21, 28)
+cmap = plt.get_cmap('Paired', 12)
+cols = cmap(range(12))[:len(levs)+1]
 ut.pl.plot_multicolor(age, area, levs[::-1], cols[::-1], ax=twax)
 twax.set_ylabel(r'glaciated area ($10^3\,km^2$)',
                 color=ut.pl.palette['darkblue'])

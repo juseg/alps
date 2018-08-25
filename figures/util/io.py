@@ -21,22 +21,6 @@ def load_postproc(filename):
     return xr.open_dataset('../data/processed/'+filename, decode_times=False)
 
 
-def load_postproc_gtif(runpath, varname):
-    """Load post-processed geotiff data."""
-
-    del runpath
-    filename = '../data/processed/alpcyc.1km.epic.pp.agg.nc'
-    nc = iplt.load(filename)
-    x = nc.variables['x'][:]
-    y = nc.variables['y'][:]
-    z = nc.variables[varname][:]
-    w = (3*x[0]-x[1])/2
-    e = (3*x[-1]-x[-2])/2
-    s = (3*y[0]-y[1])/2
-    n = (3*y[-1]-y[-2])/2
-    return z, (w, e, s, n)
-
-
 def load_postproc_txt(runpath, varname):
     """Load post-processed text data."""
 

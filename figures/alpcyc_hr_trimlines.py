@@ -24,11 +24,11 @@ zt = trimlines['z']
 # convert to UTM 32
 xt, yt, zt = ut.pl.utm.transform_points(ut.pl.swiss, xt, yt, zt).T
 
-# read postprocessed data
-maxthkbtp, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'maxthkbtp')
-maxthkage, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'maxthkage')
-maxthkthk, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'maxthkthk')
-maxthksrf, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'maxthksrf')
+# load aggregated data
+# FIXME use xarray interpolation methods
+with ut.io.load_postproc('alpcyc.1km.epic.pp.agg.nc') as ds:
+    maxthkthk = ds.maxthkthk.data
+    maxthkage = ds.maxthkage.data
 
 # load boot topography
 nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-1km.nc')
@@ -102,15 +102,30 @@ hsax.set_ylim(l-zavg for l in scax.get_ylim())
 # Map axes
 # --------
 
-# plot cold-based areas at max thickness age
-im = ax.contourf(maxthkbtp, levels=[-50.0, -1e-3, 0.0], extent=extent,
-                 colors=['w', 'w'], hatches=['////', ''], alpha=0.5)
-cs = ax.contour(maxthkbtp, [-1e-3], extent=extent, colors='0.25',
-                linestyles='-', linewidths=0.25)
+# load aggregated data
+with ut.io.load_postproc('alpcyc.1km.epic.pp.agg.nc') as ds:
+    btp = ds.maxthkbtp
+    srf = ds.maxthksrf
+    ext = ds.maxthksrf.notnull()
+
+    # plot cold-based areas at max thickness age
+    btp.plot.contourf(ax=ax, add_colorbar=False, alpha=0.5, colors=['w']*2,
+                      hatches=['////', ''], levels=[-50.0, -1e-3, 0.0])
+    btp.plot.contour(ax=ax, colors='0.25', levels=[-1e-3],
+                     linestyles='-', linewidths=0.25)
+    srf.plot.contour(ax=ax, colors='0.25', levels=ut.pl.inlevs,
+                     linewidths=0.1)
+    srf.plot.contour(ax=ax, colors='0.25', levels=ut.pl.utlevs,
+                     linewidths=0.25)
+    ext.plot.contourf(ax=ax, add_colorbar=False, alpha=0.75, colors='w',
+                      extend='neither', levels=[0.5, 1.5], linewidths=0.25)
+    ext.plot.contour(ax=ax, colors='k', levels=[0.5], linewidths=0.25)
+
+# remove xarray auto title
+ax.set_title('')
 
 # add map elements
 ut.pl.draw_boot_topo(ax)
-ut.pl.draw_envelope(ax, levels=[0e3, 3e3], colors='w')
 ut.pl.draw_natural_earth(ax)
 
 # add text labels

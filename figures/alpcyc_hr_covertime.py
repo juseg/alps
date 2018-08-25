@@ -12,26 +12,21 @@ fig, ax, cax, tsax = ut.pl.subplots_cax_ts()
 # Map axes
 # --------
 
-# read postprocessed data
-covertime, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'covertime')
+# load aggregated data
+with ut.io.load_postproc('alpcyc.1km.epic.pp.agg.nc') as ds:
+    ext = ds.covertime > 0.0
+    cvt = ds.covertime.where(ext)/1e3
 
-# set contour levels, colors and hatches
-levs = [0, 5, 10, 15, 20, 30, 40, 60, 80, 100, 120]
-cmap = plt.get_cmap('RdBu', 10)
-cols = cmap(range(10))
-
-# plot
-cs = ax.contourf(covertime/1e3, levs, extent=extent, colors=cols, alpha=0.75)
-ax.contour(covertime > 0.0, [0.5], extent=extent, colors='k', linewidths=0.5)
+    # plot
+    ckw = dict(label=r'ice cover duration (ka)')
+    cvt.plot.contourf(ax=ax, alpha=0.75, cbar_ax=cax, cbar_kwargs=ckw, cmap='RdBu',
+                      levels=[0, 5, 10, 15, 20, 30, 40, 60, 80, 100, 120])
+    ext.plot.contour(ax=ax, colors='k', levels=[0.5], linewidths=0.5)
 
 # add cartopy vectors
 ut.pl.draw_boot_topo(ax)
 ut.pl.draw_natural_earth(ax)
 ut.pl.draw_lgm_outline(ax)
-
-# add colorbar
-cb = ut.pl.add_colorbar(cs, cax)
-cb.set_label(r'ice cover duration (ka)')
 
 
 # Time series
