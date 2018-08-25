@@ -16,15 +16,11 @@ PY = PYTHONPATH=iceplotlib python2
 # (mpl issue #4900:  alpcyc_hr, deformation )
 PY_FIGS = $(addprefix alpbou_, locmap) \
           $(addprefix alpcyc_, \
-            $(addprefix hr_, coldslip duration \
-                             deglacage \
-                             envelope inputs \
-                             lgmthk lgmvel locmap profiles \
-                             timestamps timing trimlines uplift \
-                             ) \
+            $(addprefix hr_, coldslip covertime deglacage inputs locmap \
+                             maxextthk maxextvel maxextsrf maxthkage \
+			     profiles timestamps trimlines uplift) \
             $(addprefix lr_, footprints glacareas records rhineareas \
-                             timeseries timestamps \
-                             )) \
+                             timeseries timestamps)) \
           $(addprefix alpflo_, scalability timeseries timestamps) \
           $(addprefix alpero_, glerosion lastbvdir totalslip ) \
           $(addprefix alplgl_, extent)
