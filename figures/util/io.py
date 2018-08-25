@@ -6,6 +6,7 @@
 import iceplotlib.plot as iplt
 import os
 import numpy as np
+import xarray as xr
 from osgeo import gdal
 
 def load(filepath):
@@ -13,6 +14,11 @@ def load(filepath):
 
     filepath = os.path.join(os.environ['HOME'], 'pism', filepath)
     return iplt.load(filepath)
+
+
+def load_postproc(filename):
+    """Load post-processed netcdf data."""
+    return xr.open_dataset('../data/processed/'+filename, decode_times=False)
 
 
 def load_postproc_gtif(runpath, varname):

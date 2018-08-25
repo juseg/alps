@@ -2,7 +2,6 @@
 # coding: utf-8
 
 import util as ut
-import xarray as xr
 
 # initialize figure
 # FIXME postprocess netcdf erosion timeseries
@@ -13,8 +12,7 @@ fig, ax, cax = ut.pl.subplots_cax()
 # --------
 
 # load aggregated data
-with xr.open_dataset('../data/processed/alpero.1km.epic.pp.agg.nc',
-                     decode_times=False) as ds:
+with ut.io.load_postproc('alpero.1km.epic.pp.agg.nc') as ds:
     ext = ds.glerosion > 0.0
     ero = ds.glerosion.where(ext)
 
