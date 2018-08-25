@@ -25,10 +25,10 @@ zt = trimlines['z']
 xt, yt, zt = ut.pl.utm.transform_points(ut.pl.swiss, xt, yt, zt).T
 
 # read postprocessed data
-maxicethk, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'maxicethk')
+maxthkbtp, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'maxthkbtp')
 maxthkage, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'maxthkage')
+maxthkthk, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'maxthkthk')
 maxthksrf, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'maxthksrf')
-maxthktba, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'maxthktba')
 
 # load boot topography
 nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-1km.nc')
@@ -40,8 +40,8 @@ nc.close()
 # get model elevation at trimline locations
 i = np.argmin(abs(xt[:, None] - x), axis=1)
 j = np.argmin(abs(yt[:, None] - y), axis=1)
-ht = sp.interpolate.interpn((y, x), maxicethk[::-1], (yt, xt), method='linear')
-at = sp.interpolate.interpn((y, x), maxthkage[::-1], (yt, xt), method='linear')/1e3
+ht = sp.interpolate.interpn((y, x), maxthkthk, (yt, xt), method='linear')
+at = sp.interpolate.interpn((y, x), maxthkage, (yt, xt), method='linear')/1e3
 bt = sp.interpolate.interpn((x, y), boot, (xt, yt), method='linear')
 
 
@@ -103,9 +103,9 @@ hsax.set_ylim(l-zavg for l in scax.get_ylim())
 # --------
 
 # plot cold-based areas at max thickness age
-im = ax.contourf(maxthktba, levels=[-50.0, -1e-3, 0.0], extent=extent,
+im = ax.contourf(maxthkbtp, levels=[-50.0, -1e-3, 0.0], extent=extent,
                  colors=['w', 'w'], hatches=['////', ''], alpha=0.5)
-cs = ax.contour(maxthktba, [-1e-3], extent=extent, colors='0.25',
+cs = ax.contour(maxthkbtp, [-1e-3], extent=extent, colors='0.25',
                 linestyles='-', linewidths=0.25)
 
 # add map elements

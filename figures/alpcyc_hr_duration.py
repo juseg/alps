@@ -13,7 +13,7 @@ fig, ax, cax, tsax = ut.pl.subplots_cax_ts()
 # --------
 
 # read postprocessed data
-duration, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'duration')
+covertime, extent = ut.io.load_postproc_gtif(ut.alpcyc_bestrun, 'covertime')
 
 # set contour levels, colors and hatches
 levs = [0, 5, 10, 15, 20, 30, 40, 60, 80, 100, 120]
@@ -21,8 +21,8 @@ cmap = plt.get_cmap('RdBu', 10)
 cols = cmap(range(10))
 
 # plot
-cs = ax.contourf(duration/1e3, levs, extent=extent, colors=cols, alpha=0.75)
-ax.contour(duration.mask, [0.5], extent=extent, colors='k', linewidths=0.5)
+cs = ax.contourf(covertime/1e3, levs, extent=extent, colors=cols, alpha=0.75)
+ax.contour(covertime > 0.0, [0.5], extent=extent, colors='k', linewidths=0.5)
 
 # add cartopy vectors
 ut.pl.draw_boot_topo(ax)
@@ -31,7 +31,7 @@ ut.pl.draw_lgm_outline(ax)
 
 # add colorbar
 cb = ut.pl.add_colorbar(cs, cax)
-cb.set_label(r'duration of glaciation (ka)')
+cb.set_label(r'ice cover duration (ka)')
 
 
 # Time series

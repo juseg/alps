@@ -793,13 +793,16 @@ def draw_envelope(ax=None, levels=None, colors=None):
 
 def draw_footprint(ax=None, ec=palette['darkorange'], fc='none', alpha=1.0):
     """Add modelled LGM footprint."""
+    # FIXME In many plots aggregated data could be opened only once.
     ax = ax or iplt.gca()
-    run = '-'.join(ut.alpcyc_bestrun.rstrip('/').split('/')[-2:])
-    shp = cshp.Reader('../data/processed/%s-footprint.shp' % run)
-    ax.add_geometries(shp.geometries(), utm, lw=0.5, alpha=alpha,
-                      edgecolor=ec, facecolor=fc,
-                      linestyles=[(0, [3, 1])])
-    del shp
+    nc = iplt.load('../data/processed/alpcyc.1km.epic.pp.agg.nc')
+    if ec != 'none':
+        nc.contour('footprint', ax=ax, alpha=alpha, colors=[ec], levels=[0.5],
+                   linewidths=0.5, linestyles=[(0, [3, 1])])
+    if fc != 'none':
+        nc.contourf('footprint', ax=ax, alpha=alpha, colors=[fc],
+                    levels=[0.5, 1.5])
+    nc.close()
 
 
 def draw_trimlines(ax=None, c=palette['darkblue'], s=4**2, alpha=0.75):
