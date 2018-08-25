@@ -4,61 +4,40 @@
 import util as ut
 
 # initialize figure
-fig, ax, cax, tsax = ut.pl.subplots_cax_ts()
+fig, ax, cax = ut.pl.subplots_cax()
 
-# time for plot
-a = 24.57
-t = -a*1e3
+# load aggregated data
+with ut.io.load_postproc('alpcyc.1km.epic.pp.agg.nc') as ds:
+    thk = ds.maxextthk
+    tpg = ds.maxexttpg
+    srf = ds.maxextsrf
+    fpt = ds.footprint
+    ext = ds.maxextthk.notnull()
+    age = ds.maxexttpg.age
 
-
-# Map axes
-# --------
+    # plot
+    ckw=dict(label='ice thickness (m)')
+    tpg.plot.imshow(ax=ax, add_colorbar=False, cmap='Greys',
+                    vmin=0.0, vmax=3e3, zorder=-1)
+    fpt.plot.contour(ax=ax, colors=[ut.pl.palette['darkorange']], levels=[0.5],
+                     linewidths=0.5, linestyles=[(0, [3, 1])])
+    thk.plot.imshow(ax=ax, alpha=0.75, cbar_ax=cax, cbar_kwargs=ckw,
+                    cmap='Blues_r', vmin=0.0, vmax=3e3)
+    srf.plot.contour(ax=ax, colors='0.25', levels=ut.pl.inlevs,
+                     linewidths=0.1)
+    srf.plot.contour(ax=ax, colors='0.25', levels=ut.pl.utlevs, linewidths=0.25)
+    ext.plot.contour(ax=ax, levels=[0.5], colors='k', linewidths=0.25)
 
 # load extra data
 filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
 nc = ut.io.load(filepath)
 
-# plot
-im = nc.imshow('topg', ax, t, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
-im = nc.imshow('thk', ax, t, vmin=0.0, vmax=3e3, cmap='Blues_r', alpha=0.75)
-cs = nc.contour('usurf', ax, t, levels=ut.pl.inlevs, colors='0.25', linewidths=0.1)
-cs = nc.contour('usurf', ax, t, levels=ut.pl.utlevs, colors='0.25', linewidths=0.25)
-cs = nc.icemargin(ax, t, colors='k', linewidths=0.25)
-
 # close nc file
 nc.close()
 
-# add colorbar
-cb = ut.pl.add_colorbar(im, cax)
-cb.set_label('ice thickness (m)')
-
 # add vector elements
 ut.pl.draw_natural_earth(ax)
-ut.pl.draw_lgm_outline(ax)
-ut.pl.draw_footprint(ax)
-ut.pl.add_corner_tag('%.2f ka' % a, ax)
-
-
-# Time series
-# -----------
-
-# load time series data
-filepath = ut.alpcyc_bestrun + 'y???????-ts.nc'
-nc = ut.io.load(filepath)
-age = -nc.variables['time'][:]/(1e3*365*24*60*60)
-vol = nc.variables['slvol'][:]
-nc.close()
-
-# plot time series
-tsax=tsax.twinx()
-tsax.plot(age, vol, c=ut.pl.palette['darkblue'])
-tsax.set_ylabel('ice volume (m s.l.e.)', color=ut.pl.palette['darkblue'])
-tsax.set_xlim(120.0, 0.0)
-tsax.set_ylim(-0.05, 0.35)
-tsax.locator_params(axis='y', nbins=6)
-
-# add cursor
-cursor = tsax.axvline(a, c='k', lw=0.25)
+ut.pl.add_corner_tag('%.2f ka' % (age/1e3), ax)
 
 # save figure
 ut.pl.savefig()
