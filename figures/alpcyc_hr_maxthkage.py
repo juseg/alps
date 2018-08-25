@@ -8,6 +8,9 @@ import matplotlib.pyplot as plt
 # initialize figure
 fig, ax, cax, tsax = ut.pl.subplots_cax_ts(mis=False)
 
+# age levels and colors
+levs = range(21, 28)
+cols = plt.get_cmap('Paired').colors[:len(levs)+1]
 
 # Map axes
 # --------
@@ -21,7 +24,7 @@ with ut.io.load_postproc('alpcyc.1km.epic.pp.agg.nc') as ds:
     # plot
     ckw = dict(label=r'age of maximum ice thickness (ka)')
     age.plot.contourf(ax=ax, alpha=0.75, cbar_ax=cax, cbar_kwargs=ckw,
-                      cmap='Paired', levels=range(21, 28))
+                      colors=cols, levels=range(21, 28))
     srf.plot.contour(ax=ax, colors='0.25', levels=ut.pl.inlevs,
                      linewidths=0.1)
     srf.plot.contour(ax=ax, colors='0.25', levels=ut.pl.utlevs,
