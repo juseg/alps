@@ -13,11 +13,10 @@ PY = PYTHONPATH=iceplotlib python2
 
 # all python figures
 # (tmp broken:	     alpflo_, egumap profiles )
-# (mpl issue #4900:  alpcyc_hr, deformation )
 PY_FIGS = $(addprefix alpbou_, locmap) \
           $(addprefix alpcyc_, \
-            $(addprefix hr_, coldslip covertime deglacage inputs locmap \
-                             maxextthk maxextvel maxextsrf maxthkage \
+            $(addprefix hr_, coldslip covertime deformation deglacage inputs \
+                             locmap maxextthk maxextvel maxextsrf maxthkage \
 			     profiles timestamps trimlines uplift) \
             $(addprefix lr_, footprints glacareas records rhineareas \
                              timeseries timestamps)) \

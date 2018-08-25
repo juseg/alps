@@ -2,72 +2,54 @@
 # coding: utf-8
 
 import util as ut
-import matplotlib.pyplot as plt
 
 # initialize figure
 fig, ax, cax, tsax = ut.pl.subplots_cax_ts(dt=False, mis=False)
-
-# time for plot
-a = 24.57
-t = -a*1e3
 
 
 # Map axes
 # --------
 
-# load extra data
-filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
-nc = ut.io.load(filepath)
-x, y, vs = nc._extract_xyz('velsurf_mag', t)
-x, y, vb = nc._extract_xyz('velbase_mag', t)
-w = (3*x[0]-x[1])/2
-e = (3*x[-1]-x[-2])/2
-n = (3*y[0]-y[1])/2
-s = (3*y[-1]-y[-2])/2
-vd = vs - vb
+# load aggregated data
+with ut.io.load_postproc('alpcyc.1km.epic.pp.agg.nc') as ds:
+    tpg = ds.maxexttpg
+    srf = ds.maxextsrf
+    ext = ds.maxextthk.notnull()
+    age = ds.maxexttpg.age
+    dvx = ds.maxextsvx - ds.maxextbvx
+    dvy = ds.maxextsvy - ds.maxextbvy
+    dvn = (dvx**2 + dvy**2)**0.5
 
-# plot
-levs = [0.0, 1e0, 1e1, 1e2]
-cmap = plt.get_cmap('Blues', len(levs))
-cmap.set_under('C5')
-cols = cmap(range(-1, len(levs)))
-im = nc.imshow('topg', ax, t, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
-im = ax.contourf(x, y, vs-vb, levels=levs, colors=cols, extend='both', alpha=0.75)
-cs = nc.contour('usurf', ax, t, levels=ut.pl.inlevs, colors='0.25', linewidths=0.1)
-cs = nc.contour('usurf', ax, t, levels=ut.pl.utlevs, colors='0.25', linewidths=0.25)
-cs = nc.icemargin(ax, t, colors='k', linewidths=0.25)
-
-# close nc file
-nc.close()
-
-# add colorbar
-cb = ut.pl.add_colorbar(im, cax, extend='both')
-cb.set_label(r'deformation velocity ($m\,a^{-1}$)')
+    # plot
+    ckw=dict(label=r'deformation velocity ($m\,a^{-1}$)')
+    tpg.plot.imshow(ax=ax, add_colorbar=False, cmap='Greys',
+                    vmin=0.0, vmax=3e3, zorder=-1)
+    dvn.plot.contourf(ax=ax, alpha=0.75, cbar_ax=cax, cbar_kwargs=ckw,
+                      cmap='Blues', levels=[1e0, 1e1, 1e2])
+    srf.plot.contour(ax=ax, colors='0.25', levels=ut.pl.inlevs,
+                     linewidths=0.1)
+    srf.plot.contour(ax=ax, colors='0.25', levels=ut.pl.utlevs, linewidths=0.25)
+    ext.plot.contour(ax=ax, levels=[0.5], colors='k', linewidths=0.25)
 
 # add vector elements
 ut.pl.draw_natural_earth(ax)
-ut.pl.draw_footprint(ax)
 ut.pl.draw_lgm_outline(ax)
-ut.pl.draw_glacier_names(ax)
-ut.pl.add_corner_tag('%.2f ka' % a, ax)
+ut.pl.add_corner_tag('%.2f ka' % age, ax)
+
 
 # Histograms
 # ----------
 
 # plot histograms
-nbins = [-10**i for i in range(2, -9, -1)] + [0.0]
-pbins = [0.0] + [10**i for i in range(-8, 5)]
-vd = vd.compressed()
-tsax.hist(vd, bins=nbins, color='C5', alpha=0.75)
-tsax.hist(vd, bins=pbins, color='C1', alpha=0.75)
+bins = [0.0] + [10**i for i in range(-8, 5)]
+dvn.plot.hist(ax=tsax, bins=bins, color='C1', alpha=0.75)
 
 # set axes properties
 tsax.set_xscale('symlog', linthreshx=1e-8, linscalex=1.0)
 tsax.set_yscale('log')
 tsax.set_xlabel('deformation velocity ($m\,a^{-1}$)')
 tsax.set_ylabel('grid cells')
-#tsax.locator_params(axis='x', nbins=12)
-#tsax.locator_params(axis='y', nbins=6)
+tsax.set_title('')
 
 # save figure
 ut.pl.savefig()
