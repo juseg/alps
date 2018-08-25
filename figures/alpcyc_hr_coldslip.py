@@ -61,8 +61,8 @@ ut.pl.add_corner_tag('%.2f ka' % a, ax)
 # plot scatter
 tsax.set_yscale('log')
 tsax.set_xscale('symlog', linthreshx=1e-12)
-tsax.scatter(temp, coldslip, marker='.', c=ut.pl.palette['darkblue'], alpha=0.1)
-tsax.scatter(temp, warmslip, marker='.', c=ut.pl.palette['darkred'], alpha=0.1)
+tsax.scatter(temp, coldslip, marker='.', c='C1', alpha=0.1)
+tsax.scatter(temp, warmslip, marker='.', c='C5', alpha=0.1)
 tsax.set_xlabel('basal temperature below freezing (K)')
 tsax.set_ylabel('basal velocity ($m\,a^{-1}$)')
 

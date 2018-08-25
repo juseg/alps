@@ -52,12 +52,9 @@ nc.close()
 
 # plot time series
 twax = tsax.twinx()
-levs = range(21, 28)
-cmap = plt.get_cmap('Paired', 12)
-cols = cmap(range(12))[:len(levs)+1]
 ut.pl.plot_multicolor(age, area, levs[::-1], cols[::-1], ax=twax)
 twax.set_ylabel(r'glaciated area ($10^3\,km^2$)',
-                color=ut.pl.palette['darkblue'])
+                color='C1')
 twax.set_xlim(29.0, 17.0)
 twax.set_ylim(90.0, 170.0)
 twax.locator_params(axis='y', nbins=6)

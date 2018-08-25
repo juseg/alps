@@ -3,14 +3,13 @@
 
 import util as ut
 import numpy as np
+import matplotlib.pyplot as plt
 import scipy.interpolate as sinterp
 import cartopy.io.shapereader as shpreader
 
 # parameters
 regions = ['rhine', 'rhone', 'ivrea', 'isere', 'inn', 'taglia']
 labels = ['Rhine', 'Rhone', 'Dora Baltea', u'Isère', 'Inn', 'Tagliamento']
-colors = ['blue', 'green', 'red', 'orange', 'purple', 'brown']
-colors = [ut.pl.palette['dark'+hue] for hue in colors]
 
 # initialize figure
 fig, grid, tsgrid = ut.pl.subplots_profiles(regions, labels)
@@ -26,7 +25,7 @@ nc.close()
 
 # loop on regions
 for i, reg in enumerate(regions):
-    c = colors[i]
+    c = plt.get_cmap('Paired').colors[2*i+1]  # 'C11' is not a valid name
     ax = grid[i]
     tsax = tsgrid[i]
     label = labels[i]
@@ -83,9 +82,7 @@ for i, reg in enumerate(regions):
     hp = sinterp.interpn((t, y, x), h, xi, method='linear')
 
     # plot envelope
-    levs = [1.0, 5e3]
-    cols = [c]
-    cs = tsax.contourf(-t, dp, hp.T, levels=levs, colors=cols, alpha=0.75)
+    cs = tsax.contourf(-t, dp, hp.T, levels=[1.0, 5e3], colors=[c], alpha=0.75)
 
     # set axes properties
     tsax.set_xlim(120.0, 0.0)

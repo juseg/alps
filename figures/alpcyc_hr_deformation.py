@@ -29,7 +29,7 @@ vd = vs - vb
 # plot
 levs = [0.0, 1e0, 1e1, 1e2]
 cmap = plt.get_cmap('Blues', len(levs))
-cmap.set_under(ut.pl.palette['darkred'])
+cmap.set_under('C5')
 cols = cmap(range(-1, len(levs)))
 im = nc.imshow('topg', ax, t, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
 im = ax.contourf(x, y, vs-vb, levels=levs, colors=cols, extend='both', alpha=0.75)
@@ -58,8 +58,8 @@ ut.pl.add_corner_tag('%.2f ka' % a, ax)
 nbins = [-10**i for i in range(2, -9, -1)] + [0.0]
 pbins = [0.0] + [10**i for i in range(-8, 5)]
 vd = vd.compressed()
-tsax.hist(vd, bins=nbins, color=ut.pl.palette['darkred'], alpha=0.75)
-tsax.hist(vd, bins=pbins, color=ut.pl.palette['darkblue'], alpha=0.75)
+tsax.hist(vd, bins=nbins, color='C5', alpha=0.75)
+tsax.hist(vd, bins=pbins, color='C1', alpha=0.75)
 
 # set axes properties
 tsax.set_xscale('symlog', linthreshx=1e-8, linscalex=1.0)

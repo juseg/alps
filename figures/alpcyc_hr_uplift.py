@@ -63,9 +63,9 @@ cb.set_label(r'modern uplift rate ($mm\,a^{-1}$)')
 # plot time series
 diff = topg - boot
 twax = tsax.twinx()
-twax.plot(age, diff, c=ut.pl.palette['darkgreen'])
-twax.plot(age[-1], diff[-1], 'o', c=ut.pl.palette['darkgreen'], clip_on=False)
-twax.set_ylabel('uplift (m)', color=ut.pl.palette['darkgreen'])
+twax.plot(age, diff, c='C3')
+twax.plot(age[-1], diff[-1], 'o', c='C3', clip_on=False)
+twax.set_ylabel('uplift (m)', color='C3')
 twax.set_xlim(120.0, 0.0)
 twax.set_ylim(-175.0, 25.0)
 twax.locator_params(axis='y', nbins=6)

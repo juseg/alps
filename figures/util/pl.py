@@ -22,12 +22,8 @@ import matplotlib.transforms as mtransforms
 # Color palette
 # -------------
 
-# color brewer Paired palette
-colorkeys = [tone+hue
-             for hue in ('blue', 'green', 'red', 'orange', 'purple', 'brown')
-             for tone in ('light', 'dark')]
-colorvals = iplt.get_cmap('Paired', 12)(range(12))
-palette = dict(zip(colorkeys, colorvals))
+# set color cycle to colorbrewer Paired palette
+plt.rc('axes', prop_cycle=plt.cycler(color=plt.get_cmap('Paired').colors))
 
 # personal colormaps
 # FIXME move to iceplotlib
@@ -776,7 +772,7 @@ def draw_lgm_outline(ax=None, c='#e31a1c'):
     del shp
 
 
-def draw_trimlines(ax=None, c=palette['darkblue'], s=4**2, alpha=0.75):
+def draw_trimlines(ax=None, c='C1', s=4**2, alpha=0.75):
     """Add trimline locations."""
     ax = ax or iplt.gca()
     trimlines = np.genfromtxt('../data/native/trimlines_kelly_etal_2004.csv',
@@ -875,7 +871,7 @@ def draw_alpflo_ice_divides(ax=None):
     for rec in shp.records():
         rank = rec.attributes['rank']
         ax.add_geometries(shp.geometries(), ll, lw=2.0-0.5*rank, alpha=0.75,
-                          edgecolor=palette['darkorange'],
+                          edgecolor='C7',
                           facecolor='none')
     del shp
 
@@ -886,7 +882,7 @@ def draw_alpflo_water_divides(ax=None):
     shp = cshp.Reader('../data/native/alpflo_water_divides.shp')
     for rec in shp.records():
         ax.add_geometries(shp.geometries(), ll, lw=1.0, alpha=0.75,
-                          edgecolor=palette['darkorange'],
+                          edgecolor='C7',
                           facecolor='none', linestyles=[(0, [3, 1])])
     del shp
 
@@ -894,7 +890,7 @@ def draw_alpflo_water_divides(ax=None):
 def draw_alpflo_cross_divides(ax=None, textoffset=4, strip=True):
     """Add crosswise divides."""
     shp = cshp.Reader('../data/native/alpflo_cross_divides.shp')
-    c = palette['darkbrown']
+    c = plt.get_cmap('Paired').colors[11]  # 'C11' is not a valid name
     for rec in shp.records():
         lon = rec.geometry.x
         lat = rec.geometry.y
@@ -918,7 +914,7 @@ def draw_alpflo_cross_divides(ax=None, textoffset=4, strip=True):
 def draw_alpflo_transfluences(ax=None, textoffset=4, strip=True):
     """Add major transfluences."""
     shp = cshp.Reader('../data/native/alpflo_transfluences.shp')
-    c = palette['darkpurple']
+    c = 'C9'
     for rec in shp.records():
         lon = rec.geometry.x
         lat = rec.geometry.y
@@ -1162,8 +1158,8 @@ def plot_slvol(ax=None, t=0.0):
 
     # plot time series
     mask = age >= -t/1e3
-    ax.plot(age[mask], vol[mask], c=ut.pl.palette['darkblue'])
-    ax.set_ylabel('ice volume (m s.l.e.)', color=ut.pl.palette['darkblue'])
+    ax.plot(age[mask], vol[mask], c='C1')
+    ax.set_ylabel('ice volume (m s.l.e.)', color='C1')
     ax.set_xlim(120.0, 0.0)
     ax.set_ylim(-0.05, 0.35)
     ax.locator_params(axis='y', nbins=6)
@@ -1172,7 +1168,7 @@ def plot_slvol(ax=None, t=0.0):
 def plot_slvol_fancy(ax=None, t=0.0, lang='en'):
     """Plot ice volume time-series for fancy animations."""
     ax = ax or iplt.gca()
-    c = ut.pl.palette['darkblue']
+    c = 'C1'
 
     # load time series
     filepath = ut.alpcyc_bestrun + 'y???????-ts.nc'

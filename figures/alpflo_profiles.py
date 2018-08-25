@@ -106,7 +106,7 @@ for i, reg in enumerate(regions):
     # set contour levels, colors and hatches
     levs = range(-18, 1, 3)
     cmap = plt.get_cmap('Blues_r', len(levs))
-    cmap.set_over(ut.pl.palette['darkred'])
+    cmap.set_over('C5')
     cols = cmap(range(len(levs)+1))
 
     # plot topographic profiles
@@ -141,7 +141,7 @@ for i, reg in enumerate(regions):
                     label=('Cold-based areas' if i == 3 else None))
 
     # add age tag
-    kw = dict(fontweight='bold', color=ut.pl.palette['darkblue'], ha='center')
+    kw = dict(fontweight='bold', color='C1', ha='center')
     if nlabels[i] != '':
         ax.text(dp.min()+10.0, 1.5, nlabels[i] + ' Glacier', **kw)
     if slabels[i] != '':
@@ -156,19 +156,19 @@ cb = fig.colorbar(cs, cax, orientation='horizontal')
 cb.set_label(u'temperature below melting point (°C)')
 
 # label glacier names
-kw = dict(fontweight='bold', color=ut.pl.palette['darkblue'])
+kw = dict(fontweight='bold', color='C1')
 grid[2].text(-175.0, 2.0, 'Jura ice cap', **kw)
 grid[2].text(-145.0, 2.0, 'Rhone Glacier', **kw)
 
 # label ice divides
-kw = dict(fontweight='bold', color=ut.pl.palette['darkorange'], ha='center')
+kw = dict(fontweight='bold', color='C7', ha='center')
 grid[0].text(0.0, 3.25, 'Raneburg divide', **kw)
 grid[1].text(0.0, 3.5, 'Engadin ice dome', **kw)
 grid[2].text(0.0, 3.5, 'Gamsen divide', **kw)
 grid[3].text(0.0, 3.5, 'Modane divide', **kw)
 
 # label transfluences
-kw = dict(fontweight='bold', color=ut.pl.palette['darkpurple'], ha='center')
+kw = dict(fontweight='bold', color='C9', ha='center')
 grid[0].text(-30.0, 0.0, 'Thurn Pass', **kw)
 grid[0].text(-10.0, 0.0, 'Felber Tauern', **kw)
 grid[0].text(55.0, 0.0, 'Gailberg Saddle', **kw)

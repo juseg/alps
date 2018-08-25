@@ -20,7 +20,7 @@ speed = np.where(speed>0, speed, stamp)
 cumnh = speed.cumsum()/24.0
 
 # plot
-c = ut.pl.palette['darkblue']
+c = 'C1'
 ax.plot(age, cumnh, color=c)
 
 # mark scalability test

@@ -22,8 +22,7 @@ ut.pl.draw_model_domain(ax=ax, extent='alps')
 
 # add record locations
 records = ['GRIP', 'EPICA', 'MD01-2444']
-colors = ['darkblue', 'darkred', 'darkgreen']
-colors = [ut.pl.palette[c] for c in colors]
+colors = ['C1', 'C2', 'C3']
 lats = np.array([72.58, -75.1, 37.561])
 lons = np.array([-37.64, 123.35, -10.142])
 locs = ['uc', 'uc', 'lc']

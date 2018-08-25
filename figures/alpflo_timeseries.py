@@ -13,7 +13,7 @@ import matplotlib.transforms as mtrans
 from mpl_toolkits.axes_grid1.inset_locator import BboxPatch, BboxConnector, BboxConnectorPatch
 
 # parameters
-c = ut.pl.palette['darkblue']
+c = 'C1'
 versions = ['e9d2d1f', '1.0']
 resolutions = ['1km', '500m']
 linestyles = ['-', ':']

@@ -97,7 +97,7 @@ ut.pl.draw_alpflo_water_divides(ax)
 
 # add profiles
 regions = ['thurn', 'engadin', 'simplon', 'mtcenis']
-c = ut.pl.palette['darkpurple']
+c = 'C9'
 for i, reg in enumerate(regions):
 
     # read profile from shapefile

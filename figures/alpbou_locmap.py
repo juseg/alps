@@ -115,9 +115,9 @@ def draw_lithos(ax=None):
     ax = ax or plt.gca()
 
     # prepare colors
-    granite = ut.pl.palette['darkred']
-    gneiss = ut.pl.palette['darkblue']
-    gabbro = ut.pl.palette['darkgreen']
+    granite = 'C5'
+    gneiss = 'C1'
+    gabbro = 'C3'
 
     # draw swisstopo geology polygons
     filename = '../data/external/PY_Surface_Base.shp'
@@ -228,11 +228,10 @@ def add_names(ax=None):
     #geotag(280118, 5120218, 'Geneva', **txtkwa)
 
     # add boulder sources
-    cols = [ut.pl.palette[c] for c in ['lightred', 'darkblue', 'lightgreen']]
-    ax.plot(347120, 5103616, color=cols[0], marker='*', ms=8)  # Mt Blanc
-    ax.plot(365930, 5101063, color=cols[1], marker='^', ms=8)  # Val de Bagnes
-    ax.plot(382491, 5097764, color=cols[1], marker='^', ms=8)  # Val d'Arolla
-    ax.plot(417299, 5111714, color=cols[2], marker='s', ms=8)  # Saastal
+    ax.plot(347120, 5103616, color='C4', marker='*', ms=8)  # Mt Blanc
+    ax.plot(365930, 5101063, color='C1', marker='^', ms=8)  # Val de Bagnes
+    ax.plot(382491, 5097764, color='C1', marker='^', ms=8)  # Val d'Arolla
+    ax.plot(417299, 5111714, color='C2', marker='s', ms=8)  # Saastal
 
     # add other locations
     txtkwa = dict(color='k', style='italic',

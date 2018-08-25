@@ -71,7 +71,7 @@ step = 100.0
 bmin = dt.min() - dt.min() % step
 bmax = dt.max() - dt.max() % step + step
 bins = np.arange(bmin, bmax+step, step)
-hsax.hist(dt, bins=bins, orientation='horizontal', alpha=0.75)
+hsax.hist(dt, bins=bins, color='C1', orientation='horizontal', alpha=0.75)
 hsax.set_xlabel('frequency')
 hsax.set_ylabel('difference (m)')
 hsax.yaxis.set_label_position("right")

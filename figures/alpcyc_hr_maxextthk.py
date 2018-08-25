@@ -19,7 +19,7 @@ with ut.io.load_postproc('alpcyc.1km.epic.pp.agg.nc') as ds:
     ckw=dict(label='ice thickness (m)')
     tpg.plot.imshow(ax=ax, add_colorbar=False, cmap='Greys',
                     vmin=0.0, vmax=3e3, zorder=-1)
-    fpt.plot.contour(ax=ax, colors=[ut.pl.palette['darkorange']], levels=[0.5],
+    fpt.plot.contour(ax=ax, colors=['C7'], levels=[0.5],
                      linewidths=0.5, linestyles=[(0, [3, 1])])
     thk.plot.imshow(ax=ax, alpha=0.75, cbar_ax=cax, cbar_kwargs=ckw,
                     cmap='Blues_r', vmin=0.0, vmax=3e3)

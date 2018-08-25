@@ -23,7 +23,7 @@ with ut.io.load_postproc('alpcyc.1km.epic.pp.agg.nc') as ds:
     ckw=dict(label=r'surface velocity ($m\,a^{-1}$)')
     tpg.plot.imshow(ax=ax, add_colorbar=False, cmap='Greys',
                     vmin=0.0, vmax=3e3, zorder=-1)
-    fpt.plot.contour(ax=ax, colors=[ut.pl.palette['darkorange']], levels=[0.5],
+    fpt.plot.contour(ax=ax, colors=['C7'], levels=[0.5],
                      linewidths=0.5, linestyles=[(0, [3, 1])])
     svn.plot.imshow(ax=ax, alpha=0.75, cbar_ax=cax, cbar_kwargs=ckw,
                     cmap='Blues', norm=ut.pl.velnorm,  # (xarray issue 2381)
@@ -58,8 +58,8 @@ nc.close()
 
 # plot time series
 tsax=tsax.twinx()
-tsax.plot(a, v, c=ut.pl.palette['darkblue'])
-tsax.set_ylabel('ice volume (m s.l.e.)', color=ut.pl.palette['darkblue'])
+tsax.plot(a, v, c='C1')
+tsax.set_ylabel('ice volume (m s.l.e.)', color='C1')
 tsax.set_xlim(120.0, 0.0)
 tsax.set_ylim(-0.05, 0.35)
 tsax.locator_params(axis='y', nbins=6)

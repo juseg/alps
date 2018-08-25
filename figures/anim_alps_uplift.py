@@ -107,7 +107,7 @@ def draw(t):
     # plot bedrock depression time series
     mask = exage>=-t/1e3
     twax = tsax.twinx()
-    twax.plot(exage[mask], exdep[mask], c=ut.pl.palette['darkgreen'])
+    twax.plot(exage[mask], exdep[mask], c='C3')
     twax.set_xlim(120.0, 0.0)
     twax.set_ylim(-5.0, 35.0)
     twax.set_ylabel('volumic depression ($10^{3}\,km^{3}$)')

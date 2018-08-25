@@ -40,7 +40,7 @@ area = nc.variables['area_glacierized'][:]*1e-9
 nc.close()
 
 # plot time series
-c = ut.pl.palette['darkblue']
+c = 'C1'
 twax = tsax.twinx()
 twax.plot(age, area, c=c)
 twax.set_ylabel(r'glaciated area ($10^3\,km^2$)', color=c)

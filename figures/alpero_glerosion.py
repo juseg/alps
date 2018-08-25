@@ -35,8 +35,8 @@ ut.pl.draw_natural_earth(ax)
 #
 ## plot time series
 #twax = tsax.twinx()
-#twax.plot(age/1e3, erosionrate, c=ut.pl.palette['darkred'])
-#twax.set_ylabel('erosion rate ($km^3\,a^{-1}$)', color=ut.pl.palette['darkred'])
+#twax.plot(age/1e3, erosionrate, c='C5')
+#twax.set_ylabel('erosion rate ($km^3\,a^{-1}$)', color='C5')
 #twax.set_xlim(120.0, 0.0)
 #twax.set_ylim(-0.5, 3.5)
 #twax.locator_params(axis='y', nbins=6)
