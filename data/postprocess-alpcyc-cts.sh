@@ -53,7 +53,7 @@ do
     # concatenate output files and copy history from last file
     ncrcat -O -d time,$stride -v ${evars// /,} $elink/*-extra.nc $pexfile
     ncks -A -h -x $elink/y0120000-extra.nc $pexfile
-    ncrcat -O -d time,$stride -v ${evars// /,} $elink/*-ts.nc $ptsfile
+    ncrcat -O -d time,$stride $elink/*-ts.nc $ptsfile
     ncks -A -h -x $elink/y0120000-ts.nc $ptsfile
 
     # apply mask and add fill value
