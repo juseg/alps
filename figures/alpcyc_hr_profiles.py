@@ -34,11 +34,22 @@ for i, reg in enumerate(regions):
     # Map axes
     # --------
 
+    # load aggregated data
+    with ut.io.load_postproc('alpcyc.1km.epic.pp.agg.nc') as ds:
+        srf = ds.maxthksrf
+        ext = ds.maxthksrf.notnull()
+
+        # plot surface contours and footprint
+        ext.plot.contourf(ax=ax, add_colorbar=False, alpha=0.75, colors='w',
+                          extend='neither', levels=[0.5, 1.5])
+        ext.plot.contour(ax=ax, colors='k', levels=[0.5], linewidths=0.25)
+
+    # remove title from xarray
+    ax.set_title('')
+
     # add map elements
     ut.pl.draw_boot_topo(ax)
     ut.pl.draw_natural_earth(ax)
-    ut.pl.draw_footprint(ax, ec='none', fc='w', alpha=0.75)
-    ut.pl.draw_footprint(ax)
     ut.pl.draw_lgm_outline(ax)
 
     # read profile from shapefile
