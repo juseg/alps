@@ -2,11 +2,7 @@
 # coding: utf-8
 
 import util as ut
-import numpy as np
-import xarray as xr
 import matplotlib.pyplot as plt
-import scipy.interpolate as sinterp
-import cartopy.io.shapereader as shpreader
 
 # parameters
 regions = ['rhine', 'rhone', 'ivrea', 'isere', 'inn', 'taglia']
@@ -17,7 +13,7 @@ fig, grid, tsgrid = ut.pl.subplots_profiles(regions, labels)
 
 # load extra data in memory (interp on dask array takes 12min per profile)
 with ut.io.load_mfoutput(ut.alpcyc_bestrun+'y???????-extra.nc') as ds:
-    h = ds.thk[9::10].compute()
+    thk = ds.thk[9::10].compute()
 
 # loop on regions
 for i, reg in enumerate(regions):
@@ -47,25 +43,8 @@ for i, reg in enumerate(regions):
     ut.pl.draw_natural_earth(ax)
     ut.pl.draw_lgm_outline(ax)
 
-    # read profile from shapefile
-    filename = '../data/native/profile_%s.shp' % reg
-    shp = shpreader.Reader(filename)
-    geom = shp.geometries().next()
-    geom = geom[0]
-    xp, yp = np.array(geom).T
-    del shp, geom
-
-    # compute distance along profile
-    dp = (((xp[1:]-xp[:-1])**2+(yp[1:]-yp[:-1])**2)**0.5).cumsum()/1e3
-    dp = np.insert(dp, 0, 0.0)
-
-    # spline-interpolate profile
-    di = np.arange(0.0, dp[-1], 1.0)
-    xp = sinterp.spline(dp, xp, di)
-    yp = sinterp.spline(dp, yp, di)
-    dp = di
-
-    # add profile line
+    # add profile line from shapefile
+    xp, yp = ut.io.open_shp_coords('profile_'+reg+'.shp')
     ax.plot(xp, yp, c=c, dashes=(2, 1))
     ax.plot(xp[0], yp[0], c=c, marker='o')
 
@@ -73,12 +52,8 @@ for i, reg in enumerate(regions):
     # Time series
     # -----------
 
-    # extract space-time slice
-    xp = xr.DataArray(xp, coords=[dp], dims='l')
-    yp = xr.DataArray(yp, coords=[dp], dims='l')
-    hp = h.interp(x=xp, y=yp, method='linear', assume_sorted=True).T
-
-    # plot envelope
+    # interpolate thickness and plot envelope
+    hp = thk.interp(x=xp, y=yp, method='linear', assume_sorted=True).T
     hp.plot.contourf(ax=tsax, alpha=0.75, add_colorbar=False,
                      colors=[c], extend='neither', levels=[1.0, 5e3])
 
