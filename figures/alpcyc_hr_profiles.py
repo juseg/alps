@@ -3,6 +3,7 @@
 
 import util as ut
 import numpy as np
+import xarray as xr
 import matplotlib.pyplot as plt
 import scipy.interpolate as sinterp
 import cartopy.io.shapereader as shpreader
@@ -14,14 +15,9 @@ labels = ['Rhine', 'Rhone', 'Dora Baltea', u'Isère', 'Inn', 'Tagliamento']
 # initialize figure
 fig, grid, tsgrid = ut.pl.subplots_profiles(regions, labels)
 
-# load extra data
-filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
-nc = ut.io.load(filepath)
-x = nc.variables['x'][:]
-y = nc.variables['y'][:]
-t = nc.variables['time'][9::10]/(365.0*24*60*60*1e3)
-h = nc.variables['thk'][9::10]
-nc.close()
+# load extra data in memory (interp on dask array takes 12min per profile)
+with ut.io.load_mfoutput(ut.alpcyc_bestrun+'y???????-extra.nc') as ds:
+    h = ds.thk[9::10].compute()
 
 # loop on regions
 for i, reg in enumerate(regions):
@@ -64,7 +60,7 @@ for i, reg in enumerate(regions):
     dp = np.insert(dp, 0, 0.0)
 
     # spline-interpolate profile
-    di = np.arange(0.0, dp[-1], 0.5)
+    di = np.arange(0.0, dp[-1], 1.0)
     xp = sinterp.spline(dp, xp, di)
     yp = sinterp.spline(dp, yp, di)
     dp = di
@@ -78,11 +74,13 @@ for i, reg in enumerate(regions):
     # -----------
 
     # extract space-time slice
-    xi = t[:, None], yp[None, :], xp[None, :]  # coords to sample at
-    hp = sinterp.interpn((t, y, x), h, xi, method='linear')
+    xp = xr.DataArray(xp, coords=[dp], dims='l')
+    yp = xr.DataArray(yp, coords=[dp], dims='l')
+    hp = h.interp(x=xp, y=yp, method='linear', assume_sorted=True).T
 
     # plot envelope
-    cs = tsax.contourf(-t, dp, hp.T, levels=[1.0, 5e3], colors=[c], alpha=0.75)
+    hp.plot.contourf(ax=tsax, alpha=0.75, add_colorbar=False,
+                     colors=[c], extend='neither', levels=[1.0, 5e3])
 
     # set axes properties
     tsax.set_xlim(120.0, 0.0)
