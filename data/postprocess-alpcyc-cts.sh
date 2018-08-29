@@ -41,6 +41,7 @@ do
     pexfile="alpcyc.$res.${rec:0:4}.$pp.ex.1ka.nc"  # processed extra file
     ptsfile="alpcyc.$res.${rec:0:4}.$pp.ts.10a.nc"  # timeseries output file
     tmpfile="alpcyc.$res.${rec:0:4}.$pp.tmp.nc"     # multipurpose tmp file
+    tmsfile="alpcyc.$res.${rec:0:4}.$pp.tms.nc"     # timestamps output file
 
     # message
     echo "preparing $pexfile..."
@@ -52,9 +53,11 @@ do
 
     # concatenate output files and copy history from last file
     ncrcat -O -d time,$stride -v ${evars// /,} $elink/*-extra.nc $pexfile
-    ncks -A -h -x $elink/y0120000-extra.nc $pexfile
     ncrcat -O -d time,$stride $elink/*-ts.nc $ptsfile
+    ncrcat -O -v timestamp $elink/*-extra.nc $tmsfile
     ncks -A -h -x $elink/y0120000-ts.nc $ptsfile
+    ncks -A -h -x $elink/y0120000-extra.nc $pexfile
+    ncks -A -h -x $elink/y0120000-extra.nc $tmsfile
 
     # apply mask and add fill value
     ncap2 -A -s "where(thk<1.0){$(for v in $mvars; do echo -n "$v=-2e9;"; done)};\
@@ -75,26 +78,22 @@ do
     prefix="Alpine ice sheet glacial cycle simulations"
     ncatted -h -a title,global,o,c,"$prefix spatial diagnostics" $pexfile
     ncatted -h -a title,global,o,c,"$prefix scalar time series" $ptsfile
+    ncatted -h -a title,global,o,c,"$prefix time stamps" $tmsfile
 
-    # add subtitles
+    # remove (mostly) duplicate history, add attributes and compress
     [ "$pp" == "pp" ] && wo="with" || wo="without"
-    subtitle="$res ${rec^^} simulation $wo precipitation reductions"
-    ncatted -h -a subtitle,global,o,c,"$subtitle" $pexfile
-    ncatted -h -a subtitle,global,o,c,"$subtitle" $ptsfile
-
-    # remove (mostly) duplicate history and add global attributes
     inst="ETH Zürich, Switzerland and Hokkaido University, Japan"
-
-    for f in $pexfile $ptsfile
+    subtitle="$res ${rec^^} simulation $wo precipitation reductions"
+    for f in $pexfile $ptsfile $tmsfile
     do
-        ncatted -h -a history_of_appended_files,global,d,, $f
         ncatted -h -a author,global,o,c,"Julien Seguinot" $f
+        ncatted -h -a history_of_appended_files,global,d,, $f
         ncatted -h -a institution,global,o,c,"$inst" $f
+        ncatted -h -a subtitle,global,o,c,"$subtitle" $f
+        nccopy -sd1 $f $tmpfile && mv $tmpfile $f
     done
 
-    # compress with shuffling and remove links
-    nccopy -sd1 $pexfile $tmpfile && mv $tmpfile $pexfile
-    nccopy -sd1 $ptsfile $tmpfile && mv $tmpfile $ptsfile
+    # remove links
     rm $blink $elink
 
 done
