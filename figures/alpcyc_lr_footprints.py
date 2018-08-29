@@ -45,7 +45,7 @@ for i, rec in enumerate(ut.alpcyc_records):
         cs = ax.contourf(x, y, mask, levels=[-0.5, 0.5], colors=[c], alpha=0.75)
         ut.pl.add_corner_tag('MIS %d' % (2+2*j), ax=ax, va='bottom')
         #ut.pl.add_subfig_label('(%s)' % list('abcdef')[i/2+j], ax=ax)
-        ut.pl.draw_boot_topo(ax, res='2km')
+        ut.pl.draw_boot_topo(ax=ax, filename='alpcyc.2km.in.nc')
         ut.pl.draw_natural_earth(ax)
 
 # save

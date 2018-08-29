@@ -669,6 +669,15 @@ def add_signature(text, fig=None, offset=2.5/25.4):
 # ------------
 
 
+def draw_boot_topo(ax=None, filename='alpcyc.1km.in.nc'):
+    """Add bootstrapping topography image."""
+    ax = ax or iplt.gca()
+    with ut.io.load_postproc(filename) as ds:
+        im = (ds.topg/1e3).plot.imshow(ax=ax, add_colorbar=False, cmap='Greys',
+                                       vmin=0.0, vmax=3.0, zorder=-1)
+    return im
+
+
 def draw_major_cities(ax=None, maxrank=5, textoffset=2, lang='en',
                       request=None):
     """Add major city locations with names."""
@@ -843,15 +852,6 @@ def draw_major_transfluences(ax=None, textoffset=4):
             ax.plot(x, y, 'kP', ms=6, mew=0)  # or marker=(2, 0, -azim)
             ax.annotate(name, xy=(x, y), xytext=(dx, dy),
                         textcoords='offset points', ha=ha, va=va)
-
-
-def draw_boot_topo(ax=None, res='1km'):
-    """Add bootstrapping topography image."""
-    ax = ax or iplt.gca()
-    nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-%s.nc' % res)
-    im = nc.imshow('topg', ax, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
-    nc.close()
-    return im
 
 
 def draw_model_domain(ax=None, extent='alps'):
