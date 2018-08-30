@@ -2,60 +2,40 @@
 # coding: utf-8
 
 import util as ut
-import numpy as np
-import scipy as sp
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 
+# initialize figure
 fig, ax, cax, scax, hsax = ut.pl.subplots_trimlines()
 
 
 # Input data
 # ----------
 
-# read trimlines data
-trimlines = np.genfromtxt('../data/native/trimlines_kelly_etal_2004.csv',
-                          dtype=None, delimiter=',', encoding='utf8',
-                          names=True)
-xt = trimlines['x']
-yt = trimlines['y']
-zt = trimlines['z']
+# load trimlines data in memory
+with ut.io.open_trimline_data() as tr:
+    tr.load()
 
-# convert to UTM 32
-xt, yt, zt = ut.pl.utm.transform_points(ut.pl.swiss, xt, yt, zt).T
-
-# load aggregated data
-# FIXME use xarray interpolation methods
+# get aggregated data at trimline locations
 with ut.io.load_postproc('alpcyc.1km.epic.pp.agg.nc') as ds:
-    maxthkthk = ds.maxthkthk.data
-    maxthkage = ds.maxthkage.data
+    at = ds.maxthkage.interp(x=tr.x, y=tr.y, method='linear')/1e3
+    ht = ds.maxthkthk.interp(x=tr.x, y=tr.y, method='linear')
 
-# load boot topography
-nc = ut.io.load('input/boot/alps-srtm+thk+gou11simi-1km.nc')
-x = nc.variables['x'][:]
-y = nc.variables['y'][:]
-boot = nc.variables['topg'][:]
-nc.close()
-
-# get model elevation at trimline locations
-i = np.argmin(abs(xt[:, None] - x), axis=1)
-j = np.argmin(abs(yt[:, None] - y), axis=1)
-ht = sp.interpolate.interpn((y, x), maxthkthk, (yt, xt), method='linear')
-at = sp.interpolate.interpn((y, x), maxthkage, (yt, xt), method='linear')/1e3
-bt = sp.interpolate.interpn((x, y), boot, (xt, yt), method='linear')
+# get boot topography at trimline locations
+with ut.io.load_postproc('alpcyc.1km.in.nc') as ds:
+    bt = ds.topg.interp(x=tr.x, y=tr.y, method='linear')
 
 
 # Scatter axes
 # ------------
 
-# set contour levels and colors
+# age levels and colors
 levs = range(21, 28)
-cmap = plt.get_cmap('Paired', 12)
-cols = cmap(range(12))[:len(levs)+1]
+cols = plt.get_cmap('Paired').colors[:len(levs)+1]
 cmap, norm = mcolors.from_levels_and_colors(levs, cols, extend='both')
 
 # draw scatter plot
-sc = scax.scatter(zt, bt+ht, c=at, cmap=cmap, norm=norm, alpha=0.75)
+sc = scax.scatter(tr.z, bt+ht, c=at, cmap=cmap, norm=norm, alpha=0.75)
 scax.set_xlabel('observed trimline elevation (m)')
 scax.set_ylabel('compensated LGM surface elevation (m)')
 
@@ -64,13 +44,13 @@ scax.set_ylabel('compensated LGM surface elevation (m)')
 # --------------
 
 # diff between compensated surface elevation and trimlines
-dt = bt + ht - zt
+dt = bt + ht - tr.z
 
 # add histogram
-step = 100.0
-bmin = dt.min() - dt.min() % step
-bmax = dt.max() - dt.max() % step + step
-bins = np.arange(bmin, bmax+step, step)
+step = 100
+bmin = int(dt.min() - dt.min() % step)
+bmax = int(dt.max() - dt.max() % step + step)
+bins = range(bmin, bmax+1, step)
 hsax.hist(dt, bins=bins, color='C1', orientation='horizontal', alpha=0.75)
 hsax.set_xlabel('frequency')
 hsax.set_ylabel('difference (m)')
@@ -78,10 +58,10 @@ hsax.yaxis.set_label_position("right")
 hsax.yaxis.tick_right()
 
 # highlight mean difference
-zavg = zt.mean()
+zavg = tr.z.mean()
 davg = dt.mean()
 dstd = dt.std()
-zz = [zt.min(), zt.max()]
+zz = tr.z[[tr.z.argmin(), tr.z.argmax()]]
 scax.plot(zz, zz+davg, c='0.25')
 scax.plot(zz, zz+davg-dstd, c='0.25', dashes=(2, 1), lw=0.5)
 scax.plot(zz, zz+davg+dstd, c='0.25', dashes=(2, 1), lw=0.5)
@@ -118,7 +98,7 @@ with ut.io.load_postproc('alpcyc.1km.epic.pp.agg.nc') as ds:
     srf.plot.contour(ax=ax, colors='0.25', levels=ut.pl.utlevs,
                      linewidths=0.25)
     ext.plot.contourf(ax=ax, add_colorbar=False, alpha=0.75, colors='w',
-                      extend='neither', levels=[0.5, 1.5], linewidths=0.25)
+                      extend='neither', levels=[0.5, 1.5])
     ext.plot.contour(ax=ax, colors='k', levels=[0.5], linewidths=0.25)
 
 # remove xarray auto title
@@ -138,7 +118,7 @@ ax.text(7.963, 46.537, 'Jungfrau', **kw)
 ax.text(7.367, 46.233, 'Rhone', rotation=30, **kw)
 
 # draw trimlines
-sc = ax.scatter(xt, yt, c=at, cmap=cmap, norm=norm, s=4**2, alpha=0.75)
+sc = ax.scatter(tr.x, tr.y, c=at, cmap=cmap, norm=norm, s=4**2, alpha=0.75)
 
 # add colorbar
 cb = ut.pl.add_colorbar(sc, cax)

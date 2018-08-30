@@ -3,13 +3,15 @@
 
 """Data input functions."""
 
-import iceplotlib.plot as iplt
 import os
 import numpy as np
+import pandas as pd
 import xarray as xr
 import scipy.interpolate as sinterp
 import cartopy.io.shapereader as shpreader
 from osgeo import gdal
+import iceplotlib.plot as iplt
+import util as ut
 
 
 def load(filepath):
@@ -139,3 +141,18 @@ def open_shp_coords(filename, ds=1.0):
 
     # return coordinates
     return x, y
+
+
+def open_trimline_data():
+    """Open trimline dataset."""
+
+    # read trimlines data
+    ds = pd.read_csv('../data/native/trimlines_kelly_etal_2004.csv',
+                     index_col='id').to_xarray()
+
+    # convert to UTM 32
+    xyz = ut.pl.utm.transform_points(ut.pl.swiss, ds.x.data, ds.y.data, ds.z.data).T
+    ds['x'].data, ds['y'].data, ds['z'].data = xyz
+
+    # return dataset
+    return ds
