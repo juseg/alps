@@ -8,6 +8,13 @@ import sys
 import datetime
 import xarray as xr
 
+
+def message(**attrs):
+    """Print a message and pass variables attributes."""
+    print "* computing {long_name} ...".format(**attrs)
+    return attrs
+
+
 # Global parameters
 # -----------------
 
@@ -27,26 +34,6 @@ globs = dict(
   thickness age (maxthkage) variable.
 * Other variables are numerically integrated over the last glacial cycle.
 """)
-
-# mapping between 3-char variable names and pism variable names
-pism_names = dict(age='age', btp='temppabase', btt='tempicethk_basal',
-                  bvn='velbase_mag', bvx='uvelbase', bvy='vvelbase',
-                  svn='velsurf_mag', svx='uvelsurf', svy='vvelsurf',
-                  thk='thk', tpg='topg', srf='usurf')
-
-# mapping between 3-char variable names and long names in output file
-long_names = dict(age='age',
-                  btp='pressure-adjuste basal temperature',
-                  btt='basal temperate ice layer thickness',
-                  bvn='basal velocity norm',
-                  bvx='basal velocity x-component',
-                  bvy='basal velocity y-component',
-                  svn='surface velocity norm',
-                  svx='surface velocity x-component',
-                  svy='surface velocity y-component',
-                  srf='ice surface elevation',
-                  thk='ice thickness',
-                  tpg='basal topography')
 
 
 # Loop on selected run
@@ -68,7 +55,6 @@ for i in range(7):
     rname = 'alps-wcnn-{}/{}3222cool{:04.0f}+{}'.format(res, rec, 100*dt, conf)
     ipath = os.environ['HOME'] + '/pism/output/e9d2d1f/' + rname
     ofile = 'processed/alpcyc.{}.{}.{}.agg.nc'.format(res, rec[:4], dp)
-
 
     # Load model output
     # -----------------
@@ -92,9 +78,17 @@ for i in range(7):
     # init postprocessed dataset with global attributes
     pp = xr.Dataset(attrs=ex.attrs, coords=dict(lon=ex.lon, lat=ex.lat))
 
-
     # Compute aggregated variables
     # ----------------------------
+
+    # compute glacial cycle integrated variables
+    attrs = message(long_name='ice cover duration', units='years')
+    pp['covertime'] = ex.icy.sum(axis=0).assign_attrs(attrs)*dt
+    attrs = message(long_name='deglaciation age', units='years')
+    i = ex.icy[::-1].argmax(axis=0).compute()
+    pp['deglacage'] = ex.age[-i].where(i > 0)
+    attrs = message(long_name='ice cover footprint', units='')
+    pp['footprint'] = (pp.covertime > 0.0).assign_attrs(attrs)
 
     # compute index of max ice extent
     a = 24556.0  # max of slvol and volume_glacierized (1km)
@@ -105,35 +99,43 @@ for i in range(7):
                      time=ex.time[i].data, time_units=ex.time.units)
 
     # compute max extent snapshot variables
-    for var in ['thk', 'btp', 'btt', 'bvx', 'bvy', 'srf', 'svx', 'svy', 'tpg']:
-        attrs = dict(long_name='maximum extent ' + long_names[var], **age_attrs)
-        print "* computing {long_name} ...".format(**attrs)
-        pp['maxext'+var] = ex[pism_names[var]][i].compute().assign_attrs(attrs)
-        if var != 'tpg':
-            pp['maxext'+var] = pp['maxext'+var].where(pp.maxextthk >= 1.0)
-
-    # compute index of max ice thickness
-    print "* computing index of maximum ice thickness..."
-    i = ex['thk'].argmax(dim='time').compute()
+    prefix = 'maximum extent '
+    ice = ex.icy[i]
+    attrs = message(long_name=prefix+'ice thickness')
+    pp['maxextthk'] = ex.thk[i].where(ice).assign_attrs(attrs)
+    attrs = message(long_name=prefix+'pressure-adjusted basal temperature')
+    pp['maxextbtp'] = ex.temppabase[i].where(ice).assign_attrs(attrs)
+    attrs = message(long_name=prefix+'basal temperate ice layer thickness')
+    pp['maxextbtt'] = ex.tempicethk_basal[i].where(ice).assign_attrs(attrs)
+    attrs = message(long_name=prefix+'basal velocity x-component')
+    pp['maxextbvx'] = ex.uvelbase[i].where(ice).assign_attrs(attrs)
+    attrs = message(long_name=prefix+'basal velocity y-component')
+    pp['maxextbvy'] = ex.vvelbase[i].where(ice).assign_attrs(attrs)
+    attrs = message(long_name=prefix+'ice surface elevation')
+    pp['maxextsrf'] = ex.usurf[i].where(ice).assign_attrs(attrs)
+    attrs = message(long_name=prefix+'surface velocity x-component')
+    pp['maxextsvx'] = ex.uvelsurf[i].where(ice).assign_attrs(attrs)
+    attrs = message(long_name=prefix+'surface velocity y-component')
+    pp['maxextsvy'] = ex.vvelsurf[i].where(ice).assign_attrs(attrs)
+    attrs = message(long_name=prefix+'bedrock topography')
+    pp['maxexttpg'] = ex.topg[i].assign_attrs(attrs)
 
     # compute max thickness transgressive variables
-    for var in ['thk', 'age', 'btp', 'btt', 'bvn', 'srf']:
-        attrs = dict(long_name='maximum thickness ' + long_names[var])
-        print "* computing {long_name} ...".format(**attrs)
-        pp['maxthk'+var] = ex[pism_names[var]][i].compute().assign_attrs(attrs)
-        pp['maxthk'+var] = pp['maxthk'+var].where(pp.maxthkthk >= 1.0)
-
-    # compute glacial cycle integrated variables
-    attrs = dict(long_name='ice cover duration', units='years')
-    print "* computing {long_name} ...".format(**attrs)
-    pp['covertime'] = ex.icy.sum(axis=0).compute().assign_attrs(attrs)*dt
-    attrs = dict(long_name='deglaciation age', units='years')
-    print "* computing {long_name} ...".format(**attrs)
-    i = ex.icy[::-1].argmax(axis=0).compute()
-    pp['deglacage'] = ex.age[-i].where(i > 0)
-    attrs = dict(long_name='ice cover footprint', units='')
-    print "* computing {long_name} ...".format(**attrs)
-    pp['footprint'] = (pp.covertime > 0.0).compute().assign_attrs(attrs)
+    prefix = 'maximum thickness '
+    icy = pp.footprint
+    attrs = message(long_name=prefix+'age')
+    i = ex.thk.argmax(dim='time').compute()
+    pp['maxthkage'] = ex.age[i].where(ice).assign_attrs(attrs)
+    attrs = message(long_name=prefix+'pressure-adjusted basal temperature')
+    pp['maxthkbtp'] = ex.temppabase[i].where(ice).assign_attrs(attrs)
+    attrs = message(long_name=prefix+'basal temperate ice layer thickness')
+    pp['maxthkbtt'] = ex.tempicethk_basal[i].where(ice).assign_attrs(attrs)
+    attrs = message(long_name=prefix+'basal velocity norm')
+    pp['maxthkbvn'] = ex.velbase_mag[i].where(ice).assign_attrs(attrs)
+    attrs = message(long_name=prefix+'ice surface elevation')
+    pp['maxthksrf'] = ex.usurf[i].where(ice).assign_attrs(attrs)
+    attrs = message(long_name='maximum ice thickness')
+    pp['maxthkthk'] = ex.thk[i].where(ice).assign_attrs(attrs)
 
     # add global attributes
     pp.attrs.update(globs)
@@ -145,7 +147,6 @@ for i in range(7):
     # copy grid mapping and pism config
     pp['mapping'] = ex.mapping
     pp['pism_config'] = ex.pism_config
-
 
     # Export aggregated data
     # ----------------------
