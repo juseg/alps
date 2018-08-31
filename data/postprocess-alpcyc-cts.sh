@@ -34,13 +34,10 @@ do
     [ "$pp" == "pp" ] && conf="alpcyc4+pp" || conf="alpcyc4"
 
     # input and output file locations
-    bfile="$HOME/pism/input/boot/alps-srtm+thk+gou11simi-$res.nc"
     efile="$HOME/pism/output/e9d2d1f/alps-wcnn-$res/${rec}3222cool$dt+$conf"
-    blink="alpcyc.$res.boot.nc"                 # link to boot file
     elink="alpcyc.$res.${rec:0:4}.$pp.extra"    # link to extra file
     pexfile="alpcyc.$res.${rec:0:4}.$pp.ex.1ka.nc"  # processed extra file
     ptsfile="alpcyc.$res.${rec:0:4}.$pp.ts.10a.nc"  # timeseries output file
-    tmpfile="alpcyc.$res.${rec:0:4}.$pp.tmp.nc"     # multipurpose tmp file
     tmsfile="alpcyc.$res.${rec:0:4}.$pp.tms.nc"     # timestamps output file
 
     # message
@@ -49,7 +46,6 @@ do
     # link output files (newer nco forbids + in file names)
     # FIXME: remove all + in pism folders on all computers
     ln -fs $efile $elink
-    ln -fs $bfile $blink
 
     # concatenate output files and copy history from last file
     ncrcat -O -d time,$stride -v ${evars// /,} $elink/*-extra.nc $pexfile
@@ -62,17 +58,6 @@ do
     # apply mask and add fill value
     ncap2 -A -s "where(thk<1.0){$(for v in $mvars; do echo -n "$v=-2e9;"; done)};\
     $(for v in $mvars; do echo -n "$v.set_miss(-2e9);"; done)" $pexfile
-
-    # extract boot topography, rename it, edit its attributes and append
-    ncks -O -v topg $blink $tmpfile
-    ncpdq -O -a y,x $tmpfile $tmpfile
-    ncrename -v topg,boot_topg $tmpfile
-    ncatted -h -a coordinates,boot_topg,o,c,"lat lon" \
-               -a grid_mapping,boot_topg,o,c,"mapping" \
-               -a long_name,boot_topg,o,c,"initial bedrock surface elevation" \
-               -a standard_name,boot_topg,o,c,"initial_bedrock_altitude" \
-               $tmpfile
-    ncks -A -v boot_topg $tmpfile $pexfile
 
     # add titles
     prefix="Alpine ice sheet glacial cycle simulations"
@@ -90,10 +75,10 @@ do
         ncatted -h -a history_of_appended_files,global,d,, $f
         ncatted -h -a institution,global,o,c,"$inst" $f
         ncatted -h -a subtitle,global,o,c,"$subtitle" $f
-        nccopy -sd1 $f $tmpfile && mv $tmpfile $f
+        nccopy -sd1 $f $f.tmp && mv $f.tmp $f
     done
 
     # remove links
-    rm $blink $elink
+    rm $elink
 
 done
