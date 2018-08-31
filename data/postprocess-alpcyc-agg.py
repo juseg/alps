@@ -15,27 +15,6 @@ def message(**attrs):
     return attrs
 
 
-# Global parameters
-# -----------------
-
-# add global attributes
-globs = dict(
-    title='Alpine ice sheet glacial cycle simulations aggregated variables',
-    author='Julien Seguinot',
-    institution='ETH Zürich, Switzerland and Hokkaido University, Japan',
-    command='{user}@{host} {time}: {cmdl}\n'.format(
-        user=os.environ['USER'], host=os.uname()[1], cmdl=' '.join(sys.argv),
-        time=datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC')),
-    comment="""Aggregated dataset contents:
-* Maximum extent (maxext*) variables correspond to a snapshot of model output
-  at the age of maximum glacierized area, indicated by their age attributes.
-* Maximum thickness (maxthk*) variables are time-transgressive and correspond
-  to the age of maximum ice thickness in each grid cell, given by the maximum
-  thickness age (maxthkage) variable.
-* Other variables are numerically integrated over the last glacial cycle.
-""")
-
-
 # Loop on selected run
 # --------------------
 
@@ -53,17 +32,18 @@ for i in range(7):
 
     # input and output file paths
     pism_dir = os.path.join(os.environ['HOME'], 'pism')
-    dt_file = rec + '3222cool{:04.0f}'.format(100*dt)
-    run_dir = os.path.join(pism_dir, 'output', 'e9d2d1f', 'alps-wcnn-'+res,
-                           dt_file+'+alpcyc4'+('+pp' if dp == 'pp' else ''))
-    ex_file = run_dir+'/y???????-extra.nc'
-    ts_file = run_dir+'/y???????-ts.nc'
-    ofile = 'processed/alpcyc.{}.{}.{}.agg.nc'.format(res, rec[:4], dp)
+    boot_file = pism_dir + '/input/boot/alps-srtm+thk+gou11simi-' + res + '.nc'
+    dt_file = '{}3222cool{:04.0f}'.format(rec, 100*dt)
+    run_dir = '{}/output/e9d2d1f/alps-wcnn-{}/{}+alpcyc4{}'.format(
+        pism_dir, res, dt_file, '+pp' if dp == 'pp' else '')
+    ex_file = run_dir + '/y???????-extra.nc'
+    ts_file = run_dir + '/y???????-ts.nc'
+    pp_file = 'processed/alpcyc.{}.{}.{}.agg.nc'.format(res, rec[:4], dp)
 
     # Load model output
     # -----------------
 
-    # load output data
+    # open output data
     print "loading " + run_dir + "..."
     with xr.open_mfdataset(ex_file, concat_dim='time',
                            chunks=dict(time=10), decode_cf=False,
@@ -150,18 +130,51 @@ for i in range(7):
         pp['mapping'] = ex.mapping
         pp['pism_config'] = ex.pism_config
 
-    # edit global attributes
-    pp.attrs.update(globs)
-    pp.attrs['subtitle'] = ('{} {} simulation '.format(res, rec.upper()) +
-                            ('with ' if dp == 'pp' else 'without ') +
-                            'precipitation reductions')
-    pp.attrs['history'] = pp.attrs['command'] + pp.attrs['history']
+    # Copy boot variables
+    # -------------------
 
-    # remove outdated attributes
+    # open boot file
+    with xr.open_dataset(boot_file, decode_cf=False, decode_times=False) as ds:
+
+        # copy variables
+        prefix = 'initial condition '
+        attrs = message(long_name=prefix+'ice thickness')
+        pp['inicdtthk'] = ds.thk.T.assign_attrs(attrs)
+        attrs = message(long_name=prefix+'bedrock surface elevation')
+        pp['inicdttpg'] = ds.topg.T.assign_attrs(attrs)
+
+    # Add attributes
+    # --------------
+
+    # remove outdated variable attributes
     for name, variable in pp.iteritems():
         variable.attrs.pop('coordinates', None)
         variable.attrs.pop('pism_intent', None)
 
+    # add global attributes
+    pp.attrs.update(
+        author='Julien Seguinot',
+        institution='ETH Zürich, Switzerland and Hokkaido University, Japan',
+        title=('Alpine ice sheet glacial cycle simulations '
+               'aggregated variables'),
+        subtitle='{res} {rec} simulation {w} precipitation reductions'.format(
+            res=res, rec=rec.upper(), w='with' if dp == 'pp' else 'without'),
+        command='{user}@{host} {time}: {cmdl}\n'.format(
+            user=os.environ['USER'],
+            host=os.uname()[1],
+            cmdl=' '.join(sys.argv),
+            time=datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC')),
+        comment="""Aggregated dataset contents:
+* Maximum extent (maxext*) variables correspond to a snapshot of model output
+  at the age of maximum glacierized area, indicated by their age attributes.
+* Maximum thickness (maxthk*) variables are time-transgressive and correspond
+  to the age of maximum ice thickness in each grid cell, given by the maximum
+  thickness age (maxthkage) variable.
+* Other variables are numerically integrated over the last glacial cycle.
+""")
+
+    # append history
+    pp.attrs['history'] = pp.attrs['command'] + pp.attrs['history']
 
     # Export aggregated data
     # ----------------------
@@ -175,4 +188,4 @@ for i in range(7):
     pp = pp.drop('time')
     encoding = dict(zlib=True, shuffle=True, complevel=5)
     encoding = {var: encoding for var in pp.variables}
-    pp.to_netcdf(ofile, mode='w', encoding=encoding)
+    pp.to_netcdf(pp_file, mode='w', encoding=encoding)
