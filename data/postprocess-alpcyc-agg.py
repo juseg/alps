@@ -48,6 +48,7 @@ long_names = dict(age='age',
                   thk='ice thickness',
                   tpg='basal topography')
 
+
 # Loop on selected run
 # --------------------
 
@@ -78,14 +79,14 @@ for i in range(7):
     ex = xr.open_mfdataset(ipath+'/y???????-extra.nc', decode_times=False,
                            chunks={'time': 50}, data_vars='minimal')
 
-    # get global attributes from last file (netcdf4 issue #835)
+    # get global attributes from last file (xarray issue #2382)
     last = xr.open_dataset(ipath+'/y0120000-extra.nc', decode_times=False)
     ex.attrs = last.attrs
     last.close()
 
-    # create age coordinate and extract time step
-    ex['age'] = -ex['time']/(365.0*24*60*60)
-    ex['age'].attrs['units'] = 'years'
+    # register proxy variables and extract time step
+    ex['icy'] = (ex.thk >= 1.0).assign_attrs(units='')
+    ex['age'] = (-ex['time']/365/24/60/60).assign_attrs(units='years')
     dt = ex['age'][0] - ex['age'][1]
 
     # init postprocessed dataset with global attributes
@@ -105,14 +106,11 @@ for i in range(7):
 
     # compute max extent snapshot variables
     for var in ['thk', 'btp', 'btt', 'bvx', 'bvy', 'srf', 'svx', 'svy', 'tpg']:
-        ln = 'maximum extent ' + long_names[var]
-        print "* computing " + ln + "..."
-        pp['maxext'+var] = ex[pism_names[var]][i].compute()
+        attrs = dict(long_name='maximum extent ' + long_names[var], **age_attrs)
+        print "* computing {long_name} ...".format(**attrs)
+        pp['maxext'+var] = ex[pism_names[var]][i].compute().assign_attrs(attrs)
         if var != 'tpg':
             pp['maxext'+var] = pp['maxext'+var].where(pp.maxextthk >= 1.0)
-        pp['maxext'+var].attrs = dict(long_name=ln, grid_mapping='mapping',
-                                      units=pp['maxext'+var].units,
-                                      **age_attrs)
 
     # compute index of max ice thickness
     print "* computing index of maximum ice thickness..."
@@ -120,27 +118,22 @@ for i in range(7):
 
     # compute max thickness transgressive variables
     for var in ['thk', 'age', 'btp', 'btt', 'bvn', 'srf']:
-        ln = 'maximum thickness ' + long_names[var]
-        print "* computing " + ln + "..."
-        pp['maxthk'+var] = ex[pism_names[var]][i].compute()
+        attrs = dict(long_name='maximum thickness ' + long_names[var])
+        print "* computing {long_name} ...".format(**attrs)
+        pp['maxthk'+var] = ex[pism_names[var]][i].compute().assign_attrs(attrs)
         pp['maxthk'+var] = pp['maxthk'+var].where(pp.maxthkthk >= 1.0)
-        pp['maxthk'+var].attrs = dict(long_name=ln, grid_mapping='mapping',
-                                      units=pp['maxthk'+var].units)
 
     # compute glacial cycle integrated variables
-    ln = 'ice cover duration'
-    print "* computing " + ln + "..."
-    pp['covertime'] = (ex.thk >= 1.0).sum(axis=0).compute()*dt
-    pp['covertime'].attrs = dict(long_name=ln, grid_mapping='mapping', units='years')
-    ln = 'deglaciation age'
-    print "* computing " + ln + "..."
-    i = (ex.thk >= 1.0)[::-1].argmax(axis=0).compute()
+    attrs = dict(long_name='ice cover duration', units='years')
+    print "* computing {long_name} ...".format(**attrs)
+    pp['covertime'] = ex.icy.sum(axis=0).compute().assign_attrs(attrs)*dt
+    attrs = dict(long_name='deglaciation age', units='years')
+    print "* computing {long_name} ...".format(**attrs)
+    i = ex.icy[::-1].argmax(axis=0).compute()
     pp['deglacage'] = ex.age[-i].where(i > 0)
-    pp['deglacage'].attrs = dict(long_name=ln, grid_mapping='mapping', units='years')
-    ln = 'ice cover footprint'
-    print "* computing " + ln + "..."
-    pp['footprint'] = (pp.covertime > 0.0).compute()
-    pp['footprint'].attrs = dict(long_name=ln, grid_mapping='mapping', units='')
+    attrs = dict(long_name='ice cover footprint', units='')
+    print "* computing {long_name} ...".format(**attrs)
+    pp['footprint'] = (pp.covertime > 0.0).compute().assign_attrs(attrs)
 
     # add global attributes
     pp.attrs.update(globs)
