@@ -10,15 +10,7 @@ import xarray as xr
 import scipy.interpolate as sinterp
 import cartopy.io.shapereader as shpreader
 from osgeo import gdal
-import iceplotlib.plot as iplt
 import util as ut
-
-
-def load(filepath):
-    """Load file relative to PISM directory."""
-
-    filepath = os.path.join(os.environ['HOME'], 'pism', filepath)
-    return iplt.load(filepath)
 
 
 def load_mfoutput(filepath):
@@ -154,7 +146,8 @@ def open_trimline_data():
                      index_col='id').to_xarray()
 
     # convert to UTM 32
-    xyz = ut.pl.utm.transform_points(ut.pl.swiss, ds.x.data, ds.y.data, ds.z.data).T
+    xyz = ut.pl.utm.transform_points(ut.pl.swiss, ds.x.data,
+                                     ds.y.data, ds.z.data).T
     ds['x'].data, ds['y'].data, ds['z'].data = xyz
 
     # return dataset
