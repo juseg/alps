@@ -17,7 +17,7 @@ PY_FIGS = $(addprefix alpbou_, locmap) \
           $(addprefix alpcyc_, \
             $(addprefix hr_, coldslip covertime deformation deglacage inputs \
                              locmap maxextthk maxextvel maxextsrf maxthkage \
-			     profiles timestamp trimlines uplift) \
+			     profiles timestamp trimlines) \
             $(addprefix lr_, footprints glacareas records rhineareas \
                              timeseries timestamp)) \
           $(addprefix alpflo_, scalability timeseries timestamp) \
