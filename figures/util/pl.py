@@ -11,7 +11,6 @@ import scipy.interpolate as sinterp
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import cartopy.io.shapereader as cshp
-import iceplotlib.cm as icm
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import matplotlib.collections as mcollections
@@ -1016,7 +1015,7 @@ def draw_fancy_map(ax=None, t=0, density=(12.8, 7.2), bg=True):
 
         # plot basal topography
         im = ax.imshow(bi, extent=ei, vmin=dsl-3e3, vmax=dsl+3e3,
-                       cmap=icm.topo, zorder=-1)
+                       cmap=ut.cm.topo, zorder=-1)
         im = ax.imshow(sh, extent=ei, vmin=-1.0, vmax=1.0, cmap=shinemap,
                        zorder=-1)
         if bi.min() < 0.0:
