@@ -73,7 +73,7 @@ for i in range(7):
         attrs = message(long_name='deglaciation age', units='years')
         i = ex.icy[::-1].argmax(axis=0).compute()
         pp['deglacage'] = ex.age[-i].where(i > 0).assign_attrs(attrs)
-        attrs = message(long_name='ice cover footprint', units='')
+        attrs = message(long_name='glaciated area', units='')
         pp['footprint'] = (pp.covertime > 0.0).assign_attrs(attrs)
 
         # compute index of max ice extent
@@ -126,6 +126,15 @@ for i in range(7):
         pp['maxthksrf'] = ex.usurf[i].where(ice).assign_attrs(attrs)
         attrs = message(long_name='maximum ice thickness')
         pp['maxthkthk'] = ex.thk[i].where(ice).assign_attrs(attrs)
+
+        # compute mis 2 and 4 footprints
+        prefix = 'glaciated area '
+        attrs = message(long_name=prefix+'between 29 and 14 ka', units='')
+        covertime = ex.icy[(14e3 < ex.age) & (ex.age < 29e3)].sum(axis=0)
+        pp['mis2print'] = (covertime > 0).assign_attrs(attrs)
+        attrs = message(long_name=prefix+'between 71 and 57 ka', units='')
+        covertime = ex.icy[(57e3 < ex.age) & (ex.age < 71e3)].sum(axis=0)
+        pp['mis4print'] = (covertime > 0).assign_attrs(attrs)
 
         # copy grid mapping and pism config
         pp['mapping'] = ex.mapping
