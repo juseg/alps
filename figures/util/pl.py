@@ -198,8 +198,8 @@ def cut_ts_axes(ax, tsw=2/3., tsh=1/3.):
     commkw = dict(clip_on=False, transform=ax.transAxes, zorder=3)
     polykw = dict(ec='k', fc='none', **commkw)
     rectkw = dict(ec='w', fc='w', **commkw)
-    poly = iplt.Polygon(zip(x, y), **polykw)
-    rect = iplt.Rectangle((1-tsw, 0.0), tsw, tsh, **rectkw)
+    poly = plt.Polygon(zip(x, y), **polykw)
+    rect = plt.Rectangle((1-tsw, 0.0), tsw, tsh, **rectkw)
     tsax = fig.add_axes([pos.x1-tsw*(pos.x1-pos.x0)+12.0/figw, 9.0/figh,
                          tsw*(pos.x1-pos.x0)-24.0/figw,
                          tsh*(pos.y1-pos.y0)-15.0/figh])
@@ -219,9 +219,9 @@ def cut_ts_sc_axes(ax, tsw=2/3., tsh=1/3., scw=1/5., sch=1/3.):
     commkw = dict(clip_on=False, transform=ax.transAxes, zorder=3)
     polykw = dict(ec='k', fc='none', **commkw)
     rectkw = dict(ec='w', fc='w', **commkw)
-    poly = iplt.Polygon(zip(x, y), **polykw)
-    screct = iplt.Rectangle((0.0, 1-sch), scw, sch, **rectkw)
-    tsrect = iplt.Rectangle((1-tsw, 0.0), tsw, tsh, **rectkw)
+    poly = plt.Polygon(zip(x, y), **polykw)
+    screct = plt.Rectangle((0.0, 1-sch), scw, sch, **rectkw)
+    tsrect = plt.Rectangle((1-tsw, 0.0), tsw, tsh, **rectkw)
     scax = fig.add_axes([pos.x0+7.5/figw, pos.y1-sch*(pos.y1-pos.y0)+9.0/figh,
                          scw*(pos.x1-pos.x0)-9.0/figw,
                          sch*(pos.y1-pos.y0)-9.0/figh])
@@ -245,8 +245,8 @@ def cut_sc_hs_pf_axes(ax, tsw=2/3., tsh=1/3.):
     commkw = dict(clip_on=False, transform=ax.transAxes)
     polykw = dict(ec='k', fc='none', zorder=3, **commkw)
     rectkw = dict(ec='w', fc='w', zorder=3, **commkw)
-    poly = iplt.Polygon(zip(x, y), **polykw)
-    tsrect = iplt.Rectangle((1-tsw, 0.0), tsw, tsh, **rectkw)
+    poly = plt.Polygon(zip(x, y), **polykw)
+    tsrect = plt.Rectangle((1-tsw, 0.0), tsw, tsh, **rectkw)
     scah = pos.y0*figh-10.5
     hsaw = (pos.x1-tsw*(pos.x1-pos.x0))*figw-scah-21.0
     scax = fig.add_axes([12.0/figw, 9.0/figh, scah/figw, scah/figh])
@@ -276,7 +276,7 @@ def prepare_ts_axes(ax, dt=True, mis=True, t=0.0):
 
 
 def set_dynamic_extent(ax=None, t=0, e0='alps', e1='alps', t0=-120e3, t1=-0e3):
-    ax = ax or iplt.gca()
+    ax = ax or plt.gca()
     zf = 1.0*(t-t0)/(t1-t0)  # linear increase between 0 and 1
     zf = zf**2*(3-2*zf)  # smooth zoom factor between 0 and 1
     axe = [c0 + (c1-c0)*zf for (c0, c1) in zip(regions[e0], regions[e1])]
@@ -402,10 +402,10 @@ def subplots_cax_ts_anim(extent='alps', labels=False, dt=True, mis=True,
     ax.outline_patch.set_ec('none')
     x = [1/3., 1/3., 1.0]
     y = [0.0, 1/3., 1/3.]
-    line = iplt.Line2D(x, y, color='k', clip_on=False,
-                       transform=ax.transAxes, zorder=3)
-    rect = iplt.Rectangle((1/3., 0.0), 2/3., 1/3., ec='w', fc='w',
-                          clip_on=False, transform=ax.transAxes, zorder=-1)
+    line = plt.Line2D(x, y, color='k', clip_on=False,
+                      transform=ax.transAxes, zorder=3)
+    rect = plt.Rectangle((1/3., 0.0), 2/3., 1/3., ec='w', fc='w',
+                         clip_on=False, transform=ax.transAxes, zorder=-1)
     tsax.add_line(line)
     tsax.add_patch(rect)
     prepare_map_axes(ax, extent=extent)
@@ -444,10 +444,10 @@ def subplots_cax_ts_sgm(extent='alps', labels=False, dt=True, mis=True):
     ycut = 85.0/400.0*3/2  # ca. 1/3.
     x = [0.0, xcut, xcut, 1.0, 1.0, 0.0, 0.0]
     y = [0.0, 0.0, ycut, ycut, 1.0, 1.0, 0.0]
-    poly = iplt.Polygon(zip(x, y), ec='k', fc='none', clip_on=False,
-                        transform=ax.transAxes, zorder=3)
-    rect = iplt.Rectangle((xcut, 0.0), 1-xcut, ycut, ec='w', fc='w',
-                          clip_on=False, transform=ax.transAxes, zorder=-1)
+    poly = plt.Polygon(zip(x, y), ec='k', fc='none', clip_on=False,
+                       transform=ax.transAxes, zorder=3)
+    rect = plt.Rectangle((xcut, 0.0), 1-xcut, ycut, ec='w', fc='w',
+                         clip_on=False, transform=ax.transAxes, zorder=-1)
     tsax.add_patch(poly)
     tsax.add_patch(rect)
     prepare_map_axes(ax, extent=extent)
@@ -647,7 +647,7 @@ def add_corner_tag(text, ax=None, ha='right', va='top', offset=2.5/25.4):
 def add_subfig_label(text, ax=None, x=None, y=None, ha='left', va='top',
                      offset=2.5/25.4):
     """Add figure label in bold."""
-    ax = ax or iplt.gca()
+    ax = ax or plt.gca()
     x = x or (ha == 'right')  # 0 for left edge, 1 for right edge
     y = y or (va == 'top')  # 0 for bottom edge, 1 for top edge
     xoffset = (1 - 2*x)*offset
@@ -660,7 +660,7 @@ def add_subfig_label(text, ax=None, x=None, y=None, ha='left', va='top',
 
 def add_signature(text, fig=None, offset=2.5/25.4):
     """Add signature for animations."""
-    fig = fig or iplt.gcf()
+    fig = fig or plt.gcf()
     figw, figh = fig.get_size_inches()
     fig.text(1-offset/figw, offset/figh, text, ha='right', va='bottom')
 
@@ -671,7 +671,7 @@ def add_signature(text, fig=None, offset=2.5/25.4):
 
 def draw_boot_topo(ax=None, filename='alpcyc.1km.in.nc'):
     """Add bootstrapping topography image."""
-    ax = ax or iplt.gca()
+    ax = ax or plt.gca()
     with ut.io.load_postproc(filename) as ds:
         im = (ds.topg/1e3).plot.imshow(ax=ax, add_colorbar=False, cmap='Greys',
                                        vmin=0.0, vmax=3.0, zorder=-1)
@@ -704,7 +704,7 @@ def draw_major_cities(ax=None, maxrank=5, textoffset=2, lang='en',
 
 def draw_cpu_grid(ax=None, extent='alps', nx=24, ny=24):
     """Add CPU partition grid."""
-    ax = ax or iplt.gca()
+    ax = ax or plt.gca()
     w, e, s, n = regions[extent]
     x = np.linspace(w, e, 24)
     y = np.linspace(s, n, 24)
@@ -720,7 +720,7 @@ def draw_cpu_grid(ax=None, extent='alps', nx=24, ny=24):
 def draw_natural_earth(ax=None, rivers=True, lakes=True, coastline=True,
                        countries=False, graticules=True):
     """Add Natural Earth geographic data vectors."""
-    ax = ax or iplt.gca()
+    ax = ax or plt.gca()
     if rivers:
         ax.add_feature(ne_rivers, zorder=0)
     if lakes:
@@ -736,7 +736,7 @@ def draw_natural_earth(ax=None, rivers=True, lakes=True, coastline=True,
 def draw_natural_earth_color(ax=None, rivers=True, lakes=True, coastline=True,
                              countries=False, graticules=True):
     """Add Natural Earth geographic data color vectors."""
-    ax = ax or iplt.gca()
+    ax = ax or plt.gca()
     if rivers:
         ax.add_feature(ne_rivers_color, zorder=0)
     if lakes:
@@ -774,7 +774,7 @@ def draw_swisstopo_hydrology(ax=None, ec='#0978ab', fc='#c6ecff', lw=0.25):
 
 def draw_lgm_outline(ax=None, c='#e31a1c'):
     """Add Ehlers et al. hole-filled LGM outline."""
-    ax = ax or iplt.gca()
+    ax = ax or plt.gca()
     shp = cshp.Reader('../data/native/lgm_alpen_holefilled.shp')
     ax.add_geometries(shp.geometries(), ll, lw=0.5, alpha=0.75,
                       edgecolor=c, facecolor='none')
@@ -783,7 +783,7 @@ def draw_lgm_outline(ax=None, c='#e31a1c'):
 
 def draw_trimlines(ax=None, c='C1', s=4**2, alpha=0.75):
     """Add trimline locations."""
-    ax = ax or iplt.gca()
+    ax = ax or plt.gca()
     trimlines = np.genfromtxt('../data/native/trimlines_kelly_etal_2004.csv',
                               dtype=None, delimiter=',', names=True)
     ax.scatter(trimlines['x'], trimlines['y'], c=c, s=s, alpha=alpha,
@@ -866,7 +866,7 @@ def draw_model_domain(ax=None, extent='alps'):
 
 def draw_alpflo_ice_divides(ax=None):
     """Add plotted ice divides."""
-    ax = ax or iplt.gca()
+    ax = ax or plt.gca()
     shp = cshp.Reader('../data/native/alpflo_ice_divides.shp')
     for rec in shp.records():
         rank = rec.attributes['rank']
@@ -878,7 +878,7 @@ def draw_alpflo_ice_divides(ax=None):
 
 def draw_alpflo_water_divides(ax=None):
     """Add plotted water divides."""
-    ax = ax or iplt.gca()
+    ax = ax or plt.gca()
     shp = cshp.Reader('../data/native/alpflo_water_divides.shp')
     for rec in shp.records():
         ax.add_geometries(shp.geometries(), ll, lw=1.0, alpha=0.75,
