@@ -963,7 +963,7 @@ def draw_fancy_map(ax=None, t=0, density=(12.8, 7.2), bg=True):
     axx, axy = ut.pl.coords_from_extent(axe, *fig.get_size_inches()*fig.dpi)
 
     # estimate sea level drop
-    nc = ut.io.load('input/dsl/specmap.nc')
+    nc = ut.io.load('input/dsl/specmap.nc')  #FIXME
     dsl = np.interp(t, nc.variables['time'][:], nc.variables['delta_SL'][:])
     nc.close()
 
@@ -978,13 +978,13 @@ def draw_fancy_map(ax=None, t=0, density=(12.8, 7.2), bg=True):
 
     # load boot topo
     filepath = 'input/boot/alps-srtm+thk+gou11simi-1km.nc'
-    nc = ut.io.load(filepath)
+    nc = ut.io.load(filepath)  #FIXME
     bref = nc.variables['topg'][:].T
     nc.close()
 
     # load extra data
     filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
-    nc = ut.io.load(filepath)
+    nc = ut.io.load(filepath)  #FIXME
     ncx, ncy, ncb = nc._extract_xyz('topg', t)
     ncx, ncy, ncs = nc._extract_xyz('usurf', t)
 
@@ -1067,19 +1067,15 @@ def plot_mis(ax=None, y=1.075):
         ax.text((14+0)/2, y, 'MIS 1', **kwa)
 
 
-def plot_dt(ax=None, t=0.0):
+def plot_dt(ax=None, filename='alpcyc.2km.epic.pp.dt.nc', t=0.0):
     """Plot scaled temperature offset time-series."""
-    ax = ax or iplt.gca()
-
-    # load time series
-    nc = ut.io.load('input/dt/epica3222cool1220.nc')
-    age = -nc.variables['time'][:]/1e3
-    dt = nc.variables['delta_T'][:]
-    nc.close()
+    ax = ax or plt.gca()
 
     # plot time series
-    mask = age >= -t/1e3
-    ax.plot(age[mask], dt[mask], c='0.25')
+    with ut.io.load_postproc(filename) as ds:
+        ds.delta_T.where(ds.age >= -t/1e3).plot(ax=ax, c='0.25')
+
+    # set axes properties
     ax.set_xlabel('model age (ka)')
     ax.set_ylabel('temperature offset (K)', color='0.25')
     ax.set_xlim(120.0, 0.0)
@@ -1088,20 +1084,17 @@ def plot_dt(ax=None, t=0.0):
     ax.locator_params(axis='y', nbins=6)
 
 
-def plot_dt_fancy(ax=None, t=0.0, t0=-120e3, t1=-0e3, lang='en'):
+def plot_dt_fancy(ax=None, filename='alpcyc.1km.epic.pp.dt.nc', lang='en',
+                  t=0.0, t0=-120e3, t1=-0e3):
     """Plot scaled temperature offset time-series in fancy animations."""
-    ax = ax or iplt.gca()
+    ax = ax or plt.gca()
     c = '0.25'
 
-    # load time series
-    nc = ut.io.load('input/dt/epica3222cool1220.nc')
-    age = -nc.variables['time'][:]
-    dt = nc.variables['delta_T'][:]
-    nc.close()
-
     # plot time series
-    mask = age >= -t
-    ax.plot(age[mask], dt[mask], c=c)
+    with ut.io.load_postproc(filename) as ds:
+        ds.delta_T.where(ds.age >= -t/1e3).plot(ax=ax, c='0.25')
+
+    # ax text label
     ax.text(-t, dt[mask][-1], '  % d' % round(dt[mask][-1]),
             color=c, ha='left', va='center', clip_on=True)
 
@@ -1133,23 +1126,15 @@ def plot_dt_fancy(ax=None, t=0.0, t0=-120e3, t1=-0e3, lang='en'):
     ax.xaxis.tick_top()
 
 
-def plot_slvol(ax=None, t=0.0):
+def plot_slvol(ax=None, filename='alpcyc.1km.epic.pp.ts.10a.nc', t=0.0):
     """Plot ice volume time-series."""
-    ax = ax or iplt.gca()
-
-    # load time series
-    filepath = ut.alpcyc_bestrun + 'y???????-ts.nc'
-    nc = ut.io.load(filepath)
-    age = -nc.variables['time'][:]/(1e3*365*24*60*60)
-    vol = nc.variables['slvol'][:]
-    nc.close()
-
-    # print age of max volume
-    #print age[vol.argmax()], vol.max()
+    ax = ax or plt.gca()
 
     # plot time series
-    mask = age >= -t/1e3
-    ax.plot(age[mask], vol[mask], c='C1')
+    with ut.io.load_postproc(filename) as ds:
+        ds.slvol.where(ds.age >= -t/1e3).plot(ax=ax, c='C1')
+
+    # set axes properties
     ax.set_ylabel('ice volume (m s.l.e.)', color='C1')
     ax.set_xlim(120.0, 0.0)
     ax.set_ylim(-0.05, 0.35)
@@ -1158,19 +1143,14 @@ def plot_slvol(ax=None, t=0.0):
 
 def plot_slvol_fancy(ax=None, t=0.0, lang='en'):
     """Plot ice volume time-series for fancy animations."""
-    ax = ax or iplt.gca()
+    ax = ax or plt.gca()
     c = 'C1'
 
-    # load time series
-    filepath = ut.alpcyc_bestrun + 'y???????-ts.nc'
-    nc = ut.io.load(filepath)
-    age = -nc.variables['time'][:]/(365*24*60*60)
-    vol = nc.variables['slvol'][:]*100.0
-    nc.close()
-
     # plot time series
-    mask = age >= -t
-    ax.plot(age[mask], vol[mask], c=c)
+    with ut.io.load_postproc(filename) as ds:
+        (ds.slvol.where(ds.age >= -t/1e3)*100.0).plot(ax=ax, c='C1')
+
+    # add text label
     ax.text(age[mask][-1], vol[mask][-1], '  % d' % round(vol[mask][-1]),
             color=c, ha='left', va='center', clip_on=True)
 
