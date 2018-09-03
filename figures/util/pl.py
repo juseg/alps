@@ -6,18 +6,17 @@
 import os
 import re
 import sys
-import util as ut
 import numpy as np
 import scipy.interpolate as sinterp
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import cartopy.io.shapereader as cshp
-import iceplotlib.plot as iplt
 import iceplotlib.cm as icm
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import matplotlib.collections as mcollections
 import matplotlib.transforms as mtransforms
+import util as ut
 
 # Color palette
 # -------------
@@ -290,12 +289,12 @@ def subplots_ts(nrows=1, ncols=1, sharex=True, sharey=False,
                 mode='column', labels=True):
     """Init figure with margins adapted for simple timeseries."""
     figw, figh = (177.0, 85.0) if mode == 'page' else (85.0, 60.0)
-    fig, grid = iplt.subplots_mm(nrows=nrows, ncols=ncols,
-                                 sharex=sharex, sharey=sharey,
-                                 figsize=(figw, figh),
-                                 gridspec_kw=dict(left=12.0, right=1.5,
-                                                  bottom=9.0, top=1.5,
-                                                  hspace=1.5, wspace=1.5))
+    fig, grid = ut.mm.subplots_mm(nrows=nrows, ncols=ncols,
+                                  sharex=sharex, sharey=sharey,
+                                  figsize=(figw, figh),
+                                  gridspec_kw=dict(left=12.0, right=1.5,
+                                                   bottom=9.0, top=1.5,
+                                                   hspace=1.5, wspace=1.5))
     if nrows*ncols > 1 and labels is True:
         for ax, l in zip(grid, list('abcdef')):
             add_subfig_label('({})'.format(l), ax=ax)
@@ -305,9 +304,9 @@ def subplots_ts(nrows=1, ncols=1, sharex=True, sharey=False,
 def subplots_anim(extent='1609', figsize=(192.0, 108.0)):
     """Init figure with unique subplot for animation."""
     # FIXME make 4k 16:9 the default for all animations?
-    fig, ax = iplt.subplots_mm(figsize=figsize, projection=utm,
-                               gridspec_kw=dict(left=0.0, right=0.0,
-                                                bottom=0.0, top=0.0))
+    fig, ax = ut.mm.subplots_mm(figsize=figsize, projection=utm,
+                                gridspec_kw=dict(left=0.0, right=0.0,
+                                                 bottom=0.0, top=0.0))
     ax.outline_patch.set_ec('none')
     ax.background_patch.set_fc('none')
     prepare_map_axes(ax, extent=extent)
@@ -317,9 +316,9 @@ def subplots_anim(extent='1609', figsize=(192.0, 108.0)):
 def subplots_cax(extent='alps'):
     """Init figure with unique subplot and colorbar inset."""
     figw, figh = 177.0, 119.0
-    fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
-                               gridspec_kw=dict(left=1.5, right=1.5,
-                                                bottom=1.5, top=1.5))
+    fig, ax = ut.mm.subplots_mm(figsize=(figw, figh), projection=utm,
+                                gridspec_kw=dict(left=1.5, right=1.5,
+                                                 bottom=1.5, top=1.5))
     cax = fig.add_axes([4.5/figw, 1-52.0/figh, 3.0/figw, 40.0/figh])
     prepare_map_axes(ax, extent=extent)
     return fig, ax, cax
@@ -328,9 +327,9 @@ def subplots_cax(extent='alps'):
 def subplots_cax_anim_1609(extent='alps', labels=False, dt=True, mis=True, t=0.0):
     """Init figure with unique subplot for 16:9 animation."""
     figw, figh = 192.0, 108.0
-    fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
-                               gridspec_kw=dict(left=0.0, right=0.0,
-                                                bottom=0.0, top=0.0))
+    fig, ax = ut.mm.subplots_mm(figsize=(figw, figh), projection=utm,
+                                gridspec_kw=dict(left=0.0, right=0.0,
+                                                 bottom=0.0, top=0.0))
     cax = fig.add_axes([5.0/figw, 1-50.0/figh, 5.0/figw, 40.0/figh])
     ax.outline_patch.set_ec('none')
     prepare_map_axes(ax, extent=extent)
@@ -340,9 +339,9 @@ def subplots_cax_anim_1609(extent='alps', labels=False, dt=True, mis=True, t=0.0
 def subplots_cax_ts(extent='alps', labels=True, dt=True, mis=True):
     """Init figure with subplot, colorbar inset and timeseries cut."""
     figw, figh = 177.0, 119.0
-    fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
-                               gridspec_kw=dict(left=1.5, right=1.5,
-                                                bottom=1.5, top=1.5))
+    fig, ax = ut.mm.subplots_mm(figsize=(figw, figh), projection=utm,
+                                gridspec_kw=dict(left=1.5, right=1.5,
+                                                 bottom=1.5, top=1.5))
     cax = fig.add_axes([4.5/figw, 1-50.5/figh, 3.0/figw, 40.0/figh])
     tsax = cut_ts_axes(ax)
     prepare_map_axes(ax, extent=extent)
@@ -356,9 +355,9 @@ def subplots_cax_ts(extent='alps', labels=True, dt=True, mis=True):
 def subplots_cax_ts_sc(extent='alps', labels=True, dt=True, mis=True):
     """Init with subplot, colorbar, timeseries and scatter plot."""
     figw, figh = 177.0, 119.0
-    fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
-                               gridspec_kw=dict(left=1.5, right=1.5,
-                                                bottom=1.5, top=1.5))
+    fig, ax = ut.mm.subplots_mm(figsize=(figw, figh), projection=utm,
+                                gridspec_kw=dict(left=1.5, right=1.5,
+                                                 bottom=1.5, top=1.5))
     cax = fig.add_axes([0.5-20.0/figw, 1-6.0/figh, 40.0/figw, 3.0/figh])
     tsax, scax = cut_ts_sc_axes(ax) #, scw=35.0/174.0, sch=37.5/116.0)
     prepare_map_axes(ax, extent=extent)
@@ -373,9 +372,9 @@ def subplots_cax_ts_sc(extent='alps', labels=True, dt=True, mis=True):
 def subplots_cax_sc_hs_pf(extent='alps', labels=True, dt=True, mis=True):
     """Init with subplot, colorbar, scatter plot, histogram and profiles."""
     figw, figh = 177.0, 119.0+39.0
-    fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
-                               gridspec_kw=dict(left=1.5, right=1.5,
-                                                bottom=39.0+1.5, top=1.5))
+    fig, ax = ut.mm.subplots_mm(figsize=(figw, figh), projection=utm,
+                                gridspec_kw=dict(left=1.5, right=1.5,
+                                                 bottom=39.0+1.5, top=1.5))
     cax = fig.add_axes([4.5/figw, 1-50.5/figh, 3.0/figw, 40.0/figh])
     scax, hsax, grid = cut_sc_hs_pf_axes(ax)
     prepare_map_axes(ax, extent=extent)
@@ -394,9 +393,9 @@ def subplots_cax_ts_anim(extent='alps', labels=False, dt=True, mis=True,
                          t=0.0):
     """Init figure with subplot, colorbar inset and timeseries cut."""
     figw, figh = 180.0, 120.0
-    fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
-                               gridspec_kw=dict(left=0.0, right=0.0,
-                                                bottom=0.0, top=0.0))
+    fig, ax = ut.mm.subplots_mm(figsize=(figw, figh), projection=utm,
+                                gridspec_kw=dict(left=0.0, right=0.0,
+                                                 bottom=0.0, top=0.0))
     cax = fig.add_axes([5.0/figw, 70.0/figh, 5.0/figw, 40.0/figh])
     tsax = fig.add_axes([75.0/figw, 10.0/figh, 90.0/figw, 22.5/figh])
     ax.outline_patch.set_ec('none')
@@ -419,8 +418,8 @@ def subplots_cax_ts_anim(extent='alps', labels=False, dt=True, mis=True,
 def subplots_cax_ts_egu(extent='egu', labels=False, dt=True, mis=True):
     """Init large figure with subplot, colorbar and timeseries insets."""
     figw, figh = 975.0, 500.0
-    fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
-                               gridspec_kw=dict(left=0.0, right=0.0,
+    fig, ax = ut.mm.subplots_mm(figsize=(figw, figh), projection=utm,
+                                gridspec_kw=dict(left=0.0, right=0.0,
                                                 bottom=0.0, top=0.0))
     cax1 = fig.add_axes([20.0/figw, 60.0/figh, 50.0/figw, 5.0/figh])
     cax2 = fig.add_axes([20.0/figw, 40.0/figh, 50.0/figw, 5.0/figh])
@@ -433,9 +432,9 @@ def subplots_cax_ts_egu(extent='egu', labels=False, dt=True, mis=True):
 def subplots_cax_ts_sgm(extent='alps', labels=False, dt=True, mis=True):
     """Init A3 figure with subplot, colorbar inset and timeseries cut."""
     figw, figh = 405.0, 271 + 1/3.
-    fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
-                               gridspec_kw=dict(left=2.5, right=2.5,
-                                                bottom=2.5, top=2.5))
+    fig, ax = ut.mm.subplots_mm(figsize=(figw, figh), projection=utm,
+                                gridspec_kw=dict(left=2.5, right=2.5,
+                                                 bottom=2.5, top=2.5))
     cax1 = fig.add_axes([12.5/figw, 1-32.5/figh, 50.0/figw, 5.0/figh])
     cax2 = fig.add_axes([12.5/figw, 1-52.5/figh, 50.0/figw, 5.0/figh])
     tsax = fig.add_axes([147.5/figw, 15.0/figh, 240.0/figw, 60.0/figh])
@@ -461,9 +460,9 @@ def subplots_cax_ts_sgm(extent='alps', labels=False, dt=True, mis=True):
 def subplots_fancy(extent='1609', t=0.0, figsize=(192.0, 108.0)):
     """Init figure with fullscreen map and transparent time series."""
     figw, figh = figsize
-    fig, ax = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
-                               gridspec_kw=dict(left=0.0, right=0.0,
-                                                bottom=0.0, top=0.0))
+    fig, ax = ut.mm.subplots_mm(figsize=(figw, figh), projection=utm,
+                                gridspec_kw=dict(left=0.0, right=0.0,
+                                                 bottom=0.0, top=0.0))
     tsax = fig.add_axes([12.0/figw, 3.0/figh, 1-24.0/figw, 12.0/figh])
     ax.outline_patch.set_ec('none')
     tsax.set_facecolor('none')
@@ -480,11 +479,11 @@ def subplots_fancy(extent='1609', t=0.0, figsize=(192.0, 108.0)):
 def subplots_6(extent='alps'):
     """Init figure with six subplot."""
     figw, figh = 177.0, 85.0
-    fig, grid = iplt.subplots_mm(figsize=(figw, figh), projection=utm,
-                                 nrows=2, ncols=3, sharex=True, sharey=True,
-                                 gridspec_kw=dict(left=1.5, right=1.5,
-                                                  bottom=1.5, top=6.0,
-                                                  hspace=1.5, wspace=1.5))
+    fig, grid = ut.mm.subplots_mm(figsize=(figw, figh), projection=utm,
+                                  nrows=2, ncols=3, sharex=True, sharey=True,
+                                  gridspec_kw=dict(left=1.5, right=1.5,
+                                                   bottom=1.5, top=6.0,
+                                                   hspace=1.5, wspace=1.5))
     for ax, l in zip(grid.flat, 'abcdef'):
         prepare_map_axes(ax, extent=extent)
         add_subfig_label('(%s)' % l, ax=ax)
@@ -503,7 +502,7 @@ def subplots_inputs(extent='alps', mode='vertical'):
 
     # initialize figure
     figw, figh = 177.0, 142.5 if mode == 'horizontal' else 102.0
-    fig = iplt.figure_mm(figsize=(figw, figh))
+    fig = ut.mm.figure_mm(figsize=(figw, figh))
 
     # prepare two grids in horizontal mode
     if mode == 'horizontal':
@@ -555,7 +554,7 @@ def subplots_inputs(extent='alps', mode='vertical'):
 def subplots_profiles(regions, labels):
     figw, figh = 177.0, 168.0
     nrows = len(regions)
-    fig = iplt.figure_mm(figsize=(figw, figh))
+    fig = ut.mm.figure_mm(figsize=(figw, figh))
     grid = fig.subplots_mm(nrows=nrows, ncols=1, sharex=False, sharey=False,
                            gridspec_kw=dict(left=1.5, right=figw-36.5,
                                             bottom=9.0, top=1.5,
@@ -579,7 +578,7 @@ def subplots_trimlines(extent='valais', mode='column'):
 
     # initialize figure
     figw, figh = (177.0, 59.0) if mode == 'page' else (85.0, 115.0)
-    fig = iplt.figure_mm(figsize=(figw, figh))
+    fig = ut.mm.figure_mm(figsize=(figw, figh))
 
     # add axes in page mode
     if mode == 'page':
