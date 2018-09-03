@@ -9,7 +9,7 @@
 EXT = pdf
 
 # python executable
-PY = PYTHONPATH=iceplotlib python2
+PY = python2
 
 # all python figures
 # (tmp off: alpflo_, egumap profiles scalability timeseries timestamp

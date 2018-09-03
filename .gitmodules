@@ -1,6 +1,3 @@
-[submodule "figures/iceplotlib"]
-	path = figures/iceplotlib
-	url = git@github.com:juseg/iceplotlib.git
 [submodule "references"]
 	path = references
 	url = git@framagit.org:juseg/references.git
