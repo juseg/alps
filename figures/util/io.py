@@ -38,9 +38,12 @@ def load_postproc(filename):
     filepath = os.path.join('..', 'data', 'processed', filename)
     ds = xr.open_dataset(filepath, decode_times=False)
     if 'time' in ds.coords:
-        ds = ds.assign_coords(age=-ds.time/(1e3*365*24*60*60))
-    if 'time' in ds.dims:
-        ds = ds.swap_dims(dict(time='age'))
+        if 'seconds' in ds.time.units:
+            ds = ds.assign_coords(age=-ds.time/(1e3*365*24*60*60))
+        else:
+            ds = ds.assign_coords(age=-ds.time/1e3)
+        if 'time' in ds.dims:
+            ds = ds.swap_dims(dict(time='age'))
     return ds
 
 
