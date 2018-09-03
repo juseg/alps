@@ -12,7 +12,8 @@ EXT = pdf
 PY = PYTHONPATH=iceplotlib python2
 
 # all python figures
-# (tmp broken:	     alpflo_, egumap profiles )
+# (tmp off: alpflo_, egumap profiles scalability timeseries timestamp
+#           alplgl_, extent)
 PY_FIGS = $(addprefix alpbou_, locmap) \
           $(addprefix alpcyc_, \
             $(addprefix hr_, coldslip covertime deformation deglacage inputs \
@@ -20,9 +21,7 @@ PY_FIGS = $(addprefix alpbou_, locmap) \
 			     profiles timestamp trimlines) \
             $(addprefix lr_, footprints records glacareas \
                              timeseries timestamp)) \
-          $(addprefix alpflo_, scalability timeseries timestamp) \
-          $(addprefix alpero_, glerosion lastbvdir totalslip ) \
-          $(addprefix alplgl_, extent)
+          $(addprefix alpero_, glerosion lastbvdir totalslip )
 PY_FIGS := $(addsuffix .$(EXT), $(PY_FIGS))
 
 # all figures
