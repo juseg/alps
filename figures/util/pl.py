@@ -859,7 +859,7 @@ def draw_model_domain(ax=None, extent='alps'):
     w, e, s, n = regions[extent]
     x = [w, e, e, w, w]
     y = [s, s, n, n, s]
-    ax.plot(x, y, c='k', lw=0.5)
+    ax.plot(x, y, c='k', lw=0.5, transform=utm)
 
 # Alps flow map elements
 # ----------------------
