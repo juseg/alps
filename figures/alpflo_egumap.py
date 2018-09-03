@@ -5,14 +5,13 @@ import util as ut
 import numpy as np
 import cartopy.io.shapereader as shpreader
 import scipy.interpolate as sinterp
-import iceplotlib.cm as icm
 import matplotlib.colors as mcolors
 
 # initialize figure
 fig, ax, cax1, cax2, tsax = ut.pl.subplots_cax_ts_egu()
 
 # personal colormaps
-# FIXME move to iceplotlib
+# FIXME move to ut.cm
 cols = [(0.0, (1,1,1,1)), (0.5, (1,1,1,0)),
         (0.5, (0,0,0,0)), (1.0, (0,0,0,1))]  # white transparent black
 shinemap = mcolors.LinearSegmentedColormap.from_list('shines', cols)
@@ -67,7 +66,7 @@ sh = sum(ut.pl.shading(bi, azimuth=a, extent=sre, altitude=30.0,
 
 # plot interpolated results
 print "plotting surfaces..."
-im = ax.imshow(bi, extent=sre, vmin=-3e3, vmax=3e3, cmap=icm.topo, zorder=-1)
+im = ax.imshow(bi, extent=sre, vmin=-3e3, vmax=3e3, cmap=ut.cm.topo, zorder=-1)
 sm = ax.imshow(sh, extent=sre, vmin=-1.0, vmax=1.0, cmap=shinemap, zorder=-1)
 cs = ax.contour(bi, extent=sre, levels=[0.0], colors='#0978ab')
 cs = ax.contourf(srx, sry, mi, levels=[0.0, 0.5], colors='w', alpha=0.75)

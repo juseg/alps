@@ -24,7 +24,7 @@ import util as ut
 plt.rc('axes', prop_cycle=plt.cycler(color=plt.get_cmap('Paired').colors))
 
 # personal colormaps
-# FIXME move to iceplotlib
+# FIXME move to util/cm
 cols = [(0.0, (0,0,0,0)), (1.0, (0,0,0,1))]  # transparent to black
 shademap = mcolors.LinearSegmentedColormap.from_list('shades', cols)
 cols = [(0.0, (1,1,1,0)), (1.0, (1,1,1,1))]  # transparent to white
@@ -157,7 +157,7 @@ def coords_from_extent(extent, cols, rows):
 def shading(z, dx=None, dy=None, extent=None, azimuth=315.0, altitude=30.0,
             transparent=False):
     """Compute shaded relief map."""
-    # FIXME: move to iceplotlib / cartowik and fix potential bugs there
+    # FIXME: move to cartowik and fix potential bugs there
 
     # get horizontal resolution
     if (dx is None or dy is None) and (extent is None):

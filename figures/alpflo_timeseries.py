@@ -2,7 +2,6 @@
 # coding: utf-8
 
 import util as ut
-import iceplotlib.plot as iplt
 import matplotlib.transforms as mtrans
 from mpl_toolkits.axes_grid1.inset_locator import BboxPatch, BboxConnector, BboxConnectorPatch
 
@@ -14,11 +13,11 @@ linestyles = ['-', ':']
 
 # initialize time-series figure
 figw, figh = 225.0, 125.0
-fig, grid = iplt.subplots_mm(nrows=2, ncols=1, figsize=(figw, figh),
-                             sharex=False, sharey=True,
-                             gridspec_kw=dict(left=10.0, right=10.0,
-                                              bottom=10.0, top=2.5,
-                                              hspace=2.5, wspace=2.5))
+fig, grid = ut.mm.subplots_mm(nrows=2, ncols=1, figsize=(figw, figh),
+                              sharex=False, sharey=True,
+                              gridspec_kw=dict(left=10.0, right=10.0,
+                                               bottom=10.0, top=2.5,
+                                               hspace=2.5, wspace=2.5))
 ut.pl.add_subfig_label('(a)', ax=grid[0], y=0.75)
 ut.pl.add_subfig_label('(b)', ax=grid[1])
 twgrid = [ax.twinx() for ax in grid]

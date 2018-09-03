@@ -3,14 +3,13 @@
 
 import util as ut
 import numpy as np
-import iceplotlib.plot as iplt
 import cartopy.crs as ccrs
 
 # initialize figure
 proj = ccrs.Stereographic(central_latitude=-10.0, central_longitude=10.0)
-fig, ax = iplt.subplots_mm(figsize=(45.0, 90.0), projection=proj,
-                           gridspec_kw=dict(left=0.0, right=0.0,
-                                            bottom=0.0, top=0.0))
+fig, ax = ut.mm.subplots_mm(figsize=(45.0, 90.0), projection=proj,
+                            gridspec_kw=dict(left=0.0, right=0.0,
+                                             bottom=0.0, top=0.0))
 ax.set_rasterization_zorder(2.5)
 ax.set_xlim(-7500e3, 7500e3)
 ax.set_ylim(-15000e3, 15000e3)

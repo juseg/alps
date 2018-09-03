@@ -9,7 +9,6 @@ import matplotlib.patches as mpatches
 import cartopy.crs as ccrs
 import cartopy.io.shapereader as shpreader
 import cartopy.feature as cfeature
-import iceplotlib.cm as icm
 import netCDF4 as nc4
 
 # parameters
@@ -47,7 +46,7 @@ def draw_etopo1(ax=None):
     s = (3*y[-1]-y[-2])/2 - (y[-1]-y[-2])/2  # weird but works
     ax = ax or plt.gca()
     ax.imshow(z, extent=(w, e, n, s),
-              cmap=icm.topo, norm=mcolors.Normalize(-6e3, 6e3))
+              cmap=ut.cm.topo, norm=mcolors.Normalize(-6e3, 6e3))
     ax.contour(x[:], y[:], z[:], levels=[0],
                colors='#0978ab', linewidths=0.5*bwu, zorder=0.5)
     nc.close()
@@ -65,7 +64,7 @@ def draw_srtm(ax=None, extent=None):
     s315 = ut.pl.shading(z, extent=extent, azimuth=315.0, altitude=30.0, transparent=True)
     s330 = ut.pl.shading(z, extent=extent, azimuth=330.0, altitude=30.0, transparent=True)
     s = (s300+s315+s330) / 3.0
-    ax.imshow(z, extent=extent, vmin=-3e3, vmax=3e3, cmap=icm.topo, zorder=-1)
+    ax.imshow(z, extent=extent, vmin=-3e3, vmax=3e3, cmap=ut.cm.topo, zorder=-1)
     ax.imshow(s, extent=extent, vmin=-1.0, vmax=1.0, cmap=shinemap, zorder=-1)
 
 # Ehlers and Gibbard LGM

@@ -6,7 +6,6 @@ import os.path
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
-import iceplotlib.cm as icm
 import multiprocessing as mp
 
 
@@ -34,7 +33,7 @@ def draw(i, ax, nc, label):
     ax.cla()
 
     # prepare composite image of topo and velocity
-    topocmap = icm.land_topo  #plt.get_cmap('Greys')
+    topocmap = ut.cm.land_topo  #plt.get_cmap('Greys')
     toponorm = mcolors.Normalize(0e3, 6e3)  #mcolors.Normalize(0e3, 3e3)
     topo_img = topocmap(toponorm(usurf))
     velocmap = plt.get_cmap('Blues')

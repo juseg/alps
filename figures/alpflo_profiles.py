@@ -6,7 +6,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import cartopy.io.shapereader as shpreader
 import scipy.interpolate as sinterp
-import iceplotlib.plot as iplt
 
 # parameters
 regions = ['thurn', 'engadin', 'simplon', 'mtcenis']
@@ -18,11 +17,11 @@ t = -24530.0  # lgm -24533.6
 
 # initialize figure
 figw, figh = 400.0, 150.0
-fig, grid = iplt.subplots_mm(nrows=4, ncols=1,
-                             figsize=(figw, figh), sharex=True, sharey=True,
-                             gridspec_kw=dict(left=10.0, right=2.5,
-                                              bottom=10.0, top=2.5,
-                                              hspace=0.0, wspace=0.0))
+fig, grid = ut.mm.subplots_mm(nrows=4, ncols=1,
+                              figsize=(figw, figh), sharex=True, sharey=True,
+                              gridspec_kw=dict(left=10.0, right=2.5,
+                                               bottom=10.0, top=2.5,
+                                               hspace=0.0, wspace=0.0))
 cax = fig.add_axes([22.5/figw, 22.5/figh, 60.0/figw, 5.0/figh])
 
 # load extra data
