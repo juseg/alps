@@ -6,12 +6,13 @@
 import os
 import sys
 import datetime
+from dask.diagnostics import ProgressBar
 import xarray as xr
 
 
 def message(**attrs):
     """Print a message and pass variables attributes."""
-    print "* computing {long_name} ...".format(**attrs)
+    print "* preparing {long_name} ...".format(**attrs)
     return attrs
 
 
@@ -105,7 +106,7 @@ for i in range(7):
         # add age attributes
         age_attrs = dict(age=ex.age[i].data, age_units=ex.age.units,
                          time=ex.time[i].data, time_units=ex.time.units)
-        for name, variable in pp.iteritems():
+        for name, variable in pp.variables.iteritems():
             if name.startswith('maxext'):
                 variable.attrs.update(age_attrs)
 
@@ -147,7 +148,7 @@ for i in range(7):
     # --------------
 
     # remove outdated variable attributes
-    for name, variable in pp.iteritems():
+    for name, variable in pp.variables.iteritems():
         variable.attrs.pop('coordinates', None)
         variable.attrs.pop('pism_intent', None)
 
@@ -188,4 +189,5 @@ for i in range(7):
     pp = pp.drop('time')
     encoding = dict(zlib=True, shuffle=True, complevel=5)
     encoding = {var: encoding for var in pp.variables}
-    pp.to_netcdf(pp_file, mode='w', encoding=encoding)
+    with ProgressBar():
+        pp.to_netcdf(pp_file, mode='w', encoding=encoding)
