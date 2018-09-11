@@ -34,7 +34,7 @@ with ut.io.load_postproc('alpcyc.1km.epic.pp.agg.nc') as ds:
 # add vector elements
 ut.pl.draw_natural_earth(ax)
 ut.pl.draw_lgm_outline(ax)
-ut.pl.add_corner_tag('%.2f ka' % age, ax)
+ut.pl.add_corner_tag('%.2f ka' % (age/1e3), ax)
 
 
 # Histograms

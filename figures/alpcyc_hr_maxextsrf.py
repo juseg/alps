@@ -29,7 +29,7 @@ with ut.io.load_postproc('alpcyc.1km.epic.pp.agg.nc') as ds:
 
 # add map elements
 ut.pl.draw_natural_earth(ax)
-ut.pl.add_corner_tag('%.2f ka' % age, ax)
+ut.pl.add_corner_tag('%.2f ka' % (age/1e3), ax)
 
 # save figure
 ut.pl.savefig()

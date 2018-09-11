@@ -39,7 +39,7 @@ ut.pl.draw_natural_earth(ax)
 ut.pl.draw_lgm_outline(ax)
 ut.pl.draw_glacier_names(ax)
 ut.pl.draw_major_transfluences(ax)
-ut.pl.add_corner_tag('%.2f ka' % age, ax)
+ut.pl.add_corner_tag('%.2f ka' % (age/1e3), ax)
 
 
 # Time series
