@@ -1038,6 +1038,27 @@ def draw_fancy_map(ax=None, t=0, density=(12.8, 7.2), bg=True):
     # close extra data
     nc.close()
 
+def draw_multishading(darray, ax=None):
+    """Plot relief shading map from elevation dataarray."""
+    # FIXME use matplotlib lightsource
+
+    # get current axes if none provided
+    ax = ax or plt.gca()
+
+    # get grid resolution
+    extent = extent_from_coords(darray.x.data, darray.y.data)
+
+    # ¢ompute relief shading
+    kw = dict(altitude=30.0, extent=extent, transparent=True)
+    darray.load()
+    s300 = shading(darray, azimuth=300.0, **kw)
+    s315 = shading(darray, azimuth=315.0, **kw)
+    s330 = shading(darray, azimuth=330.0, **kw)
+    shade = (s300+s315+s330) / 3.0
+
+    # plot shading
+    return ax.imshow(shade, cmap=shinemap, extent=extent,
+                     vmin=-1.0, vmax=1.0, zorder=-1)
 
 # Timeseries elements
 # -------------------
