@@ -1104,48 +1104,6 @@ def plot_dt(ax=None, filename='alpcyc.2km.epic.pp.dt.nc', t=0.0):
     ax.locator_params(axis='y', nbins=6)
 
 
-def plot_dt_fancy(ax=None, filename='alpcyc.1km.epic.pp.dt.nc', lang='en',
-                  t=0.0, t0=-120e3, t1=-0e3):
-    """Plot scaled temperature offset time-series in fancy animations."""
-    ax = ax or plt.gca()
-    c = '0.25'
-
-    # plot time series
-    with ut.io.load_postproc(filename) as ds:
-        ds.delta_T.where(ds.age >= -t/1e3).plot(ax=ax, c='0.25')
-
-    # ax text label
-    ax.text(-t, dt[mask][-1], '  % d' % round(dt[mask][-1]),
-            color=c, ha='left', va='center', clip_on=True)
-
-    # language-dependent labels
-    lx = dict(en=u'{:,d} years ago',
-              fr=u'il y a {:,d} ans')[lang].format(0-t).replace(',', r'$\,$')
-    ly = dict(en=u'temperature\nchange (°C)',
-              fr=u'écart (°C) de\ntempérature')[lang]
-
-    # color axes spines
-    for k, v in ax.spines.iteritems():
-        v.set_color(c if k == 'left' else 'none')
-
-    # set axes properties
-    ax.set_xlim(-t0, -t1)
-    ax.set_ylim(-17.5, 2.5)
-    ax.set_yticks([-15.0, 0.0])
-    ax.set_ylabel(ly, color=c, labelpad=-1)
-    ax.tick_params(axis='x', colors=c)
-    ax.tick_params(axis='y', colors=c)
-
-    # add moving cursor and adaptive ticks
-    ax.axvline(-t, c=c, lw=0.5)
-    ax.set_xticks([-t0, -t, -t1])
-    rt = 1.0*(t-t0)/(t1-t0)  # relative cursor position
-    l0 = r'{:,d}'.format(0-t0).replace(',', r'$\,$')
-    l1 = r'{:,d}'.format(0-t1).replace(',', r'$\,$')
-    ax.set_xticklabels([l0*(rt>=1/12.0), lx, l1*(rt<=11/12.0)])
-    ax.xaxis.tick_top()
-
-
 def plot_slvol(ax=None, filename='alpcyc.1km.epic.pp.ts.10a.nc', t=0.0):
     """Plot ice volume time-series."""
     # FIXME get rid of t arguments in all timeseries and fig creation utils
@@ -1160,35 +1118,6 @@ def plot_slvol(ax=None, filename='alpcyc.1km.epic.pp.ts.10a.nc', t=0.0):
     ax.set_xlim(120.0, 0.0)
     ax.set_ylim(-0.05, 0.35)
     ax.locator_params(axis='y', nbins=6)
-
-
-def plot_slvol_fancy(ax=None, t=0.0, lang='en'):
-    """Plot ice volume time-series for fancy animations."""
-    ax = ax or plt.gca()
-    c = 'C1'
-
-    # plot time series
-    with ut.io.load_postproc(filename) as ds:
-        (ds.slvol.where(ds.age >= -t/1e3)*100.0).plot(ax=ax, c='C1')
-
-    # add text label
-    ax.text(age[mask][-1], vol[mask][-1], '  % d' % round(vol[mask][-1]),
-            color=c, ha='left', va='center', clip_on=True)
-
-    # language labels
-    ly = dict(en=u'ice volume\n(cm sea level)',
-              fr=u'vol. de glace\n(cm niv. marin)')[lang]
-
-    # color axes spines
-    for k, v in ax.spines.iteritems():
-        v.set_color(c if k == 'right' else 'none')
-
-    # set axes properties
-    ax.set_ylim(-5.0, 35.0)
-    ax.set_yticks([0.0, 30.0])
-    ax.set_ylabel(ly, color=c)
-    #ax.text(0.02, -0.05, ly, color=c, transform=ax.transAxes)
-    ax.tick_params(axis='y', colors=c)
 
 
 # Saving figures

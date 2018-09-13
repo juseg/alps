@@ -127,9 +127,60 @@ def plot_tbar(t):
         ax = fig.add_axes([12.0/figw, 3.0/figh, 1-24.0/figw, 12.0/figh])
         ax.set_facecolor('none')
 
-        # plot time series
-        ut.pl.plot_dt_fancy(ax, t, t0, t1, lang=lang)
-        ut.pl.plot_slvol_fancy(ax.twinx(), t, lang=lang)
+        # language-dependent labels
+        age_label = dict(en=r'{:,d} years ago',
+                         fr=r'il y a {:,d} ans')[lang]
+        tem_label = dict(en=u'temperature\nchange (°C)',
+                         fr=u'écart (°C) de\ntempérature')[lang]
+        vol_label = dict(en='ice volume\n(cm sea level)',
+                         fr='vol. de glace\n(cm niv. marin)')[lang]
+
+        # plot temperature offset time series
+        with ut.io.load_postproc('alpcyc.1km.epic.pp.dt.nc') as ds:
+            dt = ds.delta_T[ds.age >= -t]
+            ax.plot(dt.age, dt, c='0.25')
+            ax.text(-t, dt[-1], '  {: .0f}'.format(dt[-1].values),
+                    color='0.25', ha='left', va='center', clip_on=True)
+
+        # color axes spines
+        for k, v in ax.spines.iteritems():
+            v.set_color('0.25' if k == 'left' else 'none')
+
+        # add moving cursor and adaptive ticks
+        ax.axvline(-t, c='0.25', lw=0.5)
+        ax.set_xticks([-t0, -t, -t1])
+        rt = 1.0*(t-t0)/(t1-t0)  # relative cursor position
+        l0 = r'{:,d}'.format(0-t0).replace(',', r'$\,$')
+        lt = age_label.format(0-t).replace(',', r'$\,$')
+        l1 = r'{:,d}'.format(0-t1).replace(',', r'$\,$')
+        ax.set_xticklabels([l0*(rt>=1/12.0), lt, l1*(rt<=11/12.0)])
+        ax.xaxis.tick_top()
+
+        # set axes properties
+        ax.set_ylim(-17.5, 2.5)
+        ax.set_yticks([-15.0, 0.0])
+        ax.set_ylabel(tem_label, color='0.25', labelpad=-1)
+        ax.tick_params(axis='x', colors='0.25')
+        ax.tick_params(axis='y', colors='0.25')
+
+        # plot ice volume time series
+        ax = ax.twinx()
+        with ut.io.load_postproc('alpcyc.1km.epic.pp.ts.10a.nc') as ds:
+            sl = ds.slvol[ds.age >= -t]*100.0
+            ax.plot(sl.age, sl, c='C1')
+            ax.text(-t, sl[-1], '  {: .0f}'.format(sl[-1].values),
+                    color='C1', ha='left', va='center', clip_on=True)
+
+        # color axes spines
+        for k, v in ax.spines.iteritems():
+            v.set_color('C1' if k == 'right' else 'none')
+
+        # set axes properties
+        ax.set_xlim(-t0, -t1)
+        ax.set_ylim(-5.0, 35.0)
+        ax.set_yticks([0.0, 30.0])
+        ax.set_ylabel(vol_label, color='C1')
+        ax.tick_params(axis='y', colors='C1')
 
         # save
         fig.savefig(fname, dpi=508.0, facecolor='none')
