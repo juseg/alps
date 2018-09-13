@@ -35,7 +35,7 @@ with ut.io.load_postproc('alpcyc.1km.epic.pp.ts.10a.nc') as ds:
 
     # plot time series
     twax = tsax.twinx()
-    (ds.area_glacierized/1e9).plot(c='C1')
+    twax.plot(ds.age/1e3, ds.area_glacierized/1e9, c='C1')
     twax.set_ylabel(r'glaciated area ($10^3\,km^2$)', color='C1')
     twax.set_xlim(120.0, 0.0)
     twax.set_ylim(-25.0, 175.0)

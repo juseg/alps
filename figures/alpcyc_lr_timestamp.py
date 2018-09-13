@@ -19,7 +19,7 @@ for i, rec in enumerate(ut.alpcyc_records):
         ts = ds.timestamp
         dt = ts.diff('age')
         ts = dt.where(dt > 0.0, ts[1:]).cumsum()/24.0
-        ts.plot(ax=ax, color=c, label=label)
+        ax.plot(ts.age/1e3, ts, color=c, label=label)
 
 # set axes properies
 ax.grid()

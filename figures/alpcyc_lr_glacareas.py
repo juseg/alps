@@ -51,7 +51,7 @@ for i, rec in enumerate(ut.alpcyc_records):
                                      'y???????-extra.nc' % (dtfile, conf)) as ds:
 
                 # select space-time of interest
-                agemask = (14.0 < ds.age) & (ds.age < 29)
+                agemask = (14e3 < ds.age) & (ds.age < 29e3)
                 xmask = (w < ds.x) & (ds.x < e)
                 ymask = (s < ds.y) & (ds.y < n)
                 thk = ds.thk.sel(age=agemask, y=ymask, x=xmask)

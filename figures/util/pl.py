@@ -1088,11 +1088,12 @@ def plot_mis(ax=None, y=1.075):
 
 def plot_dt(ax=None, filename='alpcyc.2km.epic.pp.dt.nc', t=0.0):
     """Plot scaled temperature offset time-series."""
+    # FIXME get rid of t arguments in all timeseries and fig creation utils
     ax = ax or plt.gca()
 
     # plot time series
     with ut.io.load_postproc(filename) as ds:
-        ds.delta_T.where(ds.age >= -t/1e3).plot(ax=ax, c='0.25')
+        ax.plot(ds.age/1e3, ds.delta_T.where(ds.age >= -t), c='0.25')
 
     # set axes properties
     ax.set_xlabel('model age (ka)')
@@ -1147,11 +1148,12 @@ def plot_dt_fancy(ax=None, filename='alpcyc.1km.epic.pp.dt.nc', lang='en',
 
 def plot_slvol(ax=None, filename='alpcyc.1km.epic.pp.ts.10a.nc', t=0.0):
     """Plot ice volume time-series."""
+    # FIXME get rid of t arguments in all timeseries and fig creation utils
     ax = ax or plt.gca()
 
     # plot time series
     with ut.io.load_postproc(filename) as ds:
-        ds.slvol.where(ds.age >= -t/1e3).plot(ax=ax, c='C1')
+        ax.plot(ds.age/1e3, ds.slvol.where(ds.age >= -t), c='0.25')
 
     # set axes properties
     ax.set_ylabel('ice volume (m s.l.e.)', color='C1')

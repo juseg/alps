@@ -54,8 +54,8 @@ for i, reg in enumerate(regions):
 
     # interpolate thickness and plot envelope
     hp = thk.interp(x=xp, y=yp, method='linear', assume_sorted=True).T
-    hp.plot.contourf(ax=tsax, alpha=0.75, add_colorbar=False,
-                     colors=[c], extend='neither', levels=[1.0, 5e3])
+    tsax.contourf(hp.age/1e3, hp.d, hp, alpha=0.75,
+                  colors=[c], levels=[1.0, 5e3])
 
     # set axes properties
     tsax.set_xlim(120.0, 0.0)

@@ -19,7 +19,7 @@ def load_mfoutput(filepath):
     ds = xr.open_mfdataset(filepath, concat_dim='time', chunks=dict(time=10),
                            decode_cf=False, decode_times=False)
     if 'time' in ds.coords:
-        ds = ds.assign_coords(age=-ds.time/(1e3*365*24*60*60))
+        ds = ds.assign_coords(age=-ds.time/(365*24*60*60))
     if 'time' in ds.dims:
         ds = ds.swap_dims(dict(time='age'))
     return ds
@@ -31,9 +31,9 @@ def load_postproc(filename):
     ds = xr.open_dataset(filepath, decode_times=False)
     if 'time' in ds.coords:
         if 'seconds' in ds.time.units:
-            ds = ds.assign_coords(age=-ds.time/(1e3*365*24*60*60))
+            ds = ds.assign_coords(age=-ds.time/(365*24*60*60))
         else:
-            ds = ds.assign_coords(age=-ds.time/1e3)
+            ds = ds.assign_coords(age=-ds.time)
         if 'time' in ds.dims:
             ds = ds.swap_dims(dict(time='age'))
     return ds

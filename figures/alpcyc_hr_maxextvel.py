@@ -50,7 +50,7 @@ with ut.io.load_postproc('alpcyc.1km.epic.pp.ts.10a.nc') as ds:
 
     # plot time series
     twax = tsax.twinx()
-    ds.slvol.plot(c='C1')
+    twax.plot(ds.age/1e3, ds.slvol, c='C1')
     twax.set_ylabel('ice volume (m s.l.e.)', color='C1')
     twax.set_xlim(120.0, 0.0)
     twax.set_ylim(-0.05, 0.35)

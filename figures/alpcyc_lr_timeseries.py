@@ -17,11 +17,11 @@ for i, rec in enumerate(ut.alpcyc_records):
     # plot temperature time series
     prefix = 'alpcyc.2km.' + rec.lower()[:4] + ['.cp', '.pp']['pp' in conf]
     with ut.io.load_postproc(prefix + '.dt.nc') as ds:
-        ds.delta_T.plot(ax=ax1, c=c, alpha=0.75)
+        ax1.plot(ds.age/1e3, ds.delta_T, c=c, alpha=0.75)
 
     # plot output time series
     with ut.io.load_postproc(prefix + '.ts.10a.nc') as ds:
-        ds.slvol.plot(ax=ax2, c=c, label=label)
+        ax2.plot(ds.age/1e3, ds.slvol, c=c, label=label)
 
 # add marine isotope stages
 ut.pl.plot_mis(ax=ax2, y=0.925)
