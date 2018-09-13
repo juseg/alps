@@ -63,7 +63,7 @@ def load_visual(filepath, t, x, y):
 
     # load extra data
     with load_mfoutput(filepath) as ds:
-        ds = ds[['thk', 'topg', 'usurf']].sel(age=-t/1e3)
+        ds = ds[['thk', 'topg', 'usurf']].sel(age=-t)
 
         # compute ice mask and bedrock uplift
         ds['icy'] = 1.0 * (ds.thk >= 1.0)
