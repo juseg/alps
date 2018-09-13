@@ -146,6 +146,14 @@ def open_gtif(filename, extent=None):
     return data, (x0, x1, y0, y1)
 
 
+def open_gtif_xarray(filename, extent=None):
+    """Open GeoTIFF and return as data array."""
+    data, extent = open_gtif(filename, extent=extent)
+    x, y = ut.pl.coords_from_extent(extent, *data.shape[::-1])
+    da = xr.DataArray(data, coords=dict(x=x, y=y), dims=('y', 'x'))
+    return da
+
+
 def open_shp_coords(filename, ds=1.0):
     """Spline-interpolate coordinates along profile from shapefile."""
 
