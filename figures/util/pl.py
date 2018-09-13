@@ -265,10 +265,10 @@ def prepare_map_axes(ax, extent='alps'):
     ax.set_extent(regions[extent], crs=ax.projection)
 
 
-def prepare_ts_axes(ax, dt=True, mis=True, t=0.0):
+def prepare_ts_axes(ax, dt=True, mis=True):
     """Prepare timeseries axes before plotting."""
     if dt is True:
-        plot_dt(ax, t=t)
+        plot_dt(ax)
     if mis is True:
         plot_mis(ax)
 
@@ -323,7 +323,7 @@ def subplots_cax(extent='alps'):
     return fig, ax, cax
 
 
-def subplots_cax_anim_1609(extent='alps', labels=False, dt=True, mis=True, t=0.0):
+def subplots_cax_anim_1609(extent='alps', labels=False, dt=True, mis=True):
     """Init figure with unique subplot for 16:9 animation."""
     figw, figh = 192.0, 108.0
     fig, ax = ut.mm.subplots_mm(figsize=(figw, figh), projection=utm,
@@ -388,8 +388,7 @@ def subplots_cax_sc_hs_pf(extent='alps', labels=True, dt=True, mis=True):
     return fig, ax, cax, scax, hsax, grid
 
 
-def subplots_cax_ts_anim(extent='alps', labels=False, dt=True, mis=True,
-                         t=0.0):
+def subplots_cax_ts_anim(extent='alps', labels=False, dt=True, mis=True):
     """Init figure with subplot, colorbar inset and timeseries cut."""
     figw, figh = 180.0, 120.0
     fig, ax = ut.mm.subplots_mm(figsize=(figw, figh), projection=utm,
@@ -407,7 +406,7 @@ def subplots_cax_ts_anim(extent='alps', labels=False, dt=True, mis=True,
     tsax.add_line(line)
     tsax.add_patch(rect)
     prepare_map_axes(ax, extent=extent)
-    prepare_ts_axes(tsax, dt=dt, mis=mis, t=t)
+    prepare_ts_axes(tsax, dt=dt, mis=mis)
     if labels is True:
         add_subfig_label('(a)', ax=ax)
         add_subfig_label('(b)', ax=tsax)
@@ -456,7 +455,7 @@ def subplots_cax_ts_sgm(extent='alps', labels=False, dt=True, mis=True):
     return fig, ax, cax1, cax2, tsax
 
 
-def subplots_fancy(extent='1609', t=0.0, figsize=(192.0, 108.0)):
+def subplots_fancy(extent='1609', figsize=(192.0, 108.0)):
     """Init figure with fullscreen map and transparent time series."""
     figw, figh = figsize
     fig, ax = ut.mm.subplots_mm(figsize=(figw, figh), projection=utm,
@@ -1086,14 +1085,14 @@ def plot_mis(ax=None, y=1.075):
         ax.text((14+0)/2, y, 'MIS 1', **kwa)
 
 
-def plot_dt(ax=None, filename='alpcyc.2km.epic.pp.dt.nc', t=0.0):
+def plot_dt(ax=None, filename='alpcyc.2km.epic.pp.dt.nc'):
     """Plot scaled temperature offset time-series."""
     # FIXME get rid of t arguments in all timeseries and fig creation utils
     ax = ax or plt.gca()
 
     # plot time series
     with ut.io.load_postproc(filename) as ds:
-        ax.plot(ds.age/1e3, ds.delta_T.where(ds.age >= -t), c='0.25')
+        ax.plot(ds.age/1e3, ds.delta_T, c='0.25')
 
     # set axes properties
     ax.set_xlabel('model age (ka)')
@@ -1104,14 +1103,14 @@ def plot_dt(ax=None, filename='alpcyc.2km.epic.pp.dt.nc', t=0.0):
     ax.locator_params(axis='y', nbins=6)
 
 
-def plot_slvol(ax=None, filename='alpcyc.1km.epic.pp.ts.10a.nc', t=0.0):
+def plot_slvol(ax=None, filename='alpcyc.1km.epic.pp.ts.10a.nc'):
     """Plot ice volume time-series."""
     # FIXME get rid of t arguments in all timeseries and fig creation utils
     ax = ax or plt.gca()
 
     # plot time series
     with ut.io.load_postproc(filename) as ds:
-        ax.plot(ds.age/1e3, ds.slvol.where(ds.age >= -t), c='0.25')
+        ax.plot(ds.age/1e3, ds.slvol, c='0.25')
 
     # set axes properties
     ax.set_ylabel('ice volume (m s.l.e.)', color='C1')
