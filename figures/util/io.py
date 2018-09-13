@@ -50,6 +50,42 @@ def load_postproc_txt(runpath, varname):
     return age, z
 
 
+def load_visual(filepath, t, x, y):
+    """Load interpolated output for visualization."""
+
+    # load SRTM bedrock topography
+    # FIXME preprocess as netcdf
+    srtm = open_gtif_xarray('../data/external/srtm.tif')
+    thk = open_gtif_xarray('../data/external/thk.tif')
+    srtm = srtm - thk.fillna(0.0)
+
+    # load boot topo
+    with load_postproc('alpcyc.1km.in.nc') as ds:
+        boot = ds.topg.T
+
+    # load extra data
+    with load_mfoutput(filepath) as ds:
+        ds = ds[['thk', 'topg', 'usurf']].sel(age=-t/1e3)
+
+        # compute ice mask and bedrock uplift
+        ds['icy'] = 1.0 * (ds.thk >= 1.0)
+        ds['uplift'] = ds.topg - boot
+
+        # interpolate surfaces to axes coords
+        ds = ds[['icy', 'uplift', 'usurf']].interp(x=x, y=y)
+
+    # interpolate srtm topography
+    ds['topg'] = srtm.interp(x=x, y=y)
+
+    # correct basal topo for uplift and pop nunataks
+    ds['topg'] = ds.topg + ds.uplift.fillna(0.0)
+    ds['icy'] = (ds.icy >= 0.5) * (ds.usurf > ds.topg)
+    ds['usurf'] = ds.usurf.where(ds.icy)
+
+    # return interpolated data
+    return ds
+
+
 def open_gtif(filename, extent=None):
     """Open GeoTIFF and return data and extent."""
 
