@@ -54,10 +54,8 @@ def load_visual(filepath, t, x, y):
     """Load interpolated output for visualization."""
 
     # load SRTM bedrock topography
-    # FIXME preprocess as netcdf
-    srtm = open_gtif_xarray('../data/external/srtm.tif')
-    thk = open_gtif_xarray('../data/external/thk.tif')
-    srtm = srtm - thk.fillna(0.0)
+    with xr.open_dataset('../data/external/srtm.nc') as ds:
+        srtm = ds.usurf.fillna(0.0) - ds.thk.fillna(0.0)
 
     # load boot topo
     with load_postproc('alpcyc.1km.in.nc') as ds:

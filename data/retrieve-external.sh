@@ -55,6 +55,16 @@ then
              -r cubic -ot Int16 thk{32,33}.vrt thk.tif
 fi
 
+# Topo and thickness combined
+# FIXME remove intermediate tiffs
+if [ ! -f srtm.nc ]
+then
+    gdal_translate -of netcdf srtm.{tif,nc} && ncrename -v z,usurf srtm.nc
+    gdal_translate -of netcdf thk.{tif,nc} && ncrename -v Band1,thk thk.nc
+    ncks -A -v thk thk.nc srtm.nc
+    nccopy -sd1 srtm.nc thk.nc && mv thk.nc srtm.nc
+fi
+
 # Swisstopo Vector 500
 if [ ! -f 22_DKM500_GEWAESSER_PLY.shp ] || [ ! -f 25_DKM500_GEWAESSER_LIN.shp ]
 then
