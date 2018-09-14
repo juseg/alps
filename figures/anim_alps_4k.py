@@ -49,14 +49,8 @@ def plot_main(t):
             ut.xp.shaded_relief(ds.topg-dsl, ax=ax)
 
             # plot surface topography
-            ds.icy.plot.contourf(ax=ax, add_colorbar=False, alpha=0.75, colors='w',
-                                 extend='neither', levels=[0.5, 1.5])
-            ds.icy.plot.contour(ax=ax, colors=['0.25'], levels=[0.5],
-                                linewidths=0.25)
-            ds.usurf.plot.contour(ax=ax, colors=['0.25'], levels=ut.pl.inlevs,
-                                  linewidths=0.1)
-            ds.usurf.plot.contour(ax=ax, colors=['0.25'], levels=ut.pl.utlevs,
-                                  linewidths=0.25)
+            ut.xp.ice_extent(ds.icy, ax=ax, fc='w')
+            ut.xp.topo_contours(ds.usurf, ax=ax)
 
         # load extra data
         with ut.io.open_subdataset(filename, t) as ds:

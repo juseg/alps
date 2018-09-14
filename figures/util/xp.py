@@ -7,6 +7,30 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 
 
+def ice_extent(darray, ax=None, ec='0.25', fc='none'):
+    """Draw void or filled ice extent contour."""
+
+    # plot a single contour
+    if ec is not 'none':
+        darray.plot.contour(ax=ax, colors=[ec], levels=[0.5], linewidths=0.25)
+    if fc is not 'none':
+        darray.plot.contourf(ax=ax, add_colorbar=False, alpha=0.75, colors=fc,
+                             extend='neither', levels=[0.5, 1.5])
+
+
+def topo_contours(darray, ax=None, ec='0.25'):
+    """Plot surface topography contours."""
+
+    # contour levels
+    levels = range(0, 5000, 200)
+    majors = [l for l in levels if l % 1000 == 0]
+    minors = [l for l in levels if l % 1000 != 0]
+
+    # plot contours
+    darray.plot.contour(ax=ax, colors=[ec], levels=majors, linewidths=0.25)
+    darray.plot.contour(ax=ax, colors=[ec], levels=minors, linewidths=0.1)
+
+
 def shaded_relief(darray, ax=None, dsl=0.0):
     """Plot shaded relief map from elevation data array."""
 
