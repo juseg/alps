@@ -15,6 +15,7 @@ import util as ut
 
 def load_mfoutput(filepath):
     """Load multi-file output data."""
+    # FIXME get rid of all load_* functions
     filepath = os.path.join(os.environ['HOME'], 'pism', filepath)
     ds = xr.open_mfdataset(filepath, concat_dim='time', chunks=dict(time=10),
                            decode_cf=False, decode_times=False)
@@ -50,19 +51,37 @@ def load_postproc_txt(runpath, varname):
     return age, z
 
 
-def load_visual(filepath, t, x, y):
+def open_dataset(filename):
+    """Open single-file dataset with age coordinate."""
+    ds = xr.open_dataset(filename, decode_cf=False)
+    if 'time' in ds.coords and 'seconds' in ds.time.units:
+        ds = ds.assign_coords(time=ds.time/(365*24*60*60))
+        ds = ds.assign_coords(age=-ds.time)
+    return ds
+
+
+def open_mfdataset(filename):
+    """Open multi-file dataset with age coordinate."""
+    ds = xr.open_mfdataset(filename, chunks=dict(time=10), decode_cf=False)
+    if 'time' in ds.coords and 'seconds' in ds.time.units:
+        ds = ds.assign_coords(time=ds.time/(365*24*60*60))
+        ds = ds.assign_coords(age=-ds.time)
+    return ds
+
+
+def open_visual(filename, t, x, y):
     """Load interpolated output for visualization."""
 
     # load SRTM bedrock topography
-    with xr.open_dataset('../data/external/srtm.nc') as ds:
+    with open_dataset('../data/external/srtm.nc') as ds:
         srtm = ds.usurf.fillna(0.0) - ds.thk.fillna(0.0)
 
     # load boot topo
-    with load_postproc('alpcyc.1km.in.nc') as ds:
+    with open_dataset('../data/processed/alpcyc.1km.in.nc') as ds:
         boot = ds.topg.T
 
     # load extra data
-    with load_mfoutput(filepath) as ds:
+    with open_mfdataset(filename) as ds:
         ds = ds[['thk', 'topg', 'usurf']].sel(age=-t)
 
         # compute ice mask and bedrock uplift

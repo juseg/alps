@@ -37,14 +37,13 @@ def plot_main(t):
                                         *fig.get_size_inches()*fig.dpi)
 
         # estimate sea level drop
-        # FIXME preprocess or fix mfoutput ages, then remove xarray import
-        with xr.open_dataset(os.environ['HOME']+'/pism/input/dsl/specmap.nc',
-                             decode_times=False) as ds:
+        # FIXME copy file to ../data/processed
+        with ut.io.open_dataset('~/pism/input/dsl/specmap.nc') as ds:
             dsl = ds.delta_SL.interp(time=t).data
 
         # load interpolated data
-        filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
-        with ut.io.load_visual(filepath, t, x, y) as ds:
+        filename = '~/pism/' + ut.alpcyc_bestrun + 'y{:07.0f}-extra.nc'
+        with ut.io.open_visual(filename, t, x, y) as ds:
 
             # plot basal topography
             ds.topg.plot.imshow(ax=ax, add_colorbar=False, cmap=ut.cm.topo,
