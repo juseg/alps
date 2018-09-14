@@ -65,10 +65,7 @@ def plot_main(t):
                                   linewidths=0.25)
 
         # load extra data
-        with ut.io.load_mfoutput(filepath) as ds:
-
-            # extract velocities
-            ds = ds.sel(age=-t)
+        with ut.io.open_subdataset(filename, t) as ds:
             x = ds.x
             y = ds.y
             u = ds.uvelsurf.where(ds.thk.fillna(0.0) >= 1.0).values

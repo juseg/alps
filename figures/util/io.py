@@ -69,6 +69,12 @@ def open_mfdataset(filename):
     return ds
 
 
+def open_subdataset(filename, t, shift=120000, step=500):
+    """Open subdataset in multi-file based on format string."""
+    ds = open_dataset(filename.format(shift + t + (-t) % step)).sel(time=t)
+    return ds
+
+
 def open_visual(filename, t, x, y):
     """Load interpolated output for visualization."""
 
@@ -81,8 +87,8 @@ def open_visual(filename, t, x, y):
         boot = ds.topg.T
 
     # load extra data
-    with open_mfdataset(filename) as ds:
-        ds = ds[['thk', 'topg', 'usurf']].sel(age=-t)
+    with open_subdataset(filename, t) as ds:
+        ds = ds[['thk', 'topg', 'usurf']]
 
         # compute ice mask and bedrock uplift
         ds['icy'] = 1.0 * (ds.thk >= 1.0)
