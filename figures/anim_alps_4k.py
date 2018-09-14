@@ -46,13 +46,7 @@ def plot_main(t):
         with ut.io.open_visual(filename, t, x, y) as ds:
 
             # plot basal topography
-            ds.topg.plot.imshow(ax=ax, add_colorbar=False, cmap=ut.cm.topo,
-                                vmin=dsl-3e3, vmax=dsl+3e3, zorder=-1)
-            ds.topg.plot.contour(ax=ax, colors='#0978ab', levels=[dsl],
-                                 linestyles=['dashed'], linewidths=0.25)
-
-            # add relief shading
-            ut.pl.draw_multishading(ds.topg, ax=ax)
+            ut.xp.shaded_relief(ds.topg-dsl, ax=ax)
 
             # plot surface topography
             ds.icy.plot.contourf(ax=ax, add_colorbar=False, alpha=0.75, colors='w',

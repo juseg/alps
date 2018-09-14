@@ -151,37 +151,6 @@ def coords_from_extent(extent, cols, rows):
 
 
 
-# Geographic analysis
-# -------------------
-
-def shading(z, dx=None, dy=None, extent=None, azimuth=315.0, altitude=30.0,
-            transparent=False):
-    """Compute shaded relief map."""
-    # FIXME: move to cartowik and fix potential bugs there
-
-    # get horizontal resolution
-    if (dx is None or dy is None) and (extent is None):
-        raise ValueError("Either dx and dy or extent must be given.")
-    rows, cols = z.shape
-    dx = dx or (extent[1]-extent[0])/cols
-    dy = dy or (extent[3]-extent[2])/rows
-
-    # convert to rad
-    azimuth = azimuth*np.pi / 180.
-    altitude = altitude*np.pi / 180.
-
-    # compute cartesian coords of the illumination direction
-    # for transparent shades set horizontal surfaces to zero
-    xlight = np.sin(azimuth) * np.cos(altitude)
-    ylight = np.cos(azimuth) * np.cos(altitude)
-    zlight = (0.0 if transparent else np.sin(altitude))
-
-    # compute hillshade (minus dot product of normal and light direction)
-    v, u = np.gradient(z, dy, dx)
-    shade = - (zlight - u*xlight - v*ylight) / (1 + u**2 + v**2)**(0.5)
-    return shade
-
-
 # Axes preparation
 # ----------------
 
@@ -1037,31 +1006,8 @@ def draw_fancy_map(ax=None, t=0, density=(12.8, 7.2), bg=True):
     # close extra data
     nc.close()
 
-def draw_multishading(darray, ax=None):
-    """Plot relief shading map from elevation dataarray."""
-    # FIXME use matplotlib lightsource
-
-    # get current axes if none provided
-    ax = ax or plt.gca()
-
-    # get grid resolution
-    extent = extent_from_coords(darray.x.data, darray.y.data)
-
-    # ¢ompute relief shading
-    kw = dict(altitude=30.0, extent=extent, transparent=True)
-    darray.load()
-    s300 = shading(darray, azimuth=300.0, **kw)
-    s315 = shading(darray, azimuth=315.0, **kw)
-    s330 = shading(darray, azimuth=330.0, **kw)
-    shade = (s300+s315+s330) / 3.0
-
-    # plot shading
-    return ax.imshow(shade, cmap=shinemap, extent=extent,
-                     vmin=-1.0, vmax=1.0, zorder=-1)
-
 # Timeseries elements
 # -------------------
-
 
 def plot_mis(ax=None, y=1.075):
     """Plot MIS stages."""
