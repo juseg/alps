@@ -424,22 +424,6 @@ def subplots_cax_ts_sgm(extent='alps', labels=False, dt=True, mis=True):
     return fig, ax, cax1, cax2, tsax
 
 
-def subplots_fancy(extent='1609', figsize=(192.0, 108.0)):
-    """Init figure with fullscreen map and transparent time series."""
-    figw, figh = figsize
-    fig, ax = ut.mm.subplots_mm(figsize=(figw, figh), projection=utm,
-                                gridspec_kw=dict(left=0.0, right=0.0,
-                                                 bottom=0.0, top=0.0))
-    tsax = fig.add_axes([12.0/figw, 3.0/figh, 1-24.0/figw, 12.0/figh])
-    ax.outline_patch.set_ec('none')
-    tsax.set_facecolor('none')
-    tsax.add_patch(plt.Rectangle((0.0, 0.0), 1.0, 20.0/figh,
-                                 ec='w', fc='w', alpha=0.5, zorder=-1,
-                                 clip_on=False, transform=ax.transAxes))
-    prepare_map_axes(ax, extent=extent)
-    return fig, ax, tsax
-
-
 # Multi map subplot helpers
 # --------------------------
 
@@ -916,96 +900,6 @@ def draw_alpflo_glacier_names(ax=None):
         ax.text(x, y, name, fontsize=6, style=style, ha='center', va='center')
 
 
-def draw_fancy_map(ax=None, t=0, density=(12.8, 7.2), bg=True):
-    """Fancy visualization of model results using high-res SRTM."""
-
-    # get current axes if none
-    ax = ax or plt.gca()
-    axe = ax.get_extent()
-
-    # prepare axes coordinates
-    fig = ax.figure
-    bbox = ax.get_window_extent()
-    axx, axy = ut.pl.coords_from_extent(axe, *fig.get_size_inches()*fig.dpi)
-
-    # estimate sea level drop
-    nc = ut.io.load('input/dsl/specmap.nc')  #FIXME
-    dsl = np.interp(t, nc.variables['time'][:], nc.variables['delta_SL'][:])
-    nc.close()
-
-    # load SRTM bedrock topography
-    srb, sre = ut.io.open_gtif('../data/external/srtm.tif', extent=axe)
-    srx, sry = ut.pl.coords_from_extent(sre, *srb.shape[::-1])
-
-    # substract glacier thicknesses
-    thk, the = ut.io.open_gtif('../data/external/thk.tif', extent=axe)
-    assert the == sre
-    srb -= thk
-
-    # load boot topo
-    filepath = 'input/boot/alps-srtm+thk+gou11simi-1km.nc'
-    nc = ut.io.load(filepath)  #FIXME
-    bref = nc.variables['topg'][:].T
-    nc.close()
-
-    # load extra data
-    filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
-    nc = ut.io.load(filepath)  #FIXME
-    ncx, ncy, ncb = nc._extract_xyz('topg', t)
-    ncx, ncy, ncs = nc._extract_xyz('usurf', t)
-
-    # compute bedrock uplift
-    ncu = ncb - bref
-
-    # select interpolation coordinates
-    xi, yi, ei = axx, axy, axe
-
-    # interpolate surfaces to axes coords (interp2d seem faster than interp)
-    bi = sinterp.interp2d(srx, sry, srb, kind='quintic')(xi, yi)
-    si = sinterp.interp2d(ncx, ncy, ncs, kind='quintic')(xi, yi)
-    mi = sinterp.interp2d(ncx, ncy, ncs.mask, kind='quintic')(xi, yi)
-    ui = sinterp.interp2d(ncx, ncy, ncu, kind='quintic')(xi, yi)
-
-    # correct basal topo for uplift and pop nunataks
-    bi = bi + ui
-    mi = (mi > 0.5) + (si < bi)
-    si = np.ma.masked_array(si, mi)
-
-    # if background map was requested
-    if bg == True:
-
-        # compute relief shading
-        kw = dict(extent=ei, altitude=30.0, transparent=True)
-        s300 = ut.pl.shading(bi, azimuth=300.0, **kw)
-        s315 = ut.pl.shading(bi, azimuth=315.0, **kw)
-        s330 = ut.pl.shading(bi, azimuth=330.0, **kw)
-        sh = (s300+s315+s330) / 3.0
-
-        # plot basal topography
-        im = ax.imshow(bi, extent=ei, vmin=dsl-3e3, vmax=dsl+3e3,
-                       cmap=ut.cm.topo, zorder=-1)
-        im = ax.imshow(sh, extent=ei, vmin=-1.0, vmax=1.0, cmap=shinemap,
-                       zorder=-1)
-        if bi.min() < 0.0:
-            cs = ax.contour(bi, extent=ei, levels=[dsl], colors='#0978ab',
-                            linestyles='dashed', linewidths=0.25)
-
-    # plot surface topofraphy
-    cs = ax.contourf(xi, yi, mi, levels=[0.0, 0.5], colors='w', alpha=0.75)
-    cs = ax.contour(xi, yi, mi, levels=[0.5], colors='0.25', linewidths=0.25)
-    cs = ax.contour(xi, yi, si, levels=ut.pl.inlevs, colors='0.25', linewidths=0.1)
-    cs = ax.contour(xi, yi, si, levels=ut.pl.utlevs, colors='0.25', linewidths=0.25)
-
-    # add streamplot (not enough data result in ValueError)
-    try:
-        ss = nc.streamplot('velsurf', ax, t, cmap='Blues', norm=ut.pl.velnorm,
-                           density=density, linewidth=0.5, arrowsize=0.25)
-    except ValueError:
-        pass
-
-    # close extra data
-    nc.close()
-
 # Timeseries elements
 # -------------------
 
@@ -1033,7 +927,6 @@ def plot_mis(ax=None, y=1.075):
 
 def plot_dt(ax=None, filename='alpcyc.2km.epic.pp.dt.nc'):
     """Plot scaled temperature offset time-series."""
-    # FIXME get rid of t arguments in all timeseries and fig creation utils
     ax = ax or plt.gca()
 
     # plot time series
@@ -1046,22 +939,6 @@ def plot_dt(ax=None, filename='alpcyc.2km.epic.pp.dt.nc'):
     ax.set_xlim(120.0, 0.0)
     ax.set_ylim(-17.5, 2.5)
     ax.grid(axis='y')
-    ax.locator_params(axis='y', nbins=6)
-
-
-def plot_slvol(ax=None, filename='alpcyc.1km.epic.pp.ts.10a.nc'):
-    """Plot ice volume time-series."""
-    # FIXME get rid of t arguments in all timeseries and fig creation utils
-    ax = ax or plt.gca()
-
-    # plot time series
-    with ut.io.load_postproc(filename) as ds:
-        ax.plot(ds.age/1e3, ds.slvol, c='0.25')
-
-    # set axes properties
-    ax.set_ylabel('ice volume (m s.l.e.)', color='C1')
-    ax.set_xlim(120.0, 0.0)
-    ax.set_ylim(-0.05, 0.35)
     ax.locator_params(axis='y', nbins=6)
 
 
