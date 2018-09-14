@@ -60,21 +60,9 @@ def plot_main(t):
 
         # load extra data
         with ut.io.open_subdataset(filename, t) as ds:
-            x = ds.x
-            y = ds.y
-            u = ds.uvelsurf.where(ds.thk.fillna(0.0) >= 1.0).values
-            v = ds.vvelsurf.where(ds.thk.fillna(0.0) >= 1.0).values
-            c = (u**2+v**2)**0.5
 
             # try add streamplot (start point spacing 1.25 km == 1.5 px)
-            try:
-                ax.streamplot(x, y, u, v, cmap='Blues', color=c,
-                              density=(24.0, 16.0), norm=ut.pl.velnorm,
-                              linewidth=0.5, arrowsize=0.25)
-
-            # handle lack of ice cover
-            except ValueError:
-                pass
+            ut.xp.streamplot(ds, ax=ax, density=(24, 16))
 
         # draw map elements
         ut.pl.draw_natural_earth_color(ax, graticules=False)

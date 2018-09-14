@@ -8,6 +8,7 @@ import util.io
 import util.mm
 import util.pl
 import util.xr  # xarray computations
+import util.xp  # xarray plotting tools
 
 
 # Alps cycle parameters
