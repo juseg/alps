@@ -636,25 +636,42 @@ def draw_boot_topo(ax=None, filename='alpcyc.1km.in.nc'):
 def draw_major_cities(ax=None, maxrank=5, textoffset=2, lang='en',
                       request=None):
     """Add major city locations with names."""
-    shp = cshp.Reader(cshp.natural_earth(resolution='10m',
-                                         category='cultural',
-                                         name='populated_places'))
+    ax = ax or plt.gca()
+
+    # get axes extent
+    west, east, south, north = ax.get_extent()
+
+    # relative label positions
+    xloc = 'r'  # ('l' if xc < center[0] else 'r')
+    yloc = 'u'  # ('l' if yc < center[1] else 'u')
+    dx = {'c': 0, 'l': -1, 'r': 1}[xloc]*textoffset
+    dy = {'c': 0, 'l': -1, 'u': 1}[yloc]*textoffset
+    ha = {'c': 'center', 'l': 'right', 'r': 'left'}[xloc]
+    va = {'c': 'center', 'l': 'top', 'u': 'bottom'}[yloc]
+
+    # open shapefile data
+    shp = cshp.Reader(cshp.natural_earth(
+        resolution='10m', category='cultural', name='populated_places'))
+
+    # loop on records
     for rec in shp.records():
         name = rec.attributes['name_'+lang].decode('utf8')
         rank = rec.attributes['SCALERANK']
-        lon = rec.geometry.x
-        lat = rec.geometry.y
-        if rank <= maxrank or name in request:
-            xc, yc = ax.projection.transform_point(lon, lat, src_crs=ll)
-            xloc = 'r'  # ('l' if xc < center[0] else 'r')
-            yloc = 'u'  # ('l' if yc < center[1] else 'u')
-            dx = {'c': 0, 'l': -1, 'r': 1}[xloc]*textoffset
-            dy = {'c': 0, 'l': -1, 'u': 1}[yloc]*textoffset
-            ha = {'c': 'center', 'l': 'right', 'r': 'left'}[xloc]
-            va = {'c': 'center', 'l': 'top', 'u': 'bottom'}[yloc]
-            ax.plot(xc, yc, marker='o', color='0.25', ms=2)
-            ax.annotate(name, xy=(xc, yc), xytext=(dx, dy), color='0.25',
-                        textcoords='offset points', ha=ha, va=va, clip_on=True)
+
+        # check rank and name
+        if rank > maxrank and name not in request:
+            continue
+
+        # check location
+        geom = rec.geometry
+        x, y = ax.projection.transform_point(geom.x, geom.y, src_crs=ll)
+        if west > x or x > east or south > y or y > north:
+            continue
+
+        # plot
+        ax.plot(x, y, marker='o', color='0.25', ms=2)
+        ax.annotate(name, xy=(x, y), xytext=(dx, dy), color='0.25',
+                    textcoords='offset points', ha=ha, va=va, clip_on=True)
 
 
 def draw_cpu_grid(ax=None, extent='alps', nx=24, ny=24):
