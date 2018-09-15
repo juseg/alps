@@ -7,7 +7,6 @@ import os
 import re
 import sys
 import numpy as np
-import scipy.interpolate as sinterp
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import cartopy.io.shapereader as cshp
@@ -73,14 +72,20 @@ regions = {'egu': (112.5e3, 1087.5e3, 4855e3, 5355e3), # egu poster 975x500
            'ivrea': (300e3, 440e3, 5000e3, 5100e3),    # Ivrea 140x100
            'rhine': (410e3, 620e3, 5150e3, 5300e3),    # Rhine 210x150
            'rhone': (300e3, 475e3, 5100e3, 5225e3),    # Rhone 175x125
-           'reuss0': (416e3, 512e3, 5200e3, 5254e3),   # Luzern  96x54 km
-           'reuss1': (392e3, 520e3, 5196e3, 5268e3),   # Luzern 128x72 km
-           'swiss0': (380e3, 476e3, 5120e3, 5174e3),   # Swiss  96x54 km
-           'swiss1': (252e3, 636e3, 5072e3, 5288e3),   # Swiss 384x216 km
            'rhlobe': (450e3, 600e3, 5225e3, 5325e3),   # Rhine lobe 150x100
            'taglia': (760e3, 865e3, 5105e3, 5180e3),   # Tagliamento 105x75
            'valais': (310e3, 460e3, 5065e3, 5165e3),   # Trimlines 150x100
            'aletsch': (414e3, 444e3, 5139e3, 5159e3)}  # Aletsch 30x20
+regions.update(
+    anim_al_0=(120e3, 1080e3, 4835e3, 5375e3),  # Alps   16:9  960x540
+    anim_al_1=(120e3, 1080e3, 4835e3, 5375e3),  #  "
+    anim_lu_0=(416e3,  512e3, 5200e3, 5254e3),  # Luzern 16:9   96x54
+    anim_lu_1=(392e3,  520e3, 5196e3, 5268e3),  # Luzern 16:9  128x72
+    anim_ch_0=(380e3,  476e3, 5120e3, 5174e3),  # Switz. 16:9   96x54
+    anim_ch_1=(252e3,  636e3, 5072e3, 5288e3),  # Switz. 16:9  384x216
+    anim_zo_0=(329e3,  521e3, 5096e3, 5204e3),  # Switz. 16:9  192x108
+    anim_zo_1=(120e3, 1080e3, 4835e3, 5375e3),  # Alps   16:9  960x540
+    )
 
 # cartopy features monochromatic
 ne_rivers = cfeature.NaturalEarthFeature(

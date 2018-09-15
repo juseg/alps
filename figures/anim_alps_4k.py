@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import util as ut
 
 # crop region and language
-crop = 'al'  # al ch lu
+crop = 'zo'  # al ch lu zo
 lang = 'en'  # de en fr
 
 # prefix for output files
@@ -21,16 +21,25 @@ prefix = os.path.join(os.environ['HOME'], 'anim', prefix)
 t0, t1, dt = -120000, -0, 40
 
 
+def subplots_anim_dynamic(crop, t, t0=-120e3, t1=-0e3):
+    """Init dynamic extent figure and subplot."""
+    # FIXME move to new submodule util/sp
+    fig, ax = ut.pl.subplots_anim(figsize=(384.0, 216.0))
+    e0, e1 = ('anim_{}_{:d}'.format(crop, i) for i in (0, 1))
+    ut.pl.set_dynamic_extent(ax, e0=e0, e1=e1, t=t, t0=t0, t1=t1)
+    return fig, ax
+
+
 def plot_main(t):
     """Plot main figure for given time."""
 
     # check if file exists
-    fname = os.path.join(prefix+'_main_'+crop, '{:06d}.png'.format(t+120000))
+    fname = '{}_main_{}/{:06d}.png'.format(prefix, crop, t+120000)
     if not os.path.isfile(fname):
 
         # initialize figure
         print 'plotting {:s} ...'.format(fname)
-        fig, ax = ut.pl.subplots_anim(figsize=(384.0, 216.0))
+        fig, ax = subplots_anim_dynamic(crop, t)
 
         # prepare axes coordinates
         x, y = ut.pl.coords_from_extent(ax.get_extent(),
@@ -58,16 +67,16 @@ def plot_main(t):
         plt.close(fig)
 
 
-def plot_city():
+def plot_city(t):
     """Plot city overlay for given language."""
 
     # check if file exists
-    fname = os.path.join(prefix+'_city_'+crop, lang+'.png')
+    fname = '{}_city_{}_{}/{:06d}.png'.format(prefix, crop, lang, t+120000)
     if not os.path.isfile(fname):
 
         # initialize figure
         print 'plotting {:s} ...'.format(fname)
-        fig, ax = ut.pl.subplots_anim(figsize=(384.0, 216.0))
+        fig, ax = subplots_anim_dynamic(crop, t)
 
         # draw map elements
         ut.pl.draw_major_cities(ax, maxrank=8, lang=lang, request='Sion')
@@ -186,8 +195,8 @@ if __name__ == '__main__':
     # plot all frames in parallel
     pool = mp.Pool(processes=4)
     pool.map(plot_main, xrange(t0+dt, t1+1, dt))
+    pool.map(plot_city, xrange(t0+dt, t1+1, dt))
     pool.map(plot_tbar, xrange(t0+dt, t1+1, dt))
     pool.map(plot_ttag, xrange(t0+dt, t1+1, dt))
-    pool.apply(plot_city)
     pool.close()
     pool.join()
