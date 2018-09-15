@@ -31,19 +31,22 @@ def topo_contours(darray, ax=None, ec='0.25'):
     darray.plot.contour(ax=ax, colors=[ec], levels=minors, linewidths=0.1)
 
 
-def shaded_relief(darray, ax=None, dsl=0.0):
+def shaded_relief(darray, ax=None):
     """Plot shaded relief map from elevation data array."""
 
     # plot basal topography
     darray.plot.imshow(ax=ax, add_colorbar=False, cmap=ut.cm.topo,
                        vmin=-3e3, vmax=3e3, zorder=-1)
-    darray.plot.contour(ax=ax, colors='#0978ab', levels=[0.0],
-                        linestyles=['dashed'], linewidths=0.25)
 
     # add relief shading
     shades = ut.xr.multishading(darray)
     shades.plot.imshow(ax=ax, add_colorbar=False, cmap=ut.pl.shinemap,
                        vmin=-1.0, vmax=1.0, zorder=-1)
+
+    # add coastline if data spans the zero
+    if darray.min() * darray.max() < 0.0:
+        darray.plot.contour(ax=ax, colors='#0978ab', levels=[0.0],
+                            linestyles=['dashed'], linewidths=0.25)
 
 
 def streamplot(dataset, ax=None, **kwargs):
