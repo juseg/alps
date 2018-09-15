@@ -25,7 +25,7 @@ for i, rec in enumerate(ut.alpcyc_records):
 
     # load extra output
     filename = 'alpcyc.2km.{}.{}.agg.nc'.format(rec.lower()[:4], pp)
-    with ut.io.load_postproc(filename) as ds:
+    with ut.io.open_dataset('../data/processed/'+filename) as ds:
 
         # for each stage
         for j, ax in enumerate(grid[:, i/2]):

@@ -13,49 +13,12 @@ from osgeo import gdal
 import util as ut
 
 
-def load_mfoutput(filepath):
-    """Load multi-file output data."""
-    # FIXME get rid of all load_* functions
-    filepath = os.path.join(os.environ['HOME'], 'pism', filepath)
-    ds = xr.open_mfdataset(filepath, concat_dim='time', chunks=dict(time=10),
-                           decode_cf=False, decode_times=False)
-    if 'time' in ds.coords:
-        ds = ds.assign_coords(age=-ds.time/(365*24*60*60))
-    if 'time' in ds.dims:
-        ds = ds.swap_dims(dict(time='age'))
-    return ds
-
-
-def load_postproc(filename):
-    """Load post-processed netcdf data."""
-    filepath = os.path.join('..', 'data', 'processed', filename)
-    ds = xr.open_dataset(filepath, decode_times=False)
-    if 'time' in ds.coords:
-        if 'seconds' in ds.time.units:
-            ds = ds.assign_coords(age=-ds.time/(365*24*60*60))
-        else:
-            ds = ds.assign_coords(age=-ds.time)
-        if 'time' in ds.dims:
-            ds = ds.swap_dims(dict(time='age'))
-    return ds
-
-
-def load_postproc_txt(runpath, varname):
-    """Load post-processed text data."""
-
-    runpath = runpath.rstrip('/')
-    prefix = '-'.join(map(os.path.basename, os.path.split(runpath)))
-    prefix = os.path.join('..', 'data', 'processed', prefix+'-ts-')
-    filename = prefix + varname + '.txt'
-    age, z = np.loadtxt(filename, unpack=True)
-    return age, z
-
-
 def open_dataset(filename):
     """Open single-file dataset with age coordinate."""
     ds = xr.open_dataset(filename, decode_cf=False)
     if 'time' in ds.coords and 'seconds' in ds.time.units:
         ds = ds.assign_coords(time=ds.time/(365*24*60*60))
+    if 'time' in ds.coords:
         ds = ds.assign_coords(age=-ds.time)
     return ds
 
@@ -65,6 +28,7 @@ def open_mfdataset(filename):
     ds = xr.open_mfdataset(filename, chunks=dict(time=10), decode_cf=False)
     if 'time' in ds.coords and 'seconds' in ds.time.units:
         ds = ds.assign_coords(time=ds.time/(365*24*60*60))
+    if 'time' in ds.coords:
         ds = ds.assign_coords(age=-ds.time)
     return ds
 

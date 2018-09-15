@@ -11,7 +11,7 @@ fig, ax, cax, tsax = ut.pl.subplots_cax_ts()
 # --------
 
 # load aggregated data
-with ut.io.load_postproc('alpcyc.1km.epic.pp.agg.nc') as ds:
+with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     ext = ds.covertime > 0.0
     cvt = ds.covertime.where(ext)/1e3
 
@@ -31,7 +31,7 @@ ut.pl.draw_lgm_outline(ax)
 # -----------
 
 # load time series
-with ut.io.load_postproc('alpcyc.1km.epic.pp.ts.10a.nc') as ds:
+with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as ds:
 
     # plot time series
     twax = tsax.twinx()

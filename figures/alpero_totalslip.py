@@ -12,7 +12,7 @@ fig, ax, cax = ut.pl.subplots_cax()
 # --------
 
 # load aggregated data
-with ut.io.load_postproc('alpero.1km.epic.pp.agg.nc') as ds:
+with ut.io.open_dataset('../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
     ext = ds.totalslip > 0.0
     tts = ds.totalslip.where(ext)/1e3
 

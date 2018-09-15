@@ -11,7 +11,7 @@ fig, ax, cax = ut.pl.subplots_cax(extent='west')
 # --------
 
 # load aggregated data
-with ut.io.load_postproc('alpcyc.1km.epic.pp.agg.nc') as ds:
+with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     age = ds.deglacage/1e3
     ext = ds.deglacage.notnull()
 

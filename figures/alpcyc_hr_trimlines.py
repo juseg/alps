@@ -17,12 +17,12 @@ with ut.io.open_trimline_data() as tr:
     tr.load()
 
 # get aggregated data at trimline locations
-with ut.io.load_postproc('alpcyc.1km.epic.pp.agg.nc') as ds:
+with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     at = ds.maxthkage.interp(x=tr.x, y=tr.y, method='linear')/1e3
     ht = ds.maxthkthk.interp(x=tr.x, y=tr.y, method='linear')
 
 # get boot topography at trimline locations
-with ut.io.load_postproc('alpcyc.1km.in.nc') as ds:
+with ut.io.open_dataset('../data/processed/alpcyc.1km.in.nc') as ds:
     bt = ds.topg.interp(x=tr.x, y=tr.y, method='linear')
 
 
@@ -83,7 +83,7 @@ hsax.set_ylim(l-zavg for l in scax.get_ylim())
 # --------
 
 # load aggregated data
-with ut.io.load_postproc('alpcyc.1km.epic.pp.agg.nc') as ds:
+with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     btp = ds.maxthkbtp
     srf = ds.maxthksrf
     ext = ds.maxthksrf.notnull()

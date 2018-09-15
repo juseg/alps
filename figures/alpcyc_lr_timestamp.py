@@ -15,9 +15,9 @@ for i, rec in enumerate(ut.alpcyc_records):
 
     # plot cumulative time stamp
     filename = 'alpcyc.2km.{}.{}.tms.nc'.format(rec.lower()[:4], pp)
-    with ut.io.load_postproc(filename) as ds:
+    with ut.io.open_dataset('../data/processed/'+filename) as ds:
         ts = ds.timestamp
-        dt = ts.diff('age')
+        dt = ts.diff('time')
         ts = dt.where(dt > 0.0, ts[1:]).cumsum()/24.0
         ax.plot(ts.age/1e3, ts, color=c, label=label)
 

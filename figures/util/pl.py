@@ -622,7 +622,7 @@ def add_signature(text, fig=None, offset=2.5/25.4):
 def draw_boot_topo(ax=None, filename='alpcyc.1km.in.nc'):
     """Add bootstrapping topography image."""
     ax = ax or plt.gca()
-    with ut.io.load_postproc(filename) as ds:
+    with ut.io.open_dataset('../data/processed/'+filename) as ds:
         im = (ds.topg/1e3).plot.imshow(ax=ax, add_colorbar=False, cmap='Greys',
                                        vmin=0.0, vmax=3.0, zorder=-1)
     return im
@@ -930,7 +930,7 @@ def plot_dt(ax=None, filename='alpcyc.2km.epic.pp.dt.nc'):
     ax = ax or plt.gca()
 
     # plot time series
-    with ut.io.load_postproc(filename) as ds:
+    with ut.io.open_dataset('../data/processed/'+filename) as ds:
         ax.plot(ds.age/1e3, ds.delta_T, c='0.25')
 
     # set axes properties

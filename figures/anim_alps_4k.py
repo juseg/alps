@@ -41,21 +41,15 @@ def plot_main(t):
         with ut.io.open_dataset('~/pism/input/dsl/specmap.nc') as ds:
             dsl = ds.delta_SL.interp(time=t).data
 
-        # load interpolated data
+        # plot interpolated data
         filename = '~/pism/' + ut.alpcyc_bestrun + 'y{:07.0f}-extra.nc'
         with ut.io.open_visual(filename, t, x, y) as ds:
-
-            # plot basal topography
             ut.xp.shaded_relief(ds.topg-dsl, ax=ax)
-
-            # plot surface topography
             ut.xp.ice_extent(ds.icy, ax=ax, fc='w')
             ut.xp.topo_contours(ds.usurf, ax=ax)
 
-        # load extra data
+        # plot extra data
         with ut.io.open_subdataset(filename, t) as ds:
-
-            # try add streamplot (start point spacing 1.25 km == 1.5 px)
             ut.xp.streamplot(ds, ax=ax, density=(24, 16))
 
         # draw map elements
@@ -108,7 +102,7 @@ def plot_tbar(t):
                          fr='vol. de glace\n(cm niv. marin)')[lang]
 
         # plot temperature offset time series
-        with ut.io.load_postproc('alpcyc.1km.epic.pp.dt.nc') as ds:
+        with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.dt.nc') as ds:
             dt = ds.delta_T[ds.age >= -t]
             ax.plot(dt.age, dt, c='0.25')
             ax.text(-t, dt[-1], '  {: .0f}'.format(dt[-1].values),
@@ -137,7 +131,7 @@ def plot_tbar(t):
 
         # plot ice volume time series
         ax = ax.twinx()
-        with ut.io.load_postproc('alpcyc.1km.epic.pp.ts.10a.nc') as ds:
+        with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as ds:
             sl = ds.slvol[ds.age >= -t]*100.0
             ax.plot(sl.age, sl, c='C1')
             ax.text(-t, sl[-1], '  {: .0f}'.format(sl[-1].values),

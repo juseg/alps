@@ -7,7 +7,7 @@ import util as ut
 fig, grid = ut.pl.subplots_inputs()
 
 # load merged input file
-with ut.io.load_postproc('alpcyc.1km.in.nc') as ds:
+with ut.io.open_dataset('../data/processed/alpcyc.1km.in.nc') as ds:
     thk = ds.thk.where(ds.thk>=1.0)
     tpg = ds.topg/1e3
     ghf = ds.bheatflx

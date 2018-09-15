@@ -11,7 +11,7 @@ fig, ax, cax, tsax = ut.pl.subplots_cax_ts()
 # --------
 
 # load aggregated data
-with ut.io.load_postproc('alpcyc.1km.epic.pp.agg.nc') as ds:
+with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     tpg = ds.maxexttpg
     srf = ds.maxextsrf
     fpt = ds.footprint
@@ -46,7 +46,7 @@ ut.pl.add_corner_tag('%.2f ka' % (age/1e3), ax)
 # -----------
 
 # load time series
-with ut.io.load_postproc('alpcyc.1km.epic.pp.ts.10a.nc') as ds:
+with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as ds:
 
     # plot time series
     twax = tsax.twinx()

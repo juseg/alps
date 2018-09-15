@@ -59,13 +59,8 @@ def draw_srtm(ax=None, extent=None):
     ax = ax or plt.gca()
 
     # plot SRTM data
-    z, extent = ut.io.open_gtif('../data/external/srtm.tif', extent=extent)
-    s300 = ut.pl.shading(z, extent=extent, azimuth=300.0, altitude=30.0, transparent=True)
-    s315 = ut.pl.shading(z, extent=extent, azimuth=315.0, altitude=30.0, transparent=True)
-    s330 = ut.pl.shading(z, extent=extent, azimuth=330.0, altitude=30.0, transparent=True)
-    s = (s300+s315+s330) / 3.0
-    ax.imshow(z, extent=extent, vmin=-3e3, vmax=3e3, cmap=ut.cm.topo, zorder=-1)
-    ax.imshow(s, extent=extent, vmin=-1.0, vmax=1.0, cmap=shinemap, zorder=-1)
+    with ut.io.open_gtif_xarray('../data/external/srtm.tif') as ds:
+        ut.xp.shaded_relief(ds, ax=ax)
 
 # Ehlers and Gibbard LGM
 def draw_lgm_bini(ax=None):

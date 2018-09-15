@@ -15,7 +15,7 @@ cols = plt.get_cmap('Paired').colors[:len(levs)+1]
 # --------
 
 # load aggregated data
-with ut.io.load_postproc('alpcyc.1km.epic.pp.agg.nc') as ds:
+with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     age = ds.maxthkage/1e3
     srf = ds.maxthksrf
     ext = ds.maxthksrf.notnull()
@@ -40,7 +40,7 @@ ut.pl.draw_glacier_names(ax)
 # -----------
 
 # load time series
-with ut.io.load_postproc('alpcyc.1km.epic.pp.ts.10a.nc') as ds:
+with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as ds:
 
     # plot time series
     twax = tsax.twinx()

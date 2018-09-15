@@ -1,6 +1,7 @@
 #!/usr/bin/env python2
 # coding: utf-8
 
+import os
 import util as ut
 import matplotlib.pyplot as plt
 
@@ -12,7 +13,9 @@ labels = ['Rhine', 'Rhone', 'Dora Baltea', u'Isère', 'Inn', 'Tagliamento']
 fig, grid, tsgrid = ut.pl.subplots_profiles(regions, labels)
 
 # load extra data in memory (interp on dask array takes 12min per profile)
-with ut.io.load_mfoutput(ut.alpcyc_bestrun+'y???????-extra.nc') as ds:
+# FIXME postprocess profile data?
+filename = os.environ['HOME'] + '/pism/' + ut.alpcyc_bestrun + 'y*-extra.nc'
+with ut.io.open_mfdataset(filename) as ds:
     thk = ds.thk[9::10].compute()
 
 # loop on regions
@@ -26,7 +29,7 @@ for i, reg in enumerate(regions):
     # --------
 
     # load aggregated data
-    with ut.io.load_postproc('alpcyc.1km.epic.pp.agg.nc') as ds:
+    with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
         srf = ds.maxthksrf
         ext = ds.maxthksrf.notnull()
 

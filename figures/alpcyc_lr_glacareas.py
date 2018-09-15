@@ -47,7 +47,7 @@ for i, rec in enumerate(ut.alpcyc_records):
         try:
 
             # load extra file
-            with ut.io.load_mfoutput('output/e9d2d1f/alps-wcnn-2km/%s+%s/'
+            with ut.io.open_mfdataset('~/pism/output/e9d2d1f/alps-wcnn-2km/%s+%s/'
                                      'y???????-extra.nc' % (dtfile, conf)) as ds:
 
                 # select space-time of interest

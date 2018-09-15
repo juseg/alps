@@ -7,7 +7,7 @@ import util as ut
 fig, ax, cax = ut.pl.subplots_cax()
 
 # load aggregated data
-with ut.io.load_postproc('alpcyc.1km.epic.pp.agg.nc') as ds:
+with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     thk = ds.maxextthk
     tpg = ds.maxexttpg
     srf = ds.maxextsrf
