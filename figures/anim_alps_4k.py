@@ -188,7 +188,8 @@ if __name__ == '__main__':
     """Plot individual frames in parallel."""
 
     # create frame directories if missing
-    for suffix in ['_main_'+crop, '_city_'+crop, '_ttag_'+lang, '_tbar_'+lang]:
+    for suffix in ['_main_'+crop, '_city_'+crop+'_'+lang,
+                   '_ttag_'+lang, '_tbar_'+lang]:
         if not os.path.isdir(prefix + suffix):
             os.mkdir(prefix + suffix)
 
