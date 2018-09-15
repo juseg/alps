@@ -85,3 +85,7 @@ then
         "GK500_V1_3_FR/Shapes/PY_Surface_Base.???"
     rm data.zip GK500_V1_3_Vector.zip
 fi
+
+# Spratt et al. (2016) sea level curve
+wget -nc https://www1.ncdc.noaa.gov/pub/data/paleo/contributions_by_author/\
+spratt2016/spratt2016.txt

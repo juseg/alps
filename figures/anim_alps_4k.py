@@ -37,9 +37,7 @@ def plot_main(t):
                                         *fig.get_size_inches()*fig.dpi)
 
         # estimate sea level drop
-        # FIXME copy file to ../data/processed
-        with ut.io.open_dataset('~/pism/input/dsl/specmap.nc') as ds:
-            dsl = ds.delta_SL.interp(time=t).data
+        dsl = ut.io.open_sealevel(t)
 
         # plot interpolated data
         filename = '~/pism/' + ut.alpcyc_bestrun + 'y{:07.0f}-extra.nc'

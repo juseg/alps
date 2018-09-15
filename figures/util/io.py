@@ -73,6 +73,14 @@ def open_visual(filename, t, x, y):
     return ds
 
 
+def open_sealevel(t):
+    ds = pd.read_csv('../data/external/spratt2016.txt', comment='#',
+                     delimiter='\t', index_col='age_calkaBP').to_xarray()
+    ds = ds.SeaLev_shortPC1.dropna('age_calkaBP')
+    ds = min(ds.interp(age_calkaBP=-t/1e3, method='cubic').values, 0.0)
+    return ds
+
+
 def open_gtif(filename, extent=None):
     """Open GeoTIFF and return data and extent."""
 
