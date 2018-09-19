@@ -29,8 +29,9 @@ do
     pp="${pparams[$i]}"
     dt="${offsets[$i]}"
 
-    # config string and time stride (happens to be the same for extra and ts)
-    [ "$res" == "1km" ] && stride="99,,100" || stride="9,,10"
+    # config string and time stride
+    [ "$res" == "1km" ] && extimes="99,,100" || extimes="9,,10"
+    [ "$res" == "1km" ] && tstimes="9,,10" || tstimes=",,1"
     [ "$pp" == "pp" ] && conf="alpcyc4+pp" || conf="alpcyc4"
 
     # input and output file locations
@@ -48,8 +49,8 @@ do
     ln -fs $efile $elink
 
     # concatenate output files and copy history from last file
-    ncrcat -O -d time,$stride -v ${evars// /,} $elink/*-extra.nc $pexfile
-    ncrcat -O -d time,$stride $elink/*-ts.nc $ptsfile
+    ncrcat -O -d time,$extimes -v ${evars// /,} $elink/*-extra.nc $pexfile
+    ncrcat -O -d time,$tstimes $elink/*-ts.nc $ptsfile
     ncrcat -O -v timestamp $elink/*-extra.nc $tmsfile
     ncks -A -h -x $elink/y0120000-ts.nc $ptsfile
     ncks -A -h -x $elink/y0120000-extra.nc $pexfile

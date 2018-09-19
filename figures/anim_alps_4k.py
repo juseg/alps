@@ -106,7 +106,7 @@ def plot_tbar(t):
 
         # plot temperature offset time series
         with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.dt.nc') as ds:
-            dt = ds.delta_T[ds.age >= -t]
+            dt = ds.delta_T[ds.time <= t]
             ax.plot(dt.age, dt, c='0.25')
             ax.text(-t, dt[-1], '  {: .0f}'.format(dt[-1].values),
                     color='0.25', ha='left', va='center', clip_on=True)
@@ -135,7 +135,7 @@ def plot_tbar(t):
         # plot ice volume time series
         ax = ax.twinx()
         with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as ds:
-            sl = ds.slvol[ds.age >= -t]*100.0
+            sl = ds.slvol[ds.time <= t]*100.0
             ax.plot(sl.age, sl, c='C1')
             ax.text(-t, sl[-1], '  {: .0f}'.format(sl[-1].values),
                     color='C1', ha='left', va='center', clip_on=True)
