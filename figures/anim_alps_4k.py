@@ -18,7 +18,7 @@ prefix = os.path.join(os.environ['HOME'], 'anim', prefix)
 
 # start and end of animation
 # FIXME this depends on crop region, suffix = '_%d%d' % (-t0/1e3, t1/1e3)
-t0, t1, dt = -120000, -0, 10000
+t0, t1, dt = -120000, -0, 40
 
 
 def plot_main(t):

@@ -35,7 +35,8 @@ def open_mfdataset(filename):
 
 def open_subdataset(filename, t, shift=120000, step=500):
     """Open subdataset in multi-file based on format string."""
-    ds = open_dataset(filename.format(shift + t + (-t) % step)).sel(time=t)
+    ds = open_dataset(filename.format(shift + t + (-t) % step))
+    ds = ds.sel(time=t, method='nearest', tolerance=1e-6)
     return ds
 
 
