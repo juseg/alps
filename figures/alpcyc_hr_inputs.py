@@ -4,7 +4,7 @@
 import util as ut
 
 # initialize figure
-fig, grid = ut.pl.subplots_inputs()
+fig, grid = ut.fi.subplots_inputs()
 
 # load merged input file
 with ut.io.open_dataset('../data/processed/alpcyc.1km.in.nc') as ds:
@@ -41,7 +41,7 @@ with ut.io.open_dataset('../data/processed/alpcyc.1km.in.nc') as ds:
 
     # plot boot ice thickness
     ax = grid[0, 2]
-    ax.set_extent(ut.pl.regions['bern'], crs=ax.projection)
+    ax.set_extent(ut.fi.regions['bern'], crs=ax.projection)
     ckw = dict(label='Modern ice thickness (m)', ticks=range(0, 501, 200))
     thk.plot.imshow(ax=ax, alpha=0.75, cbar_ax=ax.cax, cbar_kwargs=ckw,
                                        cmap='Blues', vmin=0e2, vmax=5e2)

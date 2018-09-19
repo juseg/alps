@@ -5,7 +5,7 @@ import util as ut
 
 # initialize figure
 # FIXME postprocess netcdf erosion timeseries
-fig, ax, cax = ut.pl.subplots_cax()
+fig, ax, cax = ut.fi.subplots_cax()
 
 
 # Map axes

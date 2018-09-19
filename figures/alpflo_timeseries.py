@@ -18,8 +18,8 @@ fig, grid = ut.mm.subplots_mm(nrows=2, ncols=1, figsize=(figw, figh),
                               gridspec_kw=dict(left=10.0, right=10.0,
                                                bottom=10.0, top=2.5,
                                                hspace=2.5, wspace=2.5))
-ut.pl.add_subfig_label('(a)', ax=grid[0], y=0.75)
-ut.pl.add_subfig_label('(b)', ax=grid[1])
+ut.fi.add_subfig_label('(a)', ax=grid[0], y=0.75)
+ut.fi.add_subfig_label('(b)', ax=grid[1])
 twgrid = [ax.twinx() for ax in grid]
 
 # plot temperature time series

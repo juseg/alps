@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 
 # initialize figure
-fig, ax, cax, scax, hsax = ut.pl.subplots_trimlines()
+fig, ax, cax, scax, hsax = ut.fi.subplots_trimlines()
 
 
 # Input data

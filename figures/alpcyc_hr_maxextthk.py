@@ -4,7 +4,7 @@
 import util as ut
 
 # initialize figure
-fig, ax, cax = ut.pl.subplots_cax()
+fig, ax, cax = ut.fi.subplots_cax()
 
 # load aggregated data
 with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:

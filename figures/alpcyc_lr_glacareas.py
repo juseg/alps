@@ -20,7 +20,7 @@ import numpy as np
 target = 10.29263599490
 
 # initialize figure
-fig, ax = ut.pl.subplots_ts()
+fig, ax = ut.fi.subplots_ts()
 
 # resolutions and styles
 resolutions = ['5km', '2km']
@@ -29,7 +29,7 @@ linewidths = [0.5, 1.0]
 markers = ['+', '*']
 
 # domain for masking
-w, e, s, n = ut.pl.regions['rhlobe']
+w, e, s, n = ut.fi.regions['rhlobe']
 
 # for each record
 for i, rec in enumerate(ut.alpcyc_records):

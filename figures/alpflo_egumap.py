@@ -8,7 +8,7 @@ import scipy.interpolate as sinterp
 import matplotlib.colors as mcolors
 
 # initialize figure
-fig, ax, cax1, cax2, tsax = ut.pl.subplots_cax_ts_egu()
+fig, ax, cax1, cax2, tsax = ut.fi.subplots_cax_ts_egu()
 
 # personal colormaps
 # FIXME move to ut.cm

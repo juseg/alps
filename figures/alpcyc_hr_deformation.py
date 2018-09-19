@@ -4,7 +4,7 @@
 import util as ut
 
 # initialize figure
-fig, ax, cax, tsax = ut.pl.subplots_cax_ts(dt=False, mis=False)
+fig, ax, cax, tsax = ut.fi.subplots_cax_ts(dt=False, mis=False)
 
 
 # Map axes

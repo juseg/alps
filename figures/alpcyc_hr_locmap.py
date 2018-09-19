@@ -4,7 +4,7 @@
 import util as ut
 
 # initialize figure
-fig, ax, cax = ut.pl.subplots_cax()
+fig, ax, cax = ut.fi.subplots_cax()
 
 # add map elements
 im = ut.pl.draw_boot_topo(ax)

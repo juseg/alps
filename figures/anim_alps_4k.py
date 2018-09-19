@@ -18,13 +18,13 @@ prefix = os.path.join(os.environ['HOME'], 'anim', prefix)
 
 # start and end of animation
 # FIXME this depends on crop region, suffix = '_%d%d' % (-t0/1e3, t1/1e3)
-t0, t1, dt = -120000, -0, 40
+t0, t1, dt = -120000, -0, 10000
 
 
 def subplots_anim_dynamic(crop, t, t0=-120e3, t1=-0e3):
     """Init dynamic extent figure and subplot."""
     # FIXME move to new submodule util/sp
-    fig, ax = ut.pl.subplots_anim(figsize=(384.0, 216.0))
+    fig, ax = ut.fi.subplots_anim(figsize=(384.0, 216.0))
     e0, e1 = ('anim_{}_{:d}'.format(crop, i) for i in (0, 1))
     ut.pl.set_dynamic_extent(ax, e0=e0, e1=e1, t=t, t0=t0, t1=t1)
     return fig, ax

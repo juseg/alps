@@ -5,7 +5,7 @@ import util as ut
 import matplotlib.pyplot as plt
 
 # initialize figure
-fig, ax, cax = ut.pl.subplots_cax(extent='rhlobe')
+fig, ax, cax = ut.fi.subplots_cax(extent='rhlobe')
 
 
 # Map axes

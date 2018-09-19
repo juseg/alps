@@ -5,7 +5,7 @@ import util as ut
 import matplotlib.pyplot as plt
 
 # initialize figure
-fig, ax, cax, tsax = ut.pl.subplots_cax_ts(mis=False)
+fig, ax, cax, tsax = ut.fi.subplots_cax_ts(mis=False)
 
 # age levels and colors
 levs = range(21, 28)

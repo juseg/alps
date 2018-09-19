@@ -4,7 +4,7 @@
 import util as ut
 
 # initialize figure
-fig, grid = ut.pl.subplots_6()
+fig, grid = ut.fi.subplots_6()
 
 # for each record
 for i, rec in enumerate(ut.alpcyc_records):

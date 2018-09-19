@@ -25,7 +25,7 @@ def draw(t):
 
         # initialize figure
         print 'plotting {:s} ...'.format(framepath)
-        fig, ax = ut.pl.subplots_anim(extent='alps', figsize=(900.0, 600.0))
+        fig, ax = ut.fi.subplots_anim(extent='alps', figsize=(900.0, 600.0))
 
         # prepare axes coordinates
         x, y = ut.pl.coords_from_extent(ax.get_extent(),
