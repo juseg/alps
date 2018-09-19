@@ -15,7 +15,7 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.2 2405546, 2018-03-11"
-   sodipodi:docname="anim_alps_sources_fr.svg">
+   sodipodi:docname="anim_alps_bp_refs_fr.svg">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -61,7 +61,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -193,7 +193,7 @@
          sodipodi:role="line"
          x="72"
          y="78.916656"
-         id="tspan80">SPECMAP</tspan><tspan
+         id="tspan80">Niveau marin</tspan><tspan
          sodipodi:role="line"
          x="72"
          y="84.208328"
@@ -247,7 +247,7 @@
          id="tspan123"
          y="78.916656"
          x="104"
-         sodipodi:role="line">(Imbrie et al., 1989)</tspan><tspan
+         sodipodi:role="line">(Spratt et al., 2016)</tspan><tspan
          id="tspan125"
          y="84.208328"
          x="104"

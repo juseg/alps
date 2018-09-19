@@ -15,7 +15,7 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.2 2405546, 2018-03-11"
-   sodipodi:docname="anim_jump01.svg">
+   sodipodi:docname="anim_alps_bp_refs_en.svg">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -61,7 +61,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -157,7 +157,7 @@
          sodipodi:role="line"
          id="tspan7994"
          x="72"
-         y="31.291664" /><tspan
+         y="31.291662" /><tspan
          sodipodi:role="line"
          x="72"
          y="36.583328"
@@ -176,11 +176,11 @@
          id="tspan21" /><tspan
          sodipodi:role="line"
          x="72"
-         y="57.749992"
+         y="57.749996"
          id="tspan28">SRTM</tspan><tspan
          sodipodi:role="line"
          x="72"
-         y="63.041664"
+         y="63.04166"
          id="tspan91">Geothermy</tspan><tspan
          sodipodi:role="line"
          x="72"
@@ -193,7 +193,7 @@
          sodipodi:role="line"
          x="72"
          y="78.916656"
-         id="tspan80">SPECMAP</tspan><tspan
+         id="tspan80">Sea level</tspan><tspan
          sodipodi:role="line"
          x="72"
          y="84.208328"
@@ -247,7 +247,7 @@
          id="tspan123"
          y="78.916656"
          x="104"
-         sodipodi:role="line">(Imbrie et al., 1989)</tspan><tspan
+         sodipodi:role="line">(Spratt et al., 2016)</tspan><tspan
          id="tspan125"
          y="84.208328"
          x="104"
