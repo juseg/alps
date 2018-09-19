@@ -21,15 +21,6 @@ prefix = os.path.join(os.environ['HOME'], 'anim', prefix)
 t0, t1, dt = -120000, -0, 10000
 
 
-def subplots_anim_dynamic(crop, t, t0=-120e3, t1=-0e3):
-    """Init dynamic extent figure and subplot."""
-    # FIXME move to new submodule util/sp
-    fig, ax = ut.fi.subplots_anim(figsize=(384.0, 216.0))
-    e0, e1 = ('anim_{}_{:d}'.format(crop, i) for i in (0, 1))
-    ut.pl.set_dynamic_extent(ax, e0=e0, e1=e1, t=t, t0=t0, t1=t1)
-    return fig, ax
-
-
 def plot_main(t):
     """Plot main figure for given time."""
 
@@ -39,7 +30,8 @@ def plot_main(t):
 
         # initialize figure
         print 'plotting {:s} ...'.format(fname)
-        fig, ax = subplots_anim_dynamic(crop, t)
+        fig, ax = ut.fi.subplots_anim_dynamic(crop, t=t, t0=t0, t1=t1,
+                                              figsize=(384.0, 216.0))
 
         # prepare axes coordinates
         x, y = ut.pl.coords_from_extent(ax.get_extent(),
@@ -76,7 +68,8 @@ def plot_city(t):
 
         # initialize figure
         print 'plotting {:s} ...'.format(fname)
-        fig, ax = subplots_anim_dynamic(crop, t)
+        fig, ax = ut.fi.subplots_anim_dynamic(crop, t=t, t0=t0, t1=t1,
+                                              figsize=(384.0, 216.0))
 
         # draw map elements
         ut.pl.draw_major_cities(ax, maxrank=8, lang=lang, request='Sion')

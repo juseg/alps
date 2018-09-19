@@ -95,14 +95,6 @@ def prepare_ts_axes(ax, dt=True, mis=True):
         plot_mis(ax)
 
 
-def set_dynamic_extent(ax=None, t=0, e0='alps', e1='alps', t0=-120e3, t1=-0e3):
-    ax = ax or plt.gca()
-    zf = 1.0*(t-t0)/(t1-t0)  # linear increase between 0 and 1
-    zf = zf**2*(3-2*zf)  # smooth zoom factor between 0 and 1
-    axe = [c0 + (c1-c0)*zf for (c0, c1) in zip(regions[e0], regions[e1])]
-    ax.set_extent(axe, crs=ax.projection)
-
-
 # Single map subplot helpers
 # --------------------------
 
@@ -124,13 +116,23 @@ def subplots_ts(nrows=1, ncols=1, sharex=True, sharey=False,
 
 def subplots_anim(extent='1609', figsize=(192.0, 108.0)):
     """Init figure with unique subplot for animation."""
-    # FIXME make 4k 16:9 the default for all animations?
     fig, ax = ut.mm.subplots_mm(figsize=figsize, projection=utm,
                                 gridspec_kw=dict(left=0.0, right=0.0,
                                                  bottom=0.0, top=0.0))
     ax.outline_patch.set_ec('none')
     ax.background_patch.set_fc('none')
     prepare_map_axes(ax, extent=extent)
+    return fig, ax
+
+
+def subplots_anim_dynamic(crop, t, t0=-120e3, t1=-0e3, figsize=None):
+    """Init dynamic extent figure and subplot."""
+    fig, ax = ut.fi.subplots_anim(figsize=figsize)
+    e0, e1 = ('anim_{}_{:d}'.format(crop, i) for i in (0, 1))
+    zoom = 1.0*(t-t0)/(t1-t0)  # linear increase between 0 and 1
+    zoom = zoom**2*(3-2*zoom)  # smooth zoom factor between 0 and 1
+    extent = [c0 + (c1-c0)*zoom for (c0, c1) in zip(regions[e0], regions[e1])]
+    ax.set_extent(extent, crs=ax.projection)
     return fig, ax
 
 
