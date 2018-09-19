@@ -81,59 +81,6 @@ def cut_ts_axes(ax, tsw=2/3., tsh=1/3.):
     return tsax
 
 
-def cut_ts_sc_axes(ax, tsw=2/3., tsh=1/3., scw=1/5., sch=1/3.):
-    """Cut timeseries and scatter plot insets into main axes."""
-    fig = ax.figure
-    pos = ax.get_position()
-    figw, figh = fig.get_size_inches()*25.4
-    ax.outline_patch.set_ec('none')
-    x = [0.0, 1-tsw, 1-tsw, 1.0, 1.0, scw, scw, 0.0, 0.0]
-    y = [0.0, 0.0, tsh, tsh, 1.0, 1.0, 1-sch, 1-sch, 0.0]
-    commkw = dict(clip_on=False, transform=ax.transAxes, zorder=3)
-    polykw = dict(ec='k', fc='none', **commkw)
-    rectkw = dict(ec='w', fc='w', **commkw)
-    poly = plt.Polygon(zip(x, y), **polykw)
-    screct = plt.Rectangle((0.0, 1-sch), scw, sch, **rectkw)
-    tsrect = plt.Rectangle((1-tsw, 0.0), tsw, tsh, **rectkw)
-    scax = fig.add_axes([pos.x0+7.5/figw, pos.y1-sch*(pos.y1-pos.y0)+9.0/figh,
-                         scw*(pos.x1-pos.x0)-9.0/figw,
-                         sch*(pos.y1-pos.y0)-9.0/figh])
-    tsax = fig.add_axes([pos.x1-tsw*(pos.x1-pos.x0)+12.0/figw, 9.0/figh,
-                         tsw*(pos.x1-pos.x0)-24.0/figw,
-                         tsh*(pos.y1-pos.y0)-15.0/figh])
-    scax.add_patch(screct)
-    tsax.add_patch(poly)
-    tsax.add_patch(tsrect)
-    return tsax, scax
-
-
-def cut_sc_hs_pf_axes(ax, tsw=2/3., tsh=1/3.):
-    """Cut scatter plots and profiles axes."""
-    fig = ax.figure
-    pos = ax.get_position()
-    figw, figh = fig.get_size_inches()*25.4
-    ax.outline_patch.set_ec('none')
-    x = [0.0, 1-tsw, 1-tsw, 1.0, 1.0, 0.0, 0.0]
-    y = [0.0, 0.0, tsh, tsh, 1.0, 1.0, 0.0]
-    commkw = dict(clip_on=False, transform=ax.transAxes)
-    polykw = dict(ec='k', fc='none', zorder=3, **commkw)
-    rectkw = dict(ec='w', fc='w', zorder=3, **commkw)
-    poly = plt.Polygon(zip(x, y), **polykw)
-    tsrect = plt.Rectangle((1-tsw, 0.0), tsw, tsh, **rectkw)
-    scah = pos.y0*figh-10.5
-    hsaw = (pos.x1-tsw*(pos.x1-pos.x0))*figw-scah-21.0
-    scax = fig.add_axes([12.0/figw, 9.0/figh, scah/figw, scah/figh])
-    hsax = fig.add_axes([(13.5+scah)/figw, 9.0/figh, 9.0/figw, scah/figh])
-    spec = dict(left=(pos.x1-tsw*(pos.x1-pos.x0))*figw+1.5, right=12.0,
-                bottom=9.0, top=(pos.y0+tsh*(pos.y1-pos.y0))*figh+1.5,
-                hspace=1.5, wspace=1.5)
-    grid = fig.subplots_mm(nrows=4, ncols=1, sharex=True, sharey=False,
-                           gridspec_kw=spec)
-    ax.add_patch(tsrect)
-    ax.add_patch(poly)
-    return scax, hsax, grid
-
-
 def prepare_map_axes(ax, extent='alps'):
     """Prepare map axes before plotting."""
     ax.set_rasterization_zorder(2.5)
@@ -198,18 +145,6 @@ def subplots_cax(extent='alps'):
     return fig, ax, cax
 
 
-def subplots_cax_anim_1609(extent='alps', labels=False, dt=True, mis=True):
-    """Init figure with unique subplot for 16:9 animation."""
-    figw, figh = 192.0, 108.0
-    fig, ax = ut.mm.subplots_mm(figsize=(figw, figh), projection=utm,
-                                gridspec_kw=dict(left=0.0, right=0.0,
-                                                 bottom=0.0, top=0.0))
-    cax = fig.add_axes([5.0/figw, 1-50.0/figh, 5.0/figw, 40.0/figh])
-    ax.outline_patch.set_ec('none')
-    prepare_map_axes(ax, extent=extent)
-    return fig, ax, cax
-
-
 def subplots_cax_ts(extent='alps', labels=True, dt=True, mis=True):
     """Init figure with subplot, colorbar inset and timeseries cut."""
     figw, figh = 177.0, 119.0
@@ -224,43 +159,6 @@ def subplots_cax_ts(extent='alps', labels=True, dt=True, mis=True):
         add_subfig_label('(a)', ax=ax)
         add_subfig_label('(b)', ax=tsax)
     return fig, ax, cax, tsax
-
-
-def subplots_cax_ts_sc(extent='alps', labels=True, dt=True, mis=True):
-    """Init with subplot, colorbar, timeseries and scatter plot."""
-    figw, figh = 177.0, 119.0
-    fig, ax = ut.mm.subplots_mm(figsize=(figw, figh), projection=utm,
-                                gridspec_kw=dict(left=1.5, right=1.5,
-                                                 bottom=1.5, top=1.5))
-    cax = fig.add_axes([0.5-20.0/figw, 1-6.0/figh, 40.0/figw, 3.0/figh])
-    tsax, scax = cut_ts_sc_axes(ax) #, scw=35.0/174.0, sch=37.5/116.0)
-    prepare_map_axes(ax, extent=extent)
-    prepare_ts_axes(tsax, dt=dt, mis=mis)
-    if labels is True:
-        add_subfig_label('(a)', ax=ax, x=0.2)
-        add_subfig_label('(b)', ax=scax)
-        add_subfig_label('(c)', ax=tsax)
-    return fig, ax, cax, tsax, scax
-
-
-def subplots_cax_sc_hs_pf(extent='alps', labels=True, dt=True, mis=True):
-    """Init with subplot, colorbar, scatter plot, histogram and profiles."""
-    figw, figh = 177.0, 119.0+39.0
-    fig, ax = ut.mm.subplots_mm(figsize=(figw, figh), projection=utm,
-                                gridspec_kw=dict(left=1.5, right=1.5,
-                                                 bottom=39.0+1.5, top=1.5))
-    cax = fig.add_axes([4.5/figw, 1-50.5/figh, 3.0/figw, 40.0/figh])
-    scax, hsax, grid = cut_sc_hs_pf_axes(ax)
-    prepare_map_axes(ax, extent=extent)
-    if labels is True:
-        add_subfig_label('(a)', ax=ax)
-        add_subfig_label('(b)', ax=scax)
-        add_subfig_label('(c)', ax=hsax)
-        # FIXME region labels
-        for i, tsax in enumerate(grid):
-            plot_mis(tsax, y=(0.15 if i == 4-1 else None))
-            add_subfig_label('(%s)' % 'defg'[i], ax=tsax)
-    return fig, ax, cax, scax, hsax, grid
 
 
 def subplots_cax_ts_anim(extent='alps', labels=False, dt=True, mis=True):
@@ -345,14 +243,6 @@ def subplots_6(extent='alps'):
         prepare_map_axes(ax, extent=extent)
         add_subfig_label('(%s)' % l, ax=ax)
     return fig, grid
-
-
-def subplots_6_cax(extent='alps'):
-    """Init figure with six subplot and colorbar inset."""
-    fig, grid = subplots_6()
-    figw, figh = fig.get_size_inches()*25.4
-    cax = fig.add_axes([0.5-10.0/figw, 10.5/figh, 20.0/figw, 2.5/figh])
-    return fig, grid, cax
 
 
 def subplots_inputs(extent='alps', mode='vertical'):
