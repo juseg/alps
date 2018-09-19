@@ -94,12 +94,15 @@ def plot_tbar(t):
         ax.set_facecolor('none')
 
         # language-dependent labels
-        age_label = dict(en=r'{:,d} years ago',
-                         fr=r'il y a {:,d} ans')[lang]
-        tem_label = dict(en=u'temperature\nchange (°C)',
+        age_label = dict(de=u'{:,d} Jahre früher',
+                         en=u'{:,d} years ago',
+                         fr=u'il y a {:,d} ans')[lang]
+        tem_label = dict(de=u'Temperatur-\nänderung (°C)',
+                         en=u'temperature\nchange (°C)',
                          fr=u'écart (°C) de\ntempérature')[lang]
-        vol_label = dict(en='ice volume\n(cm sea level)',
-                         fr='vol. de glace\n(cm niv. marin)')[lang]
+        vol_label = dict(de=u'Eisvolumen\n(cm Meereshöhe)',
+                         en=u'ice volume\n(cm sea level)',
+                         fr=u'volume de glace\n(cm niveau mers)')[lang]
 
         # plot temperature offset time series
         with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.dt.nc') as ds:
@@ -125,7 +128,7 @@ def plot_tbar(t):
         # set axes properties
         ax.set_ylim(-17.5, 2.5)
         ax.set_yticks([-15.0, 0.0])
-        ax.set_ylabel(tem_label, color='0.25', labelpad=-1)
+        ax.set_ylabel(tem_label, color='0.25', labelpad=-1, y=0.55)
         ax.tick_params(axis='x', colors='0.25')
         ax.tick_params(axis='y', colors='0.25')
 
@@ -145,7 +148,7 @@ def plot_tbar(t):
         ax.set_xlim(-t0, -t1)
         ax.set_ylim(-5.0, 35.0)
         ax.set_yticks([0.0, 30.0])
-        ax.set_ylabel(vol_label, color='C1')
+        ax.set_ylabel(vol_label, color='C1', y=0.55)
         ax.tick_params(axis='y', colors='C1')
 
         # save
