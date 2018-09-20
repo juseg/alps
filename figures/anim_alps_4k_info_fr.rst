@@ -13,13 +13,14 @@ D'après
    Discuss.*, https://doi.org/10.5194/tc-2018-8, in review, 2018.
 
 Résumé
-.. FIXME About 25000 years ago, Alpine Glaciers filled most of the valleys and even
-   extended onto the plains. Using a computer model that contains knowledge on
-   glacier physics based on modern observations of Greenland and Antarctica and
-   laboratory experiments on ice, help from traces left by glaciers on the
-   landscape, and one of the fastest computers in the world, this animation is
-   an attempt to reconstruct of the evolution of Alpine Glaciers in time from
-   120000 years ago to today.
+   Il y a environ 25000 ans, les glaciers alpins remplissaient la plupart des
+   vallées et s'étendaient même dans les plaines. En utilisant un modèle
+   numérique qui incorpore la physique des glaciers, elle-même dérivée des
+   observations du Groënland et de l'Antarctique actuels et d'expériences de
+   laboratoire sur la glace, ainsi que l'aide des indices laissés par les
+   glaces dans le paysage, et l'un des ordinateurs les plus puissants au monde,
+   cette animation est une tentative de reconstruction de l'évolution des
+   glaciers alpins dans le temps, depuis 120000 ans jusqu'à nos jours.
 
 Annotations
    il a y 120000 ans, écart (°C) de température, volume de glace (cm niveau mers)
