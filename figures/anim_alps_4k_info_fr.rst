@@ -7,7 +7,7 @@ Titre
 Auteur
    J. Seguinot, 2018
 
-Source
+D'après
    J. Seguinot, G. Jouvet, M. Huss, M. Funk, S. Ivy-Ochs, and F.  Preusser.
    Modelling last glacial cycle ice dynamics in the Alps, *The Cryosphere
    Discuss.*, https://doi.org/10.5194/tc-2018-8, in review, 2018.
