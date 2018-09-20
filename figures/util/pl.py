@@ -182,8 +182,8 @@ def draw_boot_topo(ax=None, filename='alpcyc.1km.in.nc'):
     return im
 
 
-def draw_major_cities(ax=None, maxrank=5, textoffset=2, lang='en',
-                      request=None):
+def draw_major_cities(ax=None, exclude=None, include=None, maxrank=5,
+                      textoffset=2, lang='en'):
     """Add major city locations with names."""
     ax = ax or plt.gca()
 
@@ -208,7 +208,7 @@ def draw_major_cities(ax=None, maxrank=5, textoffset=2, lang='en',
         rank = rec.attributes['SCALERANK']
 
         # check rank and name
-        if rank > maxrank and name not in request:
+        if rank > maxrank and name not in include or name in exclude:
             continue
 
         # check location

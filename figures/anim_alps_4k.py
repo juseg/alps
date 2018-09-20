@@ -69,13 +69,14 @@ def plot_city(t):
         # initialize figure
         print 'plotting {:s} ...'.format(fname)
         fig, ax = ut.fi.subplots_anim_dynamic(crop, t=t, t0=t0, t1=t1,
-                                              figsize=(384.0, 216.0))
+                                              figsize=(192.0, 108.0))
 
         # draw map elements
-        ut.pl.draw_major_cities(ax, maxrank=8, lang=lang, request='Sion')
+        ut.pl.draw_major_cities(ax, exclude='Monaco', include='Sion',
+                                maxrank=6, lang=lang)
 
         # save
-        fig.savefig(fname, facecolor='none')
+        fig.savefig(fname, dpi=508, facecolor='none')
         plt.close(fig)
 
 
