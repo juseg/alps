@@ -13,13 +13,13 @@ Nach
    Discuss.*, https://doi.org/10.5194/tc-2018-8, in review, 2018.
 
 Zusammenfassung
-.. FIXME About 25000 years ago, Alpine Glaciers filled most of the valleys and even
-   extended onto the plains. Using a computer model that contains knowledge on
-   glacier physics based on modern observations of Greenland and Antarctica and
-   laboratory experiments on ice, help from traces left by glaciers on the
-   landscape, and one of the fastest computers in the world, this animation is
-   an attempt to reconstruct of the evolution of Alpine Glaciers in time from
-   120000 years ago to today.
+   Vor etwa 25000 Jahren füllten die Alpengletscher die meisten Täler und
+   erstreckten sich sogar bis in die Ebenen. Mit Hilfe eines Computermodells,
+   das Gletscherphysik basierend auf modernen Beobachtungen von Grönland und
+   der Antarktis enthält, und Laborexperimenten auf Eis, sowie anhand von
+   Gletscherspuren in der Landschaft und einem der schnellsten Computer der
+   Welt, diese Animation ist eine Rekonstruktionsversuch zur Entwicklung
+   der Alpengletscher in der Zeit von 120000 Jahren bis heute.
 
 Anmerkungen
    12000 Jahre früher, Temperaturänderung (°C), Eisvolumen (cm Meereshöhe)
