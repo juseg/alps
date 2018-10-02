@@ -24,7 +24,7 @@ with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
 # add cartopy vectors
 ut.pl.draw_boot_topo(ax)
 ut.ne.draw_natural_earth(ax)
-ut.pl.draw_lgm_outline(ax)
+ut.na.draw_lgm_outline(ax)
 
 
 # Time series

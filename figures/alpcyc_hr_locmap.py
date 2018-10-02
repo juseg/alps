@@ -9,7 +9,7 @@ fig, ax, cax = ut.fi.subplots_cax()
 # add map elements
 im = ut.pl.draw_boot_topo(ax)
 ut.ne.draw_natural_earth(ax, graticules=False)
-ut.pl.draw_lgm_outline(ax)
+ut.na.draw_lgm_outline(ax)
 ut.pl.draw_cpu_grid(ax)
 
 # add colorbar

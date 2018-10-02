@@ -33,7 +33,7 @@ with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
 
 # add vector elements
 ut.ne.draw_natural_earth(ax)
-ut.pl.draw_lgm_outline(ax)
+ut.na.draw_lgm_outline(ax)
 ut.pl.add_corner_tag('%.2f ka' % (age/1e3), ax)
 
 

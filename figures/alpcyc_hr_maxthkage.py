@@ -33,7 +33,7 @@ with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
 # add map elements
 ut.pl.draw_boot_topo(ax)
 ut.ne.draw_natural_earth(ax)
-ut.pl.draw_glacier_names(ax)
+ut.na.draw_glacier_names(ax)
 
 
 # Time series

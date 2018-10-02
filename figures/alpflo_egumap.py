@@ -90,9 +90,9 @@ cb.set_label(r'surface velocity ($m\,a^{-1}$)')
 
 # add vector polygons
 ut.ne.draw_natural_earth_color(ax)
-ut.pl.draw_lgm_outline(ax)
-ut.pl.draw_alpflo_ice_divides(ax)
-ut.pl.draw_alpflo_water_divides(ax)
+ut.na.draw_lgm_outline(ax)
+ut.na.draw_alpflo_ice_divides(ax)
+ut.na.draw_alpflo_water_divides(ax)
 
 # add profiles
 regions = ['thurn', 'engadin', 'simplon', 'mtcenis']
@@ -123,9 +123,9 @@ for i, reg in enumerate(regions):
 
 # add vector points and labels
 ut.ne.draw_major_cities(ax, maxrank=12)
-ut.pl.draw_alpflo_glacier_names(ax)
-ut.pl.draw_alpflo_cross_divides(ax)
-ut.pl.draw_alpflo_transfluences(ax)
+ut.na.draw_alpflo_glacier_names(ax)
+ut.na.draw_alpflo_cross_divides(ax)
+ut.na.draw_alpflo_transfluences(ax)
 #ut.pl.draw_alpflo_ice_domes(ax)
 ut.pl.add_corner_tag('%.0f years ago' % -t, ax)
 

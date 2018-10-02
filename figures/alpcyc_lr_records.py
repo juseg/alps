@@ -6,6 +6,7 @@ import numpy as np
 import cartopy.crs as ccrs
 
 # initialize figure
+ll = ccrs.PlateCarree()
 proj = ccrs.Stereographic(central_latitude=-10.0, central_longitude=10.0)
 fig, ax = ut.mm.subplots_mm(figsize=(45.0, 90.0), projection=proj,
                             gridspec_kw=dict(left=0.0, right=0.0,
@@ -27,8 +28,8 @@ colors = ['C1', 'C5', 'C3']
 lats = np.array([72.58, -75.1, 37.561])
 lons = np.array([-37.64, 123.35, -10.142])
 locs = ['uc', 'uc', 'lc']
-x, y, _ = ax.projection.transform_points(ut.pl.ll, lons, lats).T
-ax.scatter(lons, lats, c=colors, linewidths=0.25, transform=ut.pl.ll)
+x, y, _ = ax.projection.transform_points(ll, lons, lats).T
+ax.scatter(lons, lats, c=colors, linewidths=0.25, transform=ll)
 
 # add record labels
 offset = 6

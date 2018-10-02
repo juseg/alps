@@ -44,7 +44,7 @@ for i, reg in enumerate(regions):
     # add map elements
     ut.pl.draw_boot_topo(ax)
     ut.ne.draw_natural_earth(ax)
-    ut.pl.draw_lgm_outline(ax)
+    ut.na.draw_lgm_outline(ax)
 
     # add profile line from shapefile
     xp, yp = ut.io.open_shp_coords('profile_'+reg+'.shp')

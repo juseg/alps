@@ -7,7 +7,7 @@ import util.cm  # colour maps
 import util.fi  # figure creation
 import util.io  # input and output
 import util.mm  # mm-margin subplots
-# util.na  # project native data
+import util.na  # project native data
 import util.ne  # natural earth data
 import util.pl  # other plotting tools
 import util.xr  # xarray computations

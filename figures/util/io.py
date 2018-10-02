@@ -8,10 +8,16 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 import scipy.interpolate as sinterp
+import cartopy.crs as ccrs
 import cartopy.io.shapereader as shpreader
 from osgeo import gdal
 import util as ut
 
+# geographic projections
+utm = ccrs.UTM(32)
+swiss = ccrs.TransverseMercator(
+    central_longitude=7.439583333333333, central_latitude=46.95240555555556,
+    false_easting=600e3, false_northing=200e3)
 
 def open_dataset(filename):
     """Open single-file dataset with age coordinate."""
@@ -186,8 +192,7 @@ def open_trimline_data():
                      index_col='id').to_xarray()
 
     # convert to UTM 32
-    xyz = ut.pl.utm.transform_points(ut.pl.swiss, ds.x.data,
-                                     ds.y.data, ds.z.data).T
+    xyz = utm.transform_points(swiss, ds.x.data, ds.y.data, ds.z.data).T
     ds['x'].data, ds['y'].data, ds['z'].data = xyz
 
     # return dataset

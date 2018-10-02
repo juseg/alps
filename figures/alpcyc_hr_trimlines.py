@@ -4,6 +4,7 @@
 import util as ut
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
+import cartopy.crs as ccrs
 
 # initialize figure
 fig, ax, cax, scax, hsax = ut.fi.subplots_trimlines()
@@ -109,7 +110,7 @@ ut.pl.draw_boot_topo(ax)
 ut.ne.draw_natural_earth(ax)
 
 # add text labels
-kw = dict(ha='center', va='center', transform=ut.pl.ll)
+kw = dict(ha='center', va='center', transform=ccrs.PlateCarree())
 ax.text(6.865, 45.834, 'Mont\nBlanc', **kw)
 ax.text(7.659, 45.976, 'Matter-\nhorn', **kw)
 ax.text(7.867, 45.937, 'Monte\nRosa', **kw)
