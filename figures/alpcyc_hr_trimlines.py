@@ -106,7 +106,7 @@ ax.set_title('')
 
 # add map elements
 ut.pl.draw_boot_topo(ax)
-ut.pl.draw_natural_earth(ax)
+ut.ne.draw_natural_earth(ax)
 
 # add text labels
 kw = dict(ha='center', va='center', transform=ut.pl.ll)

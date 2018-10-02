@@ -43,7 +43,7 @@ for i, reg in enumerate(regions):
 
     # add map elements
     ut.pl.draw_boot_topo(ax)
-    ut.pl.draw_natural_earth(ax)
+    ut.ne.draw_natural_earth(ax)
     ut.pl.draw_lgm_outline(ax)
 
     # add profile line from shapefile

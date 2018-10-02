@@ -24,7 +24,7 @@ with ut.io.open_dataset('../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
 
 # add map elements
 ut.pl.draw_boot_topo(ax)
-ut.pl.draw_natural_earth(ax)
+ut.ne.draw_natural_earth(ax)
 
 
 # Time series

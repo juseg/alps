@@ -52,7 +52,7 @@ def plot_main(t):
             ut.xp.streamplot(ds, ax=ax, density=(24, 16))
 
         # draw map elements
-        ut.pl.draw_natural_earth_color(ax, graticules=False)
+        ut.ne.draw_natural_earth_color(ax, graticules=False)
 
         # save
         fig.savefig(fname)
@@ -72,7 +72,7 @@ def plot_city(t):
                                               figsize=(192.0, 108.0))
 
         # draw map elements
-        ut.pl.draw_major_cities(ax, exclude='Monaco', include='Sion',
+        ut.ne.draw_major_cities(ax, exclude='Monaco', include='Sion',
                                 maxrank=6, lang=lang)
 
         # save

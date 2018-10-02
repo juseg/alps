@@ -37,7 +37,7 @@ for i, rec in enumerate(ut.alpcyc_records):
             ut.pl.add_corner_tag('MIS ' + str(stage), ax=ax, va='bottom')
             ut.pl.add_corner_tag('MIS {}'.format(stage), ax=ax, va='bottom')
             ut.pl.draw_boot_topo(ax=ax, filename='alpcyc.2km.in.nc')
-            ut.pl.draw_natural_earth(ax)
+            ut.ne.draw_natural_earth(ax)
 
 # save
 ut.pl.savefig()

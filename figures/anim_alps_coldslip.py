@@ -45,7 +45,7 @@ def draw(t):
     nc.close()
 
     # add vectors
-    ut.pl.draw_natural_earth(ax)
+    ut.ne.draw_natural_earth(ax)
     ut.pl.add_corner_tag('%.1f ka' % (0.0-t/1e3), ax)
     ut.pl.add_signature('J. Seguinot et al. (in prep.)')
 

@@ -35,7 +35,7 @@ with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     ext.plot.contour(ax=ax, levels=[0.5], colors='k', linewidths=0.25)
 
 # add vector elements
-ut.pl.draw_natural_earth(ax)
+ut.ne.draw_natural_earth(ax)
 ut.pl.draw_lgm_outline(ax)
 ut.pl.draw_glacier_names(ax)
 ut.pl.draw_major_transfluences(ax)

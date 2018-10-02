@@ -30,7 +30,7 @@ with ut.io.open_dataset('../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
 
 # add map elements
 ut.pl.draw_boot_topo(ax)
-ut.pl.draw_natural_earth(ax)
+ut.ne.draw_natural_earth(ax)
 
 # add colorbar
 cb = ut.pl.add_colorbar(ss.lines, cax, extend='both')

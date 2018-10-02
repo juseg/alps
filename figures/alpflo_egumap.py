@@ -89,7 +89,7 @@ cb = ut.pl.add_colorbar(ss.lines, cax2, extend='both')
 cb.set_label(r'surface velocity ($m\,a^{-1}$)')
 
 # add vector polygons
-ut.pl.draw_natural_earth_color(ax)
+ut.ne.draw_natural_earth_color(ax)
 ut.pl.draw_lgm_outline(ax)
 ut.pl.draw_alpflo_ice_divides(ax)
 ut.pl.draw_alpflo_water_divides(ax)
@@ -122,7 +122,7 @@ for i, reg in enumerate(regions):
     ax.plot(xp[[0, -1]], yp[[0, -1]], c=c, ls='', marker='o')
 
 # add vector points and labels
-ut.pl.draw_major_cities(ax, maxrank=12)
+ut.ne.draw_major_cities(ax, maxrank=12)
 ut.pl.draw_alpflo_glacier_names(ax)
 ut.pl.draw_alpflo_cross_divides(ax)
 ut.pl.draw_alpflo_transfluences(ax)
