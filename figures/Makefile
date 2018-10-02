@@ -9,7 +9,7 @@
 EXT = pdf
 
 # python executable
-PY = python2
+PY = python
 
 # all python figures
 # (tmp off: alpflo_, egumap profiles scalability timeseries timestamp

@@ -71,7 +71,7 @@ def cut_ts_axes(ax, tsw=2/3., tsh=1/3.):
     commkw = dict(clip_on=False, transform=ax.transAxes, zorder=3)
     polykw = dict(ec='k', fc='none', **commkw)
     rectkw = dict(ec='w', fc='w', **commkw)
-    poly = plt.Polygon(zip(x, y), **polykw)
+    poly = plt.Polygon(list(zip(x, y)), **polykw)
     rect = plt.Rectangle((1-tsw, 0.0), tsw, tsh, **rectkw)
     tsax = fig.add_axes([pos.x1-tsw*(pos.x1-pos.x0)+12.0/figw, 9.0/figh,
                          tsw*(pos.x1-pos.x0)-24.0/figw,
@@ -216,7 +216,7 @@ def subplots_cax_ts_sgm(extent='alps', labels=False, dt=True, mis=True):
     ycut = 85.0/400.0*3/2  # ca. 1/3.
     x = [0.0, xcut, xcut, 1.0, 1.0, 0.0, 0.0]
     y = [0.0, 0.0, ycut, ycut, 1.0, 1.0, 0.0]
-    poly = plt.Polygon(zip(x, y), ec='k', fc='none', clip_on=False,
+    poly = plt.Polygon(list(zip(x, y)), ec='k', fc='none', clip_on=False,
                        transform=ax.transAxes, zorder=3)
     rect = plt.Rectangle((xcut, 0.0), 1-xcut, ycut, ec='w', fc='w',
                          clip_on=False, transform=ax.transAxes, zorder=-1)

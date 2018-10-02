@@ -162,7 +162,7 @@ def open_shp_coords(filename, ds=1.0):
     # read profile from shapefile
     filename = os.path.join('..', 'data', 'native', filename)
     shp = shpreader.Reader(filename)
-    geom = shp.geometries().next()[0]
+    geom = next(shp.geometries())[0]
     x, y = np.array(geom).T
     del shp, geom
 

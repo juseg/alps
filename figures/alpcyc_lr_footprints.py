@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 # coding: utf-8
 
 import util as ut
@@ -13,7 +13,7 @@ for i, rec in enumerate(ut.alpcyc_records):
     pp = 'pp' if 'pp' in conf else 'cp'
     dt = ut.alpcyc_offsets[i]
     c = ut.alpcyc_colours[i]
-    ax = grid[0, i/2]
+    ax = grid[0, i//2]
 
     # add scaling domain and outline on top panel only
     ut.pl.draw_model_domain(ax, extent='rhlobe')
@@ -28,7 +28,7 @@ for i, rec in enumerate(ut.alpcyc_records):
     with ut.io.open_dataset('../data/processed/'+filename) as ds:
 
         # for each stage
-        for j, ax in enumerate(grid[:, i/2]):
+        for j, ax in enumerate(grid[:, i//2]):
             stage = 2*j+2
             fpt = ds['mis{:d}print'.format(stage)]
             fpt.plot.contourf(ax=ax, add_colorbar=False, alpha=0.75,

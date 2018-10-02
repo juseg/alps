@@ -38,7 +38,7 @@ def draw_glacier_names(ax=None):
     """Add glacier lobes and ice cap names."""
     shp = cshp.Reader('../data/native/alpcyc_glacier_names.shp')
     for rec in shp.records():
-        name = rec.attributes['name'].decode('utf-8').replace(' ', '\n')
+        name = rec.attributes['name'].replace(' ', '\n')
         sort = rec.attributes['type']
         lon = rec.geometry.x
         lat = rec.geometry.y
@@ -51,7 +51,7 @@ def draw_ice_domes(ax=None, textoffset=4):
     """Add ice domes."""
     shp = cshp.Reader('../data/native/alpcyc_ice_domes.shp')
     for rec in shp.records():
-        name = rec.attributes['name'].decode('utf-8')
+        name = rec.attributes['name']
         lon = rec.geometry.x
         lat = rec.geometry.y
         x, y = ax.projection.transform_point(lon, lat, src_crs=ll)
@@ -76,7 +76,7 @@ def draw_major_transfluences(ax=None, textoffset=4):
                  u'Pyhrn Pass': 'lc'}
     shp = cshp.Reader('../data/native/alpcyc_transfluences.shp')
     for rec in shp.records():
-        name = rec.attributes['name'].decode('utf-8')
+        name = rec.attributes['name']
         if name in locations:
             lon = rec.geometry.x
             lat = rec.geometry.y
@@ -132,7 +132,7 @@ def draw_alpflo_cross_divides(ax=None, textoffset=4, strip=True):
         lon = rec.geometry.x
         lat = rec.geometry.y
         xi, yi = ax.projection.transform_point(lon, lat, src_crs=ll)
-        name = rec.attributes['name'].decode('utf-8')
+        name = rec.attributes['name']
         azim = rec.attributes['azimuth']
         xloc = 'l'
         yloc = 'u'
@@ -156,7 +156,7 @@ def draw_alpflo_transfluences(ax=None, textoffset=4, strip=True):
         lon = rec.geometry.x
         lat = rec.geometry.y
         xi, yi = ax.projection.transform_point(lon, lat, src_crs=ll)
-        name = rec.attributes['name'].decode('utf-8')
+        name = rec.attributes['name']
         alti = rec.attributes['altitude']
         azim = rec.attributes['azimuth']
         label = '%s, %s m' % (name, alti)
@@ -178,7 +178,7 @@ def draw_alpflo_glacier_names(ax=None):
     """Add glacier lobes and ice cap names."""
     shp = cshp.Reader('../data/native/alpflo_glacier_names.shp')
     for rec in shp.records():
-        name = rec.attributes['name'].decode('utf-8').replace(' ', '\n')
+        name = rec.attributes['name'].replace(' ', '\n')
         sort = rec.attributes['type']
         lon = rec.geometry.x
         lat = rec.geometry.y
