@@ -3,6 +3,8 @@
 
 """Native data plotting utils."""
 
+import numpy as np
+import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartopy.io.shapereader as cshp
 
@@ -58,7 +60,6 @@ def draw_ice_domes(ax=None, textoffset=4):
         ax.plot(x, y, 'k^', ms=6, mew=0)
         ax.annotate(name, xy=(x, y), xytext=(0, -textoffset), style='italic',
                     textcoords='offset points', ha='center', va='top')
-
 
 
 def draw_major_transfluences(ax=None, textoffset=4):
@@ -140,7 +141,7 @@ def draw_alpflo_cross_divides(ax=None, textoffset=4, strip=True):
         dy = {'c': 0, 'l': -1, 'u': 1}[yloc]*textoffset
         ha = {'c': 'center', 'l': 'right', 'r': 'left'}[xloc]
         va = {'c': 'center', 'l': 'top', 'u': 'bottom'}[yloc]
-        ax.text(xi, yi, '$\Leftrightarrow$', fontsize=8, color=c,
+        ax.text(xi, yi, r'$\Leftrightarrow$', fontsize=8, color=c,
                 ha='center', va='center', rotation=90-azim)
         ax.annotate(name, xy=(xi, yi), xytext=(dx, dy), fontsize=4,
                     textcoords='offset points', ha=ha, va=va, color=c,
@@ -166,7 +167,7 @@ def draw_alpflo_transfluences(ax=None, textoffset=4, strip=True):
         dy = {'c': 0, 'l': -1, 'u': 1}[yloc]*textoffset
         ha = {'c': 'center', 'l': 'right', 'r': 'left'}[xloc]
         va = {'c': 'center', 'l': 'top', 'u': 'bottom'}[yloc]
-        ax.text(xi, yi, '$\Rightarrow$', fontsize=8, color=c,
+        ax.text(xi, yi, r'$\Rightarrow$', fontsize=8, color=c,
                 ha='center', va='center', rotation=90-azim)
         ax.annotate(label, xy=(xi, yi), xytext=(dx, dy), fontsize=4,
                     textcoords='offset points', ha=ha, va=va, color=c,

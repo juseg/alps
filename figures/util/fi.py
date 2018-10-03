@@ -15,25 +15,25 @@ import util as ut
 utm = ccrs.UTM(32)
 
 # geographic regions
-regions = {'egu': (112.5e3, 1087.5e3, 4855e3, 5355e3), # egu poster 975x500
-           '1609': (120e3, 1080e3, 4835e3, 5375e3),    # alps 16:9 960x540
-           'alps': (150e3, 1050e3, 4820e3, 5420e3),    # model domain 900x600
-           'bern': (390e3, 465e3, 5125e3, 5175e3),     # Bern 75x50
-           'crop': (155e3, 1045e3, 4825e3, 5415e3),    # 5 km crop 890x590
-           'guil': (230e3, 470e3, 5050e3, 5240e3),     # Guillaume 240x190
-           'west': (250e3, 700e3, 4970e3, 5270e3),     # western 450x300
-           'inn':   (500e3, 815e3, 5125e3, 5350e3),    # Inn 315x225
-           'isere': (230e3, 370e3, 5000e3, 5100e3),    # Isere 140x100
-           'ivrea': (300e3, 440e3, 5000e3, 5100e3),    # Ivrea 140x100
-           'rhine': (410e3, 620e3, 5150e3, 5300e3),    # Rhine 210x150
-           'rhone': (300e3, 475e3, 5100e3, 5225e3),    # Rhone 175x125
-           'rhlobe': (450e3, 600e3, 5225e3, 5325e3),   # Rhine lobe 150x100
-           'taglia': (760e3, 865e3, 5105e3, 5180e3),   # Tagliamento 105x75
-           'valais': (310e3, 460e3, 5065e3, 5165e3),   # Trimlines 150x100
-           'aletsch': (414e3, 444e3, 5139e3, 5159e3)}  # Aletsch 30x20
+regions = {'egu': (112.5e3, 1087.5e3, 4855e3, 5355e3),  # egu poster 975x500
+           '1609': (120e3, 1080e3, 4835e3, 5375e3),     # alps 16:9 960x540
+           'alps': (150e3, 1050e3, 4820e3, 5420e3),     # model domain 900x600
+           'bern': (390e3, 465e3, 5125e3, 5175e3),      # Bern 75x50
+           'crop': (155e3, 1045e3, 4825e3, 5415e3),     # 5 km crop 890x590
+           'guil': (230e3, 470e3, 5050e3, 5240e3),      # Guillaume 240x190
+           'west': (250e3, 700e3, 4970e3, 5270e3),      # western 450x300
+           'inn':   (500e3, 815e3, 5125e3, 5350e3),     # Inn 315x225
+           'isere': (230e3, 370e3, 5000e3, 5100e3),     # Isere 140x100
+           'ivrea': (300e3, 440e3, 5000e3, 5100e3),     # Ivrea 140x100
+           'rhine': (410e3, 620e3, 5150e3, 5300e3),     # Rhine 210x150
+           'rhone': (300e3, 475e3, 5100e3, 5225e3),     # Rhone 175x125
+           'rhlobe': (450e3, 600e3, 5225e3, 5325e3),    # Rhine lobe 150x100
+           'taglia': (760e3, 865e3, 5105e3, 5180e3),    # Tagliamento 105x75
+           'valais': (310e3, 460e3, 5065e3, 5165e3),    # Trimlines 150x100
+           'aletsch': (414e3, 444e3, 5139e3, 5159e3)}   # Aletsch 30x20
 regions.update(
     anim_al_0=(120e3, 1080e3, 4835e3, 5375e3),  # Alps   16:9  960x540 250m@4k
-    anim_al_1=(120e3, 1080e3, 4835e3, 5375e3),  #  "
+    anim_al_1=(120e3, 1080e3, 4835e3, 5375e3),  # "
     anim_lu_0=(416e3,  512e3, 5200e3, 5254e3),  # Luzern 16:9   96x54   25m@4k
     anim_lu_1=(392e3,  520e3, 5196e3, 5268e3),  # Luzern 16:9  128x72   33m@4k
     anim_ch_0=(380e3,  476e3, 5120e3, 5174e3),  # Switz. 16:9   96x54   25m@4k
@@ -193,7 +193,7 @@ def subplots_cax_ts_egu(extent='egu', labels=False, dt=True, mis=True):
     figw, figh = 975.0, 500.0
     fig, ax = ut.mm.subplots_mm(figsize=(figw, figh), projection=utm,
                                 gridspec_kw=dict(left=0.0, right=0.0,
-                                                bottom=0.0, top=0.0))
+                                                 bottom=0.0, top=0.0))
     cax1 = fig.add_axes([20.0/figw, 60.0/figh, 50.0/figw, 5.0/figh])
     cax2 = fig.add_axes([20.0/figw, 40.0/figh, 50.0/figw, 5.0/figh])
     ax.outline_patch.set_ec('none')

@@ -13,9 +13,9 @@ import matplotlib.figure as mfig
 class CustomFigure(mfig.Figure):
     """Custom figure class allowing absolute subplot dimensioning."""
 
-    def get_size_mm():
+    def get_size_mm(self):
         """Returns the current size of the figure in mm as an numpy array."""
-        return fig.get_size_inches()*25.4
+        return self.get_size_inches()*25.4
 
     def subplots_inches(self, nrows=1, ncols=1, gridspec_kw=None, **kw):
         """Create subplots with dimensions in inches."""
@@ -94,7 +94,7 @@ def figure_mm(figsize=None, **kw):
 # ------------------------
 
 def subplots(nrows=1, ncols=1, sharex=False, sharey=False, squeeze=True,
-             subplot_kw=None, gridspec_kw=None, **fig_kw):
+             subplot_kw=None, gridspec_kw=None, projection=None, **fig_kw):
     """Same as matplotlib function but allow a projection argument."""
 
     # pass projection argument to subplot keywords

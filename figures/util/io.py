@@ -19,6 +19,7 @@ swiss = ccrs.TransverseMercator(
     central_longitude=7.439583333333333, central_latitude=46.95240555555556,
     false_easting=600e3, false_northing=200e3)
 
+
 def open_dataset(filename):
     """Open single-file dataset with age coordinate."""
     ds = xr.open_dataset(filename, decode_cf=False)

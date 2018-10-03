@@ -3,6 +3,8 @@
 
 """Natural Earth Data and Swisstopo hydrology."""
 
+import re
+import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import cartopy.io.shapereader as cshp
@@ -142,7 +144,7 @@ def draw_swisstopo_hydrology(ax=None, ec='#0978ab', fc='#c6ecff', lw=0.25):
         symb = rec.attributes['Symbol']
         geom = rec.geometry
         if symb != '':
-            lw = float(re.sub('[^0-9\.]', '', symb))
+            lw = float(re.sub(r'[^0-9\.]', '', symb))
             ax.add_geometries(geom, swissplus, lw=lw,
                               edgecolor=ec, facecolor='none', zorder=0)
 

@@ -62,7 +62,7 @@ def streamplot(dataset, ax=None, **kwargs):
     vmag = (uvel**2+vvel**2)**0.5
 
     # try add streamplot, handle lack of ice cover
-    #FIXME report this as a bug in matplotlib
+    # FIXME report this as a bug in matplotlib
     try:
         ax.streamplot(dataset.x, dataset.y, uvel, vvel, color=vmag,
                       cmap='Blues', norm=mcolors.LogNorm(1e1, 1e3),

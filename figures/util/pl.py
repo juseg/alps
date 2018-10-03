@@ -4,7 +4,6 @@
 """Plotting functions."""
 
 import os
-import re
 import sys
 import numpy as np
 import cartopy.crs as ccrs
@@ -68,7 +67,6 @@ def coords_from_extent(extent, cols, rows):
 
     # return coordinate vectors
     return x, y
-
 
 
 # Text annotations
