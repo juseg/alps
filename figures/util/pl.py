@@ -19,16 +19,6 @@ import util as ut
 # set color cycle to colorbrewer Paired palette
 plt.rc('axes', prop_cycle=plt.cycler(color=plt.get_cmap('Paired').colors))
 
-# personal colormaps
-# FIXME move to util/cm
-cols = [(0.0, (0,0,0,0)), (1.0, (0,0,0,1))]  # transparent to black
-shademap = mcolors.LinearSegmentedColormap.from_list('shades', cols)
-cols = [(0.0, (1,1,1,0)), (1.0, (1,1,1,1))]  # transparent to white
-whitemap = mcolors.LinearSegmentedColormap.from_list('whites', cols)
-cols = [(0.0, (1,1,1,1)), (0.5, (1,1,1,0)),
-        (0.5, (0,0,0,0)), (1.0, (0,0,0,1))]  # white transparent black
-shinemap = mcolors.LinearSegmentedColormap.from_list('shines', cols)
-
 
 # Mapping properties
 # ------------------

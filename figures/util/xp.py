@@ -40,7 +40,7 @@ def shaded_relief(darray, ax=None):
 
     # add relief shading
     shades = ut.xr.multishading(darray)
-    shades.plot.imshow(ax=ax, add_colorbar=False, cmap=ut.pl.shinemap,
+    shades.plot.imshow(ax=ax, add_colorbar=False, cmap=ut.cm.shinemap,
                        vmin=-1.0, vmax=1.0, zorder=-1)
 
     # add coastline if data spans the zero
