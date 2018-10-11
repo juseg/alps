@@ -43,9 +43,10 @@ Basic information [required]
 
       **Reference**:
 
-      * J. Seguinot, G. Jouvet, M. Huss, M. Funk, S. Ivy-Ochs, and F. Preusser.
-        Modelling last glacial cycle ice dynamics in the Alps, *The Cryosphere
-        Discuss.*, https://doi.org/10.5194/tc-2018-8, in review, 2018.
+      * J. Seguinot, S. Ivy-Ochs, G. Jouvet, M. Huss, M. Funk, and F. Preusser.
+        Modelling last glacial cycle ice dynamics in the Alps,
+        *The Cryosphere*, 12, 3265-3285,
+        https://doi.org/10.5194/tc-12-3265-2018, 2018.
 
       **File names**: ``alpcyc.{1km|2km}.{epic|grip|md01}.{cp|pp}.{ex.1ka|ts.10a}.nc``
 
@@ -94,7 +95,7 @@ Funding [recommended]
    -- (not working)
 
 Related/alternate identifiers [recommended]
-   https://doi.org/10.5194/tc-2018-8 is supplemented by this upload
+   https://doi.org/10.5194/tc-12-3265-2018 is supplemented by this upload
    https://doi.org/10.5281/zenodo.1423160 is referenced by this upload
 
 Contributors [optional]
