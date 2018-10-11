@@ -8,9 +8,9 @@ Verfasser
    J. Seguinot, 2018
 
 Nach
-   J. Seguinot, G. Jouvet, M. Huss, M. Funk, S. Ivy-Ochs, and F.  Preusser.
-   Modelling last glacial cycle ice dynamics in the Alps, *The Cryosphere
-   Discuss.*, https://doi.org/10.5194/tc-2018-8, in review, 2018.
+   J. Seguinot, S. Ivy-Ochs, G. Jouvet, M. Huss, M. Funk, and F. Preusser.
+   Modelling last glacial cycle ice dynamics in the Alps, *The Cryosphere*,
+   12, 3265-3285, https://doi.org/10.5194/tc-12-3265-2018, 2018.
 
 Zusammenfassung
    Vor etwa 25000 Jahren füllten die Alpengletscher die meisten Täler und
