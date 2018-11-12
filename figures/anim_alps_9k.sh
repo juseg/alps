@@ -9,7 +9,7 @@ dest="$name.tms"  # destination folder for tiles
 gdal2tiles="$(command -v gdal2tiles.py || command -v gdal2tiles2.py)"
 
 # loop on frames
-for year in {005..120..5}000
+for year in {001..120..1}000
 do
 
     # locally link current frame
