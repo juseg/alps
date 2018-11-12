@@ -2,8 +2,10 @@
 
 # parse command-line arguments
 crop="${1:-al}"  # al ch
-over="${2:-ttag}"  # ttag tbar
-lang="${3:-en}"  # de en fr
+mode="${2:-co}"  # co gs
+over="${3:-ttag}"  # ttag tbar
+lang="${4:-en}"  # de en fr
+size="${5:-4k}"  # 2k 4k
 
 # prepare bumpers
 for f in anim_alps_bp_{4k_${crop/zo/al},refs,disc,bysa}_$lang
@@ -16,6 +18,13 @@ case $over in
     'tbar') box="c=#ffffff@0.5:s=3840x400"; pos="0:H-h" ;;
     'ttag') box="c=#ffffff@0.5:s=480x120"; pos="0:0" ;;
     *) echo "invalid overlay $over, exiting." ;;
+esac
+
+# image resolution
+case $size in
+    '2k') res='1920x1080';;
+    '4k') res='3840x2160';;
+    *) echo "invalid size $size, exiting.";;
 esac
 
 # assembling parametres
@@ -43,12 +52,12 @@ filt+="[head][main][refs][disc][bysa]concat=5" \
 
 # assemble video
 ffmpeg \
-    -pattern_type glob -i "$HOME/anim/anim_alps_4k_main_${crop}/$imgs" \
+    -pattern_type glob -i "$HOME/anim/anim_alps_4k_main_${crop}_$mode/$imgs" \
     -pattern_type glob -i "$HOME/anim/anim_alps_4k_city_${crop}_$lang/$imgs" \
     -pattern_type glob -i "$HOME/anim/anim_alps_4k_${over}_$lang/$imgs" \
     -loop 1 -t 4 -i anim_alps_bp_4k_${crop/zo/al}_$lang.png \
     -loop 1 -t 3 -i anim_alps_bp_refs_$lang.png \
     -loop 1 -t 3 -i anim_alps_bp_disc_$lang.png \
     -loop 1 -t 3 -i anim_alps_bp_bysa_$lang.png \
-    -filter_complex $filt -pix_fmt yuv420p -c:v libx264 -r 25 \
-    $HOME/anim/anim_alps_4k_${crop}_${over}_${lang}.mp4
+    -filter_complex $filt -pix_fmt yuv420p -c:v libx264 -r 25 -s $res \
+    $HOME/anim/anim_alps_${size}_${crop}_${mode}_${over}_${lang}.mp4
