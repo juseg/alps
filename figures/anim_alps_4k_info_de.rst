@@ -2,7 +2,7 @@ Animation Metadaten
 -------------------
 
 Titel
-   Vorstoß und Rückzug der Alpen Gletscher während die letzte Kaltzeit
+   Vorstoss und Rückzug der Alpen-Gletscher während der letzten Eiszeit
 
 Verfasser
    J. Seguinot, 2018
