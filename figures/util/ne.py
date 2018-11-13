@@ -97,7 +97,7 @@ def draw_major_cities(ax=None, exclude=None, include=None, maxrank=5,
 
     # loop on records
     for rec in shp.records():
-        name = rec.attributes['name_'+lang].decode('utf8')
+        name = rec.attributes['name_'+lang]
         rank = rec.attributes['SCALERANK']
 
         # check rank and name

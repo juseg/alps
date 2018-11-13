@@ -25,11 +25,11 @@ def plot_main(t):
     """Plot main figure for given time."""
 
     # check if file exists
-    fname = '{}_main_{}/{:06d}.png'.format(prefix, crop, t+120000)
+    fname = '{}_main_{}_co/{:06d}.png'.format(prefix, crop, t+120000)
     if not os.path.isfile(fname):
 
         # initialize figure
-        print 'plotting {:s} ...'.format(fname)
+        print('plotting {:s} ...'.format(fname))
         fig, ax = ut.fi.subplots_anim_dynamic(crop, t=t, t0=t0, t1=t1,
                                               figsize=(384.0, 216.0))
 
@@ -67,7 +67,7 @@ def plot_city(t):
     if not os.path.isfile(fname):
 
         # initialize figure
-        print 'plotting {:s} ...'.format(fname)
+        print('plotting {:s} ...'.format(fname))
         fig, ax = ut.fi.subplots_anim_dynamic(crop, t=t, t0=t0, t1=t1,
                                               figsize=(192.0, 108.0))
 
@@ -88,7 +88,7 @@ def plot_tbar(t):
     if not os.path.isfile(fname):
 
         # initialize figure
-        print 'plotting {:s} ...'.format(fname)
+        print('plotting {:s} ...'.format(fname))
         figw, figh = 192.0, 20.0
         fig = plt.figure(figsize=(figw/25.4, figh/25.4))
         ax = fig.add_axes([12.0/figw, 3.0/figh, 1-24.0/figw, 12.0/figh])
@@ -113,7 +113,7 @@ def plot_tbar(t):
                     color='0.25', ha='left', va='center', clip_on=True)
 
         # color axes spines
-        for k, v in ax.spines.iteritems():
+        for k, v in ax.spines.items():
             v.set_color('0.25' if k == 'left' else 'none')
 
         # add moving cursor and adaptive ticks
@@ -142,7 +142,7 @@ def plot_tbar(t):
                     color='C1', ha='left', va='center', clip_on=True)
 
         # color axes spines
-        for k, v in ax.spines.iteritems():
+        for k, v in ax.spines.items():
             v.set_color('C1' if k == 'right' else 'none')
 
         # set axes properties
@@ -165,7 +165,7 @@ def plot_ttag(t):
     if not os.path.isfile(fname):
 
         # initialize figure
-        print 'plotting {:s} ...'.format(fname)
+        print('plotting {:s} ...'.format(fname))
         figw, figh = 32.0, 6.0
         fig = plt.figure(figsize=(figw/25.4, figh/25.4))
 
@@ -192,9 +192,9 @@ if __name__ == '__main__':
 
     # plot all frames in parallel
     pool = mp.Pool(processes=4)
-    pool.map(plot_main, xrange(t0+dt, t1+1, dt))
-    pool.map(plot_city, xrange(t0+dt, t1+1, dt))
-    pool.map(plot_tbar, xrange(t0+dt, t1+1, dt))
-    pool.map(plot_ttag, xrange(t0+dt, t1+1, dt))
+    pool.map(plot_main, range(t0+dt, t1+1, dt))
+    pool.map(plot_city, range(t0+dt, t1+1, dt))
+    pool.map(plot_tbar, range(t0+dt, t1+1, dt))
+    pool.map(plot_ttag, range(t0+dt, t1+1, dt))
     pool.close()
     pool.join()
