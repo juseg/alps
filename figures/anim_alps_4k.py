@@ -10,7 +10,11 @@ import util as ut
 
 # crop region and language
 crop = 'zo'  # al ch lu zo
-lang = 'en'  # de en fr
+lang = 'ja'  # de en fr ja
+
+# japanese input
+if lang == 'ja':
+    plt.rc('font', family='TakaoPGothic')
 
 # prefix for output files
 prefix = os.path.basename(os.path.splitext(sys.argv[0])[0])
@@ -97,13 +101,16 @@ def plot_tbar(t):
         # language-dependent labels
         age_label = dict(de=u'{:,d} Jahre früher',
                          en=u'{:,d} years ago',
-                         fr=u'il y a {:,d} ans')[lang]
+                         fr=u'il y a {:,d} ans',
+                         ja=u'{:,d}年前')[lang]
         tem_label = dict(de=u'Temperatur-\nänderung (°C)',
                          en=u'temperature\nchange (°C)',
-                         fr=u'écart (°C) de\ntempérature')[lang]
+                         fr=u'écart (°C) de\ntempérature',
+                         ja=u'気温差\n（度）')[lang]
         vol_label = dict(de=u'Eisvolumen\n(cm Meereshöhe)',
                          en=u'ice volume\n(cm sea level)',
-                         fr=u'volume de glace\n(cm niveau mers)')[lang]
+                         fr=u'volume de glace\n(cm niveau mers)',
+                         ja=u'氷の体積\n（海面のセンチ）')[lang]
 
         # plot temperature offset time series
         with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.dt.nc') as ds:
@@ -120,9 +127,13 @@ def plot_tbar(t):
         ax.axvline(-t, c='0.25', lw=0.5)
         ax.set_xticks([-t0, -t, -t1])
         rt = 1.0*(t-t0)/(t1-t0)  # relative cursor position
-        l0 = r'{:,d}'.format(0-t0).replace(',', r'$\,$')
-        lt = age_label.format(0-t).replace(',', r'$\,$')
-        l1 = r'{:,d}'.format(0-t1).replace(',', r'$\,$')
+        l0 = r'{:,d}'.format(0-t0)
+        lt = age_label.format(0-t)
+        l1 = r'{:,d}'.format(0-t1)
+        if lang != 'ja':
+            l0 = l0.replace(',', r'$\,$')
+            lt = lt.replace(',', r'$\,$')
+            l1 = l1.replace(',', r'$\,$')
         ax.set_xticklabels([l0*(rt>=1/12.0), lt, l1*(rt<=11/12.0)])
         ax.xaxis.tick_top()
 
@@ -172,8 +183,12 @@ def plot_ttag(t):
         # add text
         tag = dict(de=u'{:,d} Jahre früher',
                    en=u'{:,d} years ago',
-                   fr=u'il y a {:,d} ans')[lang]
-        fig.text(2.5/figw, 1-2.5/figh, tag.format(0-t).replace(',', r'$\,$'),
+                   fr=u'il y a {:,d} ans',
+                   ja=u'{:,d}年前')[lang]
+        tag = tag.format(0-t)
+        if lang != 'ja':
+            tag = tag.replace(',', r'$\,$')
+        fig.text(2.5/figw, 1-2.5/figh, tag,
                  ha='left', va='top', fontweight='bold')
 
         # save
