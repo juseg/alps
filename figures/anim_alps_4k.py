@@ -95,7 +95,7 @@ def plot_tbar(t):
         print('plotting {:s} ...'.format(fname))
         figw, figh = 192.0, 20.0
         fig = plt.figure(figsize=(figw/25.4, figh/25.4))
-        ax = fig.add_axes([12.0/figw, 3.0/figh, 1-24.0/figw, 12.0/figh])
+        ax = fig.add_axes([12.0/figw, 3.0/figh, 1-26.0/figw, 12.0/figh])
         ax.set_facecolor('none')
 
         # language-dependent labels
@@ -106,11 +106,11 @@ def plot_tbar(t):
         tem_label = dict(de=u'Temperatur-\nänderung (°C)',
                          en=u'temperature\nchange (°C)',
                          fr=u'écart (°C) de\ntempérature',
-                         ja=u'気温差\n（度）')[lang]
-        vol_label = dict(de=u'Eisvolumen\n(cm Meereshöhe)',
-                         en=u'ice volume\n(cm sea level)',
-                         fr=u'volume de glace\n(cm niveau mers)',
-                         ja=u'氷の体積\n（海面のセンチ）')[lang]
+                         ja=u'現在との気温差\n（度）')[lang]
+        vol_label = dict(de=u'Eisvolumen\n(cm Meereshöhe)',        # FIXME
+                         en=u'ice volume\n(cm sea level)',         # FIXME
+                         fr=u'volume de glace\n(cm niveau mers)',  # FIXME
+                         ja=u'氷体積の\n海水準相当量\n（センチメートル）')[lang]
 
         # plot temperature offset time series
         with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.dt.nc') as ds:
