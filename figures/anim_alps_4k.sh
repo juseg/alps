@@ -4,7 +4,7 @@
 crop="${1:-al}"  # al ch
 mode="${2:-co}"  # co gs
 over="${3:-ttag}"  # ttag tbar
-lang="${4:-en}"  # de en fr
+lang="${4:-en}"  # de en fr ja it
 size="${5:-4k}"  # 2k 4k
 
 # prepare bumpers
