@@ -10,7 +10,7 @@ import util as ut
 
 # crop region and language
 crop = 'zo'  # al ch lu zo
-lang = 'ja'  # de en fr ja
+lang = 'it'  # de en fr it ja
 
 # japanese input
 if lang == 'ja':
@@ -102,14 +102,17 @@ def plot_tbar(t):
         age_label = dict(de=u'{:,d} Jahre früher',
                          en=u'{:,d} years ago',
                          fr=u'il y a {:,d} ans',
+                         it=u'{:,d} anni fa',
                          ja=u'{:,d}年前')[lang]
         tem_label = dict(de=u'Temperatur-\nänderung (°C)',
                          en=u'temperature\nchange (°C)',
                          fr=u'écart (°C) de\ntempérature',
+                         it=u'variazione (°C)\ndi temperatura',
                          ja=u'現在との気温差\n（度）')[lang]
-        vol_label = dict(de=u'Eisvolumen\n(cm Meereshöhe)',        # FIXME
-                         en=u'ice volume\n(cm sea level)',         # FIXME
-                         fr=u'volume de glace\n(cm niveau mers)',  # FIXME
+        vol_label = dict(de=u'Eisvolumen\n(cm Meeresspiegel\näquivalent)',
+                         en=u'ice volume\n(cm sea level\nequivalent)',
+                         fr=u'volume de glace\n(cm équivalent\nniveau des mers)',
+                         it=u'vol. del ghiaccio\n(equiv. a livello\ndel mare in cm)',
                          ja=u'氷体積の\n海水準相当量\n（センチメートル）')[lang]
 
         # plot temperature offset time series
@@ -184,6 +187,7 @@ def plot_ttag(t):
         tag = dict(de=u'{:,d} Jahre früher',
                    en=u'{:,d} years ago',
                    fr=u'il y a {:,d} ans',
+                   it=u'{:,d} anni fa',
                    ja=u'{:,d}年前')[lang]
         tag = tag.format(0-t)
         if lang != 'ja':
