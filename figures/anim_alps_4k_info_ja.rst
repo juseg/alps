@@ -13,13 +13,19 @@
    12, 3265-3285, https://doi.org/10.5194/tc-12-3265-2018, 2018.
 
 抄録（abstract）
-   About 25000 years ago, Alpine Glaciers filled most of the valleys and even
-   extended onto the plains. Using a computer model that contains knowledge on
-   glacier physics based on modern observations of Greenland and Antarctica and
-   laboratory experiments on ice, help from traces left by glaciers on the
-   landscape, and one of the fastest computers in the world, this animation is
-   an attempt to reconstruct of the evolution of Alpine Glaciers in time from
-   120000 years ago to today.
+   約2万5千年前にはアルプスの氷河はほとんどの谷を埋めており、
+   さらに平野にまで広がっていました。
+   このアニメーションは、グリーンランドと南極における最新の観測結果と
+   氷の実験に基づいた知見が組み込まれた数値モデリングの結果を示しています。
+   河が大地に残した痕跡から、世界最速クラスのコンピューターを使用して、
+   12万年前から現在までのアルプスの氷河の変遷を再現します。
+
+   | About 25000 years ago, Alpine glaciers most of valleys buried,
+   | furthermore the plains on-until extended.
+   | This animation, Greenland and Antarctica regarding latest observations and
+   | ice experiments based knowledge containing model results shows.
+   | Glaciers land left traces after, world fastest class computer using,
+   | from 12e4 years ago to present Alpine glaciers change reconstruction we try.
 
 ラベル（labels）
    十二万　年前、現在との気温差（度）、氷体積の海水準相当量（センチメートル）
@@ -45,7 +51,7 @@
    * 翻訳（translation）
 
 免責（disclaimer）
-   アルプスの気候と氷河の歴史に知見には限りがあるため、
+   アルプスの気候と氷河の歴史に関する知見には限りがあるため、
    この数値モデリングの結果は過去のアルプス氷河の変動を
    完全に再現しているものではありません。
 
