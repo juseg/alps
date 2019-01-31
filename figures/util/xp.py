@@ -5,6 +5,7 @@
 import util as ut
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
+import cartowik.conventions as ccv
 
 
 def ice_extent(darray, ax=None, ec='0.25', fc='none'):
@@ -31,21 +32,26 @@ def topo_contours(darray, ax=None, ec='0.25'):
     darray.plot.contour(ax=ax, colors=[ec], levels=minors, linewidths=0.1)
 
 
-def shaded_relief(darray, ax=None):
+def shaded_relief(darray, ax=None, mode='co'):
     """Plot shaded relief map from elevation data array."""
 
     # plot basal topography
-    darray.plot.imshow(ax=ax, add_colorbar=False, cmap=ut.cm.topo,
-                       vmin=-3e3, vmax=3e3, zorder=-1)
+    if mode == 'bw':
+        kwargs = dict(cmap='Greys', vmin=0, vmax=3000)
+    elif mode == 'co':
+        kwargs = dict(cmap=ccv.ELEVATIONAL, vmin=-4500, vmax=4500)
+    darray.plot.imshow(ax=ax, add_colorbar=False, zorder=-1, **kwargs)
 
     # add relief shading
+    # FIXME: add xarray/numpy-centric functions in cartowik?
     shades = ut.xr.multishading(darray)
-    shades.plot.imshow(ax=ax, add_colorbar=False, cmap=ut.cm.shinemap,
+    shades.plot.imshow(ax=ax, add_colorbar=False, cmap=ccv.SHINES,
                        vmin=-1.0, vmax=1.0, zorder=-1)
 
     # add coastline if data spans the zero
     if darray.min() * darray.max() < 0.0:
-        darray.plot.contour(ax=ax, colors='#0978ab', levels=[0.0],
+        colors = ('0.25' if mode == 'bw' else '#0978ab')
+        darray.plot.contour(ax=ax, colors=colors, levels=[0.0],
                             linestyles=['dashed'], linewidths=0.25)
 
 
