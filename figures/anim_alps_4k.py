@@ -66,11 +66,11 @@ def plot_main(t):
                 ut.xp.streamplot(ds, ax=ax, density=(24, 16))
 
         # draw map elements
-        ut.ne.draw_natural_earth(ax=ax, mode=mode)
+        ut.ne.draw_tailored_hydrology(ax=ax, mode=mode)
 
         # draw lgm with fade-in and fade-out
-        fade = (t+25000) / 5000
-        fade = fade**4 - 2*fade**2 + 1
+        tred = (t+25000) / 5000
+        fade = tred**4 - 2*tred**2 + 1
         if mode == 'gs' and abs(tred) < 1:
             ut.na.draw_lgm_outline(ax=ax, alpha=0.75*fade)
 

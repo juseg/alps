@@ -9,6 +9,7 @@ import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import cartopy.io.shapereader as cshp
 import cartowik.naturalearth as cne
+import util as ut
 
 
 # Geographic data
@@ -24,15 +25,15 @@ swissplus = ccrs.TransverseMercator(
 # Map elements
 # ------------
 
-def draw_natural_earth(ax=None, mode='gs'):
+def draw_natural_earth(ax=None, mode='gs', **kwargs):
     """Add Natural Earth geographic data vectors."""
     ax = ax or plt.gca()
     edgecolor = '0.25' if mode == 'gs' else '#0978ab'
     facecolor = '0.85' if mode == 'gs' else '#c6ecff'
-    cne.add_rivers(ax=ax, edgecolor=edgecolor, zorder=0)
-    cne.add_lakes(ax=ax, edgecolor=edgecolor, facecolor=facecolor, zorder=0)
-    cne.add_coastline(ax=ax, edgecolor=edgecolor, zorder=0)
-    cne.add_graticules(ax=ax, interval=1)
+    cne.add_rivers(ax=ax, edgecolor=edgecolor, zorder=0, **kwargs)
+    cne.add_lakes(ax=ax, edgecolor=edgecolor, facecolor=facecolor, zorder=0, **kwargs)
+    cne.add_coastline(ax=ax, edgecolor=edgecolor, zorder=0, **kwargs)
+    cne.add_graticules(ax=ax, interval=1, **kwargs)
 
 
 def draw_major_cities(ax=None, exclude=None, include=None, maxrank=5,
@@ -76,10 +77,12 @@ def draw_major_cities(ax=None, exclude=None, include=None, maxrank=5,
                     textcoords='offset points', ha=ha, va=va, clip_on=True)
 
 
-def draw_swisstopo_hydrology(ax=None, ec='#0978ab', fc='#c6ecff', lw=0.25):
+def draw_swisstopo_hydrology(ax=None, mode='gs', **kwargs):
 
     # get axes if None provided
     ax = ax or plt.gca()
+    edgecolor = '0.25' if mode == 'gs' else '#0978ab'
+    facecolor = '0.85' if mode == 'gs' else '#c6ecff'
 
     # draw swisstopo rivers
     filename = '../data/external/25_DKM500_GEWAESSER_LIN.shp'
@@ -88,12 +91,39 @@ def draw_swisstopo_hydrology(ax=None, ec='#0978ab', fc='#c6ecff', lw=0.25):
         symb = rec.attributes['Symbol']
         geom = rec.geometry
         if symb != '':
-            lw = float(re.sub(r'[^0-9\.]', '', symb))
-            ax.add_geometries(geom, swissplus, lw=lw,
-                              edgecolor=ec, facecolor='none', zorder=0)
+            lw = 2.5*float(re.sub(r'[^0-9\.]', '', symb))
+            ax.add_geometries(geom, swissplus, edgecolor=edgecolor,
+                              facecolor='none', lw=lw, zorder=0, **kwargs)
 
     # draw swisstopo lakes
     filename = '../data/external/22_DKM500_GEWAESSER_PLY.shp'
     shp = cshp.Reader(filename)
-    ax.add_geometries(shp.geometries(), swissplus, lw=0.25,
-                      edgecolor=ec, facecolor=fc, zorder=0)
+    ax.add_geometries(shp.geometries(), swissplus, edgecolor=edgecolor,
+                      facecolor=facecolor, lw=lw, zorder=0, **kwargs)
+
+
+def draw_tailored_hydrology(ax=None, **kwargs):
+
+    # get the current window extent
+    ax = ax or plt.gca()
+    w, e, s, n = ax.get_extent()
+
+    # the reference region containing swisstopo data
+    w0, e0, s0, n0 = ut.fi.regions['anim_ch_1']
+
+    # compute intersection and fraction covered by data
+    xoverlap = max(0, min(e, e0)-max(w, w0))
+    yoverlap = max(0, min(n, n0)-max(s, s0))
+    axesarea = (e-w) * (n-s)
+    coverage = xoverlap * yoverlap / axesarea
+
+    # compute layer transparencies
+    alpha = (coverage-0.9) / 0.1       # linear increase from 0.9 to 1.0
+    alpha = max(0.0, min(1.0, alpha))  # capped between 0 and 1
+    alpha = alpha**2*(3-2*alpha)       # smooth transition between 0 and 1
+
+    # plot one or both hydrology layers
+    if coverage > 0.9:
+        draw_swisstopo_hydrology(alpha=alpha, **kwargs)
+    if coverage < 1.0:
+        draw_natural_earth(alpha=1-alpha, **kwargs)
