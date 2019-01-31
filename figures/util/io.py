@@ -5,6 +5,7 @@
 
 import os
 import numpy as np
+from scipy import ndimage
 import pandas as pd
 import xarray as xr
 import scipy.interpolate as sinterp
@@ -47,12 +48,20 @@ def open_subdataset(filename, t, shift=120000, step=500):
     return ds
 
 
-def open_visual(filename, t, x, y):
+def open_visual(filename, t, x, y, sigma=10000):
     """Load interpolated output for visualization."""
 
     # load SRTM bedrock topography
     with open_dataset('../data/external/srtm.nc') as ds:
         srtm = ds.usurf.fillna(0.0) - ds.thk.fillna(0.0)
+
+    # try to smooth integer-precision steps
+    if sigma > 0:
+        dx = (x[-1]-x[0])/(len(x)-1)
+        dy = (y[-1]-y[0])/(len(y)-1)
+        assert abs(dy-dx) < 1e12
+        filt = ndimage.gaussian_filter(srtm, sigma=sigma/dx)
+        srtm += np.clip(filt-srtm, -1.0, 1.0)
 
     # load boot topo
     with open_dataset('../data/processed/alpcyc.1km.in.nc') as ds:
