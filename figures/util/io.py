@@ -56,18 +56,18 @@ def open_visual(filename, t, x, y):
 
     # load boot topo
     with open_dataset('../data/processed/alpcyc.1km.in.nc') as ds:
-        boot = ds.topg.T
+        boot = ds.topg
 
     # load extra data
     with open_subdataset(filename, t) as ds:
-        ds = ds[['thk', 'topg', 'usurf']]
+        ds = ds[['thk', 'topg', 'usurf', 'velsurf_mag']]
 
         # compute ice mask and bedrock uplift
         ds['icy'] = 1.0 * (ds.thk >= 1.0)
         ds['uplift'] = ds.topg - boot
 
         # interpolate surfaces to axes coords
-        ds = ds[['icy', 'uplift', 'usurf']].interp(x=x, y=y)
+        ds = ds[['icy', 'uplift', 'usurf', 'velsurf_mag']].interp(x=x, y=y)
 
     # interpolate srtm topography
     ds['topg'] = srtm.interp(x=x, y=y)
@@ -76,6 +76,7 @@ def open_visual(filename, t, x, y):
     ds['topg'] = ds.topg + ds.uplift.fillna(0.0)
     ds['icy'] = (ds.icy >= 0.5) * (ds.usurf > ds.topg)
     ds['usurf'] = ds.usurf.where(ds.icy)
+    ds['velsurf_mag'] = ds.velsurf_mag.where(ds.icy)
 
     # return interpolated data
     return ds

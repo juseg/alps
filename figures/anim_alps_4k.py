@@ -11,6 +11,7 @@ import util as ut
 # crop region and language
 crop = 'zo'  # al ch lu zo
 lang = 'en'  # de en fr it ja nl
+mode = 'co'  # co gs
 
 # japanese input
 if lang == 'ja':
@@ -22,14 +23,14 @@ prefix = os.path.join(os.environ['HOME'], 'anim', prefix)
 
 # start and end of animation
 # FIXME this depends on crop region, suffix = '_%d%d' % (-t0/1e3, t1/1e3)
-t0, t1, dt = -120000, -0, 40
+t0, t1, dt = -120000, -0, 40000
 
 
 def plot_main(t):
     """Plot main figure for given time."""
 
     # check if file exists
-    fname = '{}_main_{}_co/{:06d}.png'.format(prefix, crop, t+120000)
+    fname = '{}_main_{}_{}/{:06d}.png'.format(prefix, crop, mode, t+120000)
     if not os.path.isfile(fname):
 
         # initialize figure
@@ -47,13 +48,22 @@ def plot_main(t):
         # plot interpolated data
         filename = '~/pism/' + ut.alpcyc_bestrun + 'y{:07.0f}-extra.nc'
         with ut.io.open_visual(filename, t, x, y) as ds:
-            ut.xp.shaded_relief(ds.topg-dsl, ax=ax)
-            ut.xp.ice_extent(ds.icy, ax=ax, fc='w')
-            ut.xp.topo_contours(ds.usurf, ax=ax)
+            ut.xp.shaded_relief(ds.topg-dsl, ax=ax, mode=mode)
 
-        # plot extra data
-        with ut.io.open_subdataset(filename, t) as ds:
-            ut.xp.streamplot(ds, ax=ax, density=(24, 16))
+            # in greyscale mode, show interpolated velocities
+            if mode == 'gs':
+                ds.velsurf_mag.plot.imshow(
+                    ax=ax, add_colorbar=False, alpha=0.75,
+                    cmap='Blues', norm=ut.pl.velnorm)
+
+            # add surface topo and ice extent
+            ut.xp.topo_contours(ds.usurf, ax=ax)
+            ut.xp.ice_extent(ds.icy, ax=ax, fc=('w' if mode=='co' else 'none'))
+
+        # in color mode, stream plot extra data
+        if mode == 'co':
+            with ut.io.open_subdataset(filename, t) as ds:
+                ut.xp.streamplot(ds, ax=ax, density=(24, 16))
 
         # draw map elements
         ut.ne.draw_natural_earth(ax=ax, mode=mode)
@@ -208,7 +218,7 @@ if __name__ == '__main__':
     """Plot individual frames in parallel."""
 
     # create frame directories if missing
-    for suffix in ['_main_'+crop, '_city_'+crop+'_'+lang,
+    for suffix in ['_main_'+crop+'_'+mode, '_city_'+crop+'_'+lang,
                    '_ttag_'+lang, '_tbar_'+lang]:
         if not os.path.isdir(prefix + suffix):
             os.mkdir(prefix + suffix)
