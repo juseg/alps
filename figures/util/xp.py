@@ -36,9 +36,9 @@ def shaded_relief(darray, ax=None, mode='co'):
     """Plot shaded relief map from elevation data array."""
 
     # plot basal topography
-    if mode == 'bw':
+    if mode == 'gs':
         kwargs = dict(cmap='Greys', vmin=0, vmax=3000)
-    elif mode == 'co':
+    else:
         kwargs = dict(cmap=ccv.ELEVATIONAL, vmin=-4500, vmax=4500)
     darray.plot.imshow(ax=ax, add_colorbar=False, zorder=-1, **kwargs)
 
@@ -50,7 +50,7 @@ def shaded_relief(darray, ax=None, mode='co'):
 
     # add coastline if data spans the zero
     if darray.min() * darray.max() < 0.0:
-        colors = ('0.25' if mode == 'bw' else '#0978ab')
+        colors = ('0.25' if mode == 'gs' else '#0978ab')
         darray.plot.contour(ax=ax, colors=colors, levels=[0.0],
                             linestyles=['dashed'], linewidths=0.25)
 
