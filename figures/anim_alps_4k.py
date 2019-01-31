@@ -56,7 +56,7 @@ def plot_main(t):
             ut.xp.streamplot(ds, ax=ax, density=(24, 16))
 
         # draw map elements
-        ut.ne.draw_natural_earth_color(ax, graticules=False)
+        ut.ne.draw_natural_earth(ax=ax, mode=mode)
 
         # save
         fig.savefig(fname)

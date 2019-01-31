@@ -89,7 +89,7 @@ cb = ut.pl.add_colorbar(ss.lines, cax2, extend='both')
 cb.set_label(r'surface velocity ($m\,a^{-1}$)')
 
 # add vector polygons
-ut.ne.draw_natural_earth_color(ax)
+ut.ne.draw_natural_earth(ax=ax, mode='co')
 ut.na.draw_lgm_outline(ax)
 ut.na.draw_alpflo_ice_divides(ax)
 ut.na.draw_alpflo_water_divides(ax)

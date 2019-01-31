@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import cartopy.io.shapereader as cshp
+import cartowik.naturalearth as cne
 
 
 # Geographic data
@@ -19,60 +20,19 @@ swissplus = ccrs.TransverseMercator(
     central_longitude=7.439583333333333, central_latitude=46.95240555555556,
     false_easting=2600e3, false_northing=1200e3)
 
-# cartopy features monochromatic
-ne_rivers = cfeature.NaturalEarthFeature(
-    category='physical', name='rivers_lake_centerlines', scale='10m',
-    edgecolor='0.25', facecolor='none', lw=0.5)
-ne_lakes = cfeature.NaturalEarthFeature(
-    category='physical', name='lakes', scale='10m',
-    edgecolor='0.25', facecolor='0.85', lw=0.25)
-ne_coastline = cfeature.NaturalEarthFeature(
-    category='physical', name='coastline', scale='10m',
-    edgecolor='0.25', facecolor='none', lw=0.25)
-ne_countries = cfeature.NaturalEarthFeature(
-    category='cultural', name='admin_0_boundary_lines_land', scale='10m',
-    edgecolor='0.75', facecolor='none', lw=0.50, linestyle='-.')
-ne_graticules = cfeature.NaturalEarthFeature(
-    category='physical', name='graticules_1', scale='10m',
-    edgecolor='0.25', facecolor='none', lw=0.1)
-
-# cartopy features color
-# FIXME actually it is possible to change the color at plotting time
-# FIXME add rivers_europe and lakes_europe
-ne_rivers_color = cfeature.NaturalEarthFeature(
-    category='physical', name='rivers_lake_centerlines', scale='10m',
-    edgecolor='#0978ab', facecolor='none', lw=0.5)
-ne_lakes_color = cfeature.NaturalEarthFeature(
-    category='physical', name='lakes', scale='10m',
-    edgecolor='#0978ab', facecolor='#c6ecff', lw=0.25)
-ne_coastline_color = cfeature.NaturalEarthFeature(
-    category='physical', name='coastline', scale='10m',
-    edgecolor='#0978ab', facecolor='none', lw=0.25)
-ne_countries_color = cfeature.NaturalEarthFeature(
-    category='cultural', name='admin_0_boundary_lines_land', scale='10m',
-    edgecolor='#646464', facecolor='none', lw=0.5, linestyle='-.')
-ne_graticules_color = cfeature.NaturalEarthFeature(
-    category='physical', name='graticules_1', scale='10m',
-    edgecolor='0.25', facecolor='none', lw=0.1)
-
 
 # Map elements
 # ------------
 
-def draw_natural_earth(ax=None, rivers=True, lakes=True, coastline=True,
-                       countries=False, graticules=True):
+def draw_natural_earth(ax=None, mode='gs'):
     """Add Natural Earth geographic data vectors."""
     ax = ax or plt.gca()
-    if rivers:
-        ax.add_feature(ne_rivers, zorder=0)
-    if lakes:
-        ax.add_feature(ne_lakes, zorder=0)
-    if coastline:
-        ax.add_feature(ne_coastline, zorder=0)
-    if countries:
-        ax.add_feature(ne_countries, zorder=0)
-    if graticules:
-        ax.add_feature(ne_graticules)
+    edgecolor = '0.25' if mode == 'gs' else '#0978ab'
+    facecolor = '0.85' if mode == 'gs' else '#c6ecff'
+    cne.add_rivers(ax=ax, edgecolor=edgecolor, zorder=0)
+    cne.add_lakes(ax=ax, edgecolor=edgecolor, facecolor=facecolor, zorder=0)
+    cne.add_coastline(ax=ax, edgecolor=edgecolor, zorder=0)
+    cne.add_graticules(ax=ax, interval=1)
 
 
 def draw_major_cities(ax=None, exclude=None, include=None, maxrank=5,
@@ -114,22 +74,6 @@ def draw_major_cities(ax=None, exclude=None, include=None, maxrank=5,
         ax.plot(x, y, marker='o', color='0.25', ms=2)
         ax.annotate(name, xy=(x, y), xytext=(dx, dy), color='0.25',
                     textcoords='offset points', ha=ha, va=va, clip_on=True)
-
-
-def draw_natural_earth_color(ax=None, rivers=True, lakes=True, coastline=True,
-                             countries=False, graticules=True):
-    """Add Natural Earth geographic data color vectors."""
-    ax = ax or plt.gca()
-    if rivers:
-        ax.add_feature(ne_rivers_color, zorder=0)
-    if lakes:
-        ax.add_feature(ne_lakes_color, zorder=0)
-    if coastline:
-        ax.add_feature(ne_coastline_color, zorder=0)
-    if countries:
-        ax.add_feature(ne_countries_color, zorder=0)
-    if graticules:
-        ax.add_feature(ne_graticules_color)
 
 
 def draw_swisstopo_hydrology(ax=None, ec='#0978ab', fc='#c6ecff', lw=0.25):
