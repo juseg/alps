@@ -10,7 +10,7 @@ import util as ut
 
 # crop region and language
 crop = 'zo'  # al ch lu zo
-lang = 'it'  # de en fr it ja
+lang = 'en'  # de en fr it ja nl
 
 # japanese input
 if lang == 'ja':
@@ -103,17 +103,20 @@ def plot_tbar(t):
                          en=u'{:,d} years ago',
                          fr=u'il y a {:,d} ans',
                          it=u'{:,d} anni fa',
-                         ja=u'{:,d}年前')[lang]
+                         ja=u'{:,d}年前',
+                         nl=u'{:,d} jaar geleden')[lang]
         tem_label = dict(de=u'Temperatur-\nänderung (°C)',
                          en=u'temperature\nchange (°C)',
                          fr=u'écart (°C) de\ntempérature',
                          it=u'variazione (°C)\ndi temperatura',
-                         ja=u'現在との気温差\n（度）')[lang]
+                         ja=u'現在との気温差\n（度）',
+                         nl=u'temperatuur\nverandering (°C)')[lang]
         vol_label = dict(de=u'Eisvolumen\n(cm Meeresspiegel\näquivalent)',
                          en=u'ice volume\n(cm sea level\nequivalent)',
                          fr=u'volume de glace\n(cm équivalent\nniveau des mers)',
                          it=u'vol. del ghiaccio\n(equiv. a livello\ndel mare in cm)',
-                         ja=u'氷体積の\n海水準相当量\n（センチメートル）')[lang]
+                         ja=u'氷体積の\n海水準相当量\n（センチメートル）',
+                         nl=u'ijs volume\n(cm zee spiegel\nequivalent)')[lang]
 
         # plot temperature offset time series
         with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.dt.nc') as ds:
@@ -188,7 +191,8 @@ def plot_ttag(t):
                    en=u'{:,d} years ago',
                    fr=u'il y a {:,d} ans',
                    it=u'{:,d} anni fa',
-                   ja=u'{:,d}年前')[lang]
+                   ja=u'{:,d}年前',
+                   nl=u'{:,d} jaar geleden')[lang]
         tag = tag.format(0-t)
         if lang != 'ja':
             tag = tag.replace(',', r'$\,$')
