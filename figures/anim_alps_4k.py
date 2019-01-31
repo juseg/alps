@@ -68,6 +68,12 @@ def plot_main(t):
         # draw map elements
         ut.ne.draw_natural_earth(ax=ax, mode=mode)
 
+        # draw lgm with fade-in and fade-out
+        fade = (t+25000) / 5000
+        fade = fade**4 - 2*fade**2 + 1
+        if mode == 'gs' and abs(tred) < 1:
+            ut.na.draw_lgm_outline(ax=ax, alpha=0.75*fade)
+
         # save
         fig.savefig(fname)
         plt.close(fig)
