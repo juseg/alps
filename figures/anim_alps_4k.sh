@@ -7,12 +7,6 @@ over="${3:-ttag}"  # ttag tbar
 lang="${4:-en}"  # de en fr ja it nl
 size="${5:-4k}"  # 2k 4k
 
-# prepare bumpers
-for f in anim_alps_bp_{4k_${crop/zo/al},refs,disc,bysa}_$lang
-do
-    inkscape --export-dpi=508 --export-png=$f.png $f.svg
-done
-
 # color box and overlay position
 case $over in
     'tbar') box="c=#ffffff@0.5:s=3840x400"; pos="0:H-h" ;;
