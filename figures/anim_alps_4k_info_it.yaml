@@ -1,0 +1,57 @@
+---  # Italian animation metadata -- Metadati di animazione
+
+Title: |-  # Titolo
+   Avanzamento e ritiro dei ghiacciai alpini
+   durante l'ultimo periodo glaciale
+
+Author: |-  # Autore
+   Julien Seguinot, 2018
+   Traduzione: Harry Zekollari, Loris Compagno
+
+Credit: |-  # Menzione
+   Dopo: J. Seguinot, S. Ivy-Ochs, G. Jouvet, M. Huss, M. Funk, and F. Preusser.
+   Modelling last glacial cycle ice dynamics in the Alps, $\it{The\ Cryosphere}$, 12,
+   3265-3285, https://doi.org/10.5194/tc-12-3265-2018, 2018.
+
+Abstract:  # Riassunto
+   Circa 25000 anni fa, i ghiacciai alpini occupavano la maggior parte delle
+   valli e si estendevano sino alle pianure. Utilizzando un modello numerico
+   che contiene conoscenze sulla fisica dei ghiacciai basata su osservazioni
+   moderne della Groenlandia e dell'Antartide, esperimenti di laboratorio sul
+   ghiaccio, indizi lasciati dal ghiaccio nel paesaggio e uno dei computer più
+   potenti del mondo, questa animazione è un tentativo di ricostruire
+   l'evoluzione dei ghiacciai alpini nel tempo, da 120000 anni fa ad oggi.
+
+Labels:  # Assi
+   120000 anni fa, variazione di temperatura (°C),
+   vol. del ghiaccio (equiv. a livello del mare in cm)
+
+References:  # Referenze
+   Software:
+      - PISM, matplotlib, xarray, ffmpeg, etc.
+   Infrastruttura:
+      - Politecnico federale di Zurigo                       (ETHZ)
+      - Centro svizzero di calcolo scientifico               (CSCS)
+      - Fondo nazionale svizzero per la ricerca scientifica  (SNSF)
+      - Università di Hokkaido                               (HU)
+   Dati usati:
+      - Reanalisi ERA-Interim       (Dee et al., 2011)
+      - Flusso geotermico           (Goutorbe et al., 2011)
+      - Dati climatici WorldClim    (Hijmans et al., 2005)
+      - Spessore del ghiaccio       (Huss e Farinotti, 2012)
+      - Topografia moderne SRTM     (Jarvis et al., 2008)
+      - Carota di ghiaccio EPICA    (Jouzel et al., 2007)
+      - Dati Natural Earth          (Patterson e Kelso, 2016)
+      - Livello del mare            (Spratt et al., 2016)
+      - Carta geografica vettoriale della Svizzera Swisstopo
+
+Disclaimer: |-  # Avviso
+   Questa animazione utilizza i risultati della modellazione numerica.
+   La nostra conoscenza sul clima alpino e la storia dei ghiacciai sono limitati.
+   La realtà era quasi sicuramente diversa.
+
+License text:  # Testo della licenza
+   Questo lavoro è sotto licenza
+
+License link:  # Collegamento alla licenza
+   http://creativecommons.org/licenses/by-sa/4.0/
