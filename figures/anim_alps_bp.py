@@ -7,11 +7,6 @@ import yaml
 import subprocess
 import matplotlib.pyplot as plt
 
-# crop region and language
-crop = 'al'  # al ch lu zo
-lang = 'en'  # de en fr it ja nl
-mode = 'co'  # co gs
-
 
 def bumper_init():
     """Init figure and axes for animation bumper."""
@@ -24,7 +19,7 @@ def bumper_init():
     return fig, ax
 
 
-def bumper_main():
+def bumper_main(args, info):
     """Prepare title animation bumper."""
 
     # initialize figure
@@ -37,11 +32,11 @@ def bumper_main():
     ax.text(-80, -40, info['Credit'], linespacing=1.5)
 
     # save
-    fig.savefig('{}_4k_{}_{}.png'.format(prefix, crop, lang))
+    fig.savefig('anim_alps_bp_4k_{}_{}.png'.format(args.crop, args.lang))
     plt.close(fig)
 
 
-def bumper_bysa():
+def bumper_bysa(args, info):
     """Prepare CC-BY-SA animation bumper."""
 
     # initialize figure
@@ -66,11 +61,11 @@ def bumper_bysa():
             weight='bold', family=['DeJaVu Sans'])
 
     # save
-    fig.savefig('{}_bysa_{}.png'.format(prefix, lang))
+    fig.savefig('anim_alps_bp_bysa_{}.png'.format(args.lang))
     plt.close(fig)
 
 
-def bumper_disc():
+def bumper_disc(args, info):
     """Prepare disclaimer animation bumper."""
 
     # initialize figure
@@ -80,11 +75,11 @@ def bumper_disc():
     ax.text(0, 0, info['Disclaimer'], ha='center', va='center', linespacing=3.0)
 
     # save
-    fig.savefig('{}_disc_{}.png'.format(prefix, lang))
+    fig.savefig('anim_alps_bp_disc_{}.png'.format(args.lang))
     plt.close(fig)
 
 
-def bumper_refs():
+def bumper_refs(args, info):
     """Prepare references animation bumper."""
 
     # initialize figure
@@ -105,12 +100,22 @@ def bumper_refs():
     ax.text(+80, 0, col3, linespacing=1.5, va='center', ha='right')
 
     # save
-    fig.savefig('{}_refs_{}.png'.format(prefix, lang))
+    fig.savefig('anim_alps_bp_refs_{}.png'.format(args.lang))
     plt.close(fig)
 
 
-if __name__ == '__main__':
-    """Plot individual frames in parallel."""
+def main():
+    """Main program for command-line execution."""
+
+    import argparse
+
+    # parse arguments
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('crop', help='crop region',
+                        choices=['al', 'ch', 'lu', 'zo'])
+    parser.add_argument('lang', help='anim language',
+                        choices=['de', 'en', 'fr', 'it', 'ja', 'nl'])
+    args = parser.parse_args()
 
     # set default font properties
     plt.rc('figure', dpi=508)
@@ -118,18 +123,22 @@ if __name__ == '__main__':
     plt.rc('font', size=12)
 
     # japanese input font
-    if lang == 'ja':
+    if args.lang == 'ja':
         plt.rc('font', family='TakaoPGothic')
 
     # prefix for output files
     prefix = os.path.basename(os.path.splitext(sys.argv[0])[0])
 
     # import text elements
-    with open('anim_alps_4k_info_{}.yaml'.format(lang)) as f:
+    with open('anim_alps_4k_info_{}.yaml'.format(args.lang)) as f:
         info = yaml.load(f)
 
     # assemble bumpers
-    bumper_main()
-    bumper_bysa()
-    bumper_disc()
-    bumper_refs()
+    bumper_main(args, info)
+    bumper_bysa(args, info)
+    bumper_disc(args, info)
+    bumper_refs(args, info)
+
+
+if __name__ == '__main__':
+    main()
