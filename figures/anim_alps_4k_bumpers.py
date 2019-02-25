@@ -19,7 +19,7 @@ def bumper_init():
     return fig, ax
 
 
-def bumper_main(args, info):
+def bumper_main(prefix, info):
     """Prepare title animation bumper."""
 
     # initialize figure
@@ -32,11 +32,11 @@ def bumper_main(args, info):
     ax.text(-80, -40, info['Credit'], linespacing=1.5)
 
     # save
-    fig.savefig('anim_alps_bp_4k_{}_{}.png'.format(args.crop, args.lang))
+    fig.savefig(prefix+'_head.png')
     plt.close(fig)
 
 
-def bumper_bysa(args, info):
+def bumper_bysa(prefix, info):
     """Prepare CC-BY-SA animation bumper."""
 
     # initialize figure
@@ -61,11 +61,11 @@ def bumper_bysa(args, info):
             weight='bold', family=['DeJaVu Sans'])
 
     # save
-    fig.savefig('anim_alps_bp_bysa_{}.png'.format(args.lang))
+    fig.savefig(prefix+'_bysa.png')
     plt.close(fig)
 
 
-def bumper_disc(args, info):
+def bumper_disc(prefix, info):
     """Prepare disclaimer animation bumper."""
 
     # initialize figure
@@ -75,11 +75,11 @@ def bumper_disc(args, info):
     ax.text(0, 0, info['Disclaimer'], ha='center', va='center', linespacing=3.0)
 
     # save
-    fig.savefig('anim_alps_bp_disc_{}.png'.format(args.lang))
+    fig.savefig(prefix+'_disc.png')
     plt.close(fig)
 
 
-def bumper_refs(args, info):
+def bumper_refs(prefix, info):
     """Prepare references animation bumper."""
 
     # initialize figure
@@ -100,7 +100,7 @@ def bumper_refs(args, info):
     ax.text(+80, 0, col3, linespacing=1.5, va='center', ha='right')
 
     # save
-    fig.savefig('anim_alps_bp_refs_{}.png'.format(args.lang))
+    fig.savefig(prefix+'_refs.png')
     plt.close(fig)
 
 
@@ -127,17 +127,17 @@ def main():
         plt.rc('font', family='TakaoPGothic')
 
     # prefix for output files
-    prefix = os.path.basename(os.path.splitext(sys.argv[0])[0])
+    prefix = 'anim_alps_4k_{}_{}'.format(args.crop, args.lang)
 
     # import text elements
-    with open('anim_alps_4k_info_{}.yaml'.format(args.lang)) as f:
+    with open(prefix+'.yaml') as f:
         info = yaml.load(f)
 
     # assemble bumpers
-    bumper_main(args, info)
-    bumper_bysa(args, info)
-    bumper_disc(args, info)
-    bumper_refs(args, info)
+    bumper_main(prefix, info)
+    bumper_bysa(prefix, info)
+    bumper_disc(prefix, info)
+    bumper_refs(prefix, info)
 
 
 if __name__ == '__main__':
