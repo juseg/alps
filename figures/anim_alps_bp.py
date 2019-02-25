@@ -31,9 +31,9 @@ def bumper_main():
     fig, ax = bumper_init()
 
     # draw text
-    ax.text(0, 16, info['Title'], color='1.0', fontsize=18,
-            ha='center', linespacing=1.5)
-    ax.text(0, 4, info['Author'], ha='center')
+    ax.text(0, 24, info['Title'], color='1.0', fontsize=18,
+            ha='center', va='center', linespacing=1.5)
+    ax.text(0, 4, info['Author'], ha='center', va='center', linespacing=3.0)
     ax.text(-80, -40, info['Credit'], linespacing=1.5)
 
     # save
@@ -62,7 +62,8 @@ def bumper_bysa():
 
     # draw text
     ax.text(0, -20, info['License text'], ha='center')
-    ax.text(0, -32, info['License link'], ha='center', fontweight='bold')
+    ax.text(0, -32, info['License link'], ha='center',
+            weight='bold', family=['DeJaVu Sans'])
 
     # save
     fig.savefig('{}_bysa_{}.png'.format(prefix, lang))
@@ -100,7 +101,7 @@ def bumper_refs():
         col2 += '\n' + '\n'.join(keys) + '\n'
         col3 += '\n' + '\n'.join(refs) + '\n'
     ax.text(-56, 0, col1, linespacing=1.5, va='center', ha='right')
-    ax.text(-40, 0, col2, linespacing=1.5, va='center', ha='left')
+    ax.text(-48, 0, col2, linespacing=1.5, va='center', ha='left')
     ax.text(+80, 0, col3, linespacing=1.5, va='center', ha='right')
 
     # save

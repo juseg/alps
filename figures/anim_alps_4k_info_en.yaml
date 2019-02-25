@@ -1,4 +1,4 @@
---- # English animation metadata
+---  # English animation metadata
 
 Title: |-  # |- means formatted text
    Advance and retreat of the Alpine glaciers
@@ -41,7 +41,7 @@ References:
       - EPICA ice-core record   (Jouzel et al., 2007)
       - Natural Earth Data      (Patterson and Kelso, 2016)
       - Past sea level change   (Spratt et al., 2016)
-      - Swisstopo map vector
+      - Swisstopo Swiss Map Vector
 
 Disclaimer: |-
    This animation uses results from numerical modelling.
