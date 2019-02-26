@@ -8,11 +8,11 @@ import matplotlib.pyplot as plt
 import utils as ut
 
 
-def overlay_city(prefix, crop, lang, t, t0=-120e3, t1=0e3):
+def overlay_city(outdir, crop, lang, t, t0=-120e3, t1=0e3):
     """Plot city overlay for given language."""
 
     # check if file exists
-    fname = '{}_city_{}_{}/{:06d}.png'.format(prefix, crop, lang, t+120000)
+    fname = os.path.join(outdir, '{:06d}.png').format(t+120000)
     if not os.path.isfile(fname):
 
         # initialize figure
@@ -29,11 +29,11 @@ def overlay_city(prefix, crop, lang, t, t0=-120e3, t1=0e3):
         plt.close(fig)
 
 
-def overlay_tbar(prefix, lang, t, t0=-120e3, t1=0e3):
+def overlay_tbar(outdir, lang, t, t0=-120e3, t1=0e3):
     """Plot time bar overlay for given time."""
 
     # check if file exists
-    fname = os.path.join(prefix+'_tbar_'+lang, '{:06d}.png').format(t+120000)
+    fname = os.path.join(outdir, '{:06d}.png').format(t+120000)
     if not os.path.isfile(fname):
 
         # initialize figure
@@ -103,11 +103,11 @@ def overlay_tbar(prefix, lang, t, t0=-120e3, t1=0e3):
         plt.close(fig)
 
 
-def overlay_ttag(prefix, lang, t):
+def overlay_ttag(outdir, lang, t):
     """Plot time tag overlay for given time."""
 
     # check if file exists
-    fname = os.path.join(prefix+'_ttag_'+lang, '{:06d}.png').format(t+120000)
+    fname = os.path.join(outdir, '{:06d}.png').format(t+120000)
     if not os.path.isfile(fname):
 
         # initialize figure
@@ -135,40 +135,39 @@ def main():
 
     # parse arguments
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('crop', help='crop region',
-                        choices=['al', 'ch', 'lu', 'zo'])
-    parser.add_argument('lang', help='anim language',
-                        choices=['de', 'en', 'fr', 'it', 'ja', 'nl'])
+    parser.add_argument('crop', choices=['al', 'ch', 'lu', 'zo'])
+    parser.add_argument('lang', choices=['de', 'en', 'fr', 'it', 'ja', 'nl'])
     args = parser.parse_args()
 
     # set default font properties
     plt.rc('figure', dpi=508, facecolor='none')
-
-    # japanese input font
     if args.lang == 'ja':
         plt.rc('font', family='TakaoPGothic')
 
     # start and end of animation
-    # FIXME this depends on crop region, suffix = '_%d%d' % (-t0/1e3, t1/1e3)
-    t0, t1, dt = -120000, -0, 40000
+    if args.crop == 'lu':
+        t0, t1, dt = -45000, -15000, 10
+    else:
+        t0, t1, dt = -120000, -0, 40000
 
-    # prefix for output files
-    prefix = 'anim_alps_4k'.format(args.crop, args.lang)
-    prefix = os.path.join(os.environ['HOME'], 'anim', prefix)
+    # output frame directories
+    prefix = os.path.join(os.environ['HOME'], 'anim', 'anim_alps_4k')
+    suffix = '{:.0f}{:.0f}'.format(-t0/1e3, -t1/1e3)
+    city_dir = prefix + '_city_' + args.crop + '_' + args.lang
+    tbar_dir = prefix + '_tbar_' + args.lang + '_' + suffix
+    ttag_dir = prefix + '_ttag_' + args.lang
 
     # create frame directories if missing
-    for suffix in ['_city_' + args.crop + '_' + args.lang,
-                   '_ttag_' + args.lang,
-                   '_tbar_' + args.lang]:
-        if not os.path.isdir(prefix + suffix):
-            os.mkdir(prefix + suffix)
+    for outdir in [city_dir, tbar_dir, ttag_dir]:
+        if not os.path.isdir(outdir):
+            os.mkdir(outdir)
 
     # plot all frames in parallel
     times = range(t0+dt, t1+1, dt)
     with mp.Pool(processes=4) as pool:
-        pool.starmap(overlay_city, [(prefix, args.crop, args.lang, t, t0, t1) for t in times])
-        pool.starmap(overlay_tbar, [(prefix, args.lang, t, t0, t1) for t in times])
-        pool.starmap(overlay_ttag, [(prefix, args.lang, t) for t in times])
+        pool.starmap(overlay_city, [(city_dir, args.crop, args.lang, t, t0, t1) for t in times])
+        pool.starmap(overlay_tbar, [(tbar_dir, args.lang, t, t0, t1) for t in times])
+        pool.starmap(overlay_ttag, [(ttag_dir, args.lang, t) for t in times])
 
 
 if __name__ == '__main__':
