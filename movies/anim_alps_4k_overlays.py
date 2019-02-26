@@ -2,6 +2,7 @@
 # coding: utf-8
 
 import os
+import yaml
 import multiprocessing as mp
 import matplotlib.pyplot as plt
 import utils as ut
@@ -42,25 +43,9 @@ def overlay_tbar(prefix, lang, t, t0=-120e3, t1=0e3):
         ax = fig.add_axes([12.0/figw, 3.0/figh, 1-26.0/figw, 12.0/figh])
         ax.set_facecolor('none')
 
-        # language-dependent labels
-        age_label = dict(de=u'{:,d} Jahre früher',
-                         en=u'{:,d} years ago',
-                         fr=u'il y a {:,d} ans',
-                         it=u'{:,d} anni fa',
-                         ja=u'{:,d}年前',
-                         nl=u'{:,d} jaar geleden')[lang]
-        tem_label = dict(de=u'Temperatur-\nänderung (°C)',
-                         en=u'temperature\nchange (°C)',
-                         fr=u'écart (°C) de\ntempérature',
-                         it=u'variazione (°C)\ndi temperatura',
-                         ja=u'現在との気温差\n（度）',
-                         nl=u'temperatuur\nverandering (°C)')[lang]
-        vol_label = dict(de=u'Eisvolumen\n(cm Meeresspiegel\näquivalent)',
-                         en=u'ice volume\n(cm sea level\nequivalent)',
-                         fr=u'volume de glace\n(cm équivalent\nniveau des mers)',
-                         it=u'vol. del ghiaccio\n(equiv. a livello\ndel mare in cm)',
-                         ja=u'氷体積の\n海水準相当量\n（センチメートル）',
-                         nl=u'ijs volume\n(cm zee spiegel\nequivalent)')[lang]
+        # import language-dependent labels
+        with open('anim_alps_4k_al_{}.yaml'.format(lang)) as f:
+            age_label, tem_label, vol_label = yaml.load(f)['Labels']
 
         # plot temperature offset time series
         with ut.open_dataset('../data/processed/alpcyc.1km.epic.pp.dt.nc') as ds:
@@ -130,14 +115,9 @@ def overlay_ttag(prefix, lang, t):
         figw, figh = 32.0, 6.0
         fig = plt.figure(figsize=(figw/25.4, figh/25.4))
 
-        # add text
-        tag = dict(de=u'{:,d} Jahre früher',
-                   en=u'{:,d} years ago',
-                   fr=u'il y a {:,d} ans',
-                   it=u'{:,d} anni fa',
-                   ja=u'{:,d}年前',
-                   nl=u'{:,d} jaar geleden')[lang]
-        tag = tag.format(0-t)
+        # import language-dependent label
+        with open('anim_alps_4k_al_{}.yaml'.format(lang)) as f:
+            tag = yaml.load(f)['Labels'][0].format(0-t)
         if lang != 'ja':
             tag = tag.replace(',', r'$\,$')
         fig.text(2.5/figw, 1-2.5/figh, tag,
@@ -171,10 +151,6 @@ def main():
     # start and end of animation
     # FIXME this depends on crop region, suffix = '_%d%d' % (-t0/1e3, t1/1e3)
     t0, t1, dt = -120000, -0, 40000
-
-#    # import text elements
-#    with open(prefix+'.yaml') as f:
-#        info = yaml.load(f)
 
     # prefix for output files
     prefix = 'anim_alps_4k'.format(args.crop, args.lang)

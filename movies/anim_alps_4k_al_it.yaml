@@ -23,8 +23,9 @@ Abstract:  # Riassunto
    l'evoluzione dei ghiacciai alpini nel tempo, da 120000 anni fa ad oggi.
 
 Labels:  # Assi
-   120000 anni fa, variazione di temperatura (°C),
-   vol. del ghiaccio (equiv. a livello del mare in cm)
+   - "{:,d} anni fa"
+   - "variazione (°C)\ndi temperatura"
+   - "vol. del ghiaccio\n(equiv. a livello\ndel mare in cm)"
 
 References:  # Referenze
    Software:

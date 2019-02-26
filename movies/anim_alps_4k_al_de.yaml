@@ -22,7 +22,9 @@ Abstract:  # Zusammenfassung
    der Alpengletscher in der Zeit von 120000 Jahren bis heute.
 
 Labels:  # Anmerkungen
-   12000 Jahre früher, Temperaturänderung (°C), Eisvolumen (cm Meereshöhe)
+   - "{:,d} Jahre früher"
+   - "Temperatur-\nänderung (°C)"
+   - "Eisvolumen (cm\nMeeresspiegel\näquivalent)"
 
 References:  # Quellenangaben
    Software:

@@ -23,7 +23,9 @@ Abstract:  # Résumé
    glaciers alpins dans le temps, depuis 120000 ans jusqu'à nos jours.
 
 Labels:  # Annotations
-   il a y 120000 ans, écart (°C) de température, volume de glace (cm niveau mers)
+   - "il y a {:,d} ans"
+   - "écart (°C) de\ntempérature"
+   - "volume de glace\n(cm équivalent\nniveau des mers)"
 
 References:  # Références
    Logiciels:

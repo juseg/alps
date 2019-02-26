@@ -27,7 +27,9 @@ Abstract:  # 抄録
    # from 12e4 years ago to present Alpine glaciers change reconstruction we try.
 
 Labels:  # ラベル
-   十二万　年前、現在との気温差（度）、氷体積の海水準相当量（センチメートル）
+   - "{:,d}年前"
+   - "'現在との気温差\n（度）"
+   - "氷体積の\n海水準相当量\n（センチメートル）"
 
 References:  # 参考文献
    ソフトウエア:  # software

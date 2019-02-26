@@ -23,7 +23,9 @@ Abstract:  # Samenvatting
    vanaf 120000 jaar geleden, tot nu.
 
 Labels:
-   120000 jaar geleden, temperatuur verandering (°C), ijs volume (cm zee spiegel)
+   - "{:,d} jaar geleden"
+   - "temperatuur\nverandering (°C)"
+   - "ijs volume\n(cm zee spiegel\nequivalent)"
 
 References:  # Referenties
    Programmatuur:
