@@ -3,9 +3,9 @@
 
 import os
 import sys
-import xarray as xr
 import multiprocessing as mp
 import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
 import util as ut
 
 # crop region and language
@@ -35,47 +35,48 @@ def plot_main(t):
 
         # initialize figure
         print('plotting {:s} ...'.format(fname))
-        fig, ax = ut.fi.subplots_anim_dynamic(crop, t=t, t0=t0, t1=t1,
-                                              figsize=(384.0, 216.0))
+        fig, ax = ut.subplots_anim_dynamic(crop, t=t, t0=t0, t1=t1,
+                                           figsize=(384.0, 216.0))
 
         # prepare axes coordinates
-        x, y = ut.pl.coords_from_extent(ax.get_extent(),
-                                        *fig.get_size_inches()*fig.dpi)
+        x, y = ut.coords_from_extent(ax.get_extent(),
+                                     *fig.get_size_inches()*fig.dpi)
 
         # estimate sea level drop
-        dsl = ut.io.open_sealevel(t)
+        dsl = ut.open_sealevel(t)
 
         # plot interpolated data
-        filename = '~/pism/' + ut.alpcyc_bestrun + 'y{:07.0f}-extra.nc'
-        with ut.io.open_visual(filename, t, x, y) as ds:
-            ut.xp.shaded_relief(ds.topg-dsl, ax=ax, mode=mode)
+        filename = ('~/pism/output/e9d2d1f/alps-wcnn-1km/'
+                    'epica3222cool1220+alpcyc4+pp/y{:07.0f}-extra.nc')
+        with ut.open_visual(filename, t, x, y) as ds:
+            ut.plot_shaded_relief(ds.topg-dsl, ax=ax, mode=mode)
 
             # in greyscale mode, show interpolated velocities
             if mode == 'gs':
                 ds.velsurf_mag.plot.imshow(
                     ax=ax, add_colorbar=False, alpha=0.75,
-                    cmap='Blues', norm=ut.pl.velnorm)
+                    cmap='Blues', norm=mcolors.LogNorm(1e1, 1e3))
 
             # add surface topo and ice extent
-            ut.xp.topo_contours(ds.usurf, ax=ax)
-            ut.xp.ice_extent(ds.icy, ax=ax, fc=('w' if mode=='co' else 'none'))
+            ut.plot_topo_contours(ds.usurf, ax=ax)
+            ut.plot_ice_extent(ds.icy, ax=ax, fc=dict(co='w', gs='none')[mode])
 
         # in color mode, stream plot extra data
         if mode == 'co':
-            with ut.io.open_subdataset(filename, t) as ds:
-                ut.xp.streamplot(ds, ax=ax, density=(24, 16))
+            with ut.open_subdataset(filename, t) as ds:
+                ut.plot_streamlines(ds, ax=ax, density=(24, 16))
 
         # draw map elements
-        ut.ne.draw_tailored_hydrology(ax=ax, mode=mode)
+        ut.draw_tailored_hydrology(ax=ax, mode=mode)
 
         # draw lgm with fade-in and fade-out
         tred = (t+25000) / 5000
         fade = tred**4 - 2*tred**2 + 1
         if mode == 'gs' and abs(tred) < 1:
-            ut.na.draw_lgm_outline(ax=ax, alpha=0.75*fade)
+            ut.draw_lgm_outline(ax=ax, alpha=0.75*fade)
 
         # save
-        fig.savefig(fname)
+        fig.savefig(fname, dpi=254.0)
         plt.close(fig)
 
 
@@ -88,12 +89,12 @@ def plot_city(t):
 
         # initialize figure
         print('plotting {:s} ...'.format(fname))
-        fig, ax = ut.fi.subplots_anim_dynamic(crop, t=t, t0=t0, t1=t1,
-                                              figsize=(192.0, 108.0))
+        fig, ax = ut.subplots_anim_dynamic(crop, t=t, t0=t0, t1=t1,
+                                           figsize=(192.0, 108.0))
 
         # draw map elements
-        ut.ne.draw_major_cities(ax, exclude='Monaco', include='Sion',
-                                maxrank=6, lang=lang)
+        ut.draw_major_cities(ax, exclude='Monaco', include='Sion',
+                             maxrank=6, lang=lang)
 
         # save
         fig.savefig(fname, dpi=508, facecolor='none')
@@ -135,7 +136,7 @@ def plot_tbar(t):
                          nl=u'ijs volume\n(cm zee spiegel\nequivalent)')[lang]
 
         # plot temperature offset time series
-        with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.dt.nc') as ds:
+        with ut.open_dataset('../data/processed/alpcyc.1km.epic.pp.dt.nc') as ds:
             dt = ds.delta_T[ds.time <= t]
             ax.plot(dt.age, dt, c='0.25')
             ax.text(-t, dt[-1], '  {: .0f}'.format(dt[-1].values),
@@ -168,7 +169,7 @@ def plot_tbar(t):
 
         # plot ice volume time series
         ax = ax.twinx()
-        with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as ds:
+        with ut.open_dataset('../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as ds:
             sl = ds.slvol[ds.time <= t]*100.0
             ax.plot(sl.age, sl, c='C1')
             ax.text(-t, sl[-1], '  {: .0f}'.format(sl[-1].values),
