@@ -10,8 +10,6 @@ import util.mm  # mm-margin subplots
 import util.na  # project native data
 import util.ne  # natural earth data
 import util.pl  # other plotting tools
-import util.xr  # xarray computations
-import util.xp  # xarray plotting tools
 
 
 # Alps cycle parameters

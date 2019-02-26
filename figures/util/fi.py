@@ -31,16 +31,6 @@ regions = {'egu': (112.5e3, 1087.5e3, 4855e3, 5355e3),  # egu poster 975x500
            'taglia': (760e3, 865e3, 5105e3, 5180e3),    # Tagliamento 105x75
            'valais': (310e3, 460e3, 5065e3, 5165e3),    # Trimlines 150x100
            'aletsch': (414e3, 444e3, 5139e3, 5159e3)}   # Aletsch 30x20
-regions.update(
-    anim_al_0=(120e3, 1080e3, 4835e3, 5375e3),  # Alps   16:9  960x540 250m@4k
-    anim_al_1=(120e3, 1080e3, 4835e3, 5375e3),  # "
-    anim_lu_0=(416e3,  512e3, 5200e3, 5254e3),  # Luzern 16:9   96x54   25m@4k
-    anim_lu_1=(392e3,  520e3, 5196e3, 5268e3),  # Luzern 16:9  128x72   33m@4k
-    anim_ch_0=(380e3,  476e3, 5120e3, 5174e3),  # Switz. 16:9   96x54   25m@4k
-    anim_ch_1=(252e3,  636e3, 5072e3, 5288e3),  # Switz. 16:9  384x216 100m@4k
-    anim_zo_0=(329e3,  521e3, 5096e3, 5204e3),  # Switz. 16:9  192x108  50m@4k
-    anim_zo_1=(120e3, 1080e3, 4835e3, 5375e3),  # Alps   16:9  960x540 250m@4k
-    )
 
 
 # Axes preparation
@@ -112,28 +102,6 @@ def subplots_ts(nrows=1, ncols=1, sharex=True, sharey=False,
         for ax, l in zip(grid, list('abcdef')):
             add_subfig_label('({})'.format(l), ax=ax)
     return fig, grid
-
-
-def subplots_anim(extent='1609', figsize=(192.0, 108.0)):
-    """Init figure with unique subplot for animation."""
-    fig, ax = ut.mm.subplots_mm(figsize=figsize, projection=utm,
-                                gridspec_kw=dict(left=0.0, right=0.0,
-                                                 bottom=0.0, top=0.0))
-    ax.outline_patch.set_ec('none')
-    ax.background_patch.set_fc('none')
-    prepare_map_axes(ax, extent=extent)
-    return fig, ax
-
-
-def subplots_anim_dynamic(crop, t, t0=-120e3, t1=-0e3, figsize=None):
-    """Init dynamic extent figure and subplot."""
-    fig, ax = ut.fi.subplots_anim(figsize=figsize)
-    e0, e1 = ('anim_{}_{:d}'.format(crop, i) for i in (0, 1))
-    zoom = 1.0*(t-t0)/(t1-t0)  # linear increase between 0 and 1
-    zoom = zoom**2*(3-2*zoom)  # smooth zoom factor between 0 and 1
-    extent = [c0 + (c1-c0)*zoom for (c0, c1) in zip(regions[e0], regions[e1])]
-    ax.set_extent(extent, crs=ax.projection)
-    return fig, ax
 
 
 def subplots_cax(extent='alps'):

@@ -51,24 +51,6 @@ def extent_from_coords(x, y):
     return w, e, s, n
 
 
-def coords_from_extent(extent, cols, rows):
-    """Compute coordinate vectors from image extent."""
-
-    # compute dx and dy
-    (w, e, s, n) = extent
-    dx = (e-w) / cols
-    dy = (n-s) / rows
-
-    # prepare coordinate vectors
-    xwcol = w + 0.5*dx  # x-coord of W row cell centers
-    ysrow = s + 0.5*dy  # y-coord of N row cell centers
-    x = xwcol + np.arange(cols)*dx  # from W to E
-    y = ysrow + np.arange(rows)*dy  # from S to N
-
-    # return coordinate vectors
-    return x, y
-
-
 # Text annotations
 # ----------------
 
