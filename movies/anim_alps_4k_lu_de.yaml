@@ -1,0 +1,56 @@
+---  # German animation metadata -- Animation Metadaten
+
+Title: |-  # Titel
+   Vorstoss und Rückzug der Reuss und Linth Gletschern
+   während das Letzteiszeitliches Maximum
+
+Author:  # Verfasser
+   J. Seguinot, 2018
+
+Credit: |-  # Titelnennung
+   Nach: J. Seguinot, S. Ivy-Ochs, G. Jouvet, M. Huss, M. Funk, and F. Preusser.
+   Modelling last glacial cycle ice dynamics in the Alps, $\it{The\ Cryosphere}$, 12,
+   3265-3285, https://doi.org/10.5194/tc-12-3265-2018, 2018.
+
+Abstract:  # Zusammenfassung
+   Vor etwa 25000 Jahren füllten die Alpengletscher die meisten Täler und
+   erstreckten sich sogar bis in die Ebenen. Mit Hilfe eines Computermodells,
+   das Gletscherphysik basierend auf modernen Beobachtungen von Grönland und
+   der Antarktis enthält, und Laborexperimenten auf Eis, sowie anhand von
+   Gletscherspuren in der Landschaft und einem der schnellsten Computer der
+   Welt, diese Animation ist eine Rekonstruktionsversuch zur Vorstoss und
+   Rückzug der Reuss und Linth Gletschern während das Letzteiszeitliches
+   Maximum.
+
+Labels:  # Anmerkungen
+   - "{:,d} Jahre früher"
+   - "Temperatur-\nänderung (°C)"
+   - "Eisvolumen (cm\nMeeresspiegel\näquivalent)"
+
+References:  # Quellenangaben
+   Software:
+      - PISM, matplotlib, xarray, ffmpeg, usw.
+   Mitteln:
+      - Eidgenössische Technische Hochschule Zürich           (ETHZ)
+      - Schweiz. nationale Hochleistungsrechenzentrum         (CSCS)
+      - Schweiz. N.fonds zur Förderung der wiss. Forschung    (SNSF)
+      - Universität Hokkaidō                                  (HU)
+   Eingaben:
+      - ERA-Interim Reanalyse     (Dee et al., 2011)
+      - Erdwärmefluss             (Goutorbe et al., 2011)
+      - WorldClim Klimadaten      (Hijmans et al., 2005)
+      - Heutige Eisdicke          (Huss und Farinotti, 2012)
+      - SRTM heutige Topografie   (Jarvis et al., 2008)
+      - EPICA Eisbohr Rekord      (Jouzel et al., 2007)
+      - Swisstopo Vektorielle Landeskarte der Schweiz
+
+Disclaimer: |-   # Hinweis
+   Diese animation enthält Modellrechnungsresultaten.
+   Unsere Kenntnis der Alpen Klima- und Gletschergeschichte ist begrenzt.
+   Die Realität war fast bestimmt anders.
+
+License text:  # Lizenz Text
+   Dieses Werk steht unter
+
+License link:  # Lizenz Link
+   http://creativecommons.org/licenses/by-sa/4.0/

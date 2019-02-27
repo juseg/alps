@@ -1,0 +1,57 @@
+---  # French animation metadata -- métadonnées d'animation
+
+Title: |-  # Titre
+   Avancées et retraits des glaciers de la Reuss et de la Linth
+   pendant le dernier maximum glaciaire
+
+Author:  # Auteur
+   J. Seguinot, 2018
+
+Credit: |-  # Crédit
+   D'après: J. Seguinot, S. Ivy-Ochs, G. Jouvet, M. Huss, M. Funk, and F. Preusser.
+   Modelling last glacial cycle ice dynamics in the Alps, $\it{The\ Cryosphere}$, 12,
+   3265-3285, https://doi.org/10.5194/tc-12-3265-2018, 2018.
+
+Abstract:  # Résumé
+   Il y a environ 25000 ans, les glaciers alpins remplissaient la plupart des
+   vallées et s'étendaient même dans les plaines. En utilisant un modèle
+   numérique qui incorpore la physique des glaciers, elle-même dérivée des
+   observations du Groënland et de l'Antarctique actuels et d'expériences de
+   laboratoire sur la glace, ainsi que l'aide des indices laissés par les
+   glaces dans le paysage, et l'un des ordinateurs les plus puissants au monde,
+   cette animation est une tentative de reconstruction de l'avancée et du
+   retrait des glaciers de la Reuss et de la Linth pendant le dernier maximum
+   glaciaire.
+
+Labels:  # Annotations
+   - "il y a {:,d} ans"
+   - "écart (°C) de\ntempérature"
+   - "volume de glace\n(cm équivalent\nniveau des mers)"
+
+References:  # Références
+   Logiciels:
+      - PISM, matplotlib, xarray, ffmpeg, etc.
+   Infrastructure:
+      - Ecole polytechnique fédérale de Zurich              (ETHZ)
+      - Centre suisse de calcul scientifique                (CSCS)
+      - Fonds national suisse de la recherche scientifique  (SNSF)
+      - Université de Hokkaidō                              (HU)
+   Données:
+      - Réanalyse ERA-Interim        (Dee et al., 2011)
+      - Flux géothermique            (Goutorbe et al., 2011)
+      - Données de climat WorldClim  (Hijmans et al., 2005)
+      - Epaisseur de glace actuelle  (Huss et Farinotti, 2012)
+      - Données topographiques SRTM  (Jarvis et al., 2008)
+      - Carrote glaciaire EPICA      (Jouzel et al., 2007)
+      - Carte nationale vectorielle de la Suisse Swisstopo
+
+Disclaimer: |-  # Avertissement
+   Cette animation contient des résultats de modélisation numérique.
+   Les connaissances sur l'histoire glaciaire et climatique des Alpes sont limitées.
+   La réalité était très certainement différente.
+
+License text:  # Texte de licence
+   Cette œuvre est mise à disposition selon les termes de
+
+License link:  # Lien vers la license
+   http://creativecommons.org/licenses/by-sa/4.0/

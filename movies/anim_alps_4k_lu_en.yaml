@@ -22,7 +22,9 @@ Abstract:
    glaciers during the Last Glacial Maximum.
 
 Labels:
-   120000 years ago, temperature change (°C), ice volume (cm sea level)
+   - "{:,d} years ago"
+   - "temperature\nchange (°C)"
+   - "ice volume\n(cm sea level\nequivalent)"
 
 References:
    Software:
