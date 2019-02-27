@@ -53,6 +53,11 @@ def subplots_anim_dynamic(crop, t, t0=-120e3, t1=-0e3, figsize=(192.0, 108.0)):
     return fig, ax
 
 
+def coords_from_axes(ax):
+    """Compute coordinate vectors from matplotlib axes."""
+    return coords_from_extent(ax.get_extent(),
+                              *ax.figure.get_size_inches()*ax.figure.dpi)
+
 def coords_from_extent(extent, cols, rows):
     """Compute coordinate vectors from image extent."""
 
@@ -81,6 +86,14 @@ def draw_lgm_outline(ax=None, c='#e31a1c', alpha=0.75):
     ax.add_geometries(shp.geometries(), ccrs.PlateCarree(), lw=0.5,
                       alpha=alpha, edgecolor=c, facecolor='none')
     del shp
+
+
+def draw_lgm_faded(t, alpha=0.75, **kwargs):
+    """Add LGM outline with fade-in and fade-out effects."""
+    tred = (t+25000) / 5000
+    fade = tred**4 - 2*tred**2 + 1
+    if abs(tred) < 1:
+        ut.draw_lgm_outline(alpha=alpha*fade, **kwargs)
 
 
 def draw_major_cities(ax=None, exclude=None, include=None, maxrank=5,

@@ -14,10 +14,7 @@ def visual(t, crop='al', mode='co', t0=-120000, t1=-0):
     # initialize figure
     fig, ax = ut.subplots_anim_dynamic(crop, t=t, t0=t0, t1=t1,
                                        figsize=(384.0, 216.0))
-
-    # prepare axes coordinates
-    x, y = ut.coords_from_extent(ax.get_extent(),
-                                 *fig.get_size_inches()*fig.dpi)
+    x, y = ut.coords_from_axes(ax)
 
     # estimate sea level drop
     dsl = ut.open_sealevel(t)
@@ -45,12 +42,7 @@ def visual(t, crop='al', mode='co', t0=-120000, t1=-0):
 
     # draw map elements
     ut.draw_tailored_hydrology(ax=ax, mode=mode)
-
-    # draw lgm with fade-in and fade-out
-    tred = (t+25000) / 5000
-    fade = tred**4 - 2*tred**2 + 1
-    if mode == 'gs' and abs(tred) < 1:
-        ut.draw_lgm_outline(ax=ax, alpha=0.75*fade)
+    ut.draw_lgm_faded(ax=ax, t=t)
 
     # return figure
     return fig
