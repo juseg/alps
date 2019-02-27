@@ -12,8 +12,8 @@ def overlay_city(t, crop='al', lang='en', t0=-120e3, t1=0e3):
     """Plot city overlay for given language."""
 
     # initialize figure
-    fig, ax = ut.subplots_anim_dynamic(
-        crop=crop, figsize=(192.0, 108.0), t=t, t0=t0, t1=t1)
+    fig, ax = ut.axes_anim_dynamic(
+        crop, t, t0=t0, t1=t1, figsize=(192.0, 108.0))
 
     # draw map elements
     ut.draw_major_cities(

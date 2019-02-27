@@ -19,7 +19,7 @@ import cartowik.naturalearth as cne
 # Figure creation
 # ---------------
 
-def subplots_anim_dynamic(crop, t, t0=-120e3, t1=-0e3, figsize=(192.0, 108.0)):
+def axes_anim_dynamic(crop, t, t0=-120e3, t1=-0e3, figsize=(192.0, 108.0)):
     """Init dynamic extent figure and subplot."""
 
     # predefined crop regions
@@ -142,11 +142,10 @@ def draw_natural_earth(ax=None, mode='gs', **kwargs):
     """Add Natural Earth geographic data vectors."""
     ax = ax or plt.gca()
     edgecolor = '0.25' if mode == 'gs' else '#0978ab'
-    facecolor = '0.85' if mode == 'gs' else '#c6ecff'
+    facecolor = '0.95' if mode == 'gs' else '#c6ecff'
     cne.add_rivers(ax=ax, edgecolor=edgecolor, zorder=0, **kwargs)
     cne.add_lakes(ax=ax, edgecolor=edgecolor, facecolor=facecolor, zorder=0, **kwargs)
     cne.add_coastline(ax=ax, edgecolor=edgecolor, zorder=0, **kwargs)
-    cne.add_graticules(ax=ax, interval=1, **kwargs)
 
 
 def draw_swisstopo_hydrology(ax=None, mode='gs', **kwargs):
@@ -280,7 +279,7 @@ def open_visual(filename, t, x, y, sigma=10000):
 # Styled plots from data arrays
 # -----------------------------
 
-def plot_ice_extent(darray, ax=None, ec='0.25', fc='none'):
+def plot_ice_extent(darray, ax=None, ec='k', fc='none'):
     """Draw void or filled ice extent contour."""
 
     # plot a single contour
@@ -309,7 +308,7 @@ def plot_shaded_relief(darray, ax=None, mode='co'):
 
     # plot basal topography
     if mode == 'gs':
-        kwargs = dict(cmap='Greys', vmin=0, vmax=3000)
+        kwargs = dict(cmap='Greys', vmin=0, vmax=4500)
     else:
         kwargs = dict(cmap=ccv.ELEVATIONAL, vmin=-4500, vmax=4500)
     darray.plot.imshow(ax=ax, add_colorbar=False, zorder=-1, **kwargs)

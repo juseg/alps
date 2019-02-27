@@ -12,8 +12,7 @@ def visual(t, crop='al', mode='co', t0=-120000, t1=-0):
     """Plot main figure for given time."""
 
     # initialize figure
-    fig, ax = ut.subplots_anim_dynamic(crop, t=t, t0=t0, t1=t1,
-                                       figsize=(384.0, 216.0))
+    fig, ax = ut.axes_anim_dynamic(crop, t, t0=t0, t1=t1, figsize=(384, 216))
     x, y = ut.coords_from_axes(ax)
 
     # estimate sea level drop
@@ -24,16 +23,14 @@ def visual(t, crop='al', mode='co', t0=-120000, t1=-0):
                 'epica3222cool1220+alpcyc4+pp/y{:07.0f}-extra.nc')
     with ut.open_visual(filename, t, x, y) as ds:
         ut.plot_shaded_relief(ds.topg-dsl, ax=ax, mode=mode)
+        ut.plot_topo_contours(ds.usurf, ax=ax)
+        ut.plot_ice_extent(ds.icy, ax=ax, fc=('w' if mode == 'co' else 'none'))
 
         # in greyscale mode, show interpolated velocities
         if mode == 'gs':
             ds.velsurf_mag.plot.imshow(
                 ax=ax, add_colorbar=False, alpha=0.75,
                 cmap='Blues', norm=mcolors.LogNorm(1e1, 1e3))
-
-        # add surface topo and ice extent
-        ut.plot_topo_contours(ds.usurf, ax=ax)
-        ut.plot_ice_extent(ds.icy, ax=ax, fc=dict(co='w', gs='none')[mode])
 
     # in color mode, stream plot extra data
     if mode == 'co':
@@ -61,7 +58,7 @@ def main():
 
     # start and end of animation
     if args.crop == 'lu':
-        t0, t1, dt = -45000, -15000, 10000
+        t0, t1, dt = -45000, -15000, 10
     else:
         t0, t1, dt = -120000, -0, 40
 
