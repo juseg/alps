@@ -2,6 +2,7 @@
 
 """Animation tools."""
 
+import os
 import re
 import numpy as np
 from scipy import ndimage
@@ -334,6 +335,23 @@ def plot_streamlines(dataset, ax=None, **kwargs):
     ax.streamplot(dataset.x, dataset.y, uvel, vvel, color=vmag,
                   cmap='Blues', norm=mcolors.LogNorm(1e1, 1e3),
                   arrowsize=0.25, linewidth=0.5, **kwargs)
+
+
+# Figure saving
+# -------------
+
+def save_animation_frame(func, outdir, t, *args, **kwargs):
+    """Save figure produced by func as animation frame if missing."""
+
+    # check if file exists
+    fname = os.path.join(outdir, '{:06d}.png').format(t+120000)
+    if not os.path.isfile(fname):
+
+        # assemble figure and save
+        print('plotting {:s} ...'.format(fname))
+        fig = func(t, *args, **kwargs)
+        fig.savefig(fname)
+        plt.close(fig)
 
 
 # Calculations on data arrays

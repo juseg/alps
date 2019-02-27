@@ -8,21 +8,6 @@ import matplotlib.pyplot as plt
 import utils as ut
 
 
-def save_animation_frame(func, outdir, t, *args, **kwargs):
-    """Save figure produced by func as animation frame if missing."""
-
-    # check if file exists
-    fname = os.path.join(outdir, '{:06d}.png').format(t+120000)
-    if not os.path.isfile(fname):
-
-        print('plotting {:s} ...'.format(fname))
-        fig = func(t, *args, **kwargs)
-
-        # save
-        fig.savefig(fname)
-        plt.close(fig)
-
-
 def overlay_city(t, crop='al', lang='en', t0=-120e3, t1=0e3):
     """Plot city overlay for given language."""
 
@@ -172,7 +157,7 @@ def main():
 
     # plot all frames in parallel
     with mp.Pool(processes=4) as pool:
-        pool.starmap(save_animation_frame, city_args+tbar_args+ttag_args)
+        pool.starmap(ut.save_animation_frame, city_args+tbar_args+ttag_args)
 
 
 if __name__ == '__main__':
