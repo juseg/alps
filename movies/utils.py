@@ -322,8 +322,8 @@ def plot_streamlines(dataset, ax=None, **kwargs):
 
     # extract velocities
     icy = dataset.thk.fillna(0.0) >= 1.0
-    uvel = dataset.uvelsurf.where(icy).values
-    vvel = dataset.vvelsurf.where(icy).values
+    uvel = dataset.uvelsurf.where(icy).to_masked_array()
+    vvel = dataset.vvelsurf.where(icy).to_masked_array()
     vmag = (uvel**2+vvel**2)**0.5
 
     # streamplot colormapping fails on empty arrays
