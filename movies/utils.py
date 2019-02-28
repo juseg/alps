@@ -93,7 +93,7 @@ def draw_lgm_faded(t, alpha=0.75, **kwargs):
     tred = (t+25000) / 5000
     fade = tred**4 - 2*tred**2 + 1
     if abs(tred) < 1:
-        ut.draw_lgm_outline(alpha=alpha*fade, **kwargs)
+        draw_lgm_outline(alpha=alpha*fade, **kwargs)
 
 
 def draw_major_cities(ax=None, exclude=None, include=None, maxrank=5,
