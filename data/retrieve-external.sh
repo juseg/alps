@@ -15,18 +15,18 @@ cd external
 #fi
 
 # SRTM surface topographic data
-if [ ! -f srtm.tif ]
+if [ ! -f srtm.nc ]
 then
 
     # download ETOPO1 data
-    eroot="https://www.ngdc.noaa.gov/mgg/global/relief/ETOPO1/data/bedrock/"\
-         "cell_registered/georeferenced_tiff"
+    eroot="https://ngdc.noaa.gov/mgg/global/relief/ETOPO1/data/bedrock/"
+    eroot+="cell_registered/georeferenced_tiff"
     efile="ETOPO1_Bed_c_geotiff"
-    wget -nc $eroot/$efile
-    unzip -n $efile
+    wget -nc $eroot/$efile.zip
+    unzip -n $efile.zip
 
     # download SRTM data
-    sroot="https://srtm.csi.cgiar.org/SRT-ZIP/SRTM_V41/SRTM_Data_GeoTiff"
+    sroot="http://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/tiff"
     for sfile in srtm_{37..41}_{03..04}
     do
         wget -nc $sroot/$sfile.zip
@@ -38,31 +38,27 @@ then
     # -te 112500 4855000 1087500 5355000 #  950x500 km poster
     # -te 100000 4820000 1100000 5420000 # 1000x600 km both
     gdalwarp -r cubic -s_srs EPSG:4326 -t_srs EPSG:32632 \
-             -te 100000 4820000 1100000 5420000 -tr 100 100 \
+             -te 100000 4820000 1100000 5420000 -tr 25 25 \
              $efile.tif srtm_??_??.tif srtm.tif
 
-fi
-
-# Modern glacier thickness
-if [ ! -f thk.tif ]
-then
+    # patch modern glacier thickness
     root="/run/media/julien/archive/orig/geodata/glaciers/thickness/original"
     gdalbuildvrt thk32.vrt -a_srs EPSG:32632 -srcnodata 0 \
         $root/europe-utm32/thick/thick_?????.agr
     gdalbuildvrt thk33.vrt -a_srs EPSG:32633 -srcnodata 0 \
         $root/europe-utm33/thick/thick_?????.agr
-    gdalwarp -t_srs EPSG:32632 -te 100000 4820000 1100000 5420000 -tr 100 100 \
+    gdalwarp -t_srs EPSG:32632 -te 100000 4820000 1100000 5420000 -tr 25 25 \
              -r cubic -ot Int16 thk{32,33}.vrt thk.tif
-fi
 
-# Topo and thickness combined
-# FIXME remove intermediate tiffs
-if [ ! -f srtm.nc ]
-then
+    # combine topo and thickness
     gdal_translate -of netcdf srtm.{tif,nc} && ncrename -v z,usurf srtm.nc
     gdal_translate -of netcdf thk.{tif,nc} && ncrename -v Band1,thk thk.nc
     ncks -A -v thk thk.nc srtm.nc
     nccopy -sd1 srtm.nc thk.nc && mv thk.nc srtm.nc
+
+    # remove intermediate tiffs
+    rm thk.tif srtm.tif
+
 fi
 
 # Swisstopo Vector 500
