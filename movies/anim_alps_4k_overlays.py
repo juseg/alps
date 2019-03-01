@@ -136,7 +136,7 @@ def main():
     suffix = '{:.0f}{:.0f}'.format(-t0/1e3, -t1/1e3)
     city_dir = prefix + '_city_' + args.crop + '_' + args.lang
     tbar_dir = prefix + '_tbar_' + args.lang + '_' + suffix
-    ttag_dir = prefix + '_ttag_' + args.lang
+    ttag_dir = prefix + '_ttag_' + args.lang + '_' + suffix
 
     # range of frames to save
     time_range = range(t0+dt, t1+1, dt)

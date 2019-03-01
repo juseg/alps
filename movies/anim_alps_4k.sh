@@ -7,6 +7,12 @@ over="${3:-ttag}"  # ttag tbar
 lang="${4:-en}"  # de en fr ja it nl
 size="${5:-4k}"  # 2k 4k
 
+# time bounds overlay suffix
+case $crop in
+    'lu') bnds="4515";;
+    *)    bnds="1200";;
+esac
+
 # color box and overlay position
 case $over in
     'tbar') box="c=#ffffff@0.5:s=3840x400"; pos="0:H-h" ;;
@@ -49,7 +55,7 @@ prefix=anim_alps_4k_${crop/zo/al}_$lang
 ffmpeg \
     -pattern_type glob -i "$HOME/anim/anim_alps_4k_main_${crop}_$mode/$imgs" \
     -pattern_type glob -i "$HOME/anim/anim_alps_4k_city_${crop}_$lang/$imgs" \
-    -pattern_type glob -i "$HOME/anim/anim_alps_4k_${over}_$lang/$imgs" \
+    -pattern_type glob -i "$HOME/anim/anim_alps_4k_${over}_${lang}_$bnds/$imgs" \
     -loop 1 -t 4 -i anim_alps_4k_${crop/zo/al}_${lang}_head.png \
     -loop 1 -t 3 -i anim_alps_4k_${crop/zo/al}_${lang}_refs.png \
     -loop 1 -t 3 -i anim_alps_4k_${crop/zo/al}_${lang}_disc.png \
