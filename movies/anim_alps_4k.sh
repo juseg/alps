@@ -56,9 +56,9 @@ ffmpeg \
     -pattern_type glob -i "$HOME/anim/anim_alps_4k_main_${crop}_$mode/$imgs" \
     -pattern_type glob -i "$HOME/anim/anim_alps_4k_city_${crop}_$lang/$imgs" \
     -pattern_type glob -i "$HOME/anim/anim_alps_4k_${over}_${lang}_$bnds/$imgs" \
-    -loop 1 -t 4 -i anim_alps_4k_${crop/zo/al}_${lang}_head.png \
-    -loop 1 -t 3 -i anim_alps_4k_${crop/zo/al}_${lang}_refs.png \
-    -loop 1 -t 3 -i anim_alps_4k_${crop/zo/al}_${lang}_disc.png \
-    -loop 1 -t 3 -i anim_alps_4k_${crop/zo/al}_${lang}_bysa.png \
+    -loop 1 -t 4 -i anim_alps_4k_${crop}_${lang}_head.png \
+    -loop 1 -t 3 -i anim_alps_4k_${crop}_${lang}_refs.png \
+    -loop 1 -t 3 -i anim_alps_4k_${crop}_${lang}_disc.png \
+    -loop 1 -t 3 -i anim_alps_4k_${crop}_${lang}_bysa.png \
     -filter_complex $filt -pix_fmt yuv420p -c:v libx264 -r 25 -s $res \
     $HOME/anim/anim_alps_${size}_${crop}_${mode}_${over}_${lang}.mp4

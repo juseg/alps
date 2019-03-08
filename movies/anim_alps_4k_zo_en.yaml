@@ -1,8 +1,8 @@
 ---  # English animation metadata
 
 Title: |-  # |- means formatted text
-   Last glacial cycle ice dynamics in the Alps.
-   (fixed-frame version)
+   Advance and retreat of the Alpine glaciers
+   during the last glacial cycle
 
 Author:
    J. Seguinot, 2018
@@ -43,6 +43,7 @@ References:
       - EPICA ice-core record   (Jouzel et al., 2007)
       - Natural Earth Data      (Patterson and Kelso, 2016)
       - Past sea level change   (Spratt et al., 2016)
+      - Swisstopo Swiss Map Vector
 
 Disclaimer: |-
    This animation uses results from numerical modelling.

@@ -1,8 +1,8 @@
 ---  # German animation metadata -- Animation Metadaten
 
 Title: |-  # Titel
-   Eisdynamik der letzten Eiszeit in den Alpen
-   (Festrahmenversion)
+   Vorstoss und Rückzug der Alpen-Gletscher
+   während der letzten Eiszeit
 
 Author:  # Verfasser
    J. Seguinot, 2018
@@ -43,6 +43,7 @@ References:  # Quellenangaben
       - EPICA Eisbohr Rekord      (Jouzel et al., 2007)
       - Natural Earth Daten       (Patterson und Kelso, 2016)
       - Bisherige Meereshöhe      (Spratt et al., 2016)
+      - Swisstopo Vektorielle Landeskarte der Schweiz
 
 Disclaimer: |-   # Hinweis
    Diese animation enthält Modellrechnungsresultaten.
