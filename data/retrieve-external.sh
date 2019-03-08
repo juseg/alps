@@ -38,7 +38,7 @@ then
     # -te 112500 4855000 1087500 5355000 #  950x500 km poster
     # -te 100000 4820000 1100000 5420000 # 1000x600 km both
     gdalwarp -r cubic -s_srs EPSG:4326 -t_srs EPSG:32632 \
-             -te 100000 4820000 1100000 5420000 -tr 25 25 \
+             -te 100000 4820000 1100000 5420000 -tr 100 100 \
              $efile.tif srtm_??_??.tif srtm.tif
 
     # patch modern glacier thickness
@@ -47,7 +47,7 @@ then
         $root/europe-utm32/thick/thick_?????.agr
     gdalbuildvrt thk33.vrt -a_srs EPSG:32633 -srcnodata 0 \
         $root/europe-utm33/thick/thick_?????.agr
-    gdalwarp -t_srs EPSG:32632 -te 100000 4820000 1100000 5420000 -tr 25 25 \
+    gdalwarp -t_srs EPSG:32632 -te 100000 4820000 1100000 5420000 -tr 100 100 \
              -r cubic -ot Int16 thk{32,33}.vrt thk.tif
 
     # combine topo and thickness
