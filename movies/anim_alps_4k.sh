@@ -16,7 +16,7 @@ esac
 # color box and overlay position
 case $over in
     'tbar') box="c=#ffffff@0.5:s=3840x400"; pos="0:H-h" ;;
-    'ttag') box="c=#ffffff@0.5:s=480x120"; pos="0:0" ;;
+    'ttag') box="c=#ffffff@0.5:s=560x120"; pos="0:0" ;;
     *) echo "invalid overlay $over, exiting." ;;
 esac
 
