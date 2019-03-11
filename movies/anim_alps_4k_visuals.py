@@ -39,7 +39,8 @@ def visual(t, crop='al', mode='co', t0=-120000, t1=-0):
 
     # draw map elements
     ut.draw_tailored_hydrology(ax=ax, mode=mode)
-    ut.draw_lgm_faded(ax=ax, t=t)
+    if mode == 'gs':
+        ut.draw_lgm_faded(ax=ax, t=t)
 
     # return figure
     return fig
