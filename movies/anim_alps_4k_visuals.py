@@ -52,12 +52,12 @@ def main():
 
     # parse arguments
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('crop', choices=['al', 'ch', 'lu', 'zo'])
+    parser.add_argument('crop', choices=['al', 'ch', 'lu', 'ma', 'zo'])
     parser.add_argument('mode', choices=['co', 'gs'])
     args = parser.parse_args()
 
     # start and end of animation
-    if args.crop == 'lu':
+    if args.crop in ('lu', 'ma'):
         t0, t1, dt = -45000, -15000, 10
     else:
         t0, t1, dt = -120000, -0, 40

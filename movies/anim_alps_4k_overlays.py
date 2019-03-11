@@ -17,7 +17,7 @@ def overlay_city(t, crop='al', lang='en', t0=-120e3, t1=0e3):
 
     # draw map elements
     ut.draw_major_cities(ax=ax, exclude='Monaco', include='Sion', lang=lang,
-                         maxrank=(8 if crop=='lu' else 6))
+                         maxrank=(8 if crop in ('lu', 'ma') else 6))
 
     # return figure
     return fig
