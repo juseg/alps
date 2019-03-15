@@ -10,6 +10,7 @@ size="${5:-4k}"  # 2k 4k
 # time bounds overlay suffix
 case $crop in
     'lu') bnds="4515";;
+    'ma') bnds="4515";;
     *)    bnds="1200";;
 esac
 

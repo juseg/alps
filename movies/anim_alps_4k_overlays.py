@@ -32,7 +32,7 @@ def overlay_tbar(t, lang='en', t0=-120e3, t1=0e3):
     ax = fig.add_axes([12.0/figw, 3.0/figh, 1-26.0/figw, 12.0/figh])
 
     # import language-dependent labels
-    with open('anim_alps_4k_al_{}.yaml'.format(lang)) as f:
+    with open('anim_alps_4k_zo_{}.yaml'.format(lang)) as f:
         age_label, tem_label, vol_label = yaml.load(f)['Labels']
 
     # plot temperature offset time series
@@ -98,7 +98,7 @@ def overlay_ttag(t, lang='en'):
     fig = plt.figure(figsize=(figw/25.4, figh/25.4))
 
     # import language-dependent label
-    with open('anim_alps_4k_al_{}.yaml'.format(lang)) as f:
+    with open('anim_alps_4k_zo_{}.yaml'.format(lang)) as f:
         tag = yaml.load(f)['Labels'][0].format(0-t)
     if lang != 'ja':
         tag = tag.replace(',', r'$\,$')
@@ -115,7 +115,7 @@ def main():
 
     # parse arguments
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('crop', choices=['al', 'ch', 'lu', 'zo'])
+    parser.add_argument('crop', choices=['al', 'ch', 'lu', 'ma', 'zo'])
     parser.add_argument('lang', choices=['de', 'en', 'fr', 'it', 'ja', 'nl'])
     args = parser.parse_args()
 
@@ -126,7 +126,7 @@ def main():
         plt.rc('font', family='TakaoPGothic')
 
     # start and end of animation
-    if args.crop == 'lu':
+    if args.crop in ('lu', 'ma'):
         t0, t1, dt = -45000, -15000, 10
     else:
         t0, t1, dt = -120000, -0, 40

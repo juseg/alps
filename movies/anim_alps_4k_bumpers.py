@@ -112,7 +112,7 @@ def main():
     # parse arguments
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('crop', help='crop region',
-                        choices=['al', 'ch', 'lu', 'zo'])
+                        choices=['al', 'ch', 'lu', 'ma', 'zo'])
     parser.add_argument('lang', help='anim language',
                         choices=['de', 'en', 'fr', 'it', 'ja', 'nl'])
     args = parser.parse_args()
