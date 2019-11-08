@@ -61,43 +61,23 @@ def postprocess(ipath, ofile, subtitle):
     ex['ero'] = 2.7e-7*(ex.icy*ex.velbase_mag)**2.02  # m/a (Herman etal, 2015)
     ex['warm'] = ex.icy*(ex.temppabase >= -1e-3)
 
-    # compute index of last basal velocity
-    print("* computing index of last basal velocity...")
-    i = (ex.icy*(ex.velbase_mag >= 1.0))[::-1].argmax(axis=0).compute()
-
     # compute last basal velocity transgressive variables
-    ln = 'last basal velocity age'
-    print("* computing " + ln + "...")
-    pp['lastbvage'] = ex.age[-i].where(i > 0).compute()
-    pp['lastbvage'].attrs = dict(long_name=ln, grid_mapping='mapping',
-                                 units=ex.age.units)
-    ln = 'last basal velocity x-component'
-    print("* computing " + ln + "...")
-    pp['lastbvbvx'] = ex.uvelbase[-i].where(i > 0).compute()
-    pp['lastbvbvx'].attrs = dict(long_name=ln, grid_mapping='mapping',
-                                 units=ex.uvelbase.units)
-    ln = 'last basal velocity y-component'
-    print("* computing " + ln + "...")
-    pp['lastbvbvy'] = ex.vvelbase[-i].where(i > 0).compute()
-    pp['lastbvbvy'].attrs = dict(long_name=ln, grid_mapping='mapping',
-                                 units=ex.vvelbase.units)
+    # compute index first (xarray indexing with dask array issue #2511)
+    # idx = (ex.icy*(ex.velbase_mag >= 1.0))[::-1].argmax(axis=0).compute
+    # pp['lastbvage'] = ex.age[-idx].where(idx > 0).assign_attrs(
+    #     long_name='last basal velocity age', units=ex.age.units)
+    # pp['lastbvbvx'] = ex.uvelbase[-idx].where(idx > 0).assign_attrs(
+    #     long_name='last basal velocity x-component', units=ex.uvelbase.units)
+    # pp['lastbvbvy'] = ex.vvelbase[-idx].where(idx > 0).assign_attrs(
+    #     long_name='last basal velocity y-component', units=ex.vvelbase.units)
 
     # compute glacial cycle integrated variables
-    ln = 'cumulative basal motion'
-    print("* computing " + ln + "...")
-    pp['totalslip'] = (ex.icy*ex.velbase_mag).sum(axis=0).compute()*dt
-    pp['totalslip'].attrs = dict(long_name=ln, grid_mapping='mapping',
-                                 units='m')
-    ln = 'cumulative glacial erosion'
-    print("* computing " + ln + "...")
-    pp['glerosion'] = ex.ero.sum(axis=0).compute()*dt
-    pp['glerosion'].attrs = dict(long_name=ln, grid_mapping='mapping',
-                                 units='m year-1')
-    ln = 'temperate-based ice cover duration'
-    print("* computing " + ln + "...")
-    pp['warmcover'] = ex.warm.sum(axis=0).compute()*dt
-    pp['warmcover'].attrs = dict(long_name=ln, grid_mapping='mapping',
-                                 units='years')
+    pp['totalslip'] = dt*(ex.icy*ex.velbase_mag).sum(axis=0).assign_attrs(
+        long_name='cumulative basal motion', units='m')
+    pp['glerosion'] = dt*ex.ero.sum(axis=0).assign_attrs(
+        long_name='cumulative glacial erosion', units='m year-1')
+    pp['warmcover'] = dt*ex.warm.sum(axis=0).assign_attrs(
+        long_name='temperate-based ice cover duration', units='years')
 
     # add global attributes
     pp.attrs.update(globs)
