@@ -45,12 +45,12 @@ def postprocess(run_path):
     print("loading " + run_path + "...")
     ex = xr.open_mfdataset(run_path+'/ex.???????.nc', decode_times=False,
                            chunks=dict(time=50), combine='by_coords',
-                           data_vars='minimal')
+                           data_vars='minimal', master_file=-1)
 
-    # get global attributes from last file (netcdf4 issue #835)
-    last = xr.open_dataset(run_path+'/ex.0120000.nc', decode_times=False)
-    ex.attrs = last.attrs
-    last.close()
+    # get global attributes from last file (issue #2382, fixed locally)
+    # last = xr.open_dataset(run_path+'/ex.0120000.nc', decode_times=False)
+    # ex.attrs = last.attrs
+    # last.close()
 
     # create age coordinate and extract time step
     ex['age'] = -ex['time']/(365.0*24*60*60)
