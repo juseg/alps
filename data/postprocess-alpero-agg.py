@@ -1,5 +1,7 @@
-#!/usr/bin/env python2
-# coding: utf-8
+#!/usr/bin/env python
+# Copyright (c) 2019, Julien Seguinot <seguinot@vaw.baug.ethz.ch>
+# Creative Commons Attribution-ShareAlike 4.0 International License
+# (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
 """Prepare ALPERO aggregated variables."""
 
@@ -34,25 +36,28 @@ for i in range(7):
     rec = records[i]
     dp = pparams[i]
     dt = offsets[i]
-    conf = 'alpcyc4' + ('+pp' if dp == 'pp' else '')
+    conf = ('.pp' if dp == 'pp' else '')
 
     # input and output file paths
-    rname = 'alps-wcnn-{}/{}3222cool{:04.0f}+{}'.format(res, rec, 100*dt, conf)
+    rname = 'alpcyc4.{}.{}.{:04.0f}{}'.format(res, rec, 100*dt, conf)
     ipath = os.environ['HOME'] + '/pism/output/e9d2d1f/' + rname
     ofile = 'processed/alpero.{}.{}.{}.agg.nc'.format(res, rec[:4], dp)
+    print(ipath)
 
 
     # Load model output
     # -----------------
 
-    # load output data
-    print "loading " + rname + "..."
-    ts = xr.open_mfdataset(ipath+'/y???????-ts.nc', decode_times=False)
-    ex = xr.open_mfdataset(ipath+'/y???????-extra.nc', decode_times=False,
-                           chunks={'time': 50}, data_vars='minimal')
+    # load output data (in the future combine='by_coords' will be the default)
+    print("loading " + rname + "...")
+    ts = xr.open_mfdataset(
+        ipath+'/ts.???????.nc', combine='by_coords', decode_times=False)
+    ex = xr.open_mfdataset(
+        ipath+'/ex.???????.nc', combine='by_coords', decode_times=False,
+        chunks={'time': 50}, data_vars='minimal')
 
     # get global attributes from last file (netcdf4 issue #835)
-    last = xr.open_dataset(ipath+'/y0120000-extra.nc', decode_times=False)
+    last = xr.open_dataset(ipath+'/ex.0120000.nc', decode_times=False)
     ex.attrs = last.attrs
     last.close()
 
@@ -74,37 +79,37 @@ for i in range(7):
     ex['warm'] = ex.icy*(ex.temppabase >= -1e-3)
 
     # compute index of last basal velocity
-    print "* computing index of last basal velocity..."
+    print("* computing index of last basal velocity...")
     i = (ex.icy*(ex.velbase_mag >= 1.0))[::-1].argmax(axis=0).compute()
 
     # compute last basal velocity transgressive variables
     ln = 'last basal velocity age'
-    print "* computing " + ln + "..."
+    print("* computing " + ln + "...")
     pp['lastbvage'] = ex.age[-i].where(i > 0).compute()
     pp['lastbvage'].attrs = dict(long_name=ln, grid_mapping='mapping',
                                  units=ex.age.units)
     ln = 'last basal velocity x-component'
-    print "* computing " + ln + "..."
+    print("* computing " + ln + "...")
     pp['lastbvbvx'] = ex.uvelbase[-i].where(i > 0).compute()
     pp['lastbvbvx'].attrs = dict(long_name=ln, grid_mapping='mapping',
                                  units=ex.uvelbase.units)
     ln = 'last basal velocity y-component'
-    print "* computing " + ln + "..."
+    print("* computing " + ln + "...")
     pp['lastbvbvy'] = ex.vvelbase[-i].where(i > 0).compute()
     pp['lastbvbvy'].attrs = dict(long_name=ln, grid_mapping='mapping',
                                  units=ex.vvelbase.units)
 
     # compute glacial cycle integrated variables
     ln = 'cumulative basal motion'
-    print "* computing " + ln + "..."
+    print("* computing " + ln + "...")
     pp['totalslip'] = (ex.icy*ex.velbase_mag).sum(axis=0).compute()*dt
     pp['totalslip'].attrs = dict(long_name=ln, grid_mapping='mapping', units='m')
     ln = 'cumulative glacial erosion'
-    print "* computing " + ln + "..."
+    print("* computing " + ln + "...")
     pp['glerosion'] = ex.ero.sum(axis=0).compute()*dt
     pp['glerosion'].attrs = dict(long_name=ln, grid_mapping='mapping', units='m year-1')
     ln = 'temperate-based ice cover duration'
-    print "* computing " + ln + "..."
+    print("* computing " + ln + "...")
     pp['warmcover'] = ex.warm.sum(axis=0).compute()*dt
     pp['warmcover'].attrs = dict(long_name=ln, grid_mapping='mapping', units='years')
 
@@ -128,7 +133,7 @@ for i in range(7):
         os.makedirs('processed')
 
     # export to netcdf
-    print "* exporting aggregated data..."
+    print("* exporting aggregated data...")
     pp.drop('time')
     pp.to_netcdf(ofile, mode='w',
                  encoding={var: {'zlib': True, 'shuffle': True, 'complevel': 5}
