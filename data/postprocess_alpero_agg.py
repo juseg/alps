@@ -20,7 +20,7 @@ PROC_RUNS = ['alpcyc4.2km.grip.0820', 'alpcyc4.2km.grip.1040.pp',
 GLOB_ATTRS = dict(
     title='Alpine ice sheet glacial cycle erosion aggregated variables',
     author='Julien Seguinot',
-    institution='ETH Zürich, Switzerland and Hokkaido University, Japan',
+    institution='ETH Zürich, Switzerland',
     command='{user}@{host} {time}: {cmdl}\n'.format(
         user=os.environ['USER'], host=os.uname()[1], cmdl=' '.join(sys.argv),
         time=datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC')))
@@ -50,17 +50,22 @@ def postprocess_extra(run_path):
     # create age coordinate and extract time step
     ex['age'] = ex.time/(-365.0*24*60*60)
     ex['age'].attrs['units'] = 'years'
-    dt = ex.age[0] - ex.age[1]
 
     # init postprocessed dataset with global attributes
     pp = xr.Dataset(attrs=ex.attrs, coords=dict(lon=ex.lon, lat=ex.lat))
     pp.attrs.update(subtitle=subtitle, **GLOB_ATTRS)
     pp.attrs.update(history=pp.command+pp.history)
 
-    # register intermediate variables (erosion Herman et al., 2015)
+    # register intermediate variables
     ex['icy'] = (ex.thk >= 1.0)
-    ex['erosion'] = 2.7e-7*(ex.icy*ex.velbase_mag)**2.02  # m/a
-    ex['warmbase'] = ex.icy*(ex.temppabase >= -1e-3)
+    ex['sliding'] = ex.icy*ex.velbase_mag
+    ex['erosion'] = 2.7e-7*ex.sliding**2.02  # (m/a, Herman et al., 2015)
+    ex['warmbed'] = ex.icy*(ex.temppabase >= -1e-3)
+
+    # compute grid size
+    dt = ex.age[0] - ex.age[1]
+    dx = ex.x[1] - ex.x[0]
+    dy = ex.y[1] - ex.y[0]
 
     # compute last basal velocity transgressive variables
     # compute index first (xarray indexing with dask array issue #2511)
@@ -74,12 +79,22 @@ def postprocess_extra(run_path):
     # pp.drop('time')
 
     # compute glacial cycle integrated variables
-    pp['totalslip'] = dt*(ex.icy*ex.velbase_mag).sum(axis=0).assign_attrs(
+    pp['cumu_erosion'] = dt*ex.erosion.sum(axis=0).assign_attrs(
+        long_name='cumulative glacial erosion', units='m')
+    pp['cumu_sliding'] = dt*ex.sliding.sum(axis=0).assign_attrs(
         long_name='cumulative basal motion', units='m')
-    pp['glerosion'] = dt*ex.erosion.sum(axis=0).assign_attrs(
-        long_name='cumulative glacial erosion', units='m year-1')
-    pp['warmcover'] = dt*ex.warmbase.sum(axis=0).assign_attrs(
+    pp['glacier_time'] = dt*ex.icy.sum(axis=0).assign_attrs(
         long_name='temperate-based ice cover duration', units='years')
+    pp['warmbed_time'] = dt*ex.warmbed.sum(axis=0).assign_attrs(
+        long_name='temperate-based ice cover duration', units='years')
+
+    # compute timeseries
+    pp['erosion_rate'] = dx*dy*ex.erosion.sum(axis=(1, 2)).assign_attrs(
+        long_name='volumic glacial erosion rate', units='m3 year-1')
+    pp['glacier_area'] = dx*dy*ex.icy.sum(axis=(1, 2)).assign_attrs(
+        long_name='glacierized area', units='m2')
+    pp['warmbed_area'] = dx*dy*ex.warmbed.sum(axis=(1, 2)).assign_attrs(
+        long_name='temperate-based ice cover area', units='m2')
 
     # copy grid mapping and pism config
     pp['mapping'] = ex.mapping
