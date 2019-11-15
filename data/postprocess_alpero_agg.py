@@ -116,6 +116,10 @@ def main():
     if not os.path.exists('processed'):
         os.makedirs('processed')
 
+    # activate dask client http://localhost:8787/status
+    # from dask.distributed import Client
+    # print(Client().scheduler_info()['services'])
+
     # postprocess selected runs
     for run in PROC_RUNS:
         postprocess_extra(os.environ['HOME'] + '/pism/output/e9d2d1f/' + run)

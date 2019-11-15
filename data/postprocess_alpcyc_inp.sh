@@ -27,7 +27,7 @@ do
     echo "preparing $ofile..."
 
     # compress with shuffling
-    nccopy -sd1 "$HOME/pism/input/dt/${rec}3222cool$dt.nc" $ofile
+    nccopy -sd1 "$HOME/pism/input/dt/${rec}.3222.$dt.nc" $ofile
 
     # add global attributes
     [ "$pp" == "pp" ] && wo="with" || wo="without"
@@ -53,9 +53,9 @@ do
     echo "preparing $ofile..."
 
     # merge all input files
-    cp "$HOME/pism/input/boot/alps-srtm+thk+gou11simi-$res.nc" $ofile
-    ncks -A "$HOME/pism/input/atm/alps-wcnn-$res.nc" $ofile
-    ncks -A "$HOME/pism/input/sd/alps-erai-$res.nc" $ofile
+    cp "$HOME/pism/input/boot/alps.srtm.hus12.gou11simi.$res.nc" $ofile
+    ncks -A "$HOME/pism/input/atm/alps.wcnn.$res.nc" $ofile
+    ncks -A "$HOME/pism/input/sd/alps.erai.$res.nc" $ofile
     ncpdq -O -a y,x $ofile $ofile
 
     # remove (mostly) duplicate history and add global attributes
