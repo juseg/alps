@@ -9,8 +9,9 @@ import multiprocessing as mp
 import matplotlib.pyplot as plt
 import utils as ut
 
-# FIXME Split this into one script per overlay, or consider a tbar mode
-# FIXME Each tbar variable has a color, yticks, and label.
+"""Plot Alps 4k animations time bar overlays."""
+
+# FIXME Implement tbar type. Each variable has a color, yticks, and label.
 
 
 def overlay_ebar(t, lang='en', t0=-120e3, t1=0e3):
@@ -85,7 +86,7 @@ def overlay_ebar(t, lang='en', t0=-120e3, t1=0e3):
     return fig
 
 
-def overlay_tbar(t, lang='en', t0=-120e3, t1=0e3):
+def timebar(t, lang='en', t0=-120e3, t1=0e3):
     """Plot time bar overlay for given time."""
 
     # initialize figure
@@ -161,6 +162,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('crop', choices=['al', 'ch', 'lu', 'ma', 'zo'])
     parser.add_argument('lang', choices=['de', 'en', 'fr', 'it', 'ja', 'nl'])
+    parser.add_argument('type', choices=['tbar', 'ebar'])
     args = parser.parse_args()
 
     # set default font properties
@@ -175,29 +177,22 @@ def main():
     else:
         t0, t1, dt = -120000, -0, 10000
 
-    # output frame directories
-    prefix = os.path.join(os.environ['HOME'], 'anim', 'anim_alps_4k')
-    suffix = '{:.0f}{:.0f}'.format(-t0/1e3, -t1/1e3)
-    ebar_dir = prefix + '_ebar_' + args.lang + '_' + suffix
-    tbar_dir = prefix + '_tbar_' + args.lang + '_' + suffix
-
-    # range of frames to save
-    time_range = range(t0+dt, t1+1, dt)
+    # output frames directory
+    outdir = os.path.join(
+        os.environ['HOME'], 'anim', 'anim_alps_4k_{}_{}_{:.0f}{:.0f}'.format(
+            args.type, args.lang, -t0/1e3, -t1/1e3))
 
     # iterable arguments to save animation frames
-    ebar_args = [(overlay_ebar, ebar_dir, t, args.lang, t0, t1)
-                 for t in time_range]
-    tbar_args = [(overlay_tbar, tbar_dir, t, args.lang, t0, t1)
-                 for t in time_range]
+    iter_args = [(timebar, outdir, t, args.lang)
+                 for t in range(t0+dt, t1+1, dt)]
 
-    # create frame directories if missing
-    for outdir in [ebar_dir, tbar_dir]:
-        if not os.path.isdir(outdir):
-            os.mkdir(outdir)
+    # create frames directory if missing
+    if not os.path.isdir(outdir):
+         os.mkdir(outdir)
 
     # plot all frames in parallel
     with mp.Pool(processes=4) as pool:
-        pool.starmap(ut.save_animation_frame, ebar_args+tbar_args)
+        pool.starmap(ut.save_animation_frame, iter_args)
 
 
 if __name__ == '__main__':

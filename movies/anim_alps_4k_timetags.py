@@ -53,7 +53,7 @@ def main():
     else:
         t0, t1, dt = -120000, -0, 10000
 
-    # output frame directories
+    # output frames directory
     outdir = os.path.join(
         os.environ['HOME'], 'anim', 'anim_alps_4k',
         '_ttag_'+args.lang+'_'+'{:.0f}{:.0f}'.format(-t0/1e3, -t1/1e3))
