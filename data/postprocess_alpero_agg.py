@@ -23,7 +23,15 @@ GLOB_ATTRS = dict(
     institution='ETH Zürich, Switzerland',
     command='{user}@{host} {time}: {cmdl}\n'.format(
         user=os.environ['USER'], host=os.uname()[1], cmdl=' '.join(sys.argv),
-        time=datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC')))
+        time=datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC')),
+    comment="""Aggregated dataset contents:
+* Spatial variables aggregated in time over the entire simulation lenght from
+120,000 years before present to the present (cumu_erosion, cumu_sliding,
+glacier_time, warmbed_time).
+* Time-series variables aggregated in space over the entire glaciated area,
+defined by a 1-metre ice thickness threshold (erosion_rate, glacier_area,
+warmbed_area).
+""")
 
 
 def postprocess_extra(run_path):
@@ -37,7 +45,7 @@ def postprocess_extra(run_path):
         res, rec.upper(), 'with' if 'pp' in other else 'without')
 
     # load output data (in the future combine='by_coords' will be the default)
-    print("loading " + run_path + "...")
+    print("postprocessing " + out_file + "...")
     ex = xr.open_mfdataset(run_path+'/ex.???????.nc', decode_times=False,
                            chunks=dict(time=50), combine='by_coords',
                            data_vars='minimal', master_file=-1)
@@ -47,16 +55,13 @@ def postprocess_extra(run_path):
     # ex.attrs = last.attrs
     # last.close()
 
-    # create age coordinate and extract time step
-    ex['age'] = ex.time/(-365.0*24*60*60)
-    ex['age'].attrs['units'] = 'years'
-
     # init postprocessed dataset with global attributes
     pp = xr.Dataset(attrs=ex.attrs, coords=dict(lon=ex.lon, lat=ex.lat))
     pp.attrs.update(subtitle=subtitle, **GLOB_ATTRS)
     pp.attrs.update(history=pp.command+pp.history)
 
     # register intermediate variables
+    ex['age'] = (ex.time/(-365.0*24*60*60)).assign_attrs(units='years')
     ex['icy'] = (ex.thk >= 1.0)
     ex['sliding'] = ex.icy*ex.velbase_mag
     ex['erosion'] = 2.7e-7*ex.sliding**2.02  # (m/a, Herman et al., 2015)
@@ -79,21 +84,21 @@ def postprocess_extra(run_path):
     # pp.drop('time')
 
     # compute glacial cycle integrated variables
-    pp['cumu_erosion'] = dt*ex.erosion.sum(axis=0).assign_attrs(
+    pp['cumu_erosion'] = (dt*ex.erosion.sum(axis=0)).assign_attrs(
         long_name='cumulative glacial erosion', units='m')
-    pp['cumu_sliding'] = dt*ex.sliding.sum(axis=0).assign_attrs(
+    pp['cumu_sliding'] = (dt*ex.sliding.sum(axis=0)).assign_attrs(
         long_name='cumulative basal motion', units='m')
-    pp['glacier_time'] = dt*ex.icy.sum(axis=0).assign_attrs(
+    pp['glacier_time'] = (dt*ex.icy.sum(axis=0)).assign_attrs(
         long_name='temperate-based ice cover duration', units='years')
-    pp['warmbed_time'] = dt*ex.warmbed.sum(axis=0).assign_attrs(
+    pp['warmbed_time'] = (dt*ex.warmbed.sum(axis=0)).assign_attrs(
         long_name='temperate-based ice cover duration', units='years')
 
     # compute timeseries
-    pp['erosion_rate'] = dx*dy*ex.erosion.sum(axis=(1, 2)).assign_attrs(
+    pp['erosion_rate'] = (dx*dy*ex.erosion.sum(axis=(1, 2))).assign_attrs(
         long_name='volumic glacial erosion rate', units='m3 year-1')
-    pp['glacier_area'] = dx*dy*ex.icy.sum(axis=(1, 2)).assign_attrs(
+    pp['glacier_area'] = (dx*dy*ex.icy.sum(axis=(1, 2))).assign_attrs(
         long_name='glacierized area', units='m2')
-    pp['warmbed_area'] = dx*dy*ex.warmbed.sum(axis=(1, 2)).assign_attrs(
+    pp['warmbed_area'] = (dx*dy*ex.warmbed.sum(axis=(1, 2))).assign_attrs(
         long_name='temperate-based ice cover area', units='m2')
 
     # copy grid mapping and pism config
@@ -102,7 +107,7 @@ def postprocess_extra(run_path):
 
     # export to netcdf
     pp.to_netcdf(out_file, mode='w', encoding={var: dict(
-        zlib=True, shuffle=True, complevel=5) for var in pp.variables})
+        zlib=True, shuffle=True, complevel=1) for var in pp.variables})
 
     # close datasets
     ex.close()
