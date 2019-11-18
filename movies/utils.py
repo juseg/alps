@@ -26,12 +26,14 @@ def axes_anim_dynamic(crop, t, t0=-120e3, t1=-0e3, figsize=(192.0, 108.0)):
     regions = dict(
         al_0=(120e3, 1080e3, 4835e3, 5375e3),  # Alps   16:9  960x540 250m@4k
         al_1=(120e3, 1080e3, 4835e3, 5375e3),  # "
+        ch_0=(380e3,  476e3, 5120e3, 5174e3),  # Switz. 16:9   96x54   25m@4k
+        ch_1=(252e3,  636e3, 5072e3, 5288e3),  # Switz. 16:9  384x216 100m@4k
         lu_0=(416e3,  512e3, 5200e3, 5254e3),  # Luzern 16:9   96x54   25m@4k
         lu_1=(392e3,  520e3, 5196e3, 5268e3),  # Luzern 16:9  128x72   33m@4k
         ma_0=(234e3,  426e3, 4871e3, 4979e3),  # Marit. 16:9  192x108  50m@4k
         ma_1=(141e3,  429e3, 4829e3, 4991e3),  # Marit. 16:9  288x162  75m@4k
-        ch_0=(380e3,  476e3, 5120e3, 5174e3),  # Switz. 16:9   96x54   25m@4k
-        ch_1=(252e3,  636e3, 5072e3, 5288e3),  # Switz. 16:9  384x216 100m@4k
+        ul_0=(152e3, 1048e3, 4848e3, 5352e3),  # Uplift 16:9  896x504 233m@4k
+        ul_1=(152e3, 1048e3, 4848e3, 5352e3),  # "
         zo_0=(329e3,  521e3, 5096e3, 5204e3),  # Switz. 16:9  192x108  50m@4k
         zo_1=(120e3, 1080e3, 4835e3, 5375e3),  # Alps   16:9  960x540 250m@4k
     )
@@ -202,9 +204,9 @@ def draw_tailored_hydrology(ax=None, **kwargs):
 
     # plot one or both hydrology layers
     if coverage > 0.9:
-        draw_swisstopo_hydrology(alpha=alpha, **kwargs)
+        draw_swisstopo_hydrology(ax=ax, alpha=alpha, **kwargs)
     if coverage < 1.0:
-        draw_natural_earth(alpha=1-alpha, **kwargs)
+        draw_natural_earth(ax=ax, alpha=1-alpha, **kwargs)
 
 
 # Data input methods

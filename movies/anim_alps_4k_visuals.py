@@ -3,7 +3,7 @@
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
-"""Alps 4k animations frames visuals."""
+"""Plot Alps 4k animations frames main visuals."""
 
 import os
 import multiprocessing as mp
@@ -46,6 +46,22 @@ def visual(t, crop='al', mode='co', t0=-120000, t1=-0):
             ax=ax, add_colorbar=False, alpha=0.75,
             cmap='Blues', norm=mcolors.LogNorm(1e1, 1e3))
 
+    # mode ul, show interpolated bedrock depression
+    elif mode == 'ul':
+        cax = fig.add_axes([8/384, 1-72/216, 8/384, 64/216])
+        ds.uplift.plot.contourf(
+            ax=ax, alpha=0.75, cmap='PRGn_r', cbar_ax=cax,
+            cbar_kwargs=dict(label='uplift (m)'),
+            extend='both', levels=[-100, -50, -20, 0, 2, 5, 10])
+
+        # locate maximum depression (xarray has no idxmin yet)
+        i, j = divmod(int(ds.uplift.argmin()), ds.uplift.shape[1])
+        maxdep = float(-ds.uplift[i, j])
+        color = 'w' if maxdep > 50 else 'k'
+        ax.plot(ds.x[j], ds.y[i], 'o', color=color, alpha=0.75)
+        ax.text(ds.x[j]+5e3, ds.y[i]+5e3, '{:.0f} m'.format(maxdep),
+                color=color)
+
     # draw map elements
     ut.draw_tailored_hydrology(ax=ax, mode=mode)
     if mode == 'gs':
@@ -62,9 +78,12 @@ def main():
 
     # parse arguments
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('crop', choices=['al', 'ch', 'lu', 'ma', 'zo'])
-    parser.add_argument('mode', choices=['co', 'er', 'gs'])
+    parser.add_argument('crop', choices=['al', 'ch', 'lu', 'ma', 'ul', 'zo'])
+    parser.add_argument('mode', choices=['co', 'er', 'gs', 'ul'])
     args = parser.parse_args()
+
+    # set default font size for uplift tag and colorbars
+    plt.rc('font', size=12)
 
     # start and end of animation
     if args.crop in ('lu', 'ma'):
@@ -85,7 +104,7 @@ def main():
         os.mkdir(outdir)
 
     # plot all frames in parallel
-    with mp.Pool(processes=4) as pool:
+    with mp.Pool(processes=8) as pool:
         pool.starmap(ut.save_animation_frame, iter_args)
 
 
