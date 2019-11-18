@@ -285,9 +285,9 @@ def plot_ice_extent(darray, ax=None, ec='k', fc='none'):
     """Draw void or filled ice extent contour."""
 
     # plot a single contour
-    if ec is not 'none':
+    if ec != 'none':
         darray.plot.contour(ax=ax, colors=[ec], levels=[0.5], linewidths=0.25)
-    if fc is not 'none':
+    if fc != 'none':
         darray.plot.contourf(ax=ax, add_colorbar=False, alpha=0.75, colors=fc,
                              extend='neither', levels=[0.5, 1.5])
 
