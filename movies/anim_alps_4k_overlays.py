@@ -13,21 +13,6 @@ import utils as ut
 # FIXME Each tbar variable has a color, yticks, and label.
 
 
-def overlay_city(t, crop='al', lang='en', t0=-120e3, t1=0e3):
-    """Plot city overlay for given language."""
-
-    # initialize figure
-    fig, ax = ut.axes_anim_dynamic(crop=crop, t=t, t0=t0, t1=t1,
-                                   figsize=(192.0, 108.0))
-
-    # draw map elements
-    ut.draw_major_cities(ax=ax, exclude='Monaco', include='Sion', lang=lang,
-                         maxrank=(8 if crop in ('lu', 'ma') else 6))
-
-    # return figure
-    return fig
-
-
 def overlay_ebar(t, lang='en', t0=-120e3, t1=0e3):
     """Plot erosion time bar overlay for given time."""
 
@@ -206,23 +191,19 @@ def main():
     if args.crop in ('lu', 'ma'):
         t0, t1, dt = -45000, -15000, 10
     else:
-        t0, t1, dt = -120000, -0, 40
+        t0, t1, dt = -120000, -0, 10000
 
     # output frame directories
     prefix = os.path.join(os.environ['HOME'], 'anim', 'anim_alps_4k')
     suffix = '{:.0f}{:.0f}'.format(-t0/1e3, -t1/1e3)
-    city_dir = prefix + '_city_' + args.crop + '_' + args.lang
     ebar_dir = prefix + '_ebar_' + args.lang + '_' + suffix
     tbar_dir = prefix + '_tbar_' + args.lang + '_' + suffix
     ttag_dir = prefix + '_ttag_' + args.lang + '_' + suffix
 
     # range of frames to save
     time_range = range(t0+dt, t1+1, dt)
-    city_range = [t1] if args.crop == 'al' else time_range
 
     # iterable arguments to save animation frames
-    city_args = [(overlay_city, city_dir, t, args.crop, args.lang, t0, t1)
-                 for t in city_range]
     ebar_args = [(overlay_ebar, ebar_dir, t, args.lang, t0, t1)
                  for t in time_range]
     tbar_args = [(overlay_tbar, tbar_dir, t, args.lang, t0, t1)
@@ -231,14 +212,13 @@ def main():
                  for t in time_range]
 
     # create frame directories if missing
-    for outdir in [city_dir, ebar_dir, tbar_dir, ttag_dir]:
+    for outdir in [ebar_dir, tbar_dir, ttag_dir]:
         if not os.path.isdir(outdir):
             os.mkdir(outdir)
 
     # plot all frames in parallel
     with mp.Pool(processes=4) as pool:
-        pool.starmap(ut.save_animation_frame,
-                     city_args+ebar_args+tbar_args+ttag_args)
+        pool.starmap(ut.save_animation_frame, ebar_args+tbar_args+ttag_args)
 
 
 if __name__ == '__main__':
