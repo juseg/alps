@@ -256,14 +256,15 @@ def open_visual(filename, t, x, y, sigma=10000):
 
     # load extra data
     with open_subdataset(filename, t) as ds:
-        ds = ds[['thk', 'topg', 'usurf', 'velsurf_mag']]
+        ds = ds[['thk', 'topg', 'usurf', 'velbase_mag', 'velsurf_mag']]
 
         # compute ice mask and bedrock uplift
         ds['icy'] = 1.0 * (ds.thk >= 1.0)
         ds['uplift'] = ds.topg - boot
 
         # interpolate surfaces to axes coords
-        ds = ds[['icy', 'uplift', 'usurf', 'velsurf_mag']].interp(x=x, y=y)
+        # FIXME custom vars besides thk, topg, usurf?
+        ds = ds[['icy', 'uplift', 'usurf', 'velbase_mag', 'velsurf_mag']].interp(x=x, y=y)
 
     # interpolate srtm topography
     ds['topg'] = srtm.interp(x=x, y=y)
@@ -305,15 +306,13 @@ def plot_topo_contours(darray, ax=None, ec='0.25'):
     darray.plot.contour(ax=ax, colors=[ec], levels=minors, linewidths=0.1)
 
 
-def plot_shaded_relief(darray, ax=None, mode='co'):
+def plot_shaded_relief(darray, ax=None, mode='gs'):
     """Plot shaded relief map from elevation data array."""
 
     # plot basal topography
-    if mode == 'gs':
-        kwargs = dict(cmap='Greys', vmin=0, vmax=4500)
-    else:
-        kwargs = dict(cmap=ccv.ELEVATIONAL, vmin=-4500, vmax=4500)
-    darray.plot.imshow(ax=ax, add_colorbar=False, zorder=-1, **kwargs)
+    darray.plot.imshow(ax=ax, add_colorbar=False, zorder=-1,
+        cmap=(ccv.ELEVATIONAL if mode=='co' else 'Greys'),
+        vmin=(-4500 if mode=='co' else 0), vmax=4500)
 
     # add relief shading
     # FIXME: add xarray/numpy-centric functions in cartowik?
