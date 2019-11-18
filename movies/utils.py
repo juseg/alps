@@ -143,8 +143,8 @@ def draw_major_cities(ax=None, exclude=None, include=None, maxrank=5,
 def draw_natural_earth(ax=None, mode='gs', **kwargs):
     """Add Natural Earth geographic data vectors."""
     ax = ax or plt.gca()
-    edgecolor = '0.25' if mode == 'gs' else '#0978ab'
-    facecolor = '0.95' if mode == 'gs' else '#c6ecff'
+    edgecolor = '#0978ab' if mode == 'co' else '0.25'
+    facecolor = '#c6ecff' if mode == 'co' else '0.95'
     cne.add_rivers(ax=ax, edgecolor=edgecolor, zorder=0, **kwargs)
     cne.add_lakes(ax=ax, edgecolor=edgecolor, facecolor=facecolor, zorder=0, **kwargs)
     cne.add_coastline(ax=ax, edgecolor=edgecolor, zorder=0, **kwargs)
@@ -159,8 +159,8 @@ def draw_swisstopo_hydrology(ax=None, mode='gs', **kwargs):
 
     # get axes if None provided
     ax = ax or plt.gca()
-    edgecolor = '0.25' if mode == 'gs' else '#0978ab'
-    facecolor = '0.85' if mode == 'gs' else '#c6ecff'
+    edgecolor = '#0978ab' if mode == 'co' else '0.25'
+    facecolor = '#c6ecff' if mode == 'co' else '0.95'
 
     # draw swisstopo rivers
     filename = '../data/external/25_DKM500_GEWAESSER_LIN.shp'
@@ -322,7 +322,7 @@ def plot_shaded_relief(darray, ax=None, mode='gs'):
 
     # add coastline if data spans the zero
     if darray.min() * darray.max() < 0.0:
-        colors = ('0.25' if mode == 'gs' else '#0978ab')
+        colors = '#0978ab' if mode == 'co' else '0.25'
         darray.plot.contour(ax=ax, colors=colors, levels=[0.0],
                             linestyles=['dashed'], linewidths=0.25)
 
