@@ -12,7 +12,8 @@ EXT = pdf
 PY = python
 
 # all python figures
-# (tmp off: alpflo_, egumap profiles scalability timeseries timestamp
+# (tmp off: alpero_, finalslip totalslip
+# 	    alpflo_, egumap profiles scalability timeseries timestamp
 #           alplgl_, extent)
 PY_FIGS = $(addprefix alpbou_, locmap) \
           $(addprefix alpcyc_, \
@@ -21,7 +22,7 @@ PY_FIGS = $(addprefix alpbou_, locmap) \
 			     profiles timestamp trimlines) \
             $(addprefix lr_, footprints records glacareas \
                              timeseries timestamp)) \
-          $(addprefix alpero_, glerosion lastbvdir totalslip )
+          $(addprefix alpero_, cumulative )
 PY_FIGS := $(addsuffix .$(EXT), $(PY_FIGS))
 
 # all figures
