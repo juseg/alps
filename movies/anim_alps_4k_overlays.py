@@ -152,24 +152,6 @@ def overlay_tbar(t, lang='en', t0=-120e3, t1=0e3):
     return fig
 
 
-def overlay_ttag(t, lang='en'):
-    """Plot time tag overlay for given time."""
-
-    # initialize figure
-    figw, figh = 32.0, 6.0
-    fig = plt.figure(figsize=(figw/25.4, figh/25.4))
-
-    # import language-dependent label
-    with open('anim_alps_4k_zo_{}.yaml'.format(lang)) as f:
-        tag = yaml.safe_load(f)['Labels'][0].format(0-t)
-    if lang != 'ja':
-        tag = tag.replace(',', r'$\,$')
-    fig.text(2.5/figw, 1-2.5/figh, tag, ha='left', va='top', fontweight='bold')
-
-    # return figure
-    return fig
-
-
 def main():
     """Main program for command-line execution."""
 
@@ -198,7 +180,6 @@ def main():
     suffix = '{:.0f}{:.0f}'.format(-t0/1e3, -t1/1e3)
     ebar_dir = prefix + '_ebar_' + args.lang + '_' + suffix
     tbar_dir = prefix + '_tbar_' + args.lang + '_' + suffix
-    ttag_dir = prefix + '_ttag_' + args.lang + '_' + suffix
 
     # range of frames to save
     time_range = range(t0+dt, t1+1, dt)
@@ -208,17 +189,15 @@ def main():
                  for t in time_range]
     tbar_args = [(overlay_tbar, tbar_dir, t, args.lang, t0, t1)
                  for t in time_range]
-    ttag_args = [(overlay_ttag, ttag_dir, t, args.lang)
-                 for t in time_range]
 
     # create frame directories if missing
-    for outdir in [ebar_dir, tbar_dir, ttag_dir]:
+    for outdir in [ebar_dir, tbar_dir]:
         if not os.path.isdir(outdir):
             os.mkdir(outdir)
 
     # plot all frames in parallel
     with mp.Pool(processes=4) as pool:
-        pool.starmap(ut.save_animation_frame, ebar_args+tbar_args+ttag_args)
+        pool.starmap(ut.save_animation_frame, ebar_args+tbar_args)
 
 
 if __name__ == '__main__':
