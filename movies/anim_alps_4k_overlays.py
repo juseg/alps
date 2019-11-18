@@ -33,7 +33,7 @@ def overlay_tbar(t, lang='en', t0=-120e3, t1=0e3):
 
     # import language-dependent labels
     with open('anim_alps_4k_zo_{}.yaml'.format(lang)) as f:
-        age_label, tem_label, vol_label = yaml.load(f)['Labels']
+        age_label, tem_label, vol_label = yaml.safe_load(f)['Labels']
 
     # plot temperature offset time series
     with ut.open_dataset('../data/processed/alpcyc.1km.epic.pp.dt.nc') as ds:
@@ -99,7 +99,7 @@ def overlay_ttag(t, lang='en'):
 
     # import language-dependent label
     with open('anim_alps_4k_zo_{}.yaml'.format(lang)) as f:
-        tag = yaml.load(f)['Labels'][0].format(0-t)
+        tag = yaml.safe_load(f)['Labels'][0].format(0-t)
     if lang != 'ja':
         tag = tag.replace(',', r'$\,$')
     fig.text(2.5/figw, 1-2.5/figh, tag, ha='left', va='top', fontweight='bold')
