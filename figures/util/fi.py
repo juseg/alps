@@ -2,6 +2,8 @@
 
 """Figure creation and sublot helpers."""
 
+# FIXME use absplots
+
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.transforms as mtransforms
@@ -53,7 +55,7 @@ def add_subfig_label(text, ax=None, x=None, y=None, ha='left', va='top',
 def cut_ts_axes(ax, tsw=2/3., tsh=1/3.):
     """Cut timeseries inset into main axes."""
     fig = ax.figure
-    pos = ax.get_position()
+    pos = ax.get_position(original=True)  # cf mpl api changes 3.0.0
     figw, figh = fig.get_size_inches()*25.4
     ax.outline_patch.set_ec('none')
     x = [0.0, 1-tsw, 1-tsw, 1.0, 1.0, 0.0, 0.0]
@@ -252,7 +254,7 @@ def subplots_inputs(extent='alps', mode='vertical'):
 
     # add colorbar axes
     for ax in grid[[0, 2], :].flat:
-        pos = ax.get_position()
+        pos = ax.get_position(original=True)  # cf mpl api changes 3.0.0
         if mode == 'horizontal':
             rect = [pos.x0, pos.y0-4.5/figh, pos.x1-pos.x0, 3.0/figh]
         else:
