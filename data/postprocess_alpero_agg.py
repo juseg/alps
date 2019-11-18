@@ -48,7 +48,7 @@ def postprocess_extra(run_path):
     print("postprocessing " + out_file + "...")
     ex = xr.open_mfdataset(run_path+'/ex.???????.nc', decode_times=False,
                            chunks=dict(time=50), combine='by_coords',
-                           data_vars='minimal', master_file=-1)
+                           data_vars='minimal', attrs_file=-1)
 
     # get global attributes from last file (issue #2382, fixed locally)
     # last = xr.open_dataset(run_path+'/ex.0120000.nc', decode_times=False)
