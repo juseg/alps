@@ -1,45 +1,34 @@
 #!/usr/bin/env python
-# coding: utf-8
+# Copyright (c) 2016-2019, Julien Seguinot <seguinot@vaw.baug.ethz.ch>
+# Creative Commons Attribution-ShareAlike 4.0 International License
+# (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
 import util as ut
 
 # initialize figure
-# FIXME postprocess netcdf erosion timeseries
-fig, ax, cax = ut.fi.subplots_cax()
-
-
-# Map axes
-# --------
+fig, ax, cax, tsax = ut.fi.subplots_cax_ts()
 
 # load aggregated data
+# FIXME age coords in preprocessing, open with xarray
 with ut.io.open_dataset('../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
-    ext = ds.glerosion > 0.0
-    ero = ds.glerosion.where(ext)
 
-    # plot aggregated data
-    ckw = dict(label='total erosion (m)')
-    ero.plot.contourf(ax=ax, alpha=0.75, cbar_ax=cax, cbar_kwargs=ckw,
-                      cmap='Reds', levels=[10**i for i in range(-1, 4)])
-    ext.plot.contour(ax=ax, colors='k', linewidths=0.5, levels=[0.5])
+    # plot map data
+    glaciated = ds.cumu_erosion > 0.0
+    ds.cumu_erosion.where(glaciated).plot.contourf(
+        ax=ax, alpha=0.75, cmap='Reds', levels=[10**i for i in range(0, 4)],
+        cbar_ax=cax, cbar_kwargs=dict(label='total erosion (m)', format='%g'))
+    glaciated.plot.contour(ax=ax, colors='k', linewidths=0.5, levels=[0.5])
+
+    # plot time series
+    twax = tsax.twinx()
+    twax.plot(ds.age/1e3, ds.erosion_rate*1e-9, c='C5')
+    twax.set_ylabel('erosion rate ($km\,a^{-1}$)', color='C5')
+    twax.set_xlim(120.0, 0.0)
+    twax.set_ylim(-0.5, 3.5)
 
 # add map elements
 ut.pl.draw_boot_topo(ax)
 ut.ne.draw_natural_earth(ax)
-
-
-# Time series
-# -----------
-
-## load postprocessed data
-#age, erosionrate = ut.io.load_postproc_txt(ut.alpcyc_bestrun, 'erosionrate')
-#
-## plot time series
-#twax = tsax.twinx()
-#twax.plot(age/1e3, erosionrate, c='C5')
-#twax.set_ylabel('erosion rate ($km^3\,a^{-1}$)', color='C5')
-#twax.set_xlim(120.0, 0.0)
-#twax.set_ylim(-0.5, 3.5)
-#twax.locator_params(axis='y', nbins=6)
 
 # save figure
 ut.pl.savefig()
