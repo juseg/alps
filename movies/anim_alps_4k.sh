@@ -2,7 +2,7 @@
 
 # parse command-line arguments
 crop="${1:-al}"  # al ch
-mode="${2:-co}"  # co gs
+mode="${2:-co}"  # co gs er
 over="${3:-ttag}"  # ttag tbar
 lang="${4:-en}"  # de en fr ja it nl
 size="${5:-4k}"  # 2k 4k
@@ -20,6 +20,9 @@ case $over in
     'ttag') box="c=#ffffff@0.5:s=560x120"; pos="0:0" ;;
     *) echo "invalid overlay $over, exiting." ;;
 esac
+
+# tbar mode special overlay prefix
+[ "$over" == "tbar" ] && pre=${over}_${mode/gs/co} || pre=${over}
 
 # image resolution
 case $size in
@@ -56,10 +59,10 @@ prefix=anim_alps_4k_${crop/zo/al}_$lang
 ffmpeg \
     -pattern_type glob -i "$HOME/anim/anim_alps_4k_main_${crop}_$mode/$imgs" \
     -pattern_type glob -i "$HOME/anim/anim_alps_4k_city_${crop}_$lang/$imgs" \
-    -pattern_type glob -i "$HOME/anim/anim_alps_4k_${over}_${lang}_$bnds/$imgs" \
-    -loop 1 -t 4 -i anim_alps_4k_${crop}_${lang}_head.png \
-    -loop 1 -t 3 -i anim_alps_4k_${crop}_${lang}_refs.png \
-    -loop 1 -t 3 -i anim_alps_4k_${crop}_${lang}_disc.png \
-    -loop 1 -t 3 -i anim_alps_4k_${crop}_${lang}_bysa.png \
+    -pattern_type glob -i "$HOME/anim/anim_alps_4k_${pre}_${lang}_$bnds/$imgs" \
+    -loop 1 -t 4 -i anim_alps_4k_${crop}_${mode}_${lang}_head.png \
+    -loop 1 -t 3 -i anim_alps_4k_${crop}_${mode}_${lang}_refs.png \
+    -loop 1 -t 3 -i anim_alps_4k_${crop}_${mode}_${lang}_disc.png \
+    -loop 1 -t 3 -i anim_alps_4k_${crop}_${mode}_${lang}_bysa.png \
     -filter_complex $filt -pix_fmt yuv420p -c:v libx264 -r 25 -s $res \
     $HOME/anim/anim_alps_${size}_${crop}_${mode}_${over}_${lang}.mp4
