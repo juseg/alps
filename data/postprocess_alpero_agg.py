@@ -39,6 +39,8 @@ def postprocess_extra(run_path):
 
     # output file and subtitle
     _, res, rec, *other = os.path.basename(run_path).split('.')
+    boot_file = (os.environ['HOME'] + '/pism/input/boot/' +
+                 'alps.srtm.hus12.gou11simi.{}.nc'.format(res))
     out_file = 'processed/alpero.{}.{}.{}.agg.nc'.format(
         res, rec[:4], 'pp' if 'pp' in other else 'cp')
     subtitle = '{} {} simulation {} precipitation reductions'.format(
@@ -46,6 +48,7 @@ def postprocess_extra(run_path):
 
     # load output data (in the future combine='by_coords' will be the default)
     print("postprocessing " + out_file + "...")
+    boot = xr.open_dataset(boot_file, decode_cf=False, decode_times=False)
     ex = xr.open_mfdataset(run_path+'/ex.???????.nc', decode_times=False,
                            chunks=dict(time=50), combine='by_coords',
                            data_vars='minimal', attrs_file=-1)
@@ -63,6 +66,7 @@ def postprocess_extra(run_path):
     # register intermediate variables
     ex['age'] = (ex.time/(-365.0*24*60*60)).assign_attrs(units='years')
     ex['icy'] = (ex.thk >= 1.0)
+    ex['bedlift'] = ex.topg - boot.topg.where(boot.topg>0, 0)
     ex['sliding'] = ex.icy*ex.velbase_mag
     ex['erosion'] = 2.7e-7*ex.sliding**2.02  # (m/a, Herman et al., 2015)
     ex['warmbed'] = ex.icy*(ex.temppabase >= -1e-3)
@@ -98,6 +102,8 @@ def postprocess_extra(run_path):
         long_name='volumic glacial erosion rate', units='m3 year-1')
     pp['glacier_area'] = (dx*dy*ex.icy.sum(axis=(1, 2))).assign_attrs(
         long_name='glacierized area', units='m2')
+    pp['volumic_lift'] = (dx*dy*ex.bedlift.sum(axis=(1, 2))).assign_attrs(
+        long_name='volumic bedrock uplift', units='m3')
     pp['warmbed_area'] = (dx*dy*ex.warmbed.sum(axis=(1, 2))).assign_attrs(
         long_name='temperate-based ice cover area', units='m2')
 
@@ -110,6 +116,7 @@ def postprocess_extra(run_path):
         zlib=True, shuffle=True, complevel=1) for var in pp.variables})
 
     # close datasets
+    boot.close()
     ex.close()
     pp.close()
 

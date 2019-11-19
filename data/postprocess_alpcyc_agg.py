@@ -16,7 +16,6 @@ PROC_RUNS = ['alpcyc4.2km.grip.0820', 'alpcyc4.2km.grip.1040.pp',
              'alpcyc4.2km.md012444.0800', 'alpcyc4.2km.md012444.1060.pp',
              'alpcyc4.1km.epica.1220.pp']
 
-
 # global attributes
 GLOB_ATTRS = dict(
     title='Alpine ice sheet glacial cycle simulations aggregated variables',
@@ -56,6 +55,7 @@ def postprocess_extra(run_path):
 
     # load output data (in the future combine='by_coords' will be the default)
     print("postprocessing " + out_file + "...")
+    boot = xr.open_dataset(boot_file, decode_cf=False, decode_times=False)
     ex = xr.open_mfdataset(run_path+'/ex.???????.nc', decode_times=False,
                            chunks=dict(time=50), combine='by_coords',
                            data_vars='minimal', attrs_file=-1)
@@ -76,6 +76,12 @@ def postprocess_extra(run_path):
 
     # compute grid size
     dt = ex.age[0] - ex.age[1]
+
+    # copy boot variables
+    pp['inicdtthk'] = boot.thk.T.assign_attrs(
+        long_name='initial condiction ice thickness')
+    pp['inicdttpg'] = boot.topg.T.assign_attrs(
+        long_name='initial condiction bedrock surface elevation')
 
     # compute glacial cycle integrated variables
     pp['covertime'] = (dt*ex.icy.sum(axis=0)).assign_attrs(
@@ -135,14 +141,6 @@ def postprocess_extra(run_path):
     pp['mis4print'] = (covertime > 0).assign_attrs(
         long_name='glaciated area between 71 and 57 ka', units='')
 
-    # copy boot variables
-    with xr.open_dataset(boot_file, decode_cf=False, decode_times=False,
-                         ) as boot:
-        pp['inicdtthk'] = boot.thk.T.assign_attrs(
-            long_name='initial condiction ice thickness')
-        pp['inicdttpg'] = boot.topg.T.assign_attrs(
-            long_name='initial condiction bedrock surface elevation')
-
     # copy grid mapping and pism config
     pp['mapping'] = ex.mapping
     pp['pism_config'] = ex.pism_config
@@ -152,6 +150,7 @@ def postprocess_extra(run_path):
         zlib=True, shuffle=True, complevel=1) for var in pp.variables})
 
     # close datasets
+    boot.close()
     ex.close()
     pp.close()
 
