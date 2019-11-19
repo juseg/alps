@@ -113,6 +113,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('crop', help='crop region',
                         choices=['al', 'ch', 'lu', 'ma', 'zo'])
+    parser.add_argument('mode', help='anim mode',
+                        choices=['co', 'er', 'gs'])
     parser.add_argument('lang', help='anim language',
                         choices=['de', 'en', 'fr', 'it', 'ja', 'nl'])
     args = parser.parse_args()
@@ -127,12 +129,11 @@ def main():
         plt.rc('font', family='TakaoPGothic')
 
     # prefix for output files
-    # FIXME metadata depends on the animation mode
-    prefix = 'anim_alps_4k_{}_co_{}'.format(args.crop, args.lang)
+    prefix = 'anim_alps_4k_{}_{}_{}'.format(args.crop, args.mode, args.lang)
 
     # import text elements
     with open(prefix+'.yaml') as f:
-        info = yaml.load(f)
+        info = yaml.safe_load(f)
 
     # assemble bumpers
     bumper_main(prefix, info)

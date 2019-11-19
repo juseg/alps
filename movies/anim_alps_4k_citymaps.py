@@ -51,8 +51,9 @@ def main():
         t0, t1, dt = -120000, -0, 10000
 
     # output frames directory
-    outdir = os.path.join(os.environ['HOME'], 'anim', 'anim_alps_4k',
-                          prefix+'_city_'+args.crop+'_'+args.lang)
+    outdir = os.path.join(
+        os.environ['HOME'], 'anim', 'anim_alps_4k_city_{}_{}'.format(
+            args.crop, args.lang))
 
     # range of frames to save
     time_range = [t1] if args.crop == 'al' else range(t0+dt, t1+1, dt)

@@ -55,8 +55,8 @@ def main():
 
     # output frames directory
     outdir = os.path.join(
-        os.environ['HOME'], 'anim', 'anim_alps_4k',
-        '_ttag_'+args.lang+'_'+'{:.0f}{:.0f}'.format(-t0/1e3, -t1/1e3))
+        os.environ['HOME'], 'anim', 'anim_alps_4k_ttag_{}_{:.0f}{:.0f}'.format(
+            args.lang, -t0/1e3, -t1/1e3))
 
     # iterable arguments to save animation frames
     iter_args = [(timetag, outdir, t, args.lang)
