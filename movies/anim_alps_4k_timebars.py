@@ -16,7 +16,7 @@ def format_axes(ax, var, color='0.25', label=''):
     """Format axes for given variable."""
 
     # get axes properties
-    ticks = dict(dt=[-15, 0], sl=[0, 30], er=[0, 1.5])[var]
+    ticks = dict(dt=[-15, 0], sl=[0, 30], er=[0, 1.5], ul=[-30, 0])[var]
     ylims = ticks[0]-(ticks[1]-ticks[0])/6, ticks[1]+(ticks[1]-ticks[0])/6
 
     # set axes properties
@@ -31,9 +31,11 @@ def open_variable(var):
     filename = dict(
         dt='../data/processed/alpcyc.1km.epic.pp.dt.nc',
         er='../data/processed/alpero.1km.epic.pp.agg.nc',
-        sl='../data/processed/alpcyc.1km.epic.pp.ts.10a.nc')[var]
-    varname = dict(dt='delta_T', er='erosion_rate', sl='slvol')[var]
-    multiplier = dict(dt=1.0, sl=100.0, er=1e-9)[var]
+        sl='../data/processed/alpcyc.1km.epic.pp.ts.10a.nc',
+        ul='../data/processed/alpero.1km.epic.pp.agg.nc')[var]
+    varname = dict(dt='delta_T', er='erosion_rate', sl='slvol',
+                   ul='volumic_lift')[var]
+    multiplier = dict(dt=1.0, sl=100.0, er=1e-9, ul=1e-12)[var]
     with ut.open_dataset(filename) as ds:
         return ds[varname]*multiplier
 
@@ -70,12 +72,12 @@ def plot_rolling(ax, data, time, text='  {: .0f}', **kwargs):
     plot_tagline(ax, roll, time, text=text, **kwargs)
 
 
-def timebar(t, mode='co', lang='en', t0=-120000, t1=0):
+def timebar(t, crop='co', mode='co', lang='en', t0=-120000, t1=0):
     """Plot time bar overlay for given time."""
 
     # mode-dependent properties
-    variables = dict(co=('dt', 'sl'), er=('sl', 'er'))[mode]
-    colors = '0.25', dict(co='C0', er='C4')[mode]
+    variables = dict(co=('dt', 'sl'), er=('sl', 'er'), ul=('sl', 'ul'))[mode]
+    colors = '0.25', dict(co='C0', er='C4', ul='C1')[mode]
 
     # initialize figure
     # FIXME use absplots
@@ -85,7 +87,6 @@ def timebar(t, mode='co', lang='en', t0=-120000, t1=0):
     twax = tsax.twinx()
 
     # import language-dependent labels
-    crop = 'zo' if mode =='co' else 'al'
     with open('anim_alps_4k_{}_{}_{}.yaml'.format(crop, mode, lang)) as f:
         labels = yaml.safe_load(f)['Labels']
 
@@ -122,8 +123,8 @@ def main():
 
     # parse arguments
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('crop', choices=['al', 'ch', 'lu', 'ma', 'zo'])
-    parser.add_argument('mode', choices=['co', 'er'])
+    parser.add_argument('crop', choices=['al', 'ch', 'lu', 'ma', 'ul', 'zo'])
+    parser.add_argument('mode', choices=['co', 'er', 'ul'])
     parser.add_argument('lang', choices=['de', 'en', 'fr', 'it', 'ja', 'nl'])
     args = parser.parse_args()
 
@@ -145,7 +146,7 @@ def main():
             args.mode, args.lang, -t0/1e3, -t1/1e3))
 
     # iterable arguments to save animation frames
-    iter_args = [(timebar, outdir, t, args.mode, args.lang, t0, t1)
+    iter_args = [(timebar, outdir, t, args.crop, args.mode, args.lang, t0, t1)
                  for t in range(t0+dt, t1+1, dt)]
 
     # create frames directory if missing
