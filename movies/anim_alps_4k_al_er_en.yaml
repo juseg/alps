@@ -1,0 +1,56 @@
+---  # English animation metadata
+
+Title: |-  # |- means formatted text
+   Alpine glaciers erosion potential
+   in the last 120000 years
+
+Author:
+   J. Seguinot, 2019
+
+Credit: |-
+   After: J. Seguinot, S. Ivy-Ochs, G. Jouvet, M. Huss, M. Funk, and F. Preusser.
+   Modelling last glacial cycle ice dynamics in the Alps, $\it{The\ Cryosphere}$, 12,
+   3265-3285, https://doi.org/10.5194/tc-12-3265-2018, 2018.
+
+Abstract:  # FIXME
+   About 25000 years ago, Alpine Glaciers filled most of the valleys and even
+   extended onto the plains. Using a computer model that contains knowledge on
+   glacier physics based on modern observations of Greenland and Antarctica and
+   laboratory experiments on ice, help from traces left by glaciers on the
+   landscape, and one of the fastest computers in the world, this animation is
+   an attempt to estimate glacier erosion by Alpine Glaciers in time from
+   120000 years ago to today.
+
+Labels:
+   - "{:,d} years ago"
+   - "ice volume\n(cm sea level\nequivalent)"
+   - "erosion rate\n($km\\,a^{-1}$)"
+
+References:
+   Software:
+      - PISM, matplotlib, xarray, ffmpeg, etc.
+   Resources:
+      - Swiss Federal Institute of Technology in Zurich  (ETHZ)
+      - Swiss National Supercomputing Centre             (CSCS)
+      - Swiss National Science Foundation                (SNSF)
+   Input data:
+      - ERA-Interim reanalysis  (Dee et al., 2011)
+      - Geothermal heat flux    (Goutorbe et al., 2011)
+      - WorldClim climate data  (Hijmans et al., 2005)
+      - Modern ice thickness    (Huss and Farinotti, 2012)
+      - SRTM modern topography  (Jarvis et al., 2008)
+      - EPICA ice-core record   (Jouzel et al., 2007)
+      - Natural Earth Data      (Patterson and Kelso, 2016)
+      - Past sea level change   (Spratt et al., 2016)
+      - Swisstopo Swiss Map Vector
+
+Disclaimer: |-
+   This animation uses results from numerical modelling.
+   Our knowledge on Alpine climate and glacier history is limited.
+   The reality was almost certainly different.
+
+License text:
+   This work is licensed under
+
+License link:
+   http://creativecommons.org/licenses/by-sa/4.0/

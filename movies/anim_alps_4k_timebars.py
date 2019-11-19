@@ -137,7 +137,7 @@ def main():
     if args.crop in ('lu', 'ma'):
         t0, t1, dt = -45000, -15000, 10
     else:
-        t0, t1, dt = -120000, -0, 10000
+        t0, t1, dt = -120000, -0, 40
 
     # output frames directory
     outdir = os.path.join(
