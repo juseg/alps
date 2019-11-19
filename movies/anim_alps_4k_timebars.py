@@ -12,16 +12,10 @@ import utils as ut
 """Plot Alps 4k animations time bar overlays."""
 
 
-def format_axes(ax, var, color='0.25', lang='en'):
+def format_axes(ax, var, color='0.25', label=''):
     """Format axes for given variable."""
 
-    # import language-dependent labels
-    # FIXME language-dependent erosion label
-    with open('anim_alps_4k_zo_co_{}.yaml'.format(lang)) as f:
-        age_label, tem_label, vol_label = yaml.safe_load(f)['Labels']
-
     # get axes properties
-    label = dict(dt=tem_label, sl=vol_label, er='erosion rate\n($km\,a^{-1}$)')[var]
     ticks = dict(dt=[-15, 0], sl=[0, 30], er=[0, 1.5])[var]
     ylims = ticks[0]-(ticks[1]-ticks[0])/6, ticks[1]+(ticks[1]-ticks[0])/6
 
@@ -91,14 +85,15 @@ def timebar(t, mode='co', lang='en', t0=-120000, t1=0):
     twax = tsax.twinx()
 
     # import language-dependent labels
-    # FIXME language-dependent erosion label
+    crop = 'zo' if mode =='co' else 'al'
     with open('anim_alps_4k_{}_{}_{}.yaml'.format(crop, mode, lang)) as f:
-        age_label, tem_label, vol_label = yaml.safe_load(f)['Labels']
+        labels = yaml.safe_load(f)['Labels']
 
     # for each axes
     for i, ax in enumerate([tsax, twax]):
         var = variables[i]
         color = colors[i]
+        label = labels[i+1]
 
         # plot corresponding variable
         data = open_variable(variables[i])
@@ -108,13 +103,13 @@ def timebar(t, mode='co', lang='en', t0=-120000, t1=0):
             plot_tagline(ax, data, t, color=color)
 
         # set axes properties
-        format_axes(ax, var, color=color, lang=lang)
+        format_axes(ax, var, color=color, label=label)
         for k, v in ax.spines.items():
             v.set_color(color if k == ['left', 'right'][i] else 'none')
 
     # add moving cursor and adaptive ticks
     tsax.set_xlim(-t0, -t1)
-    plot_cursor(tsax, t, age_label, sep=(',' if lang == 'ja' else r'$\,$'))
+    plot_cursor(tsax, t, labels[0], sep=(',' if lang == 'ja' else r'$\,$'))
 
     # return figure
     return fig
