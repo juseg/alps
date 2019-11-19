@@ -35,10 +35,11 @@ def visual(t, crop='al', mode='co', t0=-120000, t1=-0):
             ut.plot_streamlines(ds, ax=ax, density=(24, 16))
 
     # mode er, interpolate erosion rate
+    # (values range 1e-15 to 1e2, mostly within 1e-12 to 1e-2)
     elif mode == 'er':
-        (2.7e-7*ds.icy*ds.velbase_mag**2.02).plot.imshow(
-            ax=ax, add_colorbar=False, alpha=0.75,
-            cmap='magma_r', norm=mcolors.LogNorm(1e-9, 1e0))
+        (2.7e-7*ds.velbase_mag**2.02).where(ds.icy).plot.contourf(
+            ax=ax, add_colorbar=False, alpha=0.75, cmap='YlOrBr',
+            levels=[10**i for i in range(-9, 1)])
 
     # mode gs, show interpolated velocities
     elif mode == 'gs':
@@ -48,6 +49,7 @@ def visual(t, crop='al', mode='co', t0=-120000, t1=-0):
 
     # mode ul, show interpolated bedrock depression
     elif mode == 'ul':
+        # FIXME move colorbar to language dependent overlay
         cax = fig.add_axes([8/384, 1-72/216, 8/384, 64/216])
         ds.uplift.plot.contourf(
             ax=ax, alpha=0.75, cmap='PRGn_r', cbar_ax=cax,

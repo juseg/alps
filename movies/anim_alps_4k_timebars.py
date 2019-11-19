@@ -77,7 +77,7 @@ def timebar(t, crop='co', mode='co', lang='en', t0=-120000, t1=0):
 
     # mode-dependent properties
     variables = dict(co=('dt', 'sl'), er=('sl', 'er'), ul=('sl', 'ul'))[mode]
-    colors = '0.25', dict(co='C0', er='C4', ul='C1')[mode]
+    colors = '0.25', dict(co='C1', er='C11', ul='C3')[mode]
 
     # initialize figure
     # FIXME use absplots

@@ -1,6 +1,9 @@
-# Copyright (c) 2018, Julien Seguinot <seguinot@vaw.baug.ethz.ch>
+#!/usr/bin/env python
+# Copyright (c) 2018-2019, Julien Seguinot <seguinot@vaw.baug.ethz.ch>
+# Creative Commons Attribution-ShareAlike 4.0 International License
+# (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
-"""Animation tools."""
+"""Alps animation tools."""
 
 import os
 import re
@@ -14,6 +17,13 @@ import cartopy.crs as ccrs
 import cartopy.io.shapereader as cshp
 import cartowik.conventions as ccv
 import cartowik.naturalearth as cne
+
+
+# Color palette
+# -------------
+
+# set color cycle to colorbrewer Paired palette
+plt.rc('axes', prop_cycle=plt.cycler(color=plt.get_cmap('Paired').colors))
 
 
 # Figure creation
