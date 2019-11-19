@@ -34,7 +34,7 @@ def main():
 
     # parse arguments
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('crop', choices=['al', 'ch', 'lu', 'ma', 'zo'])
+    parser.add_argument('crop', choices=['al', 'ch', 'lu', 'ma', 'ul', 'zo'])
     parser.add_argument('lang', choices=['de', 'en', 'fr', 'it', 'ja', 'nl'])
     args = parser.parse_args()
 
@@ -56,7 +56,7 @@ def main():
             args.crop, args.lang))
 
     # range of frames to save
-    time_range = [t1] if args.crop == 'al' else range(t0+dt, t1+1, dt)
+    time_range = [t1] if args.crop in ('al', 'ul') else range(t0+dt, t1+1, dt)
 
     # iterable arguments to save animation frames
     iter_args = [(plot, outdir, t, args.crop, args.lang, t0, t1)
