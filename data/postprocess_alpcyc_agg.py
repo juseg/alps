@@ -77,11 +77,11 @@ def postprocess_extra(run_path):
     # compute grid size
     dt = ex.age[0] - ex.age[1]
 
-    # copy boot variables
-    pp['inicdtthk'] = boot.thk.T.assign_attrs(
-        long_name='initial condiction ice thickness')
-    pp['inicdttpg'] = boot.topg.T.assign_attrs(
-        long_name='initial condiction bedrock surface elevation')
+    # copy boot variables  # FIXME should this be part of agg file?
+    pp['inicdtthk'] = boot.thk.assign_attrs(
+        long_name='initial condition ice thickness')
+    pp['inicdttpg'] = boot.topg.where(boot.topg>0, 0).assign_attrs(
+        long_name='initial condition bedrock surface elevation')
 
     # compute glacial cycle integrated variables
     pp['covertime'] = (dt*ex.icy.sum(axis=0)).assign_attrs(
