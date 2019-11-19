@@ -44,6 +44,22 @@ def open_variable(var):
         return ds[varname]*multiplier
 
 
+def plot_cursor(ax, time, label, sep=r'$\,$'):
+    """Add moving time cursor and adaptive ticks."""
+    start, end = ax.get_xlim()
+    ticks = [start, -time, end]
+    labels = [r'{:,.0f}', label, '{:,.0f}']
+    labels = [l.format(t).replace(',', sep) for l, t in zip(labels, ticks)]
+    relpos = float((start+time)/(start-end))
+    labels = [labels[0]*(relpos>=1/12), labels[1], labels[-1]*(relpos<=11/12)]
+    ax.axvline(-time, c='0.25', lw=0.5)
+    ax.set_xticks(ticks)
+    ax.set_xticklabels(labels)
+    ax.xaxis.tick_top()
+    for label in ax.xaxis.get_ticklabels():
+        label.set_verticalalignment('baseline')
+
+
 def plot_tagline(ax, data, text='  {: .0f}', **kwargs):
     """Plot progress line with moving text time tag."""
     # FIXME age coord of dt file not exactly at cursor, is it an issue?
@@ -80,18 +96,8 @@ def timebar(t, mode='co', lang='en', t0=-120000, t1=0):
         v.set_color('0.25' if k == 'left' else 'none')
 
     # add moving cursor and adaptive ticks
-    ax.axvline(-t, c='0.25', lw=0.5)
-    ax.set_xticks([-t0, -t, -t1])
-    rt = 1.0*(t-t0)/(t1-t0)  # relative cursor position
-    l0 = r'{:,d}'.format(0-t0)
-    lt = age_label.format(0-t)
-    l1 = r'{:,d}'.format(0-t1)
-    if lang != 'ja':
-        l0 = l0.replace(',', r'$\,$')
-        lt = lt.replace(',', r'$\,$')
-        l1 = l1.replace(',', r'$\,$')
-    ax.set_xticklabels([l0*(rt>=1/12.0), lt, l1*(rt<=11/12.0)])
-    ax.xaxis.tick_top()
+    ax.set_xlim(-t0, -t1)
+    plot_cursor(ax, t, age_label, sep=(',' if lang == 'ja' else r'$\,$'))
 
     # set axes properties
     if mode == 'co':
@@ -122,7 +128,6 @@ def timebar(t, mode='co', lang='en', t0=-120000, t1=0):
             v.set_color('C4' if k == 'right' else 'none')
 
     # set axes properties
-    ax.set_xlim(-t0, -t1)
     if mode == 'co':
         format_axes(ax, 'sl', color='C0', lang=lang)
     elif mode == 'er':
