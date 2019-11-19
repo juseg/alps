@@ -17,7 +17,7 @@ def format_axes(ax, var, color='0.25', lang='en'):
 
     # import language-dependent labels
     # FIXME language-dependent erosion label
-    with open('anim_alps_4k_zo_{}.yaml'.format(lang)) as f:
+    with open('anim_alps_4k_zo_co_{}.yaml'.format(lang)) as f:
         age_label, tem_label, vol_label = yaml.safe_load(f)['Labels']
 
     # get axes properties
@@ -92,7 +92,7 @@ def timebar(t, mode='co', lang='en', t0=-120000, t1=0):
 
     # import language-dependent labels
     # FIXME language-dependent erosion label
-    with open('anim_alps_4k_zo_{}.yaml'.format(lang)) as f:
+    with open('anim_alps_4k_{}_{}_{}.yaml'.format(crop, mode, lang)) as f:
         age_label, tem_label, vol_label = yaml.safe_load(f)['Labels']
 
     # for each axes

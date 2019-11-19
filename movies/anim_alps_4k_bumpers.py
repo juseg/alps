@@ -127,7 +127,8 @@ def main():
         plt.rc('font', family='TakaoPGothic')
 
     # prefix for output files
-    prefix = 'anim_alps_4k_{}_{}'.format(args.crop, args.lang)
+    # FIXME metadata depends on the animation mode
+    prefix = 'anim_alps_4k_{}_co_{}'.format(args.crop, args.lang)
 
     # import text elements
     with open(prefix+'.yaml') as f:

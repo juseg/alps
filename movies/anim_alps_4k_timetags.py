@@ -20,7 +20,7 @@ def timetag(t, lang='en'):
     fig = plt.figure(figsize=(figw/25.4, figh/25.4))
 
     # import language-dependent label
-    with open('anim_alps_4k_zo_{}.yaml'.format(lang)) as f:
+    with open('anim_alps_4k_zo_co_{}.yaml'.format(lang)) as f:
         tag = yaml.safe_load(f)['Labels'][0].format(0-t)
     if lang != 'ja':
         tag = tag.replace(',', r'$\,$')
