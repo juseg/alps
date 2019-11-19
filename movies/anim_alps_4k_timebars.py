@@ -11,6 +11,7 @@ import utils as ut
 
 """Plot Alps 4k animations time bar overlays."""
 
+
 def format_axes(ax, var, color='0.25', lang='en'):
     """Format axes for given variable."""
 
@@ -27,8 +28,20 @@ def format_axes(ax, var, color='0.25', lang='en'):
     # set axes properties
     ax.set_yticks(ticks)
     ax.set_ylim(*ylims)
-    ax.set_ylabel(label, color=color, labelpad=-1, y=0.55)
+    ax.set_ylabel(label, color=color, labelpad=2, y=0.55)
     ax.tick_params(axis='y', colors=color)
+
+
+def open_variable(var):
+    """Open postprocessed time series from appropriate file."""
+    filename = dict(
+        dt='../data/processed/alpcyc.1km.epic.pp.dt.nc',
+        er='../data/processed/alpero.1km.epic.pp.agg.nc',
+        sl='../data/processed/alpcyc.1km.epic.pp.ts.10a.nc')[var]
+    varname = dict(dt='delta_T', er='erosion_rate', sl='slvol')[var]
+    multiplier = dict(dt=1.0, sl=100.0, er=1e-9)[var]
+    with ut.open_dataset(filename) as ds:
+        return ds[varname]*multiplier
 
 
 def plot_tagline(ax, data, text='  {: .0f}', **kwargs):
@@ -54,13 +67,13 @@ def timebar(t, mode='co', lang='en', t0=-120000, t1=0):
 
     # plot left axis variable
     if mode == 'co':
-        with ut.open_dataset('../data/processed/alpcyc.1km.epic.pp.dt.nc') as ds:
-            data = ds.delta_T[ds.time <= t]
-            plot_tagline(ax, data, color='0.25')
+        data = open_variable('dt')
+        data = data[data.time <= t]
+        plot_tagline(ax, data, color='0.25')
     elif mode == 'er':
-        with ut.open_dataset('../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as ds:
-            data = ds.slvol[ds.time <= t]*100.0
-            plot_tagline(ax, data, color='0.25')
+        data = open_variable('sl')
+        data = data[data.time <= t]
+        plot_tagline(ax, data, color='0.25')
 
     # color axes spines
     for k, v in ax.spines.items():
@@ -90,15 +103,16 @@ def timebar(t, mode='co', lang='en', t0=-120000, t1=0):
     # plot right axis variable
     ax = ax.twinx()
     if mode == 'co':
-        with ut.open_dataset('../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as ds:
-            data = ds.slvol[ds.time <= t]*100.0
-            plot_tagline(ax, data, color='C0')
+        data = open_variable('sl')
+        data = data[data.time <= t]
+        plot_tagline(ax, data, color='C0')
     elif mode == 'er':
-        with ut.open_dataset('../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
-            data = ds.erosion_rate[ds.time <= t]*1e-9
-            roll = ds.erosion_rate.rolling(time=100, center=True).mean()[ds.time <= t]*1e-9
-            plot_tagline(ax, data, text='', alpha=0.5, color='C4')
-            plot_tagline(ax, roll, text='  {: .1f}', color='C4')
+        data = open_variable('er')
+        roll = data.rolling(time=100, center=True).mean()
+        data = data[data.time <= t]
+        roll = roll[roll.time <= t]
+        plot_tagline(ax, data, text='', alpha=0.5, color='C4')
+        plot_tagline(ax, roll, text='  {: .1f}', color='C4')
 
     # color axes spines
     for k, v in ax.spines.items():
