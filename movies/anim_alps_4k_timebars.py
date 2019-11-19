@@ -44,7 +44,7 @@ def open_variable(var):
         return ds[varname]*multiplier
 
 
-def plot_cursor(ax, time, label, sep=r'$\,$'):
+def plot_cursor(ax, time, label, color='0.25', sep=r'$\,$'):
     """Add moving time cursor and adaptive ticks."""
     start, end = ax.get_xlim()
     ticks = [start, -time, end]
@@ -55,6 +55,7 @@ def plot_cursor(ax, time, label, sep=r'$\,$'):
     ax.axvline(-time, c='0.25', lw=0.5)
     ax.set_xticks(ticks)
     ax.set_xticklabels(labels)
+    ax.tick_params(axis='x', colors=color)
     ax.xaxis.tick_top()
     for label in ax.xaxis.get_ticklabels():
         label.set_verticalalignment('baseline')
@@ -64,8 +65,15 @@ def plot_tagline(ax, data, time, text='  {: .0f}', **kwargs):
     """Plot progress line with moving text time tag."""
     data = data[data.time <= time]
     ax.plot(data.age, data, **kwargs)
-    ax.text(-time, data[-1], text.format(float(data[-1])),
+    ax.text(-time, data[-1], '  '+text.format(float(data[-1])),
             ha='left', va='center', clip_on=True, **kwargs)
+
+
+def plot_rolling(ax, data, time, text='  {: .0f}', **kwargs):
+    """Plot progress line with rolling mean and time tag."""
+    roll = data.rolling(time=100, center=True).mean()
+    plot_tagline(ax, data, time, text='', alpha=0.5, **kwargs)
+    plot_tagline(ax, roll, time, text=text, **kwargs)
 
 
 def timebar(t, mode='co', lang='en', t0=-120000, t1=0):
@@ -79,45 +87,34 @@ def timebar(t, mode='co', lang='en', t0=-120000, t1=0):
     # FIXME use absplots
     figw, figh = 192.0, 20.0
     fig = plt.figure(figsize=(figw/25.4, figh/25.4))
-    ax = fig.add_axes([12.0/figw, 3.0/figh, 1-26.0/figw, 12.0/figh])
+    tsax = fig.add_axes([12.0/figw, 3.0/figh, 1-26.0/figw, 12.0/figh])
+    twax = tsax.twinx()
 
     # import language-dependent labels
     # FIXME language-dependent erosion label
     with open('anim_alps_4k_zo_{}.yaml'.format(lang)) as f:
         age_label, tem_label, vol_label = yaml.safe_load(f)['Labels']
 
-    # plot left axis variable
-    data = open_variable(variables[0])
-    plot_tagline(ax, data, t, color=colors[0])
+    # for each axes
+    for i, ax in enumerate([tsax, twax]):
+        var = variables[i]
+        color = colors[i]
 
-    # color axes spines
-    for k, v in ax.spines.items():
-        v.set_color(colors[0] if k == 'left' else 'none')
+        # plot corresponding variable
+        data = open_variable(variables[i])
+        if var == 'er':
+            plot_rolling(ax, data, t, text='  {: .1f}', color=color)
+        else:
+            plot_tagline(ax, data, t, color=color)
+
+        # set axes properties
+        format_axes(ax, var, color=color, lang=lang)
+        for k, v in ax.spines.items():
+            v.set_color(color if k == ['left', 'right'][i] else 'none')
 
     # add moving cursor and adaptive ticks
-    ax.set_xlim(-t0, -t1)
-    plot_cursor(ax, t, age_label, sep=(',' if lang == 'ja' else r'$\,$'))
-
-    # set axes properties
-    format_axes(ax, variables[0], color=colors[0], lang=lang)
-    ax.tick_params(axis='x', colors=colors[0])
-
-    # plot right axis variable
-    ax = ax.twinx()
-    data = open_variable(variables[1])
-    if variables[1] != 'er':
-        plot_tagline(ax, data, t, color=colors[1])
-    else:
-        roll = data.rolling(time=100, center=True).mean()
-        plot_tagline(ax, data, t, text='', alpha=0.5, color=colors[1])
-        plot_tagline(ax, roll, t, text='  {: .1f}', color=colors[1])
-
-    # color axes spines
-    for k, v in ax.spines.items():
-        v.set_color(colors[1] if k == 'right' else 'none')
-
-    # set axes properties
-    format_axes(ax, variables[1], color=colors[1], lang=lang)
+    tsax.set_xlim(-t0, -t1)
+    plot_cursor(tsax, t, age_label, sep=(',' if lang == 'ja' else r'$\,$'))
 
     # return figure
     return fig
