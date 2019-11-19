@@ -60,18 +60,23 @@ def plot_cursor(ax, time, label, sep=r'$\,$'):
         label.set_verticalalignment('baseline')
 
 
-def plot_tagline(ax, data, text='  {: .0f}', **kwargs):
+def plot_tagline(ax, data, time, text='  {: .0f}', **kwargs):
     """Plot progress line with moving text time tag."""
-    # FIXME age coord of dt file not exactly at cursor, is it an issue?
+    data = data[data.time <= time]
     ax.plot(data.age, data, **kwargs)
-    ax.text(data.age[-1], data[-1], text.format(float(data[-1])),
+    ax.text(-time, data[-1], text.format(float(data[-1])),
             ha='left', va='center', clip_on=True, **kwargs)
 
 
 def timebar(t, mode='co', lang='en', t0=-120000, t1=0):
     """Plot time bar overlay for given time."""
 
+    # mode-dependent properties
+    variables = dict(co=('dt', 'sl'), er=('sl', 'er'))[mode]
+    colors = '0.25', dict(co='C0', er='C4')[mode]
+
     # initialize figure
+    # FIXME use absplots
     figw, figh = 192.0, 20.0
     fig = plt.figure(figsize=(figw/25.4, figh/25.4))
     ax = fig.add_axes([12.0/figw, 3.0/figh, 1-26.0/figw, 12.0/figh])
@@ -82,56 +87,37 @@ def timebar(t, mode='co', lang='en', t0=-120000, t1=0):
         age_label, tem_label, vol_label = yaml.safe_load(f)['Labels']
 
     # plot left axis variable
-    if mode == 'co':
-        data = open_variable('dt')
-        data = data[data.time <= t]
-        plot_tagline(ax, data, color='0.25')
-    elif mode == 'er':
-        data = open_variable('sl')
-        data = data[data.time <= t]
-        plot_tagline(ax, data, color='0.25')
+    data = open_variable(variables[0])
+    plot_tagline(ax, data, t, color=colors[0])
 
     # color axes spines
     for k, v in ax.spines.items():
-        v.set_color('0.25' if k == 'left' else 'none')
+        v.set_color(colors[0] if k == 'left' else 'none')
 
     # add moving cursor and adaptive ticks
     ax.set_xlim(-t0, -t1)
     plot_cursor(ax, t, age_label, sep=(',' if lang == 'ja' else r'$\,$'))
 
     # set axes properties
-    if mode == 'co':
-        format_axes(ax, 'dt', color='0.25', lang=lang)
-    elif mode == 'er':
-        format_axes(ax, 'sl', color='0.25', lang=lang)
-    ax.tick_params(axis='x', colors='0.25')
+    format_axes(ax, variables[0], color=colors[0], lang=lang)
+    ax.tick_params(axis='x', colors=colors[0])
 
     # plot right axis variable
     ax = ax.twinx()
-    if mode == 'co':
-        data = open_variable('sl')
-        data = data[data.time <= t]
-        plot_tagline(ax, data, color='C0')
-    elif mode == 'er':
-        data = open_variable('er')
+    data = open_variable(variables[1])
+    if variables[1] != 'er':
+        plot_tagline(ax, data, t, color=colors[1])
+    else:
         roll = data.rolling(time=100, center=True).mean()
-        data = data[data.time <= t]
-        roll = roll[roll.time <= t]
-        plot_tagline(ax, data, text='', alpha=0.5, color='C4')
-        plot_tagline(ax, roll, text='  {: .1f}', color='C4')
+        plot_tagline(ax, data, t, text='', alpha=0.5, color=colors[1])
+        plot_tagline(ax, roll, t, text='  {: .1f}', color=colors[1])
 
     # color axes spines
     for k, v in ax.spines.items():
-        if mode == 'co':
-            v.set_color('C0' if k == 'right' else 'none')
-        elif mode == 'er':
-            v.set_color('C4' if k == 'right' else 'none')
+        v.set_color(colors[1] if k == 'right' else 'none')
 
     # set axes properties
-    if mode == 'co':
-        format_axes(ax, 'sl', color='C0', lang=lang)
-    elif mode == 'er':
-        format_axes(ax, 'er', color='C4', lang=lang)
+    format_axes(ax, variables[1], color=colors[1], lang=lang)
 
     # return figure
     return fig
