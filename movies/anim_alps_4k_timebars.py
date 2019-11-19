@@ -11,6 +11,33 @@ import utils as ut
 
 """Plot Alps 4k animations time bar overlays."""
 
+def format_axes(ax, var, color='0.25', lang='en'):
+    """Format axes for given variable."""
+
+    # import language-dependent labels
+    # FIXME language-dependent erosion label
+    with open('anim_alps_4k_zo_{}.yaml'.format(lang)) as f:
+        age_label, tem_label, vol_label = yaml.safe_load(f)['Labels']
+
+    # get axes properties
+    label = dict(dt=tem_label, sl=vol_label, er='erosion rate\n($km\,a^{-1}$)')[var]
+    ticks = dict(dt=[-15, 0], sl=[0, 30], er=[0, 1.5])[var]
+    ylims = ticks[0]-(ticks[1]-ticks[0])/6, ticks[1]+(ticks[1]-ticks[0])/6
+
+    # set axes properties
+    ax.set_yticks(ticks)
+    ax.set_ylim(*ylims)
+    ax.set_ylabel(label, color=color, labelpad=-1, y=0.55)
+    ax.tick_params(axis='y', colors=color)
+
+
+def plot_tagline(ax, data, text='  {: .0f}', **kwargs):
+    """Plot progress line with moving text time tag."""
+    # FIXME age coord of dt file not exactly at cursor, is it an issue?
+    ax.plot(data.age, data, **kwargs)
+    ax.text(data.age[-1], data[-1], text.format(float(data[-1])),
+            ha='left', va='center', clip_on=True, **kwargs)
+
 
 def timebar(t, mode='co', lang='en', t0=-120000, t1=0):
     """Plot time bar overlay for given time."""
@@ -28,16 +55,12 @@ def timebar(t, mode='co', lang='en', t0=-120000, t1=0):
     # plot left axis variable
     if mode == 'co':
         with ut.open_dataset('../data/processed/alpcyc.1km.epic.pp.dt.nc') as ds:
-            dt = ds.delta_T[ds.time <= t]
-            ax.plot(dt.age, dt, c='0.25')
-            ax.text(-t, dt[-1], '  {: .0f}'.format(dt[-1].values),
-                    color='0.25', ha='left', va='center', clip_on=True)
+            data = ds.delta_T[ds.time <= t]
+            plot_tagline(ax, data, color='0.25')
     elif mode == 'er':
         with ut.open_dataset('../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as ds:
-            sl = ds.slvol[ds.time <= t]*100.0
-            ax.plot(sl.age, sl, c='0.25')
-            ax.text(-t, sl[-1], '  {: .0f}'.format(sl[-1].values),
-                    color='0.25', ha='left', va='center', clip_on=True)
+            data = ds.slvol[ds.time <= t]*100.0
+            plot_tagline(ax, data, color='0.25')
 
     # color axes spines
     for k, v in ax.spines.items():
@@ -59,34 +82,23 @@ def timebar(t, mode='co', lang='en', t0=-120000, t1=0):
 
     # set axes properties
     if mode == 'co':
-        ax.set_ylim(-17.5, 2.5)
-        ax.set_yticks([-15.0, 0.0])
-        ax.set_ylabel(tem_label, color='0.25', labelpad=-1, y=0.55)
+        format_axes(ax, 'dt', color='0.25', lang=lang)
     elif mode == 'er':
-        ax.set_ylim(-5, 35)
-        ax.set_yticks([0, 30])
-        ax.set_ylabel(vol_label, color='0.25', labelpad=-1, y=0.55)
+        format_axes(ax, 'sl', color='0.25', lang=lang)
     ax.tick_params(axis='x', colors='0.25')
-    ax.tick_params(axis='y', colors='0.25')
 
     # plot right axis variable
     ax = ax.twinx()
     if mode == 'co':
         with ut.open_dataset('../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as ds:
-            sl = ds.slvol[ds.time <= t]*100.0
-            ax.plot(sl.age, sl, c='C0')
-            ax.text(-t, sl[-1], '  {: .0f}'.format(sl[-1].values),
-                    color='C0', ha='left', va='center', clip_on=True)
+            data = ds.slvol[ds.time <= t]*100.0
+            plot_tagline(ax, data, color='C0')
     elif mode == 'er':
         with ut.open_dataset('../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
-            eros = ds.erosion_rate[ds.time <= t]*1e-9
-            roll = eros.rolling(time=100, center=True).mean()
-            last = float(roll.dropna(dim='time')[-1])
-            ax.plot(eros.age, eros, c='C4', alpha=0.5)
-            ax.plot(roll.age, roll, c='C4')
-            ax.text(-t, last, '  {: .1f}'.format(last),
-                    color='C4', ha='left', va='center', clip_on=True)
-
+            data = ds.erosion_rate[ds.time <= t]*1e-9
+            roll = ds.erosion_rate.rolling(time=100, center=True).mean()[ds.time <= t]*1e-9
+            plot_tagline(ax, data, text='', alpha=0.5, color='C4')
+            plot_tagline(ax, roll, text='  {: .1f}', color='C4')
 
     # color axes spines
     for k, v in ax.spines.items():
@@ -96,18 +108,11 @@ def timebar(t, mode='co', lang='en', t0=-120000, t1=0):
             v.set_color('C4' if k == 'right' else 'none')
 
     # set axes properties
-    # FIXME language-dependent erosion label
     ax.set_xlim(-t0, -t1)
     if mode == 'co':
-        ax.set_ylim(-5.0, 35.0)
-        ax.set_yticks([0.0, 30.0])
-        ax.set_ylabel(vol_label, color='C0', y=0.55)
-        ax.tick_params(axis='y', colors='C0')
+        format_axes(ax, 'sl', color='C0', lang=lang)
     elif mode == 'er':
-        ax.set_ylim(-0.25, 1.75)
-        ax.set_yticks([0.0, 1.5])
-        ax.set_ylabel('erosion rate\n'+r'($km\,a^{-1}$)', color='C4', y=0.55)
-        ax.tick_params(axis='y', colors='C4')
+        format_axes(ax, 'er', color='C4', lang=lang)
 
     # return figure
     return fig
