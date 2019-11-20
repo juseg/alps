@@ -33,7 +33,8 @@ def open_dataset(filename):
 
 def open_mfdataset(filename):
     """Open multi-file dataset with age coordinate."""
-    ds = xr.open_mfdataset(filename, chunks=dict(time=10), decode_cf=False)
+    ds = xr.open_mfdataset(filename, combine='by_coords', chunks=dict(time=10),
+                           decode_cf=False)
     if 'time' in ds.coords and 'seconds' in ds.time.units:
         ds = ds.assign_coords(time=ds.time/(365*24*60*60))
     if 'time' in ds.coords:
