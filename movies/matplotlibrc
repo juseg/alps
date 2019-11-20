@@ -143,12 +143,12 @@ path.sketch             : None    # None, or e.g (1, 100, 2) (default None)
 savefig.dpi             : figure  # saved figure dots per inch (default figure)
 savefig.facecolor       : white   # saved figure facecolor (default white)
 savefig.edgecolor       : white   # saved figure edgecolor (default white)
-savefig.format          : pdf     # png, ps, pdf, svg (default png)
+savefig.format          : png     # png, ps, pdf, svg (default png)
 savefig.jpeg_quality    : 85      # default jpeg quality parameter (default 95)
 savefig.transparent     : False   # save transparent background (default False)
 
 ### ANIMATION
-animation.writer        : avconv  # movie writer backend (default ffmpeg)
+animation.writer        : ffmpeg  # movie writer backend (default ffmpeg)
 animation.codec         : h264    # codec (default mpeg4)
 animation.bitrate       : -1      # bitrate (default -1 to auto-determine)
 animation.avconv_args   : -pix_fmt, yuv420p  # compatibility with old players
