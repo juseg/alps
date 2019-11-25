@@ -41,27 +41,36 @@ def figure():
 
     # plot boot hypsometry
     ax = grid[1]
-    bins = range(0, 4501, 100)
+    bins = np.arange(0, 4501, 100)
     hist, _ = np.histogram(boot.where(boot > 0), bins=bins)
     vals = np.append(hist, hist[-1])  # needed to fill the last bin
     poly = ax.fill_betweenx(bins, 0*vals, vals, color='0.75', step='post')
     hist, _ = np.histogram(boot.where(ds.thk >= 1), bins=bins)
     vals = np.append(hist, hist[-1])  # needed to fill the last bin
     poly = ax.fill_betweenx(bins, 0*vals, vals, color='C1', step='post')
+    ax.set_xlim(-2500, 52500)
     ax.set_xticks([])
 
+    # plot mean thickness(thk.plot(ax=ax, y='topg_bins') has issue #3571)
+    ax = ax.twiny()
+    thk = ds.thk.groupby_bins(boot, bins).mean()
+    thkline, = ax.plot(thk, (bins[:-1]+bins[1:])/2, color='C1')
+    ax.set_xlabel('ice thickness (m)', color='C1')
+    ax.set_xlim(-50, 1050)
+    ax.tick_params(axis='x', labelcolor='C1')
+
     # return figure and animated artists
-    return fig, boot, scatter, timetag, poly
+    return fig, boot, scatter, timetag, poly, thkline
 
 
-def animate(time, boot, scatter, timetag, poly):
+def animate(time, boot, scatter, timetag, poly, thkline):
     """Update figure data."""
 
     # open subdataset
     filename = '~/pism/output/e9d2d1f/alpcyc4.1km.epica.1220.pp/ex.{:07.0f}.nc'
     with ut.open_subdataset(filename, time) as ds:
-        erosion = (2.7e-7*ds.velbase_mag**2.02).where(ds.thk >= 1.0)
-        glacthk = ds.thk.where(ds.thk >= 1.0)
+        icy = ds.thk >= 1.0
+        erosion = 2.7e-7 * ds.velbase_mag.where(icy)**2.02
 
     # replace scatter plot data
     offsets = scatter.get_offsets()
@@ -75,12 +84,15 @@ def animate(time, boot, scatter, timetag, poly):
     path = poly.get_paths()[0]
     nedges = (path.vertices.shape[0]-1)//4  # number of bins + 1
     bins = path.vertices[:2*nedges:2, 1]
-    hist, _ = np.histogram(boot.where(ds.thk >= 1), bins=bins)
+    hist, _ = np.histogram(boot.where(icy), bins=bins)
     vals = np.append(hist, hist[-1])  # needed to fill the last bin
     path.vertices[2*nedges:-1, 0] = vals[::-1].repeat(2)
 
+    # replace line data
+    thkline.set_xdata(ds.thk.where(icy).groupby_bins(boot, bins).mean())
+
     # return animated artists
-    return scatter, timetag, poly
+    return scatter, timetag, poly, thkline
 
 
 def main():
