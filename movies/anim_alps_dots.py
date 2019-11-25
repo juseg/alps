@@ -42,16 +42,19 @@ def figure():
     # plot boot hypsometry
     ax = grid[1]
     bins = range(0, 4501, 100)
-    ax.hist(boot.where(boot > 0).values.reshape(-1), bins=bins,
-            color='0.75', orientation='horizontal')
+    hist, _ = np.histogram(boot.where(boot > 0), bins=bins)
+    vals = np.append(hist, hist[-1])  # needed to fill the last bin
+    poly = ax.fill_betweenx(bins, 0*vals, vals, color='0.75', step='post')
+    hist, _ = np.histogram(boot.where(ds.thk >= 1), bins=bins)
+    vals = np.append(hist, hist[-1])  # needed to fill the last bin
+    poly = ax.fill_betweenx(bins, 0*vals, vals, color='C1', step='post')
     ax.set_xticks([])
-    histax = ax
 
     # return figure and animated artists
-    return fig, boot, scatter, timetag, histax
+    return fig, boot, scatter, timetag, poly
 
 
-def animate(time, boot, scatter, timetag, histax):
+def animate(time, boot, scatter, timetag, poly):
     """Update figure data."""
 
     # open subdataset
@@ -69,17 +72,15 @@ def animate(time, boot, scatter, timetag, histax):
     timetag.set_text('{:,.0f} years ago'.format(-time).replace(',', r'$\,$'))
 
     # replace histogram data
-    # FIXME use fill_between for real animation
-    histax.clear()
-    bins = range(0, 4501, 100)
-    histax.hist(boot.where(boot > 0).values.reshape(-1), bins=bins,
-                color='0.75', orientation='horizontal')
-    histax.hist(boot.where(glacthk > 0).values.reshape(-1), bins=bins,
-                color='C1', orientation='horizontal')
-    histax.set_xticks([])
+    path = poly.get_paths()[0]
+    nedges = (path.vertices.shape[0]-1)//4  # number of bins + 1
+    bins = path.vertices[:2*nedges:2, 1]
+    hist, _ = np.histogram(boot.where(ds.thk >= 1), bins=bins)
+    vals = np.append(hist, hist[-1])  # needed to fill the last bin
+    path.vertices[2*nedges:-1, 0] = vals[::-1].repeat(2)
 
     # return animated artists
-    return scatter, timetag, histax
+    return scatter, timetag, poly
 
 
 def main():
@@ -91,10 +92,9 @@ def main():
     fig.savefig('anim_alps_dots')
 
     # animation
-    # FIXME can't use blit with histogram
     ani = animation.FuncAnimation(
-        fig, animate, blit=True, interval=1000/25, fargs=(scatter, timetag),
-        frames=range(-119000, 1, 400))
+        fig, animate, blit=True, interval=1000/5, fargs=fargs,
+        frames=range(-115000, 1, 5000))
     ani.save('anim_alps_dots.mp4')
 
 
