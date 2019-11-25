@@ -45,18 +45,20 @@ def figure():
     ax.hist(boot.where(boot > 0).values.reshape(-1), bins=bins,
             color='0.75', orientation='horizontal')
     ax.set_xticks([])
+    histax = ax
 
     # return figure and animated artists
-    return fig, scatter, timetag
+    return fig, boot, scatter, timetag, histax
 
 
-def animate(time, scatter, timetag):
+def animate(time, boot, scatter, timetag, histax):
     """Update figure data."""
 
     # open subdataset
     filename = '~/pism/output/e9d2d1f/alpcyc4.1km.epica.1220.pp/ex.{:07.0f}.nc'
     with ut.open_subdataset(filename, time) as ds:
         erosion = (2.7e-7*ds.velbase_mag**2.02).where(ds.thk >= 1.0)
+        glacthk = ds.thk.where(ds.thk >= 1.0)
 
     # replace scatter plot data
     offsets = scatter.get_offsets()
@@ -66,8 +68,18 @@ def animate(time, scatter, timetag):
     # replace text tag
     timetag.set_text('{:,.0f} years ago'.format(-time).replace(',', r'$\,$'))
 
+    # replace histogram data
+    # FIXME use fill_between for real animation
+    histax.clear()
+    bins = range(0, 4501, 100)
+    histax.hist(boot.where(boot > 0).values.reshape(-1), bins=bins,
+                color='0.75', orientation='horizontal')
+    histax.hist(boot.where(glacthk > 0).values.reshape(-1), bins=bins,
+                color='C1', orientation='horizontal')
+    histax.set_xticks([])
+
     # return animated artists
-    return scatter, timetag
+    return scatter, timetag, histax
 
 
 def main():
