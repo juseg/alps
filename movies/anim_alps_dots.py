@@ -17,7 +17,8 @@ def figure():
     # initialize figure
     fig, grid = apl.subplots_mm(
         figsize=(192, 108), ncols=2, sharey=True, gridspec_kw=dict(
-            left=12, right=4, bottom=8, top=8, width_ratios=[3, 1]))
+            left=12, right=4, bottom=8, top=8,
+            width_ratios=[3, 1], wspace=4))
 
     # load boot topo
     with ut.open_dataset('../data/processed/alpcyc.1km.in.nc') as ds:
@@ -31,11 +32,10 @@ def figure():
 
     # set axes properties
     ax.set_xscale('log')
-    ax.set_xlim(1e-9/9, 9*1e0)
+    ax.set_xlim(10**-10.5, 10**0.5)
     ax.set_ylim(-200, 4700)
-    ax.set_xticks(np.logspace(-9, 0, 10))
-    ax.set_xlabel(r'erosion rate ($m\,a^{-1}$)')
-    ax.set_ylabel('elevation (m)')
+    ax.set_xlabel(r'local erosion rate ($m\,a^{-1}$)')
+    ax.set_ylabel('modern elevation (m)')
 
     # plot boot hypsometry
     ax = grid[1]
@@ -53,9 +53,9 @@ def figure():
     ax = ax.twiny()
     mids = (bins[:-1]+bins[1:])/2
     eroline, = ax.plot(0*mids+1e-9, mids, color='C11')
-    ax.set_xlabel(r'erosion rate ($m\,a^{-1}$)', color='C11')
+    ax.set_xlabel(r'mean erosion rate ($m\,a^{-1}$)', color='C11')
     ax.set_xscale('log')
-    ax.set_xlim(10**-10, 10**0.5)
+    ax.set_xlim(10**-10.5, 10**0.5)
     ax.tick_params(axis='x', labelcolor='C11')
     ax.xaxis.set_label_position('bottom')
 
@@ -63,7 +63,7 @@ def figure():
     ax = ax.twiny()
     thk = ds.thk.groupby_bins(boot, bins).mean()
     thkline, = ax.plot(thk, mids, color='C1')
-    ax.set_xlabel('ice thickness (m)', color='C1')
+    ax.set_xlabel('mean ice thickness (m)', color='C1')
     ax.set_xlim(-50, 1050)
     ax.tick_params(axis='x', labelcolor='C1')
 
@@ -117,8 +117,8 @@ def main():
 
     # animation
     ani = animation.FuncAnimation(
-        fig, animate, blit=True, interval=1000/5, fargs=fargs,
-        frames=range(-115000, 1, 5000))
+        fig, animate, blit=True, interval=1000/25*10, fargs=fargs,
+        frames=range(-120000+40*10, 1, 40*10))
     ani.save('anim_alps_dots.mp4')
 
 
