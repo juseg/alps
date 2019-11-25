@@ -10,8 +10,6 @@ import matplotlib.animation as animation
 import absplots as apl
 import utils as ut
 
-# FIXME add probability densities, maybe a timeline
-
 
 def figure():
     """Prepare initial animation figure."""
@@ -51,19 +49,29 @@ def figure():
     ax.set_xlim(-2500, 52500)
     ax.set_xticks([])
 
+    # plot dummy erosion rate
+    ax = ax.twiny()
+    mids = (bins[:-1]+bins[1:])/2
+    eroline, = ax.plot(0*mids+1e-9, mids, color='C11')
+    ax.set_xlabel(r'erosion rate ($m\,a^{-1}$)', color='C11')
+    ax.set_xscale('log')
+    ax.set_xlim(10**-10, 10**0.5)
+    ax.tick_params(axis='x', labelcolor='C11')
+    ax.xaxis.set_label_position('bottom')
+
     # plot mean thickness(thk.plot(ax=ax, y='topg_bins') has issue #3571)
     ax = ax.twiny()
     thk = ds.thk.groupby_bins(boot, bins).mean()
-    thkline, = ax.plot(thk, (bins[:-1]+bins[1:])/2, color='C1')
+    thkline, = ax.plot(thk, mids, color='C1')
     ax.set_xlabel('ice thickness (m)', color='C1')
     ax.set_xlim(-50, 1050)
     ax.tick_params(axis='x', labelcolor='C1')
 
     # return figure and animated artists
-    return fig, boot, scatter, timetag, poly, thkline
+    return fig, boot, scatter, timetag, poly, eroline, thkline
 
 
-def animate(time, boot, scatter, timetag, poly, thkline):
+def animate(time, boot, scatter, timetag, poly, eroline, thkline):
     """Update figure data."""
 
     # open subdataset
@@ -91,8 +99,12 @@ def animate(time, boot, scatter, timetag, poly, thkline):
     # replace line data
     thkline.set_xdata(ds.thk.where(icy).groupby_bins(boot, bins).mean())
 
+    # geometric mean over glaciated area
+    eroline.set_xdata(np.exp(np.log(
+        erosion.where(erosion > 0)).groupby_bins(boot, bins).mean()))
+
     # return animated artists
-    return scatter, timetag, poly, thkline
+    return scatter, timetag, poly, eroline, thkline
 
 
 def main():
