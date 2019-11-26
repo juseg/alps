@@ -55,9 +55,11 @@ def figure():
     ax = ax.twiny()
     mids = (bins[:-1]+bins[1:])/2
     eroline, = ax.plot(0*mids+1e-9, mids, color='C11')
-    ax.set_xlabel(r'mean erosion rate ($m\,a^{-1}$)', color='C11')
-    ax.set_xscale('log')
-    ax.set_xlim(10**-10.5, 10**0.5)
+    # ax.set_xlabel(r'mean erosion rate ($m\,a^{-1}$)', color='C11')
+    # ax.set_xscale('log')
+    # ax.set_xlim(10**-10.5, 10**0.5)
+    ax.set_xlabel(r'band erosion rate ($km^3\,a^{-1}$)', color='C11')
+    ax.set_xlim(-0.125*0.05, 0.125*1.05)
     ax.tick_params(axis='x', labelcolor='C11')
     ax.xaxis.set_label_position('bottom')
 
@@ -65,8 +67,10 @@ def figure():
     ax = ax.twiny()
     thk = ds.thk.groupby_bins(boot, bins).mean()
     thkline, = ax.plot(thk, mids, color='C1')
-    ax.set_xlabel('mean ice thickness (m)', color='C1')
-    ax.set_xlim(-50, 1050)
+    # ax.set_xlabel('mean ice thickness (m)', color='C1')
+    # ax.set_xlim(-50, 1050)
+    ax.set_xlabel('band ice volume ($10^3 km^3$)', color='C1')
+    ax.set_xlim(-8*0.05, 8*1.05)
     ax.tick_params(axis='x', labelcolor='C1')
 
     # return figure and animated artists
@@ -80,6 +84,7 @@ def animate(time, boot, scatter, timetag, poly, eroline, thkline):
     filename = '~/pism/output/e9d2d1f/alpcyc4.1km.epica.1220.pp/ex.{:07.0f}.nc'
     with ut.open_subdataset(filename, time) as ds:
         icy = ds.thk >= 1.0
+        glacthk = ds.thk.where(icy)
         erosion = 2.7e-7 * ds.velbase_mag.where(icy)**2.02
 
     # replace scatter plot data
@@ -98,12 +103,13 @@ def animate(time, boot, scatter, timetag, poly, eroline, thkline):
     vals = np.append(hist, hist[-1])  # needed to fill the last bin
     path.vertices[2*nedges:-1, 0] = vals[::-1].repeat(2)
 
-    # replace line data
-    thkline.set_xdata(ds.thk.where(icy).groupby_bins(boot, bins).mean())
+    # for glacier average thickness and geom mean of erosion
+    # .set_xdata(glackthk.groupby_bins(boot, bins).mean())
+    # .set_xdata(np.exp(np.log(erosion).groupby_bins(boot, bins).mean()))
 
-    # geometric mean over glaciated area
-    eroline.set_xdata(np.exp(np.log(
-        erosion.where(erosion > 0)).groupby_bins(boot, bins).mean()))
+    # glacier volume (1e3*km3) and volumic erosion (km3 a-1) over band
+    thkline.set_xdata(glacthk.groupby_bins(boot, bins).sum()/1e6)
+    eroline.set_xdata(erosion.groupby_bins(boot, bins).sum()/1e3)
 
     # return animated artists
     return scatter, timetag, poly, eroline, thkline
