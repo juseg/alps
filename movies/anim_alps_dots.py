@@ -5,6 +5,8 @@
 
 """Alps scatter plot animations framework."""
 
+import os
+import multiprocessing
 import numpy as np
 import matplotlib.animation as animation
 import absplots as apl
@@ -107,19 +109,45 @@ def animate(time, boot, scatter, timetag, poly, eroline, thkline):
     return scatter, timetag, poly, eroline, thkline
 
 
-def main():
-    """Main program called during execution."""
+def update(time, *fargs):
+    """Update artists to given animation time and return."""
+    animate(time, *fargs)
+    return fargs[-1].figure
 
-    # prepare figure
-    fig, *fargs = figure()
-    animate(-25000, *fargs)
+
+def parallelframes(fig, *fargs, frames=range(-119960, 1, 40)):
+    """Save all frames individually in parallel (est. 2.5 h on altair)."""
+
+    # create output frames directory if missing
+    outdir = os.path.join(os.environ['HOME'], 'anim', 'anim_alps_dots')
+    if not os.path.isdir(outdir):
+        os.mkdir(outdir)
+
+    # iterable arguments to save animation frames
+    iargs = [(update, outdir, time, *fargs) for time in frames]
+
+    # plot all frames in parallel
+    with multiprocessing.Pool(processes=4) as pool:
+        pool.starmap(ut.save_animation_frame, iargs)
+
+
+def serialanimation(fig, *fargs, frames=range(-119960, 1, 40)):
+    """Direct matplotlib serial animation (est. 4.5 h on altair)."""
+    ani = animation.FuncAnimation(
+        fig, animate, blit=True, interval=1000/25, fargs=fargs, frames=frames)
+    ani.save('anim_alps_dots.mp4')
+
+
+def simplefigure(fig, time, *fargs):
+    """Plot one frame and save as figure."""
+    animate(time, *fargs)
     fig.savefig('anim_alps_dots')
 
-    # animation
-    ani = animation.FuncAnimation(
-        fig, animate, blit=True, interval=1000/25*10, fargs=fargs,
-        frames=range(-120000+40*10, 1, 40*10))
-    ani.save('anim_alps_dots.mp4')
+
+def main():
+    """Main program called during execution."""
+    fig, *fargs = figure()
+    parallelframes(fig, *fargs, frames=range(-116000, 1, 4000))
 
 
 if __name__ == '__main__':
