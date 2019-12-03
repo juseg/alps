@@ -9,58 +9,19 @@
 import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
-import matplotlib.colors as mcolors
 import matplotlib.patches as mpatches
 import cartopy.crs as ccrs
 import cartopy.io.shapereader as shpreader
-import cartopy.feature as cfeature
 import cartowik.shadedrelief as csr
-import netCDF4 as nc4
 import util
 
-# parameters
-bwu = 0.5      # base width unit
-scale = '10m'  # Natural Earth scale
 
 # projections and boundaries
 ll = ccrs.PlateCarree()
-proj = ccrs.UTM(32)
-swiss = ccrs.TransverseMercator(
-    central_longitude=7.439583333333333, central_latitude=46.95240555555556,
-    false_easting=600e3, false_northing=200e3)
-w, e, s, n = 0e3, 1500e3, 4500e3, 5500e3  # etopo reprojection
-w, e, s, n = 150e3, 1050e3, 4820e3, 5420e3  # full alps
-w, e, s, n = 230e3, 470e3, 5050e3, 5240e3  # west alps 240x190 km
-w, e, s, n = 172e3, 528e3, 5025e3, 5265e3  # west alps 356x240 km
-w, e, s, n = 194.25e3-10e3, 505.75e3-10e3, 5040e3, 5250e3  # 311.5x210 km
-
-# relief shading colormap
-cols = [(0.0, (1,1,1,1)), (0.5, (1,1,1,0)),
-        (0.5, (0,0,0,0)), (1.0, (0,0,0,1))]  # white transparent black
-shinemap = mcolors.LinearSegmentedColormap.from_list('shines', cols)
 
 
-# ETOPO1 background topo
-def draw_etopo1(ax=None):
-    """Draw ETOPO1 background and coastline"""
-    nc = nc4.Dataset('../data/external/etopo1-alps.nc')
-    x = nc.variables['x']
-    y = nc.variables['y']
-    z = nc.variables['Band1']
-    w = (3*x[0]-x[1])/2
-    e = (3*x[-1]-x[-2])/2 - (x[-1]-x[-2])/2  # weird but works
-    n = (3*y[0]-y[1])/2
-    s = (3*y[-1]-y[-2])/2 - (y[-1]-y[-2])/2  # weird but works
-    ax = ax or plt.gca()
-    ax.imshow(z, extent=(w, e, n, s),
-              cmap=ut.cm.topo, norm=mcolors.Normalize(-6e3, 6e3))
-    ax.contour(x[:], y[:], z[:], levels=[0],
-               colors='#0978ab', linewidths=0.5*bwu, zorder=0.5)
-    nc.close()
-
-# ETOPO1 background topo
-def draw_srtm(ax=None):
-    """Draw SRTM background"""
+def draw_shaded_relief(ax=None):
+    """Draw high-resolution shaded relief background"""
 
     # get axes if None provided
     ax = ax or plt.gca()
@@ -72,27 +33,8 @@ def draw_srtm(ax=None):
         srtm = csr._compute_multishade(srtm)
         csr._add_imshow(srtm, ax=ax, cmap='Shines', vmin=-1.0, vmax=1.0)
 
-# Ehlers and Gibbard LGM
-def draw_lgm_bini(ax=None):
-    filename = ('/usr/itetnas01/data-vaw-01/glazioarch/GeoBaseData/Geology/'
-                'GK500/LastGlacialMaximum/Data/LGM500_L.shp')
-    shp = shpreader.Reader(filename)
-    outlines = [rec.geometry for rec in shp.records()
-                if rec.attributes['LineType'] == 'Outline']
-    ax = ax or plt.gca()
-    ax.add_geometries(outlines, swiss, alpha=0.75,
-                      edgecolor='#800000', facecolor='none', lw=1.0*bwu)
 
-def draw_lgm_ehlers(ax=None):
-    filename = '../data/native/lgm_alpen_holefilled.shp'
-    shp = shpreader.Reader(filename)
-    ax = ax or plt.gca()
-    ax.add_geometries(shp.geometries(), ll,
-                      edgecolor='#0978ab', facecolor='none', lw=1.0*bwu)
-    ax.add_geometries(shp.geometries(), ll,
-                      edgecolor='none', facecolor='w', alpha=0.5)
-
-def draw_lithos(ax=None):
+def draw_lithologies(ax=None):
     """
     Draw boulder source areas.
 
@@ -124,63 +66,35 @@ def draw_lithos(ax=None):
     gabbro = 'C3'
 
     # draw swisstopo polygons
-    # FIXME wait for cartopy issue #1282 or implement cartowik fiona compat
-    # shp = shpreader.Reader('../data/external/PY_Surface_Base.shp')
-    # for rec in shp.records():
-    #     atts = rec.attributes
-    #     geom = rec.geometry
-    #     if atts['L_ID'] == 62 and atts['T1_ID'] == 114:
-    #         ax.add_geometries([geom], swiss, alpha=0.75, color=granite)
-    #     elif atts['L_ID'] == 82 and atts['T1_ID'] == 505:
-    #         ax.add_geometries([geom], swiss, alpha=0.75, color=gneiss)
-    #     elif atts['AREA'] == 2276398.0271:
-    #         ax.add_geometries([geom], swiss, alpha=0.75, color=gabbro)
-    #         ax.plot(geom.centroid.x, geom.centroid.y, transform=swiss,
-    #                 marker='o', mec=gabbro, mew=1.0, mfc='none', ms=12.0)
+    swiss = ccrs.TransverseMercator(
+        central_longitude=7.439583333333333,
+        central_latitude=46.95240555555556,
+        false_easting=600e3, false_northing=200e3)
+    shp = shpreader.Reader('../data/external/PY_Surface_Base.shp')
+    for rec in shp.records():
+        atts = rec.attributes
+        geom = rec.geometry
+        if atts['L_ID'] == 62 and atts['T1_ID'] == 114:
+            ax.add_geometries([geom], swiss, alpha=0.75, color=granite)
+        elif atts['L_ID'] == 82 and atts['T1_ID'] == 505:
+            ax.add_geometries([geom], swiss, alpha=0.75, color=gneiss)
+        elif atts['AREA'] == 2276398.0271:
+            ax.add_geometries([geom], swiss, alpha=0.75, color=gabbro)
+            ax.plot(geom.centroid.x, geom.centroid.y, transform=swiss,
+                    marker='o', mec=gabbro, mew=1.0, mfc='none', ms=12.0)
 
     # add labels
-    txtkwa = dict(fontweight='bold', ha='center', va='center', transform=ll)
+    txtkwa = dict(fontweight='bold', ha='center', va='center',
+                  transform=ccrs.PlateCarree())
     ax.text(6.7, 45.90, 'Mont Blanc\ngranite', color=granite, **txtkwa)
     ax.text(7.5, 45.75, 'Arolla gneiss', color=gneiss, **txtkwa)
     ax.text(8.1, 46.10, 'Allalin\ngabbro', color=gabbro, **txtkwa)
 
-# Natural Earth elements
-def draw_rivers(ax=None):
-    ax = ax or plt.gca()
-    ax.add_feature(cfeature.NaturalEarthFeature(
-        category='physical', name='rivers_lake_centerlines', scale=scale,
-        edgecolor='#0978ab', facecolor='none', lw=1.0*bwu))
 
-def draw_lakes(ax=None):
-    ax = ax or plt.gca()
-    ax.add_feature(cfeature.NaturalEarthFeature(
-        category='physical', name='lakes', scale=scale,
-        edgecolor='#0978ab', facecolor='#c6ecff', lw=0.5*bwu))
-
-def draw_glaciers(ax=None):
-    ax = ax or plt.gca()
-    ax.add_feature(cfeature.NaturalEarthFeature(
-        category='physical', name='glaciated_areas', scale=scale,
-        edgecolor='#0978ab', facecolor='#f5f4f2', lw=1.0*bwu, alpha=0.75))
-
-def draw_countries(ax=None):
-    ax = ax or plt.gca()
-    ax.add_feature(cfeature.NaturalEarthFeature(
-        category='cultural', name='admin_0_boundary_lines_land', scale=scale,
-        edgecolor='#646464', facecolor='none', lw=1.0*bwu))
-    ax.add_feature(cfeature.NaturalEarthFeature(
-        category='cultural', name='admin_1_states_provinces_lines', scale=scale,
-        edgecolor='#646464', facecolor='none', lw=0.5*bwu))
-
-def draw_graticules(ax=None):
-    ax = ax or plt.gca()
-    ax.add_feature(cfeature.NaturalEarthFeature(
-        category='physical', name='graticules_1', scale=scale,
-        edgecolor='#000000', facecolor='none', lw=0.25*bwu))
-
-# Geographic names
+# FIXME what about using cartowik annotations?
 def geotag(x, y, text, ax=None, color='k', marker='o', loc='cc',
            offset=5, transform=None, **kwargs):
+    """Add geographic text tag."""
 
     # get current axes if None provided
     ax = ax or plt.gca()
@@ -203,15 +117,17 @@ def geotag(x, y, text, ax=None, color='k', marker='o', loc='cc',
     ax.annotate(text, xy=(x, y), xytext=xytext, textcoords='offset points',
                 ha=ha, va=va, **kwargs)
 
+
 def add_names(ax=None):
     """Add geographic names"""
 
     # get current axes if None provided
     ax = ax or plt.gca()
 
-    # add names of cities (ll)
-    txtkwa = dict(ax=ax, transform=ll, marker='o', style='italic')
-    #geotag(6.15, 46.20, 'Geneva', loc='cl', **txtkwa)
+    # add names of cities
+    lonlat = ccrs.PlateCarree()
+    txtkwa = dict(ax=ax, transform=lonlat, marker='o', style='italic')
+    # geotag(6.15, 46.20, 'Geneva', loc='cl', **txtkwa)
     geotag(6.93, 47.00, u'Neuchâtel', loc='lc', **txtkwa)
     geotag(7.45, 46.95, 'Bern', loc='cr', **txtkwa)
     geotag(7.53, 47.22, 'Solothurn', loc='cl', **txtkwa)
@@ -219,17 +135,9 @@ def add_names(ax=None):
     geotag(7.68, 47.16, 'Steinhof', loc='cr', **txtkwa)
 
     # add names of mountains
-    txtkwa = dict(ax=ax, transform=ll, marker='+', style='italic')
+    txtkwa = dict(ax=ax, transform=lonlat, marker='+', style='italic')
     geotag(7.68, 47.14, 'Steinenberg', loc='lc', **txtkwa)
     geotag(6.90, 45.80, 'Mont Blanc', loc='cl', **txtkwa)
-
-    # add names of cities (utm32)
-    #txtkwa = dict(transform=proj, style='italic')
-    #geotag(280118, 5120218, 'Geneva', **txtkwa)
-    #geotag(342883, 5207237, 'Neuchatel', **txtkwa)
-    #geotag(382051, 5200774, 'Bern', **txtkwa)
-    #geotag(388853, 5229416, 'Solothurn', **txtkwa)
-    #geotag(280118, 5120218, 'Geneva', **txtkwa)
 
     # add boulder sources
     ax.plot(347120, 5103616, color='C4', marker='*', ms=8)  # Mt Blanc
@@ -239,16 +147,16 @@ def add_names(ax=None):
 
     # add other locations
     txtkwa = dict(color='k', style='italic',
-                  ha='center', va='center', transform=ll)
+                  ha='center', va='center', transform=lonlat)
     ax.text(6.00, 46.17, 'Geneva\nBasin', **txtkwa)
-    ax.text(7.25, 46.00, 'Val de Bagnes', rotation=-40, **txtkwa)  # rotation=-45
-    ax.text(7.45, 46.15, "Val d'Arolla", rotation=-60, **txtkwa)  # rotation=-45
-    ax.text(7.97, 46.07, 'Saastal', rotation=-60, **txtkwa)  # rotation=-45
-    ax.text(8.10, 46.20, 'Simplon Pass', rotation=-30, **txtkwa)  # rotation=-45
+    ax.text(7.25, 46.00, 'Val de Bagnes', rotation=-40, **txtkwa)
+    ax.text(7.45, 46.15, "Val d'Arolla", rotation=-60, **txtkwa)
+    ax.text(7.97, 46.07, 'Saastal', rotation=-60, **txtkwa)
+    ax.text(8.10, 46.20, 'Simplon Pass', rotation=-30, **txtkwa)
 
     # add palaeo-glaciers
     txtkwa = dict(color='#0978ab', style='italic', fontweight='bold',
-                  fontsize=8, ha='center', va='center', transform=ll)
+                  fontsize=8, ha='center', va='center', transform=lonlat)
     ax.text(5.30, 45.75, 'Lyon Lobe', rotation=0, **txtkwa)
     ax.text(6.50, 46.05, 'Arve Glacier', rotation=-5, **txtkwa)
     ax.text(7.60, 46.80, 'Aar Glacier', rotation=-55, **txtkwa)
@@ -257,39 +165,37 @@ def add_names(ax=None):
 
     # add mountain massifs
     txtkwa = dict(color='k', fontsize=8, style='italic',
-                  ha='center', va='center', transform=ll)
+                  ha='center', va='center', transform=lonlat)
     ax.text(6.2, 46.6, 'JURA\nMOUNTAINS', **txtkwa)
     ax.text(7.7, 46.5, 'AAR MASSIF', **txtkwa)
     ax.text(7.9, 45.9, 'SOUTHERN\nVALAIS', **txtkwa)
     ax.text(6.7, 46.2, 'MONT\nBLANC', **txtkwa)
 
-def draw_arrows(ax=None):
+
+def draw_rhone_arrows(ax=None):
+    """Draw symbolic glacier flow arrows."""
     ax = ax or plt.gca()
     arrowprops = dict(
         arrowstyle='-|>',
-        mutation_scale=20.0, transform=ll,
+        mutation_scale=20.0, transform=ccrs.PlateCarree(),
         color='#0978ab', lw=2.0, zorder=2)
-    ax.add_patch(mpatches.FancyArrowPatch((7.05, 46.15), (6.05, 46.20),
+    ax.add_patch(mpatches.FancyArrowPatch(
+        (7.05, 46.15), (6.05, 46.20),
         connectionstyle='arc,angleA=115,angleB=45,armA=100,armB=0,rad=50.0',
         **arrowprops))
-    ax.add_patch(mpatches.FancyArrowPatch((7.05, 46.15), (7.60, 47.20),
+    ax.add_patch(mpatches.FancyArrowPatch(
+        (7.05, 46.15), (7.60, 47.20),
         connectionstyle='arc,angleA=115,angleB=-135,armA=100,armB=0,rad=50.0',
         **arrowprops))
 
-# modelling domain
-def draw_modeldomain(ax=None):
-    ax = ax or plt.gca()
-    w, e, s, n = 230e3, 470e3, 5050e3, 5240e3
-    x = [w, e, e, w, w]
-    y = [s, s, n, n, s]
-    ax.plot(x, y, c='k', lw=1*bwu, transform=proj)
 
-# modelling domain
-def draw_precipzones(ax=None):
+def draw_precip_zones(ax=None):
+    """Draw Guillaume's precipitation zones."""
     ax = ax or plt.gca()
     for i in range(1, 4):
         x, y = np.loadtxt('../data/native/precip_line_%d.xyz' % i, unpack=True)
-        ax.plot(x, y, c='k', lw=1*bwu)
+        ax.plot(x, y, c='k', lw=0.5)
+
 
 def main():
     """Main program called during execution."""
@@ -299,17 +205,18 @@ def main():
     cax.set_visible(False)  # FIXME add util.fi.subplots without cax
 
     # draw stuff
-    draw_srtm(ax=ax)
-    draw_arrows(ax=ax)
-    draw_lithos(ax=ax)
-    draw_modeldomain(ax)
-    draw_precipzones(ax=ax)
+    # FIXME wait for cartopy issue #1282 or implement cartowik fiona compat
+    draw_shaded_relief(ax=ax)
+    # draw_lithologies(ax=ax)
+    draw_precip_zones(ax=ax)
+    draw_rhone_arrows(ax=ax)
     add_names(ax=ax)
+    util.pl.draw_model_domain(ax=ax, extent='guil')
     util.na.draw_lgm_outline(ax=ax, edgecolor='#0978ab', facecolor='w')
     util.ne.draw_natural_earth(ax=ax, mode='co')
 
     # save
-    util.pl.savefig()
+    util.pl.savefig(fig)
 
 
 if __name__ == '__main__':
