@@ -42,6 +42,7 @@ def open_mfdataset(filename):
     return ds
 
 
+# FIXME replace by xarray.open_dataset
 def open_gtif(filename, extent=None):
     """Open GeoTIFF and return data and extent."""
 

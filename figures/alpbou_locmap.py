@@ -1,15 +1,22 @@
 #!/usr/bin/env python
-# coding: utf-8
+# Copyright (c) 2016--2019, Julien Seguinot <seguinot@vaw.baug.ethz.ch>
+# Creative Commons Attribution-ShareAlike 4.0 International License
+# (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
-import util as ut
+"""Plot Alps boulders location map."""
+
+
 import numpy as np
+import xarray as xr
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import matplotlib.patches as mpatches
 import cartopy.crs as ccrs
 import cartopy.io.shapereader as shpreader
 import cartopy.feature as cfeature
+import cartowik.shadedrelief as csr
 import netCDF4 as nc4
+import util
 
 # parameters
 bwu = 0.5      # base width unit
@@ -52,15 +59,18 @@ def draw_etopo1(ax=None):
     nc.close()
 
 # ETOPO1 background topo
-def draw_srtm(ax=None, extent=None):
+def draw_srtm(ax=None):
     """Draw SRTM background"""
 
     # get axes if None provided
     ax = ax or plt.gca()
 
-    # plot SRTM data
-    with ut.io.open_gtif_xarray('../data/external/srtm.tif') as ds:
-        ut.xp.shaded_relief(ds, ax=ax)
+    # plot SRTM bedrock topography FIXME Cartowik xarray-centric methods
+    with xr.open_dataset('../data/external/srtm.nc') as ds:
+        srtm = ds.usurf.fillna(0.0) - ds.thk.fillna(0.0)
+        csr._add_imshow(srtm, ax=ax, cmap='Topographic', vmin=0, vmax=4500)
+        srtm = csr._compute_multishade(srtm)
+        csr._add_imshow(srtm, ax=ax, cmap='Shines', vmin=-1.0, vmax=1.0)
 
 # Ehlers and Gibbard LGM
 def draw_lgm_bini(ax=None):
@@ -113,20 +123,20 @@ def draw_lithos(ax=None):
     gneiss = 'C1'
     gabbro = 'C3'
 
-    # draw swisstopo geology polygons
-    filename = '../data/external/PY_Surface_Base.shp'
-    shp = shpreader.Reader(filename)
-    for rec in shp.records():
-        atts = rec.attributes
-        geom = rec.geometry
-        if atts['L_ID'] == 62 and atts['T1_ID'] == 114:
-            ax.add_geometries(geom, swiss, alpha=0.75, color=granite)
-        elif atts['L_ID'] == 82 and atts['T1_ID'] == 505:
-            ax.add_geometries(geom, swiss, alpha=0.75, color=gneiss)
-        elif atts['AREA'] == 2276398.0271:
-            ax.add_geometries(geom, swiss, alpha=0.75, color=gabbro)
-            ax.plot(geom.centroid.x, geom.centroid.y, transform=swiss,
-                    marker='o', mec=gabbro, mew=1.0, mfc='none', ms=12.0)
+    # draw swisstopo polygons
+    # FIXME wait for cartopy issue #1282 or implement cartowik fiona compat
+    # shp = shpreader.Reader('../data/external/PY_Surface_Base.shp')
+    # for rec in shp.records():
+    #     atts = rec.attributes
+    #     geom = rec.geometry
+    #     if atts['L_ID'] == 62 and atts['T1_ID'] == 114:
+    #         ax.add_geometries([geom], swiss, alpha=0.75, color=granite)
+    #     elif atts['L_ID'] == 82 and atts['T1_ID'] == 505:
+    #         ax.add_geometries([geom], swiss, alpha=0.75, color=gneiss)
+    #     elif atts['AREA'] == 2276398.0271:
+    #         ax.add_geometries([geom], swiss, alpha=0.75, color=gabbro)
+    #         ax.plot(geom.centroid.x, geom.centroid.y, transform=swiss,
+    #                 marker='o', mec=gabbro, mew=1.0, mfc='none', ms=12.0)
 
     # add labels
     txtkwa = dict(fontweight='bold', ha='center', va='center', transform=ll)
@@ -200,7 +210,7 @@ def add_names(ax=None):
     ax = ax or plt.gca()
 
     # add names of cities (ll)
-    txtkwa = dict(transform=ll, marker='o', style='italic')
+    txtkwa = dict(ax=ax, transform=ll, marker='o', style='italic')
     #geotag(6.15, 46.20, 'Geneva', loc='cl', **txtkwa)
     geotag(6.93, 47.00, u'Neuchâtel', loc='lc', **txtkwa)
     geotag(7.45, 46.95, 'Bern', loc='cr', **txtkwa)
@@ -209,7 +219,7 @@ def add_names(ax=None):
     geotag(7.68, 47.16, 'Steinhof', loc='cr', **txtkwa)
 
     # add names of mountains
-    txtkwa = dict(transform=ll, marker='+', style='italic')
+    txtkwa = dict(ax=ax, transform=ll, marker='+', style='italic')
     geotag(7.68, 47.14, 'Steinenberg', loc='lc', **txtkwa)
     geotag(6.90, 45.80, 'Mont Blanc', loc='cl', **txtkwa)
 
@@ -281,24 +291,26 @@ def draw_precipzones(ax=None):
         x, y = np.loadtxt('../data/native/precip_line_%d.xyz' % i, unpack=True)
         ax.plot(x, y, c='k', lw=1*bwu)
 
-# initialize figure
-fig = plt.figure(0, (178/25.4, 120/25.4))
-ax = fig.add_axes([0.0, 0.0, 1.0, 1.0], projection=proj)
-ax.set_xlim((w, e))
-ax.set_ylim((s, n))
-ax.set_rasterization_zorder(2)
+def main():
+    """Main program called during execution."""
 
-# draw stuff
-draw_srtm(ax, extent=(w, e, s, n))
-draw_rivers(ax)
-draw_lakes(ax)
-draw_lgm_ehlers(ax)
-draw_lithos(ax)
-draw_arrows(ax)
-draw_modeldomain(ax)
-draw_precipzones(ax)
-draw_graticules(ax)
-add_names(ax)
+    # initialize figure
+    fig, ax, cax = util.fi.subplots_cax(extent='boulders')
+    cax.set_visible(False)  # FIXME add util.fi.subplots without cax
 
-# save
-ut.pl.savefig()
+    # draw stuff
+    draw_srtm(ax=ax)
+    draw_arrows(ax=ax)
+    draw_lithos(ax=ax)
+    draw_modeldomain(ax)
+    draw_precipzones(ax=ax)
+    add_names(ax=ax)
+    util.na.draw_lgm_outline(ax=ax, edgecolor='#0978ab', facecolor='w')
+    util.ne.draw_natural_earth(ax=ax, mode='co')
+
+    # save
+    util.pl.savefig()
+
+
+if __name__ == '__main__':
+    main()

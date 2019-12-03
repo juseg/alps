@@ -18,12 +18,13 @@ swiss = ccrs.TransverseMercator(
 # Map elements
 # ------------
 
-def draw_lgm_outline(ax=None, c='#e31a1c', alpha=0.75):
+def draw_lgm_outline(ax=None, alpha=0.75,
+                     edgecolor='#e31a1c', facecolor='none'):
     """Add Ehlers et al. hole-filled LGM outline."""
     ax = ax or plt.gca()
     shp = cshp.Reader('../data/native/lgm_alpen_holefilled.shp')
     ax.add_geometries(shp.geometries(), ll, lw=0.5, alpha=alpha,
-                      edgecolor=c, facecolor='none')
+                      edgecolor=edgecolor, facecolor=facecolor)
     del shp
 
 

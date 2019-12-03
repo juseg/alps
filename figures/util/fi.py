@@ -32,7 +32,8 @@ regions = {'egu': (112.5e3, 1087.5e3, 4855e3, 5355e3),  # egu poster 975x500
            'rhlobe': (450e3, 600e3, 5225e3, 5325e3),    # Rhine lobe 150x100
            'taglia': (760e3, 865e3, 5105e3, 5180e3),    # Tagliamento 105x75
            'valais': (310e3, 460e3, 5065e3, 5165e3),    # Trimlines 150x100
-           'aletsch': (414e3, 444e3, 5139e3, 5159e3)}   # Aletsch 30x20
+           'aletsch': (414e3, 444e3, 5139e3, 5159e3),   # Aletsch 30x20
+           'boulders': (190e3, 490e3, 5045e3, 5245e3)}  # Boulders 300x200 km
 
 
 # Axes preparation
