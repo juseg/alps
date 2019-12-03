@@ -12,12 +12,9 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import cartopy.crs as ccrs
 import cartopy.io.shapereader as shpreader
+import cartowik.annotations as can
 import cartowik.shadedrelief as csr
 import util
-
-
-# projections and boundaries
-ll = ccrs.PlateCarree()
 
 
 def draw_shaded_relief(ax=None):
@@ -91,31 +88,19 @@ def draw_lithologies(ax=None):
     ax.text(8.1, 46.10, 'Allalin\ngabbro', color=gabbro, **txtkwa)
 
 
-# FIXME what about using cartowik annotations?
-def geotag(x, y, text, ax=None, color='k', marker='o', loc='cc',
-           offset=5, transform=None, **kwargs):
-    """Add geographic text tag."""
-
-    # get current axes if None provided
+# FIXME more flexibility in cartowik annotations or annotated scatter
+def geotag(x, y, text, ax=None, color='k', marker='o', transform=None,
+           **kwargs):
+    """Add geographic marker and annotation."""
     ax = ax or plt.gca()
 
     # compute geotransformed coordinates
     if transform is not None:
-        x, y = ax.projection.transform_point(x, y, src_crs=transform)
-
-    # compute text offset and alignment
-    dx = {'c': 0, 'l': -1, 'r': 1}[loc[1]]*offset
-    dy = {'c': 0, 'l': -1, 'u': 1}[loc[0]]*offset
-    ha = {'c': 'center', 'l': 'right', 'r': 'left'}[loc[1]]
-    va = {'c': 'center', 'l': 'top', 'u': 'bottom'}[loc[0]]
-    xytext = kwargs.pop('xytext', (dx, dy))
+        coords = ax.projection.transform_point(x, y, src_crs=transform)
 
     # add marker
-    ax.plot(x, y, color=color, marker=marker)
-
-    # add annotation
-    ax.annotate(text, xy=(x, y), xytext=xytext, textcoords='offset points',
-                ha=ha, va=va, **kwargs)
+    ax.plot(*coords, color=color, marker=marker)
+    can.annotate_by_compass(text, ax=ax, xy=coords, **kwargs)
 
 
 def add_names(ax=None):
@@ -127,17 +112,17 @@ def add_names(ax=None):
     # add names of cities
     lonlat = ccrs.PlateCarree()
     txtkwa = dict(ax=ax, transform=lonlat, marker='o', style='italic')
-    # geotag(6.15, 46.20, 'Geneva', loc='cl', **txtkwa)
-    geotag(6.93, 47.00, u'Neuchâtel', loc='lc', **txtkwa)
-    geotag(7.45, 46.95, 'Bern', loc='cr', **txtkwa)
-    geotag(7.53, 47.22, 'Solothurn', loc='cl', **txtkwa)
-    geotag(7.65, 47.23, 'Wangen a.A.', loc='cr', **txtkwa)
-    geotag(7.68, 47.16, 'Steinhof', loc='cr', **txtkwa)
+    # geotag(6.15, 46.20, 'Geneva', point='w', **txtkwa)
+    geotag(6.93, 47.00, u'Neuchâtel', point='s', **txtkwa)
+    geotag(7.45, 46.95, 'Bern', point='e', **txtkwa)
+    geotag(7.53, 47.22, 'Solothurn', point='w', **txtkwa)
+    geotag(7.65, 47.23, 'Wangen a.A.', point='e', **txtkwa)
+    geotag(7.68, 47.16, 'Steinhof', point='e', **txtkwa)
 
     # add names of mountains
     txtkwa = dict(ax=ax, transform=lonlat, marker='+', style='italic')
-    geotag(7.68, 47.14, 'Steinenberg', loc='lc', **txtkwa)
-    geotag(6.90, 45.80, 'Mont Blanc', loc='cl', **txtkwa)
+    geotag(7.68, 47.14, 'Steinenberg', point='s', **txtkwa)
+    geotag(6.90, 45.80, 'Mont Blanc', point='w', **txtkwa)
 
     # add boulder sources
     ax.plot(347120, 5103616, color='C4', marker='*', ms=8)  # Mt Blanc
@@ -181,11 +166,11 @@ def draw_rhone_arrows(ax=None):
         color='#0978ab', lw=2.0, zorder=2)
     ax.add_patch(mpatches.FancyArrowPatch(
         (7.05, 46.15), (6.05, 46.20),
-        connectionstyle='arc,angleA=115,angleB=45,armA=100,armB=0,rad=50.0',
+        connectionstyle='arc,angleA=115,angleB=45,armA=350,armB=0,rad=100.0',
         **arrowprops))
     ax.add_patch(mpatches.FancyArrowPatch(
         (7.05, 46.15), (7.60, 47.20),
-        connectionstyle='arc,angleA=115,angleB=-135,armA=100,armB=0,rad=50.0',
+        connectionstyle='arc,angleA=115,angleB=-135,armA=350,armB=0,rad=100.0',
         **arrowprops))
 
 
