@@ -52,15 +52,15 @@ cb.set_label(r'surface velocity ($m\,a^{-1}$)')
 util.geo.draw_natural_earth(ax)
 util.pl.draw_footprint(ax)
 util.geo.draw_lgm_outline(ax)
-util.pl.draw_ice_divides(ax)
-util.pl.draw_water_divides(ax)
+util.flo.draw_ice_divides(ax)
+util.flo.draw_water_divides(ax)
 
 # add vector points and labels
 util.geo.draw_major_cities(ax)
-util.geo.draw_glacier_names(ax)
-util.pl.draw_cross_divides(ax)
-util.pl.draw_all_transfluences(ax)
-util.geo.draw_ice_domes(ax)
+util.flo.draw_glacier_names(ax)
+util.flo.draw_cross_divides(ax)
+util.flo.draw_transfluences(ax)
+util.flo.draw_ice_domes(ax)
 util.pl.add_corner_tag('%.2f ka' % a, ax)
 
 

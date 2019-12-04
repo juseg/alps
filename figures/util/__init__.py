@@ -3,6 +3,7 @@
 
 """Utils and parameters for this project."""
 
+import util.cyc  # glacial cycle article
 import util.flo  # transfluences article
 import util.geo  # mapping tools
 
