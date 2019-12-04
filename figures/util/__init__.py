@@ -3,7 +3,6 @@
 
 """Utils and parameters for this project."""
 
-import util.cm  # colour maps
 import util.fi  # figure creation
 import util.io  # input and output
 import util.mm  # mm-margin subplots
