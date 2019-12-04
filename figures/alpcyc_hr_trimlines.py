@@ -107,7 +107,7 @@ ax.set_title('')
 
 # add map elements
 util.pl.draw_boot_topo(ax)
-util.ne.draw_natural_earth(ax)
+util.geo.draw_natural_earth(ax)
 
 # add text labels
 kw = dict(ha='center', va='center', transform=ccrs.PlateCarree())

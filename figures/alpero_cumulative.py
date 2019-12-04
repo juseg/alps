@@ -40,7 +40,7 @@ def main():
 
     # add map elements
     util.pl.draw_boot_topo(ax)
-    util.ne.draw_natural_earth(ax)
+    util.geo.draw_natural_earth(ax)
 
     # save figure
     util.pl.savefig(fig)

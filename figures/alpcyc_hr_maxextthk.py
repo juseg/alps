@@ -29,7 +29,7 @@ with util.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     ext.plot.contour(ax=ax, levels=[0.5], colors='k', linewidths=0.25)
 
 # add vector elements
-util.ne.draw_natural_earth(ax)
+util.geo.draw_natural_earth(ax)
 util.pl.add_corner_tag('%.2f ka' % (age/1e3), ax)
 
 # save figure

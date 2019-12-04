@@ -8,7 +8,7 @@ fig, ax, cax = util.fi.subplots_cax()
 
 # add map elements
 im = util.pl.draw_boot_topo(ax)
-util.ne.draw_natural_earth(ax)
+util.geo.draw_natural_earth(ax)
 util.geo.draw_lgm_outline(ax)
 util.pl.draw_cpu_grid(ax)
 

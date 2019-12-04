@@ -8,7 +8,6 @@ import util.geo  # mapping tools
 
 import util.fi  # figure creation
 import util.io  # input and output
-import util.ne  # natural earth data
 import util.pl  # other plotting tools
 
 

@@ -49,14 +49,14 @@ cb = util.pl.add_colorbar(im2, cax2, extend='both')
 cb.set_label(r'surface velocity ($m\,a^{-1}$)')
 
 # add vector polygons
-util.ne.draw_natural_earth(ax)
+util.geo.draw_natural_earth(ax)
 util.pl.draw_footprint(ax)
 util.geo.draw_lgm_outline(ax)
 util.pl.draw_ice_divides(ax)
 util.pl.draw_water_divides(ax)
 
 # add vector points and labels
-util.ne.draw_major_cities(ax)
+util.geo.draw_major_cities(ax)
 util.geo.draw_glacier_names(ax)
 util.pl.draw_cross_divides(ax)
 util.pl.draw_all_transfluences(ax)

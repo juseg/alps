@@ -198,7 +198,7 @@ def main():
     add_names(ax=ax)
     util.pl.draw_model_domain(ax=ax, extent='guil')
     util.geo.draw_lgm_outline(ax=ax, edgecolor='#0978ab', facecolor='w')
-    util.ne.draw_natural_earth(ax=ax, mode='co')
+    util.geo.draw_natural_earth(ax=ax, mode='co')
 
     # save
     util.pl.savefig(fig)
