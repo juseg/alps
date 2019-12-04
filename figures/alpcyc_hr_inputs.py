@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import pismx.open
 import util
 
 # initialize figure
 fig, grid = util.fig.subplots_inputs()
 
 # load merged input file
-with util.io.open_dataset('../data/processed/alpcyc.1km.in.nc') as ds:
+with pismx.open.dataset('../data/processed/alpcyc.1km.in.nc') as ds:
     thk = ds.thk.where(ds.thk>=1.0)
     tpg = ds.topg/1e3
     ghf = ds.bheatflx

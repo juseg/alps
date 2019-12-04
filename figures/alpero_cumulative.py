@@ -5,6 +5,7 @@
 
 """Plot Alps erosion time evolution."""
 
+import pismx.open
 import util
 
 
@@ -16,7 +17,7 @@ def main():
 
     # load aggregated data
     # FIXME age coords in preprocessing, open with xarray
-    with util.io.open_dataset(
+    with pismx.open.dataset(
             '../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
 
         # plot map data

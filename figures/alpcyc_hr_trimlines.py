@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import pismx.open
 import util
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
@@ -18,12 +19,12 @@ with util.io.open_trimline_data() as tr:
     tr.load()
 
 # get aggregated data at trimline locations
-with util.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
+with pismx.open.dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     at = ds.maxthkage.interp(x=tr.x, y=tr.y, method='linear')/1e3
     ht = ds.maxthkthk.interp(x=tr.x, y=tr.y, method='linear')
 
 # get boot topography at trimline locations
-with util.io.open_dataset('../data/processed/alpcyc.1km.in.nc') as ds:
+with pismx.open.dataset('../data/processed/alpcyc.1km.in.nc') as ds:
     bt = ds.topg.interp(x=tr.x, y=tr.y, method='linear')
 
 
@@ -84,7 +85,7 @@ hsax.set_ylim(l-zavg for l in scax.get_ylim())
 # --------
 
 # load aggregated data
-with util.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
+with pismx.open.dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     btp = ds.maxthkbtp
     srf = ds.maxthksrf
     ext = ds.maxthksrf.notnull()

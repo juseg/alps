@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import pismx.open
 import util
 
 # initialize figure
@@ -25,7 +26,7 @@ for i, rec in enumerate(util.alpcyc_records):
 
     # load extra output
     filename = 'alpcyc.2km.{}.{}.agg.nc'.format(rec.lower()[:4], pp)
-    with util.io.open_dataset('../data/processed/'+filename) as ds:
+    with pismx.open.dataset('../data/processed/'+filename) as ds:
 
         # for each stage
         for j, ax in enumerate(grid[:, i//2]):

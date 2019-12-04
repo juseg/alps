@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import pismx.open
 import util
 import numpy as np
 
@@ -47,7 +48,7 @@ for i, rec in enumerate(util.alpcyc_records):
         try:
 
             # load extra file
-            with util.io.open_mfdataset('~/pism/output/e9d2d1f/alps-wcnn-2km/%s+%s/'
+            with pismx.open.mfdataset('~/pism/output/e9d2d1f/alps-wcnn-2km/%s+%s/'
                                      'y???????-extra.nc' % (dtfile, conf)) as ds:
 
                 # select space-time of interest

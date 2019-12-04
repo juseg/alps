@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 import matplotlib.transforms as mtransforms
 import cartopy.crs as ccrs
 import absplots as apl
+import pismx.open
 import util as ut
 
 # Projections
@@ -368,7 +369,8 @@ def plot_dt(ax=None, filename='alpcyc.2km.epic.pp.dt.nc'):
     ax = ax or plt.gca()
 
     # plot time series
-    with ut.io.open_dataset('../data/processed/'+filename) as ds:
+    # FIXME age coordinates in postprocessing
+    with pismx.open.dataset('../data/processed/'+filename) as ds:
         ax.plot(ds.age/1e3, ds.delta_T, c='0.25')
 
     # set axes properties

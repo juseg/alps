@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import pismx.open
 import util
 import matplotlib.pyplot as plt
 
@@ -12,7 +13,7 @@ fig, ax, cax = util.fig.subplots_cax(extent='rhlobe')
 # --------
 
 # load aggregated data
-with util.io.open_dataset('../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
+with pismx.open.dataset('../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
     ext = ds.glerosion > 0.0
     bvm = ds.lastbvage.notnull()
 

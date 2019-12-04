@@ -10,6 +10,7 @@ import numpy as np
 import xarray as xr
 import matplotlib.colors as mcolors
 import absplots as apl
+import pismx.open
 import util
 
 
@@ -35,7 +36,7 @@ def main():
 
     # load postprocessed data
     # FIXME postprocess erosion rates to avoid subsetting
-    with util.io.open_mfdataset(
+    with pismx.open.mfdataset(
             os.environ['HOME'] +
             '/pism/output/e9d2d1f/alpcyc4.1km.epica.1220.pp/ex.???????.nc',
             ) as ds:

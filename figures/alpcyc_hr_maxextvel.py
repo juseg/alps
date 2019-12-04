@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import pismx.open
 import util
 
 # initialize figure
@@ -11,7 +12,7 @@ fig, ax, cax, tsax = util.fig.subplots_cax_ts()
 # --------
 
 # load aggregated data
-with util.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
+with pismx.open.dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     tpg = ds.maxexttpg
     srf = ds.maxextsrf
     fpt = ds.footprint
@@ -46,7 +47,7 @@ util.com.add_corner_tag('%.2f ka' % (age/1e3), ax)
 # -----------
 
 # load time series
-with util.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as ds:
+with pismx.open.dataset('../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as ds:
 
     # plot time series
     twax = tsax.twinx()

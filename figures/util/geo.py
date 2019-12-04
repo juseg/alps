@@ -7,6 +7,7 @@ Alps project mapping tools.
 """
 
 import numpy as np
+import xarray as xr
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
@@ -25,7 +26,7 @@ def draw_boot_topo(ax=None, filename='alpcyc.1km.in.nc'):
     """Add bootstrapping topography image."""
     ax = ax or plt.gca()
     # FIXME use upcoming pism paleo kit
-    with util.io.open_dataset('../data/processed/'+filename) as ds:
+    with xr.open_dataset('../data/processed/'+filename) as ds:
         im = (ds.topg/1e3).plot.imshow(ax=ax, add_colorbar=False, cmap='Greys',
                                        vmin=0.0, vmax=3.0, zorder=-1)
     return im
