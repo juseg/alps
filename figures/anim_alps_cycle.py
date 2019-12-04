@@ -33,7 +33,7 @@ def draw(t):
 
     # add vectors
     util.ne.draw_natural_earth(ax)
-    util.na.draw_lgm_outline(ax)
+    util.geo.draw_lgm_outline(ax)
     util.pl.draw_footprint(ax)
     util.pl.add_corner_tag('%.1f ka' % (0.0-t/1e3), ax)
 

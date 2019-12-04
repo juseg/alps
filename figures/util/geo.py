@@ -1,7 +1,10 @@
-#!/usr/bin/env python2
-# coding: utf-8
+# Copyright (c) 2016--2019, Julien Seguinot <seguinot@vaw.baug.ethz.ch>
+# Creative Commons Attribution-ShareAlike 4.0 International License
+# (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
-"""Native data plotting utils."""
+"""
+Alps geographic utils.
+"""
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -14,9 +17,6 @@ swiss = ccrs.TransverseMercator(
     central_longitude=7.439583333333333, central_latitude=46.95240555555556,
     false_easting=600e3, false_northing=200e3)
 
-
-# Map elements
-# ------------
 
 def draw_lgm_outline(ax=None, alpha=0.75,
                      edgecolor='#e31a1c', facecolor='none'):

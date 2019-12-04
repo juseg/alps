@@ -4,10 +4,10 @@
 """Utils and parameters for this project."""
 
 import util.flo  # transfluences article
+import util.geo  # mapping tools
 
 import util.fi  # figure creation
 import util.io  # input and output
-import util.na  # project native data
 import util.ne  # natural earth data
 import util.pl  # other plotting tools
 

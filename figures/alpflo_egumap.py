@@ -97,9 +97,9 @@ cb.set_label(r'surface velocity ($m\,a^{-1}$)')
 
 # add vector polygons
 util.ne.draw_natural_earth(ax=ax, mode='co')
-util.na.draw_lgm_outline(ax)
-util.na.draw_alpflo_ice_divides(ax)
-util.na.draw_alpflo_water_divides(ax)
+util.geo.draw_lgm_outline(ax)
+util.geo.draw_alpflo_ice_divides(ax)
+util.geo.draw_alpflo_water_divides(ax)
 
 # add profiles
 regions = ['thurn', 'engadin', 'simplon', 'mtcenis']

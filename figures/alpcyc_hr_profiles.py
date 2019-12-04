@@ -45,7 +45,7 @@ for i, reg in enumerate(regions):
     # add map elements
     util.pl.draw_boot_topo(ax)
     util.ne.draw_natural_earth(ax)
-    util.na.draw_lgm_outline(ax)
+    util.geo.draw_lgm_outline(ax)
 
     # add profile line from shapefile
     xp, yp = cpf.read_shp_coords('../data/native/profile_'+reg+'.shp')

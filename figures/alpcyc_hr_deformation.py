@@ -33,7 +33,7 @@ with util.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
 
 # add vector elements
 util.ne.draw_natural_earth(ax)
-util.na.draw_lgm_outline(ax)
+util.geo.draw_lgm_outline(ax)
 util.pl.add_corner_tag('%.2f ka' % (age/1e3), ax)
 
 

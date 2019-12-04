@@ -37,7 +37,7 @@ with util.io.open_dataset('../data/processed/alpcyc.1km.in.nc') as ds:
 
     # plot LGM outline
     ax = grid[0, 1]
-    util.na.draw_lgm_outline(ax)
+    util.geo.draw_lgm_outline(ax)
 
     # plot boot ice thickness
     ax = grid[0, 2]

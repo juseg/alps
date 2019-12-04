@@ -197,7 +197,7 @@ def main():
     draw_rhone_arrows(ax=ax)
     add_names(ax=ax)
     util.pl.draw_model_domain(ax=ax, extent='guil')
-    util.na.draw_lgm_outline(ax=ax, edgecolor='#0978ab', facecolor='w')
+    util.geo.draw_lgm_outline(ax=ax, edgecolor='#0978ab', facecolor='w')
     util.ne.draw_natural_earth(ax=ax, mode='co')
 
     # save
