@@ -26,10 +26,10 @@ alpcyc_colours = ['C1', 'C0', 'C5', 'C4', 'C3', 'C2']  # db lb dr lr dg lg
 alpcyc_colmaps = ['Blues_r']*2 + ['Reds_r']*2 + ['Greens_r']*2
 alpcyc_clabels = [rec + ('pp' in conf)*', PP' for (rec, conf) in
                   zip(alpcyc_records, alpcyc_configs)]
-alpcyc_bestrun = 'output/e9d2d1f/alps-wcnn-1km/epica3222cool1220+alpcyc4+pp/'
+alpcyc_bestrun = 'output/e9d2d1f/alpcyc4.1km.epica.1220.pp/'
 
 
 # Alps flow parameters
 # --------------------
 
-alpflo_bestrun = 'output/1.0/alps-wcnn-500m/epica3222cool1220+alpcyc4+pp/'
+alpflo_bestrun = 'output/1.1.3/alpcyc4.500m.epica.1220.pp/'

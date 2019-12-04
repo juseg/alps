@@ -4,6 +4,7 @@
 import os
 import util as ut
 import matplotlib.pyplot as plt
+import cartowik.profiletools as cpf
 
 # parameters
 regions = ['rhine', 'rhone', 'ivrea', 'isere', 'inn', 'taglia']
@@ -14,7 +15,7 @@ fig, grid, tsgrid = ut.fi.subplots_profiles(regions, labels)
 
 # load extra data in memory (interp on dask array takes 12min per profile)
 # FIXME postprocess profile data?
-filename = os.environ['HOME'] + '/pism/' + ut.alpcyc_bestrun + 'y*-extra.nc'
+filename = os.environ['HOME'] + '/pism/' + ut.alpcyc_bestrun + 'ex.???????.nc'
 with ut.io.open_mfdataset(filename) as ds:
     thk = ds.thk[9::10].compute()
 
@@ -47,7 +48,7 @@ for i, reg in enumerate(regions):
     ut.na.draw_lgm_outline(ax)
 
     # add profile line from shapefile
-    xp, yp = ut.io.open_shp_coords('profile_'+reg+'.shp')
+    xp, yp = cpf.read_shp_coords('../data/native/profile_'+reg+'.shp')
     ax.plot(xp, yp, c=c, dashes=(2, 1))
     ax.plot(xp[0], yp[0], c=c, marker='o')
 

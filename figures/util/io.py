@@ -10,7 +10,6 @@ import pandas as pd
 import xarray as xr
 import scipy.interpolate as sinterp
 import cartopy.crs as ccrs
-import cartopy.io.shapereader as shpreader
 from osgeo import gdal
 import util as ut
 
@@ -109,34 +108,6 @@ def open_gtif_xarray(filename, extent=None):
     x, y = ut.pl.coords_from_extent(extent, *data.shape[::-1])
     da = xr.DataArray(data, coords=dict(x=x, y=y), dims=('y', 'x'))
     return da
-
-
-def open_shp_coords(filename, ds=1.0):
-    """Spline-interpolate coordinates along profile from shapefile."""
-
-    # read profile from shapefile
-    filename = os.path.join('..', 'data', 'native', filename)
-    shp = shpreader.Reader(filename)
-    geom = next(shp.geometries())[0]
-    x, y = np.array(geom).T
-    del shp, geom
-
-    # compute distance along profile
-    d = ((np.diff(x)**2+np.diff(y)**2)**0.5).cumsum()/1e3
-    d = np.insert(d, 0, 0.0)
-
-    # spline-interpolate profile
-    s = np.arange(0.0, d[-1], ds)
-    x = sinterp.spline(d, x, s)
-    y = sinterp.spline(d, y, s)
-    d = s
-
-    # build coordinate xarrays
-    x = xr.DataArray(x, coords=[d], dims='d')
-    y = xr.DataArray(y, coords=[d], dims='d')
-
-    # return coordinates
-    return x, y
 
 
 def open_trimline_data():
