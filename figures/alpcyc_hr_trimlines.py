@@ -15,7 +15,7 @@ fig, ax, cax, scax, hsax = util.fig.subplots_trimlines()
 # ----------
 
 # load trimlines data in memory
-with util.io.open_trimline_data() as tr:
+with util.geo.open_trimline_data() as tr:
     tr.load()
 
 # get aggregated data at trimline locations
