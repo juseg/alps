@@ -17,7 +17,7 @@ for i, rec in enumerate(ut.alpcyc_records):
 
     # add scaling domain and outline on top panel only
     ut.pl.draw_model_domain(ax, extent='rhlobe')
-    ut.na.draw_lgm_outline(ax, c='k')
+    ut.na.draw_lgm_outline(ax, edgecolor='k')
 
     # set title
     ax.text(0.4+0.1*(pp in conf), 1.05, label, color=c, fontweight='bold',
