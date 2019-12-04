@@ -29,13 +29,13 @@ do
     pp="${pparams[$i]}"
     dt="${offsets[$i]}"
 
-    # config string and time stride
+    # time strides
     [ "$res" == "1km" ] && extimes="99,,100" || extimes="9,,10"
     [ "$res" == "1km" ] && tstimes="9,,10" || tstimes=",,1"
-    [ "$pp" == "pp" ] && conf="alpcyc4+pp" || conf="alpcyc4"
 
     # input and output file locations
-    efile="$HOME/pism/output/e9d2d1f/alps-wcnn-$res/${rec}3222cool$dt+$conf"
+    rundir="$HOME/pism/output/e9d2d1f/alpcyc4.$res.$rec.$dt"
+    [ "$pp" == "pp" ] && rundir+=".pp"
     elink="alpcyc.$res.${rec:0:4}.$pp.extra"    # link to extra file
     pexfile="alpcyc.$res.${rec:0:4}.$pp.ex.1ka.nc"  # processed extra file
     ptsfile="alpcyc.$res.${rec:0:4}.$pp.ts.10a.nc"  # timeseries output file
@@ -44,17 +44,13 @@ do
     # message
     echo "preparing $pexfile..."
 
-    # link output files (newer nco forbids + in file names)
-    # FIXME: remove all + in pism folders on all computers
-    ln -fs $efile $elink
-
     # concatenate output files and copy history from last file
-    ncrcat -O -d time,$extimes -v ${evars// /,} $elink/*-extra.nc $pexfile
-    ncrcat -O -d time,$tstimes $elink/*-ts.nc $ptsfile
-    ncrcat -O -v timestamp $elink/*-extra.nc $tmsfile
-    ncks -A -h -x $elink/y0120000-ts.nc $ptsfile
-    ncks -A -h -x $elink/y0120000-extra.nc $pexfile
-    ncks -A -h -x $elink/y0120000-extra.nc $tmsfile
+    ncrcat -O -d time,$extimes -v ${evars// /,} $rundir/ex.???????.nc $pexfile
+    ncrcat -O -d time,$tstimes $rundir/ts.???????.nc $ptsfile
+    ncrcat -O -v timestamp $rundir/ex.???????.nc $tmsfile
+    ncks -A -h -x $rundir/ts.0120000.nc $ptsfile
+    ncks -A -h -x $rundir/ex.0120000.nc $pexfile
+    ncks -A -h -x $rundir/ex.0120000.nc $tmsfile
 
     # apply mask and add fill value
     ncap2 -A -s "where(thk<1.0){$(for v in $mvars; do echo -n "$v=-2e9;"; done)};\
@@ -78,8 +74,5 @@ do
         ncatted -h -a subtitle,global,o,c,"$subtitle" $f
         nccopy -sd1 $f $f.tmp && mv $f.tmp $f
     done
-
-    # remove links
-    rm $elink
 
 done
