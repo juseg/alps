@@ -12,7 +12,7 @@ def main():
     """Main program called during execution."""
 
     # initialize figure
-    fig, ax, cax, tsax = util.fi.subplots_cax_ts()
+    fig, ax, cax, tsax = util.fig.subplots_cax_ts()
 
     # load aggregated data
     # FIXME age coords in preprocessing, open with xarray

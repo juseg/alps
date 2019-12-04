@@ -18,7 +18,7 @@ def draw(t):
     """Plot complete figure for given time."""
 
     # initialize figure
-    fig, ax, cax, tsax = util.fi.subplots_cax_ts_anim(dt=False, mis=False)
+    fig, ax, cax, tsax = util.fig.subplots_cax_ts_anim(dt=False, mis=False)
 
     # load extra data
     filepath = util.alpcyc_bestrun + 'y???????-extra.nc'

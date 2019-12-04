@@ -5,9 +5,9 @@
 
 import util.cyc  # glacial cycle article
 import util.flo  # transfluences article
+import util.fig  # figure creation
 import util.geo  # mapping tools
 
-import util.fi  # figure creation
 import util.io  # input and output
 import util.pl  # other plotting tools
 

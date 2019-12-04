@@ -186,8 +186,8 @@ def main():
     """Main program called during execution."""
 
     # initialize figure
-    fig, ax, cax = util.fi.subplots_cax(extent='boulders')
-    cax.set_visible(False)  # FIXME add util.fi.subplots without cax
+    fig, ax, cax = util.fig.subplots_cax(extent='boulders')
+    cax.set_visible(False)  # FIXME add util.fig.subplots without cax
 
     # draw stuff
     # FIXME wait for cartopy issue #1282 or implement cartowik fiona compat

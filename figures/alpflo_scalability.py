@@ -6,7 +6,7 @@ import os
 import numpy as np
 
 # initialize figure
-fig, grid = util.fi.subplots_ts(3, 1)
+fig, grid = util.fig.subplots_ts(3, 1)
 ax1, ax2, ax3 = grid
 
 # find all log files

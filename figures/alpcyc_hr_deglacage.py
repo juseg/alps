@@ -4,7 +4,7 @@
 import util
 
 # initialize figure
-fig, ax, cax = util.fi.subplots_cax(extent='west')
+fig, ax, cax = util.fig.subplots_cax(extent='west')
 
 
 # Map axes

@@ -7,7 +7,7 @@ import os.path
 import numpy as np
 
 # initialize figure
-fig, ax = util.fi.subplots_ts()
+fig, ax = util.fig.subplots_ts()
 
 # open extra files
 globpath = os.path.join(os.environ['HOME'], 'pism', util.alpflo_bestrun,

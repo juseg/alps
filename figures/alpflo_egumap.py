@@ -12,7 +12,7 @@ import cartowik.conventions as ccv
 import util
 
 # initialize figure
-fig, ax, cax1, cax2, tsax = util.fi.subplots_cax_ts_egu()
+fig, ax, cax1, cax2, tsax = util.fig.subplots_cax_ts_egu()
 
 # personal colormaps
 # FIXME use cartowik.conventions

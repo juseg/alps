@@ -5,7 +5,7 @@ import util
 import numpy as np
 
 # initialize figure
-fig, ax, cax = util.fi.subplots_cax(extent='bern')
+fig, ax, cax = util.fig.subplots_cax(extent='bern')
 
 
 # Map axes

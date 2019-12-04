@@ -4,7 +4,7 @@
 import util
 
 # initialize figure
-fig, ax, cax1, cax2, tsax = util.fi.subplots_cax_ts_sgm()
+fig, ax, cax1, cax2, tsax = util.fig.subplots_cax_ts_sgm()
 
 # time for plot
 a = 24.559

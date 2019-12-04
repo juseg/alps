@@ -17,8 +17,8 @@ figw, figh = 225.0, 125.0
 fig, grid = apl.subplots_mm(
     nrows=2, figsize=(225, 125), sharex=False, sharey=True, gridspec_kw=dict(
         left=10, right=10, bottom=10, top=2.5, hspace=2.5, wspace=2.5))
-util.fi.add_subfig_label('(a)', ax=grid[0], y=0.75)
-util.fi.add_subfig_label('(b)', ax=grid[1])
+util.fig.add_subfig_label('(a)', ax=grid[0], y=0.75)
+util.fig.add_subfig_label('(b)', ax=grid[1])
 twgrid = [ax.twinx() for ax in grid]
 
 # plot temperature time series

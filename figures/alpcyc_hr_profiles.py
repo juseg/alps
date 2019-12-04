@@ -11,7 +11,7 @@ regions = ['rhine', 'rhone', 'ivrea', 'isere', 'inn', 'taglia']
 labels = ['Rhine', 'Rhone', 'Dora Baltea', u'Isère', 'Inn', 'Tagliamento']
 
 # initialize figure
-fig, grid, tsgrid = util.fi.subplots_profiles(regions, labels)
+fig, grid, tsgrid = util.fig.subplots_profiles(regions, labels)
 
 # load extra data in memory (interp on dask array takes 12min per profile)
 # FIXME postprocess profile data?

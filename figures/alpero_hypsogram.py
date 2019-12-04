@@ -23,8 +23,8 @@ def main():
     cax = fig.add_axes_mm([177-1.5-16, 1.5+38, 4, 78])
 
     # plot marine isotope stages
-    util.fi.plot_mis(ax, y=None)
-    util.fi.plot_mis(tsax, y=1.075)
+    util.fig.plot_mis(ax, y=None)
+    util.fig.plot_mis(tsax, y=1.075)
 
     # load boot topography
     with xr.open_dataset(

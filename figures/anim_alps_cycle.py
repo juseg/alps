@@ -12,7 +12,7 @@ def draw(t):
     """Plot complete figure for given time."""
 
     # initialize figure
-    fig, ax, cax, tsax = util.fi.subplots_cax_ts_anim(t=t)
+    fig, ax, cax, tsax = util.fig.subplots_cax_ts_anim(t=t)
     util.pl.add_signature('J. Seguinot et al. (2018)')
 
     # load extra data

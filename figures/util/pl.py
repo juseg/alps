@@ -83,7 +83,7 @@ def add_colorbar(mappable, cax=None, ax=None, fig=None, label=None, **kw):
 
 def add_corner_tag(text, ax=None, ha='right', va='top', offset=2.5/25.4):
     """Add text in figure corner."""
-    return ut.fi.add_subfig_label(text, ax=ax, ha=ha, va=va, offset=offset)
+    return ut.fig.add_subfig_label(text, ax=ax, ha=ha, va=va, offset=offset)
 
 
 def add_signature(text, fig=None, offset=2.5/25.4):
@@ -109,7 +109,7 @@ def draw_boot_topo(ax=None, filename='alpcyc.1km.in.nc'):
 def draw_cpu_grid(ax=None, extent='alps', nx=24, ny=24):
     """Add CPU partition grid."""
     ax = ax or plt.gca()
-    w, e, s, n = ut.fi.regions[extent]
+    w, e, s, n = ut.fig.regions[extent]
     x = np.linspace(w, e, 24)
     y = np.linspace(s, n, 24)
     xx, yy = np.meshgrid(x, y)
@@ -123,7 +123,7 @@ def draw_cpu_grid(ax=None, extent='alps', nx=24, ny=24):
 
 def draw_model_domain(ax=None, extent='alps'):
     """Add Rhine lobe scaling domain."""
-    w, e, s, n = ut.fi.regions[extent]
+    w, e, s, n = ut.fig.regions[extent]
     x = [w, e, e, w, w]
     y = [s, s, n, n, s]
     ax.plot(x, y, c='k', lw=0.5, transform=utm)

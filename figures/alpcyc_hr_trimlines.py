@@ -7,7 +7,7 @@ import matplotlib.colors as mcolors
 import cartopy.crs as ccrs
 
 # initialize figure
-fig, ax, cax, scax, hsax = util.fi.subplots_trimlines()
+fig, ax, cax, scax, hsax = util.fig.subplots_trimlines()
 
 
 # Input data

@@ -6,7 +6,7 @@ import numpy as np
 import xarray as xr
 
 # initialize figure
-fig, ax = util.fi.subplots_ts()
+fig, ax = util.fig.subplots_ts()
 
 # plot cumulative time stamp
 with util.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.tms.nc') as ds:

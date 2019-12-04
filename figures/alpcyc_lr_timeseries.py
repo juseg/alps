@@ -4,9 +4,9 @@
 import util
 
 # initialize time-series figure
-fig, (ax1, ax2) = util.fi.subplots_ts(2, 1, mode='page', labels=False)
-util.fi.add_subfig_label('(a)', ax=ax1)
-util.fi.add_subfig_label('(b)', ax=ax2, y=0.3)
+fig, (ax1, ax2) = util.fig.subplots_ts(2, 1, mode='page', labels=False)
+util.fig.add_subfig_label('(a)', ax=ax1)
+util.fig.add_subfig_label('(b)', ax=ax2, y=0.3)
 
 # for each record
 for i, rec in enumerate(util.alpcyc_records):
@@ -25,7 +25,7 @@ for i, rec in enumerate(util.alpcyc_records):
 
 # add marine isotope stages
 # FIXME move this to figure creation
-util.fi.plot_mis(ax=ax2, y=0.925)
+util.fig.plot_mis(ax=ax2, y=0.925)
 
 # set axes properties and save time series
 ax1.set_xlim(120, 0)
