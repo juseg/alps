@@ -53,7 +53,7 @@ with util.io.open_dataset('../data/processed/alpcyc.1km.in.nc') as ds:
 
     # mark inset
     origax = grid[0, 1]
-    util.pl.draw_model_domain(origax, 'bern')
+    util.geo.draw_model_domain(origax, 'bern')
     switch = origax.transData - ax.transAxes
     w0, s0 = switch.transform((w, s))
     e0, s0 = switch.transform((e, s))

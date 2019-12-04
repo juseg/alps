@@ -50,7 +50,7 @@ cb.set_label(r'surface velocity ($m\,a^{-1}$)')
 
 # add vector polygons
 util.geo.draw_natural_earth(ax)
-util.pl.draw_footprint(ax)
+util.geo.draw_footprint(ax)
 util.geo.draw_lgm_outline(ax)
 util.flo.draw_ice_divides(ax)
 util.flo.draw_water_divides(ax)

@@ -16,7 +16,7 @@ for i, rec in enumerate(util.alpcyc_records):
     ax = grid[0, i//2]
 
     # add scaling domain and outline on top panel only
-    util.pl.draw_model_domain(ax, extent='rhlobe')
+    util.geo.draw_model_domain(ax, extent='rhlobe')
     util.geo.draw_lgm_outline(ax, edgecolor='k')
 
     # set title
@@ -36,7 +36,7 @@ for i, rec in enumerate(util.alpcyc_records):
             util.pl.add_corner_tag('MIS %d' % (stage), ax=ax, va='bottom')
             util.pl.add_corner_tag('MIS ' + str(stage), ax=ax, va='bottom')
             util.pl.add_corner_tag('MIS {}'.format(stage), ax=ax, va='bottom')
-            util.pl.draw_boot_topo(ax=ax, filename='alpcyc.2km.in.nc')
+            util.geo.draw_boot_topo(ax=ax, filename='alpcyc.2km.in.nc')
             util.geo.draw_natural_earth(ax)
 
 # save

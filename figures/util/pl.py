@@ -31,13 +31,6 @@ inlevs = [l for l in topolevs if l % 1000 != 0]
 utlevs = [l for l in topolevs if l % 1000 == 0]
 
 
-# Geographic data
-# ---------------
-
-# geographic projections
-utm = ccrs.UTM(32)
-
-
 # Convert between coords and extent
 # ---------------------------------
 
@@ -95,38 +88,6 @@ def add_signature(text, fig=None, offset=2.5/25.4):
 
 # Map elements
 # ------------
-
-
-def draw_boot_topo(ax=None, filename='alpcyc.1km.in.nc'):
-    """Add bootstrapping topography image."""
-    ax = ax or plt.gca()
-    with ut.io.open_dataset('../data/processed/'+filename) as ds:
-        im = (ds.topg/1e3).plot.imshow(ax=ax, add_colorbar=False, cmap='Greys',
-                                       vmin=0.0, vmax=3.0, zorder=-1)
-    return im
-
-
-def draw_cpu_grid(ax=None, extent='alps', nx=24, ny=24):
-    """Add CPU partition grid."""
-    ax = ax or plt.gca()
-    w, e, s, n = ut.fig.regions[extent]
-    x = np.linspace(w, e, 24)
-    y = np.linspace(s, n, 24)
-    xx, yy = np.meshgrid(x, y)
-    vlines = list(np.array([xx, yy]).T)
-    hlines = list(np.array([xx.T, yy.T]).T)
-    lines = hlines + vlines
-    props = dict(color='k', linewidths=0.25, linestyles=':')
-    lcoll = mcollections.LineCollection(lines, **props)
-    ax.add_collection(lcoll)
-
-
-def draw_model_domain(ax=None, extent='alps'):
-    """Add Rhine lobe scaling domain."""
-    w, e, s, n = ut.fig.regions[extent]
-    x = [w, e, e, w, w]
-    y = [s, s, n, n, s]
-    ax.plot(x, y, c='k', lw=0.5, transform=utm)
 
 
 # Saving figures

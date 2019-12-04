@@ -7,10 +7,10 @@ import util
 fig, ax, cax = util.fig.subplots_cax()
 
 # add map elements
-im = util.pl.draw_boot_topo(ax)
+im = util.geo.draw_boot_topo(ax)
 util.geo.draw_natural_earth(ax)
 util.geo.draw_lgm_outline(ax)
-util.pl.draw_cpu_grid(ax)
+util.geo.draw_cpu_grid(ax)
 
 # add colorbar
 cb = util.pl.add_colorbar(im, cax, extend='both', ticks=range(0, 3001, 1000))

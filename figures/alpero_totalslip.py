@@ -23,7 +23,7 @@ with util.io.open_dataset('../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
     ext.plot.contour(ax=ax, colors='k', linewidths=0.5, levels=[0.5])
 
     # add map elements
-    util.pl.draw_boot_topo(ax)
+    util.geo.draw_boot_topo(ax)
     util.geo.draw_natural_earth(ax)
 
 

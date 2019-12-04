@@ -39,7 +39,7 @@ def main():
         twax.set_ylim(-0.5, 3.5)
 
     # add map elements
-    util.pl.draw_boot_topo(ax)
+    util.geo.draw_boot_topo(ax)
     util.geo.draw_natural_earth(ax)
 
     # save figure

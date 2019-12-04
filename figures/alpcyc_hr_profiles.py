@@ -43,7 +43,7 @@ for i, reg in enumerate(regions):
     ax.set_title('')
 
     # add map elements
-    util.pl.draw_boot_topo(ax)
+    util.geo.draw_boot_topo(ax)
     util.geo.draw_natural_earth(ax)
     util.geo.draw_lgm_outline(ax)
 
