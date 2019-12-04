@@ -26,7 +26,7 @@ dsl = np.interp(t, nc.variables['time'][:], nc.variables['delta_SL'][:])
 nc.close()
 
 # load SRTM bedrock topography
-srb, sre = ut.io.open_gtif('../data/external/srtm.tif')
+srb, sre = ut.io.open_gtif('../data/external/srtm.tif')  # FIXME use xarray
 srx, sry = ut.pl.coords_from_extent(sre, *srb.shape[::-1])
 
 # load boot topo
