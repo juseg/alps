@@ -42,4 +42,4 @@ with util.io.open_dataset('../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
 #twax.locator_params(axis='y', nbins=6)
 
 # save figure
-util.pl.savefig()
+util.com.savefig()

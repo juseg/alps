@@ -27,4 +27,4 @@ util.geo.draw_natural_earth(ax)
 util.geo.draw_lgm_outline(ax)
 
 # save figure
-util.pl.savefig()
+util.com.savefig()

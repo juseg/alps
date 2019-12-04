@@ -46,4 +46,4 @@ ax.set_ylabel('computing time (days)')
 ax.grid()
 
 # save
-util.pl.savefig()
+util.com.savefig()

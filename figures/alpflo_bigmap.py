@@ -27,7 +27,7 @@ utlevs = [l for l in topolevs if l % 1000 == 0]
 # plot
 im1 = nc.imshow('topg', ax, t, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
 #im = nc.shading('topg', ax, t, zorder=-1)
-im2 = nc.imshow('velsurf_mag', ax, t, norm=util.pl.velnorm, cmap='Blues', alpha=0.75)
+im2 = nc.imshow('velsurf_mag', ax, t, norm=util.com.velnorm, cmap='Blues', alpha=0.75)
 cs = nc.contour('usurf', ax, t, levels=inlevs, colors='0.25', linewidths=0.1)
 cs = nc.contour('usurf', ax, t, levels=utlevs, colors='0.25', linewidths=0.25)
 cs.clabel(color='0.25', fmt='%d', fontsize=4)
@@ -43,9 +43,9 @@ cs = nc.icemargin(ax, t, colors='k', linewidths=0.25)
 nc.close()
 
 # add colorbars
-cb = util.pl.add_colorbar(im1, cax1, extend='both')
+cb = util.com.add_colorbar(im1, cax1, extend='both')
 cb.set_label(r'bedrock topography (m)')
-cb = util.pl.add_colorbar(im2, cax2, extend='both')
+cb = util.com.add_colorbar(im2, cax2, extend='both')
 cb.set_label(r'surface velocity ($m\,a^{-1}$)')
 
 # add vector polygons
@@ -61,7 +61,7 @@ util.flo.draw_glacier_names(ax)
 util.flo.draw_cross_divides(ax)
 util.flo.draw_transfluences(ax)
 util.flo.draw_ice_domes(ax)
-util.pl.add_corner_tag('%.2f ka' % a, ax)
+util.com.add_corner_tag('%.2f ka' % a, ax)
 
 
 # Time series
@@ -89,4 +89,4 @@ tsax.locator_params(axis='y', nbins=6)
 cursor = tsax.axvline(a, c='k', lw=0.25)
 
 # save figure
-util.pl.savefig()
+util.com.savefig()

@@ -33,11 +33,11 @@ for i, rec in enumerate(util.alpcyc_records):
             fpt = ds['mis{:d}print'.format(stage)]
             fpt.plot.contourf(ax=ax, add_colorbar=False, alpha=0.75,
                               colors=[c], extend='neither', levels=[0.5, 1.5])
-            util.pl.add_corner_tag('MIS %d' % (stage), ax=ax, va='bottom')
-            util.pl.add_corner_tag('MIS ' + str(stage), ax=ax, va='bottom')
-            util.pl.add_corner_tag('MIS {}'.format(stage), ax=ax, va='bottom')
+            util.com.add_corner_tag('MIS %d' % (stage), ax=ax, va='bottom')
+            util.com.add_corner_tag('MIS ' + str(stage), ax=ax, va='bottom')
+            util.com.add_corner_tag('MIS {}'.format(stage), ax=ax, va='bottom')
             util.geo.draw_boot_topo(ax=ax, filename='alpcyc.2km.in.nc')
             util.geo.draw_natural_earth(ax)
 
 # save
-util.pl.savefig()
+util.com.savefig()

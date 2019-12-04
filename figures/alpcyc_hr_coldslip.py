@@ -30,20 +30,20 @@ with util.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     tpg.plot.imshow(ax=ax, add_colorbar=False, cmap='Greys',
                     vmin=0.0, vmax=3e3, zorder=-1)
     bvn.plot.imshow(ax=ax, add_colorbar=False, alpha=0.75, cmap='Reds',
-                    norm=util.pl.velnorm,
-                    vmin=util.pl.velnorm.vmin, vmax=util.pl.velnorm.vmax)
+                    norm=util.com.velnorm,
+                    vmin=util.com.velnorm.vmin, vmax=util.com.velnorm.vmax)
     bvc.plot.contourf(ax=ax, alpha=0.75, cbar_ax=cax, cbar_kwargs=ckw,
                       cmap='Blues', levels=[1e-1, 1e0, 1e1])
     btp.plot.contour(ax=ax, colors='k', levels=[-1e-3],
                      linewidths=0.25, linestyles=['-'], zorder=0)
-    srf.plot.contour(ax=ax, colors='0.25', levels=util.pl.inlevs,
+    srf.plot.contour(ax=ax, colors='0.25', levels=util.com.inlevs,
                      linewidths=0.1)
-    srf.plot.contour(ax=ax, colors='0.25', levels=util.pl.utlevs, linewidths=0.25)
+    srf.plot.contour(ax=ax, colors='0.25', levels=util.com.utlevs, linewidths=0.25)
     ext.plot.contour(ax=ax, levels=[0.5], colors='k', linewidths=0.25)
 
 # add vector elements
 util.geo.draw_natural_earth(ax)
-util.pl.add_corner_tag('%.2f ka' % (age/1e3), ax)
+util.com.add_corner_tag('%.2f ka' % (age/1e3), ax)
 
 
 # Time series
@@ -58,4 +58,4 @@ tsax.set_xlabel('basal temperature below freezing (K)')
 tsax.set_ylabel('basal velocity ($m\,a^{-1}$)')
 
 # save figure
-util.pl.savefig()
+util.com.savefig()

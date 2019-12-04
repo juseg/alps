@@ -71,4 +71,4 @@ for i, reg in enumerate(regions):
     tsax.grid(axis='y')
 
 # save
-util.pl.savefig()
+util.com.savefig()

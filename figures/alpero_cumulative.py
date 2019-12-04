@@ -43,7 +43,7 @@ def main():
     util.geo.draw_natural_earth(ax)
 
     # save figure
-    util.pl.savefig(fig)
+    util.com.savefig(fig)
 
 
 if __name__ == '__main__':

@@ -1,7 +1,10 @@
-#!/usr/bin/env python2
-# coding: utf-8
+# Copyright (c) 2016--2019, Julien Seguinot <seguinot@vaw.baug.ethz.ch>
+# Creative Commons Attribution-ShareAlike 4.0 International License
+# (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
-"""Plotting functions."""
+"""
+Alps project common tools.
+"""
 
 import os
 import sys

@@ -30,7 +30,7 @@ nc.close()
 
 # load SRTM bedrock topography
 srb, sre = util.io.open_gtif('../data/external/srtm.tif')  # FIXME use xarray
-srx, sry = util.pl.coords_from_extent(sre, *srb.shape[::-1])
+srx, sry = util.com.coords_from_extent(sre, *srb.shape[::-1])
 
 # load boot topo
 filepath = 'input/boot/alps-srtm+thk+gou11simi-500m.nc'
@@ -65,7 +65,7 @@ si = np.ma.masked_array(si, mi)
 bi = bi + ui - dsl
 
 # compute relief shading
-sh = sum(util.pl.shading(bi, azimuth=a, extent=sre, altitude=30.0,
+sh = sum(util.com.shading(bi, azimuth=a, extent=sre, altitude=30.0,
                        transparent=True) for a in [300.0, 315.0, 330.0])/3.0
 
 # plot interpolated results
@@ -76,23 +76,23 @@ sm = ax.imshow(sh, extent=sre, vmin=-1.0, vmax=1.0, cmap=shinemap, zorder=-1)
 cs = ax.contour(bi, extent=sre, levels=[0.0], colors='#0978ab')
 cs = ax.contourf(srx, sry, mi, levels=[0.0, 0.5], colors='w', alpha=0.75)
 cs = ax.contour(srx, sry, mi, levels=[0.5], colors='0.25', linewidths=0.25)
-cs = ax.contour(srx, sry, si, levels=util.pl.inlevs, colors='0.25',
+cs = ax.contour(srx, sry, si, levels=util.com.inlevs, colors='0.25',
                 linewidths=0.1)
-cs = ax.contour(srx, sry, si, levels=util.pl.utlevs, colors='0.25',
+cs = ax.contour(srx, sry, si, levels=util.com.utlevs, colors='0.25',
                 linewidths=0.25)
 
 # add streamplot
 print("plotting streamplot...")
-ss = nc.streamplot('velsurf', ax, t, cmap='Blues', norm=util.pl.velnorm,
+ss = nc.streamplot('velsurf', ax, t, cmap='Blues', norm=util.com.velnorm,
                    density=(57, 30), linewidth=0.5, arrowsize=0.25)
 
 # close extra data
 nc.close()
 
 # add colorbars
-cb = util.pl.add_colorbar(im, cax1, extend='both')
+cb = util.com.add_colorbar(im, cax1, extend='both')
 cb.set_label(r'topography (m) above sea (%.0f m)' % dsl)
-cb = util.pl.add_colorbar(ss.lines, cax2, extend='both')
+cb = util.com.add_colorbar(ss.lines, cax2, extend='both')
 cb.set_label(r'surface velocity ($m\,a^{-1}$)')
 
 # add vector polygons
@@ -134,8 +134,8 @@ util.flo.draw_glacier_names(ax)
 util.flo.draw_cross_divides(ax)
 util.flo.draw_transfluences(ax)
 util.flo.draw_ice_domes(ax)
-util.pl.add_corner_tag('%.0f years ago' % -t, ax)
+util.com.add_corner_tag('%.0f years ago' % -t, ax)
 
 # save figure
 print("saving figures...")
-util.pl.savefig()
+util.com.savefig()

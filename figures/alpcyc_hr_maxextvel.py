@@ -26,11 +26,11 @@ with util.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     fpt.plot.contour(ax=ax, colors=['C7'], levels=[0.5],
                      linewidths=0.5, linestyles=[(0, [3, 1])])
     svn.plot.imshow(ax=ax, alpha=0.75, cbar_ax=cax, cbar_kwargs=ckw,
-                    cmap='Blues', norm=util.pl.velnorm,  # (xarray issue 2381)
-                    vmin=util.pl.velnorm.vmin, vmax=util.pl.velnorm.vmax)
-    srf.plot.contour(ax=ax, colors=['0.25'], levels=util.pl.inlevs,
+                    cmap='Blues', norm=util.com.velnorm,  # (xarray issue 2381)
+                    vmin=util.com.velnorm.vmin, vmax=util.com.velnorm.vmax)
+    srf.plot.contour(ax=ax, colors=['0.25'], levels=util.com.inlevs,
                      linewidths=0.1)
-    srf.plot.contour(ax=ax, colors=['0.25'], levels=util.pl.utlevs,
+    srf.plot.contour(ax=ax, colors=['0.25'], levels=util.com.utlevs,
                      linewidths=0.25)
     ext.plot.contour(ax=ax, levels=[0.5], colors='k', linewidths=0.25)
 
@@ -39,7 +39,7 @@ util.geo.draw_natural_earth(ax)
 util.geo.draw_lgm_outline(ax)
 util.cyc.draw_glacier_names(ax)
 util.cyc.draw_transfluences(ax)
-util.pl.add_corner_tag('%.2f ka' % (age/1e3), ax)
+util.com.add_corner_tag('%.2f ka' % (age/1e3), ax)
 
 
 # Time series
@@ -59,4 +59,4 @@ with util.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as d
 cursor = tsax.axvline(age/1e3, c='k', lw=0.25)
 
 # save figure
-util.pl.savefig()
+util.com.savefig()

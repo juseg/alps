@@ -32,8 +32,8 @@ ax.contour(x, y, stack.T, levels=[levs[0]], colors='k',
            linewidths=0.25, linestyles='-')
 
 # add colorbar
-cb = util.pl.add_colorbar(cs, cax, ticks=offsets)
+cb = util.com.add_colorbar(cs, cax, ticks=offsets)
 cb.set_label(u'temperature offset (°C)')
 
 # save
-util.pl.savefig()
+util.com.savefig()

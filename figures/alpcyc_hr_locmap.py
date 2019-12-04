@@ -13,8 +13,8 @@ util.geo.draw_lgm_outline(ax)
 util.geo.draw_cpu_grid(ax)
 
 # add colorbar
-cb = util.pl.add_colorbar(im, cax, extend='both', ticks=range(0, 3001, 1000))
+cb = util.com.add_colorbar(im, cax, extend='both', ticks=range(0, 3001, 1000))
 cb.set_label(r'bedrock topography (m)')
 
 # save figure
-util.pl.savefig()
+util.com.savefig()

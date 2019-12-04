@@ -13,7 +13,7 @@ def draw(t):
 
     # initialize figure
     fig, ax, cax, tsax = util.fig.subplots_cax_ts_anim(t=t)
-    util.pl.add_signature('J. Seguinot et al. (2018)')
+    util.com.add_signature('J. Seguinot et al. (2018)')
 
     # load extra data
     filepath = util.alpcyc_bestrun + 'y???????-extra.nc'
@@ -21,10 +21,10 @@ def draw(t):
 
     # plot
     im = nc.imshow('topg', ax, t, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
-    im = nc.imshow('velsurf_mag', ax, t, norm=util.pl.velnorm, cmap='Blues', alpha=0.75)
-    cs = nc.contour('usurf', ax, t, levels=util.pl.inlevs,
+    im = nc.imshow('velsurf_mag', ax, t, norm=util.com.velnorm, cmap='Blues', alpha=0.75)
+    cs = nc.contour('usurf', ax, t, levels=util.com.inlevs,
                     colors='0.25', linewidths=0.1)
-    cs = nc.contour('usurf', ax, t, levels=util.pl.utlevs,
+    cs = nc.contour('usurf', ax, t, levels=util.com.utlevs,
                     colors='0.25', linewidths=0.25)
     cs = nc.icemargin(ax, t, colors='k', linewidths=0.25)
 
@@ -35,10 +35,10 @@ def draw(t):
     util.geo.draw_natural_earth(ax)
     util.geo.draw_lgm_outline(ax)
     util.geo.draw_footprint(ax)
-    util.pl.add_corner_tag('%.1f ka' % (0.0-t/1e3), ax)
+    util.com.add_corner_tag('%.1f ka' % (0.0-t/1e3), ax)
 
     # add colorbar
-    cb = util.pl.add_colorbar(im, cax, extend='both')
+    cb = util.com.add_colorbar(im, cax, extend='both')
     cb.set_label(r'surface velocity ($m\,a^{-1}$)')
 
     # load time series data

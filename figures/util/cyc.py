@@ -3,7 +3,7 @@
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
 """
-Alps flow paper utils.
+Alps glacial cycle paper utils.
 """
 
 import matplotlib.pyplot as plt

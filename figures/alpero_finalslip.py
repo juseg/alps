@@ -33,8 +33,8 @@ util.geo.draw_boot_topo(ax)
 util.geo.draw_natural_earth(ax)
 
 # add colorbar
-cb = util.pl.add_colorbar(ss.lines, cax, extend='both')
+cb = util.com.add_colorbar(ss.lines, cax, extend='both')
 cb.set_label(r'age of deglaciation (ka)')
 
 # save figure
-util.pl.savefig()
+util.com.savefig()

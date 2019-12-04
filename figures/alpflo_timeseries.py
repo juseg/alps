@@ -24,7 +24,7 @@ twgrid = [ax.twinx() for ax in grid]
 # plot temperature time series
 dtfile = 'epica3222cool1220'
 for ax in grid:
-    util.pl.plot_dt(ax=ax)
+    util.com.plot_dt(ax=ax)
 
 # for each resolution
 for i, res in enumerate(resolutions):
@@ -91,4 +91,4 @@ grid[0].add_patch(p1)
 grid[1].add_patch(p2)
 
 # save
-util.pl.savefig()
+util.com.savefig()

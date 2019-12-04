@@ -1,6 +1,11 @@
-# Copyright (c) 2018, Julien Seguinot <seguinot@vaw.baug.ethz.ch>
+# Copyright (c) 2016--2019, Julien Seguinot <seguinot@vaw.baug.ethz.ch>
+# Creative Commons Attribution-ShareAlike 4.0 International License
+# (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
-"""Figure creation and sublot helpers."""
+
+"""
+Alps project figure tools.
+"""
 
 import numpy as np
 import matplotlib.pyplot as plt

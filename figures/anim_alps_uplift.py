@@ -47,7 +47,7 @@ def draw(t):
 
     # initialize figure
     fig, ax, cax, tsax = util.fig.subplots_cax_ts_anim(dt=False)
-    util.pl.add_signature('J. Seguinot et al. (in prep.)')
+    util.com.add_signature('J. Seguinot et al. (in prep.)')
 
     # load boot topo
     filepath = 'input/boot/alps-srtm+thk+gou11simi-1km.nc'
@@ -64,9 +64,9 @@ def draw(t):
     im = nc.imshow('topg', ax, t, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
     im = ax.contourf(x, y, z-zref, levels=levs, extend='both',
                      colors=cols, alpha=0.75)
-    cs = nc.contour('usurf', ax, t, levels=util.pl.inlevs,
+    cs = nc.contour('usurf', ax, t, levels=util.com.inlevs,
                     colors='0.25', linewidths=0.1)
-    cs = nc.contour('usurf', ax, t, levels=util.pl.utlevs,
+    cs = nc.contour('usurf', ax, t, levels=util.com.utlevs,
                     colors='0.25', linewidths=0.25)
     cs = nc.icemargin(ax, t, colors='k', linewidths=0.25)
 
@@ -83,7 +83,7 @@ def draw(t):
 
     # add vectors
     util.geo.draw_natural_earth(ax)
-    util.pl.add_corner_tag('%.1f ka' % (0.0-t/1e3), ax)
+    util.com.add_corner_tag('%.1f ka' % (0.0-t/1e3), ax)
 
     # add colorbar
     cb = fig.colorbar(im, cax)

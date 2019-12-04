@@ -41,4 +41,4 @@ with util.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as d
     twax.set_ylim(-25.0, 175.0)
 
 # save figure
-util.pl.savefig()
+util.com.savefig()

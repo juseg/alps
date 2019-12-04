@@ -69,7 +69,7 @@ def main():
 
     # prepare figure
     fig, *fargs = figure()
-    util.pl.savefig(fig)
+    util.com.savefig(fig)
 
     # prepare animation
     # import os

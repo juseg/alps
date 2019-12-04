@@ -89,9 +89,9 @@ with util.io.open_dataset('../data/processed/alpcyc.1km.in.nc') as ds:
     for i, col in enumerate(grid):
         for j, ax in enumerate(col):
             ax = grid[i, j]
-            util.pl.add_corner_tag(['', 'Jan.', 'July'][i], ax=ax, va='bottom')
+            util.com.add_corner_tag(['', 'Jan.', 'July'][i], ax=ax, va='bottom')
             util.geo.draw_natural_earth(ax)
             ax.set_title('')
 
 # save
-util.pl.savefig()
+util.com.savefig()

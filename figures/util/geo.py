@@ -3,7 +3,7 @@
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
 """
-Alps geographic utils.
+Alps project mapping tools.
 """
 
 import numpy as np

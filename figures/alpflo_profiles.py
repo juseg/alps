@@ -182,4 +182,4 @@ grid[1].legend(loc='lower right', borderaxespad=2.0)
 grid[3].legend(loc='lower right', borderaxespad=2.0)
 
 # save
-util.pl.savefig()
+util.com.savefig()

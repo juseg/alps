@@ -46,4 +46,4 @@ for i, rec in enumerate(records):
                 textcoords='offset points', fontweight='bold')
 
 # save
-util.pl.savefig()
+util.com.savefig()

@@ -84,7 +84,7 @@ def main():
         twax.set_ylim(-0.5, 3.5)
 
     # save figure
-    util.pl.savefig(fig)
+    util.com.savefig(fig)
 
 
 if __name__ == '__main__':

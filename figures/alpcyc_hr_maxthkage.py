@@ -24,9 +24,9 @@ with util.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     ckw = dict(label=r'age of maximum ice thickness (ka)')
     age.plot.contourf(ax=ax, alpha=0.75, cbar_ax=cax, cbar_kwargs=ckw,
                       colors=cols, levels=levs)
-    srf.plot.contour(ax=ax, colors='0.25', levels=util.pl.inlevs,
+    srf.plot.contour(ax=ax, colors='0.25', levels=util.com.inlevs,
                      linewidths=0.1)
-    srf.plot.contour(ax=ax, colors='0.25', levels=util.pl.utlevs,
+    srf.plot.contour(ax=ax, colors='0.25', levels=util.com.utlevs,
                      linewidths=0.25)
     ext.plot.contour(ax=ax, colors='k', levels=[0.5], linewidths=0.25)
 
@@ -54,4 +54,4 @@ with util.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as d
     twax.set_ylim(90.0, 170.0)
 
 # save figure
-util.pl.savefig()
+util.com.savefig()

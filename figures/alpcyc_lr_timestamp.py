@@ -29,4 +29,4 @@ ax.set_xlabel('model time (ka)')
 ax.set_ylabel('computing time (days)')
 
 # save
-util.pl.savefig()
+util.com.savefig()

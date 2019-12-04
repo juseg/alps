@@ -1,15 +1,19 @@
-#!/usr/bin/env python2
-# coding: utf-8
+# Copyright (c) 2016--2019, Julien Seguinot <seguinot@vaw.baug.ethz.ch>
+# Creative Commons Attribution-ShareAlike 4.0 International License
+# (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
-"""Utils and parameters for this project."""
+"""
+Utils and parameters for the Alps project.
+"""
 
-import util.cyc  # glacial cycle article
-import util.flo  # transfluences article
+import util.com  # common tools
 import util.fig  # figure creation
 import util.geo  # mapping tools
 
+import util.cyc  # glacial cycle article
+import util.flo  # transfluences article
+
 import util.io  # input and output
-import util.pl  # other plotting tools
 
 
 # Alps cycle parameters

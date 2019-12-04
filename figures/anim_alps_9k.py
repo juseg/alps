@@ -26,7 +26,7 @@ def draw(t):
         fig, ax = util.fig.subplots_anim(extent='alps', figsize=(900.0, 600.0))
 
         # prepare axes coordinates
-        x, y = util.pl.coords_from_extent(ax.get_extent(),
+        x, y = util.com.coords_from_extent(ax.get_extent(),
                                         *fig.get_size_inches()*fig.dpi)
 
         # estimate sea level drop

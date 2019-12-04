@@ -94,9 +94,9 @@ with util.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
                       hatches=['////', ''], levels=[-50.0, -1e-3, 0.0])
     btp.plot.contour(ax=ax, colors='0.25', levels=[-1e-3],
                      linestyles='-', linewidths=0.25)
-    srf.plot.contour(ax=ax, colors='0.25', levels=util.pl.inlevs,
+    srf.plot.contour(ax=ax, colors='0.25', levels=util.com.inlevs,
                      linewidths=0.1)
-    srf.plot.contour(ax=ax, colors='0.25', levels=util.pl.utlevs,
+    srf.plot.contour(ax=ax, colors='0.25', levels=util.com.utlevs,
                      linewidths=0.25)
     ext.plot.contourf(ax=ax, add_colorbar=False, alpha=0.75, colors='w',
                       extend='neither', levels=[0.5, 1.5])
@@ -122,8 +122,8 @@ ax.text(7.367, 46.233, 'Rhone', rotation=30, **kw)
 sc = ax.scatter(tr.x, tr.y, c=at, cmap=cmap, norm=norm, s=4**2, alpha=0.75)
 
 # add colorbar
-cb = util.pl.add_colorbar(sc, cax)
+cb = util.com.add_colorbar(sc, cax)
 cb.set_label(r'age (ka)')
 
 # save figure
-util.pl.savefig()
+util.com.savefig()
