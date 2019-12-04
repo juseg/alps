@@ -1,18 +1,18 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import util as ut
+import util
 
 # initialize figure
 # FIXME postprocess netcdf erosion timeseries
-fig, ax, cax = ut.fi.subplots_cax()
+fig, ax, cax = util.fi.subplots_cax()
 
 
 # Map axes
 # --------
 
 # load aggregated data
-with ut.io.open_dataset('../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
+with util.io.open_dataset('../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
     ext = ds.totalslip > 0.0
     tts = ds.totalslip.where(ext)/1e3
 
@@ -23,15 +23,15 @@ with ut.io.open_dataset('../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
     ext.plot.contour(ax=ax, colors='k', linewidths=0.5, levels=[0.5])
 
     # add map elements
-    ut.pl.draw_boot_topo(ax)
-    ut.ne.draw_natural_earth(ax)
+    util.pl.draw_boot_topo(ax)
+    util.ne.draw_natural_earth(ax)
 
 
 # Time series
 # -----------
 
 ## load postprocessed data
-#age, slidingflux = ut.io.load_postproc_txt(ut.alpcyc_bestrun, 'slidingflux')
+#age, slidingflux = util.io.load_postproc_txt(util.alpcyc_bestrun, 'slidingflux')
 #
 ## plot time series
 #twax = tsax.twinx()
@@ -42,4 +42,4 @@ with ut.io.open_dataset('../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
 #twax.locator_params(axis='y', nbins=6)
 
 # save figure
-ut.pl.savefig()
+util.pl.savefig()

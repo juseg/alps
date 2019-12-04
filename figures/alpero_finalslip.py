@@ -1,18 +1,18 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import util as ut
+import util
 import matplotlib.pyplot as plt
 
 # initialize figure
-fig, ax, cax = ut.fi.subplots_cax(extent='rhlobe')
+fig, ax, cax = util.fi.subplots_cax(extent='rhlobe')
 
 
 # Map axes
 # --------
 
 # load aggregated data
-with ut.io.open_dataset('../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
+with util.io.open_dataset('../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
     ext = ds.glerosion > 0.0
     bvm = ds.lastbvage.notnull()
 
@@ -29,12 +29,12 @@ with ut.io.open_dataset('../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
     ext.plot.contour(ax=ax, colors='k', levels=[0.5], linewidths=0.5)
 
 # add map elements
-ut.pl.draw_boot_topo(ax)
-ut.ne.draw_natural_earth(ax)
+util.pl.draw_boot_topo(ax)
+util.ne.draw_natural_earth(ax)
 
 # add colorbar
-cb = ut.pl.add_colorbar(ss.lines, cax, extend='both')
+cb = util.pl.add_colorbar(ss.lines, cax, extend='both')
 cb.set_label(r'age of deglaciation (ka)')
 
 # save figure
-ut.pl.savefig()
+util.pl.savefig()

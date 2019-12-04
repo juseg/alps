@@ -1,17 +1,17 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import util as ut
+import util
 
 # initialize figure
-fig, ax, cax = ut.fi.subplots_cax(extent='west')
+fig, ax, cax = util.fi.subplots_cax(extent='west')
 
 
 # Map axes
 # --------
 
 # load aggregated data
-with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
+with util.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     age = ds.deglacage/1e3
     ext = ds.deglacage.notnull()
 
@@ -22,9 +22,9 @@ with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     ext.plot.contour(ax=ax, colors='k', levels=[0.5], linewidths=0.5)
 
 # add cartopy vectors
-ut.pl.draw_boot_topo(ax)
-ut.ne.draw_natural_earth(ax)
-ut.na.draw_lgm_outline(ax)
+util.pl.draw_boot_topo(ax)
+util.ne.draw_natural_earth(ax)
+util.na.draw_lgm_outline(ax)
 
 # save figure
-ut.pl.savefig()
+util.pl.savefig()

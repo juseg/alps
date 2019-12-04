@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import util as ut
+import util
 import numpy as np
 
 # LGM ice extent in UTM 32
@@ -20,7 +20,7 @@ import numpy as np
 target = 10.29263599490
 
 # initialize figure
-fig, ax = ut.fi.subplots_ts()
+fig, ax = util.fi.subplots_ts()
 
 # resolutions and styles
 resolutions = ['5km', '2km']
@@ -29,13 +29,13 @@ linewidths = [0.5, 1.0]
 markers = ['+', '*']
 
 # domain for masking
-w, e, s, n = ut.fi.regions['rhlobe']
+w, e, s, n = util.fi.regions['rhlobe']
 
 # for each record
-for i, rec in enumerate(ut.alpcyc_records):
-    label = ut.alpcyc_clabels[i]
-    conf = ut.alpcyc_configs[i]
-    c = ut.alpcyc_colours[i]
+for i, rec in enumerate(util.alpcyc_records):
+    label = util.alpcyc_clabels[i]
+    conf = util.alpcyc_configs[i]
+    c = util.alpcyc_colours[i]
     offsets = []
     fpareas = []
 
@@ -47,7 +47,7 @@ for i, rec in enumerate(ut.alpcyc_records):
         try:
 
             # load extra file
-            with ut.io.open_mfdataset('~/pism/output/e9d2d1f/alps-wcnn-2km/%s+%s/'
+            with util.io.open_mfdataset('~/pism/output/e9d2d1f/alps-wcnn-2km/%s+%s/'
                                      'y???????-extra.nc' % (dtfile, conf)) as ds:
 
                 # select space-time of interest
@@ -92,4 +92,4 @@ ax.set_xlabel('temperature offset (K)')
 ax.set_ylabel(r'glaciated area ($10^3\,km^2$)')
 
 # save
-ut.pl.savefig()
+util.pl.savefig()

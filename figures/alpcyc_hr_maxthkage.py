@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import util as ut
+import util
 import matplotlib.pyplot as plt
 
 # initialize figure
-fig, ax, cax, tsax = ut.fi.subplots_cax_ts(mis=False)
+fig, ax, cax, tsax = util.fi.subplots_cax_ts(mis=False)
 
 # age levels and colors
 levs = range(21, 28)
@@ -15,7 +15,7 @@ cols = plt.get_cmap('Paired').colors[:len(levs)+1]
 # --------
 
 # load aggregated data
-with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
+with util.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     age = ds.maxthkage/1e3
     srf = ds.maxthksrf
     ext = ds.maxthksrf.notnull()
@@ -24,23 +24,23 @@ with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     ckw = dict(label=r'age of maximum ice thickness (ka)')
     age.plot.contourf(ax=ax, alpha=0.75, cbar_ax=cax, cbar_kwargs=ckw,
                       colors=cols, levels=levs)
-    srf.plot.contour(ax=ax, colors='0.25', levels=ut.pl.inlevs,
+    srf.plot.contour(ax=ax, colors='0.25', levels=util.pl.inlevs,
                      linewidths=0.1)
-    srf.plot.contour(ax=ax, colors='0.25', levels=ut.pl.utlevs,
+    srf.plot.contour(ax=ax, colors='0.25', levels=util.pl.utlevs,
                      linewidths=0.25)
     ext.plot.contour(ax=ax, colors='k', levels=[0.5], linewidths=0.25)
 
 # add map elements
-ut.pl.draw_boot_topo(ax)
-ut.ne.draw_natural_earth(ax)
-ut.na.draw_glacier_names(ax)
+util.pl.draw_boot_topo(ax)
+util.ne.draw_natural_earth(ax)
+util.na.draw_glacier_names(ax)
 
 
 # Time series
 # -----------
 
 # load time series
-with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as ds:
+with util.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as ds:
 
     # plot time series
     twax = tsax.twinx()
@@ -54,4 +54,4 @@ with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as ds:
     twax.set_ylim(90.0, 170.0)
 
 # save figure
-ut.pl.savefig()
+util.pl.savefig()

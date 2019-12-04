@@ -1,17 +1,17 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import util as ut
+import util
 
 # initialize figure
-fig, ax, cax, tsax = ut.fi.subplots_cax_ts(dt=False, mis=False)
+fig, ax, cax, tsax = util.fi.subplots_cax_ts(dt=False, mis=False)
 
 
 # Map axes
 # --------
 
 # load aggregated data
-with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
+with util.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     tpg = ds.maxexttpg
     srf = ds.maxextsrf
     ext = ds.maxextthk.notnull()
@@ -26,15 +26,15 @@ with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
                     vmin=0.0, vmax=3e3, zorder=-1)
     dvn.plot.contourf(ax=ax, alpha=0.75, cbar_ax=cax, cbar_kwargs=ckw,
                       cmap='Blues', levels=[1e0, 1e1, 1e2])
-    srf.plot.contour(ax=ax, colors='0.25', levels=ut.pl.inlevs,
+    srf.plot.contour(ax=ax, colors='0.25', levels=util.pl.inlevs,
                      linewidths=0.1)
-    srf.plot.contour(ax=ax, colors='0.25', levels=ut.pl.utlevs, linewidths=0.25)
+    srf.plot.contour(ax=ax, colors='0.25', levels=util.pl.utlevs, linewidths=0.25)
     ext.plot.contour(ax=ax, levels=[0.5], colors='k', linewidths=0.25)
 
 # add vector elements
-ut.ne.draw_natural_earth(ax)
-ut.na.draw_lgm_outline(ax)
-ut.pl.add_corner_tag('%.2f ka' % (age/1e3), ax)
+util.ne.draw_natural_earth(ax)
+util.na.draw_lgm_outline(ax)
+util.pl.add_corner_tag('%.2f ka' % (age/1e3), ax)
 
 
 # Histograms
@@ -52,4 +52,4 @@ tsax.set_ylabel('grid cells')
 tsax.set_title('')
 
 # save figure
-ut.pl.savefig()
+util.pl.savefig()

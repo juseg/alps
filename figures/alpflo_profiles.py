@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import util as ut
+import util
 import numpy as np
 import matplotlib.pyplot as plt
 import cartopy.io.shapereader as shpreader
@@ -23,16 +23,16 @@ fig, grid = apl.subplots_mm(
 cax = fig.add_axes_mm(22.5, 22.5, 60, 5])
 
 # load extra data
-filepath = ut.alpflo_bestrun + 'y0095480-extra.nc'
-nc = ut.io.load(filepath)
+filepath = util.alpflo_bestrun + 'y0095480-extra.nc'
+nc = util.io.load(filepath)
 x, y, b = nc._extract_xyz('topg', t)
 x, y, s = nc._extract_xyz('usurf', t)
 x, y, w = nc._extract_xyz('tempicethk_basal', t)
 nc.close()
 
 # load final data
-filepath = ut.alpflo_bestrun + 'y0095480.nc'
-nc = ut.io.load(filepath)
+filepath = util.alpflo_bestrun + 'y0095480.nc'
+nc = util.io.load(filepath)
 z = nc.variables['z'][:]/1e3
 T = nc.variables['temp_pa'][0]
 nc.close()
@@ -41,19 +41,19 @@ nc.close()
 filepath = ('output/0.7.3/michael-wc-2km/2018_01_24__14_26_35_2km-'
             'rhine_slice_wcnn_100PDprecip_c12_ys-45000ye-15000_epica_'
             'siae3_ssae3_q0.5_tillphi30_dryra0.0_autotune_dT-8.1/ex.nc')
-nc = ut.io.load(filepath)
+nc = util.io.load(filepath)
 xm, ym, s1 = nc._extract_xyz('usurf', t)
 nc.close()
 filepath = ('output/0.7.3/michael-wc-2km/2018_01_26__21_02_49_2km-'
             'rhine_slice_wcnn_100PDprecip_c12_ys-45000ye-15000_epica_'
             'siae3_ssae3_q0.5_tillphi10_dryra0.0_autotune_dT-9.2/ex.nc')
-nc = ut.io.load(filepath)
+nc = util.io.load(filepath)
 xm, ym, s2 = nc._extract_xyz('usurf', t)
 nc.close()
 filepath = ('output/0.7.3/michael-wc-2km/2018_01_24__14_28_34_2km-'
             'rhine_slice_wcnn_15PDprecip_c12_ys-45000ye-15000_epica_'
             'siae3_ssae3_q0.5_tillphi30_dryra0.0_autotune_dT-13.8/ex.nc')
-nc = ut.io.load(filepath)
+nc = util.io.load(filepath)
 xm, ym, s3 = nc._extract_xyz('usurf', t)
 nc.close()
 
@@ -182,4 +182,4 @@ grid[1].legend(loc='lower right', borderaxespad=2.0)
 grid[3].legend(loc='lower right', borderaxespad=2.0)
 
 # save
-ut.pl.savefig()
+util.pl.savefig()

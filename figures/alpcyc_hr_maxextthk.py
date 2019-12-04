@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import util as ut
+import util
 
 # initialize figure
-fig, ax, cax = ut.fi.subplots_cax()
+fig, ax, cax = util.fi.subplots_cax()
 
 # load aggregated data
-with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
+with util.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     thk = ds.maxextthk
     tpg = ds.maxexttpg
     srf = ds.maxextsrf
@@ -23,14 +23,14 @@ with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
                      linewidths=0.5, linestyles=[(0, [3, 1])])
     thk.plot.imshow(ax=ax, alpha=0.75, cbar_ax=cax, cbar_kwargs=ckw,
                     cmap='Blues_r', vmin=0.0, vmax=3e3)
-    srf.plot.contour(ax=ax, colors='0.25', levels=ut.pl.inlevs,
+    srf.plot.contour(ax=ax, colors='0.25', levels=util.pl.inlevs,
                      linewidths=0.1)
-    srf.plot.contour(ax=ax, colors='0.25', levels=ut.pl.utlevs, linewidths=0.25)
+    srf.plot.contour(ax=ax, colors='0.25', levels=util.pl.utlevs, linewidths=0.25)
     ext.plot.contour(ax=ax, levels=[0.5], colors='k', linewidths=0.25)
 
 # add vector elements
-ut.ne.draw_natural_earth(ax)
-ut.pl.add_corner_tag('%.2f ka' % (age/1e3), ax)
+util.ne.draw_natural_earth(ax)
+util.pl.add_corner_tag('%.2f ka' % (age/1e3), ax)
 
 # save figure
-ut.pl.savefig()
+util.pl.savefig()

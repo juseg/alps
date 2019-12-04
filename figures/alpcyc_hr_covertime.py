@@ -1,17 +1,17 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import util as ut
+import util
 
 # initialize figure
-fig, ax, cax, tsax = ut.fi.subplots_cax_ts()
+fig, ax, cax, tsax = util.fi.subplots_cax_ts()
 
 
 # Map axes
 # --------
 
 # load aggregated data
-with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
+with util.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     ext = ds.covertime > 0.0
     cvt = ds.covertime.where(ext)/1e3
 
@@ -22,16 +22,16 @@ with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     ext.plot.contour(ax=ax, colors='k', levels=[0.5], linewidths=0.5)
 
 # add cartopy vectors
-ut.pl.draw_boot_topo(ax)
-ut.ne.draw_natural_earth(ax)
-ut.na.draw_lgm_outline(ax)
+util.pl.draw_boot_topo(ax)
+util.ne.draw_natural_earth(ax)
+util.na.draw_lgm_outline(ax)
 
 
 # Time series
 # -----------
 
 # load time series
-with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as ds:
+with util.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as ds:
 
     # plot time series
     twax = tsax.twinx()
@@ -41,4 +41,4 @@ with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as ds:
     twax.set_ylim(-25.0, 175.0)
 
 # save figure
-ut.pl.savefig()
+util.pl.savefig()

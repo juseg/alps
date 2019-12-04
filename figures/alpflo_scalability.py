@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import util as ut
+import util
 import os
 import numpy as np
 
 # initialize figure
-fig, grid = ut.fi.subplots_ts(3, 1)
+fig, grid = util.fi.subplots_ts(3, 1)
 ax1, ax2, ax3 = grid
 
 # find all log files
@@ -16,7 +16,7 @@ wtimes = []
 # get simulation time
 for n in [2, 6, 12, 24, 54, 96, 150]:
 
-    filename = (ut.alpflo_bestrun+'sctest%03d' % n)
+    filename = (util.alpflo_bestrun+'sctest%03d' % n)
     filename = os.path.join(os.environ['HOME'], 'pism', filename)
     start = os.stat(filename + '.err').st_mtime
     end = os.stat(filename + '.log').st_mtime
@@ -70,4 +70,4 @@ angle = ax2.transData.transform_angles(np.array([45.0]),
 ax2.text(20.0, 30.0, 'ideal speedup', color='0.5', rotation=angle)
 
 # save
-ut.pl.savefig()
+util.pl.savefig()

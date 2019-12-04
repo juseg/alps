@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import util as ut
+import util
 
 # initialize figure
-fig, grid = ut.fi.subplots_inputs()
+fig, grid = util.fi.subplots_inputs()
 
 # load merged input file
-with ut.io.open_dataset('../data/processed/alpcyc.1km.in.nc') as ds:
+with util.io.open_dataset('../data/processed/alpcyc.1km.in.nc') as ds:
     thk = ds.thk.where(ds.thk>=1.0)
     tpg = ds.topg/1e3
     ghf = ds.bheatflx
@@ -37,11 +37,11 @@ with ut.io.open_dataset('../data/processed/alpcyc.1km.in.nc') as ds:
 
     # plot LGM outline
     ax = grid[0, 1]
-    ut.na.draw_lgm_outline(ax)
+    util.na.draw_lgm_outline(ax)
 
     # plot boot ice thickness
     ax = grid[0, 2]
-    ax.set_extent(ut.fi.regions['bern'], crs=ax.projection)
+    ax.set_extent(util.fi.regions['bern'], crs=ax.projection)
     ckw = dict(label='Modern ice thickness (m)', ticks=range(0, 501, 200))
     thk.plot.imshow(ax=ax, alpha=0.75, cbar_ax=ax.cax, cbar_kwargs=ckw,
                                        cmap='Blues', vmin=0e2, vmax=5e2)
@@ -53,7 +53,7 @@ with ut.io.open_dataset('../data/processed/alpcyc.1km.in.nc') as ds:
 
     # mark inset
     origax = grid[0, 1]
-    ut.pl.draw_model_domain(origax, 'bern')
+    util.pl.draw_model_domain(origax, 'bern')
     switch = origax.transData - ax.transAxes
     w0, s0 = switch.transform((w, s))
     e0, s0 = switch.transform((e, s))
@@ -89,9 +89,9 @@ with ut.io.open_dataset('../data/processed/alpcyc.1km.in.nc') as ds:
     for i, col in enumerate(grid):
         for j, ax in enumerate(col):
             ax = grid[i, j]
-            ut.pl.add_corner_tag(['', 'Jan.', 'July'][i], ax=ax, va='bottom')
-            ut.ne.draw_natural_earth(ax)
+            util.pl.add_corner_tag(['', 'Jan.', 'July'][i], ax=ax, va='bottom')
+            util.ne.draw_natural_earth(ax)
             ax.set_title('')
 
 # save
-ut.pl.savefig()
+util.pl.savefig()

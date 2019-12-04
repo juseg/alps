@@ -1,29 +1,29 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import util as ut
+import util
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import cartopy.crs as ccrs
 
 # initialize figure
-fig, ax, cax, scax, hsax = ut.fi.subplots_trimlines()
+fig, ax, cax, scax, hsax = util.fi.subplots_trimlines()
 
 
 # Input data
 # ----------
 
 # load trimlines data in memory
-with ut.io.open_trimline_data() as tr:
+with util.io.open_trimline_data() as tr:
     tr.load()
 
 # get aggregated data at trimline locations
-with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
+with util.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     at = ds.maxthkage.interp(x=tr.x, y=tr.y, method='linear')/1e3
     ht = ds.maxthkthk.interp(x=tr.x, y=tr.y, method='linear')
 
 # get boot topography at trimline locations
-with ut.io.open_dataset('../data/processed/alpcyc.1km.in.nc') as ds:
+with util.io.open_dataset('../data/processed/alpcyc.1km.in.nc') as ds:
     bt = ds.topg.interp(x=tr.x, y=tr.y, method='linear')
 
 
@@ -84,7 +84,7 @@ hsax.set_ylim(l-zavg for l in scax.get_ylim())
 # --------
 
 # load aggregated data
-with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
+with util.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     btp = ds.maxthkbtp
     srf = ds.maxthksrf
     ext = ds.maxthksrf.notnull()
@@ -94,9 +94,9 @@ with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
                       hatches=['////', ''], levels=[-50.0, -1e-3, 0.0])
     btp.plot.contour(ax=ax, colors='0.25', levels=[-1e-3],
                      linestyles='-', linewidths=0.25)
-    srf.plot.contour(ax=ax, colors='0.25', levels=ut.pl.inlevs,
+    srf.plot.contour(ax=ax, colors='0.25', levels=util.pl.inlevs,
                      linewidths=0.1)
-    srf.plot.contour(ax=ax, colors='0.25', levels=ut.pl.utlevs,
+    srf.plot.contour(ax=ax, colors='0.25', levels=util.pl.utlevs,
                      linewidths=0.25)
     ext.plot.contourf(ax=ax, add_colorbar=False, alpha=0.75, colors='w',
                       extend='neither', levels=[0.5, 1.5])
@@ -106,8 +106,8 @@ with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
 ax.set_title('')
 
 # add map elements
-ut.pl.draw_boot_topo(ax)
-ut.ne.draw_natural_earth(ax)
+util.pl.draw_boot_topo(ax)
+util.ne.draw_natural_earth(ax)
 
 # add text labels
 kw = dict(ha='center', va='center', transform=ccrs.PlateCarree())
@@ -122,8 +122,8 @@ ax.text(7.367, 46.233, 'Rhone', rotation=30, **kw)
 sc = ax.scatter(tr.x, tr.y, c=at, cmap=cmap, norm=norm, s=4**2, alpha=0.75)
 
 # add colorbar
-cb = ut.pl.add_colorbar(sc, cax)
+cb = util.pl.add_colorbar(sc, cax)
 cb.set_label(r'age (ka)')
 
 # save figure
-ut.pl.savefig()
+util.pl.savefig()

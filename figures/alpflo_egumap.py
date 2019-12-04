@@ -3,7 +3,7 @@
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
-import util as ut
+import util
 import numpy as np
 import cartopy.io.shapereader as shpreader
 import scipy.interpolate as sinterp
@@ -12,7 +12,7 @@ import cartowik.conventions as ccv
 import util
 
 # initialize figure
-fig, ax, cax1, cax2, tsax = ut.fi.subplots_cax_ts_egu()
+fig, ax, cax1, cax2, tsax = util.fi.subplots_cax_ts_egu()
 
 # personal colormaps
 # FIXME use cartowik.conventions
@@ -24,23 +24,23 @@ shinemap = mcolors.LinearSegmentedColormap.from_list('shines', cols)
 t = -24533.6
 
 # estimate sea level drop
-nc = ut.io.load('input/dsl/specmap.nc')
+nc = util.io.load('input/dsl/specmap.nc')
 dsl = np.interp(t, nc.variables['time'][:], nc.variables['delta_SL'][:])
 nc.close()
 
 # load SRTM bedrock topography
-srb, sre = ut.io.open_gtif('../data/external/srtm.tif')  # FIXME use xarray
-srx, sry = ut.pl.coords_from_extent(sre, *srb.shape[::-1])
+srb, sre = util.io.open_gtif('../data/external/srtm.tif')  # FIXME use xarray
+srx, sry = util.pl.coords_from_extent(sre, *srb.shape[::-1])
 
 # load boot topo
 filepath = 'input/boot/alps-srtm+thk+gou11simi-500m.nc'
-nc = ut.io.load(filepath)
+nc = util.io.load(filepath)
 bx, by, bref = nc._extract_xyz('topg', 0)
 nc.close()
 
 # load extra data
-filepath = ut.alpflo_bestrun + 'y0095480-extra.nc'
-nc = ut.io.load(filepath)
+filepath = util.alpflo_bestrun + 'y0095480-extra.nc'
+nc = util.io.load(filepath)
 ncx, ncy, ncb = nc._extract_xyz('topg', t)
 ncx, ncy, ncs = nc._extract_xyz('usurf', t)
 
@@ -65,7 +65,7 @@ si = np.ma.masked_array(si, mi)
 bi = bi + ui - dsl
 
 # compute relief shading
-sh = sum(ut.pl.shading(bi, azimuth=a, extent=sre, altitude=30.0,
+sh = sum(util.pl.shading(bi, azimuth=a, extent=sre, altitude=30.0,
                        transparent=True) for a in [300.0, 315.0, 330.0])/3.0
 
 # plot interpolated results
@@ -76,30 +76,30 @@ sm = ax.imshow(sh, extent=sre, vmin=-1.0, vmax=1.0, cmap=shinemap, zorder=-1)
 cs = ax.contour(bi, extent=sre, levels=[0.0], colors='#0978ab')
 cs = ax.contourf(srx, sry, mi, levels=[0.0, 0.5], colors='w', alpha=0.75)
 cs = ax.contour(srx, sry, mi, levels=[0.5], colors='0.25', linewidths=0.25)
-cs = ax.contour(srx, sry, si, levels=ut.pl.inlevs, colors='0.25',
+cs = ax.contour(srx, sry, si, levels=util.pl.inlevs, colors='0.25',
                 linewidths=0.1)
-cs = ax.contour(srx, sry, si, levels=ut.pl.utlevs, colors='0.25',
+cs = ax.contour(srx, sry, si, levels=util.pl.utlevs, colors='0.25',
                 linewidths=0.25)
 
 # add streamplot
 print("plotting streamplot...")
-ss = nc.streamplot('velsurf', ax, t, cmap='Blues', norm=ut.pl.velnorm,
+ss = nc.streamplot('velsurf', ax, t, cmap='Blues', norm=util.pl.velnorm,
                    density=(57, 30), linewidth=0.5, arrowsize=0.25)
 
 # close extra data
 nc.close()
 
 # add colorbars
-cb = ut.pl.add_colorbar(im, cax1, extend='both')
+cb = util.pl.add_colorbar(im, cax1, extend='both')
 cb.set_label(r'topography (m) above sea (%.0f m)' % dsl)
-cb = ut.pl.add_colorbar(ss.lines, cax2, extend='both')
+cb = util.pl.add_colorbar(ss.lines, cax2, extend='both')
 cb.set_label(r'surface velocity ($m\,a^{-1}$)')
 
 # add vector polygons
-ut.ne.draw_natural_earth(ax=ax, mode='co')
-ut.na.draw_lgm_outline(ax)
-ut.na.draw_alpflo_ice_divides(ax)
-ut.na.draw_alpflo_water_divides(ax)
+util.ne.draw_natural_earth(ax=ax, mode='co')
+util.na.draw_lgm_outline(ax)
+util.na.draw_alpflo_ice_divides(ax)
+util.na.draw_alpflo_water_divides(ax)
 
 # add profiles
 regions = ['thurn', 'engadin', 'simplon', 'mtcenis']
@@ -138,4 +138,4 @@ util.pl.add_corner_tag('%.0f years ago' % -t, ax)
 
 # save figure
 print("saving figures...")
-ut.pl.savefig()
+util.pl.savefig()

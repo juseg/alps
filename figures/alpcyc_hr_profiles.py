@@ -2,7 +2,7 @@
 # coding: utf-8
 
 import os
-import util as ut
+import util
 import matplotlib.pyplot as plt
 import cartowik.profiletools as cpf
 
@@ -11,12 +11,12 @@ regions = ['rhine', 'rhone', 'ivrea', 'isere', 'inn', 'taglia']
 labels = ['Rhine', 'Rhone', 'Dora Baltea', u'Isère', 'Inn', 'Tagliamento']
 
 # initialize figure
-fig, grid, tsgrid = ut.fi.subplots_profiles(regions, labels)
+fig, grid, tsgrid = util.fi.subplots_profiles(regions, labels)
 
 # load extra data in memory (interp on dask array takes 12min per profile)
 # FIXME postprocess profile data?
-filename = os.environ['HOME'] + '/pism/' + ut.alpcyc_bestrun + 'ex.???????.nc'
-with ut.io.open_mfdataset(filename) as ds:
+filename = os.environ['HOME'] + '/pism/' + util.alpcyc_bestrun + 'ex.???????.nc'
+with util.io.open_mfdataset(filename) as ds:
     thk = ds.thk[9::10].compute()
 
 # loop on regions
@@ -30,7 +30,7 @@ for i, reg in enumerate(regions):
     # --------
 
     # load aggregated data
-    with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
+    with util.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
         srf = ds.maxthksrf
         ext = ds.maxthksrf.notnull()
 
@@ -43,9 +43,9 @@ for i, reg in enumerate(regions):
     ax.set_title('')
 
     # add map elements
-    ut.pl.draw_boot_topo(ax)
-    ut.ne.draw_natural_earth(ax)
-    ut.na.draw_lgm_outline(ax)
+    util.pl.draw_boot_topo(ax)
+    util.ne.draw_natural_earth(ax)
+    util.na.draw_lgm_outline(ax)
 
     # add profile line from shapefile
     xp, yp = cpf.read_shp_coords('../data/native/profile_'+reg+'.shp')
@@ -71,4 +71,4 @@ for i, reg in enumerate(regions):
     tsax.grid(axis='y')
 
 # save
-ut.pl.savefig()
+util.pl.savefig()

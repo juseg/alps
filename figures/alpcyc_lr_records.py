@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import util as ut
+import util
 import numpy as np
 import cartopy.crs as ccrs
 import absplots as apl
@@ -21,7 +21,7 @@ ax.gridlines(color='0.5', linestyle='-', linewidth=0.1)
 ax.coastlines(edgecolor='k', lw=0.25)
 
 # add modelling domain
-ut.pl.draw_model_domain(ax=ax, extent='alps')
+util.pl.draw_model_domain(ax=ax, extent='alps')
 
 # add record locations
 records = ['GRIP', 'EPICA', 'MD01-2444']
@@ -46,4 +46,4 @@ for i, rec in enumerate(records):
                 textcoords='offset points', fontweight='bold')
 
 # save
-ut.pl.savefig()
+util.pl.savefig()

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import util as ut
+import util
 import os.path
 import numpy as np
 import matplotlib.pyplot as plt
@@ -66,7 +66,7 @@ def saveframe(i):
 
     # load specmap data
     #filepath = ('input/dsl/specmap.nc')
-    #nc = ut.io.load(filepath)
+    #nc = util.io.load(filepath)
     #sl_time = nc.variables['time'][:]
     #sl = nc.variables['delta_SL'][:]
     #nc.close()
@@ -77,8 +77,8 @@ def saveframe(i):
         return
 
     # load extra data
-    filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
-    nc = ut.io.load(filepath)
+    filepath = util.alpcyc_bestrun + 'y???????-extra.nc'
+    nc = util.io.load(filepath)
 
     # initialize figure
     fig = plt.figure(0, (135/25.4, 80/25.4))

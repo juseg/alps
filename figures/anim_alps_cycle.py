@@ -3,7 +3,7 @@
 
 import os
 import sys
-import util as ut
+import util
 import multiprocessing as mp
 import matplotlib.pyplot as plt
 
@@ -12,19 +12,19 @@ def draw(t):
     """Plot complete figure for given time."""
 
     # initialize figure
-    fig, ax, cax, tsax = ut.fi.subplots_cax_ts_anim(t=t)
-    ut.pl.add_signature('J. Seguinot et al. (2018)')
+    fig, ax, cax, tsax = util.fi.subplots_cax_ts_anim(t=t)
+    util.pl.add_signature('J. Seguinot et al. (2018)')
 
     # load extra data
-    filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
-    nc = ut.io.load(filepath)
+    filepath = util.alpcyc_bestrun + 'y???????-extra.nc'
+    nc = util.io.load(filepath)
 
     # plot
     im = nc.imshow('topg', ax, t, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
-    im = nc.imshow('velsurf_mag', ax, t, norm=ut.pl.velnorm, cmap='Blues', alpha=0.75)
-    cs = nc.contour('usurf', ax, t, levels=ut.pl.inlevs,
+    im = nc.imshow('velsurf_mag', ax, t, norm=util.pl.velnorm, cmap='Blues', alpha=0.75)
+    cs = nc.contour('usurf', ax, t, levels=util.pl.inlevs,
                     colors='0.25', linewidths=0.1)
-    cs = nc.contour('usurf', ax, t, levels=ut.pl.utlevs,
+    cs = nc.contour('usurf', ax, t, levels=util.pl.utlevs,
                     colors='0.25', linewidths=0.25)
     cs = nc.icemargin(ax, t, colors='k', linewidths=0.25)
 
@@ -32,18 +32,18 @@ def draw(t):
     nc.close()
 
     # add vectors
-    ut.ne.draw_natural_earth(ax)
-    ut.na.draw_lgm_outline(ax)
-    ut.pl.draw_footprint(ax)
-    ut.pl.add_corner_tag('%.1f ka' % (0.0-t/1e3), ax)
+    util.ne.draw_natural_earth(ax)
+    util.na.draw_lgm_outline(ax)
+    util.pl.draw_footprint(ax)
+    util.pl.add_corner_tag('%.1f ka' % (0.0-t/1e3), ax)
 
     # add colorbar
-    cb = ut.pl.add_colorbar(im, cax, extend='both')
+    cb = util.pl.add_colorbar(im, cax, extend='both')
     cb.set_label(r'surface velocity ($m\,a^{-1}$)')
 
     # load time series data
-    filepath = ut.alpcyc_bestrun + 'y???????-ts.nc'
-    nc = ut.io.load(filepath)
+    filepath = util.alpcyc_bestrun + 'y???????-ts.nc'
+    nc = util.io.load(filepath)
     age = -nc.variables['time'][:]/(1e3*365*24*60*60)
     vol = nc.variables['slvol'][:]
     nc.close()

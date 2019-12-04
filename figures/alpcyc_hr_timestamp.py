@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import util as ut
+import util
 import numpy as np
 import xarray as xr
 
 # initialize figure
-fig, ax = ut.fi.subplots_ts()
+fig, ax = util.fi.subplots_ts()
 
 # plot cumulative time stamp
-with ut.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.tms.nc') as ds:
+with util.io.open_dataset('../data/processed/alpcyc.1km.epic.pp.tms.nc') as ds:
     ts = ds.timestamp
     dt = ts.diff('time')
     ts = dt.where(dt > 0.0, ts[1:]).cumsum()/24.0
@@ -22,4 +22,4 @@ ax.set_xlabel('model time (ka)')
 ax.set_ylabel('computing time (days)')
 
 # save
-ut.pl.savefig()
+util.pl.savefig()

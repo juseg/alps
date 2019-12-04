@@ -2,7 +2,7 @@
 # coding: utf-8
 
 import os
-import util as ut
+import util
 import numpy as np
 import multiprocessing as mp
 import matplotlib.pyplot as plt
@@ -18,11 +18,11 @@ def draw(t):
     """Plot complete figure for given time."""
 
     # initialize figure
-    fig, ax, cax, tsax = ut.fi.subplots_cax_ts_anim(dt=False, mis=False)
+    fig, ax, cax, tsax = util.fi.subplots_cax_ts_anim(dt=False, mis=False)
 
     # load extra data
-    filepath = ut.alpcyc_bestrun + 'y???????-extra.nc'
-    nc = ut.io.load(filepath)
+    filepath = util.alpcyc_bestrun + 'y???????-extra.nc'
+    nc = util.io.load(filepath)
     x, y, temp = nc._extract_xyz('temppabase', t)
     x, y, slip = nc._extract_xyz('velbase_mag', t)
 
@@ -33,21 +33,21 @@ def draw(t):
 
     # plot
     im = nc.imshow('topg', ax, t, vmin=0.0, vmax=3e3, cmap='Greys', zorder=-1)
-    im = nc.imshow('velbase_mag', ax, t, norm=ut.pl.velnorm, cmap='Reds', alpha=0.75)
+    im = nc.imshow('velbase_mag', ax, t, norm=util.pl.velnorm, cmap='Reds', alpha=0.75)
     im = ax.contourf(x, y, coldslip, levels=levs, colors=cols, extend='both', alpha=0.75)
     cs = nc.contour('temppabase', ax, t, levels=[-1e-3], colors='k',
                     linewidths=0.25, linestyles=['-'], zorder=0)
-    cs = nc.contour('usurf', ax, t, levels=ut.pl.inlevs, colors='0.25', linewidths=0.1)
-    cs = nc.contour('usurf', ax, t, levels=ut.pl.utlevs, colors='0.25', linewidths=0.25)
+    cs = nc.contour('usurf', ax, t, levels=util.pl.inlevs, colors='0.25', linewidths=0.1)
+    cs = nc.contour('usurf', ax, t, levels=util.pl.utlevs, colors='0.25', linewidths=0.25)
     cs = nc.icemargin(ax, t, colors='k', linewidths=0.25)
 
     # close extra data
     nc.close()
 
     # add vectors
-    ut.ne.draw_natural_earth(ax)
-    ut.pl.add_corner_tag('%.1f ka' % (0.0-t/1e3), ax)
-    ut.pl.add_signature('J. Seguinot et al. (in prep.)')
+    util.ne.draw_natural_earth(ax)
+    util.pl.add_corner_tag('%.1f ka' % (0.0-t/1e3), ax)
+    util.pl.add_signature('J. Seguinot et al. (in prep.)')
 
     # add colorbar
     cb = fig.colorbar(im, cax, extend='both')

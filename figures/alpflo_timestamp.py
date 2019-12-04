@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import util as ut
+import util
 import glob
 import os.path
 import numpy as np
 
 # initialize figure
-fig, ax = ut.fi.subplots_ts()
+fig, ax = util.fi.subplots_ts()
 
 # open extra files
-globpath = os.path.join(os.environ['HOME'], 'pism', ut.alpflo_bestrun,
+globpath = os.path.join(os.environ['HOME'], 'pism', util.alpflo_bestrun,
                         'y???????-extra.nc')
 filelist = glob.glob(globpath)
 filelist.sort()
@@ -19,7 +19,7 @@ filelist.sort()
 age = np.array([])
 stamp = np.array([])
 for filepath in filelist:
-    nc = ut.io.load(filepath)
+    nc = util.io.load(filepath)
     age = np.append(age, -nc.variables['time'][:]/(365.0*24*60*60*1000))
     stamp = np.append(stamp, nc.variables['timestamp'][:])
     nc.close()
@@ -46,4 +46,4 @@ ax.set_ylabel('computing time (days)')
 ax.grid()
 
 # save
-ut.pl.savefig()
+util.pl.savefig()

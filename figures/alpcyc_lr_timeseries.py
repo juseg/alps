@@ -1,31 +1,31 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import util as ut
+import util
 
 # initialize time-series figure
-fig, (ax1, ax2) = ut.fi.subplots_ts(2, 1, mode='page', labels=False)
-ut.fi.add_subfig_label('(a)', ax=ax1)
-ut.fi.add_subfig_label('(b)', ax=ax2, y=0.3)
+fig, (ax1, ax2) = util.fi.subplots_ts(2, 1, mode='page', labels=False)
+util.fi.add_subfig_label('(a)', ax=ax1)
+util.fi.add_subfig_label('(b)', ax=ax2, y=0.3)
 
 # for each record
-for i, rec in enumerate(ut.alpcyc_records):
-    label = ut.alpcyc_clabels[i]
-    conf = ut.alpcyc_configs[i]
-    c = ut.alpcyc_colours[i]
+for i, rec in enumerate(util.alpcyc_records):
+    label = util.alpcyc_clabels[i]
+    conf = util.alpcyc_configs[i]
+    c = util.alpcyc_colours[i]
 
     # plot temperature time series
     prefix = 'alpcyc.2km.' + rec.lower()[:4] + ['.cp', '.pp']['pp' in conf]
-    with ut.io.open_dataset('../data/processed/'+prefix + '.dt.nc') as ds:
+    with util.io.open_dataset('../data/processed/'+prefix + '.dt.nc') as ds:
         ax1.plot(ds.age/1e3, ds.delta_T, c=c, alpha=0.75)
 
     # plot output time series
-    with ut.io.open_dataset('../data/processed/'+prefix + '.ts.10a.nc') as ds:
+    with util.io.open_dataset('../data/processed/'+prefix + '.ts.10a.nc') as ds:
         ax2.plot(ds.age/1e3, ds.slvol, c=c, label=label)
 
 # add marine isotope stages
 # FIXME move this to figure creation
-ut.fi.plot_mis(ax=ax2, y=0.925)
+util.fi.plot_mis(ax=ax2, y=0.925)
 
 # set axes properties and save time series
 ax1.set_xlim(120, 0)
@@ -41,4 +41,4 @@ ax1.locator_params(axis='y', nbins=6)
 ax2.locator_params(axis='y', nbins=6)
 
 # save
-ut.pl.savefig()
+util.pl.savefig()

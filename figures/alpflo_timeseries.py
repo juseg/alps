@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import util as ut
+import util
 import matplotlib.transforms as mtrans
 from mpl_toolkits.axes_grid1.inset_locator import BboxPatch, BboxConnector, BboxConnectorPatch
 import absplots as apl
@@ -17,14 +17,14 @@ figw, figh = 225.0, 125.0
 fig, grid = apl.subplots_mm(
     nrows=2, figsize=(225, 125), sharex=False, sharey=True, gridspec_kw=dict(
         left=10, right=10, bottom=10, top=2.5, hspace=2.5, wspace=2.5))
-ut.fi.add_subfig_label('(a)', ax=grid[0], y=0.75)
-ut.fi.add_subfig_label('(b)', ax=grid[1])
+util.fi.add_subfig_label('(a)', ax=grid[0], y=0.75)
+util.fi.add_subfig_label('(b)', ax=grid[1])
 twgrid = [ax.twinx() for ax in grid]
 
 # plot temperature time series
 dtfile = 'epica3222cool1220'
 for ax in grid:
-    ut.pl.plot_dt(ax=ax)
+    util.pl.plot_dt(ax=ax)
 
 # for each resolution
 for i, res in enumerate(resolutions):
@@ -34,7 +34,7 @@ for i, res in enumerate(resolutions):
     # load output time series
     runname = 'output/%s/alps-wcnn-%s/%s+alpcyc4+pp/' % (ver, res, dtfile)
     filepath = runname + 'y???????-ts.nc'
-    nc = ut.io.load(filepath)
+    nc = util.io.load(filepath)
     age = -nc.variables['time'][::12]/(1e3*365*24*60*60)
     vol = nc.variables['slvol'][::12]*100.0
     nc.close()
@@ -91,4 +91,4 @@ grid[0].add_patch(p1)
 grid[1].add_patch(p2)
 
 # save
-ut.pl.savefig()
+util.pl.savefig()
