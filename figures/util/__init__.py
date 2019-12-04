@@ -3,6 +3,8 @@
 
 """Utils and parameters for this project."""
 
+import util.flo  # transfluences article
+
 import util.fi  # figure creation
 import util.io  # input and output
 import util.na  # project native data

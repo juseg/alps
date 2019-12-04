@@ -1,5 +1,7 @@
 #!/usr/bin/env python
-# coding: utf-8
+# Copyright (c) 2017--2019, Julien Seguinot <seguinot@vaw.baug.ethz.ch>
+# Creative Commons Attribution-ShareAlike 4.0 International License
+# (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
 import util as ut
 import numpy as np
@@ -7,14 +9,15 @@ import cartopy.io.shapereader as shpreader
 import scipy.interpolate as sinterp
 import matplotlib.colors as mcolors
 import cartowik.conventions as ccv
+import util
 
 # initialize figure
 fig, ax, cax1, cax2, tsax = ut.fi.subplots_cax_ts_egu()
 
 # personal colormaps
 # FIXME use cartowik.conventions
-cols = [(0.0, (1,1,1,1)), (0.5, (1,1,1,0)),
-        (0.5, (0,0,0,0)), (1.0, (0,0,0,1))]  # white transparent black
+cols = [(0.0, (1, 1, 1, 1)), (0.5, (1, 1, 1, 0)),
+        (0.5, (0, 0, 0, 0)), (1.0, (0, 0, 0, 1))]  # white transparent black
 shinemap = mcolors.LinearSegmentedColormap.from_list('shines', cols)
 
 # time for plot
@@ -50,7 +53,7 @@ bref = sinterp.interp2d(bx, by, bref, kind='quintic')(ncx, ncy)
 ncu = ncb - bref
 
 # interpolate surfaces to SRTM coords (interp2d seem faster than interp)
-print "interpolating surfaces..."
+print("interpolating surfaces...")
 bi = srb
 si = sinterp.interp2d(ncx, ncy, ncs, kind='quintic')(srx, sry)[::-1]
 mi = sinterp.interp2d(ncx, ncy, ncs.mask, kind='quintic')(srx, sry)[::-1]
@@ -66,17 +69,20 @@ sh = sum(ut.pl.shading(bi, azimuth=a, extent=sre, altitude=30.0,
                        transparent=True) for a in [300.0, 315.0, 330.0])/3.0
 
 # plot interpolated results
-print "plotting surfaces..."
-im = ax.imshow(bi, extent=sre, vmin=-3e3, vmax=3e3, cmap=ccv.ELEVATIONAL, zorder=-1)
+print("plotting surfaces...")
+im = ax.imshow(bi, extent=sre, vmin=-3e3, vmax=3e3, cmap=ccv.ELEVATIONAL,
+               zorder=-1)
 sm = ax.imshow(sh, extent=sre, vmin=-1.0, vmax=1.0, cmap=shinemap, zorder=-1)
 cs = ax.contour(bi, extent=sre, levels=[0.0], colors='#0978ab')
 cs = ax.contourf(srx, sry, mi, levels=[0.0, 0.5], colors='w', alpha=0.75)
 cs = ax.contour(srx, sry, mi, levels=[0.5], colors='0.25', linewidths=0.25)
-cs = ax.contour(srx, sry, si, levels=ut.pl.inlevs, colors='0.25', linewidths=0.1)
-cs = ax.contour(srx, sry, si, levels=ut.pl.utlevs, colors='0.25', linewidths=0.25)
+cs = ax.contour(srx, sry, si, levels=ut.pl.inlevs, colors='0.25',
+                linewidths=0.1)
+cs = ax.contour(srx, sry, si, levels=ut.pl.utlevs, colors='0.25',
+                linewidths=0.25)
 
 # add streamplot
-print "plotting streamplot..."
+print("plotting streamplot...")
 ss = nc.streamplot('velsurf', ax, t, cmap='Blues', norm=ut.pl.velnorm,
                    density=(57, 30), linewidth=0.5, arrowsize=0.25)
 
@@ -123,13 +129,13 @@ for i, reg in enumerate(regions):
     ax.plot(xp[[0, -1]], yp[[0, -1]], c=c, ls='', marker='o')
 
 # add vector points and labels
-ut.ne.draw_major_cities(ax, maxrank=12)
-ut.na.draw_alpflo_glacier_names(ax)
-ut.na.draw_alpflo_cross_divides(ax)
-ut.na.draw_alpflo_transfluences(ax)
-#ut.pl.draw_alpflo_ice_domes(ax)
-ut.pl.add_corner_tag('%.0f years ago' % -t, ax)
+util.ne.draw_major_cities(ax, maxrank=12)
+util.flo.draw_glacier_names(ax)
+util.flo.draw_cross_divides(ax)
+util.flo.draw_transfluences(ax)
+util.flo.draw_ice_domes(ax)
+util.pl.add_corner_tag('%.0f years ago' % -t, ax)
 
 # save figure
-print "saving figures..."
+print("saving figures...")
 ut.pl.savefig()
