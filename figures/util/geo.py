@@ -23,6 +23,7 @@ swiss = ccrs.TransverseMercator(
     central_longitude=7.439583333333333, central_latitude=46.95240555555556,
     false_easting=600e3, false_northing=200e3)
 
+
 # Data methods
 # ------------
 
@@ -97,12 +98,3 @@ def draw_natural_earth(ax=None, mode='gs', **kwargs):
                   **kwargs)
     cne.add_coastline(ax=ax, edgecolor=edgecolor, zorder=0, **kwargs)
     cne.add_graticules(ax=ax, interval=1, **kwargs)
-
-
-def draw_trimlines(ax=None, c='C1', s=4**2, alpha=0.75):
-    """Add trimline locations."""
-    ax = ax or plt.gca()
-    trimlines = np.genfromtxt('../data/native/trimlines_kelly_etal_2004.csv',
-                              dtype=None, delimiter=',', names=True)
-    ax.scatter(trimlines['x'], trimlines['y'], c=c, s=s, alpha=alpha,
-               transform=swiss)

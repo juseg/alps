@@ -6,7 +6,6 @@
 Alps glacial cycle paper utils.
 """
 
-import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartopy.io.shapereader as cshp
 

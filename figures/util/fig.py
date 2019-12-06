@@ -13,7 +13,6 @@ import matplotlib.transforms as mtransforms
 import cartopy.crs as ccrs
 import absplots as apl
 import pismx.open
-import util as ut
 
 # Projections
 # -----------
@@ -130,7 +129,7 @@ def subplots_cax_ts(extent='alps', labels=True, dt=True, mis=True):
     fig, ax = apl.subplots_mm(figsize=(figw, figh),
                               subplot_kw=dict(projection=utm),
                               gridspec_kw=dict(left=1.5, right=1.5,
-                                                 bottom=1.5, top=1.5))
+                                               bottom=1.5, top=1.5))
     cax = fig.add_axes([4.5/figw, 1-50.5/figh, 3.0/figw, 40.0/figh])
     tsax = cut_ts_axes(ax)
     prepare_map_axes(ax, extent=extent)
@@ -221,8 +220,8 @@ def subplots_6(extent='alps'):
                                 subplot_kw=dict(projection=utm),
                                 nrows=2, ncols=3, sharex=True, sharey=True,
                                 gridspec_kw=dict(left=1.5, right=1.5,
-                                                   bottom=1.5, top=6.0,
-                                                   hspace=1.5, wspace=1.5))
+                                                 bottom=1.5, top=6.0,
+                                                 hspace=1.5, wspace=1.5))
     for ax, l in zip(grid.flat, 'abcdef'):
         prepare_map_axes(ax, extent=extent)
         add_subfig_label('(%s)' % l, ax=ax)

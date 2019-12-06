@@ -8,11 +8,8 @@ Alps project common tools.
 
 import os
 import sys
-import numpy as np
-import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
-import matplotlib.collections as mcollections
 import util as ut
 
 # Color palette
@@ -32,19 +29,6 @@ velnorm = mcolors.LogNorm(1e1, 1e3)
 topolevs = range(0, 5000, 200)
 inlevs = [l for l in topolevs if l % 1000 != 0]
 utlevs = [l for l in topolevs if l % 1000 == 0]
-
-
-# Convert between coords and extent
-# ---------------------------------
-
-
-def extent_from_coords(x, y):
-    """Compute image extent from coordinate vectors."""
-    w = (3*x[0]-x[1])/2
-    e = (3*x[-1]-x[-2])/2
-    s = (3*y[0]-y[1])/2
-    n = (3*y[-1]-y[-2])/2
-    return w, e, s, n
 
 
 # Text annotations
