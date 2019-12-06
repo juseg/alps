@@ -42,14 +42,14 @@ for i, rec in enumerate(util.alpcyc_records):
 
     # loop on offsets
     for dt in np.arange(6.0, 14.1, 0.1):
-        dtfile = rec.replace('-', '').lower() + '3222cool{:04.0f}'.format(100*dt)
 
         # try to find max area
         try:
 
             # load extra file
-            with pismx.open.mfdataset('~/pism/output/e9d2d1f/alps-wcnn-2km/%s+%s/'
-                                     'y???????-extra.nc' % (dtfile, conf)) as ds:
+            with pismx.open.mfdataset(
+                '~/pism/output/e9d2d1f/alpcyc4.2km.{}.{:04.0f}{}/ex.???????.nc'.format(
+                    rec.replace('-', '').lower(), 100*dt, conf)) as ds:
 
                 # select space-time of interest
                 agemask = (14e3 < ds.age) & (ds.age < 29e3)

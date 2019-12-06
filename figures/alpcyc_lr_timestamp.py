@@ -18,9 +18,9 @@ for i, rec in enumerate(util.alpcyc_records):
     filename = 'alpcyc.2km.{}.{}.tms.nc'.format(rec.lower()[:4], pp)
     with pismx.open.dataset('../data/processed/'+filename) as ds:
         ts = ds.timestamp
-        dt = ts.diff('time')
+        dt = ts.diff('age')
         ts = dt.where(dt > 0.0, ts[1:]).cumsum()/24.0
-        ax.plot(ts.age/1e3, ts, color=c, label=label)
+        ax.plot(ts.age, ts, color=c, label=label)
 
 # set axes properies
 ax.grid()

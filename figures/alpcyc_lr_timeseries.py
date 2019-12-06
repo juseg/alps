@@ -18,11 +18,11 @@ for i, rec in enumerate(util.alpcyc_records):
     # plot temperature time series
     prefix = 'alpcyc.2km.' + rec.lower()[:4] + ['.cp', '.pp']['pp' in conf]
     with pismx.open.dataset('../data/processed/'+prefix + '.dt.nc') as ds:
-        ax1.plot(ds.age/1e3, ds.delta_T, c=c, alpha=0.75)
+        ax1.plot(ds.age, ds.delta_T, c=c, alpha=0.75)
 
     # plot output time series
     with pismx.open.dataset('../data/processed/'+prefix + '.ts.10a.nc') as ds:
-        ax2.plot(ds.age/1e3, ds.slvol, c=c, label=label)
+        ax2.plot(ds.age, ds.slvol, c=c, label=label)
 
 # add marine isotope stages
 # FIXME move this to figure creation

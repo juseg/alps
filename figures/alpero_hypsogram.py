@@ -42,7 +42,7 @@ def main():
             ) as ds:
 
         # subset
-        ds = ds.sel(time=ds.time[99::100])
+        ds = ds.sel(age=ds.age[99::100])
 
         # register erosion rate
         erosion = 2.7e-7*ds.velbase_mag.where(ds.thk >= 1)**2.02
@@ -53,7 +53,7 @@ def main():
             boot.topg, bins=range(0, 4501, 100)).mean(axis=1))
 
         # plot
-        erosion.assign_coords(age=ds.age/1e3).plot.imshow(
+        erosion.assign_coords(age=ds.age).plot.imshow(
             ax=ax, x='age', cmap='YlOrBr', norm=mcolors.LogNorm(1e-9, 1e0),
             cbar_ax=cax, cbar_kwargs=dict(label=r'erosion rate ($m\,a^{-1}$)'))
         ax.set_xlabel('')
@@ -67,20 +67,19 @@ def main():
                            combine='by_coords', decode_cf=False,
                            join='override') as data:
         data = data[['slvol', 'erosion_rate']]
-        data['age'] = -data.time/(365*24*60*60)
         data['rolling_mean'] = data.erosion_rate.rolling(
             time=100, center=True).mean()
 
         # plot ice volume time series
-        tsax.plot(data.age/1e3, data.slvol*100, c='0.25')
+        tsax.plot(data.age, data.slvol*100, c='0.25')
         tsax.set_xlim(120.0, 0.0)
         tsax.set_xlabel('age (ka)')
         tsax.set_ylabel('ice volume (cm s.l.e.)')
 
         # plot erosion rate time series
         twax = tsax.twinx()
-        twax.plot(data.age/1e3, data.erosion_rate*1e-9, c='C11', alpha=0.5)
-        twax.plot(data.age/1e3, data.rolling_mean*1e-9, c='C11')
+        (data.erosion_rate*1e-9).plot(ax=twax, c='C11', alpha=0.5)
+        (data.rolling_mean*1e-9).plot(ax=twax, c='C11')
         twax.set_ylabel(r'erosion rate ($km^3\,a^{-1}$)', color='C11')
         twax.set_ylim(-0.5, 3.5)
 

@@ -18,7 +18,7 @@ import util.flo  # transfluences article
 # ---------------------
 
 alpcyc_records = ['GRIP']*2 + ['EPICA']*2 + ['MD01-2444']*2
-alpcyc_configs = ['alpcyc4' + s for s in ['', '+pp']]*3
+alpcyc_configs = ['alpcyc4' + s for s in ['', '.pp']]*3
 alpcyc_offsets = [7.0, 9.0, 8.8, 11.3, 7.3, 9.7]  # total area till1545 5km
 alpcyc_offsets = [7.0, 9.0, 8.8, 11.4, 7.3, 9.8]  # total area till1545 2km
 alpcyc_offsets = [8.3, 10.5, 9.8, 12.3, 8.2, 10.7]  # Rhine area till1545 5km

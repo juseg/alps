@@ -48,7 +48,7 @@ with pismx.open.dataset('../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as ds:
     bnds = [0e3] + [l*1e3 for l in levs] + [120e3]
     for i, c in enumerate(cols):
         area = ds.area_glacierized[(bnds[i]<=ds.age)*(ds.age<=bnds[i+1])]/1e9
-        twax.plot(area.age/1e3, area, c=c, lw=2.0)
+        twax.plot(area.age, area, c=c, lw=2.0)
 
     twax.set_ylabel(r'glaciated area ($10^3\,km^2$)', color='C1')
     twax.set_xlim(29.0, 17.0)

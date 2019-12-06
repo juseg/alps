@@ -31,10 +31,10 @@ def main():
         # plot time series
         # FIXME replace temperature offset by ice volume
         data = ds.erosion_rate*1e-9
-        roll = data.rolling(time=100, center=True).mean()
+        roll = data.rolling(age=100, center=True).mean()
         twax = tsax.twinx()
-        twax.plot(data.age/1e3, data, c='C11', alpha=0.5)
-        twax.plot(data.age/1e3, roll, c='C11')
+        twax.plot(data.age, data, c='C11', alpha=0.5)
+        twax.plot(data.age, roll, c='C11')
         twax.set_ylabel(r'erosion rate ($km\,a^{-1}$)', color='C11')
         twax.set_xlim(120.0, 0.0)
         twax.set_ylim(-0.5, 3.5)
