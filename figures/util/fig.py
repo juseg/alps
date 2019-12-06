@@ -2,7 +2,6 @@
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
-
 """
 Alps project figure tools.
 """
@@ -212,21 +211,6 @@ def subplots_cax_ts_sgm(extent='alps', labels=False, dt=True, mis=True):
 
 # Multi map subplot helpers
 # --------------------------
-
-def subplots_6(extent='alps'):
-    """Init figure with six subplot."""
-    figw, figh = 177.0, 85.0
-    fig, grid = apl.subplots_mm(figsize=(figw, figh),
-                                subplot_kw=dict(projection=utm),
-                                nrows=2, ncols=3, sharex=True, sharey=True,
-                                gridspec_kw=dict(left=1.5, right=1.5,
-                                                 bottom=1.5, top=6.0,
-                                                 hspace=1.5, wspace=1.5))
-    for ax, l in zip(grid.flat, 'abcdef'):
-        prepare_map_axes(ax, extent=extent)
-        add_subfig_label('(%s)' % l, ax=ax)
-    return fig, grid
-
 
 def subplots_inputs(extent='alps', mode='vertical'):
 

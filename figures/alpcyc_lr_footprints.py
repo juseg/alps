@@ -1,44 +1,60 @@
 #!/usr/bin/env python
-# coding: utf-8
+# Copyright (c) 2016--2019, Julien Seguinot <seguinot@vaw.baug.ethz.ch>
+# Creative Commons Attribution-ShareAlike 4.0 International License
+# (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
+"""Plot Alps cycle low-resolution footprints."""
+
+import cartopy.crs as ccrs
+import absplots as apl
 import pismx.open
 import util
 
-# initialize figure
-fig, grid = util.fig.subplots_6()
 
-# for each record
-for i, rec in enumerate(util.alpcyc_records):
-    label = util.alpcyc_clabels[i]
-    conf = util.alpcyc_configs[i]
-    pp = 'pp' if 'pp' in conf else 'cp'
-    dt = util.alpcyc_offsets[i]
-    c = util.alpcyc_colours[i]
-    ax = grid[0, i//2]
+def main():
+    """Main program called during execution."""
 
-    # add scaling domain and outline on top panel only
-    util.geo.draw_model_domain(ax, extent='rhlobe')
-    util.geo.draw_lgm_outline(ax, edgecolor='k')
+    # initialize figure
+    fig, grid = apl.subplots_mm(
+        figsize=(177, 85), nrows=2, ncols=3, sharex=True, sharey=True,
+        subplot_kw=dict(projection=ccrs.UTM(32)), gridspec_kw=dict(
+            left=1.5, right=1.5, bottom=1.5, top=6.0, hspace=1.5, wspace=1.5))
+    for ax, label in zip(grid.flat, 'abcdef'):
+        util.fig.prepare_map_axes(ax)
+        util.fig.add_subfig_label('(%s)' % label, ax=ax)
 
-    # set title
-    ax.text(0.4+0.1*(pp in conf), 1.05, label, color=c, fontweight='bold',
-            ha=('left' if pp in conf else 'right'), transform=ax.transAxes)
+    # for each record
+    for i, rec in enumerate(util.alpcyc_records):
+        label = util.alpcyc_clabels[i]
+        color = util.alpcyc_colours[i]
+        conf = util.alpcyc_configs[i]
+        ax = grid[0, i//2]
 
-    # load extra output
-    filename = 'alpcyc.2km.{}.{}.agg.nc'.format(rec.lower()[:4], pp)
-    with pismx.open.dataset('../data/processed/'+filename) as ds:
+        # add scaling domain and outline on top panel only
+        util.geo.draw_model_domain(ax, extent='rhlobe')
+        util.geo.draw_lgm_outline(ax, edgecolor='k')
 
-        # for each stage
-        for j, ax in enumerate(grid[:, i//2]):
-            stage = 2*j+2
-            fpt = ds['mis{:d}print'.format(stage)]
-            fpt.plot.contourf(ax=ax, add_colorbar=False, alpha=0.75,
-                              colors=[c], extend='neither', levels=[0.5, 1.5])
-            util.com.add_corner_tag('MIS %d' % (stage), ax=ax, va='bottom')
-            util.com.add_corner_tag('MIS ' + str(stage), ax=ax, va='bottom')
-            util.com.add_corner_tag('MIS {}'.format(stage), ax=ax, va='bottom')
-            util.geo.draw_boot_topo(ax=ax, filename='alpcyc.2km.in.nc')
-            util.geo.draw_natural_earth(ax)
+        # set title
+        ax.text(0.25+0.5*('pp' in conf), 1.05, label, color=color,
+                fontweight='bold', ha='center', transform=ax.transAxes)
 
-# save
-util.com.savefig()
+        # load extra output
+        with pismx.open.dataset(
+                '../data/processed/alpcyc.2km.{}.{}.agg.nc'.format(
+                    rec.lower()[:4], ('cp', 'pp')['pp' in conf])) as dataset:
+
+            # draw stage 2 and 4 footprints
+            for ax, stage in zip(grid[:, i//2], ['2', '4']):
+                dataset['mis{}print'.format(stage)].plot.contourf(
+                    ax=ax, add_colorbar=False, alpha=0.75,
+                    colors=[color], extend='neither', levels=[0.5, 1.5])
+                util.com.add_corner_tag('MIS ' + stage, ax=ax, va='bottom')
+                util.geo.draw_boot_topo(ax=ax, filename='alpcyc.2km.in.nc')
+                util.geo.draw_natural_earth(ax)
+
+    # save
+    util.com.savefig(fig)
+
+
+if __name__ == '__main__':
+    main()
