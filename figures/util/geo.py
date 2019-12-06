@@ -6,10 +6,7 @@
 Alps project mapping tools.
 """
 
-import numpy as np
-import pandas as pd
 import xarray as xr
-import matplotlib as mpl
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartopy.io.shapereader as cshp
@@ -18,32 +15,7 @@ import util
 
 # geographic projections
 ll = ccrs.PlateCarree()
-utm = ccrs.UTM(32)
-swiss = ccrs.TransverseMercator(
-    central_longitude=7.439583333333333, central_latitude=46.95240555555556,
-    false_easting=600e3, false_northing=200e3)
 
-
-# Data methods
-# ------------
-
-def open_trimline_data():
-    """Open trimline dataset."""
-
-    # read trimlines data
-    ds = pd.read_csv('../data/native/trimlines_kelly_etal_2004.csv',
-                     index_col='id').to_xarray()
-
-    # convert to UTM 32
-    xyz = utm.transform_points(swiss, ds.x.data, ds.y.data, ds.z.data).T
-    ds['x'].data, ds['y'].data, ds['z'].data = xyz
-
-    # return dataset
-    return ds
-
-
-# Plot methods
-# ------------
 
 def draw_boot_topo(ax=None, filename='alpcyc.1km.in.nc'):
     """Add bootstrapping topography image."""
@@ -53,21 +25,6 @@ def draw_boot_topo(ax=None, filename='alpcyc.1km.in.nc'):
         im = (ds.topg/1e3).plot.imshow(ax=ax, add_colorbar=False, cmap='Greys',
                                        vmin=0.0, vmax=3.0, zorder=-1)
     return im
-
-
-def draw_cpu_grid(ax=None, extent='alps', nx=24, ny=24):
-    """Add CPU partition grid."""
-    ax = ax or plt.gca()
-    w, e, s, n = util.fig.regions[extent]
-    x = np.linspace(w, e, 24)
-    y = np.linspace(s, n, 24)
-    xx, yy = np.meshgrid(x, y)
-    vlines = list(np.array([xx, yy]).T)
-    hlines = list(np.array([xx.T, yy.T]).T)
-    lines = hlines + vlines
-    props = dict(color='k', linewidths=0.25, linestyles=':')
-    lcoll = mpl.collections.LineCollection(lines, **props)
-    ax.add_collection(lcoll)
 
 
 def draw_lgm_outline(ax=None, alpha=0.75,

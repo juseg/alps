@@ -1,11 +1,35 @@
 #!/usr/bin/env python
-# coding: utf-8
+# Copyright (c) 2016--2019, Julien Seguinot <seguinot@vaw.baug.ethz.ch>
+# Creative Commons Attribution-ShareAlike 4.0 International License
+# (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
+import pandas as pd
 import pismx.open
 import util
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import cartopy.crs as ccrs
+
+utm = ccrs.UTM(32)
+swiss = ccrs.TransverseMercator(
+    central_longitude=7.439583333333333, central_latitude=46.95240555555556,
+    false_easting=600e3, false_northing=200e3)
+
+
+def open_trimline_data():
+    """Open trimline dataset."""
+
+    # read trimlines data
+    ds = pd.read_csv('../data/native/trimlines_kelly_etal_2004.csv',
+                     index_col='id').to_xarray()
+
+    # convert to UTM 32
+    xyz = utm.transform_points(swiss, ds.x.data, ds.y.data, ds.z.data).T
+    ds['x'].data, ds['y'].data, ds['z'].data = xyz
+
+    # return dataset
+    return ds
+
 
 # initialize figure
 fig, ax, cax, scax, hsax = util.fig.subplots_trimlines()
@@ -15,7 +39,7 @@ fig, ax, cax, scax, hsax = util.fig.subplots_trimlines()
 # ----------
 
 # load trimlines data in memory
-with util.geo.open_trimline_data() as tr:
+with open_trimline_data() as tr:
     tr.load()
 
 # get aggregated data at trimline locations
