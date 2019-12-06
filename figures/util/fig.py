@@ -212,59 +212,6 @@ def subplots_cax_ts_sgm(extent='alps', labels=False, dt=True, mis=True):
 # Multi map subplot helpers
 # --------------------------
 
-def subplots_inputs(extent='alps', mode='vertical'):
-
-    # initialize figure
-    figw, figh = 177.0, 142.5 if mode == 'horizontal' else 102.0
-    fig = apl.figure_mm(figsize=(figw, figh))
-
-    # prepare two grids in horizontal mode
-    if mode == 'horizontal':
-        grid1 = fig.subplots_mm(nrows=1, ncols=3, squeeze=False,
-                                gridspec_kw=dict(left=1.5, right=1.5,
-                                                 bottom=103.0, top=1.5,
-                                                 wspace=1.5, hspace=1.5),
-                                subplot_kw=dict(projection=utm))
-        grid2 = fig.subplots_mm(nrows=2, ncols=3, squeeze=False,
-                                gridspec_kw=dict(left=1.5, right=1.5,
-                                                 bottom=12.0, top=53.0,
-                                                 wspace=1.5, hspace=1.5),
-                                subplot_kw=dict(projection=utm))
-
-    # prepare two grids in vertical mode
-    else:
-        grid1 = fig.subplots_mm(nrows=3, ncols=1, squeeze=False,
-                                gridspec_kw=dict(left=1.5, right=127.5,
-                                                 bottom=1.5, top=1.5,
-                                                 wspace=1.5, hspace=1.5),
-                                subplot_kw=dict(projection=utm)).T
-        grid2 = fig.subplots_mm(nrows=3, ncols=2, squeeze=False,
-                                gridspec_kw=dict(left=64.5, right=15.0,
-                                                 bottom=1.5, top=1.5,
-                                                 wspace=1.5, hspace=1.5),
-                                subplot_kw=dict(projection=utm)).T
-
-    # merge axes grids
-    grid = np.concatenate((grid1, grid2))
-
-    # add colorbar axes
-    for ax in grid[[0, 2], :].flat:
-        pos = ax.get_position(original=True)  # cf mpl api changes 3.0.0
-        if mode == 'horizontal':
-            rect = [pos.x0, pos.y0-4.5/figh, pos.x1-pos.x0, 3.0/figh]
-        else:
-            rect = [pos.x1+1.5/figw, pos.y0, 3.0/figw, pos.y1-pos.y0]
-        ax.cax = fig.add_axes(rect)
-
-    # prepare axes
-    for ax, l in zip(grid.flat, 'abcdfhegi'):
-        prepare_map_axes(ax, extent=extent)
-        add_subfig_label('(%s)' % l, ax=ax)
-
-    # return figure and axes
-    return fig, grid
-
-
 def subplots_profiles(regions, labels):
     figw, figh = 177.0, 168.0
     nrows = len(regions)
