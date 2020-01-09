@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright (c) 2018-2019, Julien Seguinot <seguinot@vaw.baug.ethz.ch>
+# Copyright (c) 2018-2020, Julien Seguinot <seguinot@vaw.baug.ethz.ch>
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
@@ -8,7 +8,7 @@
 import os
 import sys
 import datetime
-import xarray as xr
+import pismx.open
 
 # processed runs
 PROC_RUNS = ['alpcyc4.2km.grip.0820', 'alpcyc4.2km.grip.1040.pp',
@@ -34,11 +34,10 @@ GLOB_ATTRS = dict(
 """)
 
 
-def get_maxext_time(run_path):
-    """Get accurate max extent time from ts files."""
-    with xr.open_mfdataset(run_path+'/ts.???????.nc', decode_times=False,
-                           chunks=dict(time=50), combine='by_coords') as ts:
-        return ts.time[ts.area_glacierized.argmax(axis=0).data]
+def get_maxext_age(run_path):
+    """Get accurate max extent age from ts files."""
+    with pismx.open.mfdataset(run_path+'/ts.???????.nc') as dataset:
+        return dataset.age[dataset.area_glacierized.argmax(axis=0).data]
 
 
 def postprocess_extra(run_path):
@@ -46,8 +45,6 @@ def postprocess_extra(run_path):
 
     # output file and subtitle
     _, res, rec, *other = os.path.basename(run_path).split('.')
-    boot_file = (os.environ['HOME'] + '/pism/input/boot/' +
-                 'alps.srtm.hus12.gou11simi.{}.nc'.format(res))
     out_file = 'processed/alpcyc.{}.{}.{}.agg.nc'.format(
         res, rec[:4], 'pp' if 'pp' in other else 'cp')
     subtitle = '{} {} simulation {} precipitation reductions'.format(
@@ -55,54 +52,47 @@ def postprocess_extra(run_path):
 
     # load output data (in the future combine='by_coords' will be the default)
     print("postprocessing " + out_file + "...")
-    boot = xr.open_dataset(boot_file, decode_cf=False, decode_times=False)
-    ex = xr.open_mfdataset(run_path+'/ex.???????.nc', decode_times=False,
-                           chunks=dict(time=50), combine='by_coords',
-                           data_vars='minimal', attrs_file=-1)
-
-    # get global attributes from last file (issue #2382, fixed locally)
-    # last = xr.open_dataset(run_path+'/ex.0120000.nc', decode_times=False)
-    # ex.attrs = last.attrs
-    # last.close()
+    boot = pismx.open.dataset(
+        '~/pism/input/boot/alps.srtm.hus12.nobathy.{}.nc'.format(res))
+    ex = pismx.open.mfdataset(run_path+'/ex.???????.nc')
 
     # init postprocessed dataset with global attributes
-    pp = xr.Dataset(attrs=ex.attrs, coords=dict(lon=ex.lon, lat=ex.lat))
+    pp = ex[['x', 'y', 'age', 'lon', 'lat', 'mapping', 'pism_config']]
     pp.attrs.update(subtitle=subtitle, **GLOB_ATTRS)
     pp.attrs.update(history=pp.command+pp.history)
 
     # register intermediate variables
-    ex['age'] = (ex.time/(-365.0*24*60*60)).assign_attrs(units='years')
     ex['icy'] = (ex.thk >= 1.0)
 
     # compute grid size
     dt = ex.age[0] - ex.age[1]
 
-    # copy boot variables  # FIXME should this be part of agg file?
+    # copy boot variables
     pp['inicdtthk'] = boot.thk.assign_attrs(
         long_name='initial condition ice thickness')
-    pp['inicdttpg'] = boot.topg.where(boot.topg>0, 0).assign_attrs(
+    pp['inicdttpg'] = boot.topg.assign_attrs(
         long_name='initial condition bedrock surface elevation')
 
     # compute glacial cycle integrated variables
     pp['covertime'] = (dt*ex.icy.sum(axis=0)).assign_attrs(
-        long_name='ice cover duration', units='years')
+        long_name='ice cover duration', units='ka')
     idx = ex.icy[::-1].argmax(axis=0).compute()
     pp['deglacage'] = (ex.age[-idx].where(idx > 0)).assign_attrs(
-        long_name='deglaciation age', units='years')
+        long_name='deglaciation age', units='ka')
     pp['footprint'] = (pp.covertime > 0.0).assign_attrs(
         long_name='glaciated area', units='')
 
     # compute max extent snapshot variables
-    idx = abs(ex.time-get_maxext_time(run_path)).argmin()
+    idx = abs(ex.age-get_maxext_age(run_path)).argmin()
     ice = ex.icy[idx]
     attrs = dict(age=ex.age[idx].data, age_units=ex.age.units,
                  time=ex.time[idx].data, time_units=ex.time.units)
     pp['maxextthk'] = (ex.thk[idx].where(ice)).assign_attrs(
         long_name='maximum extent ice thickness', **attrs)
     pp['maxextbtp'] = (ex.temppabase[idx].where(ice)).assign_attrs(
-        long_name='maximum extent pressure-adjusted basal temperature', **attrs)
+        long_name='maximum extent pressure-adjusted basal temp', **attrs)
     pp['maxextbtt'] = (ex.tempicethk_basal[idx].where(ice)).assign_attrs(
-        long_name='maximum extent basal temperate ice layer thickness', **attrs)
+        long_name='maximum extent basal temperate layer thickness', **attrs)
     pp['maxextbvx'] = (ex.uvelbase[idx].where(ice)).assign_attrs(
         long_name='maximum extent basal velocity x-component', **attrs)
     pp['maxextbvy'] = (ex.vvelbase[idx].where(ice)).assign_attrs(
@@ -119,7 +109,7 @@ def postprocess_extra(run_path):
     # compute max thickness transgressive variables
     # (note: first version ice mask was wrongly set to max extent mask)
     ice = pp.footprint
-    idx = ex.thk.argmax(dim='time').compute()  # xarray issue #2511
+    idx = ex.thk.argmax(dim='age').compute()  # xarray issue #2511
     pp['maxthkage'] = (ex.age[idx].where(ice)).assign_attrs(
         long_name='maximum thickness age')
     pp['maxthkbtp'] = (ex.temppabase[idx].where(ice)).assign_attrs(
@@ -134,16 +124,12 @@ def postprocess_extra(run_path):
         long_name='maximum ice thickness')
 
     # compute mis 2 and 4 footprints
-    covertime = ex.icy[(14e3 < ex.age) & (ex.age < 29e3)].sum(axis=0)
+    covertime = ex.icy[(ex.age > 14) & (ex.age < 29)].sum(axis=0)
     pp['mis2print'] = (covertime > 0).assign_attrs(
         long_name='glaciated area between 29 and 14 ka', units='')
-    covertime = ex.icy[(57e3 < ex.age) & (ex.age < 71e3)].sum(axis=0)
+    covertime = ex.icy[(ex.age > 57) & (ex.age < 71)].sum(axis=0)
     pp['mis4print'] = (covertime > 0).assign_attrs(
         long_name='glaciated area between 71 and 57 ka', units='')
-
-    # copy grid mapping and pism config
-    pp['mapping'] = ex.mapping
-    pp['pism_config'] = ex.pism_config
 
     # export to netcdf
     pp.to_netcdf(out_file, mode='w', encoding={var: dict(
