@@ -41,7 +41,9 @@ Basic information [required]
         *The Cryosphere*, 12, 3265-3285,
         https://doi.org/10.5194/tc-12-3265-2018, 2018.
 
-      **File names**: ``alpcyc.{1km|2km}.{epic|grip|md01}.{cp|pp}.agg.nc``
+      **File names**::
+
+         alpcyc.{1km|2km}.{epic|grip|md01}.{cp|pp}.agg.nc
 
       * Horizontal resolution:
 
@@ -59,7 +61,25 @@ Basic information [required]
         - *cp*: constant precipitation
         - *pp*: palaeo-precipitation reduction
 
-      Please refer to netCDF metadata for additional information. See also
+      **Data format**
+
+      The data use compressed netCDF format. For quick inspection I recommend
+      ``ncview``. Conversion to GeoTIFF (and other GIS formats) can be achieved
+      with e.g. GDAL::
+
+         gdal_translate NETCDF:filename.nc:variable filename.variable.tif
+
+      The list of variables (subdatasets) can be obtained from ``ncdump`` or
+      ``gdalinfo``.  To convert all variables to separate files use::
+
+         gdalinfo $filename | grep NETCDF | cut -d '=' -f 2 |
+            egrep -v '(lat|lon|time_bounds)' | while read sub
+         do
+            gdal_translate $sub ${filename%.nc}.${sub##*:}.tif
+         done
+
+      Variable long names, units, PISM configuration parametres and additional
+      information are contained within the netCDF metadata. Also see
       `continuous <https://doi.org/10.5281/zenodo.1423176>`_ variables.
 
    Version
