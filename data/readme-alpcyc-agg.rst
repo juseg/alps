@@ -61,16 +61,16 @@ Basic information [required]
         - *cp*: constant precipitation
         - *pp*: palaeo-precipitation reduction
 
-      **Data format**
+      **Data format**:
 
       The data use compressed netCDF format. For quick inspection I recommend
-      ``ncview``. Conversion to GeoTIFF (and other GIS formats) can be achieved
+      ncview. Conversion to GeoTIFF (and other GIS formats) can be achieved
       with e.g. GDAL::
 
          gdal_translate NETCDF:filename.nc:variable filename.variable.tif
 
-      The list of variables (subdatasets) can be obtained from ``ncdump`` or
-      ``gdalinfo``.  To convert all variables to separate files use::
+      The list of variables (subdatasets) can be obtained from ncdump or
+      gdalinfo. To convert all variables to separate files use::
 
          gdalinfo $filename | grep NETCDF | cut -d '=' -f 2 |
             egrep -v '(lat|lon|time_bounds)' | while read sub
@@ -81,6 +81,17 @@ Basic information [required]
       Variable long names, units, PISM configuration parametres and additional
       information are contained within the netCDF metadata. Also see
       `continuous <https://doi.org/10.5281/zenodo.1423176>`_ variables.
+
+      **Changelog:**
+
+      * Version 2:
+
+         - Add age coordinate in kiloyears (ka) before present.
+         - Use ka units for covertime, deglacage and maxthkage.
+
+      * Version 1:
+
+         - Initial version.
 
    Version
       --

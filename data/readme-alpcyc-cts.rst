@@ -66,7 +66,7 @@ Basic information [required]
         - *cp*: constant precipitation
         - *pp*: palaeo-precipitation reduction
 
-     * Variable types:
+      * Variable types:
 
         - *ex.1ka*: spatial diagnostics every thousand years
         - *ts.10a*: scalar time-series every ten years
@@ -74,19 +74,31 @@ Basic information [required]
       **Data format**
 
       The data use compressed netCDF format. For quick inspection I recommend
-      ``ncview``. Spatial diagnostics (``*.ex.1ka.nc``) can be converted to
+      ncview. Spatial diagnostics (*\*.ex.1ka.nc*) can be converted to
       GeoTIFF (and other GIS formats) e.g. using GDAL::
 
          gdal_translate NETCDF:filename.nc:variable -b band filename.variable.band.tif
 
-      The list of variables (subdatasets) can be obtained from ``ncdump`` or
-      ``gdalinfo``. Band information can be displayed with ``gdalinfo
-      NETCDF:filename.nc:variable``. The ``band`` number equals 120 minus the
-      age in ka. For more detailed analysis I recommend ``xarray``.
+      The list of variables (subdatasets) can be obtained from ncdump or
+      gdalinfo. The *band* number equals 120 minus the age in ka. Band
+      information can be displayed with::
+
+         gdalinfo NETCDF:filename.nc:variable
 
       Variable long names, units, PISM configuration parametres and additional
       information are contained within the netCDF metadata. Also see
       `aggregated <https://doi.org/10.5281/zenodo.1423160>`_ variables.
+
+      **Changelog:**
+
+      * Version 2:
+
+         - Add age coordinate in kiloyears (ka) before present.
+         - Replace NCO by Xarray workflow (no effect on the results).
+
+      * Version 1:
+
+         - Initial version.
 
    Version
       --
