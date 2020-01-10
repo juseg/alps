@@ -16,23 +16,6 @@ PROC_RUNS = ['alpcyc4.2km.grip.0820', 'alpcyc4.2km.grip.1040.pp',
              'alpcyc4.2km.md012444.0800', 'alpcyc4.2km.md012444.1060.pp',
              'alpcyc4.1km.epica.1220.pp']
 
-# global attributes
-GLOB_ATTRS = dict(
-    title='Alpine ice sheet glacial cycle simulations aggregated variables',
-    author='Julien Seguinot',
-    institution='ETH Zürich, Switzerland and Hokkaido University, Japan',
-    command='{user}@{host} {time}: {cmdl}\n'.format(
-        user=os.environ['USER'], host=os.uname()[1], cmdl=' '.join(sys.argv),
-        time=datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC')),
-    comment="""Aggregated dataset contents:
-* Maximum extent (maxext*) variables correspond to a snapshot of model output
-  at the age of maximum glacierized area, indicated by their age attributes.
-* Maximum thickness (maxthk*) variables are time-transgressive and correspond
-  to the age of maximum ice thickness in each grid cell, given by the maximum
-  thickness age (maxthkage) variable.
-* Other variables are numerically integrated over the last glacial cycle.
-""")
-
 
 def get_maxext_age(run_path):
     """Get accurate max extent age from ts files."""
@@ -47,8 +30,6 @@ def postprocess_extra(run_path):
     _, res, rec, *other = os.path.basename(run_path).split('.')
     out_file = 'processed/alpcyc.{}.{}.{}.agg.nc'.format(
         res, rec[:4], 'pp' if 'pp' in other else 'cp')
-    subtitle = '{} {} simulation {} precipitation reductions'.format(
-        res, rec.upper(), 'with' if 'pp' in other else 'without')
 
     # load output data (in the future combine='by_coords' will be the default)
     print("postprocessing " + out_file + "...")
@@ -56,10 +37,31 @@ def postprocess_extra(run_path):
         '~/pism/input/boot/alps.srtm.hus12.nobathy.{}.nc'.format(res))
     ex = pismx.open.mfdataset(run_path+'/ex.???????.nc')
 
+    # global attributes
+    attributes = {
+        'author':       'Julien Seguinot',
+        'title':        ('Alpine ice sheet glacial cycle simulations'
+                         'aggregated variables'),
+        'subtitle':     '{} {} simulation {} precipitation reductions'.format(
+            res, rec.upper(), 'with' if 'pp' in other else 'without'),
+        'institution':  'ETH Zürich, Switzerland and '
+                        'Hokkaido University, Japan',
+        'command':      '{user}@{host} {time}: {cmdl}\n'.format(
+            user=os.environ['USER'], host=os.uname()[1],
+            cmdl=' '.join(sys.argv),
+            time=datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC')),
+        'comment':      '''Aggregated dataset contents:
+* Maximum extent (maxext*) variables correspond to a snapshot of model output
+  at the age of maximum glacierized area, indicated by their age attributes.
+* Maximum thickness (maxthk*) variables are time-transgressive and correspond
+  to the age of maximum ice thickness in each grid cell, given by the maximum
+  thickness age (maxthkage) variable.
+* Other variables are numerically integrated over the last glacial cycle.
+'''}
+
     # init postprocessed dataset with global attributes
     pp = ex[['x', 'y', 'age', 'lon', 'lat', 'mapping', 'pism_config']]
-    pp.attrs.update(subtitle=subtitle, **GLOB_ATTRS)
-    pp.attrs.update(history=pp.command+pp.history)
+    pp.attrs.update(history=attributes['command']+ex.history, **attributes)
 
     # register intermediate variables
     ex['icy'] = (ex.thk >= 1.0)
