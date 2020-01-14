@@ -12,14 +12,17 @@ Credit: |-
    Modelling last glacial cycle ice dynamics in the Alps, $\it{The\ Cryosphere}$, 12,
    3265-3285, https://doi.org/10.5194/tc-12-3265-2018, 2018.
 
-Abstract:  # FIXME
-   About 25000 years ago, Alpine Glaciers filled most of the valleys and even
-   extended onto the plains. Using a computer model that contains knowledge on
-   glacier physics based on modern observations of Greenland and Antarctica and
-   laboratory experiments on ice, help from traces left by glaciers on the
-   landscape, and one of the fastest computers in the world, this animation is
-   an attempt to estimate bedrock deformation by Alpine Glaciers in time from
-   120000 years ago to today.
+Abstract:
+   Glaciers can be heavy enough to deform the Earth beneath them. This explains
+   why the beds of Greenland and Antarctica are partly below sea level, and
+   central Scandinavia and Canada are still rising up to a metre per century
+   following the last glaciation. The Earth's crust behaves like an elastic
+   plate deforming under the glaciers weight, and even uplifting outside the
+   ice-covered region. The bedrock deforms slower than glaciers. Its response
+   time depends on the horizontal length scale of the ice overburden, and the
+   viscosity of the Earth's mantle, which forms a slowly deforming buffer under
+   the crust. This animation shows the modelled evolution of the bedrock
+   depression under the Alpine ice sheet from 120000 years ago to the present.
 
 Labels:
    - "{:,d} years ago"
