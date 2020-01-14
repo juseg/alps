@@ -22,7 +22,7 @@ GLOB_ATTRS = dict(
     author='Julien Seguinot',
     institution='ETH Zürich, Switzerland',
     command='{user}@{host} {time}: {cmdl}\n'.format(
-        user=os.environ['USER'], host=os.uname()[1], cmdl=' '.join(sys.argv),
+        user=os.getlogin(), host=os.uname()[1], cmdl=' '.join(sys.argv),
         time=datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC')),
     comment="""Aggregated dataset contents:
 * Spatial variables aggregated in time over the entire simulation lenght from

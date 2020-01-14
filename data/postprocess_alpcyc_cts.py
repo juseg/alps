@@ -40,8 +40,7 @@ def postprocess_extra(run_path):
         'institution':  'ETH Zürich, Switzerland and '
                         'Hokkaido University, Japan',
         'command':      '{user}@{host} {time}: {cmdl}\n'.format(
-            user=os.environ['USER'], host=os.uname()[1],
-            cmdl=' '.join(sys.argv),
+            user=os.getlogin(), host=os.uname()[1], cmdl=' '.join(sys.argv),
             time=datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC'))}
 
     # postprocess spatial diagnostics and time stamps
