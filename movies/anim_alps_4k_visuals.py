@@ -49,12 +49,9 @@ def visual(t, crop='al', mode='co', t0=-120000, t1=-0):
 
     # mode ul, show interpolated bedrock depression
     elif mode == 'ul':
-        # FIXME move colorbar to language dependent overlay
-        cax = fig.add_axes([8/384, 1-72/216, 8/384, 64/216])
         ds.uplift.plot.contourf(
-            ax=ax, alpha=0.75, cmap='PRGn_r', cbar_ax=cax,
-            cbar_kwargs=dict(label='uplift (m)'),
-            extend='both', levels=[-100, -50, -20, 0, 2, 5, 10])
+            ax=ax, add_colorbar=False, alpha=0.75, cmap='PRGn_r',
+            levels=[-100, -50, -20, 0, 2, 5, 10])
 
         # locate maximum depression (xarray has no idxmin yet)
         i, j = divmod(int(ds.uplift.argmin()), ds.uplift.shape[1])

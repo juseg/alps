@@ -59,7 +59,7 @@ def figure():
     # ax.set_xscale('log')
     # ax.set_xlim(10**-10.5, 10**0.5)
     ax.set_xlabel(r'band erosion rate ($km^3\,a^{-1}$)', color='C11')
-    ax.set_xlim(-0.125*0.05, 0.125*1.05)
+    ax.set_xlim(-0.16*0.05, 0.16*1.05)
     ax.tick_params(axis='x', labelcolor='C11')
     ax.xaxis.set_label_position('bottom')
 
@@ -153,7 +153,8 @@ def simplefigure(fig, time, *fargs):
 def main():
     """Main program called during execution."""
     fig, *fargs = figure()
-    parallelframes(fig, *fargs, frames=range(-116000, 1, 4000))
+    parallelframes(fig, *fargs, frames=range(-120000+40, 1, 40))
+    simplefigure(fig, -25000, *fargs)
 
 
 if __name__ == '__main__':

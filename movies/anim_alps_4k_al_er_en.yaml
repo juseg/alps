@@ -24,7 +24,7 @@ Abstract:  # FIXME
 Labels:
    - "{:,d} years ago"
    - "ice volume\n(cm sea level\nequivalent)"
-   - "erosion rate\n($km\\,a^{-1}$)"
+   - "erosion rate\n($km^3\\,a^{-1}$)"
 
 References:
    Software:

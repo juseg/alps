@@ -2,27 +2,33 @@
 
 # parse command-line arguments
 crop="${1:-al}"  # al ch
-mode="${2:-co}"  # co gs er
+mode="${2:-co}"  # co gs er ul
 over="${3:-ttag}"  # ttag tbar
 lang="${4:-en}"  # de en fr ja it nl
 size="${5:-4k}"  # 2k 4k
 
 # time bounds overlay suffix
 case $crop in
-    'lu') bnds="4515";;
-    'ma') bnds="4515";;
-    *)    bnds="1200";;
+    lu | ma ) bnds="4515";;
+    *)        bnds="1200";;
 esac
 
-# color box and overlay position
+# color bar overlay stream
+case $mode in
+    er | ul ) cbar_args="-i anim_alps_4k_cbar_${mode}_${lang}.png"
+              cbar_filt="[geog][7]overlay[geog];"
+esac
+
+# color box, overlay position and directory prefix
 case $over in
-    'tbar') box="c=#ffffff@0.5:s=3840x400"; pos="0:H-h" ;;
-    'ttag') box="c=#ffffff@0.5:s=560x120"; pos="0:0" ;;
+    'tbar') box="c=#ffffff@0.5:s=3840x400"
+            pos="0:H-h"
+            pre=${over}_${mode/gs/co} ;;
+    'ttag') box="c=#ffffff@0.5:s=560x120"
+            pos="0:0"
+            pre=${over} ;;
     *) echo "invalid overlay $over, exiting." ;;
 esac
-
-# tbar mode special overlay prefix
-[ "$over" == "tbar" ] && pre=${over}_${mode/gs/co} || pre=${over}
 
 # image resolution
 case $size in
@@ -42,6 +48,7 @@ filt=""
 filt+="color=${box}[c];"                # create time info color box
 filt+="nullsrc=s=3840x2160:d=$secs[n];" # create fixed duration stream
 filt+="[0][1]overlay[geog];"            # assemble geographic layer
+filt+="$cbar_filt"                      # overlay color bar on top
 filt+="[c][2]overlay=shortest=1[info];" # assemble time info layer
 filt+="[geog][info]overlay=${pos}"      # overlay time info on maps
 filt+=",loop=$hold:1:0,[n]overlay"      # hold first and last frames
@@ -55,7 +62,6 @@ filt+="[6]fade=in:0:$fade,fade=out:$((3*25-fade)):$fade[bysa];"  # license
 filt+="[head][main][refs][disc][bysa]concat=5" \
 
 # assemble video
-prefix=anim_alps_4k_${crop/zo/al}_$lang
 ffmpeg \
     -pattern_type glob -i "$HOME/anim/anim_alps_4k_main_${crop}_$mode/$imgs" \
     -pattern_type glob -i "$HOME/anim/anim_alps_4k_city_${crop}_$lang/$imgs" \
@@ -64,5 +70,6 @@ ffmpeg \
     -loop 1 -t 3 -i anim_alps_4k_${crop}_${mode}_${lang}_refs.png \
     -loop 1 -t 3 -i anim_alps_4k_${crop}_${mode}_${lang}_disc.png \
     -loop 1 -t 3 -i anim_alps_4k_${crop}_${mode}_${lang}_bysa.png \
+    ${cbar_args} \
     -filter_complex $filt -pix_fmt yuv420p -c:v libx264 -r 25 -s $res \
     $HOME/anim/anim_alps_${size}_${crop}_${mode}_${over}_${lang}.mp4
