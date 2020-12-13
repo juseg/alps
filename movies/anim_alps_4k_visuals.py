@@ -25,9 +25,11 @@ def visual(t, crop='al', mode='co', t0=-120000, t1=-0):
     # plot interpolated data
     filename = '~/pism/output/e9d2d1f/alpcyc4.1km.epica.1220.pp/ex.{:07.0f}.nc'
     with ut.open_visual(filename, t, x, y) as ds:
-        ut.plot_shaded_relief(ds.topg-dsl, ax=ax, mode=mode)
+        if mode != 'ga':
+            ut.plot_shaded_relief(ds.topg-dsl, ax=ax, mode=mode)
+            ut.plot_ice_extent(
+                ds.icy, ax=ax, fc=('w' if mode in 'co' else 'none'))
         ut.plot_topo_contours(ds.usurf, ax=ax)
-        ut.plot_ice_extent(ds.icy, ax=ax, fc=('w' if mode == 'co' else 'none'))
 
     # mode co, stream plot extra data
     if mode == 'co':
@@ -41,8 +43,8 @@ def visual(t, crop='al', mode='co', t0=-120000, t1=-0):
             ax=ax, add_colorbar=False, alpha=0.75, cmap='YlOrBr',
             levels=[10**i for i in range(-9, 1)])
 
-    # mode gs, show interpolated velocities
-    elif mode == 'gs':
+    # mode ga or gs, show interpolated velocities
+    elif mode in ('ga', 'gs'):
         ds.velsurf_mag.plot.imshow(
             ax=ax, add_colorbar=False, alpha=0.75,
             cmap='Blues', norm=mcolors.LogNorm(1e1, 1e3))
@@ -62,7 +64,8 @@ def visual(t, crop='al', mode='co', t0=-120000, t1=-0):
                 color=color)
 
     # draw map elements
-    ut.draw_tailored_hydrology(ax=ax, mode=mode)
+    if mode != 'ga':
+        ut.draw_tailored_hydrology(ax=ax, mode=mode)
     if mode == 'gs':
         ut.draw_lgm_faded(ax=ax, t=t)
 
@@ -78,7 +81,7 @@ def main():
     # parse arguments
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('crop', choices=['al', 'ch', 'lu', 'ma', 'ul', 'zo'])
-    parser.add_argument('mode', choices=['co', 'er', 'gs', 'ul'])
+    parser.add_argument('mode', choices=['co', 'er', 'ga', 'gs', 'ul'])
     args = parser.parse_args()
 
     # set default font size for uplift tag and colorbars
