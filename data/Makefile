@@ -13,8 +13,7 @@ external: retrieve-external.sh
 	bash $<
 
 # postprocess output files
-processed: postprocess_alpcyc_agg.py postprocess_alpcyc_cts.sh \
-	   postprocess_alpero_agg.py
+processed: postprocess_output.sh
 	bash $<
 
 # clean up
