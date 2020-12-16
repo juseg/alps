@@ -1,9 +1,9 @@
 #!/usr/bin/env python
-# Copyright (c) 2016-2019, Julien Seguinot (juseg.github.io)
+# Copyright (c) 2016-2020, Julien Seguinot (juseg.github.io)
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
-"""Plot Alps erosion time evolution."""
+"""Plot Alps erosion cumulative erosion."""
 
 import pismx.open
 import util
@@ -13,10 +13,21 @@ def main():
     """Main program called during execution."""
 
     # initialize figure
-    fig, ax, cax, tsax = util.fig.subplots_cax_ts()
+    fig, ax, cax, tsax = util.fig.subplots_cax_ts(dt=False)
+
+    # plot ice volume time series
+    with pismx.open.dataset(
+            '../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as ds:
+
+        # plot time series
+        tsax.plot(ds.age, ds.slvol, c='0.25')
+        tsax.set_ylabel('ice volume (m s.l.e.)', color='0.25')
+        tsax.set_xlim(120.0, 0.0)
+        tsax.set_ylim(-0.05, 0.35)
+        tsax.grid(axis='y')
+        tsax.locator_params(axis='y', nbins=6)
 
     # load aggregated data
-    # FIXME age coords in preprocessing, open with xarray
     with pismx.open.dataset(
             '../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
 
@@ -29,7 +40,6 @@ def main():
         glaciated.plot.contour(ax=ax, colors='k', linewidths=0.5, levels=[0.5])
 
         # plot time series
-        # FIXME replace temperature offset by ice volume
         data = ds.erosion_rate*1e-9
         roll = data.rolling(age=100, center=True).mean()
         twax = tsax.twinx()
