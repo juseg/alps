@@ -1,5 +1,7 @@
 #!/usr/bin/env python
-# coding: utf-8
+# Copyright (c) 2016-2020, Julien Seguinot (juseg.github.io)
+# Creative Commons Attribution-ShareAlike 4.0 International License
+# (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
 import pismx.open
 import util
@@ -14,7 +16,7 @@ fig, ax, cax, tsax = util.fig.subplots_cax_ts()
 # load aggregated data
 with pismx.open.dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     ext = ds.covertime > 0.0
-    cvt = ds.covertime.where(ext)/1e3
+    cvt = ds.covertime.where(ext)
 
     # plot
     ckw = dict(label=r'ice cover duration (ka)')

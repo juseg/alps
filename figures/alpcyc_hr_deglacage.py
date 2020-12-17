@@ -1,5 +1,7 @@
 #!/usr/bin/env python
-# coding: utf-8
+# Copyright (c) 2017-2020, Julien Seguinot (juseg.github.io)
+# Creative Commons Attribution-ShareAlike 4.0 International License
+# (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
 import pismx.open
 import util
@@ -13,7 +15,7 @@ fig, ax, cax = util.fig.subplots_cax(extent='west')
 
 # load aggregated data
 with pismx.open.dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
-    age = ds.deglacage/1e3
+    age = ds.deglacage
     ext = ds.deglacage.notnull()
 
     # plot
