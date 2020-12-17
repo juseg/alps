@@ -1,4 +1,4 @@
-# Copyright (c) 2016--2019, Julien Seguinot (juseg.github.io)
+# Copyright (c) 2016-2020, Julien Seguinot (juseg.github.io)
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
@@ -11,6 +11,7 @@ import util.fig  # figure creation
 import util.geo  # mapping tools
 
 import util.cyc  # glacial cycle article
+import util.ero  # glacier erosion article
 import util.flo  # transfluences article
 
 
