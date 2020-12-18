@@ -49,10 +49,9 @@ def main():
         # register erosion rate
         erosion = 2.7e-7*ds.velbase_mag.where(ds.thk >= 1)**2.02
 
-        # group by elevation bins and compute geometric mean
-        # FIXME if thk>0 but erosion=0 this is ignored in geometric mean
+        # group by elevation bins and compute geometric mean (zeros ignored)
         erosion = np.exp(np.log(erosion.where(erosion > 0)).groupby_bins(
-            boot.topg, bins=range(0, 4501, 100)).mean(axis=1))
+            boot.topg, bins=range(0, 4501, 100)).mean(dim='stacked_y_x'))
 
         # plot
         erosion.assign_coords(age=ds.age).plot.imshow(
