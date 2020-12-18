@@ -24,42 +24,21 @@ def main():
             hspace=4, height_ratios=(3, 1)))
     cax = fig.add_axes_mm([177-1.5-16, 1.5+38, 4, 78])
 
-    # plot time series
-    util.fig.plot_mis(ax, y=None)
-    util.fig.plot_mis(tsax, y=1.075)
-    util.ero.plot_series(ax=tsax)
+    # load aggregated data
+    with pismx.open.dataset(
+            '../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
 
-    # load boot topography
-    with xr.open_dataset(
-            os.environ['HOME'] +
-            '/pism/input/boot/alps.srtm.hus12.gou11simi.1km.nc'
-            ) as boot:
-        pass
-
-    # load postprocessed data
-    # FIXME postprocess erosion rates to avoid subsetting
-    with pismx.open.mfdataset(
-            os.environ['HOME'] +
-            '/pism/output/e9d2d1f/alpcyc4.1km.epica.1220.pp/ex.???????.nc',
-            ) as ds:
-
-        # subset
-        ds = ds.sel(age=ds.age[99::100])
-
-        # register erosion rate
-        erosion = 2.7e-7*ds.velbase_mag.where(ds.thk >= 1)**2.02
-
-        # group by elevation bins and compute geometric mean (zeros ignored)
-        erosion = np.exp(np.log(erosion.where(erosion > 0)).groupby_bins(
-            boot.topg, bins=range(0, 4501, 100)).mean(dim='stacked_y_x'))
-
-        # plot
-        erosion.assign_coords(age=ds.age).plot.imshow(
+        # plot hypsogram
+        ds.erosion_hyps.plot.imshow(
             ax=ax, x='age', cmap='YlOrBr', norm=mcolors.LogNorm(1e-9, 1e0),
             cbar_ax=cax, cbar_kwargs=dict(label=r'erosion rate ($m\,a^{-1}$)'))
         ax.set_xlabel('')
         ax.set_ylabel('elevation (m)')
-        ax.set_xlim(120, 0)
+
+    # plot time series
+    util.fig.plot_mis(ax, y=None)
+    util.fig.plot_mis(tsax, y=1.075)
+    util.ero.plot_series(ax=tsax)
 
     # save figure
     util.com.savefig(fig)
