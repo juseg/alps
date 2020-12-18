@@ -1,9 +1,9 @@
 #!/usr/bin/env python
-# Copyright (c) 2019, Julien Seguinot (juseg.github.io)
+# Copyright (c) 2019-2020, Julien Seguinot (juseg.github.io)
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
-"""Plot Alps erosion time evolution."""
+"""Plot Alps erosion hypsogram."""
 
 import os
 import numpy as np
@@ -18,14 +18,16 @@ def main():
     """Main program called during execution."""
 
     # initialize figure
-    fig, (ax, tsax) = apl.subplots_mm(figsize=(177, 119), nrows=2, sharex=True,
-        gridspec_kw=dict(left=1.5+10, right=1.5+18, bottom=1.5+8, top=1.5,
-                         hspace=4, height_ratios=(3, 1)))
+    fig, (ax, tsax) = apl.subplots_mm(
+        figsize=(177, 119), nrows=2, sharex=True, gridspec_kw=dict(
+            left=1.5+10, right=1.5+18, bottom=1.5+8, top=1.5,
+            hspace=4, height_ratios=(3, 1)))
     cax = fig.add_axes_mm([177-1.5-16, 1.5+38, 4, 78])
 
-    # plot marine isotope stages
+    # plot time series
     util.fig.plot_mis(ax, y=None)
     util.fig.plot_mis(tsax, y=1.075)
+    util.ero.plot_series(ax=tsax)
 
     # load boot topography
     with xr.open_dataset(
@@ -58,30 +60,7 @@ def main():
             cbar_ax=cax, cbar_kwargs=dict(label=r'erosion rate ($m\,a^{-1}$)'))
         ax.set_xlabel('')
         ax.set_ylabel('elevation (m)')
-
-    # load postprocessed data
-    # FIXME add util to load erosion and volume series?
-    with xr.open_mfdataset([
-            '../data/processed/alpero.1km.epic.pp.agg.nc',
-            '../data/processed/alpcyc.1km.epic.pp.ts.10a.nc'],
-                           combine='by_coords', decode_cf=False,
-                           join='override') as data:
-        data = data[['slvol', 'erosion_rate']]
-        data['rolling_mean'] = data.erosion_rate.rolling(
-            time=100, center=True).mean()
-
-        # plot ice volume time series
-        tsax.plot(data.age, data.slvol*100, c='0.25')
-        tsax.set_xlim(120.0, 0.0)
-        tsax.set_xlabel('age (ka)')
-        tsax.set_ylabel('ice volume (cm s.l.e.)')
-
-        # plot erosion rate time series
-        twax = tsax.twinx()
-        (data.erosion_rate*1e-9).plot(ax=twax, c='C11', alpha=0.5)
-        (data.rolling_mean*1e-9).plot(ax=twax, c='C11')
-        twax.set_ylabel(r'erosion rate ($km^3\,a^{-1}$)', color='C11')
-        twax.set_ylim(-0.5, 3.5)
+        ax.set_xlim(120, 0)
 
     # save figure
     util.com.savefig(fig)
