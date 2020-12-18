@@ -104,7 +104,7 @@ def postprocess_extra(run_path):
     # compute hypsogram
     pp['erosion_hyps'] = np.exp(
         np.log(ex.erosion.where(ex.erosion > 0)).groupby_bins(
-            boot.topg, bins=range(0, 4501, 100), precision=1).mean(
+            boot.topg, bins=range(0, 4501, 10)).mean(
             dim='stacked_y_x')).assign_attrs(
         long_name='erosion rate geometric mean', units='m year-1')
 
