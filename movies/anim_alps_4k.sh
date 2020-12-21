@@ -73,3 +73,9 @@ ffmpeg \
     ${cbar_args} \
     -filter_complex $filt -pix_fmt yuv420p -c:v libx264 -r 25 -s $res \
     $HOME/anim/anim_alps_${size}_${crop}_${mode}_${over}_${lang}.mp4
+
+# accelerate for social media
+ffmpeg \
+    -i $HOME/anim/anim_alps_${size}_${crop}_${mode}_${over}_${lang}.mp4 \
+    -s 1920x1080 -vf "trim=5:125,setpts=PTS/30" \
+    $HOME/anim/anim_alps_${size}_${crop}_${mode}_${over}_${lang}_x30.mp4
