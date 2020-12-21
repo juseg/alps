@@ -67,6 +67,7 @@ def postprocess_extra(run_path):
 
     # compute grid size
     dt = ex.age[0] - ex.age[1]
+    dt = dt*1e3  # convert ka to a
     dx = ex.x[1] - ex.x[0]
     dy = ex.y[1] - ex.y[0]
 
