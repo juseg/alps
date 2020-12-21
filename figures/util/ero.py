@@ -26,7 +26,7 @@ def plot_series(ax=None, run='1km.epic.pp'):
         ax.set_ylabel('ice volume (cm s.l.e.)', color='0.25')
         ax.set_xlim(120, 0)
         ax.set_ylim(-5, 35)
-        ax.grid(axis='y')
+        ax.grid(axis='y')  # FIXME grids by default
         ax.locator_params(axis='y', nbins=6)
 
     # load aggregated data
