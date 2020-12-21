@@ -82,8 +82,8 @@ def main():
     # --------
 
     # convert distance to km
-    x['d'] /= 1e3
-    y['d'] /= 1e3
+    x.assign_coords(d=x.d/1e3)
+    y.assign_coords(d=y.d/1e3)
 
     # interpolate thickness and plot envelope
     sliding.interp(x=x, y=y, method='linear').plot(ax=pfgrid[0], color='C1')
