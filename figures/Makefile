@@ -22,7 +22,7 @@ PY_FIGS = $(addprefix alpbou_, locmap) \
 			     profiles timestamp trimlines) \
             $(addprefix lr_, footprints records glacareas \
                              timeseries timestamp)) \
-          $(addprefix alpero_, cumulative evolution hypsogram rhineglacier)
+          $(addprefix alpero_, cumulative evolution hypsogram landscape rhineglacier)
 PY_FIGS := $(addsuffix .$(EXT), $(PY_FIGS))
 
 # all figures
