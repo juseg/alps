@@ -23,7 +23,7 @@ PY_FIGS = $(addprefix alpbou_, locmap) \
             $(addprefix lr_, footprints records glacareas \
                              timeseries timestamp)) \
           $(addprefix alpero_, cumulative evolution hypsogram landscape \
-                               transects uncertainty)
+                               sensitivity transects uncertainty)
 PY_FIGS := $(addsuffix .$(EXT), $(PY_FIGS))
 
 # all figures
