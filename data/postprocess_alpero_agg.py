@@ -10,6 +10,7 @@ import sys
 import datetime
 import numpy as np
 import xarray as xr
+import cartowik.profiletools as cpf
 import pismx.open
 
 # processed runs
@@ -112,6 +113,12 @@ def postprocess_extra(run_path):
     # replace intervals (xarray issue #2847)
     pp['topg_bins'] = [b.mid for b in pp.topg_bins.values]
     pp = pp.rename({'topg_bins': 'z'})
+
+    # interpolate along rhine glacier
+    x, y = cpf.read_shp_coords('../data/native/profile_rhine.shp')
+    pp['interp_rhine'] = ex.erosion.where(ex.icy).interp(
+            x=x, y=y, method='linear').assign_attrs(
+        long_name='erosion rate along rhine glacier', units='m year-1')
 
     # copy grid mapping and pism config
     pp['mapping'] = ex.mapping
