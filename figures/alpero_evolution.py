@@ -5,8 +5,8 @@
 
 """Plot Alps erosion time evolution."""
 
-import pismx.open
 import absplots as apl
+import pismx.open
 import util
 
 
@@ -14,8 +14,8 @@ def figure():
     """Prepare initial animation figure."""
 
     # initialize figure
-    fig, ax = apl.subplots_mm(figsize=(177, 119), gridspec_kw=dict(
-        left=12, right=1.5, bottom=12, top=1.5))
+    fig, ax = apl.subplots_mm(figsize=(85, 85), gridspec_kw=dict(
+        left=12, right=1.5, bottom=9, top=1.5))
 
     # load postprocessed data
     with pismx.open.dataset(
@@ -41,6 +41,20 @@ def figure():
     ax.set_ylabel(r'erosion rate ($km^3\,a^{-1}$)')
     ax.set_yscale('log')
     ax.set_ylim(0.8e-2, 1.2e1)
+
+    # annotate advance and retreat
+    ax.annotate('', xy=(5, 10**+0.3), xytext=(25, 10**+0.3), arrowprops=dict(
+        arrowstyle='->', color='0.25', lw=1, connectionstyle='arc3,rad=0.25'))
+    ax.annotate('', xy=(25, 10**-1.0), xytext=(5, 10**-1.0), arrowprops=dict(
+        arrowstyle='->', color='0.25', lw=1, connectionstyle='arc3,rad=0.25'))
+    ax.text(15, 10**-1.5, 'advance', ha='center', va='center')
+    ax.text(15, 10**+0.8, 'retreat', ha='center', va='center')
+
+    # annotat2 maximum stages
+    ax.plot(21, 10**-0.3, marker='o', ms=40, mec='0.25', mfc='none')
+    ax.plot(28, 10**-0.4, marker='o', ms=40, mec='0.25', mfc='none')
+    ax.text(21, 10**+0.1, 'MIS 4', ha='center', va='center')
+    ax.text(28, 10**+0.0, 'MIS 2', ha='center', va='center')
 
     # return figure, data and animated artists
     return fig, ds, line0, line1, timetag
