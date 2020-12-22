@@ -20,12 +20,12 @@ def main():
             '../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
 
         # plot map data
-        glaciated = ds.cumu_erosion > 0.0
-        ds.cumu_erosion.where(glaciated).plot.contourf(
+        ds.cumu_erosion.plot.contourf(
             ax=ax, alpha=0.75, cmap='YlOrBr', cbar_ax=cax,
             cbar_kwargs=dict(label='total erosion (m)', format='%g'),
             levels=[10**i for i in range(0, 5)])
-        glaciated.plot.contour(ax=ax, colors='k', linewidths=0.5, levels=[0.5])
+        ds.cumu_erosion.notnull().contour(
+            ax=ax, colors='k', linewidths=0.5, levels=[0.5])
 
     # add map elements
     util.geo.draw_boot_topo(ax)

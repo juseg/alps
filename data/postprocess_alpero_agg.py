@@ -62,7 +62,7 @@ def postprocess_extra(run_path):
     # register intermediate variables
     ex['icy'] = (ex.thk >= 1.0)
     ex['bedlift'] = ex.topg - boot.topg.where(boot.topg > 0, 0)
-    ex['sliding'] = ex.icy*ex.velbase_mag
+    ex['sliding'] = ex.velbase_mag.where(ex.icy)
     ex['erosion'] = 2.7e-7*ex.sliding**2.02  # (m/a, Herman et al., 2015)
     ex['warmbed'] = ex.icy*(ex.temppabase >= -1e-3)
 
@@ -84,9 +84,9 @@ def postprocess_extra(run_path):
     # pp.drop('time')
 
     # compute glacial cycle integrated variables
-    pp['cumu_erosion'] = (dt*ex.erosion.sum(axis=0)).assign_attrs(
+    pp['cumu_erosion'] = (dt*ex.erosion.sum(axis=0, min_count=1)).assign_attrs(
         long_name='cumulative glacial erosion', units='m')
-    pp['cumu_sliding'] = (dt*ex.sliding.sum(axis=0)).assign_attrs(
+    pp['cumu_sliding'] = (dt*ex.sliding.sum(axis=0, min_count=1)).assign_attrs(
         long_name='cumulative basal motion', units='m')
     pp['glacier_time'] = (dt*ex.icy.sum(axis=0)).assign_attrs(
         long_name='temperate-based ice cover duration', units='years')
