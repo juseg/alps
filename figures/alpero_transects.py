@@ -18,33 +18,35 @@ def main():
 
     # initialize figure
     fig, grid = apl.subplots_mm(
-        figsize=(177, 60), ncols=3, subplot_kw=dict(projection=ccrs.UTM(32)),
-        gridspec_kw=dict(left=1.5, right=15, bottom=23.5, top=1.5, wspace=1.5))
-    cax = fig.add_axes_mm([163.5, 22.5, 3, 35])
-    pfgrid = fig.subplots_mm(ncols=3, sharey=True, gridspec_kw=dict(
-        left=1.5, right=15, bottom=9, top=38, wspace=1.5))
+        figsize=(177, 85), ncols=3, sharex=True, sharey=True,
+        subplot_kw=dict(projection=ccrs.UTM(32)), gridspec_kw=dict(
+            left=1.5, right=1.5, bottom=45.5, top=1.5, wspace=1.5))
+    cax = fig.add_axes_mm([163.5, 9, 3, 35])
+    tsax = fig.add_axes_mm([15, 9, 147, 35])
 
-    # read profile coords and convert distance to km
+    # prepare map axes
+    for ax, label in zip(grid, 'abc'):
+        util.fig.prepare_map_axes(ax)
+        util.fig.add_subfig_label('(%s)' % label, ax=ax)
+        ax.set_extent([410e3, 620e3, 5160e3, 5300e3], crs=ax.projection)
+
+    # plot ages and levels for consistency
+    ages = [24, 20, 16]
+    levels = [10**i for i in range(-9, 1)]
+
+    # read profile coordinates
     x, y = cpf.read_shp_coords('../data/native/profile_rhine.shp')
-    x.assign_coords(d=x.d/1e3)
-    y.assign_coords(d=y.d/1e3)
-
-    # open postprocessed output
-    with pismx.open.dataset(
-            '../data/processed/alpcyc.1km.epic.pp.ex.1ka.nc') as extra:
-        pass
 
     # Map axes
     # --------
 
-    # loop on selected ages
-    for i, age in enumerate([30, 25, 20]):
-        ax = grid[i]
+    # open postprocessed extra output
+    with pismx.open.dataset(
+            '../data/processed/alpcyc.1km.epic.pp.ex.1ka.nc') as extra:
+        pass
 
-        # prepare map axes
-        util.fig.prepare_map_axes(ax)
-        util.fig.add_subfig_label('(%s)' % 'abc'[i], ax=ax)
-        ax.set_extent([410e3, 620e3, 5160e3, 5300e3], crs=ax.projection)
+    # loop on selected ages
+    for ax, age in zip(grid, ages):
 
         # compute erosion
         ds = extra.sel(age=age)
@@ -55,35 +57,45 @@ def main():
         ds.topg.plot.imshow(
             ax=ax, add_colorbar=False, cmap='Greys', vmin=0, vmax=3e3)
         erosion.plot.contourf(
-            ax=ax, add_labels=False, alpha=0.75, cbar_ax=cax, cmap='YlOrBr',
-            levels=[10**i for i in range(-9, 1)], cbar_kwargs=dict(
-                label='erosion rate ($m\\,a^{-1}$)',
-                format=mpl.ticker.LogFormatterMathtext(),
-                ticks=[1e-9, 1e-6, 1e-3, 1e0]))  # (mpl issue #11937)
+            ax=ax, add_colorbar=False, alpha=0.75, cmap='YlOrBr',
+            levels=levels)
         erosion.notnull().plot.contour(
             ax=ax, levels=[0.5], colors='k', linewidths=0.25)
 
         # add profile line
         ax.plot(x, y, color='0.25', dashes=(2, 1))
         ax.plot(x[0], y[0], color='0.25', marker='o')
+
+        # add age tag and vertical line
         ax.set_title('')
+        util.fig.add_subfig_label('%d ka' % age, ax=ax, ha='right', va='bottom')
+        tsax.axvline(age, color='0.25', dashes=(2, 1))
 
-        # Profiles
-        # --------
+    # Profiles
+    # --------
 
-        # plot interpolated erosion
-        ax = pfgrid[i]
-        erosion.interp(x=x, y=y, method='linear').plot(ax=ax, color='C11')
+    # plot marine isotope stages
+    util.fig.plot_mis(ax=tsax, y=0.9)
+    util.fig.add_subfig_label('(d)', ax=tsax)
 
-        # set axes properties
-        ax.set_title('')
-        ax.set_xlabel('')
-        ax.yaxis.set_ticks_position('right')
-        ax.yaxis.set_label_position('right')
+    # open aggregated output
+    with pismx.open.dataset(
+            '../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
 
-    # set axes labels
-    pfgrid[1].set_xlabel('distance along flow (km)')
-    pfgrid[2].set_ylabel('erosion\nrate\n'+r'($mm\,a^{-1}$)', labelpad=0)
+        # plot erosion profile
+        ds.assign_coords(d=ds.d/1e3).interp_rhine.plot.contourf(
+            ax=tsax, alpha=0.75, cmap='YlOrBr', levels=levels, x='age', y='d',
+            cbar_ax=cax, cbar_kwargs=dict(
+                label='erosion rate ($m\\,a^{-1}$)',
+                format=mpl.ticker.LogFormatterMathtext(),
+                ticks=levels[::9]))  # (mpl issue #11937)
+
+    # set axes properties
+    cax.yaxis.set_label_coords(2.5, 0.5)
+    tsax.grid()
+    tsax.set_xlim(120, 0)
+    tsax.set_xlabel('age (ka)')
+    tsax.set_ylabel('distance along flow (km)')
 
     # save
     util.com.savefig(fig)
