@@ -30,67 +30,45 @@ def main():
         util.fig.add_subfig_label('(%s)' % label, ax=ax)
         ax.set_extent([410e3, 620e3, 5160e3, 5300e3], crs=ax.projection)
 
-    # Map axes
-    # --------
+    # read profile coords in km
+    x, y = cpf.read_shp_coords('../data/native/profile_rhine.shp')
+    x = x.assign_coords(d=x.d/1e3)
+    y = y.assign_coords(d=y.d/1e3)
 
     # open postprocessed output
     with pismx.open.dataset(
                 '../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
 
-        # plot erosion rates
-        ds.coo2020_cumu.plot.contourf(
-            alpha=0.75, ax=grid[0], cmap='YlOrBr', cbar_ax=caxgrid[0],
-            levels=[10**i for i in range(1, 6)], cbar_kwargs=dict(
-                label='total erosion after (m) after Cook et al. (2020)',
-                format='%g', orientation='horizontal'))
-        ds.her2015_cumu.plot.contourf(
-            alpha=0.75, ax=grid[1], cmap='YlOrBr', cbar_ax=caxgrid[1],
-            levels=[10**i for i in range(0, 5)], cbar_kwargs=dict(
-                label='total erosion after (m) after Herman et al. (2015)',
-                format='%g', orientation='horizontal'))
-        ds.kop2015_cumu.plot.contourf(
-            alpha=0.75, ax=grid[2], cmap='YlOrBr', cbar_ax=caxgrid[2],
-            levels=[10**i for i in range(-2, 3)], cbar_kwargs=dict(
-                label='total erosion after (m) after Koppes et al. (2015)',
-                format='%g', orientation='horizontal'))
+        # for each erosion law
+        for ax, cax, ref, lev in zip(
+                grid, caxgrid, ['coo2020', 'her2015', 'kop2015'], [-1, 0, -2]):
 
-    # plot background topo and ice margin
-    for ax in grid:
-        util.geo.draw_boot_topo(ax)
-        ds.her2015_cumu.notnull().plot.contour(
-            ax=ax, levels=[0.5], colors='k', linewidths=0.25)
+            # plot cumulative erosion
+            authors = ds[ref+'_cumu'].long_name.split(')')[0] + ')'
+            ds[ref+'_cumu'].plot.contourf(
+                alpha=0.75, ax=ax, cmap='YlOrBr', cbar_ax=cax,
+                levels=[10**i for i in range(lev, lev+5)], cbar_kwargs=dict(
+                    label='erosion potential (m) after '+authors,
+                    format='%g', orientation='horizontal'))
 
-    # add titles
-    grid[0].set_title('Seguinot et al. (2018)')
-    grid[1].set_title('Herman et al. (2015)')
-    grid[2].set_title('Cook et al. (2020)')
+            # plot background topo and ice margin
+            util.geo.draw_boot_topo(ax)
+            ds[ref+'_cumu'].notnull().plot.contour(
+                ax=ax, levels=[0.5], colors='k', linewidths=0.25)
 
-    # add profile line from shapefile
-    x, y = cpf.read_shp_coords('../data/native/profile_rhine.shp')
-    for ax in grid:
-        ax.plot(x, y, color='0.25', dashes=(2, 1))
-        ax.plot(x[0], y[0], color='0.25', marker='o')
+            # add profile line from shapefile
+            ax.plot(x, y, color='0.25', dashes=(2, 1))
+            ax.plot(x[0], y[0], color='0.25', marker='o')
 
-    # Profiles
-    # --------
-
-    # convert distance to km
-    x = x.assign_coords(d=x.d/1e3)
-    y = y.assign_coords(d=y.d/1e3)
-
-    # interpolate thickness and plot envelope
-    for ref, label in dict(coo2020='Cook et al., (2020)',
-                           her2015='Herman et al. (2015)',
-                           kop2015='Koppes et al. (2015)').items():
-        interp = ds[ref+'_cumu'].interp(x=x, y=y, method='linear')
-        interp.plot(ax=tsax, color='C11')
-        last = interp.dropna(dim='d')[-1]
-        tsax.text(last.d+5, last, label, color='C11')
+            # plot interpolated profile
+            interp = ds[ref+'_cumu'].interp(x=x, y=y, method='linear')
+            interp.plot(ax=tsax, color='C11')
+            tsax.text(-2, interp[0], authors, color='C11', ha='right')
 
     # set profile axes properties
-    tsax.set_xlim(-10, 260)
+    tsax.set_xlim(-40, 220)
     tsax.set_xlabel('distance along flow (km)')
-    tsax.set_ylabel('total erosion (m)')
+    tsax.set_ylabel('erosion potential (m)')
     tsax.set_yscale('log')
 
     # save
