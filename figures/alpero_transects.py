@@ -24,7 +24,7 @@ def main():
     cax = fig.add_axes_mm([163.5, 9, 3, 35])
     tsax = fig.add_axes_mm([15, 9, 147, 35])
 
-    # prepare map axes
+    # set extent and subfig labels
     for ax, label in zip(grid, 'abc'):
         util.fig.prepare_map_axes(ax)
         util.fig.add_subfig_label('(%s)' % label, ax=ax)
