@@ -61,9 +61,10 @@ def add_colorbar(mappable, cax=None, ax=None, fig=None, label=None, **kw):
     return cb
 
 
-def add_corner_tag(text, ax=None, ha='right', va='top', offset=2.5/25.4):
+def add_corner_tag(text, ha='right', **kwards):
     """Add text in figure corner."""
-    return ut.fig.add_subfig_label(text, ax=ax, ha=ha, va=va, offset=offset)
+    # FIXME this method has little interest
+    return ut.fig.add_subfig_label(text, ha=ha, **kwards)
 
 
 def add_signature(text, fig=None, offset=2.5/25.4):
