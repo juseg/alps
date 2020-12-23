@@ -59,14 +59,18 @@ def postprocess_extra(run_path):
     pp.attrs.update(subtitle=subtitle, **GLOB_ATTRS)
     pp.attrs.update(history=pp.command+pp.history)
 
-    # register intermediate variables
+    # register intermediate variables (I assumed the K_g numbers given in
+    # supplement of Koppes et al., 2015 are for erosion rates in mm/a. An
+    # alternative formula with two outliers removed gives 5.3e−12*v_b*2.62
+    # (m/a). Now for some reason, these erosion laws seem to not exactly
+    # correspond to the blue and pink lines on the summary figure by Cook et
+    # al., 2020, which appear to be a factor two or three lower.)
     ex['icy'] = (ex.thk >= 1.0)
     ex['bedlift'] = ex.topg - boot.topg.where(boot.topg > 0, 0)
     ex['sliding'] = ex.velbase_mag.where(ex.icy)
-    ex['coo2020'] = 1.665e-1*ex.sliding**0.6459  # (mm/a, Cook et al., 2020)
+    ex['coo2020'] = 1.665e-4*ex.sliding**0.6459  # (m/a, Cook et al., 2020)
     ex['her2015'] = 2.7e-7*ex.sliding**2.02  # (m/a, Herman et al., 2015)
-    ex['kop2015'] = 5.2e-8*ex.sliding*2.34  # (m/a, Koppes et al., 2015)
-    # or 5.3e−9*ex.sliding*2.62 without outliers (all numbers in supplement)
+    ex['kop2015'] = 5.2e-11*ex.sliding**2.34  # (m/a, Koppes et al., 2015)
     ex['warmbed'] = ex.icy*(ex.temppabase >= -1e-3)
 
     # compute grid size
