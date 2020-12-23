@@ -18,15 +18,15 @@ def main():
     fig, (ax, tsax) = apl.subplots_mm(
         figsize=(177, 80), nrows=2, sharex=True, gridspec_kw=dict(
             left=12, right=18, bottom=9, top=1.5,
-            hspace=4.5, height_ratios=(45, 20)))  # FIXME
-    cax = fig.add_axes_mm([177-16.5, 9+20+4.5, 3, 45])
+            hspace=1.5, height_ratios=(48, 20)))
+    cax = fig.add_axes_mm([177-16.5, 9+20+1.5, 3, 48])
 
     # load aggregated data
     with pismx.open.dataset(
             '../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
 
         # plot hypsogram
-        np.log10(ds.her2015_hyps).plot.imshow(  # FIXME
+        np.log10(ds.her2015_hyps).plot.imshow(
             ax=ax, alpha=0.75, cmap='YlOrBr', vmin=-9, vmax=0, x='age',
             cbar_ax=cax, cbar_kwargs=dict(
                 label=r'log10 erosion rate ($m\,a^{-1}$)'))
@@ -39,8 +39,7 @@ def main():
         ax.set_ylabel('elevation (m)')
 
     # plot time series
-    util.fig.plot_mis(ax, y=None)
-    util.fig.plot_mis(tsax)
+    util.fig.plot_mis(ax=tsax, y=0.9)
     util.ero.plot_series(ax=tsax)
 
     # save figure
