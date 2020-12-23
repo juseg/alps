@@ -5,7 +5,6 @@
 
 """Plot Rhine glacier velocity and erosion potential."""
 
-import matplotlib as mpl
 import cartopy.crs as ccrs
 import cartowik.profiletools as cpf
 import absplots as apl
@@ -19,11 +18,11 @@ def main():
     # initialize figure
     fig, grid = apl.subplots_mm(
         figsize=(177, 81), ncols=3, subplot_kw=dict(projection=ccrs.UTM(32)),
-        gridspec_kw=dict(left=1.5, right=1.5, bottom=41.5, top=1.5, wspace=1.5))
+        gridspec_kw=dict(left=1.5, right=1.5, bottom=41.5, top=1.5,
+                         wspace=1.5))
     caxgrid = fig.subplots_mm(ncols=3, gridspec_kw=dict(
         left=1.5, right=1.5, bottom=36.6, top=41, wspace=1.5))
-    pfgrid = fig.subplots_mm(ncols=3, sharex=True, gridspec_kw=dict(
-        left=15, right=15, bottom=9, top=53, wspace=1.5))
+    tsax = fig.add_axes_mm([12, 9, 177-12-1.5, 18])
 
     # set extent and subfig labels
     for ax, label in zip(grid, 'abc'):
@@ -36,39 +35,30 @@ def main():
 
     # open postprocessed output
     with pismx.open.dataset(
-                '../data/processed/alpcyc.1km.epic.pp.ex.1ka.nc') as ds:
+                '../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
 
-        # compute sliding magnitude and erosion rates
-        ds = ds.sel(age=24)
-        sliding = (ds.uvelbase**2+ds.vvelbase**2)**0.5  # (m/a)
-        her2015 = 2.7e-4*sliding**2.02  # (mm/a, Herman et al., 2015)
-        coo2020 = 1.665e-1*sliding**0.6459  # (mm/a, Cook et al., 2020)
+        # plot erosion rates
+        ds.coo2020_cumu.plot.contourf(
+            alpha=0.75, ax=grid[0], cmap='YlOrBr', cbar_ax=caxgrid[0],
+            levels=[10**i for i in range(1, 6)], cbar_kwargs=dict(
+                label='total erosion after (m) after Cook et al. (2020)',
+                format='%g', orientation='horizontal'))
+        ds.her2015_cumu.plot.contourf(
+            alpha=0.75, ax=grid[1], cmap='YlOrBr', cbar_ax=caxgrid[1],
+            levels=[10**i for i in range(0, 5)], cbar_kwargs=dict(
+                label='total erosion after (m) after Herman et al. (2015)',
+                format='%g', orientation='horizontal'))
+        ds.kop2015_cumu.plot.contourf(
+            alpha=0.75, ax=grid[2], cmap='YlOrBr', cbar_ax=caxgrid[2],
+            levels=[10**i for i in range(-2, 3)], cbar_kwargs=dict(
+                label='total erosion after (m) after Koppes et al. (2015)',
+                format='%g', orientation='horizontal'))
 
     # plot background topo and ice margin
     for ax in grid:
-        ds.topg.plot.imshow(
-            ax=ax, add_colorbar=False, cmap='Greys', vmin=0, vmax=3e3)
-        sliding.notnull().plot.contour(
+        util.geo.draw_boot_topo(ax)
+        ds.her2015_cumu.notnull().plot.contour(
             ax=ax, levels=[0.5], colors='k', linewidths=0.25)
-
-    # plot sliding velocity and erosion rates
-    sliding.plot.imshow(
-        ax=grid[0], alpha=0.75, cbar_ax=caxgrid[0], cmap='Greys',
-        norm=mpl.colors.LogNorm(1e1, 1e3), cbar_kwargs=dict(
-            label=r'sliding velocity ($m\,a^{-1}$)',
-            orientation='horizontal'))
-    her2015.plot.imshow(
-        ax=grid[1], alpha=0.75, cbar_ax=caxgrid[1], cmap='YlOrBr',
-        norm=mpl.colors.LogNorm(1e-2, 1e1), cbar_kwargs=dict(
-            format=mpl.ticker.LogFormatterMathtext(),
-            label=r'Herman et al. (2015) erosion rate ($mm\,a^{-1}$)',
-            orientation='horizontal', pad=-1e3))
-    coo2020.plot.imshow(
-        ax=grid[2], alpha=0.75, cbar_ax=caxgrid[2], cmap='YlOrBr',
-        norm=mpl.colors.LogNorm(1e-2, 1e1), cbar_kwargs=dict(
-            format=mpl.ticker.LogFormatterMathtext(),
-            label=r'Cook et al. (2020) erosion rate ($mm\,a^{-1}$)',
-            orientation='horizontal'))
 
     # add titles
     grid[0].set_title('Seguinot et al. (2018)')
@@ -89,20 +79,19 @@ def main():
     y = y.assign_coords(d=y.d/1e3)
 
     # interpolate thickness and plot envelope
-    sliding.interp(x=x, y=y, method='linear').plot(ax=pfgrid[0], color='0.25')
-    her2015.interp(x=x, y=y, method='linear').plot(ax=pfgrid[1], color='C11')
-    coo2020.interp(x=x, y=y, method='linear').plot(ax=pfgrid[2], color='C11')
+    for ref, label in dict(coo2020='Cook et al., (2020)',
+                           her2015='Herman et al. (2015)',
+                           kop2015='Koppes et al. (2015)').items():
+        interp = ds[ref+'_cumu'].interp(x=x, y=y, method='linear')
+        interp.plot(ax=tsax, color='C11')
+        last = interp.dropna(dim='d')[-1]
+        tsax.text(last.d+5, last, label, color='C11')
 
     # set profile axes properties
-    pfgrid[0].set_ylabel('sliding velocity\n'+r'($m\,a^{-1}$)')
-    pfgrid[1].set_yticks([])
-    pfgrid[2].set_ylim(*pfgrid[1].get_ylim())
-    pfgrid[2].yaxis.set_ticks_position('right')
-    pfgrid[2].yaxis.set_label_position('right')
-    pfgrid[2].set_ylabel('erosion rate\n'+r'($mm\,a^{-1}$)')
-    for ax in pfgrid:
-        ax.set_title(None)
-        ax.set_xlabel('distance along flow (km)')
+    tsax.set_xlim(-10, 260)
+    tsax.set_xlabel('distance along flow (km)')
+    tsax.set_ylabel('total erosion (m)')
+    tsax.set_yscale('log')
 
     # save
     util.com.savefig(fig)
