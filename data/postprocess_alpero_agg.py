@@ -144,9 +144,17 @@ def postprocess_extra(run_path):
 
     # interpolate along rhine glacier
     x, y = cpf.read_shp_coords('../data/native/profile_rhine.shp')
+    pp['coo2020_rhin'] = ex.coo2020.where(ex.icy).interp(
+            x=x, y=y, method='linear').assign_attrs(
+        long_name='Cook et al. (2020) rhine transect erosion rate',
+        units='m year-1')
     pp['her2015_rhin'] = ex.her2015.where(ex.icy).interp(
             x=x, y=y, method='linear').assign_attrs(
         long_name='Herman et al. (2020) rhine transect erosion rate',
+        units='m year-1')
+    pp['kop2015_rhin'] = ex.kop2015.where(ex.icy).interp(
+            x=x, y=y, method='linear').assign_attrs(
+        long_name='Koppes et al. (2020) rhine transect erosion rate',
         units='m year-1')
 
     # copy grid mapping and pism config
