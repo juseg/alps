@@ -17,9 +17,9 @@ def main():
 
     # initialize figure
     fig, grid = apl.subplots_mm(
-        figsize=(177, 81), nrows=2, ncols=3, sharex=True, sharey=True,
+        figsize=(177, 80), nrows=2, ncols=3, sharex=True, sharey=True,
         subplot_kw=dict(projection=ccrs.UTM(32)), gridspec_kw=dict(
-            left=1.5, right=1.5, bottom=1.5, top=1.5, hspace=1.5, wspace=1.5))
+            left=1.5, right=1.5, bottom=1, top=1.5, hspace=1.5, wspace=1.5))
 
     # for each record
     for i, rec in enumerate(util.alpcyc_records):

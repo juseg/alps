@@ -17,8 +17,8 @@ def main():
 
     # initialize figure
     fig, grid = apl.subplots_mm(
-        figsize=(177, 81), ncols=3, subplot_kw=dict(projection=ccrs.UTM(32)),
-        gridspec_kw=dict(left=1.5, right=1.5, bottom=41.5, top=1.5,
+        figsize=(177, 80), ncols=3, subplot_kw=dict(projection=ccrs.UTM(32)),
+        gridspec_kw=dict(left=1.5, right=1.5, bottom=40.5, top=1.5,
                          wspace=1.5))
     caxgrid = fig.subplots_mm(ncols=3, gridspec_kw=dict(
         left=1.5, right=1.5, bottom=36.6, top=41, wspace=1.5))

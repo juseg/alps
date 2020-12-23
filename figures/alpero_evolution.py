@@ -14,7 +14,7 @@ def figure():
     """Prepare initial animation figure."""
 
     # initialize figure
-    fig, ax = apl.subplots_mm(figsize=(85, 85), gridspec_kw=dict(
+    fig, ax = apl.subplots_mm(figsize=(85, 80), gridspec_kw=dict(
         left=12, right=1.5, bottom=9, top=1.5))
 
     # load postprocessed data

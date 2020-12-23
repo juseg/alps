@@ -18,11 +18,11 @@ def main():
 
     # initialize figure
     fig, grid = apl.subplots_mm(
-        figsize=(177, 85), ncols=3, sharex=True, sharey=True,
+        figsize=(177, 80), ncols=3, sharex=True, sharey=True,
         subplot_kw=dict(projection=ccrs.UTM(32)), gridspec_kw=dict(
-            left=1.5, right=1.5, bottom=45.5, top=1.5, wspace=1.5))
-    cax = fig.add_axes_mm([163.5, 9, 3, 35])
-    tsax = fig.add_axes_mm([15, 9, 147, 35])
+            left=1.5, right=1.5, bottom=40.5, top=1.5, wspace=1.5))
+    cax = fig.add_axes_mm([163.5, 9, 3, 30])
+    tsax = fig.add_axes_mm([15, 9, 147, 30])
 
     # set extent and subfig labels
     for ax, label in zip(grid, 'abc'):
