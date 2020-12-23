@@ -58,7 +58,7 @@ def main():
 
     # add colorbar
     cax = fig.add_axes_mm([57*2+19+1.5*4, 38/3-3, 57*2/3-1.5, 3])
-    fig.colorbar(cset, cax=cax, label='total erosion (m)', format='%g',
+    fig.colorbar(cset, cax=cax, label='erosion potential (m)', format='%g',
                  orientation='horizontal')
 
     # save
