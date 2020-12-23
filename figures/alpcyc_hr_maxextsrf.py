@@ -30,7 +30,7 @@ with pismx.open.dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
 
 # add map elements
 util.geo.draw_natural_earth(ax)
-util.com.add_corner_tag('%.2f ka' % (age/1e3), ax)
+util.com.add_corner_tag('%.2f ka' % (age/1e3), ax=ax)
 
 # save figure
 util.com.savefig()

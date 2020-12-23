@@ -61,7 +61,7 @@ util.flo.draw_glacier_names(ax)
 util.flo.draw_cross_divides(ax)
 util.flo.draw_transfluences(ax)
 util.flo.draw_ice_domes(ax)
-util.com.add_corner_tag('%.2f ka' % a, ax)
+util.com.add_corner_tag('%.2f ka' % a, ax=ax)
 
 
 # Time series

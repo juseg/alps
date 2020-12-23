@@ -134,7 +134,7 @@ util.flo.draw_glacier_names(ax)
 util.flo.draw_cross_divides(ax)
 util.flo.draw_transfluences(ax)
 util.flo.draw_ice_domes(ax)
-util.com.add_corner_tag('%.0f years ago' % -t, ax)
+util.com.add_corner_tag('%.0f years ago' % -t, ax=ax)
 
 # save figure
 print("saving figures...")
