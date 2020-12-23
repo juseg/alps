@@ -23,7 +23,7 @@ def figure():
         ds = ds[['slvol']]
     with pismx.open.dataset(
             '../data/processed/alpero.1km.epic.pp.agg.nc') as agg:
-        ds['her2015_rate'] = agg.erosion_rate
+        ds['her2015_rate'] = agg.her2015_rate
 
     # unit conversion and rolling mean
     ds['slvol'] *= 100

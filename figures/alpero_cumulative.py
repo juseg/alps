@@ -24,7 +24,7 @@ def main():
             ax=ax, alpha=0.75, cmap='YlOrBr', cbar_ax=cax,
             cbar_kwargs=dict(label='total erosion (m)', format='%g'),
             levels=[10**i for i in range(0, 5)])
-        ds.her2015_cumu.notnull().contour(
+        ds.her2015_cumu.notnull().plot.contour(
             ax=ax, colors='k', linewidths=0.5, levels=[0.5])
 
     # add map elements

@@ -34,9 +34,9 @@ def plot_series(ax=None, run='1km.epic.pp'):
             '../data/processed/alpero.'+run+'.agg.nc') as ds:
 
         # plot erosion rate time series
-        ds['rolling_mean'] = ds.erosion_rate.rolling(age=100, center=True).mean()
+        ds['rolling_mean'] = ds.her2015_rate.rolling(age=100, center=True).mean()
         ax = ax.twinx()
-        ax.plot(ds.age, ds.erosion_rate*1e-9, c='C11', alpha=0.5)
+        ax.plot(ds.age, ds.her2015_rate*1e-9, c='C11', alpha=0.5)
         ax.plot(ds.age, ds.rolling_mean*1e-9, c='C11')
         ax.set_ylabel(r'erosion rate ($km^3\,a^{-1}$)', color='C11')
         ax.set_ylim(-0.5, 3.5)
