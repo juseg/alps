@@ -20,11 +20,11 @@ def main():
             '../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
 
         # plot map data
-        ds.cumu_erosion.plot.contourf(
+        ds.her2015_cumu.plot.contourf(
             ax=ax, alpha=0.75, cmap='YlOrBr', cbar_ax=cax,
             cbar_kwargs=dict(label='total erosion (m)', format='%g'),
             levels=[10**i for i in range(0, 5)])
-        ds.cumu_erosion.notnull().contour(
+        ds.her2015_cumu.notnull().contour(
             ax=ax, colors='k', linewidths=0.5, levels=[0.5])
 
     # add map elements

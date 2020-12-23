@@ -23,15 +23,15 @@ def figure():
         ds = ds[['slvol']]
     with pismx.open.dataset(
             '../data/processed/alpero.1km.epic.pp.agg.nc') as agg:
-        ds['erosion_rate'] = agg.erosion_rate
+        ds['her2015_rate'] = agg.erosion_rate
 
     # unit conversion and rolling mean
     ds['slvol'] *= 100
-    ds['erosion_rate'] *= 1e-9
-    ds['rolling_mean'] = ds.erosion_rate.rolling(age=100, center=True).mean()
+    ds['her2015_rate'] *= 1e-9
+    ds['rolling_mean'] = ds.her2015_rate.rolling(age=100, center=True).mean()
 
     # plot
-    line0, = ax.plot(ds.slvol, ds.erosion_rate, c='C11', alpha=0.5)
+    line0, = ax.plot(ds.slvol, ds.her2015_rate, c='C11', alpha=0.5)
     line1, = ax.plot(ds.slvol, ds.rolling_mean, c='C11')
     timetag = ax.text(0.95, 0.95, '', ha='right', va='top',
                       transform=ax.transAxes)
@@ -64,7 +64,7 @@ def animate(time, ds, line0, line1, timetag):
     """Update figure data."""
 
     # replace line data
-    line0.set_ydata(ds.erosion_rate.where(ds.time <= time))
+    line0.set_ydata(ds.her2015_rate.where(ds.time <= time))
     line1.set_ydata(ds.rolling_mean.where(ds.time <= time))
 
     # replace text tag

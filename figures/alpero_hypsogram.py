@@ -29,11 +29,11 @@ def main():
             '../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
 
         # plot hypsogram
-        np.log10(ds.erosion_hyps).plot.imshow(
+        np.log10(ds.her2015_hyps).plot.imshow(
             ax=ax, x='age', cmap='YlOrBr', vmin=-10, vmax=0, cbar_ax=cax,
             cbar_kwargs=dict(label=r'log10 erosion rate ($m\,a^{-1}$)'))
         # this should work in matplotlib 3.3.2 (PR #18458)
-        # ds.erosion_hyps.plot.imshow(
+        # ds.her2015_hyps.plot.imshow(
         #    ax=ax, x='age', cmap='YlOrBr', norm=mcolors.LogNorm(1e-9, 1e0),
         #    cbar_ax=cax, cbar_kwargs=dict(label=r'erosion rate ($m\,a^{-1}$)'))
         ax.set_xlabel('')

@@ -83,7 +83,7 @@ def main():
             '../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
 
         # plot erosion profile
-        ds.assign_coords(d=ds.d/1e3).interp_rhine.plot.contourf(
+        ds.assign_coords(d=ds.d/1e3).her2015_rhin.plot.contourf(
             ax=tsax, alpha=0.75, cmap='YlOrBr', levels=levels, x='age', y='d',
             cbar_ax=cax, cbar_kwargs=dict(
                 label='erosion rate ($m\\,a^{-1}$)',
