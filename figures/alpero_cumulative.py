@@ -23,7 +23,7 @@ def main():
         ds.her2015_cumu.plot.contourf(
             ax=ax, alpha=0.75, cmap='YlOrBr', cbar_ax=cax,
             cbar_kwargs=dict(label='erosion potential (m)', format='%g'),
-            levels=[10**i for i in range(0, 5)])
+            levels=[10**i for i in range(-1, 5)])
         ds.her2015_cumu.notnull().plot.contour(
             ax=ax, colors='k', linewidths=0.5, levels=[0.5])
 
