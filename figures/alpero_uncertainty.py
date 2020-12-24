@@ -5,11 +5,29 @@
 
 """Plot Rhine glacier velocity and erosion potential."""
 
+import numpy as np
 import cartopy.crs as ccrs
 import cartowik.profiletools as cpf
 import absplots as apl
 import pismx.open
 import util
+
+
+def plot_erosion_laws(ax):
+    """Plot erosion power laws."""
+
+    # plot power laws (in m/a)
+    sliding = np.logspace(0, 4, 5)
+    ax.plot(sliding, 1.665e-4*sliding**0.6459, c='C11', dashes=(2, 1))
+    ax.plot(sliding, 2.7e-7*sliding**2.02, c='C11')
+    ax.plot(sliding, 5.2e-11*sliding**2.34, c='C11', dashes=(1, 2))
+
+    # set axes properties
+    ax.set_xscale('log')
+    ax.set_yscale('log')
+    ax.set_xlabel(r'sliding velocity ($m\,a^{-1}$)')
+    ax.set_ylabel(r'erosion rate ($m\,a^{-1}$)')
+    ax.set_ylim(10**-5.2, 10**-0.8)
 
 
 def main():
@@ -20,7 +38,8 @@ def main():
         figsize=(177, 80), ncols=3, subplot_kw=dict(projection=ccrs.UTM(32)),
         gridspec_kw=dict(left=1.5, right=1.5, bottom=40.5, top=1.5,
                          wspace=1.5))
-    tsax = fig.add_axes_mm([12, 9, 177-30, 30])
+    plax = fig.add_axes_mm([15, 9, 30, 30])
+    tsax = fig.add_axes_mm([60, 9, 177-60-18, 30])
     cax = fig.add_axes_mm([177-18+1.5, 9, 3, 30])
 
     # set extent and subfig labels
@@ -28,6 +47,11 @@ def main():
         util.fig.prepare_map_axes(ax)
         util.fig.add_subfig_label('(%s)' % label, ax=ax)
         ax.set_extent([410e3, 620e3, 5160e3, 5300e3], crs=ax.projection)
+    util.fig.add_subfig_label('(d)', ax=plax)
+    util.fig.add_subfig_label('(e)', ax=tsax)
+
+    # plot erosion laws
+    plot_erosion_laws(plax)
 
     # read profile coords in km
     x, y = cpf.read_shp_coords('../data/native/profile_rhine.shp')
@@ -39,7 +63,8 @@ def main():
                 '../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
 
         # for each erosion law
-        for ax, ref, in zip(grid, ['coo2020', 'her2015', 'kop2015']):
+        for ax, ref, dashes in zip(grid, ['coo2020', 'her2015', 'kop2015'],
+                                   [(2, 1), (), (1, 2)]):
 
             # plot cumulative erosion
             authors = ds[ref+'_cumu'].long_name.split(')')[0] + ')'
@@ -58,15 +83,13 @@ def main():
 
             # plot interpolated profile
             interp = ds[ref+'_cumu'].interp(x=x, y=y, method='linear')
-            interp.plot(ax=tsax, color='C11')
-            tsax.text(-2, interp[0], authors, color='C11', ha='right')
+            interp.plot(ax=tsax, color='C11', dashes=dashes, label=authors)
 
     # set profile axes properties
-    util.fig.add_subfig_label('(d)', ax=tsax)
-    tsax.set_xlim(-40, 220)
     tsax.set_xlabel('distance along flow (km)')
     tsax.set_ylabel('erosion potential (m)')
     tsax.set_yscale('log')
+    tsax.legend()
 
     # add colorbar
     fig.colorbar(cset, cax=cax, label='erosion potential (m)', format='%g')
