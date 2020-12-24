@@ -58,7 +58,7 @@ def main():
             ax=ax, add_colorbar=False, cmap='Greys', vmin=0, vmax=3e3)
         erosion.plot.contourf(
             ax=ax, add_colorbar=False, alpha=0.75, cmap='YlOrBr',
-            levels=levels)
+            levels=levels, extend='both')
         erosion.notnull().plot.contour(
             ax=ax, levels=[0.5], colors='k', linewidths=0.25)
 

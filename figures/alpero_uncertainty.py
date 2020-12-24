@@ -46,7 +46,7 @@ def main():
             # plot cumulative erosion
             authors = ds[ref+'_cumu'].long_name.split(')')[0] + ')'
             ds[ref+'_cumu'].plot.contourf(
-                alpha=0.75, ax=ax, cmap='YlOrBr', cbar_ax=cax,
+                alpha=0.75, ax=ax, cmap='YlOrBr', cbar_ax=cax, extend='both',
                 levels=[10**i for i in range(lev, lev+5)], cbar_kwargs=dict(
                     label='erosion potential (m) after '+authors,
                     format='%g', orientation='horizontal'))

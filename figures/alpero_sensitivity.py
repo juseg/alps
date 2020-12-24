@@ -40,7 +40,7 @@ def main():
             # plot map data
             cset = ds.her2015_cumu.plot.contourf(
                 ax=ax, cmap='YlOrBr', levels=[10**i for i in range(0, 5)],
-                alpha=0.75, add_colorbar=False)
+                alpha=0.75, add_colorbar=False, extend='both')
             ds.her2015_cumu.notnull().plot.contour(
                 ax=ax, colors='k', linewidths=0.5, levels=[0.5])
 
