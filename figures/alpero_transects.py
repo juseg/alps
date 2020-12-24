@@ -21,8 +21,8 @@ def main():
         figsize=(177, 80), ncols=3, sharex=True, sharey=True,
         subplot_kw=dict(projection=ccrs.UTM(32)), gridspec_kw=dict(
             left=1.5, right=1.5, bottom=40.5, top=1.5, wspace=1.5))
-    cax = fig.add_axes_mm([163.5, 9, 3, 30])
-    tsax = fig.add_axes_mm([15, 9, 147, 30])
+    tsax = fig.add_axes_mm([15, 9, 177-30-3-1.5, 30])
+    cax = fig.add_axes_mm([177-18+1.5, 9, 3, 30])
 
     # set extent and subfig labels
     for ax, label in zip(grid, 'abc'):
@@ -88,10 +88,9 @@ def main():
             cbar_ax=cax, cbar_kwargs=dict(
                 label='erosion rate ($m\\,a^{-1}$)',
                 format=mpl.ticker.LogFormatterMathtext(),
-                ticks=levels[::9]))  # (mpl issue #11937)
+                ticks=levels[::3]))  # (mpl issue #11937)
 
     # set axes properties
-    cax.yaxis.set_label_coords(2.5, 0.5)
     tsax.set_xlim(120, 0)
     tsax.set_xlabel('age (ka)')
     tsax.set_ylabel('distance along flow (km)')
