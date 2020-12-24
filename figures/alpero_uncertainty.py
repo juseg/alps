@@ -20,9 +20,8 @@ def main():
         figsize=(177, 80), ncols=3, subplot_kw=dict(projection=ccrs.UTM(32)),
         gridspec_kw=dict(left=1.5, right=1.5, bottom=40.5, top=1.5,
                          wspace=1.5))
-    caxgrid = fig.subplots_mm(ncols=3, gridspec_kw=dict(
-        left=1.5, right=1.5, bottom=36.6, top=41, wspace=1.5))
-    tsax = fig.add_axes_mm([12, 9, 177-12-1.5, 18])
+    tsax = fig.add_axes_mm([12, 9, 177-30, 30])
+    cax = fig.add_axes_mm([177-18+1.5, 9, 3, 30])
 
     # set extent and subfig labels
     for ax, label in zip(grid, 'abc'):
@@ -40,16 +39,13 @@ def main():
                 '../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
 
         # for each erosion law
-        for ax, cax, ref, lev in zip(
-                grid, caxgrid, ['coo2020', 'her2015', 'kop2015'], [-1, 0, -2]):
+        for ax, ref, in zip(grid, ['coo2020', 'her2015', 'kop2015']):
 
             # plot cumulative erosion
             authors = ds[ref+'_cumu'].long_name.split(')')[0] + ')'
-            ds[ref+'_cumu'].plot.contourf(
-                alpha=0.75, ax=ax, cmap='YlOrBr', cbar_ax=cax, extend='both',
-                levels=[10**i for i in range(lev, lev+5)], cbar_kwargs=dict(
-                    label='erosion potential (m) after '+authors,
-                    format='%g', orientation='horizontal'))
+            cset = ds[ref+'_cumu'].plot.contourf(
+                ax=ax, add_colorbar=False, alpha=0.75, cmap='YlOrBr',
+                extend='both', levels=[10**i for i in range(-1, 5)])
 
             # plot background topo and ice margin
             util.geo.draw_boot_topo(ax)
@@ -71,6 +67,9 @@ def main():
     tsax.set_xlabel('distance along flow (km)')
     tsax.set_ylabel('erosion potential (m)')
     tsax.set_yscale('log')
+
+    # add colorbar
+    fig.colorbar(cset, cax=cax, label='erosion potential (m)', format='%g')
 
     # save
     util.com.savefig(fig)
