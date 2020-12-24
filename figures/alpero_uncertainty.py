@@ -66,6 +66,7 @@ def main():
             tsax.text(-2, interp[0], authors, color='C11', ha='right')
 
     # set profile axes properties
+    util.fig.add_subfig_label('(d)', ax=tsax)
     tsax.set_xlim(-40, 220)
     tsax.set_xlabel('distance along flow (km)')
     tsax.set_ylabel('erosion potential (m)')

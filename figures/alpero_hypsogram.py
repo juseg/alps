@@ -20,6 +20,8 @@ def main():
             left=12, right=18, bottom=9, top=1.5,
             hspace=1.5, height_ratios=(48, 20)))
     cax = fig.add_axes_mm([177-16.5, 9+20+1.5, 3, 48])
+    util.fig.add_subfig_label('(a)', ax=ax)
+    util.fig.add_subfig_label('(b)', ax=tsax)
 
     # load aggregated data
     with pismx.open.dataset(
