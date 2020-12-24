@@ -49,7 +49,6 @@ ax1.text(nnodes[i]*1.1, wtimes[i]+0.05, label, color='C0')
 
 # add axes grid
 for ax in grid:
-    ax.grid(axis='y')
 
 # set scales
 ax1.set_xscale('log')

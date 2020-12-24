@@ -308,5 +308,4 @@ def plot_dt(ax=None, filename='alpcyc.2km.epic.pp.dt.nc'):
     ax.set_ylabel('temperature offset (K)', color='0.25')
     ax.set_xlim(120.0, 0.0)
     ax.set_ylim(-17.5, 2.5)
-    ax.grid(axis='y')
     ax.locator_params(axis='y', nbins=6)

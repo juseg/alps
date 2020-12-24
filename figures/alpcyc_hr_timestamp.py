@@ -17,7 +17,6 @@ with pismx.open.dataset('../data/processed/alpcyc.1km.epic.pp.tms.nc') as ds:
     ax.plot(ts.age, ts, color='C1')
 
 # set axes properies
-ax.grid()
 ax.invert_xaxis()
 ax.set_xlabel('model time (ka)')
 ax.set_ylabel('computing time (days)')

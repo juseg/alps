@@ -32,7 +32,6 @@ def main():
     ax.set_ylabel(r'erosion rate ($mm\,a^{-1}$)')
     ax.set_xlim(10**-0.1, 10**4.1)
     ax.set_ylim(10**-2.1, 10**2.1)
-    ax.grid()  # FIXME grids by default
 
     # prepare figure
     util.com.savefig(fig)

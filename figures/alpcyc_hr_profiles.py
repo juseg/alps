@@ -69,7 +69,6 @@ for i, reg in enumerate(regions):
     tsax.xaxis.set_visible(i==len(regions)-1)
     tsax.yaxis.set_label_position("right")
     tsax.yaxis.tick_right()
-    tsax.grid(axis='y')
 
 # save
 util.com.savefig()

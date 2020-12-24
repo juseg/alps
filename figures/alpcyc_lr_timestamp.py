@@ -23,7 +23,6 @@ for i, rec in enumerate(util.alpcyc_records):
         ax.plot(ts.age, ts, color=c, label=label)
 
 # set axes properies
-ax.grid()
 ax.invert_xaxis()
 ax.legend(loc='best')
 ax.set_xlabel('model time (ka)')

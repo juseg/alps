@@ -56,7 +56,6 @@ def draw(t):
     tsax.set_xlim(120.0, 0.0)
     tsax.set_ylim(-0.05, 0.35)
     tsax.locator_params(axis='y', nbins=6)
-    tsax.grid(axis='y')
 
     # return figure
     return fig

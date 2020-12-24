@@ -22,7 +22,7 @@ mathtext.default        : regular # font to use for math (default it)
 
 ### AXES
 axes.linewidth          : 0.5     # edge linewidth (default 0.8)
-axes.grid               : False   # display grid or not (default False)
+axes.grid               : True    # display grid or not (default False)
 axes.titlesize          : medium  # fontsize of the axes title (default large)
 axes.titlepad           : 4.0     # space between axes and title (default 6.0)
 axes.labelsize          : medium  # fontsize of x and y labels (default medium)

@@ -92,7 +92,6 @@ def main():
 
     # set axes properties
     cax.yaxis.set_label_coords(2.5, 0.5)
-    tsax.grid()
     tsax.set_xlim(120, 0)
     tsax.set_xlabel('age (ka)')
     tsax.set_ylabel('distance along flow (km)')

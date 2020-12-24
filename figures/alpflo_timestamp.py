@@ -43,7 +43,6 @@ ax.plot(age, cumnh, color=c)
 ax.invert_xaxis()
 ax.set_xlabel('model time (ka)')
 ax.set_ylabel('computing time (days)')
-ax.grid()
 
 # save
 util.com.savefig()
