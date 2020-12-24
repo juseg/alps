@@ -4,9 +4,9 @@
 \usepackage{authblk}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-%\usepackage[pdftex]{xcolor}
-%\usepackage[pdftex]{graphicx}
-%\usepackage[authoryear,round]{natbib}
+\usepackage[pdftex]{xcolor}
+\usepackage[pdftex]{graphicx}
+\usepackage[authoryear,round]{natbib}
 
 % review mode
 \usepackage{geometry}
@@ -14,7 +14,21 @@
 \linenumbers
 \linespread{1.5}
 
-%\graphicspath{{../../figures/}}
+% custom colours
+\definecolor{darkblue}{cmyk}{0.9,0.3,0.0,0.0}
+\definecolor{darkgreen}{cmyk}{0.8,0.0,1.0,0.0}
+\definecolor{darkred}{cmyk}{0.1,0.9,0.8,0.0}
+\definecolor{darkorange}{cmyk}{0.0,0.5,1.0,0.0}
+\definecolor{darkpurple}{cmyk}{0.6,0.7,0.0,0.0}
+\definecolor{darkbrown}{cmyk}{0.23,0.73,0.98,0.12}
+
+% custom commands
+\newcommand{\idea}[1]{\textcolor{darkgreen}{\emph{[\textbf{IDEA:} #1]}}}
+\newcommand{\note}[1]{\textcolor{darkblue}{\emph{[\textbf{NOTE:} #1]}}}
+\newcommand{\todo}[1]{\textcolor{darkred}{\emph{[\textbf{TODO:} #1]}}}
+\newcommand{\aref}[0]{\textcolor{darkblue}{\textbf{[REF.]}}}
+
+\graphicspath{{../../figures/}}
 
 \title{Last glacial cycle glacier erosion potential in the Alps}
 \author{Julien Seguinot}
@@ -83,9 +97,6 @@
     Besides, cold-based glaciers have been shown to preserve landscape.
 
     Fig.~\ref{fig:landscape} -- Alpine glacial erosion landscape photos.
-        (a) piedmont overdeepening (ca. 100 km), Lake Geneva
-        (b) glacial valley (ca. 10 km), Lauterbrunnen
-        (c) mountain cirque (ca. 1 km), Chüebodengletscher
 
 % ----------------------------------------------------------------------
 \section{Methods}
@@ -114,7 +125,9 @@
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
     Fig.~\ref{fig:transects} -- Erosion rate along transects.
+
     Fig.~\ref{fig:evolution} -- Erosion rate and ice volume.
+
     Fig.~\ref{fig:hypsogram} -- Erosion rate and elevation.
 
 % ----------------------------------------------------------------------
@@ -152,21 +165,94 @@
 % References
 % ----------------------------------------------------------------------
 
-%\bibliographystyle{frontiersinSCNS_ENG_HUMS}
-%\bibliography{../../references/references}
+\bibliographystyle{abbrvnat}
+\bibliography{../../../references/references}
 
 
 % ----------------------------------------------------------------------
 % Figures
-%\clearpage
+\clearpage
 % ----------------------------------------------------------------------
 
-%    \begin{figure}
-%      \centerline{\includegraphics{alpero_cumulative}}
-%      \caption{%
-%          Modelled glacial erosion over the last glacial cycle.}
-%      \label{fig:glerosion}
-%    \end{figure}
+    \begin{figure*}
+      \centerline{\includegraphics{alpero_landscape}}
+      \caption{%
+        Alpine glacial erosion landscape diversity.
+        \textbf{(a)} Piedmont overdeepening of Lake Constance, ca.~10x50\,km.
+        \textbf{(b)} Glacial trough of Lauterbrunnental, ca.~1x10\,km.
+        \textbf{(c)} Mountain cirque of Chüebodengletscher, ca.~1x1\,km.}
+      \label{fig:landscape}
+    \end{figure*}
+
+    \begin{figure*}
+      \centerline{\includegraphics{alpero_cumulative}}
+      \caption{%
+        \textbf{(a)} Modelled cumulative (time-integrated) glacial erosion
+          potential over the last glacial cycle.
+        \textbf{(b)} Modelled total ice volume in centimetres of sea-level
+          equivalent (cm~s.l.e., black), volumic (domain-integrated) erosion
+          rate (light brown) and 100-a running mean (dark brown). Shaded gray
+          areas indicate the timing for MIS~2 and~4
+          \citep{Lisiecki.Raymo.2005}.} \label{fig:cumulative}
+    \end{figure*}
+
+    \begin{figure}
+      \centerline{\includegraphics{alpero_evolution}}
+      \caption{%
+        Modelled volumic (domain-integrated) erosion rate (light brown) and 100-a
+        running mean (dark brown) in relation to modelled total ice volume in
+        centimetres of sea-level equivalent (black).}
+      \label{fig:evolution}
+    \end{figure}
+
+    \begin{figure*}
+      \centerline{\includegraphics{alpero_transects}}
+      \caption{%
+        \textbf{(a, b, c)} Modelled instantaneous erosion rate of the Rhine
+          Glacier for selected post-Last Glacial Maximum ages.
+        \textbf{(d)} Interpolated instantaneous erosion rate along a Rhine
+          Glacier transect for the entire last glacial cycle (upper panels
+          dashed line).}
+      \label{fig:transects}
+    \end{figure*}
+
+    \begin{figure*}
+      \centerline{\includegraphics{alpero_hypsogram}}
+      \caption{%
+        \textbf{(a)} Modelled erosion rate ``hypsogram'', showing the geometric
+          mean of (non-zero) modelled erosion rates in 10-m elevation bands
+          across the entire model domain and its time evolution.
+        \textbf{(b)} Same as Fig.~\ref{fig:cumulative}b.}
+      \label{fig:hypsogram}
+    \end{figure*}
+
+    \begin{figure*}
+      \centerline{\includegraphics{alpero_sensitivity}}
+      \caption{%
+        Modelled cumulative glacial erosion potential over the last glacial
+        cycle without \textbf{(a, b, c)} and with \textbf{(d, e, f)}
+        paleo-precipitation corrections, and using three different
+        palaeo-temperature histories \citep[see][]{Seguinot.etal.2018}.}
+      \label{fig:sensitivity}
+    \end{figure*}
+
+    \begin{figure*}
+      \centerline{\includegraphics{alpero_uncertainty}}
+      \caption{%
+        Modelled cumulative (time-integrated) glacial erosion potential for
+        three different erosion laws published by
+        \textbf{(a)} \citet{Cook.etal.2020},
+          $1.665 \times 10^{-1} \textbf{u}_\mathrm{b} ^{0.6459}$,
+        \textbf{(b)} \citet{Herman.etal.2015},
+          $2.7 \times 10^{-7} \textbf{u}_\mathrm{b} ^{2.02}$
+          (same as Fig.~\ref{fig:cumulative}a), amd
+        \textbf{(c)} \citet{Koppes.etal.2015},
+          $5.2 \times 10^{-8} \textbf{u}_\mathrm{b} ^{2.34}$.
+        \textbf{(d)} Corresponding erosion power laws, and
+        \textbf{(e)} modelled cumulative (time-integrated) glacial erosion
+          potential along a Rhine Glacier transect (upper panels dashed line).}
+      \label{fig:uncertainty}
+    \end{figure*}
 
 % ----------------------------------------------------------------------
 % Tables
