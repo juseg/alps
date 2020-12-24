@@ -31,7 +31,7 @@ def main():
         np.log10(ds.her2015_hyps).plot.imshow(
             ax=ax, alpha=0.75, cmap='YlOrBr', vmin=-9, vmax=0, x='age',
             cbar_ax=cax, cbar_kwargs=dict(
-                label=r'log10 erosion rate ($m\,a^{-1}$)'))
+                label='log10 geometric mean\n'+r'erosion rate ($m\,a^{-1}$)'))
         # this should work in matplotlib 3.3.2 (PR #18458)
         # ds.her2015_hyps.plot.imshow(
         #    ax=ax, alpha=0.75, cmap='YlOrBr', norm=mcolors.LogNorm(1e-9, 1e0),
@@ -41,6 +41,7 @@ def main():
         ax.set_ylabel('elevation (m)')
 
     # plot time series
+    util.fig.plot_mis(ax=ax, y=None)
     util.fig.plot_mis(ax=tsax, y=0.9)
     util.ero.plot_series(ax=tsax)
 
