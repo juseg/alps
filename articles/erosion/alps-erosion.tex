@@ -74,27 +74,28 @@
 \section{Introduction}
 % ----------------------------------------------------------------------
 
-    The glacial landscape of the Alps has fascinated generations of explorers,
-    artists, mountaineers and scientists for centuries.
+    The glacial erosion landscape of the Alps has fascinated generations of
+    explorers, artists, and scientists for centuries. In English, a non-Alpine
+    language, the word “alpine” is now used to describe any glacially modified
+    mountain landscape worldwide.
 
-    In fact, the global obsession for the Alps has been so large that in
-    English, a non-native language foreign to the Alps, the word “alpine” is
-    now used to describe any glacially modified mountain landscape worldwide.
-
-    Understanding the beauty of Alpine glacial landscape through the rigour of
-    scientific research is yet another endeavour.
+    Some regions are characterised by cirque glaciation, glacial valleys,
+    or overland scouring. Other regions, including the Alps, present a variety
+    of glacial erosional landforms. It is often assumed that the degree of
+    glacial modification is a proxy for the duration of past glacier cover.
 
     While it has long been understood that glaciers leave a specific imprint on
     the landscape they lie on, observing and quantifying the long-term erosion
-    and sedimentation processes has been a challenge. While some regions are
-    specifically characterised by cirque glaciation (), or glacial scouring (),
-    the European Alps present a variety of glacial landforms with a density
-    seen in few other places on Earth.
+    and sedimentation processes has been a challenge. Glacier sliding
+    velocities vary by several orders of magnitude, and erosion laws can be
+    non-linear. Besides, cold-based glaciers have been shown to preserve
+    landscape, but it remains unclear how sharp the erosional transition to
+    cold-base ice is, and why some glaciated regions show traces of cold-base
+    glaciations and others not.
 
-    It is typically assumed that the degree of glacial modification is a proxy
-    for the duration of past glacier cover. However glacier sliding velocities
-    vary by several orders of magnitude, and erosion laws can be non-linear.
-    Besides, cold-based glaciers have been shown to preserve landscape.
+    Here we apply a non-linear erosion law to previously published model
+    results and analyse the patterns of modelled erosion rate and cumulative
+    last glacial cycle erosion potential.
 
     Fig.~\ref{fig:landscape} -- Alpine glacial erosion landscape photos.
 
@@ -106,9 +107,15 @@
 \subsection{Ice sheet modelling}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
+    Summary of PISM physics and boundary conditions.
+
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 \subsection{Erosion law}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+
+    We follow the near-quadratic erosion law of \citep{Herman.etal.2015}.
+
+    We refer to erosion potential as the time-integrated erosion rate.
 
 % ----------------------------------------------------------------------
 \section{Results}
@@ -118,15 +125,33 @@
 \subsection{Cumulative erosion}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
+    Modelled cumulative erosion potential vary by several orders of magnitude.
+    There is a very strong localization in valleys with a large catchment and
+    valley heads, where the results are limited by model resolution.
+
     Fig.~\ref{fig:cumulative} -- Cumulative erosion.
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 \subsection{Temporal evolution}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
-    Fig.~\ref{fig:transects} -- Erosion rate along transects.
+    Above a certain level of glaciation, erosion rates appear uncorrelated with
+    the ice volume. Volumetric erosion rates during MIS~4 and MIS~2 are not
+    higher than other parts of the last glacial cycle. However, there is a
+    tendency for higher erosion rate during periods of ice retreat.
 
     Fig.~\ref{fig:evolution} -- Erosion rate and ice volume.
+
+    Along the Rhine Glacier transect, stages of extensive glaciation see
+    erosion rates localized in the lower part of the catchment. Erosion rates
+    propagate inward during periods of ice retreat.
+
+    Fig.~\ref{fig:transects} -- Erosion rate along transects.
+
+    These results can be generalized to the entire model domain by using
+    elevation as a proxy for along-flow distance. During periods of larger
+    extent, erosion rates shift to lower elevation, leaving upper grounds
+    untouched. During deglaciation, erosion propagates inland.
 
     Fig.~\ref{fig:hypsogram} -- Erosion rate and elevation.
 
@@ -135,20 +160,73 @@
 % ----------------------------------------------------------------------
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-\subsection{Erosion uncertainties}
+\subsection{Results interpretation}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
-    Fig.~\ref{fig:uncertainty} -- Erosion uncertainties
+    It is often believed that glaciers are more erosive during deglaciations
+    because of higher water availability. However, surface meltwater is absent
+    from the model. Higher erosion rates can be explained by enhanced ice
+    dynamics after longer-term ice cover.
+
+    The results also indicate that if a square-rule erosion law is valid, much
+    of the intra-Alpine erosional landscape do not date from stages of major
+    glaciation.
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 \subsection{Sensitivity to climate}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
+    The modelled erosion potential depends significantly on the choice of
+    pleoclimate forcing applied, but the general patterns remain similar.
+    Higher precipitation yields higher erosion. The results also appear to be
+    sensitive to model resolution, primarily in the mountains interior, where
+    discretized slopes depend on the grid size.
+
     Fig.~\ref{fig:sensitivity} -- Sensitivity to climate.
+
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+\subsection{Erosion uncertainties}
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+
+    The cumulative erosion potential modelled by the Franz-Joseph Glacier
+    erosion law \citep{Herman.etal.2015} appear overestimated. However, the
+    error bars are large.
+
+    The erosion law by \citet{Cook.etal.2020} results in similarly high values
+    but a flatter (less localized) pattern of cumulative erosion potential,
+    with lower values in the troughs and more erosion in the mountains. The two
+    erosion laws may appear incompatible, and there would be a lot of reasons
+    for them to be incompatible. But as pointed by \citet{Cook.etal.2020}, they
+    are not necessarily incompatible. The erosion's feedback onto ice dynamics
+    may yield to a delocalization of high-velocity flow in the long run.
+
+    The erosion law by \citet{Koppes.etal.2015} yields a similar pattern but
+    lower values. This law is for tidewater glaciers, which flow much faster
+    than mountain glaciers. However, we can imagine that Alpine paleoglaciers
+    flowing on a thick sediment bed (and sometimes into proglacial lakes, not
+    included), behave closer to tidewater glaciers than the Franz-Josef steep
+    mountain glacier.
+
+    Fig.~\ref{fig:uncertainty} -- Erosion uncertainties
 
 % ----------------------------------------------------------------------
 \section{Conclusions}
 % ----------------------------------------------------------------------
+
+    The modelled erosion rates are very highly uncertain. The results are
+    limited as there is no feedback of erosion onto ice dynamics, and
+    erosion by rivers is not included. But if a square-law is used:
+    \begin{itemize}
+      \item Cumulative erosion potential is strongly localized in regions
+        of fast past glacier flow.
+      \item The total erosion rate is not correlated with the ice volume.
+      \item During major glaciations, erosion rates are high at low elevation,
+        but the mountain's interior is preserved.
+      \item Higher-elevation glacial erosional landforms were formed during
+        stages of intermediate glaciation.
+      \item Erosion increases during deglaciations, regardless of surface
+        meltwater availability.
+    \end{itemize}
 
 % ----------------------------------------------------------------------
 % Acknowledgements
