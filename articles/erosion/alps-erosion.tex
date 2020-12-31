@@ -130,15 +130,66 @@
 \subsection{Ice sheet modelling}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
-    Summary of PISM physics and boundary conditions.
+    The ice-sheet model set-up was presented, and the results discussed, in an
+    earlier publication \citep{Seguinot.etal.2018}. The simulations use the
+    Parallel Ice Sheet Model (PISM, development version~e9d2d1f), an open
+    source, finite difference, shallow ice sheet model
+    \citep{PISM-authors.2017}. The model includes temperature and water-content
+    dependent creep, pseudo-plastic basal sliding accounting for till
+    dilatation under high water pressure, bedrock deformation under the ice
+    load, and a~positive degree-day (PDD) surface mass balance model. The model
+    is initialized with assumed present-day ice thickness and equilibrium
+    ice and bedrock temperature at 120\,ka, and ran to the present.
+    Climate forcing is provided by a~monthly climatology from interpolated
+    observational data \citep[WorldClim;][]{Hijmans.etal.2005} and the European
+    Centre for Medium-Range Weather Forecasts Reanalysis Interim
+    \citep[ERA-Interim;][]{Dee.etal.2011}, amended with temperature lapse-rate
+    corrections from the European Project for Ice Coring in Antarctica
+    \citep[EPICA;][] {Jouzel.etal.2007}, and in some cases, time-dependent
+    palaeo-precipitation reductions. Lower-resolution, alternative climate
+    scenarios are analyzed in the discussion part.
+
+    Physical parametres are listed in the earlier open-access publication
+    \citep{Seguinot.etal.2018} and complete PISM set-up is stored in long-term
+    archived model output metadata for this \todo{DOI}, and for the earlier
+    \todo{DOIs} publications.
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 \subsection{Erosion law}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
-    We follow the near-quadratic erosion law of \citep{Herman.etal.2015}.
+    Modelled erosion rates, $\dot{e}$, are calculated from the modelled basal
+    velocities, $u_\mathrm{b}$, using a near-quadratic empirical erosion law,
+    %
+    \begin{equation}
+        \dot{e} = K_\mathrm{g} u_\mathrm{b}^l ,
+    \end{equation}
+    %
+    where $K_g = 2.7\times 10^{-7}\,m^{1-l}\,a^{l-1}$ and $l = 2.02$ are
+    empirical constants fitted to measured suspended sediment loads and
+    reconstructed basal velocities of Franz-Joseph Glacier
+    \citep{Herman.etal.2015}. It is important to note that there are both large
+    uncertainties around these numbers concerning Franz-Joseph Glacier
+    itself \todo{quantify}, and little insurance that this erosion law applies
+    elsewhere.
 
-    We refer to erosion potential as the time-integrated erosion rate.
+    Unlike landscape evolution model studies \aref, this study does not account
+    for the feedback of glacier erosion onto bedrock topography and ice dynamics.
+    Neither are other forms of erosion accounted for. Instead, the
+    time-integrated erosion rate,
+    %
+    \begin{equation}
+        e =  K_\mathrm{g} \int u_\mathrm{b}^l dt,
+    \end{equation}
+    %
+    is later referred to as the cumulative ``erosion potential''. This erosion
+    potential is numerically approximated using a time-step of 10\,a in the
+    main simulation, and 100\,a in the alternative climate scenarios runs. It
+    can already be noticed from the above formula, that with an exponent, $l$,
+    higher than one, the cumulative erosion potential has a greater dependency
+    on the basal ice dynamics, $u_\mathrm{b}$, than the timing of glacier
+    cover, $dt$.
+
 
 % ----------------------------------------------------------------------
 \section{Results}
