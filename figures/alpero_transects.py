@@ -51,7 +51,7 @@ def main():
         # compute erosion
         ds = extra.sel(age=age)
         sliding = (ds.uvelbase**2+ds.vvelbase**2)**0.5  # (m/a)
-        erosion = 2.7e-7*sliding**2.02  # (m/a, Herman et al., 2015)
+        erosion = 5.2e-8*sliding**2.34  # (mm/a, Koppes et al., 2015)
 
         # plot map data
         ds.topg.plot.imshow(
@@ -83,10 +83,10 @@ def main():
             '../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
 
         # plot erosion profile
-        ds.assign_coords(d=ds.d/1e3).her2015_rhin.plot.contourf(
+        (ds.assign_coords(d=ds.d/1e3).kop2015_rhin*1e3).plot.contourf(
             ax=tsax, alpha=0.75, cmap='YlOrBr', levels=levels, x='age', y='d',
             cbar_ax=cax, cbar_kwargs=dict(
-                label='erosion rate ($m\\,a^{-1}$)',
+                label='erosion rate ($mm\,a^{-1}$)',
                 format=mpl.ticker.LogFormatterMathtext(),
                 ticks=levels[::3]))  # (mpl issue #11937)
 

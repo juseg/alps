@@ -33,13 +33,13 @@ def main():
             '../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
 
         # plot hypsogram
-        np.log10(ds.her2015_hyps).plot.imshow(
+        (np.log10(ds.kop2015_hyps)+3).plot.imshow(
             ax=ax, alpha=0.75, cmap='YlOrBr', vmin=-9, vmax=0, x='age',
             cbar_ax=cax, cbar_kwargs=dict(
-                label='log10 geometric mean\n'+r'erosion rate ($m\,a^{-1}$)',
+                label='log10 geometric mean\n'+r'erosion rate ($mm\,a^{-1}$)',
                 ticks=range(-9, 1, 3)))
         # this should work in matplotlib 3.3.2 (PR #18458)
-        # ds.her2015_hyps.plot.imshow(
+        # (ds.kop2015_hyps*1e3).plot.imshow(
         #    ax=ax, alpha=0.75, cmap='YlOrBr', norm=mcolors.LogNorm(1e-9, 1e0),
         #    x='age', cbar_ax=cax, cbar_kwargs=dict(
         #        label=r'erosion rate ($m\,a^{-1}$)'))

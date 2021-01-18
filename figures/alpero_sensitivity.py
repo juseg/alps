@@ -38,10 +38,10 @@ def main():
                     rec.lower()[:4], ('cp', 'pp')['pp' in conf])) as ds:
 
             # plot map data
-            cset = ds.her2015_cumu.plot.contourf(
-                ax=ax, cmap='YlOrBr', levels=[10**i for i in range(-1, 5)],
+            cset = ds.kop2015_cumu.plot.contourf(
+                ax=ax, cmap='YlOrBr', levels=[10**i for i in range(-2, 3)],
                 alpha=0.75, add_colorbar=False, extend='both')
-            ds.her2015_cumu.notnull().plot.contour(
+            ds.kop2015_cumu.notnull().plot.contour(
                 ax=ax, colors='k', linewidths=0.5, levels=[0.5])
 
         # add map elements
