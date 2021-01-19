@@ -31,7 +31,7 @@ plt.rc('axes', prop_cycle=plt.cycler(color=plt.get_cmap('Paired').colors))
 # Figure creation
 # ---------------
 
-def axes_anim_dynamic(crop, t, start=-120e3, end=-0e3, figsize=(192.0, 108.0)):
+def axes_anim_dynamic(crop, time, start=-120e3, end=-0e3, figsize=(192, 108)):
     """Init dynamic extent figure and subplot."""
 
     # predefined crop regions
@@ -59,10 +59,10 @@ def axes_anim_dynamic(crop, t, start=-120e3, end=-0e3, figsize=(192.0, 108.0)):
     ax.set_rasterization_zorder(2.5)
 
     # compute dynamic extent
-    e0, e1 = ('{}_{:d}'.format(crop, i) for i in (0, 1))
-    zoom = 1.0*(t-start)/(end-start)  # linear increase between 0 and 1
+    extents = (regions['{}_{:d}'.format(crop, i)] for i in (0, 1))
+    zoom = 1.0*(time-start)/(end-start)  # linear increase between 0 and 1
     zoom = zoom**2*(3-2*zoom)  # smooth zoom factor between 0 and 1
-    extent = [c0 + (c1-c0)*zoom for (c0, c1) in zip(regions[e0], regions[e1])]
+    extent = [c0 + (c1-c0)*zoom for c0, c1 in zip(*extents)]
 
     # set dynamic extent, return fig and axes
     ax.set_extent(extent, crs=ax.projection)
@@ -72,18 +72,18 @@ def axes_anim_dynamic(crop, t, start=-120e3, end=-0e3, figsize=(192.0, 108.0)):
 # Map elements
 # ------------
 
-def draw_lgm_outline(ax=None, c='#e31a1c', alpha=0.75):
+def draw_lgm_outline(ax=None, edgecolor='#e31a1c', alpha=0.75):
     """Add Ehlers et al. hole-filled LGM outline."""
     ax = ax or plt.gca()
     shp = cshp.Reader('../data/native/lgm_alpen_holefilled.shp')
     ax.add_geometries(shp.geometries(), ccrs.PlateCarree(), lw=0.5,
-                      alpha=alpha, edgecolor=c, facecolor='none')
+                      alpha=alpha, edgecolor=edgecolor, facecolor='none')
     del shp
 
 
-def draw_lgm_faded(t, alpha=0.75, **kwargs):
+def draw_lgm_faded(time, alpha=0.75, **kwargs):
     """Add LGM outline with fade-in and fade-out effects."""
-    tred = (t+25000) / 5000
+    tred = (time+25000) / 5000
     fade = tred**4 - 2*tred**2 + 1
     if abs(tred) < 1:
         draw_lgm_outline(alpha=alpha*fade, **kwargs)
@@ -101,7 +101,7 @@ def draw_natural_earth(ax=None, mode='gs', **kwargs):
 
 
 def draw_swisstopo_hydrology(ax=None, mode='gs', **kwargs):
-
+    """Add Swisstopo lake and river vectors."""
     swissplus = ccrs.TransverseMercator(
         central_longitude=7.439583333333333,
         central_latitude=46.95240555555556,
@@ -118,31 +118,34 @@ def draw_swisstopo_hydrology(ax=None, mode='gs', **kwargs):
     for rec in shp.records():
         symb = rec.attributes['Symbol']
         geom = rec.geometry
+        help(geom)
         if symb != '':
-            lw = 2.5*float(re.sub(r'[^0-9\.]', '', symb))
-            ax.add_geometries([geom], swissplus, edgecolor=edgecolor,
-                              facecolor='none', lw=lw, zorder=0, **kwargs)
+            ax.add_geometries(
+                [geom], swissplus, edgecolor=edgecolor, facecolor='none',
+                linewidth=2.5*float(re.sub(r'[^0-9\.]', '', symb)), zorder=0,
+                **kwargs)
 
     # draw swisstopo lakes
     filename = '../data/external/22_DKM500_GEWAESSER_PLY.shp'
     shp = cshp.Reader(filename)
     ax.add_geometries(shp.geometries(), swissplus, edgecolor=edgecolor,
-                      facecolor=facecolor, lw=lw, zorder=0, **kwargs)
+                      facecolor=facecolor, lw=0.25, zorder=0, **kwargs)
 
 
 def draw_tailored_hydrology(ax=None, **kwargs):
+    """Add Natural Earth or Swiss topo vectors depending on axes extent."""
 
     # get the current window extent
     ax = ax or plt.gca()
-    w, e, s, n = ax.get_extent()
+    west, east, south, north = ax.get_extent()
 
     # the reference region containing swisstopo data
-    w0, e0, s0, n0 = 265e3, 640e3, 5070e3, 5295e3
+    west0, east0, south0, north0 = 265e3, 640e3, 5070e3, 5295e3
 
     # compute intersection and fraction covered by data
-    xoverlap = max(0, min(e, e0)-max(w, w0))
-    yoverlap = max(0, min(n, n0)-max(s, s0))
-    axesarea = (e-w) * (n-s)
+    xoverlap = max(0, min(east, east0)-max(west, west0))
+    yoverlap = max(0, min(north, north0)-max(south, south0))
+    axesarea = (east-west) * (north-south)
     coverage = xoverlap * yoverlap / axesarea
 
     # compute layer transparencies
@@ -173,8 +176,7 @@ def plot_streamlines(dataset, ax=None, **kwargs):
     vvel = dataset.vvelsurf.where(icy).to_masked_array()
     vmag = (uvel**2+vvel**2)**0.5
 
-    # streamplot colormapping fails on empty arrays
-    # FIXME report this as a bug in matplotlib
+    # streamplot colormapping fails on empty arrays (mpl issue #19323)
     if uvel.count() * vvel.count() == 0:
         return
 
@@ -269,7 +271,7 @@ def visual(time, crop='al', mode='co', start=-120000, end=-0):
     if mode != 'ga':
         draw_tailored_hydrology(ax=ax, mode=mode)
     if mode == 'gs':
-        draw_lgm_faded(ax=ax, t=time)
+        draw_lgm_faded(ax=ax, time=time)
 
     # return figure
     return fig
