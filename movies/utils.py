@@ -17,6 +17,7 @@ import cartopy.crs as ccrs
 import cartopy.io.shapereader as cshp
 import cartowik.conventions as ccv
 import cartowik.naturalearth as cne
+import cartowik.shadedrelief as csr
 
 
 # Color palette
@@ -274,12 +275,8 @@ def plot_shaded_relief(darray, ax=None, mode='gs'):
     darray.plot.imshow(ax=ax, add_colorbar=False, zorder=-1,
         cmap=(ccv.ELEVATIONAL if mode=='co' else 'Greys'),
         vmin=(-4500 if mode=='co' else 0), vmax=4500)
-
-    # add relief shading
-    # FIXME: add xarray/numpy-centric functions in cartowik?
-    shades = xr_multishading(darray)
-    shades.plot.imshow(ax=ax, add_colorbar=False, cmap=ccv.SHINES,
-                       vmin=-1.0, vmax=1.0, zorder=-1)
+    csr.add_multishade(
+        darray, ax=ax, add_colorbar=False, zorder=-1)
 
     # add coastline if data spans the zero
     if darray.min() * darray.max() < 0.0:
@@ -326,54 +323,3 @@ def save_animation_frame(func, outdir, t, *args, **kwargs):
         fig = func(t, *args, **kwargs)
         fig.savefig(fname, transparent=True)
         plt.close(fig)
-
-
-# Calculations on data arrays
-# ---------------------------
-
-def xr_gradient(darray):
-    """Compute gradient along a all dimensions of a data array."""
-
-    # extract coordinate data
-    dims = darray.dims
-    coords = [darray[d].data for d in dims]
-
-    # apply numpy.gradient
-    darray = xr.apply_ufunc(np.gradient, darray, *coords,
-                            input_core_dims=(dims,)+dims,
-                            output_core_dims=[('n',)+dims])
-
-    # add vector component coordinate
-    darray = darray.assign_coords(n=list(dims))
-
-    # return as single dataarray
-    return darray
-
-
-def xr_shading(darray, azimuth=315.0, altitude=30.0, transparent=False):
-    """Compute shaded relief map from a data array."""
-
-    # convert to rad
-    azimuth *= np.pi / 180.
-    altitude *= np.pi / 180.
-
-    # compute cartesian coords of the illumination direction
-    # for transparent shades set horizontal surfaces to zero
-    xlight = np.sin(azimuth) * np.cos(altitude)
-    ylight = np.cos(azimuth) * np.cos(altitude)
-    zlight = (0.0 if transparent else np.sin(altitude))
-
-    # compute hillshade (minus dot product of normal and light direction)
-    v, u = xr_gradient(darray)
-    shade = - (zlight - u*xlight - v*ylight) / (1 + u**2 + v**2)**(0.5)
-    return shade
-
-
-def xr_multishading(darray):
-    """Compute shaded relief using multiple light sources."""
-
-    # compute relief shading
-    s300 = xr_shading(darray, azimuth=300.0, altitude=30.0, transparent=True)
-    s315 = xr_shading(darray, azimuth=315.0, altitude=30.0, transparent=True)
-    s330 = xr_shading(darray, azimuth=330.0, altitude=30.0, transparent=True)
-    return (s300+2.0*s315+s330)/4.0
