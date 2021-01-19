@@ -120,7 +120,7 @@ def draw_swisstopo_hydrology(ax=None, mode='gs', **kwargs):
         geom = rec.geometry
         if symb != '':
             lw = 2.5*float(re.sub(r'[^0-9\.]', '', symb))
-            ax.add_geometries(geom, swissplus, edgecolor=edgecolor,
+            ax.add_geometries([geom], swissplus, edgecolor=edgecolor,
                               facecolor='none', lw=lw, zorder=0, **kwargs)
 
     # draw swisstopo lakes
@@ -137,7 +137,7 @@ def draw_tailored_hydrology(ax=None, **kwargs):
     w, e, s, n = ax.get_extent()
 
     # the reference region containing swisstopo data
-    w0, e0, s0, n0 = 252e3,  636e3, 5072e3, 5288e3  # FIXME ch1 unprecise
+    w0, e0, s0, n0 = 265e3, 640e3, 5070e3, 5295e3
 
     # compute intersection and fraction covered by data
     xoverlap = max(0, min(e, e0)-max(w, w0))
