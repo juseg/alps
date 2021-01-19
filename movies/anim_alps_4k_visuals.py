@@ -158,32 +158,6 @@ def draw_tailored_hydrology(ax=None, **kwargs):
         draw_natural_earth(ax=ax, alpha=1-alpha, **kwargs)
 
 
-# Styled plots from data arrays
-# -----------------------------
-
-
-def plot_streamlines(dataset, ax=None, **kwargs):
-    """Plot surface velocity streamlines."""
-
-    # get current axes if none provided
-    ax = ax or plt.gca()
-
-    # extract velocities
-    icy = dataset.thk.fillna(0.0) >= 1.0
-    uvel = dataset.uvelsurf.where(icy).to_masked_array()
-    vvel = dataset.vvelsurf.where(icy).to_masked_array()
-    vmag = (uvel**2+vvel**2)**0.5
-
-    # streamplot colormapping fails on empty arrays (mpl issue #19323)
-    if uvel.count() * vvel.count() == 0:
-        return
-
-    # add streamplot,
-    ax.streamplot(dataset.x, dataset.y, uvel, vvel, color=vmag,
-                  cmap='Blues', norm=mcolors.LogNorm(1e1, 1e3),
-                  arrowsize=0.25, linewidth=0.5, **kwargs)
-
-
 # Main plotting function
 # ----------------------
 
@@ -263,7 +237,18 @@ def visual(time, crop='al', mode='co', start=-120000, end=-0):
     # mode co, stream plot extra data
     if mode == 'co':
         with pismx.open.subdataset(filename, time=time, shift=120000) as ds:
-            plot_streamlines(ds, ax=ax, density=(24, 16))
+
+            # streamplot colormapping fails on empty arrays (mpl issue #19323)
+            ds['icy'] = ds.thk.fillna(0.0) >= 1.0
+            if ds.icy.count() > 0:
+                ax.streamplot(
+                    ds.x, ds.y,
+                    ds.uvelsurf.where(ds.icy).to_masked_array(),
+                    ds.vvelsurf.where(ds.icy).to_masked_array(),
+                    color=((ds.uvelsurf**2+ds.vvelsurf**2)**0.5
+                           ).to_masked_array(),
+                    cmap='Blues', norm=mcolors.LogNorm(1e1, 1e3),
+                    arrowsize=0.25, linewidth=0.5, density=(24, 16))
 
     # draw map elements
     if mode != 'ga':
@@ -289,9 +274,9 @@ def main():
 
     # start and end of animation
     if args.crop in ('lu', 'ma'):
-        start, end, step = -45000, -15000, 10000
+        start, end, step = -45000, -15000, 10
     else:
-        start, end, step = -120000, -0, 4000
+        start, end, step = -120000, -0, 40
 
     # output frame directories
     prefix = os.path.join(os.environ['HOME'], 'anim', 'anim_alps_4k')
