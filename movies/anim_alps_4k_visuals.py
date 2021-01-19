@@ -6,21 +6,19 @@
 """Plot Alps 4k animations frames main visuals."""
 
 import os
+import re
 import argparse
 import multiprocessing as mp
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
-import pismx.open
-import utils as ut
-
-import re
 import pandas as pd
-import xarray as xr
 import cartopy.crs as ccrs
 import cartopy.io.shapereader as cshp
 import cartowik.conventions as ccv
 import cartowik.naturalearth as cne
 import cartowik.shadedrelief as csr
+import pismx.open
+import utils as ut
 
 
 # Color palette
@@ -159,70 +157,8 @@ def draw_tailored_hydrology(ax=None, **kwargs):
         draw_natural_earth(ax=ax, alpha=1-alpha, **kwargs)
 
 
-# Data input methods
-# ------------------
-
-def open_dataset(filename):
-    """Open single-file dataset with age coordinate."""
-    ds = xr.open_dataset(filename, decode_cf=False)
-    if 'time' in ds.coords and 'seconds' in ds.time.units:
-        ds = ds.assign_coords(time=ds.time/(365*24*60*60))
-    if 'time' in ds.coords:
-        ds = ds.assign_coords(age=-ds.time)
-    return ds
-
-
-def open_sealevel(t):
-    ds = pd.read_csv('../data/external/spratt2016.txt', comment='#',
-                     delimiter='\t', index_col='age_calkaBP').to_xarray()
-    ds = ds.SeaLev_shortPC1.dropna('age_calkaBP')
-    ds = min(ds.interp(age_calkaBP=-t/1e3, method='cubic').values, 0.0)
-    return ds
-
-
 # Styled plots from data arrays
 # -----------------------------
-
-def plot_ice_extent(darray, ax=None, ec='k', fc='none'):
-    """Draw void or filled ice extent contour."""
-
-    # plot a single contour
-    if ec != 'none':
-        darray.plot.contour(ax=ax, colors=[ec], levels=[0.5], linewidths=0.25)
-    if fc != 'none':
-        darray.plot.contourf(ax=ax, add_colorbar=False, alpha=0.75, colors=fc,
-                             extend='neither', levels=[0.5, 1.5])
-
-
-def plot_topo_contours(darray, ax=None, ec='0.25'):
-    """Plot surface topography contours."""
-
-    # contour levels
-    levels = range(0, 5000, 200)
-    majors = [lev for lev in levels if lev % 1000 == 0]
-    minors = [lev for lev in levels if lev % 1000 != 0]
-
-    # plot contours
-    darray.plot.contour(ax=ax, colors=[ec], levels=majors, linewidths=0.25)
-    darray.plot.contour(ax=ax, colors=[ec], levels=minors, linewidths=0.1)
-
-
-def plot_shaded_relief(darray, ax=None, mode='gs'):
-    """Plot shaded relief map from elevation data array."""
-
-    # plot basal topography
-    darray.plot.imshow(
-        ax=ax, add_colorbar=False, zorder=-1,
-        cmap=(ccv.ELEVATIONAL if mode == 'co' else 'Greys'),
-        vmin=(-4500 if mode == 'co' else 0), vmax=4500)
-    csr.add_multishade(
-        darray, ax=ax, add_colorbar=False, zorder=-1)
-
-    # add coastline if data spans the zero
-    if darray.min() * darray.max() < 0.0:
-        colors = '#0978ab' if mode == 'co' else '0.25'
-        darray.plot.contour(ax=ax, colors=colors, levels=[0.0],
-                            linestyles=['dashed'], linewidths=0.25)
 
 
 def plot_streamlines(dataset, ax=None, **kwargs):
@@ -259,50 +195,75 @@ def visual(time, crop='al', mode='co', start=-120000, end=-0):
         crop, time, start=start, end=end, figsize=(384, 216))
 
     # estimate sea level drop
-    dsl = open_sealevel(time)
+    dsl = pd.read_csv('../data/external/spratt2016.txt', comment='#',
+                      delimiter='\t', index_col='age_calkaBP').to_xarray()
+    dsl = dsl.SeaLev_shortPC1.dropna('age_calkaBP')
+    dsl = min(dsl.interp(age_calkaBP=-time/1e3, method='cubic').values, 0.0)
 
     # plot interpolated data
     filename = '~/pism/output/e9d2d1f/alpcyc4.1km.epica.1220.pp/ex.{:07.0f}.nc'
     with pismx.open.visual(
             filename, '../data/processed/alpcyc.1km.in.nc',
             '../data/external/srtm.nc', ax=ax, time=time, shift=120000) as ds:
+
+        # shaded relief topographic background
         if mode != 'ga':
-            plot_shaded_relief(ds.topg-dsl, ax=ax, mode=mode)
-            plot_ice_extent(
-                ds.icy, ax=ax, fc=('w' if mode in 'co' else 'none'))
-        plot_topo_contours(ds.usurf, ax=ax)
+            (ds.topg-dsl).plot.imshow(
+                ax=ax, add_colorbar=False, zorder=-1,
+                cmap=(ccv.ELEVATIONAL if mode == 'co' else 'Greys'),
+                vmin=(-4500 if mode == 'co' else 0), vmax=4500)
+            csr.add_multishade(
+                ds.topg, ax=ax, add_colorbar=False, zorder=-1)
+            ds.topg.plot.contour(
+                ax=ax, colors=('#0978ab' if mode == 'co' else '0.25'),
+                levels=[dsl], linestyles='dashed', linewidths=0.25, zorder=0)
+            ds.thk.notnull().plot.contour(
+                ax=ax, colors=['0.25'], levels=[0.5], linewidths=0.25)
+
+        # always plot topo contours
+        ds.usurf.plot.contour(
+            levels=[lev for lev in range(0, 5000, 200) if lev % 1000 == 0],
+            ax=ax, colors=['0.25'], linewidths=0.25)
+        ds.usurf.plot.contour(
+            levels=[lev for lev in range(0, 5000, 200) if lev % 1000 != 0],
+            ax=ax, colors=['0.25'], linewidths=0.1)
+
+        # streamline plot outer contour
+        if mode == 'co':
+            ds.thk.notnull().plot.contourf(
+                ax=ax, add_colorbar=False, alpha=0.75, colors='w',
+                extend='neither', levels=[0.5, 1.5])
+
+        # erosion rate (values 1e-16 to 1e2, mostly 1e-12 to 1e-2)
+        elif mode == 'er':
+            (5.2e-8*ds.velbase_mag**2.34).plot.contourf(
+                ax=ax, add_colorbar=False, alpha=0.75, cmap='YlOrBr',
+                levels=[10**i for i in range(-9, 1)])
+
+        # velocities map
+        elif mode in ('ga', 'gs'):
+            ds.velsurf_mag.plot.imshow(
+                ax=ax, add_colorbar=False, alpha=0.75,
+                cmap='Blues', norm=mcolors.LogNorm(1e1, 1e3))
+
+        # mode ul, show interpolated bedrock depression
+        elif mode == 'ul':
+            ds.uplift.plot.contourf(
+                ax=ax, add_colorbar=False, alpha=0.75, cmap='PRGn_r',
+                levels=[-100, -50, -20, 0, 2, 5, 10])
+
+            # locate maximum depression (xarray has no idxmin yet)
+            i, j = divmod(int(ds.uplift.argmin()), ds.uplift.shape[1])
+            maxdep = float(-ds.uplift[i, j])
+            color = 'w' if maxdep > 50 else 'k'
+            ax.plot(ds.x[j], ds.y[i], 'o', color=color, alpha=0.75)
+            ax.text(ds.x[j]+5e3, ds.y[i]+5e3, '{:.0f} m'.format(maxdep),
+                    color=color)
 
     # mode co, stream plot extra data
     if mode == 'co':
         with pismx.open.subdataset(filename, time=time, shift=120000) as ds:
             plot_streamlines(ds, ax=ax, density=(24, 16))
-
-    # mode er, interpolate erosion rate
-    # (values range 1e-16 to 1e2, mostly within 1e-12 to 1e-2)
-    elif mode == 'er':
-        (5.2e-8*ds.velbase_mag**2.34).where(ds.icy).plot.contourf(
-            ax=ax, add_colorbar=False, alpha=0.75, cmap='YlOrBr',
-            levels=[10**i for i in range(-9, 1)])
-
-    # mode ga or gs, show interpolated velocities
-    elif mode in ('ga', 'gs'):
-        ds.velsurf_mag.plot.imshow(
-            ax=ax, add_colorbar=False, alpha=0.75,
-            cmap='Blues', norm=mcolors.LogNorm(1e1, 1e3))
-
-    # mode ul, show interpolated bedrock depression
-    elif mode == 'ul':
-        ds.uplift.plot.contourf(
-            ax=ax, add_colorbar=False, alpha=0.75, cmap='PRGn_r',
-            levels=[-100, -50, -20, 0, 2, 5, 10])
-
-        # locate maximum depression (xarray has no idxmin yet)
-        i, j = divmod(int(ds.uplift.argmin()), ds.uplift.shape[1])
-        maxdep = float(-ds.uplift[i, j])
-        color = 'w' if maxdep > 50 else 'k'
-        ax.plot(ds.x[j], ds.y[i], 'o', color=color, alpha=0.75)
-        ax.text(ds.x[j]+5e3, ds.y[i]+5e3, '{:.0f} m'.format(maxdep),
-                color=color)
 
     # draw map elements
     if mode != 'ga':
