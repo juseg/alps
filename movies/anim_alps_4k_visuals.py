@@ -177,8 +177,9 @@ def visual(time, crop='al', mode='co', start=-120000, end=-0):
     # plot interpolated data
     filename = '~/pism/output/e9d2d1f/alpcyc4.1km.epica.1220.pp/ex.{:07.0f}.nc'
     with pismx.open.visual(
-            filename, '../data/processed/alpcyc.1km.in.nc',
-            '../data/external/srtm.nc', ax=ax, time=time, shift=120000) as ds:
+            filename, bootfile='../data/processed/alpcyc.1km.in.nc',
+            interpfile='../data/external/srtm.nc', ax=ax, time=time,
+            shift=120000, sigma=10000) as ds:
 
         # shaded relief topographic background
         if mode != 'ga':
@@ -192,7 +193,7 @@ def visual(time, crop='al', mode='co', start=-120000, end=-0):
                 ax=ax, colors=('#0978ab' if mode == 'co' else '0.25'),
                 levels=[dsl], linestyles='dashed', linewidths=0.25, zorder=0)
             ds.thk.notnull().plot.contour(
-                ax=ax, colors=['0.25'], levels=[0.5], linewidths=0.25)
+                ax=ax, colors=['k'], levels=[0.5], linewidths=0.25)
 
         # always plot topo contours
         ds.usurf.plot.contour(
