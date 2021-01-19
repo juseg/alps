@@ -20,7 +20,7 @@ def colorbar(mode='er'):
     # mode dependent properties
     if mode == 'er':
         levels = [10**i for i in range(-9, 1)]
-        kwargs = dict(cmap='YlOrBr', label='erosion rate ($m\\,a^{-1}$)',
+        kwargs = dict(cmap='YlOrBr', label='erosion rate ($mm\\,a^{-1}$)',
                       format=mpl.ticker.LogFormatterMathtext(),
                       ticks=levels[::3])  # (cax.locator_params issue #11937)
     elif mode == 'ul':

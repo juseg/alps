@@ -40,9 +40,9 @@ def visual(t, crop='al', mode='co', t0=-120000, t1=-0):
             ut.plot_streamlines(ds, ax=ax, density=(24, 16))
 
     # mode er, interpolate erosion rate
-    # (values range 1e-15 to 1e2, mostly within 1e-12 to 1e-2)
+    # (values range 1e-16 to 1e2, mostly within 1e-12 to 1e-2)
     elif mode == 'er':
-        (2.7e-7*ds.velbase_mag**2.02).where(ds.icy).plot.contourf(
+        (5.2e-8*ds.velbase_mag**2.34).where(ds.icy).plot.contourf(
             ax=ax, add_colorbar=False, alpha=0.75, cmap='YlOrBr',
             levels=[10**i for i in range(-9, 1)])
 
