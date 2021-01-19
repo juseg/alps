@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright (c) 2020, Julien Seguinot (juseg.github.io)
+# Copyright (c) 2020-2021, Julien Seguinot (juseg.github.io)
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
@@ -70,7 +70,7 @@ def main():
             authors = ds[ref+'_cumu'].long_name.split(')')[0] + ')'
             cset = ds[ref+'_cumu'].plot.contourf(
                 ax=ax, add_colorbar=False, alpha=0.75, cmap='YlOrBr',
-                extend='both', levels=[10**i for i in range(-1, 5)])
+                extend='both', levels=[10**i for i in range(-2, 5)])
 
             # plot background topo and ice margin
             util.geo.draw_boot_topo(ax)
