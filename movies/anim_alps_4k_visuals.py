@@ -54,9 +54,7 @@ def axes_anim_dynamic(crop, time, start=-120e3, end=-0e3, figsize=(192, 108)):
     figw, figh = figsize
     fig = plt.figure(figsize=(figw/25.4, figh/25.4))
     ax = fig.add_axes([0, 0, 1, 1], projection=ccrs.UTM(32))
-    ax.background_patch.set_fc('none')
-    ax.outline_patch.set_ec('none')
-    ax.set_rasterization_zorder(2.5)
+    ax.spines['geo'].set_visible(False)
 
     # compute dynamic extent
     extents = (regions['{}_{:d}'.format(crop, i)] for i in (0, 1))
