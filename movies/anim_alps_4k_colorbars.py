@@ -1,13 +1,14 @@
 #!/usr/bin/env python
-# Copyright (c) 2018-2019, Julien Seguinot (juseg.github.io)
+# Copyright (c) 2018-2021, Julien Seguinot (juseg.github.io)
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
+"""Plot Alps 4k animations color bar overlays."""
+
+import argparse
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import absplots as apl
-
-"""Plot Alps 4k animations color bar overlays."""
 
 
 def colorbar(mode='er'):
@@ -20,17 +21,19 @@ def colorbar(mode='er'):
     # mode dependent properties
     if mode == 'er':
         levels = [10**i for i in range(-9, 1)]
-        kwargs = dict(cmap='YlOrBr', label='erosion rate ($mm\\,a^{-1}$)',
+        kwargs = dict(cmap=plt.get_cmap('YlOrBr'),
+                      label='erosion rate ($mm\\,a^{-1}$)',
                       format=mpl.ticker.LogFormatterMathtext(),
                       ticks=levels[::3])  # (cax.locator_params issue #11937)
     elif mode == 'ul':
         levels = [-100, -50, -20, 0, 2, 5, 10]
-        kwargs = dict(cmap='PRGn_r', label='uplift (m)')
+        kwargs = dict(cmap=plt.get_cmap('PRGn_r'), label='uplift (m)')
 
     # add colorbar
+    boundaries = [-1e9] + levels + [1e9]
     mpl.colorbar.ColorbarBase(
-        ax=cax, alpha=0.75, boundaries=[levels[0]-1]+levels+[levels[-1]+1],
-        extend='both', norm=mpl.colors.BoundaryNorm(levels, 256), **kwargs)
+        ax=cax, alpha=0.75, boundaries=boundaries,
+        extend='both', norm=mpl.colors.BoundaryNorm(boundaries, 256), **kwargs)
 
     # return figure
     return fig
@@ -38,8 +41,6 @@ def colorbar(mode='er'):
 
 def main():
     """Main program for command-line execution."""
-
-    import argparse
 
     # parse arguments
     parser = argparse.ArgumentParser(description=__doc__)
