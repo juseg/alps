@@ -30,7 +30,7 @@ plt.rc('axes', prop_cycle=plt.cycler(color=plt.get_cmap('Paired').colors))
 # Figure creation
 # ---------------
 
-def axes_anim_dynamic(crop, t, t0=-120e3, t1=-0e3, figsize=(192.0, 108.0)):
+def axes_anim_dynamic(crop, t, start=-120e3, end=-0e3, figsize=(192.0, 108.0)):
     """Init dynamic extent figure and subplot."""
 
     # predefined crop regions
@@ -59,36 +59,13 @@ def axes_anim_dynamic(crop, t, t0=-120e3, t1=-0e3, figsize=(192.0, 108.0)):
 
     # compute dynamic extent
     e0, e1 = ('{}_{:d}'.format(crop, i) for i in (0, 1))
-    zoom = 1.0*(t-t0)/(t1-t0)  # linear increase between 0 and 1
+    zoom = 1.0*(t-start)/(end-start)  # linear increase between 0 and 1
     zoom = zoom**2*(3-2*zoom)  # smooth zoom factor between 0 and 1
     extent = [c0 + (c1-c0)*zoom for (c0, c1) in zip(regions[e0], regions[e1])]
 
     # set dynamic extent, return fig and axes
     ax.set_extent(extent, crs=ax.projection)
     return fig, ax
-
-
-def coords_from_axes(ax):
-    """Compute coordinate vectors from matplotlib axes."""
-    return coords_from_extent(ax.get_extent(),
-                              *ax.figure.get_size_inches()*ax.figure.dpi)
-
-def coords_from_extent(extent, cols, rows):
-    """Compute coordinate vectors from image extent."""
-
-    # compute dx and dy
-    (w, e, s, n) = extent
-    dx = (e-w) / cols
-    dy = (n-s) / rows
-
-    # prepare coordinate vectors
-    xwcol = w + 0.5*dx  # x-coord of W row cell centers
-    ysrow = s + 0.5*dy  # y-coord of N row cell centers
-    x = xwcol + np.arange(cols)*dx  # from W to E
-    y = ysrow + np.arange(rows)*dy  # from S to N
-
-    # return coordinate vectors
-    return x, y
 
 
 # Map elements
@@ -158,9 +135,10 @@ def draw_natural_earth(ax=None, mode='gs', **kwargs):
     ax = ax or plt.gca()
     edgecolor = '#0978ab' if mode == 'co' else '0.25'
     facecolor = '#c6ecff' if mode == 'co' else '0.95'
-    cne.add_rivers(ax=ax, edgecolor=edgecolor, zorder=0, **kwargs)
-    cne.add_lakes(ax=ax, edgecolor=edgecolor, facecolor=facecolor, zorder=0, **kwargs)
-    cne.add_coastline(ax=ax, edgecolor=edgecolor, zorder=0, **kwargs)
+    kwargs = dict(ax=ax, zorder=0, **kwargs)
+    cne.add_rivers(edgecolor=edgecolor, **kwargs)
+    cne.add_lakes(edgecolor=edgecolor, facecolor=facecolor, **kwargs)
+    cne.add_coastline(edgecolor=edgecolor, **kwargs)
 
 
 def draw_swisstopo_hydrology(ax=None, mode='gs', **kwargs):

@@ -6,6 +6,7 @@
 """Plot Alps 4k animations frames main visuals."""
 
 import os
+import argparse
 import multiprocessing as mp
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
@@ -13,21 +14,21 @@ import pismx.open
 import utils as ut
 
 
-def visual(t, crop='al', mode='co', t0=-120000, t1=-0):
+def visual(time, crop='al', mode='co', start=-120000, end=-0):
     """Plot main figure for given time."""
 
     # initialize figure
-    fig, ax = ut.axes_anim_dynamic(crop, t, t0=t0, t1=t1, figsize=(384, 216))
-    x, y = ut.coords_from_axes(ax)
+    fig, ax = ut.axes_anim_dynamic(
+        crop, time, start=start, end=end, figsize=(384, 216))
 
     # estimate sea level drop
-    dsl = ut.open_sealevel(t)
+    dsl = ut.open_sealevel(time)
 
     # plot interpolated data
     filename = '~/pism/output/e9d2d1f/alpcyc4.1km.epica.1220.pp/ex.{:07.0f}.nc'
     with pismx.open.visual(
             filename, '../data/processed/alpcyc.1km.in.nc',
-            '../data/external/srtm.nc', ax=ax, time=t, shift=120000) as ds:
+            '../data/external/srtm.nc', ax=ax, time=time, shift=120000) as ds:
         if mode != 'ga':
             ut.plot_shaded_relief(ds.topg-dsl, ax=ax, mode=mode)
             ut.plot_ice_extent(
@@ -36,7 +37,7 @@ def visual(t, crop='al', mode='co', t0=-120000, t1=-0):
 
     # mode co, stream plot extra data
     if mode == 'co':
-        with pismx.open.subdataset(filename, time=t, shift=120000) as ds:
+        with pismx.open.subdataset(filename, time=time, shift=120000) as ds:
             ut.plot_streamlines(ds, ax=ax, density=(24, 16))
 
     # mode er, interpolate erosion rate
@@ -70,7 +71,7 @@ def visual(t, crop='al', mode='co', t0=-120000, t1=-0):
     if mode != 'ga':
         ut.draw_tailored_hydrology(ax=ax, mode=mode)
     if mode == 'gs':
-        ut.draw_lgm_faded(ax=ax, t=t)
+        ut.draw_lgm_faded(ax=ax, t=time)
 
     # return figure
     return fig
@@ -78,8 +79,6 @@ def visual(t, crop='al', mode='co', t0=-120000, t1=-0):
 
 def main():
     """Main program for command-line execution."""
-
-    import argparse
 
     # parse arguments
     parser = argparse.ArgumentParser(description=__doc__)
@@ -92,17 +91,17 @@ def main():
 
     # start and end of animation
     if args.crop in ('lu', 'ma'):
-        t0, t1, dt = -45000, -15000, 10
+        start, end, step = -45000, -15000, 10000
     else:
-        t0, t1, dt = -120000, -0, 40
+        start, end, step = -120000, -0, 4000
 
     # output frame directories
     prefix = os.path.join(os.environ['HOME'], 'anim', 'anim_alps_4k')
     outdir = prefix + '_main_' + args.crop + '_' + args.mode
 
     # iterable arguments to save animation frames
-    iter_args = [(visual, outdir, t, args.crop, args.mode, t0, t1)
-                 for t in range(t0+dt, t1+1, dt)]
+    iter_args = [(visual, outdir, t, args.crop, args.mode, start, end)
+                 for t in range(start+step, end+1, step)]
 
     # create frame directory if missing
     if not os.path.isdir(outdir):
