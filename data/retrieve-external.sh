@@ -64,18 +64,17 @@ fi
 # Swisstopo Vector 500
 if [ ! -f 22_DKM500_GEWAESSER_PLY.shp ] || [ ! -f 25_DKM500_GEWAESSER_LIN.shp ]
 then
-    wget $orig
-    unzip -jn data.zip 20161001_SMV500_SHAPE_CHL95.zip
-    unzip -jn 20161001_SMV500_SHAPE_CHL95.zip \
+    wget -nc https://data.geo.admin.ch/ch.swisstopo.swiss-map-vector500.metadata/SMV500_SHAPE_CHLV95.zip
+    unzip -jn SMV500_SHAPE_CHLV95.zip \
         "20161001_SMV500_SHAPE_CHL95/Shapefiles/22_DKM500_GEWAESSER_PLY.???" \
         "20161001_SMV500_SHAPE_CHL95/Shapefiles/25_DKM500_GEWAESSER_LIN.???"
-    rm data.zip 20161001_SMV500_SHAPE_CHL95.zip
+    rm SMV500_SHAPE_CHL95.zip
 fi
 
 # Swisstopo Geology 500
 if [ ! -f PY_Surface_Base.shp ]
 then
-    wget https://data.geo.admin.ch/ch.swisstopo.geologie-geologische_karte/data.zip
+    wget -nc https://data.geo.admin.ch/ch.swisstopo.geologie-geologische_karte/data.zip
     unzip -jn data.zip GK500_V1_3_Vector.zip
     unzip -jn GK500_V1_3_Vector.zip \
         "GK500_V1_3_FR/Shapes/PY_Surface_Base.???"
