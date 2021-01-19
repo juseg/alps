@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright (c) 2018-2019, Julien Seguinot (juseg.github.io)
+# Copyright (c) 2018-2021, Julien Seguinot (juseg.github.io)
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
@@ -237,57 +237,6 @@ def open_sealevel(t):
                      delimiter='\t', index_col='age_calkaBP').to_xarray()
     ds = ds.SeaLev_shortPC1.dropna('age_calkaBP')
     ds = min(ds.interp(age_calkaBP=-t/1e3, method='cubic').values, 0.0)
-    return ds
-
-
-def open_subdataset(filename, t, shift=120000, step=500):
-    """Open subdataset in multi-file based on format string."""
-    ds = open_dataset(filename.format(shift + t + (-t) % step))
-    ds = ds.sel(time=t, method='nearest', tolerance=1e-6)
-    return ds
-
-
-def open_visual(filename, t, x, y, sigma=10000):
-    """Load interpolated output for visualization."""
-
-    # load SRTM bedrock topography
-    with open_dataset('../data/external/srtm.nc') as ds:
-        srtm = ds.usurf.fillna(0.0) - ds.thk.fillna(0.0)
-
-    # try to smooth integer-precision steps
-    if sigma > 0:
-        dx = (x[-1]-x[0])/(len(x)-1)
-        dy = (y[-1]-y[0])/(len(y)-1)
-        assert abs(dy-dx) < 1e12
-        filt = ndimage.gaussian_filter(srtm, sigma=sigma/dx)
-        srtm += np.clip(filt-srtm, -1.0, 1.0)
-
-    # load boot topo
-    with open_dataset('../data/processed/alpcyc.1km.in.nc') as ds:
-        boot = ds.topg
-
-    # load extra data
-    with open_subdataset(filename, t) as ds:
-        ds = ds[['thk', 'topg', 'usurf', 'velbase_mag', 'velsurf_mag']]
-
-        # compute ice mask and bedrock uplift
-        ds['icy'] = 1.0 * (ds.thk >= 1.0)
-        ds['uplift'] = ds.topg - boot
-
-        # interpolate surfaces to axes coords
-        # FIXME custom vars besides thk, topg, usurf?
-        ds = ds[['icy', 'uplift', 'usurf', 'velbase_mag', 'velsurf_mag']].interp(x=x, y=y)
-
-    # interpolate srtm topography
-    ds['topg'] = srtm.interp(x=x, y=y)
-
-    # correct basal topo for uplift and pop nunataks
-    ds['topg'] = ds.topg + ds.uplift.fillna(0.0)
-    ds['icy'] = (ds.icy >= 0.5) * (ds.usurf > ds.topg)
-    ds['usurf'] = ds.usurf.where(ds.icy)
-    ds['velsurf_mag'] = ds.velsurf_mag.where(ds.icy)
-
-    # return interpolated data
     return ds
 
 

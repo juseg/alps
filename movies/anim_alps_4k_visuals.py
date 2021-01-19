@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright (c) 2018-2019, Julien Seguinot (juseg.github.io)
+# Copyright (c) 2018-2021, Julien Seguinot (juseg.github.io)
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
@@ -9,6 +9,7 @@ import os
 import multiprocessing as mp
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
+import pismx.open
 import utils as ut
 
 
@@ -24,7 +25,9 @@ def visual(t, crop='al', mode='co', t0=-120000, t1=-0):
 
     # plot interpolated data
     filename = '~/pism/output/e9d2d1f/alpcyc4.1km.epica.1220.pp/ex.{:07.0f}.nc'
-    with ut.open_visual(filename, t, x, y) as ds:
+    with pismx.open.visual(
+            filename, '../data/processed/alpcyc.1km.in.nc',
+            '../data/external/srtm.nc', ax=ax, time=t, shift=120000) as ds:
         if mode != 'ga':
             ut.plot_shaded_relief(ds.topg-dsl, ax=ax, mode=mode)
             ut.plot_ice_extent(
@@ -33,7 +36,7 @@ def visual(t, crop='al', mode='co', t0=-120000, t1=-0):
 
     # mode co, stream plot extra data
     if mode == 'co':
-        with ut.open_subdataset(filename, t) as ds:
+        with pismx.open.subdataset(filename, time=t, shift=120000) as ds:
             ut.plot_streamlines(ds, ax=ax, density=(24, 16))
 
     # mode er, interpolate erosion rate
