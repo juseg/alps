@@ -22,7 +22,7 @@ mathtext.default        : regular # font to use for math (default it)
 
 ### AXES
 axes.linewidth          : 0.5     # edge linewidth (default 0.8)
-axes.grid               : True    # display grid or not (default False)
+axes.grid               : False   # display grid or not (default False)
 axes.titlesize          : medium  # fontsize of the axes title (default large)
 axes.titlepad           : 4.0     # space between axes and title (default 6.0)
 axes.labelsize          : medium  # fontsize of x and y labels (default medium)
@@ -31,6 +31,12 @@ axes.formatter.limits   : -4, 4   # sci. not. outside range (default -7, 7)
 axes.formatter.use_mathtext : True    # mathtext for sci. not. (default False)
 axes.formatter.useoffset    : False   # tick relative to an offset (def. True)
 axes.prop_cycle: cycler('color', ['1f78b4','33a02c','e31a1c','ff7f00','6a3d9a','b15928'])
+
+### TICKS
+xtick.major.width       : 0.5     # major tick width in points (default 0.8)
+xtick.minor.width       : 0.5     # major tick width in points (default 0.6)
+ytick.major.width       : 0.5     # major tick width in points (default 0.8)
+ytick.minor.width       : 0.5     # major tick width in points (default 0.6)
 
 ### GRIDS
 grid.color              : 0.75    # grid color (default b0b0b0)
