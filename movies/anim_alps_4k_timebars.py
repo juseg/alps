@@ -7,6 +7,7 @@ import os
 import yaml
 import multiprocessing as mp
 import matplotlib.pyplot as plt
+import absplots as apl
 import pismx.open
 import utils as ut
 
@@ -83,10 +84,8 @@ def timebar(t, crop='co', mode='co', lang='en', t0=-120000, t1=0):
     colors = '0.25', dict(co='C1', er='C11', ul='C3')[mode]
 
     # initialize figure
-    # FIXME use absplots
-    figw, figh = 192.0, 20.0
-    fig = plt.figure(figsize=(figw/25.4, figh/25.4))
-    tsax = fig.add_axes([12.0/figw, 3.0/figh, 1-26.0/figw, 12.0/figh])
+    fig, tsax = apl.subplots_mm(figsize=(192, 20), gridspec_kw=dict(
+        left=15, right=15, bottom=3, top=6))
     twax = tsax.twinx()
 
     # import language-dependent labels
