@@ -91,41 +91,6 @@ def draw_lgm_faded(time, alpha=0.75, **kwargs):
         draw_lgm_outline(alpha=alpha*fade, **kwargs)
 
 
-def draw_major_cities(ax=None, exclude=None, include=None, maxrank=5,
-                      offset=2, lang='en'):
-    """Add major city locations with names."""
-    ax = ax or plt.gca()
-
-    # get axes extent
-    west, east, south, north = ax.get_extent()
-
-    # open shapefile data
-    shp = cshp.Reader(cshp.natural_earth(
-        resolution='10m', category='cultural', name='populated_places'))
-
-    # loop on records
-    for rec in shp.records():
-        name = rec.attributes['name_'+lang]
-        rank = rec.attributes['SCALERANK']
-
-        # check rank and name
-        if rank > maxrank and name not in include or name in exclude:
-            continue
-
-        # check location
-        geom = rec.geometry
-        crs = ccrs.PlateCarree()
-        x, y = ax.projection.transform_point(geom.x, geom.y, src_crs=crs)
-        if west > x or x > east or south > y or y > north:
-            continue
-
-        # plot
-        ax.plot(x, y, marker='o', color='0.25', ms=2)
-        ax.annotate(name, xy=(x, y), xytext=(offset, offset), color='0.25',
-                    textcoords='offset points', ha='left', va='bottom',
-                    clip_on=True)
-
-
 def draw_natural_earth(ax=None, mode='gs', **kwargs):
     """Add Natural Earth geographic data vectors."""
     ax = ax or plt.gca()
@@ -236,9 +201,10 @@ def figure_city(time, crop='al', lang='en', start=-120e3, end=0e3):
         crop, time, start=start, end=end, figsize=(192, 108))
 
     # draw map elements
-    # FIXME move cities to cartowik?
-    draw_major_cities(ax=ax, exclude='Monaco', include='Sion', lang=lang,
-                      maxrank=(8 if crop in ('lu', 'ma') else 6))
+    cne.add_cities(
+        ax=ax, lang=lang, color='0.25', marker='o', #s=6,
+        exclude=['Monaco'], include=['Sion'],
+        ranks=range(9 if crop in ('lu', 'ma') else 7))
 
     # return figure
     return fig
