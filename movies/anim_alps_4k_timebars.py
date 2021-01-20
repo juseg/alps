@@ -3,15 +3,16 @@
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
-import os
-import yaml
+"""Plot Alps 4k animations time bar overlays."""
+
+import os.path
+import argparse
 import multiprocessing as mp
+import yaml
 import matplotlib.pyplot as plt
 import absplots as apl
 import pismx.open
 import utils as ut
-
-"""Plot Alps 4k animations time bar overlays."""
 
 
 def format_axes(ax, var, color='0.25', label=''):
@@ -57,8 +58,8 @@ def plot_cursor(ax, time, label, color='0.25', sep=r'$\,$'):
     ax.set_xticklabels(labels)
     ax.tick_params(axis='x', colors=color)
     ax.xaxis.tick_top()
-    for label in ax.xaxis.get_ticklabels():
-        label.set_verticalalignment('baseline')
+    for lab in ax.xaxis.get_ticklabels():
+        lab.set_verticalalignment('baseline')
 
 
 def plot_tagline(ax, data, time, text='  {: .0f}', **kwargs):
@@ -76,7 +77,7 @@ def plot_rolling(ax, data, time, text='  {: .0f}', **kwargs):
     plot_tagline(ax, roll, time, text=text, **kwargs)
 
 
-def timebar(t, crop='co', mode='co', lang='en', t0=-120000, t1=0):
+def timebar(time, crop='co', mode='co', lang='en', start=-120000, end=0):
     """Plot time bar overlay for given time."""
 
     # mode-dependent properties
@@ -89,8 +90,9 @@ def timebar(t, crop='co', mode='co', lang='en', t0=-120000, t1=0):
     twax = tsax.twinx()
 
     # import language-dependent labels
-    with open('anim_alps_4k_{}_{}_{}.yaml'.format(crop, mode, lang)) as f:
-        labels = yaml.safe_load(f)['Labels']
+    with open('anim_alps_4k_{}_{}_{}.yaml'.format(crop, mode, lang)
+              ) as metafile:
+        labels = yaml.safe_load(metafile)['Labels']
 
     # for each axes
     for i, ax in enumerate([tsax, twax]):
@@ -101,18 +103,18 @@ def timebar(t, crop='co', mode='co', lang='en', t0=-120000, t1=0):
         # plot corresponding variable
         data = open_variable(variables[i])
         if var == 'er':
-            plot_rolling(ax, data, t, text='  {: .1f}', color=color)
+            plot_rolling(ax, data, time, text='  {: .1f}', color=color)
         else:
-            plot_tagline(ax, data, t, color=color)
+            plot_tagline(ax, data, time, color=color)
 
         # set axes properties
         format_axes(ax, var, color=color, label=label)
-        for k, v in ax.spines.items():
-            v.set_color(color if k == ['left', 'right'][i] else 'none')
+        for key, spine in ax.spines.items():
+            spine.set_color(color if key == ['left', 'right'][i] else 'none')
 
     # add moving cursor and adaptive ticks
-    tsax.set_xlim(-t0, -t1)
-    plot_cursor(tsax, t, labels[0], sep=(',' if lang == 'ja' else r'$\,$'))
+    tsax.set_xlim(-start, -end)
+    plot_cursor(tsax, time, labels[0], sep=(',' if lang == 'ja' else r'$\,$'))
 
     # return figure
     return fig
@@ -120,8 +122,6 @@ def timebar(t, crop='co', mode='co', lang='en', t0=-120000, t1=0):
 
 def main():
     """Main program for command-line execution."""
-
-    import argparse
 
     # parse arguments
     parser = argparse.ArgumentParser(description=__doc__)
@@ -138,18 +138,18 @@ def main():
 
     # start and end of animation
     if args.crop in ('lu', 'ma'):
-        t0, t1, dt = -45000, -15000, 10
+        start, end, step = -45000, -15000, 10
     else:
-        t0, t1, dt = -120000, -0, 40000
+        start, end, step = -120000, -0, 40000
 
     # output frames directory
     outdir = os.path.join(os.environ['HOME'], 'anim',
                           'anim_alps_4k_tbar_{}_{}_{:.0f}{:.0f}'.format(
-        args.mode, args.lang, -t0/1e3, -t1/1e3))
+        args.mode, args.lang, -start/1e3, -end/1e3))
 
     # iterable arguments to save animation frames
-    iter_args = [(timebar, outdir, t, args.crop, args.mode, args.lang, t0, t1)
-                 for t in range(t0+dt, t1+1, dt)]
+    iter_args = [(timebar, outdir, t, args.crop, args.mode, args.lang, start,
+                  end) for t in range(start+step, end+1, step)]
 
     # create frames directory if missing
     if not os.path.isdir(outdir):
