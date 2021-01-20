@@ -1,4 +1,7 @@
----  # English animation metadata
+---  # Alps erosion English animation metadata
+# Copyright (c) 2019-2021, Julien Seguinot (juseg.github.io)
+# Creative Commons Attribution-ShareAlike 4.0 International License
+# (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
 Title: |-  # |- means formatted text
    Alpine glaciers erosion potential
@@ -26,7 +29,7 @@ Abstract:
 Labels:
    - "{:,d} years ago"
    - "ice volume\n(cm sea level\nequivalent)"
-   - "erosion rate\n($km^3\\,a^{-1}$)"
+   - "erosion rate\n($10^6\\,m^3\\,a^{-1}$)"
 
 References:
    Software:

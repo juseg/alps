@@ -34,9 +34,9 @@ def open_variable(var):
         er='../data/processed/alpero.1km.epic.pp.agg.nc',
         sl='../data/processed/alpcyc.1km.epic.pp.ts.10a.nc',
         ul='../data/processed/alpero.1km.epic.pp.agg.nc')[var]
-    varname = dict(dt='delta_T', er='erosion_rate', sl='slvol',
+    varname = dict(dt='delta_T', er='kop2015_rate', sl='slvol',
                    ul='volumic_lift')[var]
-    multiplier = dict(dt=1.0, sl=100.0, er=1e-9, ul=1e-12)[var]
+    multiplier = dict(dt=1.0, sl=100.0, er=1e-6, ul=1e-12)[var]
     with pismx.open.dataset(filename) as ds:
         return ds[varname]*multiplier
 
