@@ -6,18 +6,9 @@
 """Alps animation tools."""
 
 import os
-import re
-import numpy as np
-from scipy import ndimage
-import pandas as pd
-import xarray as xr
 import matplotlib.pyplot as plt
-import matplotlib.colors as mcolors
 import cartopy.crs as ccrs
 import cartopy.io.shapereader as cshp
-import cartowik.conventions as ccv
-import cartowik.naturalearth as cne
-import cartowik.shadedrelief as csr
 
 
 # Map elements
@@ -63,19 +54,6 @@ def draw_major_cities(ax=None, exclude=None, include=None, maxrank=5,
         ax.plot(x, y, marker='o', color='0.25', ms=2)
         ax.annotate(name, xy=(x, y), xytext=(dx, dy), color='0.25',
                     textcoords='offset points', ha=ha, va=va, clip_on=True)
-
-
-# Data input methods
-# ------------------
-
-def open_dataset(filename):  # FIXME replace with pismx.open.dataset
-    """Open single-file dataset with age coordinate."""
-    ds = xr.open_dataset(filename, decode_cf=False)
-    if 'time' in ds.coords and 'seconds' in ds.time.units:
-        ds = ds.assign_coords(time=ds.time/(365*24*60*60))
-    if 'time' in ds.coords:
-        ds = ds.assign_coords(age=-ds.time)
-    return ds
 
 
 # Figure saving

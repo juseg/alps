@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright (c) 2018-2019, Julien Seguinot (juseg.github.io)
+# Copyright (c) 2018-2021, Julien Seguinot (juseg.github.io)
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
@@ -7,6 +7,7 @@ import os
 import yaml
 import multiprocessing as mp
 import matplotlib.pyplot as plt
+import pismx.open
 import utils as ut
 
 """Plot Alps 4k animations time bar overlays."""
@@ -16,7 +17,7 @@ def format_axes(ax, var, color='0.25', label=''):
     """Format axes for given variable."""
 
     # get axes properties
-    ticks = dict(dt=[-15, 0], sl=[0, 30], er=[0, 1.5], ul=[-30, 0])[var]
+    ticks = dict(dt=[-15, 0], sl=[0, 30], er=[0, 6], ul=[-30, 0])[var]
     ylims = ticks[0]-(ticks[1]-ticks[0])/6, ticks[1]+(ticks[1]-ticks[0])/6
 
     # set axes properties
@@ -36,7 +37,7 @@ def open_variable(var):
     varname = dict(dt='delta_T', er='erosion_rate', sl='slvol',
                    ul='volumic_lift')[var]
     multiplier = dict(dt=1.0, sl=100.0, er=1e-9, ul=1e-12)[var]
-    with ut.open_dataset(filename) as ds:
+    with pismx.open.dataset(filename) as ds:
         return ds[varname]*multiplier
 
 
@@ -59,15 +60,15 @@ def plot_cursor(ax, time, label, color='0.25', sep=r'$\,$'):
 
 def plot_tagline(ax, data, time, text='  {: .0f}', **kwargs):
     """Plot progress line with moving text time tag."""
-    data = data[data.time <= time]
-    ax.plot(data.age, data, **kwargs)
+    data = data[data.age >= -time/1e3]
+    ax.plot(data.age*1e3, data, **kwargs)
     ax.text(-time, data[-1], '  '+text.format(float(data[-1])),
             ha='left', va='center', clip_on=True, **kwargs)
 
 
 def plot_rolling(ax, data, time, text='  {: .0f}', **kwargs):
     """Plot progress line with rolling mean and time tag."""
-    roll = data.rolling(time=100, center=True).mean()
+    roll = data.rolling(age=100, center=True).mean()
     plot_tagline(ax, data, time, text='', alpha=0.5, **kwargs)
     plot_tagline(ax, roll, time, text=text, **kwargs)
 
