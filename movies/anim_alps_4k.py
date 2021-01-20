@@ -92,20 +92,12 @@ def draw_lgm_faded(time, alpha=0.75, **kwargs):
 
 
 def draw_major_cities(ax=None, exclude=None, include=None, maxrank=5,
-                      textoffset=2, lang='en'):
+                      offset=2, lang='en'):
     """Add major city locations with names."""
     ax = ax or plt.gca()
 
     # get axes extent
     west, east, south, north = ax.get_extent()
-
-    # relative label positions
-    xloc = 'r'  # ('l' if xc < center[0] else 'r')
-    yloc = 'u'  # ('l' if yc < center[1] else 'u')
-    dx = {'c': 0, 'l': -1, 'r': 1}[xloc]*textoffset
-    dy = {'c': 0, 'l': -1, 'u': 1}[yloc]*textoffset
-    ha = {'c': 'center', 'l': 'right', 'r': 'left'}[xloc]
-    va = {'c': 'center', 'l': 'top', 'u': 'bottom'}[yloc]
 
     # open shapefile data
     shp = cshp.Reader(cshp.natural_earth(
@@ -129,8 +121,9 @@ def draw_major_cities(ax=None, exclude=None, include=None, maxrank=5,
 
         # plot
         ax.plot(x, y, marker='o', color='0.25', ms=2)
-        ax.annotate(name, xy=(x, y), xytext=(dx, dy), color='0.25',
-                    textcoords='offset points', ha=ha, va=va, clip_on=True)
+        ax.annotate(name, xy=(x, y), xytext=(offset, offset), color='0.25',
+                    textcoords='offset points', ha='left', va='bottom',
+                    clip_on=True)
 
 
 def draw_natural_earth(ax=None, mode='gs', **kwargs):
@@ -458,19 +451,18 @@ def figure_tbar(time, crop='co', mode='co', lang='en', start=-120000, end=0):
     return fig
 
 
-def figure_ttag(t, lang='en'):
+def figure_ttag(time, lang='en'):
     """Plot time tag layer."""
 
     # initialize figure
-    figw, figh = 32.0, 6.0
-    fig = plt.figure(figsize=(figw/25.4, figh/25.4))
+    fig = apl.figure_mm(figsize=(32, 6))
 
     # import language-dependent label
-    with open('anim_alps_4k_zo_co_{}.yaml'.format(lang)) as f:
-        tag = yaml.safe_load(f)['Labels'][0].format(0-t)
+    with open('anim_alps_4k_zo_co_{}.yaml'.format(lang)) as metafile:
+        tag = yaml.safe_load(metafile)['Labels'][0].format(0-time)
     if lang != 'ja':
         tag = tag.replace(',', r'$\,$')
-    fig.text(2.5/figw, 1-2.5/figh, tag, ha='left', va='top', fontweight='bold')
+    fig.text(2.5/32, 1-2.5/6, tag, ha='left', va='top', fontweight='bold')
 
     # return figure
     return fig
@@ -479,7 +471,7 @@ def figure_ttag(t, lang='en'):
 # Figure saving
 # -------------
 
-def save_animation_frame(func, outdir, t, *args, **kwargs):
+def save_animation_frame(func, outdir, time, *args, **kwargs):
     """Save figure produced by func as animation frame if missing."""
 
     # create output directory if missing
@@ -487,12 +479,12 @@ def save_animation_frame(func, outdir, t, *args, **kwargs):
         os.mkdir(outdir)
 
     # check if file exists
-    fname = os.path.join(outdir, '{:06d}.png').format(t+120000)
+    fname = os.path.join(outdir, '{:06d}.png').format(time+120000)
     if not os.path.isfile(fname):
 
         # assemble figure and save
         print('plotting {:s} ...'.format(fname))
-        fig = func(t, *args, **kwargs)
+        fig = func(time, *args, **kwargs)
         fig.savefig(fname, transparent=True, dpi='figure')
         plt.close(fig)
 
