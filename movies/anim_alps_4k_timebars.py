@@ -46,9 +46,11 @@ def plot_cursor(ax, time, label, color='0.25', sep=r'$\,$'):
     start, end = ax.get_xlim()
     ticks = [start, -time, end]
     labels = [r'{:,.0f}', label, '{:,.0f}']
-    labels = [l.format(t).replace(',', sep) for l, t in zip(labels, ticks)]
+    labels = [lab.format(t).replace(',', sep) for lab, t in zip(labels, ticks)]
     relpos = float((start+time)/(start-end))
-    labels = [labels[0]*(relpos>=1/12), labels[1], labels[-1]*(relpos<=11/12)]
+    labels = [labels[0]*(relpos >= 1/12),
+              labels[1],
+              labels[-1]*(relpos <= 11/12)]
     ax.axvline(-time, c='0.25', lw=0.5)
     ax.set_xticks(ticks)
     ax.set_xticklabels(labels)
@@ -139,12 +141,12 @@ def main():
     if args.crop in ('lu', 'ma'):
         t0, t1, dt = -45000, -15000, 10
     else:
-        t0, t1, dt = -120000, -0, 40
+        t0, t1, dt = -120000, -0, 40000
 
     # output frames directory
-    outdir = os.path.join(
-        os.environ['HOME'], 'anim', 'anim_alps_4k_tbar_{}_{}_{:.0f}{:.0f}'.format(
-            args.mode, args.lang, -t0/1e3, -t1/1e3))
+    outdir = os.path.join(os.environ['HOME'], 'anim',
+                          'anim_alps_4k_tbar_{}_{}_{:.0f}{:.0f}'.format(
+        args.mode, args.lang, -t0/1e3, -t1/1e3))
 
     # iterable arguments to save animation frames
     iter_args = [(timebar, outdir, t, args.crop, args.mode, args.lang, t0, t1)
@@ -152,7 +154,7 @@ def main():
 
     # create frames directory if missing
     if not os.path.isdir(outdir):
-         os.mkdir(outdir)
+        os.mkdir(outdir)
 
     # plot all frames in parallel
     with mp.Pool(processes=4) as pool:
