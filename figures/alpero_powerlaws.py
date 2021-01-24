@@ -63,8 +63,8 @@ def main():
                 '../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
 
         # for each erosion law
-        for ax, ref, dashes in zip(grid, ['coo2020', 'her2015', 'kop2015'],
-                                   [(2, 1), (), (1, 2)]):
+        for ax, ref, dashes in zip(grid, ['kop2015', 'her2015', 'coo2020'],
+                                   [(), (2, 1), (1, 2)]):
 
             # plot cumulative erosion
             authors = ds[ref+'_cumu'].long_name.split(')')[0] + ')'
