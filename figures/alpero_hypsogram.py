@@ -52,13 +52,13 @@ def main():
     with pismx.open.dataset('../data/processed/alpcyc.1km.in.nc') as ds:
 
         # plot boot hypsometry
-        bins = np.arange(0, 4501, 100)
+        bins = np.arange(0, 4501, 10)
         hist, _ = np.histogram(ds.topg.where(ds.topg > 0), bins=bins)
         vals = np.append(hist, hist[-1])  # needed to fill the last bin
         hax.fill_betweenx(bins, 0*vals, vals, color='0.25', step='post')
         hax.grid(False)
         hax.set_frame_on(False)
-        hax.set_xlim(0, 60000)
+        hax.set_xlim(0, 6000)
         hax.set_xticks([])
         hax.tick_params(labelleft=False)
 
