@@ -152,7 +152,8 @@
     corrections from the European Project for Ice Coring in Antarctica
     \citep[EPICA;][] {Jouzel.etal.2007}, and in some cases, time-dependent
     palaeo-precipitation reductions. Lower-resolution, alternative climate
-    scenarios are analyzed in the discussion part.
+    scenarios are analyzed in the discussion part
+    (Sect.~\ref{sec:sensitivity}).
 
     Physical parametres are listed in the earlier open-access publication
     \citep{Seguinot.etal.2018} and complete PISM set-up is stored in long-term
@@ -164,19 +165,24 @@
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
     Modelled erosion rates, $\dot{e}$, are calculated from the modelled basal
-    velocities, $u_\mathrm{b}$, using a near-quadratic empirical erosion law,
+    velocities, $u_\mathrm{b}$, using a empirical erosion power-law,
     %
     \begin{equation}
         \dot{e} = K_\mathrm{g} u_\mathrm{b}^l ,
     \end{equation}
     %
-    where $K_g = 2.7\times 10^{-7}\,m^{1-l}\,a^{l-1}$ and $l = 2.02$ are
-    empirical constants fitted to measured suspended sediment loads and
-    reconstructed basal velocities of Franz-Joseph Glacier
-    \citep{Herman.etal.2015}. It is important to note that there are both large
-    uncertainties around these numbers concerning Franz-Joseph Glacier
-    itself \todo{quantify}, and little insurance that this erosion law applies
-    elsewhere.
+    where $K_g = 5.2\times 10^{-11}\,m^{1-l}\,a^{l-1}$ and $l = 2.34$ are
+    empirical constants calibrated on quantified sediment yields and velocities
+    from 15~Patagonian and Antarctic Peninsula tidewater glaciers
+    \citep{Koppes.etal.2015}. It is important to note that there are both large
+    uncertainties surrounding these numbers on the aforementioned glaciers
+    \todo{quantify}, and little insurance that this erosion law applies
+    elsewhere. Alternative erosion laws are analyzed in the discussion part
+    (Sect.~\ref{sec:uncertainty}).
+
+    \note{I initially built the paper around the erosion law by
+          \citep{Herman.etal.2015}, that yielded similar erosion patterns but
+          up to several km of cumulative erosion in the valleys.}
 
     Unlike landscape evolution model studies \aref, this study does not account
     for the feedback of glacier erosion onto bedrock topography and ice dynamics.
@@ -206,11 +212,11 @@
 
     The modelled cumulative (time-integrated) glacial erosion potential
     (Fig.~\ref{fig:cumulative}a) varies by several orders of magnitude
-    from insignificant to (unrealistic, see below) kilometre-scale erosion
-    potential. Its spatial patterns of modelled erosion potential show a very
-    strong localization along the Alpine valleys, with local maxima at
+    from insignificant to hundred-metres scale erosion
+    potential. Its spatial patterns show a very
+    strong localization along the Alpine valleys, with local maxima occuring both at
     the Alpine gates where ice flow transited from valley to piedmont glaciers,
-    and sometimes further up-valley.
+    and further up-valley where valley slopes increase.
     There is a genereral tendency for higher cumulative erosion in the
     north-western Alps where the input winter precipitation
     \citep[WorldClim,][Fig.~1h]{Seguinot.etal.2018} is higher and the
@@ -223,7 +229,7 @@
     The modelled volumic (domain-integrated) glacial erosion rates
     (Fig.~\ref{fig:cumulative}b) do not correlate with the modelled total ice
     volume. A comparison between the modelled ice volume and the modelled
-    volumic erosion rate show no relation between these two quantities, except
+    volumic erosion rate shows no single relation between these two quantities, except
     for the onset and termination of the glacial cycle were ice volume is low
     and sliding processes unlikely to be captured by the model resolution.
     Instead, erosion is modelled to be higher by a factor 3 to 10 during
@@ -253,12 +259,6 @@
     modelled erosion rates and a shift of significant erosion rates to
     higher-elevation areas (Fig.~\ref{fig:hypsogram}).
 
-    \note{I suddenly realize it may be better to highlight results from the
-          Koppes et al. erosion law for tidewater glaciers instead, and maybe
-          pull the sensitivity study up before the main results. To dedice
-          about this I will need to get back to the Koppes and Cook paper to
-          really understand what these laws are about.}
-
 
 % ----------------------------------------------------------------------
 \section{Discussion}
@@ -279,6 +279,7 @@
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 \subsection{Sensitivity to climate}
+\label{sec:sensitivity}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
     The modelled erosion potential depends significantly on the choice of
@@ -291,6 +292,7 @@
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 \subsection{Erosion uncertainties}
+\label{sec:uncertainty}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
     The cumulative erosion potential modelled by the Franz-Joseph Glacier
