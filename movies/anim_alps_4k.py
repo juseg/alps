@@ -363,8 +363,9 @@ def plot_tagline(ax, data, time, text='  {: .0f}', **kwargs):
     """Plot progress line with moving text time tag."""
     data = data[data.age >= -time/1e3]
     ax.plot(data.age*1e3, data, **kwargs)
-    ax.text(-time, data[-1], '  '+text.format(float(data[-1])),
-            ha='left', va='center', clip_on=True, **kwargs)
+    if data[-1].notnull():  # as happens with rolling means
+        ax.text(-time, data[-1], '  '+text.format(float(data[-1])),
+                ha='left', va='center', clip_on=True, **kwargs)
 
 
 def plot_rolling(ax, data, time, text='  {: .0f}', **kwargs):
@@ -478,7 +479,7 @@ def main():
     if args.crop in ('lu', 'ma'):
         start, end, step = -45000, -15000, 10
     else:
-        start, end, step = -120000, -0, 4000
+        start, end, step = -120000, -0, 40
 
     # plot colorbar separately
     prefix = '/run/media/julien/coldroom/anim/anim_alps_4k'
