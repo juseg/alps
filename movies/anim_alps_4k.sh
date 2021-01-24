@@ -15,7 +15,7 @@ esac
 
 # color bar overlay stream
 case $mode in
-    er | ul ) cbar_args="-i anim_alps_4k_cbar_${mode}_${lang}.png"
+    er | ul ) cbar_args="-i $HOME/anim/anim_alps_4k_cbar_${mode}_${lang}.png"
               cbar_filt="[geog][7]overlay[geog];"
 esac
 
@@ -77,5 +77,5 @@ ffmpeg \
 # accelerate for social media
 ffmpeg \
     -i $HOME/anim/anim_alps_${size}_${crop}_${mode}_${over}_${lang}.mp4 \
-    -s 1920x1080 -vf "trim=5:125,setpts=PTS/30" \
-    $HOME/anim/anim_alps_${size}_${crop}_${mode}_${over}_${lang}_x30.mp4
+    -s 1920x1080 -vf "trim=5:125,setpts=PTS/10" \
+    $HOME/anim/anim_alps_${size}_${crop}_${mode}_${over}_${lang}_x10.mp4

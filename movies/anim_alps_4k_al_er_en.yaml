@@ -8,7 +8,7 @@ Title: |-  # |- means formatted text
    over the last 120000 years
 
 Author:
-   J. Seguinot, 2020
+   J. Seguinot, 2021
 
 Credit: |-
    After: J. Seguinot, S. Ivy-Ochs, G. Jouvet, M. Huss, M. Funk, and F. Preusser.
@@ -29,7 +29,7 @@ Abstract:
 Labels:
    - "{:,d} years ago"
    - "ice volume\n(cm sea level\nequivalent)"
-   - "erosion rate\n($10^6\\,m^3\\,a^{-1}$)"
+   - "volumic\nerosion rate\n($10^6\\,m^3\\,a^{-1}$)"
 
 References:
    Software:
@@ -41,7 +41,7 @@ References:
    Input data:
       - ERA-Interim reanalysis  (Dee et al., 2011)
       - Geothermal heat flux    (Goutorbe et al., 2011)
-      - Glacier erosion law     (Herman et al., 2015)
+      - Glacier erosion law     (Koppes et al., 2015)
       - WorldClim climate data  (Hijmans et al., 2005)
       - Modern ice thickness    (Huss and Farinotti, 2012)
       - SRTM modern topography  (Jarvis et al., 2008)
