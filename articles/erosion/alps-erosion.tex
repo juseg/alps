@@ -269,39 +269,63 @@
 \label{sec:sensitivity}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
+    \note{I feel there is not much to learn from this section. I am thinking
+          about just leaving it out.}
+
     The modelled erosion potential depends significantly on the choice of
-    pleoclimate forcing applied, but the general patterns remain similar.
+    paleoclimate forcing applied, but the general patterns remain similar.
     Higher precipitation yields higher erosion. The results also appear to be
     sensitive to model resolution, primarily in the mountains interior, where
-    discretized slopes depend on the grid size.
-
-    Fig.~\ref{fig:sensitivity} -- Sensitivity to climate.
+    bedrock slopes and sling speed depend more strongly on the grid size
+    (Fig.~\ref{fig:sensitivity}).
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 \subsection{Choice of erosion law}
 \label{sec:powerlaws}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
-    The cumulative erosion potential modelled by the Franz-Joseph Glacier
-    erosion law \citep{Herman.etal.2015} appear overestimated. However, the
-    error bars are large.
+    The choice of erosion law significantly impacts results presented in this
+    study (Fig.~\ref{fig:powerlaws}). The erosion law based on quantified
+    sediment yields from Patagonian and Antarctic Peninsula tidewater glaciers
+    \citet[$\dot{e} = 5.2 \times 10^{-8} u_\mathrm{b}^{2.34}$]{Koppes.etal.2015},
+    our default choice, yields moderate yet strongly localized cumulative erosion
+    potential (Figs~\ref{fig:cululative} and Fig.~\ref{fig:powerlaws}a).
 
-    The erosion law by \citet{Cook.etal.2020} results in similarly high values
-    but a flatter (less localized) pattern of cumulative erosion potential,
-    with lower values in the troughs and more erosion in the mountains. The two
-    erosion laws may appear incompatible, and there would be a lot of reasons
-    for them to be incompatible. But as pointed by \citet{Cook.etal.2020}, they
-    are not necessarily incompatible. The erosion's feedback onto ice dynamics
+    The erosion law based on measured suspended sediment load and composition
+    in the outlet creek of Franz-Joseph Glacier
+    \citep[$\dot{e} = 2.7 \times 10^{-7} u_\mathrm{b}^{2.02}$]{Herman.etal.2015},
+    also yields strongly localized erosion potential but much higher values
+    (Fig.~\ref{fig:powerlaws}b).
+
+    The erosion law based on a global compilation of glacier velocity and erosion
+    rates
+    \citet[$\dot{e} = 1.665 \times 10^{-1} u_\mathrm{b}^{0.6459}$]{Cook.etal.2020},
+    results in similarly high values, but a flatter (less localized) pattern of
+    cumulative erosion potential (Fig.~\ref{fig:powerlaws}ac), with lower
+    values in the troughs and more erosion in the mountains.
+
+    These three erosion laws appear incompatible. Given the scarcity of measured
+    glacier erosion rates, and the variety in glacier systems, climate and
+    geologic setting, this is not a surprise.  But as more extensively
+    discussed by \citet{Cook.etal.2020}, they do not have to be entirely
+    incompatible. The erosion's feedback onto ice dynamics
     may yield to a delocalization of high-velocity flow in the long run.
 
-    The erosion law by \citet{Koppes.etal.2015} yields a similar pattern but
-    lower values. This law is for tidewater glaciers, which flow much faster
-    than mountain glaciers. However, we can imagine that Alpine paleoglaciers
+    Alternative empirical erosion laws by
+    \citet{Herman.etal.2015, Cook.etal.2020} yield glacial cycle cumulative
+    erosion potential several orders of magnitude higher than modelled with the
+    law by \citet{Koppes.etal.2015}, with values in the kilometres or tens of
+    kilometres in places, which is of course well above the existing glacial
+    relief from the Alps resulting from multiple glacial cycles.
+
+    It is surprising that the erosion law by \citet{Koppes.etal.2015},
+    calibrated on tidewater glaciers, yields more realistic erosion rates for
+    the glacial Alps. However, we can imagine that Alpine paleoglaciers
     flowing on a thick sediment bed (and sometimes into proglacial lakes, not
     included), behave closer to tidewater glaciers than the Franz-Josef steep
-    mountain glacier.
-
-    Fig.~\ref{fig:powerlaws} -- Erosion uncertainties
+    mountain glacier. Moreover, the cold climate of the LGM Alps resembled more
+    that of modern Patagonia and Antarctica, than that of Franz-Joseph Glacier
+    or most glaciers in the global compilation by \citet{Cook.etal.2020}.
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 \subsection{Deglaciation rapid erosion}
@@ -456,13 +480,13 @@
       \caption{%
         Modelled cumulative (time-integrated) glacial erosion potential for
         three different erosion laws published by
-        \textbf{(a)} \citet{Cook.etal.2020},
-          $1.665 \times 10^{-1} \textbf{u}_\mathrm{b} ^{0.6459}$,
+        \textbf{(a)} \citet{Koppes.etal.2015},
+          $5.2 \times 10^{-8} u_\mathrm{b} ^{2.34}$ (same as
+          Fig.~\ref{fig:cumulative}a but with a different colour scale),
         \textbf{(b)} \citet{Herman.etal.2015},
-          $2.7 \times 10^{-7} \textbf{u}_\mathrm{b} ^{2.02}$
-          (same as Fig.~\ref{fig:cumulative}a), amd
-        \textbf{(c)} \citet{Koppes.etal.2015},
-          $5.2 \times 10^{-8} \textbf{u}_\mathrm{b} ^{2.34}$.
+          $2.7 \times 10^{-7} u_\mathrm{b} ^{2.02}$, and
+        \textbf{(c)} \citet{Cook.etal.2020},
+          $1.665 \times 10^{-1} u_\mathrm{b} ^{0.6459}$.
         \textbf{(d)} Corresponding erosion power laws, and
         \textbf{(e)} modelled cumulative (time-integrated) glacial erosion
           potential along a Rhine Glacier transect (upper panels dashed line).}
