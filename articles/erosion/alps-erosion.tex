@@ -143,30 +143,32 @@
 \subsection{Ice sheet modelling}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
-    The ice-sheet model set-up was presented, and the results discussed, in an
-    earlier publication \citep{Seguinot.etal.2018}. The simulations use the
-    Parallel Ice Sheet Model (PISM, development version~e9d2d1f), an open
-    source, finite difference, shallow ice sheet model
+    The ice-sheet model set-up was presented in an earlier publication
+    \citep{Seguinot.etal.2018} and is briefly summarized here. The simulations
+    were conducted using the Parallel Ice Sheet Model (PISM, development
+    version~e9d2d1f), an open-source, finite-difference, shallow-ice and
+    shallow-shelf model
     \citep{PISM-authors.2017}. The model includes temperature and water-content
     dependent creep, pseudo-plastic basal sliding accounting for till
     dilatation under high water pressure, bedrock deformation under the ice
     load, and a~positive degree-day (PDD) surface mass balance model. The model
     is initialized with assumed present-day ice thickness and equilibrium
     ice and bedrock temperature at 120\,ka, and ran to the present.
+    The ice-sheet model physical parameters are listed in the earlier
+    open-access publication \citep{Seguinot.etal.2018}, and the complete PISM
+    set-up is stored in long-term archived model output metadata for the
+    present study \todo{upload}, and for the earlier publication
+    \citep{Seguinot.2020, Seguinot.2020a}.
+
     Climate forcing is provided by a~monthly climatology from interpolated
     observational data \citep[WorldClim;][]{Hijmans.etal.2005} and the European
     Centre for Medium-Range Weather Forecasts Reanalysis Interim
     \citep[ERA-Interim;][]{Dee.etal.2011}, amended with temperature lapse-rate
     corrections from the European Project for Ice Coring in Antarctica
-    \citep[EPICA;][] {Jouzel.etal.2007}, and in some cases, time-dependent
-    palaeo-precipitation reductions. Lower-resolution, alternative climate
-    scenarios are analyzed in the discussion part
-    (Sect.~\ref{sec:sensitivity}).
-
-    Physical parametres are listed in the earlier open-access publication
-    \citep{Seguinot.etal.2018} and complete PISM set-up is stored in long-term
-    archived model output metadata for this \todo{DOI}, and for the earlier
-    \todo{DOIs} publications.
+    \citep[EPICA;][] {Jouzel.etal.2007}, and time-dependent paleo-precipitation
+    reductions \citep{Huybrechts.2002}. Lower-resolution runs based on
+    alternative paleoclimate scenarios \citep{Seguinot.etal.2018} are analyzed
+    in the discussion part (Sect.~\ref{sec:sensitivity}).
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 \subsection{Erosion law}
@@ -180,34 +182,26 @@
     \end{equation}
     %
     where $K_g = 5.2\times 10^{-11}\,m^{1-l}\,a^{l-1}$ and $l = 2.34$ are
-    empirical constants calibrated on quantified sediment yields and velocities
-    from 15~Patagonian and Antarctic Peninsula tidewater glaciers
-    \citep{Koppes.etal.2015}. It is important to note that there are both large
-    uncertainties surrounding these numbers on the aforementioned glaciers
-    \todo{quantify}, and little insurance that this erosion law applies
-    elsewhere. Alternative erosion laws are analyzed in the discussion part
-    (Sect.~\ref{sec:powerlaws}).
+    empirical constants calibrated on quantified fjord sediment yields and
+    velocities from 15~Patagonian and Antarctic Peninsula tidewater glaciers
+    \citep{Koppes.etal.2015}. Alternative erosion laws are analyzed in the
+    discussion part (Sect.~\ref{sec:powerlaws}).
 
-    \note{I initially built the paper around the erosion law by
-          \citep{Herman.etal.2015}, that yielded similar erosion patterns but
-          up to several km of cumulative erosion in the valleys.}
-
-    Unlike landscape evolution model studies \aref, this study does not account
-    for the feedback of glacier erosion onto bedrock topography and ice dynamics.
-    Neither are other forms of erosion accounted for. Instead, the
-    time-integrated erosion rate,
+    Our approach does not account for the feedback of glacier erosion onto
+    bedrock topography and ice dynamics. Neither are other forms of erosion
+    accounted for. Instead, we compute the time-integrated erosion rate,
     %
     \begin{equation}
         e =  K_\mathrm{g} \int u_\mathrm{b}^l dt,
     \end{equation}
     %
-    is later referred to as the cumulative ``erosion potential''. This erosion
-    potential is numerically approximated using a time-step of 10\,a in the
+    and refer to it as the cumulative ``erosion potential''. The integration
+    is numerically approximated using a time-step of 10\,a in the
     main simulation, and 100\,a in the alternative climate scenarios runs. It
-    can already be noticed from the above formula, that with an exponent, $l$,
+    can be noted from the above formula, that with an exponent, $l$,
     higher than one, the cumulative erosion potential has a greater dependency
-    on the basal ice dynamics, $u_\mathrm{b}$, than the timing of glacier
-    cover, $dt$.
+    on the basal ice dynamics, $u_\mathrm{b}$, than the duration of glacier
+    cover.
 
 
 % ----------------------------------------------------------------------
