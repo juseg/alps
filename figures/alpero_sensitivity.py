@@ -29,7 +29,7 @@ def main():
 
         # prepare axes and add labels
         util.fig.prepare_map_axes(ax)
-        util.fig.add_subfig_label('(%s) ' % 'acebdf'[i], ax=ax)
+        util.fig.add_subfig_label('(%s) ' % 'adbecf'[i], ax=ax)
         util.com.add_corner_tag(label, ax=ax, va='bottom', y=(i == 5)*1/3)
 
         # load aggregated data
