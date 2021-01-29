@@ -1,0 +1,7 @@
+print.align         14
+print.align.string  18
+print.align.key     0
+print.indent        2
+print.line.length   79
+print.use.tab       off
+preserve.key.case   on
