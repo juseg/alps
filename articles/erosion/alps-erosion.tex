@@ -1,12 +1,13 @@
 \documentclass[utf8]{article}
 
-%\usepackage{doi}
+\usepackage{doi}
 \usepackage{authblk}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[pdftex]{xcolor}
 \usepackage[pdftex]{graphicx}
 \usepackage[authoryear,round]{natbib}
+%\usepackage{CJK}  % texlive-langjapanese
 
 % review mode
 \usepackage{geometry}
@@ -88,7 +89,9 @@
     describe an Alpine-like, glacially modified mountain landscape outside the
     Alps, while the proper noun ``Alps'' has been applied to nick-name
     Alpine-like, glacier eroded mountain ranges in Norway (\emph{Lyngsalpene}),
-    New Zealand (Southern Alps), Japan (\emph{Nihon Arupusu}), and elsewhere.
+    New Zealand (Southern Alps), Japan
+    (\emph{%\begin{CJK}{UTF8}{min}日本アルプス\end{CJK},
+    Nihon Arupusu}), and elsewhere.
 
     Some mountain ranges are predominantly characterised by cirque glaciation
     (e.g. Uinta Mountains), glacial valleys (e.g. Putorana Plateau), or
@@ -96,15 +99,15 @@
     the Alps, present a higher variety glacial erosional landforms
     (Fig.~\ref{fig:landscape}), whose implications on glacial history is yet to
     be understood.
-
     In absence of other glacial landforms, the degree of glacial modification
     of a landscape has sometimes been used as a proxy for the duration of past
-    glacier cover, as for instance in geomorphological mapping \aref. However,
-    cold-based glaciers have been shown to preserve landforms as fragile as
-    sand beaches \aref. Yet it remains unclear how sharp the erosional
+    glacier cover, as for instance in geomorphological mapping
+    \citep[e.g.][]{Margold.etal.2011, Fu.etal.2012}. Cold-based glaciers have
+    been shown to preserve landforms as fragile as sand beaches
+    \citep{Kleman.1994}. Yet it remains unclear how sharp the erosional
     transition to cold-based ice is, and why some glaciated regions show
     glacially preserved landscapes and others, including the Alps, do not
-    \aref.
+    \citep{Wirsig.etal.2016, Seguinot.etal.2018}.
 
     While it has long been understood that glaciers leave a specific erosional
     imprint on the landscape, observing and quantifying the long-term erosion
@@ -463,7 +466,7 @@
         Alpine glacial erosion landscape diversity.
         \textbf{(a)} Piedmont overdeepening of Lake Constance, ca.~10x50\,km.
         \textbf{(b)} Glacial trough of Lauterbrunnental, ca.~1x10\,km.
-        \textbf{(c)} Mountain cirque of Chüebodengletscher, ca.~1x1\,km.}
+        \textbf{(c)} Mountain cirque of Ch\"uebodengletscher, ca.~1x1\,km.}
       \label{fig:landscape}
     \end{figure*}
 
