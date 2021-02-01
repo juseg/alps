@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright (c) 2019, Julien Seguinot (juseg.github.io)
+# Copyright (c) 2019-2021, Julien Seguinot (juseg.github.io)
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
@@ -42,21 +42,21 @@ def postprocess_extra(run_path):
 
     # output file and subtitle
     _, res, rec, *other = os.path.basename(run_path).split('.')
-    boot_file = (os.environ['HOME'] + '/pism/input/boot/' +
-                 'alps.srtm.hus12.gou11simi.{}.nc'.format(res))
     out_file = 'processed/alpero.{}.{}.{}.agg.nc'.format(
         res, rec[:4], 'pp' if 'pp' in other else 'cp')
-    subtitle = '{} {} simulation {} precipitation reductions'.format(
-        res, rec.upper(), 'with' if 'pp' in other else 'without')
 
     # load output data (in the future combine='by_coords' will be the default)
     print("postprocessing " + out_file + "...")
-    boot = pismx.open.dataset(boot_file)
+    boot = pismx.open.dataset(
+        '~/pism/input/boot/'+'alps.srtm.hus12.gou11simi.{}.nc'.format(res))
     ex = pismx.open.mfdataset(run_path+'/ex.???????.nc')
 
     # init postprocessed dataset with global attributes
     pp = xr.Dataset(attrs=ex.attrs, coords=dict(lon=ex.lon, lat=ex.lat))
-    pp.attrs.update(subtitle=subtitle, **GLOB_ATTRS)
+    pp.attrs.update(
+        subtitle='{} {} simulation {} precipitation reductions'.format(
+            res, rec.upper(), 'with' if 'pp' in other else 'without'),
+        **GLOB_ATTRS)
     pp.attrs.update(history=pp.command+pp.history)
 
     # register intermediate variables (I assumed the K_g numbers given in
@@ -68,10 +68,15 @@ def postprocess_extra(run_path):
     ex['icy'] = (ex.thk >= 1.0)
     ex['bedlift'] = ex.topg - boot.topg.where(boot.topg > 0, 0)
     ex['sliding'] = ex.velbase_mag.where(ex.icy)
-    ex['coo2020'] = 1.665e-4*ex.sliding**0.6459  # (m/a, Cook et al., 2020)
-    ex['her2015'] = 2.7e-7*ex.sliding**2.02  # (m/a, Herman et al., 2015)
-    ex['kop2015'] = 5.2e-11*ex.sliding**2.34  # (m/a, Koppes et al., 2015)
     ex['warmbed'] = ex.icy*(ex.temppabase >= -1e-3)
+    ex['coo2020'] = (1.665e-4*ex.sliding**0.6459).assign_attrs(
+        ref='Cook et al. (2020)', units='m a-1')
+    ex['her2015'] = (2.7e-7*ex.sliding**2.02).assign_attrs(
+        ref='Herman et al. (2015)', units='m a-1')
+    ex['hum1994'] = (1e-4*ex.sliding).assign_attrs(
+        ref='Humphrey and Raymond (1994)', units='m a-1')
+    ex['kop2015'] = (5.2e-11*ex.sliding**2.34).assign_attrs(
+        ref='Koppes et al. (2015)', units='m a-1')
 
     # compute grid size
     dt = ex.age[0] - ex.age[1]
@@ -91,15 +96,6 @@ def postprocess_extra(run_path):
     # pp.drop('time')
 
     # compute glacial cycle integrated variables
-    pp['coo2020_cumu'] = (dt*ex.coo2020.sum(axis=0, min_count=1)).assign_attrs(
-        long_name='Cook et al. (2020) cumulative glacial erosion potential',
-        units='m')
-    pp['her2015_cumu'] = (dt*ex.her2015.sum(axis=0, min_count=1)).assign_attrs(
-        long_name='Herman et al. (2015) cumulative glacial erosion potential',
-        units='m')
-    pp['kop2015_cumu'] = (dt*ex.kop2015.sum(axis=0, min_count=1)).assign_attrs(
-        long_name='Koppes et al. (2015) cumulative glacial erosion potential',
-        units='m')
     pp['cumu_sliding'] = (dt*ex.sliding.sum(axis=0, min_count=1)).assign_attrs(
         long_name='cumulative basal motion', units='m')
     pp['glacier_time'] = (dt*ex.icy.sum(axis=0)).assign_attrs(
@@ -108,15 +104,6 @@ def postprocess_extra(run_path):
         long_name='temperate-based ice cover duration', units='years')
 
     # compute timeseries
-    pp['coo2020_rate'] = (dx*dy*ex.coo2020.sum(axis=(1, 2))).assign_attrs(
-        long_name='Cook et al. (2020) domain total volumic erosion rate',
-        units='m3 year-1')
-    pp['her2015_rate'] = (dx*dy*ex.her2015.sum(axis=(1, 2))).assign_attrs(
-        long_name='Herman et al. (2015) domain total volumic erosion rate',
-        units='m3 year-1')
-    pp['kop2015_rate'] = (dx*dy*ex.kop2015.sum(axis=(1, 2))).assign_attrs(
-        long_name='Koppes et al. (2015) domain total volumic erosion rate',
-        units='m3 year-1')
     pp['glacier_area'] = (dx*dy*ex.icy.sum(axis=(1, 2))).assign_attrs(
         long_name='glacierized area', units='m2')
     pp['volumic_lift'] = (dx*dy*ex.bedlift.sum(axis=(1, 2))).assign_attrs(
@@ -124,38 +111,29 @@ def postprocess_extra(run_path):
     pp['warmbed_area'] = (dx*dy*ex.warmbed.sum(axis=(1, 2))).assign_attrs(
         long_name='temperate-based ice cover area', units='m2')
 
-    # compute hypsogram
-    def hypsogram(var):
-        return np.exp(np.log(var.where(var > 0)).groupby_bins(
-            boot.topg, bins=range(0, 4501, 10)).mean(dim='stacked_y_x'))
-    pp['coo2020_hyps'] = hypsogram(ex.coo2020).assign_attrs(
-        long_name='Cook et al. (2020) erosion rate geometric mean',
-        units='m year-1')
-    pp['her2015_hyps'] = hypsogram(ex.her2015).assign_attrs(
-        long_name='Herman et al. (2020) erosion rate geometric mean',
-        units='m year-1')
-    pp['kop2015_hyps'] = hypsogram(ex.kop2015).assign_attrs(
-        long_name='Koppes et al. (2020) erosion rate geometric mean',
-        units='m year-1')
+    # compute erosion aggregated variables
+    x, y = cpf.read_shp_coords('../data/native/profile_rhine.shp')
+    for law in ['coo2020', 'her2015', 'hum1994', 'kop2015']:
+        pp[law+'_cumu'] = (dt*ex[law].sum(axis=0, min_count=1)).assign_attrs(
+            long_name=ex[law].ref+' cumulative glacial erosion potential',
+            units='m')
+        pp[law+'_rate'] = (dx*dy*ex[law].sum(axis=(1, 2))).assign_attrs(
+            long_name=ex[law].ref+' domain total volumic erosion rate',
+            units='m3 year-1')
+        pp[law+'_hyps'] = np.exp(
+            np.log(ex[law].where(ex[law] > 0)).groupby_bins(
+                boot.topg, bins=range(0, 4501, 10)).mean(
+                    dim='stacked_y_x')).assign_attrs(
+            long_name=ex[law].ref+' erosion rate geometric mean',
+            units='m year-1')
+        pp[law+'_rhin'] = ex[law].where(ex.icy).interp(
+                x=x, y=y, method='linear').assign_attrs(
+            long_name='Cook et al. (2020) rhine transect erosion rate',
+            units='m year-1')
 
     # replace intervals (xarray issue #2847)
     pp['topg_bins'] = [b.mid for b in pp.topg_bins.values]
     pp = pp.rename({'topg_bins': 'z'})
-
-    # interpolate along rhine glacier
-    x, y = cpf.read_shp_coords('../data/native/profile_rhine.shp')
-    pp['coo2020_rhin'] = ex.coo2020.where(ex.icy).interp(
-            x=x, y=y, method='linear').assign_attrs(
-        long_name='Cook et al. (2020) rhine transect erosion rate',
-        units='m year-1')
-    pp['her2015_rhin'] = ex.her2015.where(ex.icy).interp(
-            x=x, y=y, method='linear').assign_attrs(
-        long_name='Herman et al. (2020) rhine transect erosion rate',
-        units='m year-1')
-    pp['kop2015_rhin'] = ex.kop2015.where(ex.icy).interp(
-            x=x, y=y, method='linear').assign_attrs(
-        long_name='Koppes et al. (2020) rhine transect erosion rate',
-        units='m year-1')
 
     # copy grid mapping and pism config
     pp['mapping'] = ex.mapping
