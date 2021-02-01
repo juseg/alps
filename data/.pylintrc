@@ -1,2 +1,4 @@
 [BASIC]
 good-names = i, j, x, y, z, dt, dx, dy, ex, pp, ts
+[TYPECHECK]
+ignored-classes=ndarray
