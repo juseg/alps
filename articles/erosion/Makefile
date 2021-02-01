@@ -37,7 +37,7 @@ diff: $(PAPER)-diff.pdf
 
 #stripped bib patterned rule
 %.bib: %.aux $(BIB)
-	bibtool $(BIB) -q -x $< > $@
+	bibtool $(BIB) -d -q -x $< > $@
 
 # latex pdf patterned rule
 %.pdf: %.tex $(BIB)
