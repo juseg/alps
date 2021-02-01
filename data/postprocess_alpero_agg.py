@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright (c) 2019, Julien Seguinot (juseg.github.io)
+# Copyright (c) 2019-2021, Julien Seguinot (juseg.github.io)
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
@@ -70,6 +70,7 @@ def postprocess_extra(run_path):
     ex['sliding'] = ex.velbase_mag.where(ex.icy)
     ex['coo2020'] = 1.665e-4*ex.sliding**0.6459  # (m/a, Cook et al., 2020)
     ex['her2015'] = 2.7e-7*ex.sliding**2.02  # (m/a, Herman et al., 2015)
+    ex['hum1994'] = 1e-4*ex.sliding  # (m/a, Humphrey and Raymond, 1994)
     ex['kop2015'] = 5.2e-11*ex.sliding**2.34  # (m/a, Koppes et al., 2015)
     ex['warmbed'] = ex.icy*(ex.temppabase >= -1e-3)
 
@@ -97,6 +98,9 @@ def postprocess_extra(run_path):
     pp['her2015_cumu'] = (dt*ex.her2015.sum(axis=0, min_count=1)).assign_attrs(
         long_name='Herman et al. (2015) cumulative glacial erosion potential',
         units='m')
+    pp['hum1994_cumu'] = (dt*ex.hum1994.sum(axis=0, min_count=1)).assign_attrs(
+        long_name=('Humphrey and Raymond (1994) cumulative glacial erosion '
+                   'potential'), units='m')
     pp['kop2015_cumu'] = (dt*ex.kop2015.sum(axis=0, min_count=1)).assign_attrs(
         long_name='Koppes et al. (2015) cumulative glacial erosion potential',
         units='m')
@@ -114,6 +118,9 @@ def postprocess_extra(run_path):
     pp['her2015_rate'] = (dx*dy*ex.her2015.sum(axis=(1, 2))).assign_attrs(
         long_name='Herman et al. (2015) domain total volumic erosion rate',
         units='m3 year-1')
+    pp['hum1994_rate'] = (dx*dy*ex.hum1994.sum(axis=(1, 2))).assign_attrs(
+        long_name='Humphrey and Raymond (1994) domain total volumic erosion '
+                  'rate', units='m3 year-1')
     pp['kop2015_rate'] = (dx*dy*ex.kop2015.sum(axis=(1, 2))).assign_attrs(
         long_name='Koppes et al. (2015) domain total volumic erosion rate',
         units='m3 year-1')
@@ -134,6 +141,9 @@ def postprocess_extra(run_path):
     pp['her2015_hyps'] = hypsogram(ex.her2015).assign_attrs(
         long_name='Herman et al. (2020) erosion rate geometric mean',
         units='m year-1')
+    pp['hum1994_hyps'] = hypsogram(ex.hum1994).assign_attrs(
+        long_name='Humphrey and Raymond (1994) erosion rate geometric mean',
+        units='m year-1')
     pp['kop2015_hyps'] = hypsogram(ex.kop2015).assign_attrs(
         long_name='Koppes et al. (2020) erosion rate geometric mean',
         units='m year-1')
@@ -151,6 +161,10 @@ def postprocess_extra(run_path):
     pp['her2015_rhin'] = ex.her2015.where(ex.icy).interp(
             x=x, y=y, method='linear').assign_attrs(
         long_name='Herman et al. (2020) rhine transect erosion rate',
+        units='m year-1')
+    pp['hum1994_rhin'] = ex.hum1994.where(ex.icy).interp(
+            x=x, y=y, method='linear').assign_attrs(
+        long_name='Humphrey and Raymond (1994) rhine transect erosion rate',
         units='m year-1')
     pp['kop2015_rhin'] = ex.kop2015.where(ex.icy).interp(
             x=x, y=y, method='linear').assign_attrs(
