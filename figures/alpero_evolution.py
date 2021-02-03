@@ -18,6 +18,7 @@ def figure():
         left=12, right=1.5, bottom=9, top=1.5))
 
     # load postprocessed data
+    # FIXME there is a data gap after merge, add tolerance
     with pismx.open.dataset(
             '../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as ds:
         ds = ds[['slvol']]
@@ -37,7 +38,7 @@ def figure():
 
     # set axes properties
     ax.set_xlabel('ice volume (cm s.l.e.)')
-    ax.set_ylabel(r'volumic erosion rate ($m^3\,a^{-1}$)')
+    ax.set_ylabel(r'annual erosion volume ($m^3 a^{-1}$)')
     ax.set_yscale('log')
     ax.set_ylim(10**4.3, 10**7.7)
 

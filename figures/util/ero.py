@@ -37,5 +37,5 @@ def plot_series(ax=None, run='1km.epic.pp'):
         ax = ax.twinx()
         ax.plot(ds.age, ds.kop2015_rate*1e-6, c='C11', alpha=0.5)
         ax.plot(ds.age, ds.rolling_mean*1e-6, c='C11')
-        ax.set_ylabel('volumic erosion\n'+r'rate ($10^6\,m^3\,a^{-1}$)', color='C11')
+        ax.set_ylabel('annual erosion\n'+r'volume ($10^6\,m^3 a^{-1}$)', color='C11')
         ax.set_ylim(-1, 7)
