@@ -128,12 +128,16 @@ def postprocess_extra(run_path):
             units='m year-1')
         pp[law+'_rhin'] = ex[law].where(ex.icy).interp(
                 x=x, y=y, method='linear').assign_attrs(
-            long_name='Cook et al. (2020) rhine transect erosion rate',
+            long_name=ex[law].ref+' rhine transect erosion rate',
             units='m year-1')
 
     # replace intervals (xarray issue #2847)
     pp['topg_bins'] = [b.mid for b in pp.topg_bins.values]
     pp = pp.rename({'topg_bins': 'z'})
+    pp['z'] = pp.z.assign_attrs(
+        long_name='elevation band midpoints', units='m')
+    pp['d'] = pp.d.assign_attrs(
+        long_name='distance along transect', units='m')
 
     # copy grid mapping and pism config
     pp['mapping'] = ex.mapping
