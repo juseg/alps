@@ -5,48 +5,36 @@
 % Alps erosion paper
 % ==================
 
-\documentclass[utf8]{article}
+\documentclass[esurf, manuscript]{copernicus}
 
-% default packages
-\usepackage{doi}
-\usepackage{authblk}
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage[pdftex]{xcolor}
-\usepackage[pdftex]{graphicx}
-\usepackage[authoryear,round]{natbib}
-%\usepackage{CJK}  % texlive-langjapanese
+% custom colours (colorbrewer2.org)
+\definecolor{Bu}{cmyk}{1.00,0.45,0.00,0.07}  % Blues
+\definecolor{Gn}{cmyk}{1.00,0.20,1.00,0.00}  % Greens
+\definecolor{Rd}{cmyk}{0.35,0.95,0.85,0.00}  % Reds
+\definecolor{Or}{cmyk}{0.35,0.75,1.00,0.00}  % Oranges
+\definecolor{Pu}{cmyk}{0.70,0.80,0.00,0.00}  % Purples
+\definecolor{Br}{cmyk}{0.40,0.75,1.00,0.00}  % YlOrBr
 
-% review mode
-\usepackage{geometry}
-\usepackage{lineno}
-\linenumbers
-\linespread{1.5}
+% custom commands (remove before submission)
+\newcommand{\note}[1]{\textcolor{Or}{\emph{[\textbf{NOTE:} #1]}}}
+\newcommand{\todo}[1]{\textcolor{Rd}{\emph{[\textbf{TODO:} #1]}}}
+\newcommand{\aref}[0]{\textcolor{Rd}{\textbf{[REF.]}}}
+\newcommand{\ian}[1]{\textcolor{Or}{\emph{[\textbf{IAN:} #1]}}}
 
-% custom colours
-\definecolor{darkblue}{cmyk}{0.9,0.3,0.0,0.0}
-\definecolor{darkgreen}{cmyk}{0.8,0.0,1.0,0.0}
-\definecolor{darkred}{cmyk}{0.1,0.9,0.8,0.0}
-\definecolor{darkorange}{cmyk}{0.0,0.5,1.0,0.0}
-\definecolor{darkpurple}{cmyk}{0.6,0.7,0.0,0.0}
-\definecolor{darkbrown}{cmyk}{0.23,0.73,0.98,0.12}
-
-% custom commands
-\newcommand{\idea}[1]{\textcolor{darkgreen}{\emph{[\textbf{IDEA:} #1]}}}
-\newcommand{\note}[1]{\textcolor{darkblue}{\emph{[\textbf{NOTE:} #1]}}}
-\newcommand{\todo}[1]{\textcolor{darkred}{\emph{[\textbf{TODO:} #1]}}}
-\newcommand{\aref}[0]{\textcolor{darkblue}{\textbf{[REF.]}}}
-\newcommand{\ian}[1]{\textcolor{darkbrown}{\emph{[\textbf{IAN:} #1]}}}
+% color links (remove before submission)
+\hypersetup{colorlinks, citecolor=Bu, linkcolor=Bu, urlcolor=Bu}
 
 % figures directory
 \graphicspath{{../../figures/}}
 
 % document properties
 \title{Last glacial cycle glacier erosion potential in the Alps}
-\author[1]{Julien Seguinot}
-\author[2]{Ian Delaney}
+\Author[1]{Julien}{Seguinot}
+\Author[2]{Ian}{Delaney}
 \affil[1]{Anafi, Greece}
 \affil[2]{Institute of Earth Surface Dynamics, University of Lausanne, Switzerland}
+\runningtitle{Last glacial cycle glacier erosion potential in the Alps}
+\runningauthor{J.~Seguinot and I.~Delanay}
 
 
 % ======================================================================
@@ -89,7 +77,7 @@
 
 
 % ----------------------------------------------------------------------
-\section{Introduction}
+\introduction
 % ----------------------------------------------------------------------
 
     The glacial erosion landscape of the Alps has fascinated generations of
@@ -434,7 +422,7 @@
 
 
 % ----------------------------------------------------------------------
-\section{Conclusions}
+\conclusions
 % ----------------------------------------------------------------------
 
     Due to stacked-up uncertainties regarding paleoclimate, glacier sliding and
@@ -475,7 +463,7 @@
 % References
 % ----------------------------------------------------------------------
 
-\bibliographystyle{abbrvnat}
+\bibliographystyle{copernicus}
 \bibliography{../../../references/references}
 
 
