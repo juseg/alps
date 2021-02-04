@@ -195,7 +195,7 @@
     The ice-sheet model physical parameters are listed in the earlier
     open-access publication \citep{Seguinot.etal.2018}, and the complete PISM
     set-up is stored in long-term archived model output metadata for the
-    present study \todo{upload}, and for the earlier publication
+    present study \citep{Seguinot.2021}, and for the earlier publication
     \citep{Seguinot.2020, Seguinot.2020a}.
 
     \ian{It might be worth mentioning/discussing the role of ``till dilatation''
@@ -232,16 +232,16 @@
     where $K_g = 5.2\times 10^{-11}\,m^{1-l}\,a^{l-1}$ and $l = 2.34$ are
     empirical constants calibrated on quantified fjord sediment yields and
     velocities from 15~Patagonian and Antarctic Peninsula tidewater glaciers
-    \citep{Koppes.etal.2015}. \ian{We discuss the role of alternative values of
-    $K_\mathrm{g}$ and $l$ in Sect.~\ref{sec:powerlaws}.}
+    \citep{Koppes.etal.2015}. We discuss the role of alternative values of
+    $K_\mathrm{g}$ and $l$ in the discussion part (Sect.~\ref{sec:powerlaws}).
 
-    \ian{Our approach does not account for the feedback of glacier erosion onto
-    bedrock topography and, then onto, ice dynamics \citep[e.g.][]{Anderson.etal.2012}.
-    Neither does the approach account for downstream advection of debris \citep[e.g.][]{Anderson.Anderson.2016}
-    or fluvial transport of subglacial sediment \citep{Delaney.etal.2019}. \textbf{this last
-    sentence might not be that important}}
-
-    We compute the time-integrated erosion rate,
+    Our approach does not account for the feedback of glacier erosion onto
+    bedrock topography and, then onto, ice dynamics
+    \citep[e.g.,][]{Anderson.etal.2012}. Neither does the approach account for
+    downstream advection of debris \citep[e.g.,][]{Anderson.Anderson.2016} that
+    may have shed the bedrock from erosion, or fluvial transport of subglacial
+    sediment \citep{Delaney.etal.2019}. Instead, we compute the time-integrated
+    glacier erosion rate,
     %
     \begin{equation}
         e =  K_\mathrm{g} \int u_\mathrm{b}^l dt,
