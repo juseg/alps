@@ -19,8 +19,6 @@
 % custom commands (remove before submission)
 \newcommand{\note}[1]{\textcolor{Or}{\emph{[\textbf{NOTE:} #1]}}}
 \newcommand{\todo}[1]{\textcolor{Rd}{\emph{[\textbf{TODO:} #1]}}}
-\newcommand{\aref}[0]{\textcolor{Rd}{\textbf{[REF.]}}}
-\newcommand{\ian}[1]{\textcolor{Or}{\emph{[\textbf{IAN:} #1]}}}
 
 % color links (remove before submission)
 \hypersetup{colorlinks, citecolor=Bu, linkcolor=Bu, urlcolor=Bu}
@@ -81,6 +79,16 @@
 % ----------------------------------------------------------------------
 \introduction
 % ----------------------------------------------------------------------
+
+    \begin{figure*}[ht]
+      \centerline{\includegraphics{alpero_landscape}}
+      \caption{%
+        Alpine glacial erosion landscape diversity.
+        \textbf{(a)} Piedmont overdeepening of Lake Constance, ca.~10x50\,km.
+        \textbf{(b)} Glacial trough of Lauterbrunnental, ca.~1x10\,km.
+        \textbf{(c)} Mountain cirque of Ch\"uebodengletscher, ca.~1x1\,km.}
+      \label{fig:landscape}
+    \end{figure*}
 
     The glacial erosion landscape of the Alps has fascinated generations of
     explorers, artists, mountaineers and scientists for centuries. Its cultural
@@ -255,6 +263,21 @@
 \subsection{Cumulative erosion}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
+    \begin{figure*}[ht]
+      \centerline{\includegraphics{alpero_cumulative}}
+      \caption{%
+        \textbf{(a)} Modelled cumulative (time-integrated) glacial erosion
+          potential over the last glacial cycle.
+        \textbf{(b)} Modelled total ice volume in centimetres of sea-level
+          equivalent (cm~s.l.e., black), annual (domain-integrated) erosion
+          volume (light brown) and 100-a running mean (dark brown). Shaded gray
+          areas indicate the timing for MIS~2 and~4
+          \citep{Lisiecki.Raymo.2005}.
+          \note{I have tried plotting cumulative erosion volume curve, but it
+                looks almost like a straight line for all erosion laws.}}
+        \label{fig:cumulative}
+    \end{figure*}
+
     The modelled cumulative (time-integrated) glacial erosion potential
     (Fig.~\ref{fig:cumulative}a) varies by several orders of magnitude
     from insignificant to hundred-metres-scale erosion potential. Its spatial
@@ -272,6 +295,15 @@
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 \subsection{Temporal evolution}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+
+    \begin{figure}[ht]
+      \centerline{\includegraphics{alpero_evolution}}
+      \caption{%
+        Modelled annual (domain-integrated) erosion volume (light brown) and 100-a
+        running mean (dark brown) in relation to modelled total ice volume in
+        centimetres of sea-level equivalent.}
+      \label{fig:evolution}
+    \end{figure}
 
     \note{I have replaced ``volumetric erosion rate'' with ``annual erosion
           volume'' but kept the unit as ``m$^3$\,a$^{-1}$''. We agreed to stick
@@ -295,6 +327,27 @@
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 \subsection{Spatial migration}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+
+    \begin{figure*}[ht]
+      \centerline{\includegraphics{alpero_transects}}
+      \caption{%
+        \textbf{(a, b, c)} Modelled instantaneous erosion rate of the Rhine
+          Glacier for selected post-Last Glacial Maximum ages.
+        \textbf{(d)} Interpolated instantaneous erosion rate along a Rhine
+          Glacier transect for the entire last glacial cycle (upper panels
+          dashed line).}
+      \label{fig:transects}
+    \end{figure*}
+
+    \begin{figure*}[ht]
+      \centerline{\includegraphics{alpero_hypsogram}}
+      \caption{%
+        \textbf{(a)} Modelled erosion rate ``hypsogram'', showing the geometric
+          mean of (non-zero) modelled erosion rates in 10-m elevation bands
+          across the entire model domain and its time evolution.
+        \textbf{(b)} Same as Fig.~\ref{fig:cumulative}b.}
+      \label{fig:hypsogram}
+    \end{figure*}
 
     A closer look at the Rhine Glacier, one of the paleo-ice sheet's largest
     outlets, reveals a spatial migration of the modelled rapid erosion areas.
@@ -326,6 +379,16 @@
 \label{sec:sensitivity}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
+    \begin{figure*}[ht]
+      \centerline{\includegraphics{alpero_sensitivity}}
+      \caption{%
+        Modelled cumulative glacial erosion potential over the last glacial
+        cycle without \textbf{(a, b, c)} and with \textbf{(d, e, f)}
+        paleo-precipitation corrections, and using three different
+        palaeo-temperature histories \citep[see][]{Seguinot.etal.2018}.}
+      \label{fig:sensitivity}
+    \end{figure*}
+
     Different paleoclimate forcing scenarios lead to different modelled
     glaciation histories \citep[cf.][]{Seguinot.etal.2018} and thus different
     results in terms of erosion
@@ -347,6 +410,29 @@
 \subsection{Choice of erosion law}
 \label{sec:powerlaws}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+
+    \begin{figure*}[ht]
+      \centerline{\includegraphics{alpero_powerlaws}}
+      \caption{%
+        Modelled cumulative (time-integrated) glacial erosion potential for
+        three different erosion laws published by
+        \textbf{(a)} \citet{Koppes.etal.2015},
+          ${5.2 \times 10^{-8} u_\mathrm{b}^{2.34}}$ (same as
+          Fig.~\ref{fig:cumulative}a but with a different colour scale),
+        \textbf{(b)} \citet{Herman.etal.2015},
+          ${2.7 \times 10^{-7} u_\mathrm{b}^{2.02}}$,
+        \textbf{(c)} \citet{Humphrey.Raymond.1994},
+          ${1 \times 10^{-4} u_\mathrm{b}^{1}}$, and
+        \textbf{(d)} \citet{Cook.etal.2020},
+          ${1.665 \times 10^{-1} u_\mathrm{b}^{0.6459}}$.
+        \textbf{(e-h)} Corresponding modelled cumulative glacial erosion
+          potential along a Rhine Glacier transect (upper panels dashed line), and
+        \textbf{(i-l)} corresponding modelled evolution of annual
+        (domain-integrated) erosion volume (light brown) and 100-a
+        running mean (dark brown) in relation to modelled total ice volume in
+        centimetres of sea-level equivalent (as in Fig.~\ref{fig:evolution}a).}
+      \label{fig:powerlaws}
+    \end{figure*}
 
     The choice of erosion law significantly impacts the results
     (Fig.~\ref{fig:powerlaws}). Our default, based on quantified
@@ -601,102 +687,6 @@
 
 \bibliographystyle{copernicus}
 \bibliography{../../../references/references}
-
-
-% ----------------------------------------------------------------------
-% Figures
-\clearpage
-% ----------------------------------------------------------------------
-
-    \begin{figure*}
-      \centerline{\includegraphics{alpero_landscape}}
-      \caption{%
-        Alpine glacial erosion landscape diversity.
-        \textbf{(a)} Piedmont overdeepening of Lake Constance, ca.~10x50\,km.
-        \textbf{(b)} Glacial trough of Lauterbrunnental, ca.~1x10\,km.
-        \textbf{(c)} Mountain cirque of Ch\"uebodengletscher, ca.~1x1\,km.}
-      \label{fig:landscape}
-    \end{figure*}
-
-    \begin{figure*}
-      \centerline{\includegraphics{alpero_cumulative}}
-      \caption{%
-        \textbf{(a)} Modelled cumulative (time-integrated) glacial erosion
-          potential over the last glacial cycle.
-        \textbf{(b)} Modelled total ice volume in centimetres of sea-level
-          equivalent (cm~s.l.e., black), annual (domain-integrated) erosion
-          volume (light brown) and 100-a running mean (dark brown). Shaded gray
-          areas indicate the timing for MIS~2 and~4
-          \citep{Lisiecki.Raymo.2005}.} \label{fig:cumulative}
-    \end{figure*}
-
-    \begin{figure}
-      \centerline{\includegraphics{alpero_evolution}}
-      \caption{%
-        Modelled annual (domain-integrated) erosion volume (light brown) and 100-a
-        running mean (dark brown) in relation to modelled total ice volume in
-        centimetres of sea-level equivalent.}
-      \label{fig:evolution}
-    \end{figure}
-
-    \begin{figure*}
-      \centerline{\includegraphics{alpero_transects}}
-      \caption{%
-        \textbf{(a, b, c)} Modelled instantaneous erosion rate of the Rhine
-          Glacier for selected post-Last Glacial Maximum ages.
-        \textbf{(d)} Interpolated instantaneous erosion rate along a Rhine
-          Glacier transect for the entire last glacial cycle (upper panels
-          dashed line).}
-      \label{fig:transects}
-    \end{figure*}
-
-    \begin{figure*}
-      \centerline{\includegraphics{alpero_hypsogram}}
-      \caption{%
-        \textbf{(a)} Modelled erosion rate ``hypsogram'', showing the geometric
-          mean of (non-zero) modelled erosion rates in 10-m elevation bands
-          across the entire model domain and its time evolution.
-        \textbf{(b)} Same as Fig.~\ref{fig:cumulative}b.}
-      \label{fig:hypsogram}
-    \end{figure*}
-
-    \begin{figure*}
-      \centerline{\includegraphics{alpero_sensitivity}}
-      \caption{%
-        Modelled cumulative glacial erosion potential over the last glacial
-        cycle without \textbf{(a, b, c)} and with \textbf{(d, e, f)}
-        paleo-precipitation corrections, and using three different
-        palaeo-temperature histories \citep[see][]{Seguinot.etal.2018}.}
-      \label{fig:sensitivity}
-    \end{figure*}
-
-    \begin{figure*}
-      \centerline{\includegraphics{alpero_powerlaws}}
-      \caption{%
-        Modelled cumulative (time-integrated) glacial erosion potential for
-        three different erosion laws published by
-        \textbf{(a)} \citet{Koppes.etal.2015},
-          ${5.2 \times 10^{-8} u_\mathrm{b}^{2.34}}$ (same as
-          Fig.~\ref{fig:cumulative}a but with a different colour scale),
-        \textbf{(b)} \citet{Herman.etal.2015},
-          ${2.7 \times 10^{-7} u_\mathrm{b}^{2.02}}$,
-        \textbf{(c)} \citet{Humphrey.Raymond.1994},
-          ${1 \times 10^{-4} u_\mathrm{b}^{1}}$, and
-        \textbf{(d)} \citet{Cook.etal.2020},
-          ${1.665 \times 10^{-1} u_\mathrm{b}^{0.6459}}$.
-        \textbf{(e-h)} Corresponding modelled cumulative glacial erosion
-          potential along a Rhine Glacier transect (upper panels dashed line), and
-        \textbf{(i-l)} corresponding modelled evolution of annual
-        (domain-integrated) erosion volume (light brown) and 100-a
-        running mean (dark brown) in relation to modelled total ice volume in
-        centimetres of sea-level equivalent (as in Fig.~\ref{fig:evolution}a).}
-      \label{fig:powerlaws}
-    \end{figure*}
-
-% ----------------------------------------------------------------------
-% Tables
-%\clearpage
-% ----------------------------------------------------------------------
 
 
 % ======================================================================
