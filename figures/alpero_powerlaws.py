@@ -108,7 +108,7 @@ def main():
 
     # add y-labels on leftmost axes
     tsgrid[0, 0].set_ylabel('erosion potential (m)')
-    tsgrid[1, 0].set_ylabel(r'volumic erosion rate ($m^3\,a^{-1}$)')
+    tsgrid[1, 0].set_ylabel(r'annual erosion volume ($m^3 a^{-1}$)')
 
     # add colorbar
     fig.colorbar(cset, cax=cax, format='%g', pad=-10)

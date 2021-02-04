@@ -6,6 +6,7 @@
 % ==================
 
 \documentclass[esurf, manuscript]{copernicus}
+\usepackage{CJK}  % Japanese text
 
 % custom colours (colorbrewer2.org)
 \definecolor{Bu}{cmyk}{1.00,0.45,0.00,0.07}  % Blues
@@ -18,8 +19,6 @@
 % custom commands (remove before submission)
 \newcommand{\note}[1]{\textcolor{Or}{\emph{[\textbf{NOTE:} #1]}}}
 \newcommand{\todo}[1]{\textcolor{Rd}{\emph{[\textbf{TODO:} #1]}}}
-\newcommand{\aref}[0]{\textcolor{Rd}{\textbf{[REF.]}}}
-\newcommand{\ian}[1]{\textcolor{Or}{\emph{[\textbf{IAN:} #1]}}}
 
 % color links (remove before submission)
 \hypersetup{colorlinks, citecolor=Bu, linkcolor=Bu, urlcolor=Bu}
@@ -31,7 +30,7 @@
 \title{Last glacial cycle glacier erosion potential in the Alps}
 \Author[1]{Julien}{Seguinot}
 \Author[2]{Ian}{Delaney}
-\affil[1]{Anafi, Greece}
+\affil[1]{Independent scholar, Anafi, Greece}
 \affil[2]{Institute of Earth Surface Dynamics, University of Lausanne, Switzerland}
 \runningtitle{Last glacial cycle glacier erosion potential in the Alps}
 \runningauthor{J.~Seguinot and I.~Delanay}
@@ -49,24 +48,25 @@
     artists, mountaineers and scientists with its diversity, including
     erosional features of all scales from high-mountain cirques, to steep
     glacial valleys and large over-deepened basins. Using previous glacier
-    modelling results, and empirical inferences bedrock erosion under modern
+    modelling results, and empirical inferences of bedrock erosion under modern
     glaciers, we compute a distribution of potential glacier erosion in the Alps
     over the last glacial cycle from 120\,000 years ago to the present.
     %
-    Despite large uncertainties related to the climate history of the Alps and
+    Despite large uncertainties pertaining to the climate history of the Alps and
     unconstrained glacier erosion processes, the resulting modelled patterns of
-    glacier erosion shows persistent features. The cumulative imprint of
+    glacier erosion includes persistent features. The cumulative imprint of
     the last glacial cycle shows a very strong localization of glacier erosion
     with local maxima at the mouths of major Alpine valleys and some other
     upstream sections where glaciers are modelled to have flown with the
     highest velocity. The modelled erosion rates vary significantly through the
-    glacial cycle, but show paradoxically little relation to the glaciation
-    extent. Phases of glacier advance and maximum extension, characterized by
+    glacial cycle, but show paradoxically little relation to the total glacier
+    volume. Phases of glacier advance and maximum extension, characterized by
     low air and glacier temperatures, see a localization of rapid erosion rates
-    at low elevation, while intra-montane areas are modelled to date from phases
-    of intermediate glacier cover. The modelled erosion rates peak during
-    deglaciation phases, when higher air and glacier temperature enhance
-    glacier dynamics.
+    at low elevation, while the intra-montane glacial landscape is modelled to
+    date from phases of intermediate glacier cover. The modelled erosion rates
+    peak during deglaciation phases, when higher air and glacier temperature
+    enhance glacier dynamics, implying that climatic conditions that result in
+    rapid glacier erosion might be quite transient and specific.
     %
     Our results depict the Alpine glacier erosion landscape as a
     time-transgressive patchwork, with different erosional landscapes of the
@@ -80,6 +80,16 @@
 \introduction
 % ----------------------------------------------------------------------
 
+    \begin{figure*}[ht]
+      \centerline{\includegraphics{alpero_landscape}}
+      \caption{%
+        Alpine glacial erosion landscape diversity.
+        \textbf{(a)} Piedmont overdeepening of Lake Constance, ca.~10x50\,km.
+        \textbf{(b)} Glacial trough of Lauterbrunnental, ca.~1x10\,km.
+        \textbf{(c)} Mountain cirque of Ch\"uebodengletscher, ca.~1x1\,km.}
+      \label{fig:landscape}
+    \end{figure*}
+
     The glacial erosion landscape of the Alps has fascinated generations of
     explorers, artists, mountaineers and scientists for centuries. Its cultural
     impact is indeed so far-reaching, that in English, a non-Alpine language,
@@ -88,7 +98,7 @@
     Alps, while the proper noun ``Alps'' has been applied to nick-name
     Alpine-like, glacier eroded mountain ranges in Norway (\emph{Lyngsalpene}),
     New Zealand (Southern Alps), Japan
-    (\emph{%\begin{CJK}{UTF8}{min}日本アルプス\end{CJK},
+    (\emph{\begin{CJK}{UTF8}{min}日本アルプス\end{CJK},
     Nihon Arupusu}), and elsewhere.
 
     Some mountain ranges are predominantly characterised by cirque glaciation
@@ -97,31 +107,56 @@
     the Alps, present a higher variety glacial erosional landforms
     (Fig.~\ref{fig:landscape}), whose implications on glacial history is yet to
     be understood.
-    In absence of other glacial landforms, the degree of glacial modification
-    of a landscape has sometimes been used as a proxy for the duration of past
-    glacier cover, as for instance in geomorphological mapping
-    \citep[e.g.][]{Margold.etal.2011, Fu.etal.2012}. Cold-based glaciers have
-    been shown to preserve landforms as fragile as sand beaches
-    \citep{Kleman.1994}. Yet it remains unclear how sharp the erosional
+
+    In absence of other landforms, glacially eroded topography has sometimes
+    been used as a proxy for glacier extension, for instance in
+    geomorphological mapping \citep[e.g.,][]{Margold.etal.2011, Fu.etal.2012}.
+    Cold-based glaciers, however, have been observed to preserve landforms as
+    fragile as sand beaches \citep{Kleman.1994}, leading to the
+    reinterpretation of complex glacial landscapes within a binary conceptual
+    framework of cold and temperate basal thermal regimes
+    \citep{Kleman.etal.2008, Kleman.etal.2010, Fabel.etal.2012, Fu.etal.2013}.
+    Nevertheless, it remains unclear how sharp the erosional
     transition to cold-based ice is, and why some glaciated regions show
     glacially preserved landscapes and others, including the Alps, do not
     \citep{Wirsig.etal.2016, Seguinot.etal.2018}.
 
-    \ian{Furthermore, glacier erosion likely  governs, at least in part, the height of mountains \citep{Egholm.etal.2009,Thomson.etal.2010} through the ``glacier buzz-saw''.
-      In turn, evidence suggests that increase erosion rates coincided with global cooling and  Pliestocene glaciations from roughly 2.6\unit{Ma} Bp \citep{Herman.Champagnac.2016}.
-      Yet, other work suggests that global weather rates remained constant over this time period \citep{Willenbring.vonBlanckenburg2010}.
-      Examination of contemporary erosion rates across different climates suggest that increased temperatures lead to higher erosion rates \citep{Koppes.etal.2015,Fernandez.etal.2016}.
-      However, understanding the link between climate and glacier erosion in the sedimentary record remains difficult due to time scale biases \citep{Ganti.etal.2016} and the non-linear relationship
-      between temperature and erosion \citep[e.g.][]{Anderson.etal.2012,Mariotti.etal.2021}}
+    On longer time scales, glacier erosion likely governs, at least in part,
+    the height of mountains \citep{Egholm.etal.2009,Thomson.etal.2010} through
+    the ``glacier buzz-saw''. In turn, evidence suggests that increased
+    mountain erosion rates coincided with global cooling and Pliestocene
+    glaciations from roughly 2.6\,Ma (million years before present)
+    \citep{Herman.Champagnac.2016}. Yet, other work suggests that global
+    weathering rates remained constant over this time period
+    \citep{Willenbring.Von-Blanckenburg.2010}. \note{Evidence suggests, other
+    work suggests, maybe this can be reworked.} Examination of contemporary
+    erosion rates across different climates suggest that increased temperatures
+    in glaciated regions lead to higher erosion rates and that erosion rates
+    may have increased towards present \citep{Koppes.Montgomery.2009,
+    Koppes.etal.2015, Fernandez.etal.2016}. However, understanding the link
+    between climate and glacier erosion in the sedimentary record remains
+    difficult due to time scale biases \citep{Ganti.etal.2016} and the
+    non-linear relationship  between temperature and erosion
+    \citep[e.g.,][]{Anderson.etal.2012,Mariotti.etal.2021}.
 
-    \ian{
-      Observing and quantifying the long-term erosion
-      and sedimentation processes has been a challenge, and two general methods have been adopted to quantify erosion.
-      Physically-based models describe quarrying process and abrasion of bedrock by debris laden ice \citep[e.g.][]{Alley.etal.1997,Iverson.2012,Beaud.etal.2014}.
-      Describing the processes physically provides a basis for understanding erosion processes \citep{Hallet.1979, Ugelvig.etal.2018} and yields insight into the formation of glacial landforms, such as tunnel valleys and eskers \citep{Beaud.etal.2018,Hewitt.Creyts.2019}.
-      Yet, these models prove difficult to implement in many cases due to the large number of poorly constrained parameters and process, i.e. water pressure flucuations and subglacial debris concentration \citep[e.g.][]{Hallet.1979,Ugelvig.etal.2018}.}
+    Observing and quantifying the long-term glacier erosion and sedimentation
+    processes has been a challenge, and two general methods have been adopted
+    to quantify erosion \citep{Alley.etal.2019}. Physically-based models
+    describe quarrying process and abrasion of bedrock by debris laden ice
+    \citep[e.g.,][]{Alley.etal.1997, Iverson.2012, Beaud.etal.2014}. Describing
+    the processes physically provides a basis for understanding erosion
+    processes \citep{Hallet.1979, Ugelvig.etal.2018} and yields insight into
+    the formation of glacial landforms, such as tunnel valleys and eskers
+    \citep{Beaud.etal.2018, Hewitt.Creyts.2019}. Yet, these models prove
+    difficult to implement in many cases due to the large number of poorly
+    constrained parameters and process, i.e. water pressure flucuations and
+    subglacial debris concentration \citep[e.g.,][]{Hallet.1979, Seguinot.2008,
+    Ugelvig.etal.2018}.
 
-    Instead, empirical relationships between glacier sliding and erosion can represent erosional quantities  well \citep[e.g.][]{Humphrey.Raymond.1994, Herman.etal.2015, Koppes.etal.2015} and can recreate important glacial landforms \citep[e.g.][]{Harbor.etal.1988,Macgregor.etal.2000}.
+    Instead, empirical relationships between glacier sliding and erosion can
+    represent erosional quantities well \citep[e.g.,][]{Humphrey.Raymond.1994,
+    Herman.etal.2015, Koppes.etal.2015} and can recreate important glacial
+    landforms \citep[e.g.,][]{Harbor.etal.1988, Macgregor.etal.2000}.
     \citet{Koppes.etal.2015} quantified sediment
     yields in 15~Patagonian and Antarctic Peninsula fjords, concluding at a
     predominant control of surface air temperature on rapid glacier erosion and
@@ -138,11 +173,12 @@
     Here, the non-linear erosion law by \citet{Koppes.etal.2015} is applied to
     previously published model results \citep{Seguinot.etal.2018} and the
     patterns of modelled erosion rate and cumulative last glacial cycle erosion
-    potential are analysed. Despite aggregated uncertainties on paleoclimate,
-    glacier flow and glacier erosion processes, out results provide insights
-    into the diversity of the Alpine glacial erosion landscape. \ian{Furthermore,
-      we examine the glaciologcial and conditions that cause erosion and discuss
-      the implications of these conditions on understanding the relationship between climate and glacier erosion.  }
+    potential are analysed. We examine the glaciologcial conditions that cause
+    erosion and discuss the implications of these conditions on understanding
+    the relationship between climate and glacier erosion, Despite aggregated
+    uncertainties on paleoclimate, glacier flow and glacier erosion processes,
+    out results provide insights into the diversity of the Alpine glacial
+    erosion landscape.
 
 
 % ----------------------------------------------------------------------
@@ -163,22 +199,13 @@
     dilatation under high water pressure, bedrock deformation under the ice
     load, and a~positive degree-day (PDD) surface mass balance model. The model
     is initialized with assumed present-day ice thickness and equilibrium
-    ice and bedrock temperature at 120\,ka, and ran to the present.
+    ice and bedrock temperature at 120\,ka (thousand years before the present),
+    and ran to the present.
     The ice-sheet model physical parameters are listed in the earlier
     open-access publication \citep{Seguinot.etal.2018}, and the complete PISM
     set-up is stored in long-term archived model output metadata for the
-    present study \todo{upload}, and for the earlier publication
+    present study \citep{Seguinot.2021}, and for the earlier publication
     \citep{Seguinot.2020, Seguinot.2020a}.
-
-    \ian{It might be worth mentioning/discussing the role of ``till dilatation''
-      in the sliding relationship. There are a lot of interpretations, but
-      the erosion rule is thought to be a proxy for glacier abrasion of a glacier flowing
-      over a hard bed. Thus if there is a layer of till present it is arguable
-      if such abrasion can occur. Given the uncertainties, I doubt this factor
-      changes the story very much. However, it might be worth mentioning
-      something (somewhere) about how multiple processes are lumped together in
-      the sliding relationship or that till processes are uncertain due to the
-      unknown distribution of till. This could ease some reviewer concerns.  }
 
     Climate forcing is provided by a~monthly climatology from interpolated
     observational data \citep[WorldClim;][]{Hijmans.etal.2005} and the European
@@ -204,16 +231,16 @@
     where $K_g = 5.2\times 10^{-11}\,m^{1-l}\,a^{l-1}$ and $l = 2.34$ are
     empirical constants calibrated on quantified fjord sediment yields and
     velocities from 15~Patagonian and Antarctic Peninsula tidewater glaciers
-    \citep{Koppes.etal.2015}. \ian{We discuss the role of alternative values of
-    $K_\mathrm{g}$ and $l$ in Sect.~\ref{sec:powerlaws}.}
+    \citep{Koppes.etal.2015}. We discuss the role of alternative values of
+    $K_\mathrm{g}$ and $l$ in the discussion part (Sect.~\ref{sec:powerlaws}).
 
-    \ian{Our approach does not account for the feedback of glacier erosion onto
-    bedrock topography and, then onto, ice dynamics \citep[e.g.][]{Anderson.etal.2012}.
-    Neither does the approach account for downstream advection of debris \citep{Anderson.Anderson.2016}
-    or fluvial transport of subglacial sediment \citep{Delaney.etal.2019}. \textbf{this last
-    sentence might not be that important}}
-
-    We compute the time-integrated erosion rate,
+    Our approach does not account for the feedback of glacier erosion onto
+    bedrock topography and, then onto, ice dynamics
+    \citep[e.g.,][]{Anderson.etal.2012}. Neither does the approach account for
+    downstream advection of debris \citep[e.g.,][]{Anderson.Anderson.2016} that
+    may have shed the bedrock from erosion, or fluvial transport of subglacial
+    sediment \citep{Delaney.etal.2019}. Instead, we compute the time-integrated
+    glacier erosion rate,
     %
     \begin{equation}
         e =  K_\mathrm{g} \int u_\mathrm{b}^l dt,
@@ -236,6 +263,21 @@
 \subsection{Cumulative erosion}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
+    \begin{figure*}[ht]
+      \centerline{\includegraphics{alpero_cumulative}}
+      \caption{%
+        \textbf{(a)} Modelled cumulative (time-integrated) glacial erosion
+          potential over the last glacial cycle.
+        \textbf{(b)} Modelled total ice volume in centimetres of sea-level
+          equivalent (cm~s.l.e., black), annual (domain-integrated) erosion
+          volume (light brown) and 100-a running mean (dark brown). Shaded gray
+          areas indicate the timing for MIS~2 and~4
+          \citep{Lisiecki.Raymo.2005}.
+          \note{I have tried plotting cumulative erosion volume curve, but it
+                looks almost like a straight line for all erosion laws.}}
+        \label{fig:cumulative}
+    \end{figure*}
+
     The modelled cumulative (time-integrated) glacial erosion potential
     (Fig.~\ref{fig:cumulative}a) varies by several orders of magnitude
     from insignificant to hundred-metres-scale erosion potential. Its spatial
@@ -244,36 +286,41 @@
     the Alpine gates where ice flow transited from valley to piedmont glaciers,
     and further upstream where the valley slopes increase. While mountain
     cirques are poorly captured by the model horizontal resolution, high
-    cumulative erosion potential also occur near the valley heads.
+    cumulative erosion potential also occurs near the valley heads.
     There is a general tendency for higher cumulative erosion in the
-    north-western Alps where the input winter precipitation
-    \citep[WorldClim,][Fig.~1h]{Seguinot.etal.2018} is higher and the
-    glacial relief more pronounced in the input topography.
+    north-western Alps where the input winter precipitation is higher
+    \citep[WorldClim, Fig.~1h in][]{Seguinot.etal.2018} and the glacial relief
+    more pronounced in the input topography.
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 \subsection{Temporal evolution}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-\ian{Instead of saying ``volumetric erosion rate (m$^3$ a$^{-1}$)'', is it wiser to use
-  ``Annual erosion volume (m$^3$)'',
-  Also, in many papers there are plots of erosion rate over time. For one plot,
-  would it be good to plot erosion rate instead of volume (divide by area)?
-  This way some comparison can be easier made with other literature.
-  For instance, \citep{Stutenbecker.etal.2017} mentions a current erosion rate of $1.24$ mm a$^{-1}$.
-  Such a scaling might be good for comparison... or not if things are way off
-  and the message is much more about the relative change.
-}
 
+    \begin{figure}[ht]
+      \centerline{\includegraphics{alpero_evolution}}
+      \caption{%
+        Modelled annual (domain-integrated) erosion volume (light brown) and 100-a
+        running mean (dark brown) in relation to modelled total ice volume in
+        centimetres of sea-level equivalent.}
+      \label{fig:evolution}
+    \end{figure}
 
-    The modelled volumetric (domain-integrated) glacial erosion rates
-    do no systematically correlate with the modelled total ice volume
+    \note{I have replaced ``volumetric erosion rate'' with ``annual erosion
+          volume'' but kept the unit as ``m$^3$\,a$^{-1}$''. We agreed to stick
+          with erosion volume rather than average rates for now. Should the
+          erosion rate of 1.24\,mm\,a$^{-1}$ \citep{Stutenbecker.etal.2017} be
+          discussed?}
+
+    The modelled annual (domain-integrated) glacial erosion volume
+    does not systematically correlate with the modelled total ice volume
     (Fig.~\ref{fig:cumulative}b). Except for the onset and termination of the
     glacial cycle were ice volume is low and sliding processes unlikely to be
     captured by the model resolution, a comparison between the modelled ice
-    volume and the modelled volumetric erosion rate shows no single relation
+    volume and the modelled annual erosion volume shows no single relation
     between these two quantities (Fig.~\ref{fig:evolution}). After significant
     ice volume has been reached, there is a slight tendency for slower erosion
     during periods of extensive glaciation (Fig.~\ref{fig:evolution}). However,
-    the domain-integrated erosion rate is modelled to be consistently higher
+    the domain-integrated erosion volume is modelled to be consistently higher
     (by a factor 2 to 10) during periods of decreasing ice volume, than during
     periods of increasing ice volume (Fig.~\ref{fig:evolution}).
 
@@ -281,12 +328,33 @@
 \subsection{Spatial migration}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
+    \begin{figure*}[ht]
+      \centerline{\includegraphics{alpero_transects}}
+      \caption{%
+        \textbf{(a, b, c)} Modelled instantaneous erosion rate of the Rhine
+          Glacier for selected post-Last Glacial Maximum ages.
+        \textbf{(d)} Interpolated instantaneous erosion rate along a Rhine
+          Glacier transect for the entire last glacial cycle (upper panels
+          dashed line).}
+      \label{fig:transects}
+    \end{figure*}
+
+    \begin{figure*}[ht]
+      \centerline{\includegraphics{alpero_hypsogram}}
+      \caption{%
+        \textbf{(a)} Modelled erosion rate ``hypsogram'', showing the geometric
+          mean of (non-zero) modelled erosion rates in 10-m elevation bands
+          across the entire model domain and its time evolution.
+        \textbf{(b)} Same as Fig.~\ref{fig:cumulative}b.}
+      \label{fig:hypsogram}
+    \end{figure*}
+
     A closer look at the Rhine Glacier, one of the paleo-ice sheet's largest
-    outlets, reveals a spatial migration of the modelled high erosion rates.
+    outlets, reveals a spatial migration of the modelled rapid erosion areas.
     During stages of glacier advance and maximum extension, erosion is modelled
     to be moderate and restricted the lower parts of the catchment, while much
     the intra-montane Alps \citep[modelled to be largely
-    cold-based,][Fig.~6c]{Seguinot.etal.2018}, are modelled to experience
+    cold-based, Fig.~6c in][]{Seguinot.etal.2018}, are modelled to experience
     insignificant erosion (Fig.~\ref{fig:transects}a and~d). The modelled
     erosion rates both increase and propagate inwards during periods of glacier
     retreat (Fig.~\ref{fig:transects}b, c and~d).
@@ -294,7 +362,7 @@
     The results found on the Rhine Glacier catchment can be generalized to the
     entire model domain by using (present-day) bedrock altitude as a proxy for
     along-flow distance (Fig.~\ref{fig:hypsogram}). Thus more generally,
-    periods of modelled increasing and maximum ice volume corresponds to lower
+    periods of modelled increasing and maximum ice volume correspond to lower
     values for elevation-aggregated erosion rates, with significant erosion
     restricted to lower elevations. On the opposite, periods of modelled
     decreased ice volume correspond to higher local modelled erosion rates and
@@ -311,17 +379,31 @@
 \label{sec:sensitivity}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
+    \begin{figure*}[ht]
+      \centerline{\includegraphics{alpero_sensitivity}}
+      \caption{%
+        Modelled cumulative glacial erosion potential over the last glacial
+        cycle without \textbf{(a, b, c)} and with \textbf{(d, e, f)}
+        paleo-precipitation corrections, and using three different
+        palaeo-temperature histories \citep[see][]{Seguinot.etal.2018}.}
+      \label{fig:sensitivity}
+    \end{figure*}
+
     Different paleoclimate forcing scenarios lead to different modelled
-    glaciation histories and thus different results in terms of erosion
+    glaciation histories \citep[cf.][]{Seguinot.etal.2018} and thus different
+    results in terms of erosion
     potential (Fig.~\ref{fig:sensitivity}). Scenarios including higher
-    (constant) input precipitation rates yield generally higher modelled
+    (constant, present-day) input precipitation rates yield generally higher
+    modelled
     erosion potential (Fig.~\ref{fig:sensitivity}a, b, and~c), while scenarios
     including paleo-precipitation reductions (Fig.~\ref{fig:sensitivity}d, e,
-    and~f), including our default high-resolution run, yield a smaller erosion
-    potential. The spatial pattern of modelled erosion potential is
-    nevertheless generally consistent across paleoclimate scenarios tested,
+    and~f), including our default high-resolution run
+    (Fig.~\ref{fig:cumulative}), yield a smaller erosion potential. The spatial
+    pattern of modelled time-integrated erosion is nevertheless generally
+    consistent across the paleoclimate scenarios tested,
     despite variations in the glaciation maximum extent
-    (Fig.~\ref{fig:sensitivity}). Furthermore, these changes are minor
+    (Fig.~\ref{fig:sensitivity} and \citealp[Fig.~3 in][]{Seguinot.etal.2018}).
+    Furthermore, these changes are minor
     considering the large uncertainties affecting the choice of erosion law.
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
@@ -329,8 +411,31 @@
 \label{sec:powerlaws}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
+    \begin{figure*}[ht]
+      \centerline{\includegraphics{alpero_powerlaws}}
+      \caption{%
+        Modelled cumulative (time-integrated) glacial erosion potential for
+        three different erosion laws published by
+        \textbf{(a)} \citet{Koppes.etal.2015},
+          ${5.2 \times 10^{-8} u_\mathrm{b}^{2.34}}$ (same as
+          Fig.~\ref{fig:cumulative}a but with a different colour scale),
+        \textbf{(b)} \citet{Herman.etal.2015},
+          ${2.7 \times 10^{-7} u_\mathrm{b}^{2.02}}$,
+        \textbf{(c)} \citet{Humphrey.Raymond.1994},
+          ${1 \times 10^{-4} u_\mathrm{b}^{1}}$, and
+        \textbf{(d)} \citet{Cook.etal.2020},
+          ${1.665 \times 10^{-1} u_\mathrm{b}^{0.6459}}$.
+        \textbf{(e-h)} Corresponding modelled cumulative glacial erosion
+          potential along a Rhine Glacier transect (upper panels dashed line), and
+        \textbf{(i-l)} corresponding modelled evolution of annual
+        (domain-integrated) erosion volume (light brown) and 100-a
+        running mean (dark brown) in relation to modelled total ice volume in
+        centimetres of sea-level equivalent (as in Fig.~\ref{fig:evolution}a).}
+      \label{fig:powerlaws}
+    \end{figure*}
+
     The choice of erosion law significantly impacts the results
-    (Fig.~\ref{fig:powerlaws}). Our default erosion law, based on quantified
+    (Fig.~\ref{fig:powerlaws}). Our default, based on quantified
     sediment yields from Patagonian and Antarctic Peninsula tidewater glaciers
     \citep[${\dot{e}=5.2\times10^{-8}u_\mathrm{b}^{2.34}}$,][]{Koppes.etal.2015}
     yields a moderate and strongly localized cumulative erosion potential
@@ -340,113 +445,118 @@
     also yields a strongly localized, and yet much higher, modelled erosion
     potential (Fig.~\ref{fig:powerlaws}b). The erosion law based on measured
     suspended sediment load during a surge of Variegated Glacier
-    \citep[${\dot{e}=1\times10^{-4}u_\mathrm{b}^{1}}$,][]{Humphrey.Raymond.1994},
+    \citep[${\dot{e}=1\times10^{-4}u_\mathrm{b}^{1}}$,][]{Humphrey.Raymond.1994}
     results in similarly high values, but a less localized pattern of cumulative
     erosion potential (Fig.~\ref{fig:powerlaws}c). Finally, The erosion law
-    based on a global compilation of glacier velocity and erosion rates
+    based on a global compilation of glacier velocities and erosion rates
     \citep[${\dot{e}=1.665\times10^{-1}u_\mathrm{b}^{0.6459}}$,][]{Cook.etal.2020}
     yields an even flatter pattern of cumulative erosion potential
     (Fig.~\ref{fig:powerlaws}d).
 
     It may seem surprising that the erosion law calibrated on Patagonian and
     Antarctic Peninsula tidewater glaciers \citep{Koppes.etal.2015} yields a
-    more realistic cumulative erosion potential than those based on terrestrial
+    more realistic glacial cycle erosion potential in the Alps than those based
+    on terrestrial
     glaciers \citep{Humphrey.Raymond.1994, Herman.etal.2015, Cook.etal.2020},
-    themselves resulting
-    in cumulative erosion potential values in the order of kilometres and thus
+    themselves resulting in kilometre-scale integrated erosion even
     higher than the Alpine relief itself. However, during the Last Glacial
     Maximum and much of the last glacial cycle, Alpine paleoglaciers were
-    closer in size and climatic context to the present-day glaciers of
+    closer in size, slope, and climatic context to the present-day glaciers of
     Patagonia and the Antarctic Peninsula \citep{Koppes.etal.2015} than to
     Franz-Joseph Glacier \citep{Herman.etal.2015} and many of the glaciers
-    included in the global compilation by \citet{Cook.etal.2020}. Atmospheric
+    included in the global compilation by \citet{Cook.etal.2020}. Indeed,
+    atmospheric
     temperatures have been found to be a strong driver of erosion in studies
     involving several glaciers \citep{Koppes.etal.2015, Cook.etal.2020}.
 
     That said, the magnitude of the modelled erosion rates can hardly be used
-    as a criteria to rule out this or that erosion law for the glacial Alps, as
-    all these laws are affected with very large uncertainties. It can not be
-    excluded that a linear or sub-linear erosion-law
-    \citep[e.g.][]{Cook.etal.2020} would lead to a less localized pattern of
-    erosion (Fig.~\ref{fig:powerlaws}d), and a stronger correlation between
-    modelled ice volume and erosion (Fig.~\ref{fig:powerlaws}l). Even
-    then, the intrinsically large variations in glacier sliding velocities
-    yields modelled glacial-cycle erosion potential two to three orders of
+    as a criteria to rule out this or that erosion law for the glacial Alps.
+    Firstly, while sliding is here modelled by a pseudo-plastic law based on
+    till dilatation under high water pressure \citep{Tulaczyk.etal.2000},
+    empirical erosion rules are thought to be a proxy for glacier abrasion
+    \note{and plucking?} of a glacier flowing over a hard bed. Secondly, it is
+    arguable that a layer of till and proglacial sediments may have hindered
+    erosion for at least parts of the glacial cycle. Finally, all empirical
+    erosion laws are affected with very large uncertainties. Thus it can not
+    be excluded that a linear or sub-linear erosion-law
+    \citep[e.g.,][]{Cook.etal.2020} would lead to a less localized pattern of
+    erosion (Fig.~\ref{fig:powerlaws}c and~d), and a stronger correlation
+    between modelled ice volume and erosion (Fig.~\ref{fig:powerlaws}k and~l).
+    Even then, the intrinsically large variations in modelled glacier sliding
+    velocities yield cumulative glacial-cycle erosion two to three orders of
     magnitude higher in the Alpine valley than near the mountain tops
     (Fig.~\ref{fig:powerlaws}d).
 
-% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
- \subsection{Deglaciation rapid erosion}
- \label{sect:deglac_ero}
- % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
- \ian{This section title strange now, maybe \textbf{Rapid erosion during
-     deglaciation}. However, what about this?  \textbf{Implications for
-     understanding the relationship between erosion and climate}... I think
-   it is not only the deglaciation that is interesting, but also the periods before.}
 
-    The modelled, domain-integrated glacier erosion rates do not increase
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+\subsection{Climate control on erosion}
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+
+    \note{What about this new section title?}
+
+    The modelled, domain-integrated glacier erosion volume do not increase
     together with ice volume. On the opposite, periods of ice advance and
     maximum glaciation correspond to comparatively slow erosion
     (Figs.~\ref{fig:cumulative} and~\ref{fig:evolution}). While this result may
     seem paradoxical, and is modulated by the exponent, $l$, in the erosion
     power-law, it is in fact compatible with previous field-based studies that
-    have evidenced an \ian{\textbf{do you mean inverse or direct? inverse}}
-    relationship between air temperatures and glacier erosion rates
-    \ian{in some cases} \citep{Koppes.etal.2015, Cook.etal.2020}.
+    have evidenced an increase of erosion rates with air temperatures for at
+    least some sets of glaciers \citep{Koppes.etal.2015, Cook.etal.2020}.
 
-    \ian{Cold temperatures generally reduce sliding \citep{Koppes.etal.2015} and
-      if the glacier becomes cold-based then sliding, and thus erosion, will cease altogether.
-      Furthermore, in cases of advance, ice surfaces gradients are lower and cold ice is
-      advected downglacier, thus limiting erosion.}
-
-    Deglaciation periods, characterised by a warmer climate and above-balance
-    glacier extent, yield the highest domain-integrated erosion rates of the
+    Cold temperatures generally reduce sliding \citep{Koppes.etal.2015} and if
+    the glacier becomes cold-based then sliding, and thus erosion, will cease
+    altogether. In cases of glacier advance, newly formed, atmosphere-cold ice
+    expands onto cooled bedrock hindering ice deformation and basal sliding.
+    \note{Ian: ``Furthermore, in cases of advance, ice surfaces
+          gradients are lower and cold ice is advected downglacier, thus
+          limiting erosion''. Is this also valid for relatively low-sloping
+          piedmont glaciers?}
+    On the other hand, deglaciation periods are characterised by a warmer
+    climate and above-balance glacier extent. Glacier ice formed an isolating
+    blanket from the atmosphere so that geothermal heat has had time to warm up
+    the lower layers and activate the double-feedback loop between ice
+    temperature, deformation heat dissipation and basal melt-induced sliding.
+    Warmer air temperatures contribute to enhance deformation and sliding even
+    more, yielding the highest domain-integrated erosion rates of the
     glacial cycle (Figs.~\ref{fig:cumulative} and~\ref{fig:evolution}).
-    \ian{\textbf{I think it would be good to have a sentence about the
-        differences in glacier dynamics that cause the increase.}
-      Recent work, examining a denudation records, highlights that a non-linear forcing between
-      climate and glacier erosion persists \citep{Mariotti.etal.2021}. This paper
-      noted an increase in glacier erosion in the southern Alps, in the Var Valley,
-      roughly at $25$\,\unit{Ka} Bp following an extended period of low dunudation rates.
-      The increase in erosion here, predates the increase observed in our study
-      ($\sim 15$\,\unit{Ka}; Figs.~\ref{fig:evolution}). However, similar processes caused by climate warming
-      likely persist. This sedimentary record \citep{Mariotti.etal.2021} and the model results
-      here demonstrate that climatic conditions over-which glacier erosion occurs
-      are relatively specific and likely transient. }
 
-    \ian{I added some citations here. Increases in erosion following glacier retreat
-      seems to happen. But there are good critisims of the sedimentary record, and the mechanism
-      seems a little bit uncertain. This is one of the cool things about this paper, but also makes this paragarph
-    a bit delicate.}
-    This
-    result is compatible with the field-based studies, which have evidenced
-    increased glacier erosion and pro-glacial sedimentation during deglaciation
-    periods \citep[e.g.][]{Koppes.Montgomery.2009,Micheletti.Lane.2016,Lane.etal.2017}, including the ongoing glacier retreat
-    \citep[e.g.][]{Bendixen.etal.2017}. Yet this increase has often been attributed
-    to higher meltwater availability, promoting sediment transport \citep{Delaney.Adhikari.2020},
-    enhanced glacier sliding \citep[][This citation might a bit strange]{Herman.etal.2011}, and hydrofracturing
-    (plucking) \citep[][This citation is more about monthly to diurnal variability]{Ugelvig.etal.2018}.
+    \note{I took the freedom to shorten the Var story quite a bit.}
+    This result is corroborated by a recent denudation record from the
+    Mediterranean Alps, which includes an increase in glacier erosion in the
+    Var Valley, roughly at 25\,ka following an extended period of low
+    dunudation rates \citep{Mariotti.etal.2021}. While that increase in
+    erosion predates the increase observed in our study (ca.~15\,ka;
+    Fig.~\ref{fig:evolution}), it demonstrates that climatic conditions
+    over-which glacier erosion occurs are relatively specific and likely
+    transient. Other field-based studies have evidenced increased glacier
+    erosion and pro-glacial sedimentation during deglaciation periods
+    \citep[e.g.,][]{Koppes.Montgomery.2009, Micheletti.Lane.2016,
+    Lane.etal.2017}, including the ongoing glacier retreat
+    \citep[e.g.,][]{Bendixen.etal.2017}. Yet this increase has often been
+    attributed to higher meltwater availability, promoting sediment transport
+    \citep{Delaney.Adhikari.2020}, enhanced glacier sliding
+    \citep{Herman.etal.2011}, and hydrofracturing (plucking)
+    \citep{Hallet.1996, Ugelvig.etal.2018, Hildes.etal.2004}.
 
     But importantly, these hydrological processes are not included in our
     model, so that deglaciation surface meltwater is assumed to instantly exit
-    the glacier with no effect on glacier dynamics \ian{ \citep[e.g][]{Werder.etal.2013}
-      or glacier erosion  \citep[][]{Iverson.etal.2012,Ugelvig.etal.2018}}.
-    The enhanced glacier
+    the glacier with no effect on glacier dynamics \citep[cf.][for comparison]
+    {Werder.etal.2013, Iverson.2012, Ugelvig.etal.2018}. The enhanced glacier
     velocity during periods of ice retreat is here modelled to result from
     changes of air temperature alone, propagating through diffusion and
     advection into the ice, increasing the glacier's internal energy through
     temperature and englacial water content, thereby facilitating shear strain
-    and eventually activating basal sliding \citep[cf.][]{Aschwanden.etal.2012,
-    Seguinot.etal.2016}. Observed feedbacks between surface meltwater and basal
-    sliding, not included in the model, presumably further accelerated erosion
-    during deglaciation \citep{Herman.etal.2011}. \ian{Furthermore, we omit the
-      fluvial transport of sediment, which could well increase sediment discharge
-      and erosion with increased melt, so long as additional sediment remains
-      available \citep{Delaney.Adhikari.2020}. Rapid glacier erosion can be expected
-    to accompany the  ongoing 21st-century deglaciation phase. This trend might be
-    especially strong on the ice sheets of Greenland and Antarctica where
-    polythermal and cold-based glaciers are warming and sliding is increasing
-    \citep[e.g.][]{Moon.etal.2012,Overeem.etal.2017}.}
+    and eventually activating basal sliding \citep[cf.][for the physics]
+    {Aschwanden.etal.2012, Seguinot.etal.2016}. Observed feedbacks between
+    surface meltwater and basal sliding, not included in the model, presumably
+    further accelerated erosion during deglaciation \citep{Herman.etal.2011}.
+    Furthermore, we omit the fluvial transport of sediment, which could well
+    increase sediment discharge and erosion with increased melt, so long as
+    additional sediment remains available \citep{Delaney.Adhikari.2020}. Rapid
+    glacier erosion can be expected to accompany the ongoing 21st-century
+    deglaciation phase, especially for the ice sheets of Greenland and
+    Antarctica where polythermal and cold-based glaciers are warming and
+    sliding is increasing \citep[e.g.,][]{Moon.etal.2012,Overeem.etal.2017}.
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 \subsection{Age of the glacial landscape}
@@ -457,30 +567,34 @@
     instantaneous erosion rates show a time-transgressive radial pattern
     (Fig.~\ref{fig:transects}), so that high-altitude rapid erosion is not
     modelled to date from expansive glaciation stages, but instead to stages of
-    intermediate glacier cover \citep[Fig.~\ref{fig:hypsogram}; ][]{Barr.etal.2019}.
+    intermediate glacier cover
+    \citep[Fig.~\ref{fig:hypsogram};][]{Barr.etal.2019}.
 
-    For instance, low-elevation piedmont over-deepened troughs such as Lake
+    For instance, low-elevation piedmont over-deepened basins such as Lake
     Constance (Fig.~\ref{fig:landscape}), Lake Geneva and Lake Maggiore, are
     here modelled to be the product of extensive, Last Glacial Maximum-like
-    glaciations. \ian{Other modeling work suggests that features such as these
-      likely form when water can access the glacier bed and encourage glacier
-      sliding and, thus, erosion \citep{Herman.etal.2011}. The model herein does not
-      include subglacial hydrology, the role of climate warming to concentrating
-      glacier erosion to the lower elevations and alpine remains evident.}
-
+    glaciations. Other modeling work suggests that features such as these
+    likely form when water can access the glacier bed and encourage glacier
+    sliding and, thus, erosion \citep{Herman.etal.2011}. The model herein does
+    not include subglacial hydrology, yet the role of climate warming to
+    increasing glacier erosion to the lower elevations remains evident
+    (Fig.~\ref{fig:hypsogram}).
     Alpine terrain with elevations above 1000\,m are modelled to
     experience virtually no erosion from 35 to 18\,ka BP
     (Fig.~\ref{fig:hypsogram}), so that many of the most spectacular,
-    intermediate-elevation glacial valley of the Alps such as Lauterbrunnental
-    (Fig.~\ref{fig:hypsogram}), Haslital (Upper Aare) or Bout du Monde (Upper
-    Giffre). While the validity of the model results at high elevation are
+    intermediate-elevation glacial valley of the Alps as Lauterbrunnental
+    (Fig.~\ref{fig:landscape}), Haslital (Upper Aare) or Bout du Monde (Upper
+    Giffre) would date from periods of intermediate glacier extension.
+    While the validity of the model results at high elevation are
     limited by the 1-km resolution and the shallow-ice physics
     \citep{Imhof.etal.2019}, the lack of high-elevation rapid erosion for much
     of the modelled glacial cycle implies that the numerous Alpine mountain
-    cirques such as Ch\"uebodensee (Fig.~\ref{fig:landscape}) would date from
-    temperate periods with limited ice-cover such as the present day \ian{
-      or over interglacial periods, when glaciers are confined to their cirques
-      \citep{Barr.etal.2017,Barr.etal.2019}}.
+    cirques such as Ch\"uebodensee (Fig.~\ref{fig:landscape}) would have formed
+    over interglacial periods, when glaciers are confined to their cirques
+    \citep{Barr.etal.2017, Barr.etal.2019}. Similar processes also occur on
+    Himalayan glaciers and may limit erosion for the high elevation portion of
+    the mountain range during cold periods as well, failing to offset uplift
+    rates \citep{Harper.Humphrey.2003}.
 
     Finally, the time-transgressive nature of the modelled glacial erosion
     rates hint at a new explanation for the Alpine glacier trim-line and lack
@@ -489,11 +603,12 @@
     mountain range that hosted glaciers of various sizes throughout the varying
     climate of the Quaternary, resulting in a transgressive localization of
     glacier erosion throughout their elevational range, from the piedmont
-    during glacial maxima, to the highest valleys during interglacial periods.
-    %The Alpine trim-line, in this case, would neither correspond to the upper
-    %reach of the Last Glacial Maximum glaciers \aref, nor to an englacial
-    %temperate-ice boundary \aref, but to an upper limit of erosion from
-    %retreating glaciers on steep terrain.
+    during glacial maxima, to thei highest cirques during interglacial periods.
+    The Alpine trim-line, in this case, would neither correspond to the upper
+    reach of the Last Glacial Maximum glaciers \citep[e.g.]{Kelly.etal.2004},
+    nor to an englacial temperate-ice boundary \citep{Coutterand.2010,
+    Seguinot.etal.2018}, but to a time-transgresive upper limit of erosion from
+    retreating glaciers on steep terrain.
 
 
 % ----------------------------------------------------------------------
@@ -508,6 +623,9 @@
       \item The non-linear physics of glacier deformation and sliding, combined
         with non-linear empirical erosion laws, results in a very strong
         localization of rapid glacier erosion in regions of fast flow.
+      \item This high spatialtemporal variability hints at a complex
+        relationship between climate and glacier erosion, so that a highly
+        variable response of glacier erosion to climate should be expected.
       \item Temperature-dependent creep and basal sliding provide a mechanism
         for accelerated erosion during deglaciation periods, irrespective of
         surface meltwater penetration to the glacier bed.
@@ -520,9 +638,6 @@
       \item The diversity of the Alpine glacial erosion landscape appears to
         be the time-transgressive signature of a variety of glacial stages
         ranging from pan-Alpine ice sheets to modern-style mountain glaciers.
-      \item \ian{The high spatialtemporal variability  in erosion suggests that
-          the relationship between climate and glacier erosion remains greatly complex.
-          As a result, a highly variable response of glacier erosion to climate forcings should be expected.}
     \end{itemize}
 
 
@@ -543,9 +658,9 @@
     (\url{https://vimeo.com/503162771}).}
 
 \authorcontribution{%
-    J.~Seguinot performed the computations and initially drafted the
-    manuscript. I.~Delanay contributed to interpret the results in broader
-    context.}
+    J.~Seguinot performed the computations and prepared the figures.
+    I.~Delaney interpreted the results in a broader context. Both authors
+    contributed to the text.}
 
 \competinginterests{%
     The authors declare that they have no conflict of interest.}
@@ -572,102 +687,6 @@
 
 \bibliographystyle{copernicus}
 \bibliography{alps-erosion}
-
-
-% ----------------------------------------------------------------------
-% Figures
-\clearpage
-% ----------------------------------------------------------------------
-
-    \begin{figure*}
-      \centerline{\includegraphics{alpero_landscape}}
-      \caption{%
-        Alpine glacial erosion landscape diversity.
-        \textbf{(a)} Piedmont overdeepening of Lake Constance, ca.~10x50\,km.
-        \textbf{(b)} Glacial trough of Lauterbrunnental, ca.~1x10\,km.
-        \textbf{(c)} Mountain cirque of Ch\"uebodengletscher, ca.~1x1\,km.}
-      \label{fig:landscape}
-    \end{figure*}
-
-    \begin{figure*}
-      \centerline{\includegraphics{alpero_cumulative}}
-      \caption{%
-        \textbf{(a)} Modelled cumulative (time-integrated) glacial erosion
-          potential over the last glacial cycle.
-        \textbf{(b)} Modelled total ice volume in centimetres of sea-level
-          equivalent (cm~s.l.e., black), volumic (domain-integrated) erosion
-          rate (light brown) and 100-a running mean (dark brown). Shaded gray
-          areas indicate the timing for MIS~2 and~4
-          \citep{Lisiecki.Raymo.2005}.} \label{fig:cumulative}
-    \end{figure*}
-
-    \begin{figure}
-      \centerline{\includegraphics{alpero_evolution}}
-      \caption{%
-        Modelled volumic (domain-integrated) erosion rate (light brown) and 100-a
-        running mean (dark brown) in relation to modelled total ice volume in
-        centimetres of sea-level equivalent.}
-      \label{fig:evolution}
-    \end{figure}
-
-    \begin{figure*}
-      \centerline{\includegraphics{alpero_transects}}
-      \caption{%
-        \textbf{(a, b, c)} Modelled instantaneous erosion rate of the Rhine
-          Glacier for selected post-Last Glacial Maximum ages.
-        \textbf{(d)} Interpolated instantaneous erosion rate along a Rhine
-          Glacier transect for the entire last glacial cycle (upper panels
-          dashed line).}
-      \label{fig:transects}
-    \end{figure*}
-
-    \begin{figure*}
-      \centerline{\includegraphics{alpero_hypsogram}}
-      \caption{%
-        \textbf{(a)} Modelled erosion rate ``hypsogram'', showing the geometric
-          mean of (non-zero) modelled erosion rates in 10-m elevation bands
-          across the entire model domain and its time evolution.
-        \textbf{(b)} Same as Fig.~\ref{fig:cumulative}b.}
-      \label{fig:hypsogram}
-    \end{figure*}
-
-    \begin{figure*}
-      \centerline{\includegraphics{alpero_sensitivity}}
-      \caption{%
-        Modelled cumulative glacial erosion potential over the last glacial
-        cycle without \textbf{(a, b, c)} and with \textbf{(d, e, f)}
-        paleo-precipitation corrections, and using three different
-        palaeo-temperature histories \citep[see][]{Seguinot.etal.2018}.}
-      \label{fig:sensitivity}
-    \end{figure*}
-
-    \begin{figure*}
-      \centerline{\includegraphics{alpero_powerlaws}}
-      \caption{%
-        Modelled cumulative (time-integrated) glacial erosion potential for
-        three different erosion laws published by
-        \textbf{(a)} \citet{Koppes.etal.2015},
-          ${5.2 \times 10^{-8} u_\mathrm{b}^{2.34}}$ (same as
-          Fig.~\ref{fig:cumulative}a but with a different colour scale),
-        \textbf{(b)} \citet{Herman.etal.2015},
-          ${2.7 \times 10^{-7} u_\mathrm{b}^{2.02}}$,
-        \textbf{(c)} \citet{Humphrey.Raymond.1994},
-          ${1 \times 10^{-4} u_\mathrm{b}^{1}}$, and
-        \textbf{(d)} \citet{Cook.etal.2020},
-          ${1.665 \times 10^{-1} u_\mathrm{b}^{0.6459}}$.
-        \textbf{(e-h)} Corresponding modelled cumulative glacial erosion
-          potential along a Rhine Glacier transect (upper panels dashed line), and
-        \textbf{(i-l)} corresponding modelled evolution of volumic
-        (domain-integrated) erosion rate (light brown) and 100-a
-        running mean (dark brown) in relation to modelled total ice volume in
-        centimetres of sea-level equivalent (as in Fig.~\ref{fig:evolution}a).}
-      \label{fig:powerlaws}
-    \end{figure*}
-
-% ----------------------------------------------------------------------
-% Tables
-%\clearpage
-% ----------------------------------------------------------------------
 
 
 % ======================================================================
