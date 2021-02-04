@@ -6,6 +6,7 @@
 % ==================
 
 \documentclass[esurf, manuscript]{copernicus}
+\usepackage{CJK}  % Japanese text
 
 % custom colours (colorbrewer2.org)
 \definecolor{Bu}{cmyk}{1.00,0.45,0.00,0.07}  % Blues
@@ -89,7 +90,7 @@
     Alps, while the proper noun ``Alps'' has been applied to nick-name
     Alpine-like, glacier eroded mountain ranges in Norway (\emph{Lyngsalpene}),
     New Zealand (Southern Alps), Japan
-    (\emph{%\begin{CJK}{UTF8}{min}日本アルプス\end{CJK},
+    (\emph{\begin{CJK}{UTF8}{min}日本アルプス\end{CJK},
     Nihon Arupusu}), and elsewhere.
 
     Some mountain ranges are predominantly characterised by cirque glaciation
@@ -98,30 +99,56 @@
     the Alps, present a higher variety glacial erosional landforms
     (Fig.~\ref{fig:landscape}), whose implications on glacial history is yet to
     be understood.
-    In absence of other glacial landforms, the degree of glacial modification
-    of a landscape has sometimes been used as a proxy for the duration of past
-    glacier cover, as for instance in geomorphological mapping
-    \citep[e.g.][]{Margold.etal.2011, Fu.etal.2012}. Cold-based glaciers have
-    been shown to preserve landforms as fragile as sand beaches
-    \citep{Kleman.1994}. Yet it remains unclear how sharp the erosional
+
+    In absence of other landforms, glacially eroded topography has sometimes
+    been used as a proxy for glacier extension, for instance in
+    geomorphological mapping \citep[e.g.,][]{Margold.etal.2011, Fu.etal.2012}.
+    Cold-based glaciers, however, have been observed to preserve landforms as
+    fragile as sand beaches \citep{Kleman.1994}, leading to the
+    reinterpretation of complex glacial landscapes within a binary conceptual
+    framework of cold and temperate basal thermal regimes
+    \citep{Kleman.etal.2008, Kleman.etal.2010, Fabel.etal.2012, Fu.etal.2013}.
+    Nevertheless, it remains unclear how sharp the erosional
     transition to cold-based ice is, and why some glaciated regions show
     glacially preserved landscapes and others, including the Alps, do not
     \citep{Wirsig.etal.2016, Seguinot.etal.2018}.
 
-    \ian{Furthermore, glacier erosion likely  governs, at least in part, the height of mountains \citep{Egholm.etal.2009,Thomson.etal.2010} through the ``glacier buzz-saw''.
-      In turn, evidence suggests that increase erosion rates coincided with global cooling and  Pliestocene glaciations from roughly 2.6\unit{Ma} Bp \citep{Herman.Champagnac.2016}.
-      Yet, other work suggests that global weathering rates remained constant over this time period \citep{Willenbring.Von-Blanckenburg.2010}.
-      Examination of contemporary erosion rates across different climates suggest that increased temperatures in glaciated regions lead to higher erosion rates and that erosion rates may have increased towards present \citep{Koppes.Montgomery.2009,Koppes.etal.2015,Fernandez.etal.2016}.
-      However, understanding the link between climate and glacier erosion in the sedimentary record remains difficult due to time scale biases \citep{Ganti.etal.2016} and the non-linear relationship  between temperature and erosion \citep[e.g.][]{Anderson.etal.2012,Mariotti.etal.2021}}
+    On longer time scales, glacier erosion likely governs, at least in part,
+    the height of mountains \citep{Egholm.etal.2009,Thomson.etal.2010} through
+    the ``glacier buzz-saw''. In turn, evidence suggests that increased
+    mountain erosion rates coincided with global cooling and Pliestocene
+    glaciations from roughly 2.6\,Ma (million years before present)
+    \citep{Herman.Champagnac.2016}. Yet, other work suggests that global
+    weathering rates remained constant over this time period
+    \citep{Willenbring.Von-Blanckenburg.2010}. \note{Evidence suggests, other
+    work suggests, maybe this can be reworked.} Examination of contemporary
+    erosion rates across different climates suggest that increased temperatures
+    in glaciated regions lead to higher erosion rates and that erosion rates
+    may have increased towards present \citep{Koppes.Montgomery.2009,
+    Koppes.etal.2015, Fernandez.etal.2016}. However, understanding the link
+    between climate and glacier erosion in the sedimentary record remains
+    difficult due to time scale biases \citep{Ganti.etal.2016} and the
+    non-linear relationship  between temperature and erosion
+    \citep[e.g.,][]{Anderson.etal.2012,Mariotti.etal.2021}.
 
-    \ian{
-      Observing and quantifying the long-term erosion
-      and sedimentation processes has been a challenge, and two general methods have been adopted to quantify erosion \citep{Alley.etal.2019}.
-      Physically-based models describe quarrying process and abrasion of bedrock by debris laden ice \citep[e.g.][]{Alley.etal.1997,Iverson.2012,Beaud.etal.2014}.
-      Describing the processes physically provides a basis for understanding erosion processes \citep{Hallet.1979, Ugelvig.etal.2018} and yields insight into the formation of glacial landforms, such as tunnel valleys and eskers \citep{Beaud.etal.2018,Hewitt.Creyts.2019}.
-      Yet, these models prove difficult to implement in many cases due to the large number of poorly constrained parameters and process, i.e. water pressure flucuations and subglacial debris concentration \citep[e.g.][]{Hallet.1979,Ugelvig.etal.2018}.}
+    Observing and quantifying the long-term glacier erosion and sedimentation
+    processes has been a challenge, and two general methods have been adopted
+    to quantify erosion \citep{Alley.etal.2019}. Physically-based models
+    describe quarrying process and abrasion of bedrock by debris laden ice
+    \citep[e.g.,][]{Alley.etal.1997, Iverson.2012, Beaud.etal.2014}. Describing
+    the processes physically provides a basis for understanding erosion
+    processes \citep{Hallet.1979, Ugelvig.etal.2018} and yields insight into
+    the formation of glacial landforms, such as tunnel valleys and eskers
+    \citep{Beaud.etal.2018, Hewitt.Creyts.2019}. Yet, these models prove
+    difficult to implement in many cases due to the large number of poorly
+    constrained parameters and process, i.e. water pressure flucuations and
+    subglacial debris concentration \citep[e.g.,][]{Hallet.1979, Seguinot.2008,
+    Ugelvig.etal.2018}.
 
-    Instead, empirical relationships between glacier sliding and erosion can represent erosional quantities  well \citep[e.g.][]{Humphrey.Raymond.1994, Herman.etal.2015, Koppes.etal.2015} and can recreate important glacial landforms \citep[e.g.][]{Harbor.etal.1988,Macgregor.etal.2000}.
+    Instead, empirical relationships between glacier sliding and erosion can
+    represent erosional quantities well \citep[e.g.,][]{Humphrey.Raymond.1994,
+    Herman.etal.2015, Koppes.etal.2015} and can recreate important glacial
+    landforms \citep[e.g.,][]{Harbor.etal.1988, Macgregor.etal.2000}.
     \citet{Koppes.etal.2015} quantified sediment
     yields in 15~Patagonian and Antarctic Peninsula fjords, concluding at a
     predominant control of surface air temperature on rapid glacier erosion and
@@ -138,11 +165,12 @@
     Here, the non-linear erosion law by \citet{Koppes.etal.2015} is applied to
     previously published model results \citep{Seguinot.etal.2018} and the
     patterns of modelled erosion rate and cumulative last glacial cycle erosion
-    potential are analysed. Despite aggregated uncertainties on paleoclimate,
-    glacier flow and glacier erosion processes, out results provide insights
-    into the diversity of the Alpine glacial erosion landscape. \ian{Furthermore,
-      we examine the glaciologcial conditions that cause erosion and discuss
-      the implications of these conditions on understanding the relationship between climate and glacier erosion.  }
+    potential are analysed. We examine the glaciologcial conditions that cause
+    erosion and discuss the implications of these conditions on understanding
+    the relationship between climate and glacier erosion, Despite aggregated
+    uncertainties on paleoclimate, glacier flow and glacier erosion processes,
+    out results provide insights into the diversity of the Alpine glacial
+    erosion landscape.
 
 
 % ----------------------------------------------------------------------
