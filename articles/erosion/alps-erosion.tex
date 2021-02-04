@@ -68,7 +68,7 @@
     date from phases of intermediate glacier cover. The modelled erosion rates
     peak during deglaciation phases, when higher air and glacier temperature
     enhance glacier dynamics, implying that climatic conditions that result in
-    rapid glacier erosion might be quite specific.
+    rapid glacier erosion might be quite transient and specific.
     %
     Our results depict the Alpine glacier erosion landscape as a
     time-transgressive patchwork, with different erosional landscapes of the
@@ -191,7 +191,8 @@
     dilatation under high water pressure, bedrock deformation under the ice
     load, and a~positive degree-day (PDD) surface mass balance model. The model
     is initialized with assumed present-day ice thickness and equilibrium
-    ice and bedrock temperature at 120\,ka, and ran to the present.
+    ice and bedrock temperature at 120\,ka (thousand years before the present),
+    and ran to the present.
     The ice-sheet model physical parameters are listed in the earlier
     open-access publication \citep{Seguinot.etal.2018}, and the complete PISM
     set-up is stored in long-term archived model output metadata for the
@@ -407,77 +408,74 @@
     \todo{Insert discussion of sediments here.}
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
- \subsection{Deglaciation rapid erosion}
- \label{sect:deglac_ero}
- % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
- \ian{This section title strange now, maybe \textbf{Rapid erosion during
-     deglaciation}. However, what about this?  \textbf{Implications for
-     understanding the relationship between erosion and climate}... I think
-   it is not only the deglaciation that is interesting, but also the periods before.}
+\subsection{Climate control on erosion}
+% -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
-    The modelled, domain-integrated glacier erosion rates do not increase
+    \note{What about this new section title?}
+
+    The modelled, domain-integrated glacier erosion volume do not increase
     together with ice volume. On the opposite, periods of ice advance and
     maximum glaciation correspond to comparatively slow erosion
     (Figs.~\ref{fig:cumulative} and~\ref{fig:evolution}). While this result may
     seem paradoxical, and is modulated by the exponent, $l$, in the erosion
     power-law, it is in fact compatible with previous field-based studies that
-    have evidenced an \ian{\textbf{do you mean inverse or direct? inverse}}
-    relationship between air temperatures and glacier erosion rates
-    \ian{in some cases} \citep{Koppes.etal.2015, Cook.etal.2020}.
+    have evidenced an increase of erosion rates with air temperatures for at
+    least some sets of glaciers \citep{Koppes.etal.2015, Cook.etal.2020}.
 
-    \ian{Cold temperatures generally reduce sliding \citep{Koppes.etal.2015} and
-      if the glacier becomes cold-based then sliding, and thus erosion, will cease altogether.
-      Furthermore, in cases of advance, ice surfaces gradients are lower and cold ice is
-      advected downglacier, thus limiting erosion.}
-
-    Deglaciation periods, characterised by a warmer climate and above-balance
-    glacier extent, yield the highest domain-integrated erosion rates of the
+    Cold temperatures generally reduce sliding \citep{Koppes.etal.2015} and if
+    the glacier becomes cold-based then sliding, and thus erosion, will cease
+    altogether. In cases of glacier advance, newly formed, atmosphere-cold ice
+    expands onto cooled bedrock hindering ice deformation and basal sliding.
+    \note{Ian: ``Furthermore, in cases of advance, ice surfaces
+          gradients are lower and cold ice is advected downglacier, thus
+          limiting erosion''. Is this also valid for relatively low-sloping
+          piedmont glaciers?}
+    On the other hand, deglaciation periods are characterised by a warmer
+    climate and above-balance glacier extent. Glacier ice formed an isolating
+    blanket from the atmosphere so that geothermal heat has had time to warm up
+    the lower layers and activate the double-feedback loop between ice
+    temperature, deformation heat dissipation and basal melt-induced sliding.
+    Warmer air temperatures contribute to enhance deformation and sliding even
+    more, yielding the highest domain-integrated erosion rates of the
     glacial cycle (Figs.~\ref{fig:cumulative} and~\ref{fig:evolution}).
-    \ian{\textbf{I think it would be good to have a sentence about the
-        differences in glacier dynamics that cause the increase.}
-      Recent work, examining a denudation records, highlights that a non-linear forcing between
-      climate and glacier erosion persists \citep{Mariotti.etal.2021}. This paper
-      noted an increase in glacier erosion in the southern Alps, in the Var Valley,
-      roughly at $25$\,\unit{Ka} Bp following an extended period of low dunudation rates.
-      The increase in erosion here, predates the increase observed in our study
-      ($\sim 15$\,\unit{Ka}; Figs.~\ref{fig:evolution}). However, similar processes caused by climate warming
-      likely persist. This sedimentary record \citep{Mariotti.etal.2021} and the model results
-      here demonstrate that climatic conditions over-which glacier erosion occurs
-      are relatively specific and likely transient. }
 
-    \ian{I added some citations here. Increases in erosion following glacier retreat
-      seems to happen. But there are good critisims of the sedimentary record, and the mechanism
-      seems a little bit uncertain. This is one of the cool things about this paper, but also makes this paragarph
-    a bit delicate.}
-    This
-    result is compatible with the field-based studies, which have evidenced
-    increased glacier erosion and pro-glacial sedimentation during deglaciation
-    periods \citep[e.g.][]{Koppes.Montgomery.2009,Micheletti.Lane.2016,Lane.etal.2017}, including the ongoing glacier retreat
-    \citep[e.g.][]{Bendixen.etal.2017}. Yet this increase has often been attributed
-    to higher meltwater availability, promoting sediment transport \citep{Delaney.Adhikari.2020},
-    enhanced glacier sliding \citep[][This citation might a bit strange]{Herman.etal.2011}, and hydrofracturing
-    (plucking) \citep[][This citation is more about monthly to diurnal variability]{Ugelvig.etal.2018}.
+    \note{I took the freedom to shorten the Var story quite a bit.}
+    This result is corroborated by a recent denudation record from the
+    Mediterranean Alps, which includes an increase in glacier erosion in the
+    Var Valley, roughly at 25\,ka following an extended period of low
+    dunudation rates \citep{Mariotti.etal.2021}. While that increase in
+    erosion predates the increase observed in our study ($\sim$ 15\,ka;
+    Fig.~\ref{fig:evolution}), it demonstrates that climatic conditions
+    over-which glacier erosion occurs are relatively specific and likely
+    transient. Other field-based studies have evidenced increased glacier
+    erosion and pro-glacial sedimentation during deglaciation periods
+    \citep[e.g.,][]{Koppes.Montgomery.2009, Micheletti.Lane.2016,
+    Lane.etal.2017}, including the ongoing glacier retreat
+    \citep[e.g.,][]{Bendixen.etal.2017}. Yet this increase has often been
+    attributed to higher meltwater availability, promoting sediment transport
+    \citep{Delaney.Adhikari.2020}, enhanced glacier sliding
+    \citep{Herman.etal.2011}, and hydrofracturing (plucking)
+    \citep{Hallet.1996, Ugelvig.etal.2018, Hildes.etal.2004}.
 
     But importantly, these hydrological processes are not included in our
     model, so that deglaciation surface meltwater is assumed to instantly exit
-    the glacier with no effect on glacier dynamics \ian{ \citep[e.g][]{Werder.etal.2013}
-      or glacier erosion  \citep[][]{Iverson.2012,Ugelvig.etal.2018}}.
-    The enhanced glacier
+    the glacier with no effect on glacier dynamics \citep[cf.][for comparison]
+    {Werder.etal.2013, Iverson.2012, Ugelvig.etal.2018}. The enhanced glacier
     velocity during periods of ice retreat is here modelled to result from
     changes of air temperature alone, propagating through diffusion and
     advection into the ice, increasing the glacier's internal energy through
     temperature and englacial water content, thereby facilitating shear strain
-    and eventually activating basal sliding \citep[cf.][]{Aschwanden.etal.2012,
-    Seguinot.etal.2016}. Observed feedbacks between surface meltwater and basal
-    sliding, not included in the model, presumably further accelerated erosion
-    during deglaciation \citep{Herman.etal.2011}. \ian{Furthermore, we omit the
-      fluvial transport of sediment, which could well increase sediment discharge
-      and erosion with increased melt, so long as additional sediment remains
-      available \citep{Delaney.Adhikari.2020}. Rapid glacier erosion can be expected
-    to accompany the  ongoing 21st-century deglaciation phase. This process might be
-    especially strong on the ice sheets of Greenland and Antarctica where
-    polythermal and cold-based glaciers are warming and sliding is increasing
-    \citep[e.g.][]{Moon.etal.2012,Overeem.etal.2017}.}
+    and eventually activating basal sliding \citep[cf.][for the physics]
+    {Aschwanden.etal.2012, Seguinot.etal.2016}. Observed feedbacks between
+    surface meltwater and basal sliding, not included in the model, presumably
+    further accelerated erosion during deglaciation \citep{Herman.etal.2011}.
+    Furthermore, we omit the fluvial transport of sediment, which could well
+    increase sediment discharge and erosion with increased melt, so long as
+    additional sediment remains available \citep{Delaney.Adhikari.2020}. Rapid
+    glacier erosion can be expected to accompany the ongoing 21st-century
+    deglaciation phase, especially for the ice sheets of Greenland and
+    Antarctica where polythermal and cold-based glaciers are warming and
+    sliding is increasing \citep[e.g.,][]{Moon.etal.2012,Overeem.etal.2017}.
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 \subsection{Age of the glacial landscape}
