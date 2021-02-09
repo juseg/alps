@@ -54,7 +54,7 @@ diff: $(PAPER)-diff.pdf
 
 # latex diff patterned rule
 %-diff.tex: %.tex
-	latexdiff-vc --force --git -r $(REV) $<
+	latexdiff-vc --disable-citation-markup --force --git -r $(REV) $<
 	mv $(basename $@)$(REV).tex $@
 
 
