@@ -1,0 +1,54 @@
+---  # Alps erosion volume English animation metadata
+# Copyright (c) 2021, Julien Seguinot (juseg.github.io)
+# Creative Commons Attribution-ShareAlike 4.0 International License
+# (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
+
+Title: |-  # |- means formatted text
+   Alpine glacial cycle erosion vs ice volume
+
+Author:
+   J. Seguinot, 2021
+
+Credit: |-
+   After: J. Seguinot, I. Delaney.
+   Last glacial cycle glacier erosion potential in the Alps,
+   $\it{Earth\ Surface\ Dynamics\ Discussions}$, 2021.
+
+Abstract:
+   This animation shows the modelled erosion rates and annual erosion volume in
+   a simulation of glacier changes and glacier erosion in the Alps
+   (https://vimeo.com/503162771). Interestingly, the volume of materials
+   predicted by the model to be carved out by glaciers does not scale up with
+   the total volume of glaciers in the Alps. Instead, glacier erosion slows
+   down during periods of glacier advance, and it accelerates during periods of
+   glacier retreat. These variations are caused by changes in the ice
+   temperature, which control the speed at which glaciers flow on their bed.
+
+References:
+   Software:
+      - PISM, matplotlib, xarray, ffmpeg, etc.
+   Resources:
+      - Swiss Federal Institute of Technology in Zurich  (ETHZ)
+      - Swiss National Supercomputing Centre             (CSCS)
+      - Swiss National Science Foundation                (SNSF)
+   Input data:
+      - ERA-Interim reanalysis  (Dee et al., 2011)
+      - Geothermal heat flux    (Goutorbe et al., 2011)
+      - Glacier erosion law     (Koppes et al., 2015)
+      - WorldClim climate data  (Hijmans et al., 2005)
+      - Modern ice thickness    (Huss and Farinotti, 2012)
+      - SRTM modern topography  (Jarvis et al., 2008)
+      - EPICA ice-core record   (Jouzel et al., 2007)
+      - Natural Earth Data      (Patterson and Kelso, 2016)
+      - Past sea level change   (Spratt et al., 2016)
+
+Disclaimer: |-
+   This animation uses results from numerical modelling.
+   Our knowledge on Alpine climate and glacier history is limited.
+   The reality was almost certainly different.
+
+License text:
+   This work is licensed under
+
+License link:
+   http://creativecommons.org/licenses/by-sa/4.0/
