@@ -1,16 +1,22 @@
 #!/usr/bin/env python
-# coding: utf-8
+# Copyright (c) 2019-2021, Julien Seguinot (juseg.github.io)
+# Creative Commons Attribution-ShareAlike 4.0 International License
+# (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
-import os
-import sys
-import yaml
+"""Assemble bumbers for Alpine ice sheet animation."""
+
+# NOTE: this is virtually the same script as for the Cordillera project.
+
+import os.path
+import argparse
 import subprocess
+import yaml
+import requests
 import matplotlib.pyplot as plt
 
 
 def bumper_init():
     """Init figure and axes for animation bumper."""
-    figw, figh = 192.0, 108.0
     fig = plt.figure(figsize=(192.0/25.4, 108.0/25.4))
     ax = fig.add_axes([0, 0, 1, 1])
     ax.set_facecolor('k')
@@ -42,18 +48,31 @@ def bumper_bysa(prefix, info):
     # initialize figure
     fig, ax = bumper_init()
 
-    # prepare cc icon bitmaps
+    # create icons directory if missing
+    if not os.path.isdir('icons'):
+        os.mkdir('icons')
+
+    # retrieve icons if missing
     for icon in ['cc', 'by', 'sa']:
-        pngpath = 'icons/{}.png'.format(icon)
-        svgpath = 'icons/{}.svg'.format(icon)
-        cmdline = 'inkscape {} -w 640 -h 640 --export-png={}'
+        url = 'https://mirrors.creativecommons.org/presskit/icons/'+icon+'.svg'
+        pngpath = 'icons/' + icon + '.png'
+        svgpath = 'icons/' + icon + '.svg'
+        if not os.path.isfile('icons/{}.svg'.format(icon)):
+            text = requests.get(url).text
+            text = text.replace('FFFFFF', '000000')
+            text = text.replace('path', 'path fill="#bfbfbf"')
+            with open(svgpath, 'w') as svgfile:
+                svgfile.write(text)
+
+        # prepare cc icon bitmaps
+        cmd = 'inkscape {} -w 640 -h 640 --export-filename={}'
         if not os.path.isfile(pngpath):
-            subprocess.call(cmdline.format(svgpath, pngpath).split(' '))
+            subprocess.call(cmd.format(svgpath, pngpath).split(' '))
 
     # add cc icons
-    ax.imshow(plt.imread('icons/cc.png'), extent=[-56, -24, 28, -4])
-    ax.imshow(plt.imread('icons/by.png'), extent=[-16, +16, 28, -4])
-    ax.imshow(plt.imread('icons/sa.png'), extent=[+24, +56, 28, -4])
+    ax.imshow(plt.imread('icons/cc.png'), extent=[-56, -24, -4, 28])
+    ax.imshow(plt.imread('icons/by.png'), extent=[-16, +16, -4, 28])
+    ax.imshow(plt.imread('icons/sa.png'), extent=[+24, +56, -4, 28])
 
     # draw text
     ax.text(0, -20, info['License text'], ha='center')
@@ -72,7 +91,8 @@ def bumper_disc(prefix, info):
     fig, ax = bumper_init()
 
     # draw text
-    ax.text(0, 0, info['Disclaimer'], ha='center', va='center', linespacing=3.0)
+    ax.text(0, 0, info['Disclaimer'], ha='center', va='center',
+            linespacing=3.0)
 
     # save
     fig.savefig(prefix+'_disc.png')
@@ -90,9 +110,8 @@ def bumper_refs(prefix, info):
     col2 = ''
     col3 = ''
     for category, contents in info['References'].items():
-        table = [item.partition('  ') for item in contents]
         keys, _, refs = list(zip(*[item.partition('  ') for item in contents]))
-        col1 += '\n' + category +' :' + '\n'*len(contents)
+        col1 += '\n' + category + ' :' + '\n'*len(contents)
         col2 += '\n' + '\n'.join(keys) + '\n'
         col3 += '\n' + '\n'.join(refs) + '\n'
     ax.text(-56, 0, col1, linespacing=1.5, va='center', ha='right')
@@ -107,35 +126,23 @@ def bumper_refs(prefix, info):
 def main():
     """Main program for command-line execution."""
 
-    import argparse
-
     # parse arguments
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('crop', help='crop region',
-                        choices=['al', 'ch', 'lu', 'ma', 'ul', 'zo'])
-    parser.add_argument('mode', help='anim mode',
-                        choices=['co', 'er', 'gs', 'ul'])
-    parser.add_argument('lang', help='anim language',
-                        choices=['de', 'en', 'fr', 'it', 'ja', 'nl'])
+    parser.add_argument('metafile', help='YAML metadata filename')
     args = parser.parse_args()
 
     # set default font properties
-    plt.rc('figure', dpi=508)
-    plt.rc('text', color='0.75')
+    plt.rc('axes', grid=False)
+    plt.rc('figure', dpi=254)  # FIXME make this configurable?
     plt.rc('font', size=12)
-
-    # japanese input font
-    if args.lang == 'ja':
-        plt.rc('font', family='TakaoPGothic')
-
-    # prefix for output files
-    prefix = 'anim_alps_4k_{}_{}_{}'.format(args.crop, args.mode, args.lang)
+    plt.rc('text', color='0.75')
 
     # import text elements
-    with open(prefix+'.yaml') as f:
-        info = yaml.safe_load(f)
+    with open(args.metafile) as metafile:
+        info = yaml.safe_load(metafile)
 
     # assemble bumpers
+    prefix = args.metafile.replace('.yaml', '')
     bumper_main(prefix, info)
     bumper_bysa(prefix, info)
     bumper_disc(prefix, info)
