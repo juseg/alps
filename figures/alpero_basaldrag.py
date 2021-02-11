@@ -38,12 +38,12 @@ def main():
             # plot topographic profiles
             ds['usurf'] = ds.topg + ds.thk.fillna(0)
             ds.usurf.plot.line(ax=axes[0], x='d', label='{} ka'.format(age))
-            ds.topg.plot.line(ax=axes[0], x='d', color='k')
+            ds.topg.plot.line(ax=axes[0], x='d', color='0.25')
 
             # plot normalized stresses
             overburden = 910 * 9.81 * ds.thk.where(ds.thk > 1)
             (ds.tauc/overburden*100).plot.line(
-                ax=axes[1], x='d', c='k', ls=':',
+                ax=axes[1], x='d', c='0.25', ls=':',
                 label='yield stress / overburden' if age == 24 else None)
             ((ds.taub_x**2+ds.taub_y**2)**0.5/overburden*100).plot.line(
                 ax=axes[1], x='d',
