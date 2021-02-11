@@ -127,6 +127,10 @@ Basic information [required]
 
       **Changelog:**
 
+      * Version 2:
+
+         - Use 1-km regular coordinate along profile.
+
       * Version 1:
 
          - Initial version.

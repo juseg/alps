@@ -112,7 +112,8 @@ def postprocess_extra(run_path):
         long_name='temperate-based ice cover area', units='m2')
 
     # compute erosion aggregated variables
-    x, y = cpf.read_shp_coords('../data/native/profile_rhine.shp')
+    x, y = cpf.read_shp_coords(
+        '../data/native/profile_rhine.shp', interval=1000)
     for law in ['coo2020', 'her2015', 'hum1994', 'kop2015']:
         pp[law+'_cumu'] = (dt*ex[law].sum(axis=0, min_count=1)).assign_attrs(
             long_name=ex[law].ref+' cumulative glacial erosion potential',
