@@ -190,14 +190,18 @@
 \subsection{Ice sheet modelling}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
+    \todo{Ian: Given the importance of the sliding processes and dependence on
+          basal shear stress. Is it worth the thought that "experience with the
+          model shows that in the conditions applied here, till is mostly
+          saturated and the model behaves similar to Weertman"?}
+
     The ice-sheet model set-up was presented in an earlier publication
     \citep{Seguinot.etal.2018} and is briefly summarized here. The simulations
     were conducted using the Parallel Ice Sheet Model (PISM, development
     version~e9d2d1f), an open-source, finite-difference, shallow-ice and
-    shallow-shelf model
-    \citep{PISM-authors.2017}. Our setup includes temperature and water-content
-    dependent creep, pseudo-plastic basal sliding accounting for till
-    dilatation under high water pressure, bedrock deformation under the ice
+    shallow-shelf model \citep{PISM-authors.2017}. Our setup includes
+    temperature and water-content dependent creep, pseudo-plastic basal
+    sliding, bedrock deformation under the ice
     load, and a~positive degree-day (PDD) surface mass balance model. The model
     is initialized with assumed present-day ice thickness and equilibrium
     ice and bedrock temperature at 120\,ka (thousand years before the present),
@@ -459,10 +463,7 @@
     closer in size, slope, and climatic context to the present-day glaciers of
     Patagonia and the Antarctic Peninsula \citep{Koppes.etal.2015} than to
     Franz-Joseph Glacier \citep{Herman.etal.2015} and many of the glaciers
-    included in the global compilation by \citet{Cook.etal.2020}. Indeed,
-    atmospheric
-    temperatures have been found to be a strong driver of erosion in studies
-    involving several glaciers \citep{Koppes.etal.2015, Cook.etal.2020}.
+    included in the global compilation by \citet{Cook.etal.2020}.
 
     That said, the magnitude of the modelled erosion rates can hardly be used
     as a criteria to rule out this or that erosion law for the glacial Alps.
@@ -498,7 +499,9 @@
         \textbf{(b)} Interpolated yield stress in the pseudo-plastic sliding law
         (dotted lines) and magnitude of the basal shear stress (basal drag,
         solid lines), both normalized against the ice overburden pressure
-        \citep[cf.][for model physics]{Seguinot.2014, Seguinot.etal.2016}.}
+        \citep[cf.][for model physics]{Seguinot.2014, Seguinot.etal.2016}.
+        Basal drag values greater than yield stress result in glacier sliding.
+        \todo{Ian: make sure the legend matches the graph.}}
       \label{fig:basaldrag}
     \end{figure}
 
