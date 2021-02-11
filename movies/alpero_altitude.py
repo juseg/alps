@@ -1,16 +1,18 @@
 #!/usr/bin/env python
-# Copyright (c) 2019, Julien Seguinot (juseg.github.io)
+# Copyright (c) 2019-2021, Julien Seguinot (juseg.github.io)
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
-"""Alps scatter plot animations framework."""
+"""Alpine glacial cycle erosion vs altitude."""
 
 import os
 import multiprocessing
 import numpy as np
 import matplotlib.animation as animation
 import absplots as apl
-import utils as ut
+import pismx.open
+
+from anim_alps_4k import save_animation_frame
 
 
 def figure():
@@ -19,18 +21,18 @@ def figure():
     # initialize figure
     fig, grid = apl.subplots_mm(
         figsize=(192, 108), ncols=2, sharey=True, gridspec_kw=dict(
-            left=12, right=4, bottom=8, top=8,
-            width_ratios=[3, 1], wspace=4))
+            left=15, right=5, bottom=10, top=10,
+            width_ratios=[3, 1], wspace=5))
 
     # load boot topo
-    with ut.open_dataset('../data/processed/alpcyc.1km.in.nc') as ds:
+    with pismx.open.dataset('../data/processed/alpcyc.1km.in.nc') as ds:
         boot = ds.topg
 
     # plot dummy scatter and age tag
     ax = grid[0]
     scatter = ax.scatter(0*boot, boot, alpha=0.05, color='C11', marker='.')
     timetag = ax.text(0.95, 0.95, '', ha='right', va='top',
-                      transform=ax.transAxes)
+                      fontweight='bold', transform=ax.transAxes)
 
     # set axes properties
     ax.set_xscale('log')
@@ -58,7 +60,7 @@ def figure():
     # ax.set_xlabel(r'mean erosion rate ($m\,a^{-1}$)', color='C11')
     # ax.set_xscale('log')
     # ax.set_xlim(10**-10.5, 10**0.5)
-    ax.set_xlabel(r'band erosion rate ($km^3\,a^{-1}$)', color='C11')
+    ax.set_xlabel(r'band annual erosion volume ($km^3\,a^{-1}$)', color='C11')
     ax.set_xlim(-0.16*0.05, 0.16*1.05)
     ax.tick_params(axis='x', labelcolor='C11')
     ax.xaxis.set_label_position('bottom')
@@ -82,7 +84,7 @@ def animate(time, boot, scatter, timetag, poly, eroline, thkline):
 
     # open subdataset
     filename = '~/pism/output/e9d2d1f/alpcyc4.1km.epica.1220.pp/ex.{:07.0f}.nc'
-    with ut.open_subdataset(filename, time) as ds:
+    with pismx.open.subdataset(filename, time, shift=120000) as ds:
         icy = ds.thk >= 1.0
         glacthk = ds.thk.where(icy)
         erosion = 2.7e-7 * ds.velbase_mag.where(icy)**2.02
@@ -104,8 +106,9 @@ def animate(time, boot, scatter, timetag, poly, eroline, thkline):
     path.vertices[2*nedges:-1, 0] = vals[::-1].repeat(2)
 
     # for glacier average thickness and geom mean of erosion
-    # .set_xdata(glackthk.groupby_bins(boot, bins).mean())
-    # .set_xdata(np.exp(np.log(erosion).groupby_bins(boot, bins).mean()))
+    # thkline.set_xdata(glacthk.groupby_bins(boot, bins).mean())
+    # eroline.set_xdata(
+    #     np.exp(np.log(erosion).groupby_bins(boot, bins).mean()))
 
     # glacier volume (1e3*km3) and volumic erosion (km3 a-1) over band
     thkline.set_xdata(glacthk.groupby_bins(boot, bins).sum()/1e6)
@@ -134,7 +137,7 @@ def parallelframes(fig, *fargs, frames=range(-119960, 1, 40)):
 
     # plot all frames in parallel
     with multiprocessing.Pool(processes=4) as pool:
-        pool.starmap(ut.save_animation_frame, iargs)
+        pool.starmap(save_animation_frame, iargs)
 
 
 def serialanimation(fig, *fargs, frames=range(-119960, 1, 40)):
@@ -152,9 +155,14 @@ def simplefigure(fig, time, *fargs):
 
 def main():
     """Main program called during execution."""
+
+    # prepare figure
     fig, *fargs = figure()
-    parallelframes(fig, *fargs, frames=range(-120000+40, 1, 40))
-    simplefigure(fig, -25000, *fargs)
+    animate(-25000, *fargs)
+    fig.savefig(__file__[:-3])
+
+    # parallelframes(fig, *fargs, frames=range(-120000+40, 1, 40))
+    # simplefigure(fig, -25000, *fargs)
 
 
 if __name__ == '__main__':
