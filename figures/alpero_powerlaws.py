@@ -96,8 +96,8 @@ def main():
             pfax.set_yscale('log')
 
             # plot time series
-            tsax.plot(slvol, ds[ref+'_rate'], c='C11', alpha=0.5)
-            tsax.plot(slvol, ds[ref+'_rate'].rolling(
+            tsax.plot(slvol*100, ds[ref+'_rate'], c='C11', alpha=0.5)
+            tsax.plot(slvol*100, ds[ref+'_rate'].rolling(
                 age=100, center=True).mean(), c='C11')
 
             # set time series axes properties
