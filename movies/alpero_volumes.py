@@ -41,7 +41,7 @@ def figure():
                 ]):
 
             # variable-dependent properties
-            color = '0.25' if i == 2 else 'C11'
+            color = 'C0' if i == 2 else 'C11'
             lines += axes[i].plot(
                 ds.area_glacierized/1e9, y, c=color, alpha=0.5)
             lines += axes[i].plot(
