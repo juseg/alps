@@ -30,7 +30,7 @@ def figure():
 
     # plot dummy scatter and age tag
     ax = grid[0]
-    scatter = ax.scatter(0*boot, boot, alpha=0.05, color='C11', marker='.')
+    scatter = ax.scatter(boot, boot, alpha=0.05, color='C11', marker='.')
     timetag = ax.text(0.95, 0.95, '', ha='right', va='top',
                       fontweight='bold', transform=ax.transAxes)
 
@@ -45,35 +45,34 @@ def figure():
     ax = grid[1]
     bins = np.arange(0, 4501, 100)
     hist, _ = np.histogram(boot.where(boot > 0), bins=bins)
-    vals = np.append(hist, hist[-1])  # needed to fill the last bin
-    poly = ax.fill_betweenx(bins, 0*vals, vals, color='0.75', step='post')
+    hist = np.append(hist, hist[-1])  # needed to fill the last bin
+    poly = ax.fill_betweenx(bins, 0*hist, hist, color='0.75', step='post')
     hist, _ = np.histogram(boot.where(ds.thk >= 1), bins=bins)
-    vals = np.append(hist, hist[-1])  # needed to fill the last bin
-    poly = ax.fill_betweenx(bins, 0*vals, vals, color='C1', step='post')
+    hist = np.append(hist, hist[-1])  # needed to fill the last bin
+    poly = ax.fill_betweenx(bins, 0*hist, hist, color='C1', step='post')
     ax.set_xlim(-2500, 52500)
     ax.set_xticks([])
 
     # plot dummy erosion rate
     ax = ax.twiny()
     mids = (bins[:-1]+bins[1:])/2
-    eroline, = ax.plot(0*mids+1e-9, mids, color='C11')
+    eroline, = ax.plot(0*mids, mids, color='C11')
     # ax.set_xlabel(r'mean erosion rate ($m\,a^{-1}$)', color='C11')
     # ax.set_xscale('log')
     # ax.set_xlim(10**-10.5, 10**0.5)
-    ax.set_xlabel(r'band annual erosion volume ($km^3\,a^{-1}$)', color='C11')
+    ax.set_xlabel(r'annual erosion volume in band ($km^3\,a^{-1}$)', color='C11')
     ax.set_xlim(-0.16*0.05, 0.16*1.05)
     ax.tick_params(axis='x', labelcolor='C11')
     ax.xaxis.set_label_position('bottom')
 
-    # plot mean thickness(thk.plot(ax=ax, y='topg_bins') has issue #3571)
+    # plot dummy ice thickness
     ax = ax.twiny()
-    thk = ds.thk.groupby_bins(boot, bins).mean()
-    thkline, = ax.plot(thk, mids, color='C1')
-    # ax.set_xlabel('mean ice thickness (m)', color='C1')
-    # ax.set_xlim(-50, 1050)
-    ax.set_xlabel('band ice volume ($10^3 km^3$)', color='C1')
+    thkline, = ax.plot(0*mids, mids, color='C1')
+    ax.set_xlabel('ice volume in band ($10^3 km^3$)', color='C1')
     ax.set_xlim(-8*0.05, 8*1.05)
     ax.tick_params(axis='x', labelcolor='C1')
+    # ax.set_xlabel('mean ice thickness (m)', color='C1')
+    # ax.set_xlim(-50, 1050)
 
     # return figure and animated artists
     return fig, boot, scatter, timetag, poly, eroline, thkline
@@ -87,7 +86,7 @@ def animate(time, boot, scatter, timetag, poly, eroline, thkline):
     with pismx.open.subdataset(filename, time, shift=120000) as ds:
         icy = ds.thk >= 1.0
         glacthk = ds.thk.where(icy)
-        erosion = 2.7e-7 * ds.velbase_mag.where(icy)**2.02
+        erosion = (5.2e-8*ds.velbase_mag**2.34).where(icy)
 
     # replace scatter plot data
     offsets = scatter.get_offsets()
@@ -102,8 +101,8 @@ def animate(time, boot, scatter, timetag, poly, eroline, thkline):
     nedges = (path.vertices.shape[0]-1)//4  # number of bins + 1
     bins = path.vertices[:2*nedges:2, 1]
     hist, _ = np.histogram(boot.where(icy), bins=bins)
-    vals = np.append(hist, hist[-1])  # needed to fill the last bin
-    path.vertices[2*nedges:-1, 0] = vals[::-1].repeat(2)
+    hist = np.append(hist, hist[-1])  # needed to fill the last bin
+    path.vertices[2*nedges:-1, 0] = hist[::-1].repeat(2)
 
     # for glacier average thickness and geom mean of erosion
     # thkline.set_xdata(glacthk.groupby_bins(boot, bins).mean())
