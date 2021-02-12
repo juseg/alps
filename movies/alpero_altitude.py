@@ -35,11 +35,12 @@ def figure(years):
         # add erosion scatter plot
         ax = grid[0]
         ax.scatter(erosion, boot.where(ds.thk >= 1),
-                   alpha=0.02, color='C11', marker='+')
+                   alpha=0.25, color='C11', edgecolor='none', marker='.', s=1)
 
         # set axes properties
         ax.set_xscale('log')
         ax.set_xlim(10**-10.5, 10**0.5)
+        ax.set_xticks([10**i for i in range(-10, 1, 2)])
         ax.set_ylim(-200, 4700)
         ax.set_xlabel(r'local erosion rate ($mm\,a^{-1}$)')
         ax.set_ylabel('current bedrock elevation (m)')
@@ -51,6 +52,7 @@ def figure(years):
             ha='right', va='top', fontweight='bold', transform=ax.transAxes)
 
         # plot boot and glacierized hypsometry
+        # NOTE: color cycle is affected in 4k anim. Homogenize
         ax = grid[1]
         bins = np.arange(0, 4501, 100)
         ax.hist(boot.where(boot > 0).values.ravel(), bins=bins,
@@ -59,41 +61,33 @@ def figure(years):
                 orientation='horizontal', color='C1')
 
         # set axes properties
-        ax.set_xlim(-5e4*0.1, 5e4*1.1)
+        ax.set_xlim(-2500, 52500)
         ax.set_xticks([])
 
-        # plot band erosion volume (1 m3/a = 1e3 * 1km2 * mm/a)
+        # plot band erosion rate
         ax = ax.twiny()
-        (erosion.groupby_bins(boot, bins).sum()).plot(
+        (np.exp(np.log(erosion).groupby_bins(boot, bins).mean())).plot(
             ax=ax, y='topg_bins', color='C11')
 
         # set axes properties
-        ax.set_xlabel(r'annual erosion volume ($m^3\,a^{-1}$)',
-                      color='C11')
-        ax.set_xlim(-500*0.1, 500*1.1)
+        ax.set_xlabel(r'geom. mean erosion rate ($mm\,a^{-1}$)', color='C11')
+        ax.set_xscale('log')
+        ax.set_xlim(10**-10.5, 10**0.5)
+        ax.set_xticks([10**i for i in range(-10, 1, 2)])
         ax.tick_params(axis='x', labelcolor='C11')
         ax.xaxis.set_label_position('bottom')
         ax.set_title('')
 
-        # to plot erosion rate instead
-        # (np.exp(np.log(erosion).groupby_bins(boot, bins).mean())).plot(
-        # ax.set_xlabel(r'mean erosion rate ($m\,a^{-1}$)', color='C11')
-        # ax.set_xscale('log')
-        # ax.set_xlim(10**-10.5, 10**0.5)
-
-        # plot band ice volume (1 km3 = 1e-3 * 1km2 * m)
+        # plot band ice thickness
         ax = ax.twiny()
-        (ds.thk.where(ds.thk >= 1).groupby_bins(boot, bins).sum()/1e6).plot(
+        (ds.thk.where(ds.thk >= 1).groupby_bins(boot, bins).mean()).plot(
             ax=ax, y='topg_bins', color='C1')
-        ax.set_xlabel('ice volume in band ($10^3 km^3$)', color='C1')
-        ax.set_xlim(-5*0.1, 5*1.1)
+
+        # set axes properties
+        ax.set_xlabel('mean ice thickness (m)', color='C1')
+        ax.set_xlim(-50, 1050)
         ax.tick_params(axis='x', labelcolor='C1')
         ax.set_title('')
-
-        # to plot ice thickness instead
-        # (ds.thk.where(ds.thk >= 1).groupby_bins(boot, bins).mean()).plot(
-        # ax.set_xlabel('mean ice thickness (m)', color='C1')
-        # ax.set_xlim(-50, 1050)
 
     # return figure
     return fig
@@ -104,7 +98,7 @@ def main():
 
     # iterable arguments to save animation frames
     outdir = os.path.expanduser('~/anim/' + os.path.basename(__file__[:-3]))
-    iargs = [(figure, outdir, years) for years in range(-120000+1000, 1, 1000)]
+    iargs = [(figure, outdir, years) for years in range(-120000+40, 1, 40)]
 
     # plot all frames in parallel
     with multiprocessing.Pool(processes=4) as pool:
