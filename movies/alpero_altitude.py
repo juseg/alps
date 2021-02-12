@@ -8,14 +8,13 @@
 import os
 import multiprocessing
 import numpy as np
-import matplotlib.animation as animation
 import absplots as apl
 import pismx.open
 
 from anim_alps_4k import save_animation_frame
 
 
-def figure():
+def figure(years):
     """Prepare initial animation figure."""
 
     # initialize figure
@@ -28,140 +27,88 @@ def figure():
     with pismx.open.dataset('../data/processed/alpcyc.1km.in.nc') as ds:
         boot = ds.topg
 
-    # plot dummy scatter and age tag
-    ax = grid[0]
-    scatter = ax.scatter(boot, boot, alpha=0.05, color='C11', marker='.')
-    timetag = ax.text(0.95, 0.95, '', ha='right', va='top',
-                      fontweight='bold', transform=ax.transAxes)
-
-    # set axes properties
-    ax.set_xscale('log')
-    ax.set_xlim(10**-10.5, 10**0.5)
-    ax.set_ylim(-200, 4700)
-    ax.set_xlabel(r'local erosion rate ($m\,a^{-1}$)')
-    ax.set_ylabel('modern elevation (m)')
-
-    # plot boot hypsometry
-    ax = grid[1]
-    bins = np.arange(0, 4501, 100)
-    hist, _ = np.histogram(boot.where(boot > 0), bins=bins)
-    hist = np.append(hist, hist[-1])  # needed to fill the last bin
-    poly = ax.fill_betweenx(bins, 0*hist, hist, color='0.75', step='post')
-    hist, _ = np.histogram(boot.where(ds.thk >= 1), bins=bins)
-    hist = np.append(hist, hist[-1])  # needed to fill the last bin
-    poly = ax.fill_betweenx(bins, 0*hist, hist, color='C1', step='post')
-    ax.set_xlim(-2500, 52500)
-    ax.set_xticks([])
-
-    # plot dummy erosion rate
-    ax = ax.twiny()
-    mids = (bins[:-1]+bins[1:])/2
-    eroline, = ax.plot(0*mids, mids, color='C11')
-    # ax.set_xlabel(r'mean erosion rate ($m\,a^{-1}$)', color='C11')
-    # ax.set_xscale('log')
-    # ax.set_xlim(10**-10.5, 10**0.5)
-    ax.set_xlabel(r'annual erosion volume in band ($km^3\,a^{-1}$)', color='C11')
-    ax.set_xlim(-0.16*0.05, 0.16*1.05)
-    ax.tick_params(axis='x', labelcolor='C11')
-    ax.xaxis.set_label_position('bottom')
-
-    # plot dummy ice thickness
-    ax = ax.twiny()
-    thkline, = ax.plot(0*mids, mids, color='C1')
-    ax.set_xlabel('ice volume in band ($10^3 km^3$)', color='C1')
-    ax.set_xlim(-8*0.05, 8*1.05)
-    ax.tick_params(axis='x', labelcolor='C1')
-    # ax.set_xlabel('mean ice thickness (m)', color='C1')
-    # ax.set_xlim(-50, 1050)
-
-    # return figure and animated artists
-    return fig, boot, scatter, timetag, poly, eroline, thkline
-
-
-def animate(time, boot, scatter, timetag, poly, eroline, thkline):
-    """Update figure data."""
-
-    # open subdataset
+    # open extra output
     filename = '~/pism/output/e9d2d1f/alpcyc4.1km.epica.1220.pp/ex.{:07.0f}.nc'
-    with pismx.open.subdataset(filename, time, shift=120000) as ds:
-        icy = ds.thk >= 1.0
-        glacthk = ds.thk.where(icy)
-        erosion = (5.2e-8*ds.velbase_mag**2.34).where(icy)
+    with pismx.open.subdataset(filename, years, shift=120000) as ds:
+        erosion = (5.2e-8*ds.velbase_mag**2.34).where(ds.thk >= 1)  # mm a-1
 
-    # replace scatter plot data
-    offsets = scatter.get_offsets()
-    offsets[:, 0] = erosion.to_masked_array().reshape(-1)
-    scatter.set_offsets(offsets)
+        # add erosion scatter plot
+        ax = grid[0]
+        ax.scatter(erosion, boot.where(ds.thk >= 1),
+                   alpha=0.02, color='C11', marker='+')
 
-    # replace text tag
-    timetag.set_text('{:,.0f} years ago'.format(-time).replace(',', r'$\,$'))
+        # set axes properties
+        ax.set_xscale('log')
+        ax.set_xlim(10**-10.5, 10**0.5)
+        ax.set_ylim(-200, 4700)
+        ax.set_xlabel(r'local erosion rate ($mm\,a^{-1}$)')
+        ax.set_ylabel('current bedrock elevation (m)')
 
-    # replace histogram data
-    path = poly.get_paths()[0]
-    nedges = (path.vertices.shape[0]-1)//4  # number of bins + 1
-    bins = path.vertices[:2*nedges:2, 1]
-    hist, _ = np.histogram(boot.where(icy), bins=bins)
-    hist = np.append(hist, hist[-1])  # needed to fill the last bin
-    path.vertices[2*nedges:-1, 0] = hist[::-1].repeat(2)
+        # add age tag
+        ax.text(
+            0.95, 0.95,
+            '{:,.0f} years ago'.format(-years).replace(',', r'$\,$'),
+            ha='right', va='top', fontweight='bold', transform=ax.transAxes)
 
-    # for glacier average thickness and geom mean of erosion
-    # thkline.set_xdata(glacthk.groupby_bins(boot, bins).mean())
-    # eroline.set_xdata(
-    #     np.exp(np.log(erosion).groupby_bins(boot, bins).mean()))
+        # plot boot and glacierized hypsometry
+        ax = grid[1]
+        bins = np.arange(0, 4501, 100)
+        ax.hist(boot.where(boot > 0).values.ravel(), bins=bins,
+                orientation='horizontal', color='0.75')
+        ax.hist(boot.where(ds.thk >= 1).values.ravel(), bins=bins,
+                orientation='horizontal', color='C1')
 
-    # glacier volume (1e3*km3) and volumic erosion (km3 a-1) over band
-    thkline.set_xdata(glacthk.groupby_bins(boot, bins).sum()/1e6)
-    eroline.set_xdata(erosion.groupby_bins(boot, bins).sum()/1e3)
+        # set axes properties
+        ax.set_xlim(-5e4*0.1, 5e4*1.1)
+        ax.set_xticks([])
 
-    # return animated artists
-    return scatter, timetag, poly, eroline, thkline
+        # plot band erosion volume (1 m3/a = 1e3 * 1km2 * mm/a)
+        ax = ax.twiny()
+        (erosion.groupby_bins(boot, bins).sum()).plot(
+            ax=ax, y='topg_bins', color='C11')
 
+        # set axes properties
+        ax.set_xlabel(r'annual erosion volume ($m^3\,a^{-1}$)',
+                      color='C11')
+        ax.set_xlim(-500*0.1, 500*1.1)
+        ax.tick_params(axis='x', labelcolor='C11')
+        ax.xaxis.set_label_position('bottom')
+        ax.set_title('')
 
-def update(time, *fargs):
-    """Update artists to given animation time and return."""
-    animate(time, *fargs)
-    return fargs[-1].figure
+        # to plot erosion rate instead
+        # (np.exp(np.log(erosion).groupby_bins(boot, bins).mean())).plot(
+        # ax.set_xlabel(r'mean erosion rate ($m\,a^{-1}$)', color='C11')
+        # ax.set_xscale('log')
+        # ax.set_xlim(10**-10.5, 10**0.5)
 
+        # plot band ice volume (1 km3 = 1e-3 * 1km2 * m)
+        ax = ax.twiny()
+        (ds.thk.where(ds.thk >= 1).groupby_bins(boot, bins).sum()/1e6).plot(
+            ax=ax, y='topg_bins', color='C1')
+        ax.set_xlabel('ice volume in band ($10^3 km^3$)', color='C1')
+        ax.set_xlim(-5*0.1, 5*1.1)
+        ax.tick_params(axis='x', labelcolor='C1')
+        ax.set_title('')
 
-def parallelframes(fig, *fargs, frames=range(-119960, 1, 40)):
-    """Save all frames individually in parallel (est. 2.5 h on altair)."""
+        # to plot ice thickness instead
+        # (ds.thk.where(ds.thk >= 1).groupby_bins(boot, bins).mean()).plot(
+        # ax.set_xlabel('mean ice thickness (m)', color='C1')
+        # ax.set_xlim(-50, 1050)
 
-    # create output frames directory if missing
-    outdir = os.path.join(os.environ['HOME'], 'anim', 'anim_alps_dots')
-    if not os.path.isdir(outdir):
-        os.mkdir(outdir)
-
-    # iterable arguments to save animation frames
-    iargs = [(update, outdir, time, *fargs) for time in frames]
-
-    # plot all frames in parallel
-    with multiprocessing.Pool(processes=4) as pool:
-        pool.starmap(save_animation_frame, iargs)
-
-
-def serialanimation(fig, *fargs, frames=range(-119960, 1, 40)):
-    """Direct matplotlib serial animation (est. 4.5 h on altair)."""
-    ani = animation.FuncAnimation(
-        fig, animate, blit=True, interval=1000/25, fargs=fargs, frames=frames)
-    ani.save('anim_alps_dots.mp4')
-
-
-def simplefigure(fig, time, *fargs):
-    """Plot one frame and save as figure."""
-    animate(time, *fargs)
-    fig.savefig('anim_alps_dots')
+    # return figure
+    return fig
 
 
 def main():
     """Main program called during execution."""
 
-    # prepare figure
-    fig, *fargs = figure()
-    animate(-25000, *fargs)
-    fig.savefig(__file__[:-3])
+    # iterable arguments to save animation frames
+    outdir = os.path.expanduser('~/anim/' + os.path.basename(__file__[:-3]))
+    iargs = [(figure, outdir, years) for years in range(-120000+1000, 1, 1000)]
 
-    # parallelframes(fig, *fargs, frames=range(-120000+40, 1, 40))
-    # simplefigure(fig, -25000, *fargs)
+    # plot all frames in parallel
+    with multiprocessing.Pool(processes=4) as pool:
+        pool.starmap(save_animation_frame, iargs)
 
 
 if __name__ == '__main__':

@@ -452,7 +452,7 @@ def save_animation_frame(func, outdir, time, *args, **kwargs):
         # assemble figure and save
         print('plotting {:s} ...'.format(fname))
         fig = func(time, *args, **kwargs)
-        fig.savefig(fname, transparent=True, dpi='figure')
+        fig.savefig(fname, dpi='figure')
         plt.close(fig)
 
 
