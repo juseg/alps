@@ -26,7 +26,7 @@ def main():
         '../data/native/profile_rhine.shp', interval=1e3)
 
     # each requested age
-    for age in [24, 20, 16]:
+    for age in [36, 24, 16]:
         with pismx.open.subdataset(
                 ('~/pism/output/e9d2d1f/alpcyc4.1km.epica.1220.pp'
                  '/ex.{:07.0f}.nc'), time=-age*1e3, shift=120000) as ds:
@@ -44,11 +44,15 @@ def main():
             overburden = 910 * 9.81 * ds.thk.where(ds.thk > 1)
             (ds.tauc/overburden*100).plot.line(
                 ax=axes[1], x='d', c='0.25', ls=':',
-                label='yield stress / overburden' if age == 24 else None)
+                label='yield stress / overburden' if age == 16 else ' ')
             ((ds.taub_x**2+ds.taub_y**2)**0.5/overburden*100).plot.line(
                 ax=axes[1], x='d',
-                label='basal drag / overburden' if age == 24 else None)
+                label='basal drag / overburden' if age == 16 else ' ')
 
+            # to plot ratio governing sliding
+            # ((ds.taub_x**2+ds.taub_y**2)**0.5/ds.tauc*100).plot.line(
+            #     ax=axes[1], x='d',
+            #     label='basal drag / yield stress' if age == 16 else ' ')
             # to plot driving stress
             # taud = ((ds.taud_x**2+ds.taud_y**2)**0.5/overburden*100)
             # taud.load().rolling(d=50, center=True).mean().plot.line(
@@ -64,7 +68,7 @@ def main():
     axes[1].set_ylabel('normalized stress (%)')
     axes[1].set_ylim(0, 3)
     axes[1].set_title('')
-    axes[1].legend()
+    axes[1].legend(ncol=3, columnspacing=-0.5)
 
     # save
     fig.savefig(__file__[:-3])
