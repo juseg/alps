@@ -4,7 +4,7 @@
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
 Title: |-  # |- means formatted text
-   Alpine glacial cycle erosion vs ice volume
+   Alpine glacial cycle erosion vs bedrock altitude
 
 Author:
    J. Seguinot, 2021
@@ -15,14 +15,15 @@ Credit: |-
    $\it{Earth\ Surface\ Dynamics\ Discussions}$, 2021.
 
 Abstract:
-   This animation shows the modelled erosion rates and annual erosion volume in
-   a simulation of glacier changes and glacier erosion in the Alps
-   (https://vimeo.com/503162771). Interestingly, the volume of materials
-   predicted by the model to be carved out by glaciers does not scale up with
-   the total volume of glaciers in the Alps. Instead, glacier erosion slows
-   down during periods of glacier advance, and it accelerates during periods of
-   glacier retreat. These variations are caused by changes in the glacier
-   slope, which control the gravitational drag and glacier sliding on the bed.
+   This animation shows the vertical distribution of modelled glacier erosion
+   in a simulation of glacier changes and glacier erosion in the Alps
+   (https://vimeo.com/503162771). Each dot on the left panel represents a model
+   grid cell, with fixed (current) bed altitude and varying glacier erosion
+   rate. The right panels shows the number of grid cells that are ice-covered
+   in 100-metre elevation bands, the corresponding ice volume grounded at these
+   elevations and the corresponding glacier erosion volume in the model. Rapid
+   erosion is localized at low elevation during glacial maxima, but spreads to
+   higher elevations when the glaciers retreat.
 
 References:
    Software:
