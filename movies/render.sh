@@ -12,7 +12,6 @@ prefix="${1:-anim}"
 python stills.py ${prefix}.yaml
 
 # assembling parametres
-imgs="??????.png"  # images to include, edit for quick tests
 fade=12  # number of frames for fade in and fade out effects
 hold=25  # number of frames to hold in the beginning and end
 secs=$((120+2*hold/25))  # duration of main scene in seconds
@@ -28,9 +27,12 @@ filt+="[3]fade=in:0:$fade,fade=out:$((3*25-fade)):$fade[disc];"  # disclaimer
 filt+="[4]fade=in:0:$fade,fade=out:$((3*25-fade)):$fade[bysa];"  # license
 filt+="[head][main][refs][disc][bysa]concat=5"
 
+# look for input file(s)
+[ -f ${prefix}_main.mp4 ] && iargs="-i ${prefix}_main.mp4" ||
+    iargs="-f image2 -pattern_type glob -i $HOME/anim/$prefix/??????.png"
+
 # assemble video
-ffmpeg \
-    -i ${prefix}_main.mp4 \
+ffmpeg $iargs \
     -loop 1 -t 4 -i ${prefix}_head.png \
     -loop 1 -t 3 -i ${prefix}_refs.png \
     -loop 1 -t 3 -i ${prefix}_disc.png \
