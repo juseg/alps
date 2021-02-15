@@ -190,11 +190,6 @@
 \subsection{Ice sheet modelling}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
-    \todo{Ian: Given the importance of the sliding processes and dependence on
-          basal shear stress. Is it worth the thought that "experience with the
-          model shows that in the conditions applied here, till is mostly
-          saturated and the model behaves similar to Weertman"?}
-
     The ice-sheet model set-up was presented in an earlier publication
     \citep{Seguinot.etal.2018} and is briefly summarized here. The simulations
     were conducted using the Parallel Ice Sheet Model (PISM, development
@@ -490,18 +485,18 @@
 \subsection{Climate control on erosion}
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
-    \begin{figure}[ht]
+    \begin{figure}
       \centerline{\includegraphics{alpero_basaldrag}}
       \caption{%
         \textbf{(a)} Modelled basal and surface topographies interpolated along
-        the Rhine Glacier (using the same transect and ages as in
+        the Rhine Glacier during glacier advance (36\,ka), maximum extent
+        (24\,ka) and retreat (16\,ka, using the same transect as in
         Fig.~\ref{fig:basaldrag}).
         \textbf{(b)} Interpolated yield stress in the pseudo-plastic sliding law
         (dotted lines) and magnitude of the basal shear stress (basal drag,
-        solid lines), both normalized against the ice overburden pressure
-        \citep[cf.][for model physics]{Seguinot.2014, Seguinot.etal.2016}.
-        Basal drag values greater than yield stress result in glacier sliding.
-        \todo{Ian: make sure the legend matches the graph.}}
+        solid lines), both normalized against the ice overburden pressure.
+        Basal drag values greater than yield stress result in glacier sliding
+        \citep[cf.][for model physics]{Seguinot.2014, Seguinot.etal.2016}.}
       \label{fig:basaldrag}
     \end{figure}
 
@@ -512,7 +507,9 @@
     This result may seem paradoxical, and is modulated in a limited extent by
     the exponent, $l$, in the erosion rule (Fig.~\ref{fig:powerlaws}).
     During deglaciation periods, increased surface melt at low elevations
-    results in a steepened topographic profile (Figs.~\ref{fig:basaldrag}a).
+    results in a steepened topographic profile (Figs.~\ref{fig:basaldrag}a),
+    as observed and further expected on currently retreating glaciers
+    \citep{Huss.etal.2010, Zekollari.Huybrechts.2015}.
     The buttress formed by the glacier foot against gravitational forces is
     reduced, causing an increase in the magnitude of the basal shear stress
     (basal drag) relative to the ice overburden pressure, and an increase in
@@ -648,10 +645,6 @@
     previously made available (\doi{10.5281/zenodo.1423160},
     \doi{10.5281/zenodo.1423176}).}
 
-\videosupplement{
-    A supplementary animation is available
-    (\url{https://vimeo.com/503162771}).}
-
 \authorcontribution{%
     J.~Seguinot performed the computations and prepared the figures.
     I.~Delaney interpreted the results in a broader context. Both authors
@@ -665,11 +658,10 @@
     Aschwanden for their constant help and development with PISM, without whom
     this work would not have been possible. J.~Seguinot would like to thank
     John Jansen and Martin Margold for insightful early discussions, Susan
-    Ivy-Ochs for being a constant (droid) motivator, as well as Popi, Karsta
-    and Stefan for welcoming him on Anafi and providing agreeable conditions
-    for work in times of pandemic.
-    J.~Seguinot exclusively used gear transported on a bike for 5000\,km across
-    Europe and fourteen countries (except for new underwear).
+    Ivy-Ochs for being a constant (droid) motivator, Popi, Karsta and Stefan
+    for welcoming him on Anafi and providing agreeable conditions for work in
+    times of pandemic, and the Long Haul Trucker for conveying his laptop and
+    data unbroken for 5000\,km across Europe and fourteen countries.
     I.~Delaney thanks Fr\'ed\'eric Herman for valuable support and
     conversations while at University of Lausanne.
     The (previously published) ice flow simulations were made with computer
