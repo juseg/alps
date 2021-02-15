@@ -31,6 +31,9 @@ txt: $(PAPER).txt
 # default diff
 diff: $(PAPER)-diff.pdf
 
+# figures zip file
+figs: $(PAPER)-figs.zip
+
 
 # Patterned rules
 # ---------------
@@ -56,6 +59,20 @@ diff: $(PAPER)-diff.pdf
 %-diff.tex: %.tex
 	latexdiff-vc --disable-citation-markup --force --git -r $(REV) $<
 	mv $(basename $@)$(REV).tex $@
+
+# figures zip patterned rule
+# %-figs.zip: SHELL:=/bin/bash
+%-figs.zip: %.tex
+	i=01; \
+	grep includegraphics $< | while read line; \
+	do \
+	   fig=$${line:27:-2}; \
+	   cp -v ../../figures/$$fig.pdf fig$$i.pdf; \
+	   sed -i "s/\includegraphics{$$fig}/\includegraphics{fig$$i}/" $<; \
+	   i="$$(printf '%02d' $$((10#$$i+1)))"; \
+	done; \
+	zip $@ fig??.pdf; \
+	rm fig??.pdf
 
 
 # Clean up
