@@ -42,7 +42,7 @@ legend.framealpha       : 0.75    # legend patch transparency (default 0.8)
 legend.edgecolor        : 0.75    # legend patch boundary color (default 0.8)
 
 ### FIGURE
-figure.dpi              : 254     # figure dots per inch (default 100)
+figure.dpi              : 300     # figure dots per inch (default 100)
 figure.max_open_warning : 1       # max open figs before warning (default 20)
 
 ### SAVING

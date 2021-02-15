@@ -91,6 +91,7 @@ def main():
                 ticks=levels[::3]))  # (mpl issue #11937)
 
     # set axes properties
+    tsax.set_rasterization_zorder(2.5)
     tsax.set_xlim(120, 0)
     tsax.set_xlabel('age (ka)')
     tsax.set_ylabel('distance along flow (km)')
