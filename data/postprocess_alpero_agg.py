@@ -23,17 +23,15 @@ PROC_RUNS = ['alpcyc4.2km.grip.0820', 'alpcyc4.2km.grip.1040.pp',
 GLOB_ATTRS = dict(
     title='Alpine ice sheet glacial cycle erosion aggregated variables',
     author='Julien Seguinot',
-    institution='ETH Zürich, Switzerland',
+    institution='',
     command='{user}@{host} {time}: {cmdl}\n'.format(
         user=os.getlogin(), host=os.uname()[1], cmdl=' '.join(sys.argv),
         time=datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC')),
     comment="""Aggregated dataset contents:
 * Spatial variables aggregated in time over the entire simulation lenght from
-120,000 years before present to the present (cumu_erosion, cumu_sliding,
-glacier_time, warmbed_time).
+120,000 years before present to the present.
 * Time-series variables aggregated in space over the entire glaciated area,
-defined by a 1-metre ice thickness threshold (erosion_rate, glacier_area,
-warmbed_area).
+defined by a 1-metre ice thickness threshold.
 """)
 
 
