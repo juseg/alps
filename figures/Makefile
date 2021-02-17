@@ -12,7 +12,7 @@ EXT = pdf
 PY = python
 
 # all python figures
-# (tmp off: alpero_, finalslip totalslip
+# (tmp off: alpero_, finalslip
 # 	    alpflo_, egumap profiles scalability timeseries timestamp
 #           alplgl_, extent)
 # (require coldroom: alpero_, temperature)
