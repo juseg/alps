@@ -12,11 +12,12 @@ EXT = pdf
 PY = python
 
 # all python figures
-# (tmp off: alpero_, finalslip
-# 	    alpflo_, egumap profiles scalability timeseries timestamp
+# (tmp off: alpflo_, egumap profiles scalability timeseries timestamp
 #           alplgl_, extent)
 # (require coldroom: alpero_, temperature)
-PY_FIGS = $(addprefix alpbou_, locmap) \
+PY_FIGS = \
+    $(addprefix alpbou_, locmap) \
+    $(addprefix alpdeg_, lastslip) \
           $(addprefix alpcyc_, \
             $(addprefix hr_, coldslip covertime deformation deglacage inputs \
                              locmap maxextthk maxextvel maxextsrf maxthkage \
