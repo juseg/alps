@@ -82,17 +82,6 @@ def postprocess_extra(run_path):
     dx = ex.x[1] - ex.x[0]
     dy = ex.y[1] - ex.y[0]
 
-    # compute last basal velocity transgressive variables
-    # compute index first (xarray indexing with dask array issue #2511)
-    # idx = (ex.icy*(ex.velbase_mag >= 1.0))[::-1].argmax(axis=0).compute
-    # pp['lastbvage'] = ex.age[-idx].where(idx > 0).assign_attrs(
-    #     long_name='last basal velocity age', units=ex.age.units)
-    # pp['lastbvbvx'] = ex.uvelbase[-idx].where(idx > 0).assign_attrs(
-    #     long_name='last basal velocity x-component', units=ex.uvelbase.units)
-    # pp['lastbvbvy'] = ex.vvelbase[-idx].where(idx > 0).assign_attrs(
-    #     long_name='last basal velocity y-component', units=ex.vvelbase.units)
-    # pp.drop('time')
-
     # compute glacial cycle integrated variables
     pp['cumu_sliding'] = (dt*ex.sliding.sum(axis=0, min_count=1)).assign_attrs(
         long_name='cumulative basal motion', units='m')
