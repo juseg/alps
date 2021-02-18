@@ -3,6 +3,8 @@
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
+"""Plot Alpine ice sheet 3D animation."""
+
 import os.path
 import multiprocessing
 import numpy as np
@@ -38,9 +40,9 @@ def add_cities(ax=None, lang=None, include=None, exclude=None, ranks=None,
             rec.attributes['name_en'] not in (exclude or []) or
             rec.attributes['name_en'] in (include or []))]
 
-    # convert coordinates
+    # convert coordinates (add 100m so points stay above surface)
     points = np.array(
-        [[rec.geometry.x, rec.geometry.y, rec.attributes['GTOPO30']]
+        [[rec.geometry.x, rec.geometry.y, rec.attributes['GTOPO30']+100]
          for rec in records])
     points = ccrs.UTM(32).transform_points(ccrs.PlateCarree(), *points.T)
 
@@ -56,6 +58,27 @@ def add_cities(ax=None, lang=None, include=None, exclude=None, ranks=None,
     return ax.scatter(*points.T, **kwargs)
 
 
+def pan_out(ax, years, start=-120e3, end=-0e3):
+    """Dynamic axes extent and camera location."""
+
+    # smoothly increasing zoomout factor
+    zoom = (years-start)/(end-start)  # linear increase between 0 and 1
+    zoom = zoom**2*(3-2*zoom)  # smooth zoom factor between 0 and 1
+
+    # set camera location
+    ax.view_init(azim=75+90*zoom, elev=15+15*zoom)
+
+    # set axes limits (note: the centre of rotation is near the upper edge of
+    # the figure because the axes are square and extending outside of the
+    # figure. Using a positive zmid will move the data towards the centre of
+    # the figure.)
+    xmid, ymid, zmid = 600e3, 5120e3, 3e3  # domain centre
+    half = 25e3 + 100e3*zoom  # evolving domain half-width
+    ax.set_xlim(xmid-half, xmid+half)
+    ax.set_ylim(ymid-half, ymid+half)
+    ax.set_zlim(zmid-half/5, zmid+half/5)  # vertical exageration
+
+
 def figure(years):
     """Plot one animation frame, return figure."""
 
@@ -65,11 +88,11 @@ def figure(years):
     # so that it comes back down into view)
     fig = plt.figure(0, (192/25.4, 108/25.4))
     ax = fig.add_axes([0, 0, 1, 16/9], projection='3d')
-    ax.view_init(azim=165, elev=30)
 
     # estimate sea level drop
-    dsl = pd.read_csv('../data/external/spratt2016.txt', comment='#',
-                      delimiter='\t', index_col='age_calkaBP').to_xarray()
+    dsl = pd.read_csv(
+        '../data/external/spratt2016.txt', comment='#', delimiter='\t',
+        index_col='age_calkaBP').to_xarray()
     dsl = dsl.SeaLev_shortPC1.dropna('age_calkaBP')
     dsl = min(dsl.interp(age_calkaBP=-years/1e3, method='cubic').values, 0.0)
 
@@ -88,20 +111,17 @@ def figure(years):
         img[ds.topg < dsl] = (0.776, 0.925, 1, 0)  # c6ecff
 
         # plot surface elevation and drape with image
-        xx, yy = np.meshgrid(ds.x, ds.y)
         ax.plot_surface(
-            xx, yy, ds.usurf, vmin=0.0, vmax=3e3, facecolors=img,
-            rstride=1, cstride=1, linewidth=0, alpha=1.0)
+            *np.meshgrid(ds.x, ds.y), ds.usurf, facecolors=img,
+            rstride=1, cstride=1, linewidth=0)
 
     # draw map elements
     add_cities(
         ax=ax, lang='en', color='0.25', marker='o',
         exclude=['Monaco'], ranks=range(7))
 
-    # set axes limits 250x250 km
-    ax.set_xlim(475e3, 725e3)    # default  (105e3, 1095e3) mid 600
-    ax.set_ylim(4995e3, 5245e3)  # default (4790e3, 5450e3) mid 5120
-    ax.set_zlim(-12e3, 12e3)     # default (-100, 4500)
+    # set pan-out effect
+    pan_out(ax, years)
     ax.set_axis_off()
 
     # add age tag
