@@ -14,29 +14,9 @@ import pismx.open
 
 from alpcyc_4k import save_animation_frame
 
-# meshing stride
-stride = 1
 
 def figure(years):
     """Plot one animation frame, return figure."""
-
-    # load extra data
-    filename = '~/pism/output/e9d2d1f/alpcyc4.1km.epica.1220.pp/ex.{:07.0f}.nc'
-    nc= pismx.open.subdataset(filename, years, shift=120000)
-
-    # select time slice data
-    # FIXME use sel coords instead of isel indices
-    w, e, s, n = 250, 400, 355, 455  # Zürich
-    w, e, s, n = 125, 425, 300, 500  # Swiss foreland
-    w, e, s, n = 000, 901, 000, 601  # Whole domain
-    nc = nc.isel(x=slice(w, e, stride), y=slice(s, n, stride))
-    x = nc.x
-    y = nc.y
-    xx, yy = np.meshgrid(x, y)
-    thk = nc.thk  #[w:e:stride, s:n:stride].T
-    usurf = nc.usurf  #[w:e:stride, s:n:stride].T
-    velsurf = nc.velsurf_mag  #[w:e:stride, s:n:stride].T
-    age = nc.age.squeeze()
 
     # initialize figure (this is a total enigma to me, but apparently the axes
     # rect need to be squared and aligned with the figure bottom so that the
@@ -45,37 +25,39 @@ def figure(years):
     fig = plt.figure(0, (192/25.4, 108/25.4))
     ax = fig.add_axes([0, 0, 1, 16/9], projection='3d')
     ax.view_init(azim=165, elev=30)
-    label = fig.text(0.05, 0.90, '', bbox=dict(ec='k', fc='w'))
 
-    # prepare composite image of topo and velocity
-    topocmap = ccv.TOPOGRAPHIC  #plt.get_cmap('Greys')
-    toponorm = mcolors.Normalize(0e3, 4.5e3)  #mcolors.Normalize(0e3, 3e3)
-    topo_img = topocmap(toponorm(usurf))
-    velocmap = plt.get_cmap('Blues')
-    velonorm = mcolors.LogNorm(1e1, 1e3)
-    velo_img = velocmap(velonorm(velsurf))
-    mask = (thk > 1.0).data[:, :, None]  # add one dimension
-    mask = (thk > 1.0).expand_dims('color', axis=-1)  # add color dimension
-    img = np.where(mask, velo_img, topo_img)
+    # load extra data
+    filename = '~/pism/output/e9d2d1f/alpcyc4.1km.epica.1220.pp/ex.{:07.0f}.nc'
+    with pismx.open.subdataset(filename, years, shift=120000) as ds:
 
-    # put blue color below interpolated sea level
-    # this does not work because usurf contains no bathymetry
-    #sl_interp = np.interp(time[i], sl_time, sl)
-    #img[usurf < sl_interp] = (0.776, 0.925, 1, 0)  #c6ecff
+        # prepare composite image of topo and velocity
+        img = np.where(
+            (ds.thk > 1.0).expand_dims('color', axis=-1),  # add dimension
+            plt.get_cmap('Blues')(mcolors.LogNorm(1e1, 1e3)(ds.velsurf_mag)),
+            ccv.TOPOGRAPHIC(mcolors.Normalize(0e3, 4.5e3)(ds.usurf)))
 
-    # plot surface elevation
-    ax.plot_surface(xx, yy, usurf, vmin=0.0, vmax=3e3, facecolors=img,
-                    rstride=1, cstride=1, linewidth=0, alpha=1.0)
+        # put blue color below interpolated sea level
+        # this does not work because usurf contains no bathymetry
+        # sl_interp = np.interp(time[i], sl_time, sl)
+        # img[usurf < sl_interp] = (0.776, 0.925, 1, 0)  #c6ecff
 
-    # set axes limits
-    ax.set_xlim3d((400e3, 575e3))
-    ax.set_ylim3d((5075e3, 5250e3))
-    ax.set_zlim3d((-0e3, 9e3))
+        # plot surface elevation and drape with image
+        xx, yy = np.meshgrid(ds.x, ds.y)
+        ax.plot_surface(
+            xx, yy, ds.usurf, vmin=0.0, vmax=3e3, facecolors=img,
+            rstride=10, cstride=10,
+            linewidth=0, alpha=1.0)
+
+    # set axes limits 400x400 km
+    ax.set_xlim(400e3, 800e3)    # default  (105e3, 1095e3) mid 600
+    ax.set_ylim(4920e3, 5320e3)  # default (4790e3, 5450e3) mid 5120
+    ax.set_zlim(0, 12e3)         # default (-100, 4500)
     ax.set_axis_off()
 
-    # add text tag
-    label.set_text('%.1f ka' % age)
-    nc.close()
+    # add age tag
+    fig.text(
+        0.95, 0.95, '{:,.0f} years ago'.format(-years).replace(',', r'$\,$'),
+        ha='right', va='top', fontweight='bold')
 
     # return figure
     return fig
