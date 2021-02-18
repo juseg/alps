@@ -442,8 +442,7 @@ def save_animation_frame(func, outdir, time, *args, **kwargs):
     """Save figure produced by func as animation frame if missing."""
 
     # create output directory if missing
-    if not os.path.isdir(outdir):
-        os.mkdir(outdir)
+    os.makedirs(outdir, exist_ok=True)
 
     # check if file exists
     fname = os.path.join(outdir, '{:06d}.png').format(time+120000)
