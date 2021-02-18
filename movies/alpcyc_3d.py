@@ -40,9 +40,9 @@ def add_cities(ax=None, lang=None, include=None, exclude=None, ranks=None,
             rec.attributes['name_en'] not in (exclude or []) or
             rec.attributes['name_en'] in (include or []))]
 
-    # convert coordinates (add 100m so points stay above surface)
+    # convert coordinates (add 250m so points stay above surface)
     points = np.array(
-        [[rec.geometry.x, rec.geometry.y, rec.attributes['GTOPO30']+100]
+        [[rec.geometry.x, rec.geometry.y, rec.attributes['GTOPO30']+250]
          for rec in records])
     points = ccrs.UTM(32).transform_points(ccrs.PlateCarree(), *points.T)
 
@@ -138,9 +138,12 @@ def main():
 
     # iterable arguments to save animation frames
     outdir = os.path.expanduser('~/anim/' + os.path.basename(__file__[:-3]))
-    iargs = [(figure, outdir, years) for years in range(-120000+4000, 1, 4000)]
+    iargs = [(figure, outdir, years) for years in range(-120000+40, 1, 40)]
 
-    # plot all frames in parallel
+    # double fig dpi for 4K video
+    plt.rc('figure', dpi=508, facecolor='none')
+
+    # plot all frames in parallel (est. 17x100m = 28h)
     with multiprocessing.Pool(processes=4) as pool:
         pool.starmap(save_animation_frame, iargs)
 
