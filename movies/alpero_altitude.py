@@ -11,11 +11,11 @@ import numpy as np
 import absplots as apl
 import pismx.open
 
-from anim_alps_4k import save_animation_frame
+from alpcyc_4k import save_animation_frame
 
 
 def figure(years):
-    """Prepare initial animation figure."""
+    """Plot one animation frame, return figure."""
 
     # initialize figure
     fig, grid = apl.subplots_mm(
