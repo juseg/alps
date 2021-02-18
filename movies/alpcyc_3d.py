@@ -9,11 +9,51 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
+import cartopy.crs as ccrs
+import cartopy.io.shapereader as cshp
 
 import cartowik.conventions as ccv
 import pismx.open
 
 from alpcyc_4k import save_animation_frame
+
+
+def add_cities(ax=None, lang=None, include=None, exclude=None, ranks=None,
+               **kwargs):
+    """Plot populated places as an annotated scatter plot. This is a variation
+    of cartowik.naturalearth.add_cities for 3D axes."""
+
+    # get current axes if None provided
+    ax = ax or plt.gca()
+
+    # open shapefile data
+    shp = cshp.Reader(cshp.natural_earth(
+        resolution='10m', category='cultural', name='populated_places'))
+
+    # filter by rank, include and exclude
+    records = shp.records()
+    if ranks is not None:
+        records = [rec for rec in records if (
+            rec.attributes['SCALERANK'] in ranks and
+            rec.attributes['name_en'] not in (exclude or []) or
+            rec.attributes['name_en'] in (include or []))]
+
+    # convert coordinates
+    points = np.array(
+        [[rec.geometry.x, rec.geometry.y, rec.attributes['GTOPO30']]
+         for rec in records])
+    points = ccrs.UTM(32).transform_points(ccrs.PlateCarree(), *points.T)
+
+    # add text labels
+    if lang is not None:
+        for point, rec in zip(points, records):
+            if np.inf not in point:
+                ax.text(
+                    *point, rec.attributes['name_'+lang]+'\n',
+                    color=kwargs.get('color'), ha='center')
+
+    # return scatter plot
+    return ax.scatter(*points.T, **kwargs)
 
 
 def figure(years):
@@ -28,9 +68,9 @@ def figure(years):
     ax.view_init(azim=165, elev=30)
 
     # estimate sea level drop
-    dsl = pd.read_csv(
-        '../data/external/spratt2016.txt', comment='#', delimiter='\t',
-        index_col='age_calkaBP').to_xarray().SeaLev_shortPC1.dropna('age_calkaBP')
+    dsl = pd.read_csv('../data/external/spratt2016.txt', comment='#',
+                      delimiter='\t', index_col='age_calkaBP').to_xarray()
+    dsl = dsl.SeaLev_shortPC1.dropna('age_calkaBP')
     dsl = min(dsl.interp(age_calkaBP=-years/1e3, method='cubic').values, 0.0)
 
     # load extra data
@@ -45,13 +85,18 @@ def figure(years):
 
         # put blue color below interpolated sea level
         # this does not work because usurf contains no bathymetry
-        img[ds.topg < dsl] = (0.776, 0.925, 1, 0)  #c6ecff
+        img[ds.topg < dsl] = (0.776, 0.925, 1, 0)  # c6ecff
 
         # plot surface elevation and drape with image
         xx, yy = np.meshgrid(ds.x, ds.y)
         ax.plot_surface(
             xx, yy, ds.usurf, vmin=0.0, vmax=3e3, facecolors=img,
             rstride=1, cstride=1, linewidth=0, alpha=1.0)
+
+    # draw map elements
+    add_cities(
+        ax=ax, lang='en', color='0.25', marker='o',
+        exclude=['Monaco'], ranks=range(7))
 
     # set axes limits 250x250 km
     ax.set_xlim(475e3, 725e3)    # default  (105e3, 1095e3) mid 600
