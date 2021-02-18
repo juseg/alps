@@ -6,6 +6,7 @@
 import os.path
 import multiprocessing
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 
@@ -26,6 +27,12 @@ def figure(years):
     ax = fig.add_axes([0, 0, 1, 16/9], projection='3d')
     ax.view_init(azim=165, elev=30)
 
+    # estimate sea level drop
+    dsl = pd.read_csv(
+        '../data/external/spratt2016.txt', comment='#', delimiter='\t',
+        index_col='age_calkaBP').to_xarray().SeaLev_shortPC1.dropna('age_calkaBP')
+    dsl = min(dsl.interp(age_calkaBP=-years/1e3, method='cubic').values, 0.0)
+
     # load extra data
     filename = '~/pism/output/e9d2d1f/alpcyc4.1km.epica.1220.pp/ex.{:07.0f}.nc'
     with pismx.open.subdataset(filename, years, shift=120000) as ds:
@@ -34,24 +41,22 @@ def figure(years):
         img = np.where(
             (ds.thk > 1.0).expand_dims('color', axis=-1),  # add dimension
             plt.get_cmap('Blues')(mcolors.LogNorm(1e1, 1e3)(ds.velsurf_mag)),
-            ccv.TOPOGRAPHIC(mcolors.Normalize(0e3, 4.5e3)(ds.usurf)))
+            ccv.TOPOGRAPHIC(mcolors.Normalize(0e3, 4.5e3)(ds.topg-dsl)))
 
         # put blue color below interpolated sea level
         # this does not work because usurf contains no bathymetry
-        # sl_interp = np.interp(time[i], sl_time, sl)
-        # img[usurf < sl_interp] = (0.776, 0.925, 1, 0)  #c6ecff
+        img[ds.topg < dsl] = (0.776, 0.925, 1, 0)  #c6ecff
 
         # plot surface elevation and drape with image
         xx, yy = np.meshgrid(ds.x, ds.y)
         ax.plot_surface(
             xx, yy, ds.usurf, vmin=0.0, vmax=3e3, facecolors=img,
-            rstride=10, cstride=10,
-            linewidth=0, alpha=1.0)
+            rstride=1, cstride=1, linewidth=0, alpha=1.0)
 
-    # set axes limits 400x400 km
-    ax.set_xlim(400e3, 800e3)    # default  (105e3, 1095e3) mid 600
-    ax.set_ylim(4920e3, 5320e3)  # default (4790e3, 5450e3) mid 5120
-    ax.set_zlim(0, 12e3)         # default (-100, 4500)
+    # set axes limits 250x250 km
+    ax.set_xlim(475e3, 725e3)    # default  (105e3, 1095e3) mid 600
+    ax.set_ylim(4995e3, 5245e3)  # default (4790e3, 5450e3) mid 5120
+    ax.set_zlim(-12e3, 12e3)     # default (-100, 4500)
     ax.set_axis_off()
 
     # add age tag
