@@ -1,12 +1,16 @@
 #!/usr/bin/env python
-# coding: utf-8
+# Copyright (c) 2016-2021, Julien Seguinot (juseg.github.io)
+# Creative Commons Attribution-ShareAlike 4.0 International License
+# (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
-import util
 import os.path
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import multiprocessing as mp
+
+import cartowik.conventions as ccv
+import pismx.open
 
 
 # meshing stride
@@ -16,20 +20,20 @@ def draw(i, ax, nc, label):
     """What to draw at each animation step."""
 
     # select time slice data
+    # FIXME use sel coords instead of isel indices
     w, e, s, n = 250, 400, 355, 455  # Zürich
     w, e, s, n = 125, 425, 300, 500  # Swiss foreland
     w, e, s, n = 000, 901, 000, 601  # Whole domain
-    x = nc.variables['x'][w:e:stride]
-    y = nc.variables['y'][s:n:stride]
-    time = nc.variables['time'][:]/(365.0*24*60*60)
+    nc = nc.isel(x=slice(w, e, stride), y=slice(s, n, stride))
+    x = nc.x
+    y = nc.y
     xx, yy = np.meshgrid(x, y)
-    thk = nc.variables['thk'][i, w:e:stride, s:n:stride].T
-    usurf = nc.variables['usurf'][i, w:e:stride, s:n:stride].T
-    velsurf = nc.variables['velsurf_mag'][i, w:e:stride, s:n:stride].T
+    thk = nc.thk  #[w:e:stride, s:n:stride].T
+    usurf = nc.usurf  #[w:e:stride, s:n:stride].T
+    velsurf = nc.velsurf_mag  #[w:e:stride, s:n:stride].T
 
     # clear axes
-    age = -time[i]/1e3
-    print 'plotting at %.2f ka...' % age
+    age = nc.age.squeeze()
     ax.cla()
 
     # prepare composite image of topo and velocity
@@ -39,7 +43,8 @@ def draw(i, ax, nc, label):
     velocmap = plt.get_cmap('Blues')
     velonorm = mcolors.LogNorm(1e1, 1e3)
     velo_img = velocmap(velonorm(velsurf))
-    mask = (thk > 1.0)[:, :, None]  # add one dimension
+    mask = (thk > 1.0).data[:, :, None]  # add one dimension
+    mask = (thk > 1.0).expand_dims('color', axis=-1)  # add color dimension
     img = np.where(mask, velo_img, topo_img)
 
     # put blue color below interpolated sea level
@@ -72,13 +77,13 @@ def saveframe(i):
     #nc.close()
 
     # check if file exists
-    framepath = '/scratch_net/ogive/juliens/anim/anim_alps_3d_v01/%04d.png' % i
+    framepath = '/run/media/julien/coldroom/anim/alpcyc_3d/%04d.png' % (i+1)
     if os.path.isfile(framepath):
         return
 
     # load extra data
-    filepath = util.alpcyc_bestrun + 'y???????-extra.nc'
-    nc = util.io.load(filepath)
+    filename = '~/pism/output/e9d2d1f/alpcyc4.1km.epica.1220.pp/ex.{:07.0f}.nc'
+    nc = pismx.open.subdataset(filename, time=-120000+10+10*i, shift=120000)
 
     # initialize figure
     fig = plt.figure(0, (135/25.4, 80/25.4))
@@ -88,12 +93,12 @@ def saveframe(i):
 
     # draw and save
     draw(i, ax, nc, label)
-    fig.savefig('/scratch_net/ogive/juliens/anim/anim_alps_3d_v01/%04d.png' % i)
+    fig.savefig(framepath)
     nc.close()
     plt.close(fig)
 
 # plot individual frames in parallel
 pool = mp.Pool(processes=16)
-pool.map(saveframe, xrange(9, 12000, 10))
+pool.map(saveframe, range(999, 12000, 1000))
 pool.close()
 pool.join()
