@@ -488,7 +488,6 @@ def main():
 
     # start and end of animation
     # NOTE: make these additional parser args?
-    # NOTE: in practice I only use 120ka timebars and 40ka time tags
     if args.region in ('lucerne', 'provenc'):
         start, end, step = -45000, -15000, 10
     else:
@@ -501,28 +500,27 @@ def main():
             '~/anim/alpcyc_4k_{0.visual}_colorbar_{0.lang}.png'.format(args)))
         plt.close(fig)
 
+    # frame output directories
+    outdirs = dict(
+        citymap='~/anim/alpcyc_4k_citymap_{0.region}_{0.lang}'.format(args),
+        mainmap='~/anim/alpcyc_4k_{0.visual}_{0.region}_{0.lang}'.format(args),
+        timetag='~/anim/alpcyc_4k_timetag_{0.lang}'.format(args),
+        timebar='~/anim/alpcyc_4k_{0.visual}_timebar_{0.lang}'.format(args))
+
     # iterable arguments to save animation frames
     time_range = range(start+step, end+1, step)
     city_range = [end] if args.region == 'alpsfix' else time_range
     iter_args = []
     for time in city_range:
         iter_args.append(
-            (figure_citymap,
-             '~/anim/alpcyc_4k_citymap_{0.region}_{0.lang}'.format(args),
-             time, args, start, end))
+            (figure_citymap, outdirs['citymap'], time, args, start, end))
     for time in time_range:
         iter_args.append(
-            (figure_mainmap,
-             '~/anim/alpcyc_4k_{0.visual}_{0.region}_{0.lang}'.format(args),
-             time, args, start, end))
-        iter_args.append(
-            (figure_timebar,
-             '~/anim/alpcyc_4k_{0.visual}_timebar_{0.lang}'.format(args),
-             time, args))
-        iter_args.append(
-            (figure_timetag,
-             '~/anim/alpcyc_4k_timetag_{0.lang}'.format(args),
-             time, args))
+            (figure_mainmap, outdirs['mainmap'], time, args, start, end))
+        if args.region in ('lucerne', 'provenc'):
+            iter_args.append((figure_timetag, outdirs['timetag'], time, args))
+        else:
+            iter_args.append((figure_timebar, outdirs['timebar'], time, args))
 
     # plot all frames in parallel
     with mp.Pool(processes=4) as pool:
