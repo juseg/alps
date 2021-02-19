@@ -35,24 +35,20 @@ plt.rc('axes', prop_cycle=plt.cycler(color=plt.get_cmap('Paired').colors))
 # Figure creation
 # ---------------
 
-def axes_anim_dynamic(crop, time, start=-120e3, end=-0e3, **kwargs):
+def axes_anim_dynamic(region, time, start=-120e3, end=-0e3, **kwargs):
     """Init dynamic extent figure and subplot."""
 
-    # predefined crop regions
-    regions = dict(
-        al_0=(120e3, 1080e3, 4835e3, 5375e3),  # Alps   16:9  960x540 250m@4k
-        al_1=(120e3, 1080e3, 4835e3, 5375e3),  # "
-        ch_0=(380e3,  476e3, 5120e3, 5174e3),  # Switz. 16:9   96x54   25m@4k
-        ch_1=(252e3,  636e3, 5072e3, 5288e3),  # Switz. 16:9  384x216 100m@4k
-        lu_0=(416e3,  512e3, 5200e3, 5254e3),  # Luzern 16:9   96x54   25m@4k
-        lu_1=(392e3,  520e3, 5196e3, 5268e3),  # Luzern 16:9  128x72   33m@4k
-        ma_0=(234e3,  426e3, 4871e3, 4979e3),  # Marit. 16:9  192x108  50m@4k
-        ma_1=(141e3,  429e3, 4829e3, 4991e3),  # Marit. 16:9  288x162  75m@4k
-        ul_0=(152e3, 1048e3, 4848e3, 5352e3),  # Uplift 16:9  896x504 233m@4k
-        ul_1=(152e3, 1048e3, 4848e3, 5352e3),  # "
-        zo_0=(329e3,  521e3, 5096e3, 5204e3),  # Switz. 16:9  192x108  50m@4k
-        zo_1=(120e3, 1080e3, 4835e3, 5375e3),  # Alps   16:9  960x540 250m@4k
-    )
+    # initial and final plot extent
+    extents = dict(
+        alpsfix=[(152e3, 1048e3, 4848e3, 5352e3),   # 16:9  896x504 233m@4k
+                 (152e3, 1048e3, 4848e3, 5352e3)],  # 16:9  896x504 233m@4k
+        lucerne=[(416e3,  512e3, 5200e3, 5254e3),   # 16:9   96x54   25m@4k
+                 (392e3,  520e3, 5196e3, 5268e3)],  # 16:9  128x72   33m@4k
+        provenc=[(234e3,  426e3, 4871e3, 4979e3),   # 16:9  192x108  50m@4k
+                 (141e3,  429e3, 4829e3, 4991e3)],  # 16:9  288x162  75m@4k
+        zoomout=[(329e3,  521e3, 5096e3, 5204e3),   # 16:9  192x108  50m@4k
+                 (152e3, 1048e3, 4848e3, 5352e3)],  # 16:9  896x504 233m@4k
+        )[region]
 
     # init figure with full-frame axes
     fig = apl.figure_mm(figsize=kwargs.pop('figsize', (192, 108)), **kwargs)
@@ -61,7 +57,6 @@ def axes_anim_dynamic(crop, time, start=-120e3, end=-0e3, **kwargs):
     ax.spines['geo'].set_visible(False)
 
     # compute dynamic extent
-    extents = (regions['{}_{:d}'.format(crop, i)] for i in (0, 1))
     zoom = 1.0*(time-start)/(end-start)  # linear increase between 0 and 1
     zoom = zoom**2*(3-2*zoom)  # smooth zoom factor between 0 and 1
     extent = [c0 + (c1-c0)*zoom for c0, c1 in zip(*extents)]
@@ -198,13 +193,14 @@ def figure_citymap(time, args, start=-120e3, end=0e3):
 
     # initialize figure
     fig, ax = axes_anim_dynamic(
-        args.crop, time, start=start, end=end, figsize=(192, 108))
+        args.region, time, start=start, end=end, figsize=(192, 108))
 
     # draw map elements
+    # NOTE it would be possible to make rank depend on plot size
     cne.add_cities(
         ax=ax, lang=args.lang, color='0.25', marker='o',  # s=6,
         exclude=['Monaco'], include=['Sion'],
-        ranks=range(9 if args.crop in ('lu', 'ma') else 7))
+        ranks=range(9 if args.region in ('lucerne', 'provenc') else 7))
 
     # return figure
     return fig
@@ -216,7 +212,7 @@ def figure_mainmap(time, args, start=-120000, end=-0, background=True):
     # initialize figure
     # NOTE: alternatiely change size, dpi, and thin all the contours
     fig, ax = axes_anim_dynamic(
-        args.crop, time, start=start, end=end, figsize=(384, 216), dpi=254)
+        args.region, time, start=start, end=end, figsize=(384, 216), dpi=254)
 
     # estimate sea level drop
     dsl = pd.read_csv('../data/external/spratt2016.txt', comment='#',
@@ -397,7 +393,7 @@ def figure_timebar(time, args, start=-120000, end=0):
     twax = tsax.twinx()
 
     # import language-dependent labels
-    with open('alpcyc_4k_{0.visual}_{0.crop}_{0.lang}.yaml'.format(args)
+    with open('alpcyc_4k_{0.visual}_{0.region}_{0.lang}.yaml'.format(args)
               ) as metafile:
         labels = yaml.safe_load(metafile)['Labels']
 
@@ -476,7 +472,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         'visual', choices=['bedrock', 'erosion', 'streams', 'velsurf'])
-    parser.add_argument('crop', choices=['al', 'ch', 'lu', 'ma', 'ul', 'zo'])
+    parser.add_argument(
+        'region', choices=['alpsfix', 'lucerne', 'provenc', 'zoomout'])
     parser.add_argument('lang', choices=['de', 'en', 'fr', 'it', 'ja', 'nl'])
     args = parser.parse_args()
 
@@ -487,7 +484,8 @@ def main():
         plt.rc('font', family='TakaoPGothic')
 
     # start and end of animation
-    if args.crop in ('lu', 'ma'):
+    # NOTE: make these additional parser args?
+    if args.region in ('lucerne', 'provenc'):
         start, end, step = -45000, -15000, 10
     else:
         start, end, step = -120000, -0, 40
@@ -500,17 +498,17 @@ def main():
 
     # iterable arguments to save animation frames
     time_range = range(start+step, end+1, step)
-    city_range = [end] if args.crop in ('al', 'ul') else time_range
+    city_range = [end] if args.region == 'alpsfix' else time_range
     iter_args = []
     for time in city_range:
         iter_args.append(
             (figure_citymap,
-             '~/anim/alpcyc_4k_citymap_{0.crop}_{0.lang}'.format(args),
+             '~/anim/alpcyc_4k_citymap_{0.region}_{0.lang}'.format(args),
              time, args, start, end))
     for time in time_range:
         iter_args.append(
             (figure_mainmap,
-             '~/anim/alpcyc_4k_{0.visual}_{0.crop}_{0.lang}'.format(args),
+             '~/anim/alpcyc_4k_{0.visual}_{0.region}_{0.lang}'.format(args),
              time, args, start, end))
         iter_args.append(
             (figure_timebar,
