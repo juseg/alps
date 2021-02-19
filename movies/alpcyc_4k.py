@@ -35,8 +35,8 @@ plt.rc('axes', prop_cycle=plt.cycler(color=plt.get_cmap('Paired').colors))
 # Figure creation
 # ---------------
 
-def axes_anim_dynamic(region, time, start=-120e3, end=-0e3, **kwargs):
-    """Init dynamic extent figure and subplot."""
+def subplots_dynamic(region, time, **kwargs):
+    """Init figure with and subplot with time-dependent extent."""
 
     # initial and final plot extent
     extents = dict(
@@ -53,10 +53,11 @@ def axes_anim_dynamic(region, time, start=-120e3, end=-0e3, **kwargs):
     # init figure with full-frame axes
     fig = apl.figure_mm(figsize=kwargs.pop('figsize', (192, 108)), **kwargs)
     ax = fig.add_axes([0, 0, 1, 1], projection=ccrs.UTM(32))
-    fig.set_dpi(254)  # NOTE: or change size, and thin all the contours
     ax.spines['geo'].set_visible(False)
 
     # compute dynamic extent
+    start = -45e3 if region in ('lucerne', 'provenc') else -120e3
+    end = -15e3 if region in ('lucerne', 'provenc') else -0e3
     zoom = 1.0*(time-start)/(end-start)  # linear increase between 0 and 1
     zoom = zoom**2*(3-2*zoom)  # smooth zoom factor between 0 and 1
     extent = [c0 + (c1-c0)*zoom for c0, c1 in zip(*extents)]
@@ -187,12 +188,11 @@ def figure_colorbar(args):
     return fig
 
 
-def figure_citymap(time, args, start=-120e3, end=0e3):
+def figure_citymap(time, args):
     """Plot city map layer."""
 
     # initialize figure
-    fig, ax = axes_anim_dynamic(
-        args.region, time, start=start, end=end, figsize=(192, 108))
+    fig, ax = subplots_dynamic(args.region, time, figsize=(192, 108))
 
     # draw map elements
     # NOTE it would be possible to make rank depend on plot size
@@ -205,13 +205,12 @@ def figure_citymap(time, args, start=-120e3, end=0e3):
     return fig
 
 
-def figure_mainmap(time, args, start=-120000, end=-0, background=True):
+def figure_mainmap(time, args, background=True):
     """Plot main (geographic) layer."""
 
     # initialize figure
     # NOTE: alternatiely change size, dpi, and thin all the contours
-    fig, ax = axes_anim_dynamic(
-        args.region, time, start=start, end=end, figsize=(384, 216), dpi=254)
+    fig, ax = subplots_dynamic(args.region, time, figsize=(384, 216), dpi=254)
 
     # estimate sea level drop
     dsl = pd.read_csv('../data/external/spratt2016.txt', comment='#',
@@ -513,10 +512,10 @@ def main():
     iter_args = []
     for time in city_range:
         iter_args.append(
-            (figure_citymap, outdirs['citymap'], time, args, start, end))
+            (figure_citymap, outdirs['citymap'], time, args))
     for time in time_range:
         iter_args.append(
-            (figure_mainmap, outdirs['mainmap'], time, args, start, end))
+            (figure_mainmap, outdirs['mainmap'], time, args))
         if args.region in ('lucerne', 'provenc'):
             iter_args.append((figure_timetag, outdirs['timetag'], time, args))
         else:
