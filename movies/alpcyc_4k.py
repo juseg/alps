@@ -115,7 +115,6 @@ def draw_swisstopo_hydrology(ax=None, wikicolors=False, **kwargs):
     for rec in shp.records():
         symb = rec.attributes['Symbol']
         geom = rec.geometry
-        help(geom)
         if symb != '':
             ax.add_geometries(
                 [geom], swissplus, edgecolor=edgecolor, facecolor='none',
@@ -518,13 +517,11 @@ def main():
              time, args, start, end))
         iter_args.append(
             (figure_timebar,
-             '~/anim/alpcyc_4k_{0.visual}_timebar_{0.lang}'.format(args) +
-             '_{:.0f}{:.0f}'.format(-start/1e3, -end/1e3),
-             time, args, start, end))
+             '~/anim/alpcyc_4k_{0.visual}_timebar_{0.lang}'.format(args),
+             time, args))
         iter_args.append(
             (figure_timetag,
-             '~/anim/alpcyc_4k_timetag_{0.lang}'.format(args) +
-             '_{:.0f}{:.0f}'.format(-start/1e3, -end/1e3),
+             '~/anim/alpcyc_4k_timetag_{0.lang}'.format(args),
              time, args))
 
     # plot all frames in parallel
