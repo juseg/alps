@@ -91,18 +91,18 @@ def draw_lgm_faded(time, alpha=0.75, **kwargs):
         draw_lgm_outline(alpha=alpha*fade, **kwargs)
 
 
-def draw_natural_earth(ax=None, mode='gs', **kwargs):
+def draw_natural_earth(ax=None, wikicolors=False, **kwargs):
     """Add Natural Earth geographic data vectors."""
     ax = ax or plt.gca()
-    edgecolor = '#0978ab' if mode == 'co' else '0.25'
-    facecolor = '#c6ecff' if mode == 'co' else '0.95'
+    edgecolor = '#0978ab' if wikicolors else '0.25'
+    facecolor = '#c6ecff' if wikicolors else '0.95'
     kwargs = dict(ax=ax, zorder=0, **kwargs)
     cne.add_rivers(edgecolor=edgecolor, **kwargs)
     cne.add_lakes(edgecolor=edgecolor, facecolor=facecolor, **kwargs)
     cne.add_coastline(edgecolor=edgecolor, **kwargs)
 
 
-def draw_swisstopo_hydrology(ax=None, mode='gs', **kwargs):
+def draw_swisstopo_hydrology(ax=None, wikicolors=False, **kwargs):
     """Add Swisstopo lake and river vectors."""
     swissplus = ccrs.TransverseMercator(
         central_longitude=7.439583333333333,
@@ -111,8 +111,8 @@ def draw_swisstopo_hydrology(ax=None, mode='gs', **kwargs):
 
     # get axes if None provided
     ax = ax or plt.gca()
-    edgecolor = '#0978ab' if mode == 'co' else '0.25'
-    facecolor = '#c6ecff' if mode == 'co' else '0.95'
+    edgecolor = '#0978ab' if wikicolors else '0.25'
+    facecolor = '#c6ecff' if wikicolors else '0.95'
 
     # draw swisstopo rivers
     filename = '../data/external/25_DKM500_GEWAESSER_LIN.shp'
@@ -165,7 +165,7 @@ def draw_tailored_hydrology(ax=None, **kwargs):
 # Figure drawing functions
 # ------------------------
 
-def figure_cbar(mode='er'):
+def figure_colorbar(args):
     """Plot color bar layer."""
 
     # initialize figure
@@ -173,13 +173,13 @@ def figure_cbar(mode='er'):
     cax = fig.add_axes_mm([4, 4, 4, 32])
 
     # mode dependent properties
-    if mode == 'er':
+    if args.visual == 'erosion':
         levels = [10**i for i in range(-9, 1)]
         kwargs = dict(cmap=plt.get_cmap('YlOrBr'),
                       label='erosion rate ($mm\\,a^{-1}$)',
                       format=mpl.ticker.LogFormatterMathtext(),
                       ticks=levels[::3])  # (cax.locator_params issue #11937)
-    elif mode == 'ul':
+    elif args.visual == 'bedrock':
         levels = [-100, -50, -20, 0, 2, 5, 10]
         kwargs = dict(cmap=plt.get_cmap('PRGn_r'), label='uplift (m)')
 
@@ -193,30 +193,30 @@ def figure_cbar(mode='er'):
     return fig
 
 
-def figure_city(time, crop='al', lang='en', start=-120e3, end=0e3):
+def figure_citymap(time, args, start=-120e3, end=0e3):
     """Plot city map layer."""
 
     # initialize figure
     fig, ax = axes_anim_dynamic(
-        crop, time, start=start, end=end, figsize=(192, 108))
+        args.crop, time, start=start, end=end, figsize=(192, 108))
 
     # draw map elements
     cne.add_cities(
-        ax=ax, lang=lang, color='0.25', marker='o', #s=6,
+        ax=ax, lang=args.lang, color='0.25', marker='o',  # s=6,
         exclude=['Monaco'], include=['Sion'],
-        ranks=range(9 if crop in ('lu', 'ma') else 7))
+        ranks=range(9 if args.crop in ('lu', 'ma') else 7))
 
     # return figure
     return fig
 
 
-def figure_main(time, crop='al', mode='co', start=-120000, end=-0):
+def figure_mainmap(time, args, start=-120000, end=-0, background=True):
     """Plot main (geographic) layer."""
 
     # initialize figure
     # NOTE: alternatiely change size, dpi, and thin all the contours
     fig, ax = axes_anim_dynamic(
-        crop, time, start=start, end=end, figsize=(384, 216), dpi=254)
+        args.crop, time, start=start, end=end, figsize=(384, 216), dpi=254)
 
     # estimate sea level drop
     dsl = pd.read_csv('../data/external/spratt2016.txt', comment='#',
@@ -233,18 +233,20 @@ def figure_main(time, crop='al', mode='co', start=-120000, end=-0):
     with pismx.open.visual(
             filename, bootfile='../data/processed/alpcyc.1km.in.nc',
             interpfile='../data/external/srtm.nc', ax=ax, time=time,
-            shift=120000, sigma=10000, variables=variables) as ds:
+            shift=120000, sigma=10000,
+            variables=['thk', 'velbase_mag']) as ds:
 
         # shaded relief topographic background
-        if mode != 'ga':
+        if background is True:
+            wikicolors = (args.visual == 'streams')
             (ds.topg-dsl).plot.imshow(
                 ax=ax, add_colorbar=False, zorder=-1,
-                cmap=(ccv.ELEVATIONAL if mode == 'co' else 'Greys'),
-                vmin=(-4500 if mode == 'co' else 0), vmax=4500)
+                cmap=(ccv.ELEVATIONAL if wikicolors else 'Greys'),
+                vmin=(-4500 if wikicolors else 0), vmax=4500)
             csr.add_multishade(
                 ds.topg, ax=ax, add_colorbar=False, zorder=-1)
             ds.topg.plot.contour(
-                ax=ax, colors=('#0978ab' if mode == 'co' else '0.25'),
+                ax=ax, colors=('#0978ab' if wikicolors else '0.25'),
                 levels=[dsl], linestyles='dashed', linewidths=0.25, zorder=0)
             ds.thk.notnull().plot.contour(
                 ax=ax, colors=['k'], levels=[0.5], linewidths=0.25)
@@ -258,25 +260,25 @@ def figure_main(time, crop='al', mode='co', start=-120000, end=-0):
             ax=ax, colors=['0.25'], linewidths=0.1)
 
         # streamline plot outer contour
-        if mode == 'co':
+        if args.visual == 'streams':
             ds.thk.notnull().plot.contourf(
                 ax=ax, add_colorbar=False, alpha=0.75, colors='w',
                 extend='neither', levels=[0.5, 1.5])
 
         # erosion rate (values 1e-16 to 1e2, mostly 1e-12 to 1e-2)
-        elif mode == 'er':
+        elif args.visual == 'erosion':
             (5.2e-8*ds.velbase_mag**2.34).plot.contourf(
                 ax=ax, add_colorbar=False, alpha=0.75, cmap='YlOrBr',
                 levels=[10**i for i in range(-9, 1)])
 
         # velocities map
-        elif mode in ('ga', 'gs'):
+        elif args.visual == 'velsurf':
             ds.velsurf_mag.plot.imshow(
                 ax=ax, add_colorbar=False, alpha=0.75,
                 cmap='Blues', norm=mcolors.LogNorm(1e1, 1e3))
 
         # mode ul, show interpolated bedrock depression
-        elif mode == 'ul':
+        elif args.visual == 'bedrock':
             ds.uplift.plot.contourf(
                 ax=ax, add_colorbar=False, alpha=0.75, cmap='PRGn_r',
                 levels=[-100, -50, -20, 0, 2, 5, 10])
@@ -290,7 +292,7 @@ def figure_main(time, crop='al', mode='co', start=-120000, end=-0):
                     color=color)
 
     # mode co, stream plot extra data
-    if mode == 'co':
+    if args.visual == 'streams':
         with pismx.open.subdataset(filename, time=time, shift=120000) as ds:
 
             # streamplot colormapping fails on empty arrays (mpl issue #19323)
@@ -306,9 +308,9 @@ def figure_main(time, crop='al', mode='co', start=-120000, end=-0):
                     arrowsize=0.25, linewidth=0.5, density=(24, 16))
 
     # draw map elements
-    if mode != 'ga':
-        draw_tailored_hydrology(ax=ax, mode=mode)
-    if mode == 'gs':
+    if background is True:
+        draw_tailored_hydrology(ax=ax, wikicolors=wikicolors)
+    if args.visual == 'velsurf':
         draw_lgm_faded(ax=ax, time=time)
 
     # return figure
@@ -379,12 +381,15 @@ def plot_rolling(ax, data, time, text='  {: .0f}', **kwargs):
     plot_tagline(ax, roll, time, text=text, **kwargs)
 
 
-def figure_tbar(time, crop='co', mode='co', lang='en', start=-120000, end=0):
+def figure_timebar(time, args, start=-120000, end=0):
     """Plot time bar layer."""
 
     # mode-dependent properties
-    variables = dict(co=('dt', 'sl'), er=('sl', 'er'), ul=('sl', 'ul'))[mode]
-    colors = '0.25', dict(co='C1', er='C11', ul='C3')[mode]
+    variables = dict(
+        velsurf=('dt', 'sl'), erosion=('sl', 'er'),
+        bedrock=('sl', 'ul'))[args.visual]
+    colors = '0.25', dict(
+        velsurf='C1', erosion='C11', bedrock='C3')[args.visual]
 
     # initialize figure
     fig, tsax = apl.subplots_mm(figsize=(192, 20), gridspec_kw=dict(
@@ -392,7 +397,7 @@ def figure_tbar(time, crop='co', mode='co', lang='en', start=-120000, end=0):
     twax = tsax.twinx()
 
     # import language-dependent labels
-    with open('anim_alps_4k_{}_{}_{}.yaml'.format(crop, mode, lang)
+    with open('alpcyc_4k_{0.visual}_{0.crop}_{0.lang}.yaml'.format(args)
               ) as metafile:
         labels = yaml.safe_load(metafile)['Labels']
 
@@ -416,22 +421,23 @@ def figure_tbar(time, crop='co', mode='co', lang='en', start=-120000, end=0):
 
     # add moving cursor and adaptive ticks
     tsax.set_xlim(-start, -end)
-    plot_cursor(tsax, time, labels[0], sep=(',' if lang == 'ja' else r'$\,$'))
+    plot_cursor(
+        tsax, time, labels[0], sep=(',' if args.lang == 'ja' else r'$\,$'))
 
     # return figure
     return fig
 
 
-def figure_ttag(time, lang='en'):
+def figure_timetag(time, args):
     """Plot time tag layer."""
 
     # initialize figure
     fig = apl.figure_mm(figsize=(32, 6))
 
     # import language-dependent label
-    with open('anim_alps_4k_zo_co_{}.yaml'.format(lang)) as metafile:
+    with open('alpcyc_4k_zo_co_{}.yaml'.format(args.lang)) as metafile:
         tag = yaml.safe_load(metafile)['Labels'][0].format(0-time)
-    if lang != 'ja':
+    if args.lang != 'ja':
         tag = tag.replace(',', r'$\,$')
     fig.text(2.5/32, 1-2.5/6, tag, ha='left', va='top', fontweight='bold')
 
@@ -446,6 +452,7 @@ def save_animation_frame(func, outdir, time, *args, **kwargs):
     """Save figure produced by func as animation frame if missing."""
 
     # create output directory if missing
+    outdir = os.path.expanduser(outdir)
     os.makedirs(outdir, exist_ok=True)
 
     # check if file exists
@@ -467,8 +474,9 @@ def main():
 
     # parse arguments
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        'visual', choices=['bedrock', 'erosion', 'streams', 'velsurf'])
     parser.add_argument('crop', choices=['al', 'ch', 'lu', 'ma', 'ul', 'zo'])
-    parser.add_argument('mode', choices=['co', 'er', 'ga', 'gs', 'ul'])
     parser.add_argument('lang', choices=['de', 'en', 'fr', 'it', 'ja', 'nl'])
     args = parser.parse_args()
 
@@ -485,9 +493,9 @@ def main():
         start, end, step = -120000, -0, 40
 
     # plot colorbar separately
-    prefix = '/run/media/julien/coldroom/anim/anim_alps_4k'
-    fig = figure_cbar(args.mode)
-    fig.savefig('{}_cbar_{}_{}.png'.format(prefix, args.mode, args.lang))
+    fig = figure_colorbar(args)
+    fig.savefig(os.path.expanduser(
+        '~/anim/alpcyc_4k_{0.visual}_colorbar_{0.lang}.png'.format(args)))
     plt.close(fig)
 
     # iterable arguments to save animation frames
@@ -496,20 +504,24 @@ def main():
     iter_args = []
     for time in city_range:
         iter_args.append(
-            (figure_city, '{}_city_{}_{}'.format(prefix, args.crop, args.lang),
-             time, args.crop, args.lang, start, end))
+            (figure_citymap,
+             '~/anim/alpcyc_4k_citymap_{0.crop}_{0.lang}'.format(args),
+             time, args, start, end))
     for time in time_range:
         iter_args.append(
-            (figure_main, '{}_main_{}_{}'.format(prefix, args.crop, args.mode),
-             time, args.crop, args.mode, start, end))
+            (figure_mainmap,
+             '~/anim/alpcyc_4k_{0.visual}_{0.crop}_{0.lang}'.format(args),
+             time, args, start, end))
         iter_args.append(
-            (figure_tbar, '{}_tbar_{}_{}_{:.0f}{:.0f}'.format(
-                prefix, args.mode, args.lang, -start/1e3, -end/1e3),
-             time, args.crop, args.mode, args.lang, start, end))
+            (figure_timebar,
+             '~/anim/alpcyc_4k_{0.visual}_timebar_{0.lang}'.format(args) +
+             '_{:.0f}{:.0f}'.format(-start/1e3, -end/1e3),
+             time, args, start, end))
         iter_args.append(
-            (figure_ttag, '{}_ttag_{}_{:.0f}{:.0f}'.format(
-                prefix, args.lang, -start/1e3, -end/1e3),
-             time, args.lang))
+            (figure_timetag,
+             '~/anim/alpcyc_4k_{0.visual}_timetag_{0.lang}'.format(args) +
+             '_{:.0f}{:.0f}'.format(-start/1e3, -end/1e3),
+             time, args))
 
     # plot all frames in parallel
     with mp.Pool(processes=4) as pool:
