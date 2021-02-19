@@ -226,10 +226,14 @@ def figure_main(time, crop='al', mode='co', start=-120000, end=-0):
 
     # plot interpolated data
     filename = '~/pism/output/e9d2d1f/alpcyc4.1km.epica.1220.pp/ex.{:07.0f}.nc'
+    variables = ['thk']
+    variables += ['velbase_mag']*(args.visual == 'erosion')
+    variables += ['velsurf_mag']*(args.visual == 'velsurf')
+    variables += ['uvelsurf', 'vvelsurf']*(args.visual == 'streams')
     with pismx.open.visual(
             filename, bootfile='../data/processed/alpcyc.1km.in.nc',
             interpfile='../data/external/srtm.nc', ax=ax, time=time,
-            shift=120000, sigma=10000) as ds:
+            shift=120000, sigma=10000, variables=variables) as ds:
 
         # shaded relief topographic background
         if mode != 'ga':
