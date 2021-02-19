@@ -485,13 +485,6 @@ def main():
     if args.lang == 'ja':
         plt.rc('font', family='TakaoPGothic')
 
-    # start and end of animation
-    # NOTE: make these additional parser args?
-    if args.region in ('lucerne', 'provenc'):
-        start, end, step = -45000, -15000, 10
-    else:
-        start, end, step = -120000, -0, 40
-
     # plot colorbar separately
     if args.visual in ('bedrock', 'erosion'):
         fig = figure_colorbar(args)
@@ -507,19 +500,22 @@ def main():
         timebar='~/anim/alpcyc_4k_{0.visual}_timebar_{0.lang}'.format(args))
 
     # iterable arguments to save animation frames
-    time_range = range(start+step, end+1, step)
-    city_range = [end] if args.region == 'alpsfix' else time_range
     iter_args = []
-    for time in city_range:
-        iter_args.append(
-            (figure_citymap, outdirs['citymap'], time, args))
-    for time in time_range:
-        iter_args.append(
-            (figure_mainmap, outdirs['mainmap'], time, args))
-        if args.region in ('lucerne', 'provenc'):
-            iter_args.append((figure_timetag, outdirs['timetag'], time, args))
-        else:
+    if args.region == 'alpsfix':
+        iter_args.append((figure_citymap, outdirs['citymap'], 0, args))
+        for time in range(-0, -120000, -40):
+            iter_args.append((figure_mainmap, outdirs['mainmap'], time, args))
             iter_args.append((figure_timebar, outdirs['timebar'], time, args))
+    elif args.region == 'zoomout':
+        for time in range(-0, -120000, -40):
+            iter_args.append((figure_citymap, outdirs['citymap'], time, args))
+            iter_args.append((figure_mainmap, outdirs['mainmap'], time, args))
+            iter_args.append((figure_timebar, outdirs['timebar'], time, args))
+    else:
+        for time in range(-15000, -45000, -10):
+            iter_args.append((figure_citymap, outdirs['citymap'], time, args))
+            iter_args.append((figure_mainmap, outdirs['mainmap'], time, args))
+            iter_args.append((figure_timetag, outdirs['timetag'], time, args))
 
     # plot all frames in parallel
     with mp.Pool(processes=4) as pool:
