@@ -229,8 +229,7 @@ def figure_mainmap(time, args, start=-120000, end=-0, background=True):
     with pismx.open.visual(
             filename, bootfile='../data/processed/alpcyc.1km.in.nc',
             interpfile='../data/external/srtm.nc', ax=ax, time=time,
-            shift=120000, sigma=10000,
-            variables=['thk', 'velbase_mag']) as ds:
+            shift=120000, sigma=10000, variables=variables) as ds:
 
         # shaded relief topographic background
         if background is True:
@@ -381,20 +380,23 @@ def figure_timebar(time, args, start=-120000, end=0):
     """Plot time bar layer."""
 
     # mode-dependent properties
+    # FIXME streams and velsurf timebars are the same
     variables = dict(
-        velsurf=('dt', 'sl'), erosion=('sl', 'er'),
-        bedrock=('sl', 'ul'))[args.visual]
+        bedrock=('sl', 'ul'), erosion=('sl', 'er'),
+        streams=('dt', 'sl'), velsurf=('dt', 'sl'))[args.visual]
     colors = '0.25', dict(
-        velsurf='C1', erosion='C11', bedrock='C3')[args.visual]
+        bedrock='C3', erosion='C11', streams='C1', velsurf='C1')[args.visual]
 
     # initialize figure
     fig, tsax = apl.subplots_mm(figsize=(192, 20), gridspec_kw=dict(
         left=15, right=15, bottom=3, top=6))
     twax = tsax.twinx()
 
-    # import language-dependent labels
-    with open('alpcyc_4k_{0.visual}_{0.region}_{0.lang}.yaml'.format(args)
-              ) as metafile:
+    # import language-dependent labels (velsurf use same metadata as streams)
+    # FIXME duplicate lines in timetag
+    filename = 'alpcyc_4k_{0.visual}_{0.region}_{0.lang}.yaml'.format(args)
+    filename = filename.replace('velsurf', 'streams')
+    with open(filename) as metafile:
         labels = yaml.safe_load(metafile)['Labels']
 
     # for each axes
@@ -430,8 +432,10 @@ def figure_timetag(time, args):
     # initialize figure
     fig = apl.figure_mm(figsize=(32, 6))
 
-    # import language-dependent label
-    with open('alpcyc_4k_zo_co_{}.yaml'.format(args.lang)) as metafile:
+    # import language-dependent label (velsurf use same metadata as streams)
+    filename = 'alpcyc_4k_{0.visual}_{0.region}_{0.lang}.yaml'.format(args)
+    filename = filename.replace('velsurf', 'streams')
+    with open(filename) as metafile:
         tag = yaml.safe_load(metafile)['Labels'][0].format(0-time)
     if args.lang != 'ja':
         tag = tag.replace(',', r'$\,$')
@@ -485,16 +489,18 @@ def main():
 
     # start and end of animation
     # NOTE: make these additional parser args?
+    # NOTE: in practice I only use 120ka timebars and 40ka time tags
     if args.region in ('lucerne', 'provenc'):
         start, end, step = -45000, -15000, 10
     else:
         start, end, step = -120000, -0, 40
 
     # plot colorbar separately
-    fig = figure_colorbar(args)
-    fig.savefig(os.path.expanduser(
-        '~/anim/alpcyc_4k_{0.visual}_colorbar_{0.lang}.png'.format(args)))
-    plt.close(fig)
+    if args.visual in ('bedrock', 'erosion'):
+        fig = figure_colorbar(args)
+        fig.savefig(os.path.expanduser(
+            '~/anim/alpcyc_4k_{0.visual}_colorbar_{0.lang}.png'.format(args)))
+        plt.close(fig)
 
     # iterable arguments to save animation frames
     time_range = range(start+step, end+1, step)
@@ -517,7 +523,7 @@ def main():
              time, args, start, end))
         iter_args.append(
             (figure_timetag,
-             '~/anim/alpcyc_4k_{0.visual}_timetag_{0.lang}'.format(args) +
+             '~/anim/alpcyc_4k_timetag_{0.lang}'.format(args) +
              '_{:.0f}{:.0f}'.format(-start/1e3, -end/1e3),
              time, args))
 
