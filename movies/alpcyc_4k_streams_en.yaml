@@ -1,8 +1,17 @@
 ---  # English animation metadata
+# Copyright (c) 2019-2021, Julien Seguinot (juseg.github.io)
+# Creative Commons Attribution-ShareAlike 4.0 International License
+# (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
 Title: |-  # |- means formatted text
-   Advance and retreat of the Alpine glaciers
+   Advance and retreat of the Alpine Glaciers
    during the last glacial cycle
+
+Subtitle:
+   alpsfix: (Alps fixed-frame version)
+   lucerne: (Reuss and Linth Glaciers)
+   durance: (Durance and Var Glaciers)
+   zoomout: (Alps zoom-out version)
 
 Author:
    J. Seguinot, 2018

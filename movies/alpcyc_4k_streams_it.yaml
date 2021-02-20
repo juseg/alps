@@ -1,8 +1,11 @@
 ---  # Italian animation metadata -- Metadati di animazione
+# Copyright (c) 2019-2021, Julien Seguinot (juseg.github.io)
+# Creative Commons Attribution-ShareAlike 4.0 International License
+# (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
 Title: |-  # Titolo
-   Avanzamento e ritiro dei ghiacciai delle Alpi Marittime
-   durante l'ultimo massimo glaciale
+   Avanzamento e ritiro dei ghiacciai alpini
+   durante l'ultimo periodo glaciale
 
 Author: |-  # Autore
    Julien Seguinot, 2018
@@ -20,9 +23,7 @@ Abstract:  # Riassunto
    moderne della Groenlandia e dell'Antartide, esperimenti di laboratorio sul
    ghiaccio, indizi lasciati dal ghiaccio nel paesaggio e uno dei computer più
    potenti del mondo, questa animazione è un tentativo di ricostruire
-   l'evoluzione dei ghiacciai delle Alpi Marittime durante l'ultimo massimo
-   glaciale. Tuttavia, l'estensione modellata del ghiacciaio oltrepassa le
-   ricostruzioni basate sul campo.
+   l'evoluzione dei ghiacciai alpini nel tempo, da 120000 anni fa ad oggi.
 
 Labels:  # Assi
    - "{:,d} anni fa"
@@ -46,6 +47,7 @@ References:  # Referenze
       - Carota di ghiaccio EPICA    (Jouzel et al., 2007)
       - Dati Natural Earth          (Patterson e Kelso, 2016)
       - Livello del mare            (Spratt et al., 2016)
+      - Carta geografica vettoriale della Svizzera Swisstopo
 
 Disclaimer: |-  # Avviso
    Questa animazione utilizza i risultati della modellazione numerica.

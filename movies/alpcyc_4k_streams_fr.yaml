@@ -1,8 +1,11 @@
 ---  # French animation metadata -- métadonnées d'animation
+# Copyright (c) 2019-2021, Julien Seguinot (juseg.github.io)
+# Creative Commons Attribution-ShareAlike 4.0 International License
+# (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
 Title: |-  # Titre
-   Avancées et retraits des glaciers de la Reuss et de la Linth
-   pendant le dernier maximum glaciaire
+   Avancées et retraits des glaciers alpins
+   durant la dernière période glaciaire
 
 Author:  # Auteur
    J. Seguinot, 2018
@@ -19,9 +22,8 @@ Abstract:  # Résumé
    observations du Groënland et de l'Antarctique actuels et d'expériences de
    laboratoire sur la glace, ainsi que l'aide des indices laissés par les
    glaces dans le paysage, et l'un des ordinateurs les plus puissants au monde,
-   cette animation est une tentative de reconstruction de l'avancée et du
-   retrait des glaciers de la Reuss et de la Linth pendant le dernier maximum
-   glaciaire.
+   cette animation est une tentative de reconstruction de l'évolution des
+   glaciers alpins dans le temps, depuis 120000 ans jusqu'à nos jours.
 
 Labels:  # Annotations
    - "il y a {:,d} ans"
@@ -43,6 +45,8 @@ References:  # Références
       - Epaisseur de glace actuelle  (Huss et Farinotti, 2012)
       - Données topographiques SRTM  (Jarvis et al., 2008)
       - Carrote glaciaire EPICA      (Jouzel et al., 2007)
+      - Données Natural Earth        (Patterson et Kelso, 2016)
+      - Histoire du niveau des mers  (Spratt et al., 2016)
       - Carte nationale vectorielle de la Suisse Swisstopo
 
 Disclaimer: |-  # Avertissement
