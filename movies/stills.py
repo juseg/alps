@@ -25,7 +25,7 @@ def bumper_init():
     return fig, ax
 
 
-def bumper_main(prefix, info):
+def bumper_main(prefix, info, subtitle=None):
     """Prepare title animation bumper."""
 
     # initialize figure
@@ -34,8 +34,12 @@ def bumper_main(prefix, info):
     # draw text
     ax.text(0, 24, info['Title'], color='1.0', fontsize=18,
             ha='center', va='center', linespacing=1.5)
-    ax.text(0, 4, info['Author'], ha='center', va='center', linespacing=3.0)
+    ax.text(0, -8, info['Author'], ha='center', va='center')
     ax.text(-80, -40, info['Credit'], linespacing=1.5)
+
+    # add subtitle
+    if subtitle not in (None, 'none'):
+        ax.text(0, 8, info['Subtitle'][subtitle], ha='center', va='center')
 
     # save
     fig.savefig(prefix+'_head.png')
@@ -129,6 +133,7 @@ def main():
     # parse arguments
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('metafile', help='YAML metadata filename')
+    parser.add_argument('--subtitle', help='subfield containing subtitle')
     args = parser.parse_args()
 
     # set default font properties
@@ -143,7 +148,7 @@ def main():
 
     # assemble bumpers
     prefix = args.metafile.replace('.yaml', '')
-    bumper_main(prefix, info)
+    bumper_main(prefix, info, subtitle=args.subtitle)
     bumper_bysa(prefix, info)
     bumper_disc(prefix, info)
     bumper_refs(prefix, info)

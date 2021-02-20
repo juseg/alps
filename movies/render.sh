@@ -5,11 +5,12 @@
 
 # Add bumper frames and fading effects to any animation
 
-# prefix as command-line argument
+# command-line arguments
 prefix="${1:-anim}"
+subtitle="${2:-none}"
 
 # prepare bumper frames
-python stills.py ${prefix}.yaml
+python stills.py $prefix.yaml --subtitle $subtitle
 
 # assembling parametres
 fade=12  # number of frames for fade in and fade out effects
