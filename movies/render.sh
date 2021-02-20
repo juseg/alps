@@ -9,8 +9,15 @@
 prefix="${1:-anim}"
 subtitle="${2:-none}"
 
+# look for input file(s)
+[ -f ${prefix}_main.mp4 ] && iargs="-i ${prefix}_main.mp4" ||
+    iargs="-pattern_type glob -i $HOME/anim/$prefix/{??????}.png"
+
+# get input stream height
+height=$(ffprobe -v error -show_entries stream=height -of csv=p=0 $iargs)
+
 # prepare bumper frames
-python stills.py $prefix.yaml --subtitle $subtitle
+python stills.py $prefix.yaml --subtitle $subtitle --height=$height
 
 # assembling parametres
 fade=12  # number of frames for fade in and fade out effects
@@ -28,20 +35,16 @@ filt+="[3]fade=in:0:$fade,fade=out:$((3*25-fade)):$fade[disc];"  # disclaimer
 filt+="[4]fade=in:0:$fade,fade=out:$((3*25-fade)):$fade[bysa];"  # license
 filt+="[head][main][refs][disc][bysa]concat=5"
 
-# look for input file(s)
-[ -f ${prefix}_main.mp4 ] && iargs="-i ${prefix}_main.mp4" ||
-    iargs="-f image2 -pattern_type glob -i $HOME/anim/$prefix/??????.png"
-
 # assemble video
 ffmpeg $iargs \
     -loop 1 -t 4 -i ${prefix}_head.png \
     -loop 1 -t 3 -i ${prefix}_refs.png \
     -loop 1 -t 3 -i ${prefix}_disc.png \
     -loop 1 -t 3 -i ${prefix}_bysa.png \
-    -filter_complex $filt -pix_fmt yuv420p -c:v libx264 -r 25 -s 1920x1080 \
+    -filter_complex $filt -pix_fmt yuv420p -c:v libx264 -r 25 \
     ${prefix}.mp4
 
-# accelerate for social media
+# accelerate for social media (always 2k resolution)
 ffmpeg \
     -i ${prefix}.mp4 -s 1920x1080 -vf "trim=5:125,setpts=PTS/10" \
     ${prefix}_x10.mp4

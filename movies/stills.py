@@ -133,12 +133,14 @@ def main():
     # parse arguments
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('metafile', help='YAML metadata filename')
+    parser.add_argument('--height', default=1080, type=int,
+                        help='animation vertical resolution')
     parser.add_argument('--subtitle', help='subfield containing subtitle')
     args = parser.parse_args()
 
     # set default font properties
     plt.rc('axes', grid=False)
-    plt.rc('figure', dpi=254)  # FIXME make this configurable?
+    plt.rc('figure', dpi=args.height/108*25.4)
     plt.rc('font', size=12)
     plt.rc('text', color='0.75')
 
