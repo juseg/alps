@@ -44,7 +44,7 @@ def subplots_dynamic(region, time, **kwargs):
                  (152e3, 1048e3, 4848e3, 5352e3)],  # 16:9  896x504 233m@4k
         lucerne=[(416e3,  512e3, 5200e3, 5254e3),   # 16:9   96x54   25m@4k
                  (392e3,  520e3, 5196e3, 5268e3)],  # 16:9  128x72   33m@4k
-        provenc=[(234e3,  426e3, 4871e3, 4979e3),   # 16:9  192x108  50m@4k
+        durance=[(234e3,  426e3, 4871e3, 4979e3),   # 16:9  192x108  50m@4k
                  (141e3,  429e3, 4829e3, 4991e3)],  # 16:9  288x162  75m@4k
         zoomout=[(329e3,  521e3, 5096e3, 5204e3),   # 16:9  192x108  50m@4k
                  (152e3, 1048e3, 4848e3, 5352e3)],  # 16:9  896x504 233m@4k
@@ -56,8 +56,8 @@ def subplots_dynamic(region, time, **kwargs):
     ax.spines['geo'].set_visible(False)
 
     # compute dynamic extent
-    start = -45e3 if region in ('lucerne', 'provenc') else -120e3
-    end = -15e3 if region in ('lucerne', 'provenc') else -0e3
+    start = -45e3 if region in ('lucerne', 'durance') else -120e3
+    end = -15e3 if region in ('lucerne', 'durance') else -0e3
     zoom = 1.0*(time-start)/(end-start)  # linear increase between 0 and 1
     zoom = zoom**2*(3-2*zoom)  # smooth zoom factor between 0 and 1
     extent = [c0 + (c1-c0)*zoom for c0, c1 in zip(*extents)]
@@ -199,7 +199,7 @@ def figure_citymap(time, args):
     cne.add_cities(
         ax=ax, lang=args.lang, color='0.25', marker='o',  # s=6,
         exclude=['Monaco'], include=['Sion'],
-        ranks=range(9 if args.region in ('lucerne', 'provenc') else 7))
+        ranks=range(9 if args.region in ('lucerne', 'durance') else 7))
 
     # return figure
     return fig
@@ -475,7 +475,7 @@ def main():
     parser.add_argument(
         'visual', choices=['bedrock', 'erosion', 'streams', 'velsurf'])
     parser.add_argument(
-        'region', choices=['alpsfix', 'lucerne', 'provenc', 'zoomout'])
+        'region', choices=['alpsfix', 'lucerne', 'durance', 'zoomout'])
     parser.add_argument('lang', choices=['de', 'en', 'fr', 'it', 'ja', 'nl'])
     args = parser.parse_args()
 
