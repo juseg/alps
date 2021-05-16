@@ -14,7 +14,6 @@ import yaml
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-import matplotlib.colors as mcolors
 import cartopy.crs as ccrs
 import cartopy.io.shapereader as cshp
 
@@ -22,7 +21,8 @@ import absplots as apl
 import cartowik.conventions as ccv
 import cartowik.naturalearth as cne
 import cartowik.shadedrelief as csr
-import pismx.open
+import hyoga.open
+import hyoga.plot
 
 
 # Color palette
@@ -87,18 +87,18 @@ def draw_lgm_faded(time, alpha=0.75, **kwargs):
         draw_lgm_outline(alpha=alpha*fade, **kwargs)
 
 
-def draw_natural_earth(ax=None, wikicolors=False, **kwargs):
+def draw_natural_earth(ax=None, style='grey', **kwargs):
     """Add Natural Earth geographic data vectors."""
     ax = ax or plt.gca()
-    edgecolor = '#0978ab' if wikicolors else '0.25'
-    facecolor = '#c6ecff' if wikicolors else '0.95'
+    edgecolor = '#0978ab' if style == 'wiki' else '0.25'
+    facecolor = '#c6ecff' if style == 'wiki' else '0.95'
     kwargs = dict(ax=ax, zorder=0, **kwargs)
     cne.add_rivers(edgecolor=edgecolor, **kwargs)
     cne.add_lakes(edgecolor=edgecolor, facecolor=facecolor, **kwargs)
-    cne.add_coastline(edgecolor=edgecolor, **kwargs)
+    cne.add_coastline(edgecolor=edgecolor, linestyles='dashed', **kwargs)
 
 
-def draw_swisstopo_hydrology(ax=None, wikicolors=False, **kwargs):
+def draw_swisstopo_hydrology(ax=None, style='grey', **kwargs):
     """Add Swisstopo lake and river vectors."""
     swissplus = ccrs.TransverseMercator(
         central_longitude=7.439583333333333,
@@ -107,8 +107,8 @@ def draw_swisstopo_hydrology(ax=None, wikicolors=False, **kwargs):
 
     # get axes if None provided
     ax = ax or plt.gca()
-    edgecolor = '#0978ab' if wikicolors else '0.25'
-    facecolor = '#c6ecff' if wikicolors else '0.95'
+    edgecolor = '#0978ab' if style == 'wiki' else '0.25'
+    facecolor = '#c6ecff' if style == 'wiki' else '0.95'
 
     # draw swisstopo rivers
     filename = '../data/external/25_DKM500_GEWAESSER_LIN.shp'
@@ -220,91 +220,48 @@ def figure_mainmap(time, args, background=True):
 
     # plot interpolated data
     filename = '~/pism/output/e9d2d1f/alpcyc4.1km.epica.1220.pp/ex.{:07.0f}.nc'
-    variables = ['thk']
-    variables += ['velbase_mag']*(args.visual == 'erosion')
-    variables += ['velsurf_mag']*(args.visual == 'velsurf')
-    variables += ['uvelsurf', 'vvelsurf']*(args.visual == 'streams')
-    with pismx.open.visual(
-            filename, bootfile='../data/processed/alpcyc.1km.in.nc',
-            interpfile='../data/external/srtm.nc', ax=ax, time=time,
-            shift=120000, sigma=10000, variables=variables) as ds:
+    with hyoga.open.subdataset(filename, time=time, shift=120000) as ds:
 
-        # shaded relief topographic background
-        if background is True:
-            wikicolors = (args.visual == 'streams')
-            (ds.topg-dsl).plot.imshow(
-                ax=ax, add_colorbar=False, zorder=-1,
-                cmap=(ccv.ELEVATIONAL if wikicolors else 'Greys'),
-                vmin=(-4500 if wikicolors else 0), vmax=4500)
-            csr.add_multishade(
-                ds.topg, ax=ax, add_colorbar=False, zorder=-1)
-            ds.topg.plot.contour(
-                ax=ax, colors=('#0978ab' if wikicolors else '0.25'),
-                levels=[dsl], linestyles='dashed', linewidths=0.25, zorder=0)
-            ds.thk.notnull().plot.contour(
-                ax=ax, colors=['k'], levels=[0.5], linewidths=0.25)
+        # compute isostasy and interpolate
+        ds = ds.hyoga.assign_isostasy('../data/processed/alpcyc.1km.in.nc')
+        interp = ds.hyoga.interp(
+            '~/pism/input/boot/alps.srtm.hus12.100m.nc', ax=ax, sigma=5000)
+        ds = ds.hyoga.where_thicker()  # needs to come after interp
 
-        # always plot topo contours
-        ds.usurf.plot.contour(
-            levels=[lev for lev in range(0, 5000, 200) if lev % 1000 == 0],
-            ax=ax, colors=['0.25'], linewidths=0.25)
-        ds.usurf.plot.contour(
-            levels=[lev for lev in range(0, 5000, 200) if lev % 1000 != 0],
-            ax=ax, colors=['0.25'], linewidths=0.1)
-
-        # streamline plot outer contour
-        if args.visual == 'streams':
-            ds.thk.notnull().plot.contourf(
-                ax=ax, add_colorbar=False, alpha=0.75, colors='w',
-                extend='neither', levels=[0.5, 1.5])
-
-        # erosion rate (values 1e-16 to 1e2, mostly 1e-12 to 1e-2)
+        # plot specific visual
+        if args.visual == 'bedrock':
+            interp.hyoga.plot.bedrock_isostasy(
+                add_colorbar=False, levels=[-100, -50, -20, 0, 2, 5, 10])
         elif args.visual == 'erosion':
-            (5.2e-8*ds.velbase_mag**2.34).plot.contourf(
-                ax=ax, add_colorbar=False, alpha=0.75, cmap='YlOrBr',
-                levels=[10**i for i in range(-9, 1)])
-
-        # velocities map
+            interp.hyoga.plot.bedrock_erosion(
+                add_colorbar=False, levels=[10**i for i in range(-9, 1)])
         elif args.visual == 'velsurf':
-            ds.velsurf_mag.plot.imshow(
-                ax=ax, add_colorbar=False, alpha=0.75,
-                cmap='Blues', norm=mcolors.LogNorm(1e1, 1e3))
+            interp.hyoga.plot.surface_velocity(
+                add_colorbar=False, vmin=10, vmax=1000)
+        elif args.visual == 'streams':
+            interp.hyoga.plot.ice_margin(facecolor='w', alpha=0.75)
+            ds.hyoga.plot.surface_velocity_streamplot(
+                vmin=1e1, vmax=1e3, density=(24, 16))
 
-        # mode ul, show interpolated bedrock depression
-        elif args.visual == 'bedrock':
-            ds.uplift.plot.contourf(
-                ax=ax, add_colorbar=False, alpha=0.75, cmap='PRGn_r',
-                levels=[-100, -50, -20, 0, 2, 5, 10])
-
-            # locate maximum depression (xarray has no idxmin yet)
-            i, j = divmod(int(ds.uplift.argmin()), ds.uplift.shape[1])
-            maxdep = float(-ds.uplift[i, j])
-            color = 'w' if maxdep > 50 else 'k'
-            ax.plot(ds.x[j], ds.y[i], 'o', color=color, alpha=0.75)
-            ax.text(ds.x[j]+5e3, ds.y[i]+5e3, '{:.0f} m'.format(maxdep),
-                    color=color)
-
-    # mode co, stream plot extra data
-    if args.visual == 'streams':
-        with pismx.open.subdataset(filename, time=time, shift=120000) as ds:
-
-            # streamplot colormapping fails on empty arrays (mpl issue #19323)
-            ds['icy'] = ds.thk.fillna(0.0) >= 1.0
-            if ds.icy.count() > 0:
-                ax.streamplot(
-                    ds.x, ds.y,
-                    ds.uvelsurf.where(ds.icy).to_masked_array(),
-                    ds.vvelsurf.where(ds.icy).to_masked_array(),
-                    color=((ds.uvelsurf**2+ds.vvelsurf**2)**0.5
-                           ).to_masked_array(),
-                    cmap='Blues', norm=mcolors.LogNorm(1e1, 1e3),
-                    arrowsize=0.25, linewidth=0.5, density=(24, 16))
+        # plot common background
+        interp.hyoga.plot.bedrock_altitude(
+            cmap=ccv.ELEVATIONAL if args.visual == 'streams' else 'Greys',
+            vmin=(-4500 if args.visual == 'streams' else 0), vmax=4500,
+            ax=ax, sealevel=dsl)
+        interp.hyoga.plot.bedrock_shoreline(
+            colors=('#0978ab' if args.visual == 'streams' else '0.25'),
+            ax=ax, sealevel=dsl)
+        csr.add_multishade(interp.topg, ax=ax, add_colorbar=False, zorder=-1)
+        interp.hyoga.plot.surface_altitude_contours(major=1000, minor=200)
+        interp.hyoga.plot.ice_margin(edgecolor='0.25')
 
     # draw map elements
     if background is True:
-        draw_tailored_hydrology(ax=ax, wikicolors=wikicolors)
-    if args.visual == 'velsurf':
-        draw_lgm_faded(ax=ax, time=time)
+        draw_tailored_hydrology(
+            ax=ax, style='wiki' if args.visual == 'streams' else 'grey')
+    # FIXME this is not working
+    # if args.visual == 'velsurf':
+    #     draw_lgm_faded(ax=ax, time=time)
 
     # return figure
     return fig
@@ -335,7 +292,7 @@ def open_variable(var):
     varname = dict(dt='delta_T', er='kop2015_rate', sl='slvol',
                    ul='volumic_lift')[var]
     multiplier = dict(dt=1.0, sl=100.0, er=1e-6, ul=1e-12)[var]
-    with pismx.open.dataset(filename) as ds:
+    with hyoga.open.dataset(filename) as ds:
         return ds[varname]*multiplier
 
 
@@ -392,7 +349,7 @@ def figure_timebar(time, args, start=-120000, end=0):
 
     # import language-dependent labels (velsurf use same metadata as streams)
     # FIXME duplicate lines in timetag
-    filename = 'alpcyc_4k_{0.visual}_{0.region}_{0.lang}.yaml'.format(args)
+    filename = 'alpcyc_4k_{0.visual}_{0.lang}.yaml'.format(args)
     filename = filename.replace('velsurf', 'streams')
     with open(filename) as metafile:
         labels = yaml.safe_load(metafile)['Labels']
