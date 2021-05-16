@@ -52,7 +52,7 @@ util.com.add_corner_tag('%.2f ka' % (age/1e3), ax=ax)
 
 # plot scatter
 tsax.set_yscale('log')
-tsax.set_xscale('symlog', linthreshx=1e-12)
+tsax.set_xscale('symlog', linthresh=1e-12)
 tsax.scatter(btp, bvc, marker='.', c='C1', alpha=0.1)
 tsax.scatter(btp, bvw, marker='.', c='C5', alpha=0.1)
 tsax.set_xlabel('basal temperature below freezing (K)')

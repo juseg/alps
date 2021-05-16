@@ -46,7 +46,7 @@ bins = [0.0] + [10**i for i in range(-8, 5)]
 dvn.plot.hist(ax=tsax, bins=bins, color='C1', alpha=0.75)
 
 # set axes properties
-tsax.set_xscale('symlog', linthreshx=1e-8, linscalex=1.0)
+tsax.set_xscale('symlog', linthresh=1e-8, linscale=1.0)
 tsax.set_yscale('log')
 tsax.set_xlabel('deformation velocity ($m\,a^{-1}$)')
 tsax.set_ylabel('grid cells')

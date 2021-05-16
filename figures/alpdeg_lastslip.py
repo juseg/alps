@@ -17,7 +17,7 @@ def main():
     fig, ax, cax = util.fig.subplots_cax(extent='rhlobe')
 
     # load aggregated data
-    with hyoga.open.mfdataset(
+    with hyoga.open.dataset(
             '../data/processed/alpdeg.1km.epic.pp.agg.nc') as ds:
 
         # plot map data
