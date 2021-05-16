@@ -7,7 +7,7 @@
 
 import cartopy.crs as ccrs
 import absplots as apl
-import pismx.open
+import hyoga.open
 import util
 
 
@@ -39,7 +39,7 @@ def main():
                 fontweight='bold', ha='center', transform=ax.transAxes)
 
         # load extra output
-        with pismx.open.dataset(
+        with hyoga.open.dataset(
                 '../data/processed/alpcyc.2km.{}.{}.agg.nc'.format(
                     rec.lower()[:4], ('cp', 'pp')['pp' in conf])) as dataset:
 

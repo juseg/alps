@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import pismx.open
+import hyoga.open
 import util
 
 # initialize time-series figure
@@ -17,11 +17,11 @@ for i, rec in enumerate(util.alpcyc_records):
 
     # plot temperature time series
     prefix = 'alpcyc.2km.' + rec.lower()[:4] + ['.cp', '.pp']['pp' in conf]
-    with pismx.open.dataset('../data/processed/'+prefix + '.dt.nc') as ds:
+    with hyoga.open.dataset('../data/processed/'+prefix + '.dt.nc') as ds:
         ax1.plot(ds.age, ds.delta_T, c=c, alpha=0.75)
 
     # plot output time series
-    with pismx.open.dataset('../data/processed/'+prefix + '.ts.10a.nc') as ds:
+    with hyoga.open.dataset('../data/processed/'+prefix + '.ts.10a.nc') as ds:
         ax2.plot(ds.age, ds.slvol, c=c, label=label)
 
 # add marine isotope stages

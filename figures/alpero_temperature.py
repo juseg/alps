@@ -8,7 +8,7 @@
 import matplotlib.pyplot as plt
 import cartowik.profiletools as cpf
 import absplots as apl
-import pismx.open
+import hyoga.open
 
 
 def main():
@@ -33,7 +33,7 @@ def main():
         ax.set_rasterization_zorder(2.5)
 
         # open 3d output data
-        with pismx.open.dataset(
+        with hyoga.open.dataset(
                 '{}/out.{:07.0f}.nc'.format(run, (120-age)*1e3)) as ds:
 
             # interpolate along profile, use km, remove age
@@ -55,7 +55,7 @@ def main():
                 levels=range(-24, 1, 3), cmap='RdBu_r', extend='both')
 
         # open 2d extra data
-        with pismx.open.dataset(
+        with hyoga.open.dataset(
                 '{}/ex.{:07.0f}.nc'.format(run, (120-age)*1e3)) as ds:
 
             # interpolate along profile, use km, remove age, get cold base

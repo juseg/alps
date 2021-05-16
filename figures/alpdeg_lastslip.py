@@ -6,7 +6,7 @@
 """Plot Alps erosion final basal sliding."""
 
 import matplotlib.colors as mcolors
-import pismx.open
+import hyoga.open
 import util
 
 
@@ -17,7 +17,7 @@ def main():
     fig, ax, cax = util.fig.subplots_cax(extent='rhlobe')
 
     # load aggregated data
-    with pismx.open.mfdataset(
+    with hyoga.open.mfdataset(
             '../data/processed/alpdeg.1km.epic.pp.agg.nc') as ds:
 
         # plot map data

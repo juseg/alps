@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import pismx.open
+import hyoga.open
 import util
 import numpy as np
 
@@ -47,7 +47,7 @@ for i, rec in enumerate(util.alpcyc_records):
         try:
 
             # load extra file
-            with pismx.open.mfdataset(
+            with hyoga.open.mfdataset(
                 '~/pism/output/e9d2d1f/alpcyc4.2km.{}.{:04.0f}{}/ex.???????.nc'.format(
                     rec.replace('-', '').lower(), 100*dt, conf)) as ds:
 

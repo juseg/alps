@@ -9,7 +9,7 @@ import matplotlib as mpl
 import cartopy.crs as ccrs
 import cartowik.profiletools as cpf
 import absplots as apl
-import pismx.open
+import hyoga.open
 import util
 
 
@@ -41,7 +41,7 @@ def main():
     # --------
 
     # open postprocessed extra output
-    with pismx.open.dataset(
+    with hyoga.open.dataset(
             '../data/processed/alpcyc.1km.epic.pp.ex.1ka.nc') as extra:
         pass
 
@@ -79,7 +79,7 @@ def main():
     util.fig.add_subfig_label('(d)', ax=tsax)
 
     # open aggregated output
-    with pismx.open.dataset(
+    with hyoga.open.dataset(
             '../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
 
         # plot erosion profile

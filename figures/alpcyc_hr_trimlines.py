@@ -4,7 +4,7 @@
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
 import pandas as pd
-import pismx.open
+import hyoga.open
 import util
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
@@ -43,12 +43,12 @@ with open_trimline_data() as tr:
     tr.load()
 
 # get aggregated data at trimline locations
-with pismx.open.dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
+with hyoga.open.dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     at = ds.maxthkage.interp(x=tr.x, y=tr.y, method='linear')/1e3
     ht = ds.maxthkthk.interp(x=tr.x, y=tr.y, method='linear')
 
 # get boot topography at trimline locations
-with pismx.open.dataset('../data/processed/alpcyc.1km.in.nc') as ds:
+with hyoga.open.dataset('../data/processed/alpcyc.1km.in.nc') as ds:
     bt = ds.topg.interp(x=tr.x, y=tr.y, method='linear')
 
 
@@ -109,7 +109,7 @@ hsax.set_ylim(l-zavg for l in scax.get_ylim())
 # --------
 
 # load aggregated data
-with pismx.open.dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
+with hyoga.open.dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     btp = ds.maxthkbtp
     srf = ds.maxthksrf
     ext = ds.maxthksrf.notnull()

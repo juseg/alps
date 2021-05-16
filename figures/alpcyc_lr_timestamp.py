@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import pismx.open
+import hyoga.open
 import util
 
 # initialize figure
@@ -16,7 +16,7 @@ for i, rec in enumerate(util.alpcyc_records):
 
     # plot cumulative time stamp
     filename = 'alpcyc.2km.{}.{}.tms.nc'.format(rec.lower()[:4], pp)
-    with pismx.open.dataset('../data/processed/'+filename) as ds:
+    with hyoga.open.dataset('../data/processed/'+filename) as ds:
         ts = ds.timestamp
         dt = ts.diff('age')
         ts = dt.where(dt > 0.0, ts[1:]).cumsum()/24.0

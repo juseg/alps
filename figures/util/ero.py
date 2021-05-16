@@ -6,7 +6,7 @@
 Alps glacial erosion paper utils.
 """
 
-import pismx.open
+import hyoga.open
 import matplotlib.pyplot as plt
 
 
@@ -17,7 +17,7 @@ def plot_series(ax=None, run='1km.epic.pp'):
     ax = ax or plt.gca()
 
     # load time series
-    with pismx.open.dataset(
+    with hyoga.open.dataset(
             '../data/processed/alpcyc.'+run+'.ts.10a.nc') as ds:
 
         # plot ice volume time series
@@ -29,7 +29,7 @@ def plot_series(ax=None, run='1km.epic.pp'):
         ax.locator_params(axis='y', nbins=6)
 
     # load aggregated data
-    with pismx.open.dataset(
+    with hyoga.open.dataset(
             '../data/processed/alpero.'+run+'.agg.nc') as ds:
 
         # plot erosion rate time series

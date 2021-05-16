@@ -8,7 +8,7 @@
 import cartowik.profiletools as cpf
 import cartowik.decorations as cde
 import absplots as apl
-import pismx.open
+import hyoga.open
 
 
 def main():
@@ -27,7 +27,7 @@ def main():
 
     # each requested age
     for age in [36, 24, 16]:
-        with pismx.open.subdataset(
+        with hyoga.open.subdataset(
                 ('~/pism/output/e9d2d1f/alpcyc4.1km.epica.1220.pp'
                  '/ex.{:07.0f}.nc'), time=-age*1e3, shift=120000) as ds:
 

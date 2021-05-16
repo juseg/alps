@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import pismx.open
+import hyoga.open
 import util
 import matplotlib.pyplot as plt
 
@@ -16,7 +16,7 @@ cols = plt.get_cmap('Paired').colors[:len(levs)+1]
 # --------
 
 # load aggregated data
-with pismx.open.dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
+with hyoga.open.dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     age = ds.maxthkage/1e3
     srf = ds.maxthksrf
     ext = ds.maxthksrf.notnull()
@@ -41,7 +41,7 @@ util.cyc.draw_glacier_names(ax)
 # -----------
 
 # load time series
-with pismx.open.dataset('../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as ds:
+with hyoga.open.dataset('../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as ds:
 
     # plot time series
     twax = tsax.twinx()

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import pismx.open
+import hyoga.open
 import util
 
 # initialize figure
@@ -12,7 +12,7 @@ fig, ax, cax, tsax = util.fig.subplots_cax_ts(dt=False, mis=False)
 # --------
 
 # load aggregated data
-with pismx.open.dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
+with hyoga.open.dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     tpg = ds.maxexttpg
     srf = ds.maxextsrf
     ext = ds.maxextthk.notnull()

@@ -2,7 +2,7 @@
 # coding: utf-8
 
 import os
-import pismx.open
+import hyoga.open
 import util
 import matplotlib.pyplot as plt
 import cartowik.profiletools as cpf
@@ -17,7 +17,7 @@ fig, grid, tsgrid = util.fig.subplots_profiles(regions, labels)
 # load extra data in memory (interp on dask array takes 12min per profile)
 # FIXME postprocess profile data?
 filename = os.environ['HOME'] + '/pism/' + util.alpcyc_bestrun + 'ex.???????.nc'
-with pismx.open.mfdataset(filename) as ds:
+with hyoga.open.mfdataset(filename) as ds:
     thk = ds.thk[9::10].compute()
 
 # loop on regions
@@ -31,7 +31,7 @@ for i, reg in enumerate(regions):
     # --------
 
     # load aggregated data
-    with pismx.open.dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
+    with hyoga.open.dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
         srf = ds.maxthksrf
         ext = ds.maxthksrf.notnull()
 

@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import matplotlib.transforms as mtransforms
 import cartopy.crs as ccrs
 import absplots as apl
-import pismx.open
+import hyoga.open
 
 # Projections
 # -----------
@@ -300,7 +300,7 @@ def plot_dt(ax=None, filename='alpcyc.2km.epic.pp.dt.nc'):
 
     # plot time series
     # FIXME age coordinates in postprocessing
-    with pismx.open.dataset('../data/processed/'+filename) as ds:
+    with hyoga.open.dataset('../data/processed/'+filename) as ds:
         ds.delta_T.plot(c='0.25')
 
     # set axes properties

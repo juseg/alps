@@ -3,7 +3,7 @@
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
-import pismx.open
+import hyoga.open
 import util
 
 # initialize figure
@@ -14,7 +14,7 @@ fig, ax, cax = util.fig.subplots_cax(extent='west')
 # --------
 
 # load aggregated data
-with pismx.open.dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
+with hyoga.open.dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
     age = ds.deglacage
     ext = ds.deglacage.notnull()
 

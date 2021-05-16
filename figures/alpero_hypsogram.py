@@ -7,7 +7,7 @@
 
 import numpy as np
 import absplots as apl
-import pismx.open
+import hyoga.open
 import util
 
 
@@ -29,7 +29,7 @@ def main():
     util.fig.add_subfig_label('(b)', ax=tsax)
 
     # load aggregated data
-    with pismx.open.dataset(
+    with hyoga.open.dataset(
             '../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
 
         # plot hypsogram
@@ -49,7 +49,7 @@ def main():
         ax.tick_params(labelbottom=False)
 
     # plot boot hypsometry
-    with pismx.open.dataset('../data/processed/alpcyc.1km.in.nc') as ds:
+    with hyoga.open.dataset('../data/processed/alpcyc.1km.in.nc') as ds:
 
         # plot boot hypsometry
         bins = np.arange(0, 4501, 10)

@@ -8,7 +8,7 @@
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import absplots as apl
-import pismx.open
+import hyoga.open
 import util
 
 
@@ -33,7 +33,7 @@ def main():
         util.com.add_corner_tag(label, ax=ax, va='bottom', y=(i == 5)*1/3)
 
         # load aggregated data
-        with pismx.open.dataset(
+        with hyoga.open.dataset(
                 '../data/processed/alpero.2km.{}.{}.agg.nc'.format(
                     rec.lower()[:4], ('cp', 'pp')['pp' in conf])) as ds:
 

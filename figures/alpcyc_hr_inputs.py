@@ -8,7 +8,7 @@
 import numpy as np
 import cartopy.crs as ccrs
 import absplots as apl
-import pismx.open
+import hyoga.open
 import util
 
 
@@ -63,7 +63,7 @@ def main():
     fig, grid = subplots()
 
     # load merged input file
-    with pismx.open.dataset('../data/processed/alpcyc.1km.in.nc') as ds:
+    with hyoga.open.dataset('../data/processed/alpcyc.1km.in.nc') as ds:
         thk = ds.thk.where(ds.thk >= 1.0)
         tpg = ds.topg/1e3
         ghf = ds.bheatflx

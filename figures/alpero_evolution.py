@@ -6,7 +6,7 @@
 """Plot Alps erosion time evolution."""
 
 import absplots as apl
-import pismx.open
+import hyoga.open
 import util
 
 
@@ -19,10 +19,10 @@ def figure():
 
     # load postprocessed data
     # FIXME there is a data gap after merge, add tolerance
-    with pismx.open.dataset(
+    with hyoga.open.dataset(
             '../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as ds:
         ds = ds[['slvol']]
-    with pismx.open.dataset(
+    with hyoga.open.dataset(
             '../data/processed/alpero.1km.epic.pp.agg.nc') as agg:
         ds['kop2015_rate'] = agg.kop2015_rate
 

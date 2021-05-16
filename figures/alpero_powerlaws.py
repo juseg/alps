@@ -9,7 +9,7 @@ import numpy as np
 import cartopy.crs as ccrs
 import cartowik.profiletools as cpf
 import absplots as apl
-import pismx.open
+import hyoga.open
 import util
 
 
@@ -52,7 +52,7 @@ def main():
         ax.set_extent([440e3, 580e3, 5160e3, 5300e3], crs=ax.projection)
 
     # load modelled ice volume
-    with pismx.open.dataset(
+    with hyoga.open.dataset(
             '../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as ds:
         slvol = ds.slvol
 
@@ -62,7 +62,7 @@ def main():
     y = y.assign_coords(d=y.d/1e3)
 
     # open postprocessed output
-    with pismx.open.dataset(
+    with hyoga.open.dataset(
                 '../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
 
         # for each erosion law

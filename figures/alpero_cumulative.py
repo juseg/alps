@@ -5,7 +5,7 @@
 
 """Plot Alps erosion cumulative."""
 
-import pismx.open
+import hyoga.open
 import util
 
 
@@ -16,7 +16,7 @@ def main():
     fig, ax, cax, tsax = util.fig.subplots_cax_ts(dt=False)
 
     # load aggregated data
-    with pismx.open.dataset(
+    with hyoga.open.dataset(
             '../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
 
         # plot map data
