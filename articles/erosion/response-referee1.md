@@ -68,19 +68,34 @@ Thank you very much for your detailed review of our manuscript.
 > hardly used more than 2 references throughout the MS and there are also high
 > variety of glacial landforms in other mt ranges as you mentioned).
 
+We agree the references are not directly relevant. The citation was reduced to
+the latest reference by Penck (1905) and moved within the sentence to clarify
+that it is specific to the Alps.
+
 > Line 33 I think that’s not very easy to understand what landform you refer
 > to? The “periglacial blockfields topped by glacial erratic boulders” (Wirsig
 > et al., 2018)? Eventually be more precise on this would help readers.
+
+Agreed. "Characteristic landform preservation" was replaced with "preserved
+periglacial blockfields".
 
 > Line 101 Could be misleading as (glacial and periglacial) cirque erosion
 > processes are not really covered by any glacial erosion law discussed here
 > (or any other I am aware of, Sanders et al., 2012).
 
+Thank you for pointing out this study. The lack of cirque erosion processes was
+acknowledged and the reference added in this sentence, as well as in the
+relevant part of the discussion on the age of the glacial landscape.
+
 > Line 116  ..while much OF the intra-montane..
+
+Corrected.
 
 > Line 127 Higher precipitation increases ice flux and thus erosion, I guess?
 > Would eventually helpful to mention (even though it might be referred in
 > Seguinot et al., 2018).
+
+Indeed. The increase in ice discharge was made explicit.
 
 > Line 140 Can you be more precise what you mean by realistic? You mean because
 > of the localized pattern? Maybe I am wrong but shouldn’t the erosion
@@ -92,19 +107,34 @@ Thank you very much for your detailed review of our manuscript.
 > the maximum erosion potential is like >>1000 m (if in meters) while in
 > corresponding (f) it seems clearly lower than 1000 m.
 
+TODO: check the numbers here. Make sure that the maps (a-d) fit the profiles
+(e-h), and then think again how to address the comment.
+
 > Furthermore, isn’t the impression of the fit potentially very dependent on
 > the initial model parametrization (Seguinot et al., 2018), i.e. the ice flux
 > velocity? You should address these dependences!
+
+TODO: discuss uncertainty with sliding.
 
 > Line 163 Observing Alpine topography I find this result important, which can
 > maybe also serve as explanation why e.g. (low erodible) areas away from the
 > big troughs covered during glacial maxima only, do surprisingly often show
 > no/very low degree in glacial modification (e.g. Ticino; Kelly et al., 2004).
 
+The following sentence was addedin this paragraph. "Nevertheless, it may
+explain why some areas covered during glacial maxima only, such as some valleys
+on the southern side of the Alps, appear to have experienced only little
+glacial modification of their topography."
+
 > Line 187 “time-transgressive radial pattern”. I don’t understand what you
 > mean..
 
+This sentence was only meant to recall the aforementioned results. We rephrased
+to "the erosion patterns shift spatially through the glacial cycle".
+
 > Line 195 Very much share this view!
+
+Good to know!
 
 > Line 197 Would recommend to be more precise. Guess you know that there are
 > many, many cirques in the Alps as low as 1500 m (and even below) e.g. forming
@@ -112,9 +142,12 @@ Thank you very much for your detailed review of our manuscript.
 > Alps. This can be revealed by a quick check at any higher resolution DEM or
 > google earth.
 
+The statement was reworked and restricted to "the higest mountain cirques".
+
 > In the MS the word “yet” is very often used. Eventually consider reducing.
 > The frequency is a bit irritating when reading.
 
+In several instances we replaced "yet" with "but" and "however".
 
 ## Figures
 
@@ -126,10 +159,19 @@ Thank you very much for your detailed review of our manuscript.
 > erosional potential might change as fluvial topography turns into glacial one
 > (e.g. Harbor, 1988) and this is probably not what you want to mix, I guess.
 
+We added the LGM outline.
+
+TODO: I don't understand the second part of the comment.
+
 > Fig. 5 I have to confess Fig. 5a surprises me, there are really glaciers as
 > low as 500 m.a.s.l (and even below) from 110 – 40 ka in the Seguinot et al.,
 > 2018 model?
 
+Yes. This primarily concerns the southern slope of the Alps where topography
+drops abruptedly from the highest peaks to deep valleys. It concerns only a few
+grid cells for a given time step and is certainly not a realistic model output.
+
+TODO: test cutting the hypsogram below a minimum number of grid cells.
 
 ## References not in the manuscript:
 
