@@ -31,10 +31,26 @@ Thank you very much for your detailed review of our manuscript.
 > ‘Koppes’ and ‘Herman’ erosion laws, but not to ‘Humphrey’ and ‘Cook’ laws
 > which give very broad maxima for s.l.e. 10-30 cm (Fig. 7 k & l).
 
+Thank you for pointing this out. We are not confident that this result is
+significant. The situation you describe occurs, for instance, during much of
+MIS~5 (Fig.~2) and can be visualized in the animations. During such periods,
+glaciers are steep and only a few grid cells in width. Their velocities and
+thus computed erosion rates may be overestimated by the limiting horizontal
+resolution and the shallow-ice physics (Imhof et al., 2019).
+
+Increasing ice volume yields the build-up of less steep and thus slower-flowing
+valley glaciers. Decreasing ice volume yields to (roughly) equally steep but
+smaller glaciers. In the case of non-linear erosion laws ('Koppes' and 'Herman'
+laws), both yield a decrease of erosion volume, hence the local peak in erosion
+volume. We now emphasize this uncertainty in several of our plots by using
+hatches over areas of limited glacier cover, documented in the figure captions.
+
 > As the comment (lines 221-222) on erosion distribution during advance,
 > retreat and maxima is of great interest, it would be useful to illustrate
 > this with three maps of potential erosion during each of these types of
 > phase.
+
+TODO: Isn't this current Fig. 4?
 
 > I find no mention of lithology, rock type, geology, resistance or erodibility
 > (excluding that citing Herman on line 56). This omission of half the erosion
@@ -52,6 +68,8 @@ Thank you very much for your detailed review of our manuscript.
 > rate as well as for cumulative erosion, it is potential erosion that is
 > calculated, rather than predicted erosion.
 
+TODO: discuss lithology, go through entire text?
+
 > A further necessary geographical qualification concerns the misfit between
 > simulated and actual glacier extent. The latter is well established from
 > mapping of moraines. It is necessary to check Seguinot et al. (2018) to see
@@ -67,10 +85,14 @@ Thank you very much for your detailed review of our manuscript.
 > might use gradations between that and the present pattern as a function of
 > temperature.
 
+TODO: add LGM outline, discuss under "climate sensitivity".
+
 > Overall, the paper reports on a very worthwhile computer-intensive exercise.
 > It is densely packed with results and repays a careful read and a study of
 > the videos. Clearly there can be interesting comparisons with Lai and Anders
 > (2021) very recent submission to esurf !
+
+TODO: check that out.
 
 >   [\*That stage can be approximated by pausing the first erosion
 >    rates video around 99 ka and 13 ka. The three videos are strongly
