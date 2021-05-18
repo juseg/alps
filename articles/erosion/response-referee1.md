@@ -46,12 +46,16 @@ Thank you very much for your detailed review of our manuscript.
 > to be solved of this large portfolio of mentioned gaps in the understanding
 > of glacial processes. I think this could be better formulated and balanced.
 
+TODO: maybe remove some parts of the introduction? Ian?
+
 > I think the study could also well contribute to the discussion on the
 > elevation distribution of the cumulative glacial erosion over several cycles
 > in the Alps (high elevations vs low elevation, e.g. Valla et al., 2011). A
 > plot showing the integrated glacial erosion potential over (e.g. 100 m)
 > elevation bins would easy to do and eventually an enlightening supplement
 > summing up Fig. 5a.
+
+TODO: try and compute cumulative erosion by elevation bins.
 
 > I would also recommend to make some regional statements on the distribution
 > of the glacial erosion potential (Fig. 2). It is quite obvious that some
@@ -61,6 +65,7 @@ Thank you very much for your detailed review of our manuscript.
 > the erosional potential appearing strikingly high? I think this should/could
 > be discussed..
 
+TODO: I think this will best fit in "age of the glacial landscape".
 
 ## Specific comments
 
@@ -209,3 +214,6 @@ TODO: test cutting the hypsogram below a minimum number of grid cells.
 > Valla, P.G., Shuster, D.L., van der Beek, P.A., 2011. Significant increase in
 > relief of the European Alps during mid-Pleistocene glaciations. Nat. Geosci.
 > 4, 688–692.
+
+TODO: I am not sure what to do about this long list of papers. Some of them are
+already cited, some just added in.
