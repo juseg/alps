@@ -229,15 +229,16 @@ def figure_mainmap(time, args, background=True):
         ds = ds.hyoga.where_thicker()  # needs to come after interp
 
         # plot specific visual
+        kwargs = dict(ax=ax, add_colorbar=False, extend='both')
         if args.visual == 'bedrock':
             interp.hyoga.plot.bedrock_isostasy(
-                add_colorbar=False, levels=[-100, -50, -20, 0, 2, 5, 10])
+                levels=[-100, -50, -20, 0, 2, 5, 10], **kwargs)
         elif args.visual == 'erosion':
             interp.hyoga.plot.bedrock_erosion(
-                add_colorbar=False, levels=[10**i for i in range(-9, 1)])
+                levels=[10**i for i in range(-9, 1)], **kwargs)
         elif args.visual == 'velsurf':
             interp.hyoga.plot.surface_velocity(
-                add_colorbar=False, vmin=10, vmax=1000)
+                vmin=10, vmax=1000, **kwargs)
         elif args.visual == 'streams':
             interp.hyoga.plot.ice_margin(facecolor='w', alpha=0.75)
             ds.hyoga.plot.surface_velocity_streamplot(
@@ -452,7 +453,7 @@ def main():
     # frame output directories
     outdirs = dict(
         citymap='~/anim/alpcyc_4k_citymap_{0.region}_{0.lang}'.format(args),
-        mainmap='~/anim/alpcyc_4k_{0.visual}_{0.region}_{0.lang}'.format(args),
+        mainmap='~/anim/alpcyc_4k_{0.visual}_{0.region}'.format(args),
         timetag='~/anim/alpcyc_4k_timetag_{0.lang}'.format(args),
         timebar='~/anim/alpcyc_4k_{0.visual}_timebar_{0.lang}'.format(args))
 
