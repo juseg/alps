@@ -114,7 +114,8 @@ TODO: check that out.
 > used (it was SRTM in the 2018 paper). This information should be provided in
 > section 2, p. 3-4.
 
-TODO: The input SRTM topography was mentioned in [...] and the caption of Fig. 2.
+TODO: The input SRTM topography was mentioned in [...] and in the caption of
+Fig. 2.
 
 > The lateral constraints on valley glaciers are usually covered by a ‘form
 > factor’: how are they handled by this version of the PISM ice sheet model –
@@ -138,6 +139,13 @@ TODO: The input SRTM topography was mentioned in [...] and the caption of Fig. 2
 > pale brown bars show a decline in annual erosion volume with ice volumes over
 > 1.8 cm s.l.e., stronger than is implied in line 110 of the text – it is more
 > than ‘slight’.
+
+We applied different colours for periods of increasing and decreasing ice
+volume. This actually strikingly highlights the two different regimes. Thank
+you for the suggestion. The label was changed to 'potential annual erosion
+volume'.
+
+TODO: not so slight decrease.
 
 > To aid interpretation of Figs 4 a-c and 7 a-d, a corresponding topographic
 > map or hillshade of the Rhine area on the same scale should be provided.

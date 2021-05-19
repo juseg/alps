@@ -29,26 +29,32 @@ def figure():
     # unit conversion and rolling mean
     ds['slvol'] *= 100
     ds['rolling_mean'] = ds.kop2015_rate.rolling(age=100, center=True).mean()
+    ds['growing'] = ds.slvol.differentiate('age') < 0  # age coord decreasing
 
     # plot
-    line0, = ax.plot(ds.slvol, ds.kop2015_rate, c='C11', alpha=0.5)
-    line1, = ax.plot(ds.slvol, ds.rolling_mean, c='C11')
+    lines = (
+        ax.plot(ds.slvol, ds.kop2015_rate.where(ds.growing), c='C1',
+                alpha=0.25)[0],
+        ax.plot(ds.slvol, ds.kop2015_rate.where(~ds.growing), c='C11',
+                alpha=0.25)[0],
+        ax.plot(ds.slvol, ds.rolling_mean.where(ds.growing), c='C1')[0],
+        ax.plot(ds.slvol, ds.rolling_mean.where(~ds.growing), c='C11')[0])
     timetag = ax.text(0.95, 0.95, '', ha='right', va='top',
                       transform=ax.transAxes)
 
     # set axes properties
     ax.set_xlabel('ice volume (cm s.l.e.)')
-    ax.set_ylabel(r'annual erosion volume ($m^3 a^{-1}$)')
+    ax.set_ylabel(r'potential annual erosion volume ($m^3 a^{-1}$)')
     ax.set_yscale('log')
     ax.set_ylim(10**4.3, 10**7.7)
 
     # annotate advance and retreat
     ax.annotate('', xy=(5, 10**6.7), xytext=(25, 10**6.7), arrowprops=dict(
-        arrowstyle='->', color='0.25', lw=1, connectionstyle='arc3,rad=0.25'))
+        arrowstyle='->', color='C11', lw=1, connectionstyle='arc3,rad=0.25'))
     ax.annotate('', xy=(25, 10**5.1), xytext=(5, 10**5.1), arrowprops=dict(
-        arrowstyle='->', color='0.25', lw=1, connectionstyle='arc3,rad=0.25'))
-    ax.text(15, 10**4.6, 'advance', ha='center', va='center')
-    ax.text(15, 10**7.2, 'retreat', ha='center', va='center')
+        arrowstyle='->', color='C1', lw=1, connectionstyle='arc3,rad=0.25'))
+    ax.text(15, 10**4.6, 'advance', color='C1', ha='center', va='center')
+    ax.text(15, 10**7.2, 'retreat', color='C11', ha='center', va='center')
 
     # annotat2 maximum stages
     ax.plot(21, 10**5.8, marker='o', ms=40, mec='0.25', mfc='none')
@@ -57,21 +63,23 @@ def figure():
     ax.text(28, 10**6.2, 'MIS 2', ha='center', va='center')
 
     # return figure, data and animated artists
-    return fig, ds, line0, line1, timetag
+    return fig, ds, lines, timetag
 
 
-def animate(time, ds, line0, line1, timetag):
+def animate(time, ds, lines, timetag):
     """Update figure data."""
 
     # replace line data
-    line0.set_ydata(ds.kop2015_rate.where(ds.time <= time))
-    line1.set_ydata(ds.rolling_mean.where(ds.time <= time))
+    lines[0].set_ydata(ds.kop2015_rate.where(ds.growing))
+    lines[1].set_ydata(ds.kop2015_rate.where(~ds.growing))
+    lines[2].set_ydata(ds.rolling_mean.where(ds.growing))
+    lines[3].set_ydata(ds.rolling_mean.where(~ds.growing))
 
     # replace text tag
     timetag.set_text('{:,.0f} years ago'.format(-time).replace(',', r'$\,$'))
 
     # return animated artists
-    return line0, line1, timetag
+    return lines, timetag
 
 
 def main():
