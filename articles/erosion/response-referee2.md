@@ -85,7 +85,10 @@ TODO: discuss lithology, go through entire text?
 > might use gradations between that and the present pattern as a function of
 > temperature.
 
-TODO: add LGM outline, discuss under "climate sensitivity".
+
+The LGM outline was added on Fig. 2.
+
+TODO: discuss shortly the discrepancy in "climate sensitivity".
 
 > Overall, the paper reports on a very worthwhile computer-intensive exercise.
 > It is densely packed with results and repays a careful read and a study of
@@ -110,6 +113,8 @@ TODO: check that out.
 > of the order of 700 m across). Even stranger, there is no mention of the DEM
 > used (it was SRTM in the 2018 paper). This information should be provided in
 > section 2, p. 3-4.
+
+TODO: The input SRTM topography was mentioned in [...] and the caption of Fig. 2.
 
 > The lateral constraints on valley glaciers are usually covered by a ‘form
 > factor’: how are they handled by this version of the PISM ice sheet model –

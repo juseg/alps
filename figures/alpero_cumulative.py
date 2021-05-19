@@ -30,6 +30,7 @@ def main():
     # add map elements
     util.geo.draw_boot_topo(ax)
     util.geo.draw_natural_earth(ax)
+    util.geo.draw_lgm_outline(ax)
 
     # plot time series
     util.ero.plot_series(ax=tsax)

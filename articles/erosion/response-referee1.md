@@ -164,8 +164,9 @@ In several instances we replaced "yet" with "but" and "however".
 > erosional potential might change as fluvial topography turns into glacial one
 > (e.g. Harbor, 1988) and this is probably not what you want to mix, I guess.
 
-We added the LGM outline.
+The LGM outline was added on Fig. 2.
 
+TODO: discuss shortly the discrepancy in "climate sensitivity".
 TODO: I don't understand the second part of the comment.
 
 > Fig. 5 I have to confess Fig. 5a surprises me, there are really glaciers as
