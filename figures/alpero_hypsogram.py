@@ -17,12 +17,12 @@ def main():
     # initialize figure
     fig = apl.figure_mm(figsize=(177, 80))
     spec = fig.add_gridspec_mm(
-        ncols=2, nrows=2, left=12, right=1.5, bottom=9, top=1.5, hspace=1.5,
-        wspace=1.5, height_ratios=(48, 20), width_ratios=(142, 20))
+        ncols=2, nrows=2, left=15, right=1.5, bottom=9, top=1.5, hspace=1.5,
+        wspace=1.5, height_ratios=(48, 20), width_ratios=(132, 30))
     ax = fig.add_subplot(spec[0, 0])
     hax = fig.add_subplot(spec[0, 1], sharey=ax)
     tsax = fig.add_subplot(spec[1, 0], sharex=ax)
-    cax = fig.add_axes_mm([177-18+1.5, 9+20+1.5+24, 3, 24])
+    cax = fig.add_axes_mm([177-21+1.5, 6, 3, 20])
 
     # add subfigure labels
     util.fig.add_subfig_label('(a)', ax=ax)
@@ -32,15 +32,21 @@ def main():
     with xr.open_dataset('../data/processed/alpcyc.1km.in.nc') as ds:
         boot = ds.topg
 
+    # load glaciated footprint
+    with xr.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
+        glaciated = ds.covertime > 0
+
     # load aggregated data
-    with xr.open_dataset('../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
+    with xr.open_mfdataset(
+            '../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
 
         # plot hypsogram
         (np.log10(ds.kop2015_hyps)+3).plot.imshow(
             ax=ax, alpha=0.75, cmap='YlOrBr', vmin=-9, vmax=0, x='age',
             cbar_ax=cax, cbar_kwargs=dict(
-                label='log10 geometric mean\n'+r'erosion rate ($mm\,a^{-1}$)',
+                label='geometric mean\n'+r'erosion rate ($mm\,a^{-1}$)',
                 ticks=range(-9, 1, 3)))
+        cax.yaxis.set_major_formatter(r'$10^{{{x:d}}}$')
         # this should work in matplotlib 3.3.2 (PR #18458)
         # (ds.kop2015_hyps*1e3).plot.imshow(
         #    ax=ax, alpha=0.75, cmap='YlOrBr', norm=mcolors.LogNorm(1e-9, 1e0),
@@ -52,25 +58,28 @@ def main():
         ax.tick_params(labelbottom=False)
 
         # plot boot hypsometry
-        bins = np.arange(0, 4501, 10)
+        bins = np.arange(0, 4501, 100)
         hax.hist(boot.where(boot > 0).values.ravel(), bins=bins,
                  orientation='horizontal', color='0.75')
 
-        # plot cumulative erosion
-        sums = ds.kop2015_cumu.groupby_bins(boot, bins=bins).sum()
-        hax.barh(bins[:-1], sums, height=100, align='edge', color='C11')
-
-    # plot glaciated hypsometry
-    with xr.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
-        hax.hist(boot.where(ds.covertime > 0).values.ravel(), bins=bins,
+        # plot glaciated hypsometry
+        hax.hist(boot.where(glaciated).values.ravel(), bins=bins,
                  orientation='horizontal', color='C1')
 
-    # set histogram axes properties
-    hax.grid(False)
-    hax.set_frame_on(False)
-    # hax.set_xlim(0, 6000)
-    hax.set_xticks([])
-    hax.tick_params(labelleft=False)
+        # set histogram axes properties
+        hax.set_xticks([])
+        hax.tick_params(labelleft=False)
+
+        # plot band cumulative erosion in km3
+        hax = hax.twiny()
+        (ds.kop2015_cumu.groupby_bins(boot, bins).sum()/1e3).plot.step(
+            ax=hax, y='topg_bins', color='C11')
+        # hax.barh(bins[:-1], sums, height=100, align='edge', color='C11')
+
+        # set twin axes properties
+        hax.tick_params(axis='x', direction='in', pad=-15)
+        hax.set_xlabel('cumulative erosion\n'+r'volume (km³)',
+                       color='C11', labelpad=-30)
 
     # plot time series
     util.fig.plot_mis(ax=ax, y=None)
