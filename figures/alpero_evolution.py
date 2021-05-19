@@ -17,14 +17,14 @@ def main():
     fig, ax = apl.subplots_mm(figsize=(85, 80), gridspec_kw=dict(
         left=12, right=1.5, bottom=9, top=1.5))
 
-    # load postprocessed data
-    # FIXME there is a data gap after merge, add tolerance
+    # load postprocessed data (note: there seem to be currently no way to merge
+    # two dataset with slight errors using mfdataset)
     with hyoga.open.dataset(
             '../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as ds:
-        ds = ds[['slvol']]
-    with hyoga.open.dataset(
-            '../data/processed/alpero.1km.epic.pp.agg.nc') as agg:
-        ds['kop2015_rate'] = agg.kop2015_rate
+        with hyoga.open.dataset(
+                '../data/processed/alpero.1km.epic.pp.agg.nc') as agg:
+            agg = agg.reindex_like(ds, method='nearest', tolerance=1e-9)
+            ds = ds.merge(agg, compat='override')
 
     # unit conversion and rolling mean
     ds['slvol'] *= 100
