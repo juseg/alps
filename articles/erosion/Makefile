@@ -57,7 +57,7 @@ figs: $(PAPER)-figs.zip
 
 # latex diff patterned rule
 %-diff.tex: %.tex
-	latexdiff-vc --disable-citation-markup --force --git -r $(REV) $<
+	latexdiff-vc -t CFONT --git -r $(REV) $<
 	mv $(basename $@)$(REV).tex $@
 
 # figures zip patterned rule
