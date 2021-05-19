@@ -10,8 +10,8 @@ import hyoga.open
 import util
 
 
-def figure():
-    """Prepare initial animation figure."""
+def main():
+    """Main program called during execution."""
 
     # initialize figure
     fig, ax = apl.subplots_mm(figsize=(85, 80), gridspec_kw=dict(
@@ -32,15 +32,11 @@ def figure():
     ds['growing'] = ds.slvol.differentiate('age') < 0  # age coord decreasing
 
     # plot
-    lines = (
-        ax.plot(ds.slvol, ds.kop2015_rate.where(ds.growing), c='C1',
-                alpha=0.25)[0],
-        ax.plot(ds.slvol, ds.kop2015_rate.where(~ds.growing), c='C11',
-                alpha=0.25)[0],
-        ax.plot(ds.slvol, ds.rolling_mean.where(ds.growing), c='C1')[0],
-        ax.plot(ds.slvol, ds.rolling_mean.where(~ds.growing), c='C11')[0])
-    timetag = ax.text(0.95, 0.95, '', ha='right', va='top',
-                      transform=ax.transAxes)
+    ax.plot(ds.slvol, ds.kop2015_rate.where(ds.growing), c='C1', alpha=0.25)
+    ax.plot(ds.slvol, ds.kop2015_rate.where(~ds.growing), c='C11', alpha=0.25)
+    ax.plot(ds.slvol, ds.rolling_mean.where(ds.growing), c='C1')
+    ax.plot(ds.slvol, ds.rolling_mean.where(~ds.growing), c='C11')
+    ax.text(0.95, 0.95, '', ha='right', va='top', transform=ax.transAxes)
 
     # set axes properties
     ax.set_xlabel('ice volume (cm s.l.e.)')
@@ -62,42 +58,8 @@ def figure():
     ax.text(21, 10**6.3, 'MIS 4', ha='center', va='center')
     ax.text(28, 10**6.2, 'MIS 2', ha='center', va='center')
 
-    # return figure, data and animated artists
-    return fig, ds, lines, timetag
-
-
-def animate(time, ds, lines, timetag):
-    """Update figure data."""
-
-    # replace line data
-    lines[0].set_ydata(ds.kop2015_rate.where(ds.growing))
-    lines[1].set_ydata(ds.kop2015_rate.where(~ds.growing))
-    lines[2].set_ydata(ds.rolling_mean.where(ds.growing))
-    lines[3].set_ydata(ds.rolling_mean.where(~ds.growing))
-
-    # replace text tag
-    timetag.set_text('{:,.0f} years ago'.format(-time).replace(',', r'$\,$'))
-
-    # return animated artists
-    return lines, timetag
-
-
-def main():
-    """Main program called during execution."""
-
-    # prepare figure
-    fig, *fargs = figure()
+    # save
     util.com.savefig(fig)
-
-    # prepare animation
-    # FIXME prepare a fancy animation in separate script
-    # import os
-    # import sys
-    # import matplotlib.animation as animation
-    # ani = animation.FuncAnimation(
-    #     fig, animate, blit=True, interval=1000/25, fargs=fargs,
-    #     frames=range(-119000, 1, 40))
-    # ani.save(os.path.splitext(sys.argv[0])[0] + '.mp4')
 
 
 if __name__ == '__main__':
