@@ -7,7 +7,7 @@
 
 import numpy as np
 import absplots as apl
-import hyoga.open
+import xarray as xr
 import util
 
 
@@ -28,9 +28,12 @@ def main():
     util.fig.add_subfig_label('(a)', ax=ax)
     util.fig.add_subfig_label('(b)', ax=tsax)
 
+    # load boot topo
+    with xr.open_dataset('../data/processed/alpcyc.1km.in.nc') as ds:
+        boot = ds.topg
+
     # load aggregated data
-    with hyoga.open.dataset(
-            '../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
+    with xr.open_dataset('../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
 
         # plot hypsogram
         (np.log10(ds.kop2015_hyps)+3).plot.imshow(
@@ -48,19 +51,26 @@ def main():
         ax.set_ylabel('elevation (m)')
         ax.tick_params(labelbottom=False)
 
-    # plot boot hypsometry
-    with hyoga.open.dataset('../data/processed/alpcyc.1km.in.nc') as ds:
-
         # plot boot hypsometry
         bins = np.arange(0, 4501, 10)
-        hist, _ = np.histogram(ds.topg.where(ds.topg > 0), bins=bins)
-        vals = np.append(hist, hist[-1])  # needed to fill the last bin
-        hax.fill_betweenx(bins, 0*vals, vals, color='0.25', step='post')
-        hax.grid(False)
-        hax.set_frame_on(False)
-        hax.set_xlim(0, 6000)
-        hax.set_xticks([])
-        hax.tick_params(labelleft=False)
+        hax.hist(boot.where(boot > 0).values.ravel(), bins=bins,
+                 orientation='horizontal', color='0.75')
+
+        # plot cumulative erosion
+        sums = ds.kop2015_cumu.groupby_bins(boot, bins=bins).sum()
+        hax.barh(bins[:-1], sums, height=100, align='edge', color='C11')
+
+    # plot glaciated hypsometry
+    with xr.open_dataset('../data/processed/alpcyc.1km.epic.pp.agg.nc') as ds:
+        hax.hist(boot.where(ds.covertime > 0).values.ravel(), bins=bins,
+                 orientation='horizontal', color='C1')
+
+    # set histogram axes properties
+    hax.grid(False)
+    hax.set_frame_on(False)
+    # hax.set_xlim(0, 6000)
+    hax.set_xticks([])
+    hax.tick_params(labelleft=False)
 
     # plot time series
     util.fig.plot_mis(ax=ax, y=None)
