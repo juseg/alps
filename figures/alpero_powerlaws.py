@@ -38,11 +38,11 @@ def main():
     fig = apl.figure_mm(figsize=(177, 119))
     grid = fig.subplots_mm(
         ncols=4, subplot_kw=dict(projection=ccrs.UTM(32)), gridspec_kw=dict(
-            left=15, right=1.5, bottom=75.5, top=4.5, wspace=1.5))
+            left=1.5, right=19, bottom=75.5, top=4.5, wspace=1.5))
     tsgrid = fig.subplots_mm(
         ncols=4, nrows=2, sharex='row', sharey='row', gridspec_kw=dict(
-            left=15, right=1.5, bottom=9, top=45, hspace=9, wspace=1.5))
-    cax = fig.add_axes_mm([10.5, 75.5, 3, 39])
+            left=1.5, right=19, bottom=9, top=45, hspace=9, wspace=1.5))
+    cax = fig.add_axes_mm([177-19+1.5, 75.5, 3, 38])
 
     # set extent and subfig labels
     for ax, label in zip(list(grid)+list(tsgrid.flat), 'abcdefghijkl'):
@@ -72,7 +72,7 @@ def main():
             # plot cumulative erosion
             cset = ds[ref+'_cumu'].plot.contourf(
                 ax=ax, add_colorbar=False, alpha=0.75, cmap='YlOrBr',
-                extend='both', levels=[10**i for i in range(-2, 5)])
+                extend='both', levels=[10**i for i in range(-1, 4)])
 
             # plot background topo and ice margin
             util.geo.draw_boot_topo(ax)
@@ -94,6 +94,9 @@ def main():
             pfax.set_xlabel('distance along flow (km)')
             pfax.set_ylabel('')
             pfax.set_yscale('log')
+            pfax.set_yticks([1e-3, 1e-1, 1e1, 1e3])
+            pfax.yaxis.set_ticks_position('right')
+            pfax.yaxis.set_label_position('right')
 
             # plot time series
             tsax.plot(slvol*100, ds[ref+'_rate'], c='C11', alpha=0.5)
@@ -105,14 +108,17 @@ def main():
             tsax.set_yscale('log')
             tsax.set_ylabel('')
             tsax.set_ylim(10**4.5, 10**10.5)
+            tsax.set_yticks([1e5, 1e7, 1e9])
+            tsax.yaxis.set_ticks_position('right')
+            tsax.yaxis.set_label_position('right')
 
-    # add y-labels on leftmost axes
-    tsgrid[0, 0].set_ylabel('erosion potential (m)')
-    tsgrid[1, 0].set_ylabel(r'annual erosion volume ($m^3 a^{-1}$)')
+    # add y-labels on rightmost axes
+    tsgrid[0, -1].set_ylabel('erosion potential (m)')
+    tsgrid[1, -1].set_ylabel(r'annual erosion volume ($m^3 a^{-1}$)')
 
     # add colorbar
-    fig.colorbar(cset, cax=cax, format='%g', pad=-10)
-    cax.yaxis.set_ticks_position('left')
+    cbar = fig.colorbar(cset, cax=cax, format='%g')
+    cbar.set_label('erosion potential (m)', labelpad=0)
 
     # save
     util.com.savefig(fig)
