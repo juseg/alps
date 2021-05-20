@@ -112,8 +112,11 @@ Indeed. The increase in ice discharge was made explicit.
 > the maximum erosion potential is like >>1000 m (if in meters) while in
 > corresponding (f) it seems clearly lower than 1000 m.
 
-TODO: check the numbers here. Make sure that the maps (a-d) fit the profiles
-(e-h), and then think again how to address the comment.
+TODO: "what you mean by realistic"
+
+There is no mismatch between panels (a-d) and (e-h), but to improve readability
+we have reduced the number of colour levels on the maps, and changed the
+positions of ticks on the transects.
 
 > Furthermore, isn’t the impression of the fit potentially very dependent on
 > the initial model parametrization (Seguinot et al., 2018), i.e. the ice flux
