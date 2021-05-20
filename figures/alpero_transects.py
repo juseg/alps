@@ -18,20 +18,20 @@ def main():
 
     # initialize figure
     fig, grid = apl.subplots_mm(
-        figsize=(177, 80), ncols=3, sharex=True, sharey=True,
+        figsize=(177, 80), ncols=4, sharex=True, sharey=True,
         subplot_kw=dict(projection=ccrs.UTM(32)), gridspec_kw=dict(
-            left=1.5, right=1.5, bottom=40.5, top=1.5, wspace=1.5))
-    tsax = fig.add_axes_mm([15, 9, 177-30-3-1.5, 30])
-    cax = fig.add_axes_mm([177-18+1.5, 9, 3, 30])
+            left=1.5, right=19, bottom=40.5, top=1.5, wspace=1.5))
+    tsax = fig.add_axes_mm([1.5, 9, 177-1.5-19, 30])
+    cax = fig.add_axes_mm([177-19+1.5, 40.5, 3, 38])
 
     # set extent and subfig labels
-    for ax, label in zip(grid, 'abc'):
+    for ax, label in zip(grid, 'abcd'):
         util.fig.prepare_map_axes(ax)
         util.fig.add_subfig_label('(%s)' % label, ax=ax)
-        ax.set_extent([410e3, 620e3, 5160e3, 5300e3], crs=ax.projection)
+        ax.set_extent([440e3, 580e3, 5160e3, 5300e3], crs=ax.projection)
 
     # plot ages and levels for consistency
-    ages = [24, 20, 16]
+    ages = [36, 24, 16, 0]
     levels = [10**i for i in range(-9, 1)]
 
     # read profile coordinates
@@ -66,10 +66,13 @@ def main():
         ax.plot(x, y, color='0.25', dashes=(2, 1))
         ax.plot(x[0], y[0], color='0.25', marker='o')
 
-        # add age tag and vertical line
+        # add age tag
         ax.set_title('')
-        util.fig.add_subfig_label('%d ka' % age, ax=ax, ha='right', va='bottom')
+        util.fig.add_subfig_label('%d ka' % age, ax=ax, ha='right', va='top')
+
+        # add profile axes vertical line
         tsax.axvline(age, color='0.25', dashes=(2, 1))
+        tsax.plot(age, 0, color='0.25', marker='o')
 
     # Profiles
     # --------
@@ -86,7 +89,7 @@ def main():
         (ds.assign_coords(d=ds.d/1e3).kop2015_rhin*1e3).plot.contourf(
             ax=tsax, alpha=0.75, cmap='YlOrBr', levels=levels, x='age', y='d',
             cbar_ax=cax, cbar_kwargs=dict(
-                label='erosion rate ($mm\,a^{-1}$)',
+                label=r'erosion rate ($mm\,a^{-1}$)',
                 format=mpl.ticker.LogFormatterMathtext(),
                 ticks=levels[::3]))  # (mpl issue #11937)
 
@@ -95,6 +98,8 @@ def main():
     tsax.set_xlim(120, 0)
     tsax.set_xlabel('age (ka)')
     tsax.set_ylabel('distance along flow (km)')
+    tsax.yaxis.set_ticks_position('right')
+    tsax.yaxis.set_label_position('right')
 
     # save
     util.com.savefig(fig)
