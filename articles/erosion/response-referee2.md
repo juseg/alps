@@ -33,7 +33,7 @@ Thank you very much for your detailed review of our manuscript.
 
 Thank you for pointing this out. We are not confident that this result is
 significant. The situation you describe occurs, for instance, during much of
-MIS~5 (Fig.~2) and can be visualized in the animations. During such periods,
+MIS~5 (Fig. 2) and can be visualized in the animations. During such periods,
 glaciers are steep and only a few grid cells in width. Their velocities and
 thus computed erosion rates may be overestimated by the limiting horizontal
 resolution and the shallow-ice physics (Imhof et al., 2019).
@@ -50,7 +50,10 @@ hatches over areas of limited glacier cover, documented in the figure captions.
 > this with three maps of potential erosion during each of these types of
 > phase.
 
-TODO: Isn't this current Fig. 4?
+Figure 4 was reworked to include a map of Rhine glacier modelled erosion rates
+at 36 ka, corresponding to the last marjor advance phase before the LGM and with
+somewhat similar extent to the deglacial state of 16 ka. This also corresponds
+to the topographic profiles shown on Fig. 8.
 
 > I find no mention of lithology, rock type, geology, resistance or erodibility
 > (excluding that citing Herman on line 56). This omission of half the erosion
@@ -149,6 +152,9 @@ TODO: not so slight decrease.
 
 > To aid interpretation of Figs 4 a-c and 7 a-d, a corresponding topographic
 > map or hillshade of the Rhine area on the same scale should be provided.
+
+In addition to the aforementioned changes to Fig. 4, a new panel was added for
+the model final state at 0 ka, revealing the bedrock topography.
 
 > Fig. 1c illustrates a very unusual cirque, with a huge lake replacing a very
 > unhealthy convex glacier. Fascinating, but surely a more representative

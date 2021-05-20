@@ -79,7 +79,7 @@ def main():
 
     # plot marine isotope stages
     util.fig.plot_mis(ax=tsax, y=0.9)
-    util.fig.add_subfig_label('(d)', ax=tsax)
+    util.fig.add_subfig_label('(e)', ax=tsax)
 
     # open aggregated output
     with hyoga.open.dataset(
