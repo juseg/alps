@@ -228,6 +228,9 @@ Scale bars were added on all map figures.
 
 > 190 delete both commas
 
+Thank you for spotting all the above errors! These were corrected.
+
+
 ## References not in original:
 
 > Egholm, D.L., Pedersen, V.K., Knudsen, M.F., Larsen, N.K., 2012a. Coupling
