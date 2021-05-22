@@ -7,6 +7,7 @@
 
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
+import cartowik.decorations as cde
 import absplots as apl
 import hyoga.open
 import util
@@ -30,7 +31,8 @@ def main():
         # prepare axes and add labels
         util.fig.prepare_map_axes(ax)
         util.fig.add_subfig_label('(%s) ' % 'adbecf'[i], ax=ax)
-        util.com.add_corner_tag(label, ax=ax, va='bottom', y=(i == 5)*1/3)
+        util.com.add_corner_tag(
+            label, ax=ax, va='bottom', x=(i == 0)*0.45, y=(i == 5)*1/3)
 
         # load aggregated data
         with hyoga.open.dataset(
@@ -47,6 +49,9 @@ def main():
         # add map elements
         util.geo.draw_boot_topo(ax=ax, filename='alpcyc.2km.in.nc')
         util.geo.draw_natural_earth(ax)
+
+    # add scale bar on first panel
+    cde.add_scale_bar(grid.T.flat[0], label='200 km', length=200e3, pad=50e3)
 
     # cut out white rectangle
     ax.spines['geo'].set_visible(False)

@@ -6,6 +6,7 @@
 """Plot Alps erosion cumulative."""
 
 import hyoga.open
+import cartowik.decorations as cde
 import util
 
 
@@ -31,6 +32,7 @@ def main():
     util.geo.draw_boot_topo(ax)
     util.geo.draw_natural_earth(ax)
     util.geo.draw_lgm_outline(ax)
+    cde.add_scale_bar(ax, label='100 km', length=100e3, pad=220e3)
 
     # plot time series
     util.ero.plot_series(ax=tsax)

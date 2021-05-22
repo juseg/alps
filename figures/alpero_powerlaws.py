@@ -3,11 +3,12 @@
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
-"""Plot Rhine glacier velocity and erosion potential."""
+"""Plot Alps erosion choice of power law."""
 
 import numpy as np
 import cartopy.crs as ccrs
 import cartowik.profiletools as cpf
+import cartowik.decorations as cde
 import absplots as apl
 import hyoga.open
 import util
@@ -111,6 +112,9 @@ def main():
             tsax.set_yticks([1e5, 1e7, 1e9])
             tsax.yaxis.set_ticks_position('right')
             tsax.yaxis.set_label_position('right')
+
+        # add scale bar on first panel
+        cde.add_scale_bar(grid.flat[0], label='50 km', length=50e3, pad=10e3)
 
     # add y-labels on rightmost axes
     tsgrid[0, -1].set_ylabel('erosion potential (m)')

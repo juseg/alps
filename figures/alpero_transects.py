@@ -8,6 +8,7 @@
 import matplotlib as mpl
 import cartopy.crs as ccrs
 import cartowik.profiletools as cpf
+import cartowik.decorations as cde
 import absplots as apl
 import hyoga.open
 import util
@@ -73,6 +74,9 @@ def main():
         # add profile axes vertical line
         tsax.axvline(age, color='0.25', dashes=(2, 1))
         tsax.plot(age, 0, color='0.25', marker='o')
+
+    # add scale bar on second panel
+    cde.add_scale_bar(grid[0], label='50 km', length=50e3, pad=10e3)
 
     # Profiles
     # --------

@@ -206,6 +206,8 @@ the model final state at 0 ka, revealing the bedrock topography.
 
 > All map figures need km scale bars.
 
+Scale bars were added on all map figures.
+
 > Line 24  ‘are yet’
 
 > 27 ‘in the absence’
