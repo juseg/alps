@@ -126,7 +126,7 @@ positions of ticks on the transects.
 > the initial model parametrization (Seguinot et al., 2018), i.e. the ice flux
 > velocity? You should address these dependences!
 
-TODO: discuss uncertainty with sliding.
+A paragraph was added in the discussion to discuss glacier sliding.
 
 > Line 163 Observing Alpine topography I find this result important, which can
 > maybe also serve as explanation why e.g. (low erodible) areas away from the
