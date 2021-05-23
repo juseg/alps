@@ -65,7 +65,11 @@ TODO: try and compute cumulative erosion by elevation bins.
 > the erosional potential appearing strikingly high? I think this should/could
 > be discussed..
 
-TODO: I think this will best fit in "age of the glacial landscape".
+More accurate modelling of small-scale glaciers would be needed to fully
+address this point. Steep topography though is likely to be part of the
+explanation, and a more substantial discussion of the high erosion potential
+values in these areas and the model limitations that hinder interpretation was
+added in the "age of the glacial landscape" subsection.
 
 ## Specific comments
 
