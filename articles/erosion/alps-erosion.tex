@@ -203,7 +203,8 @@
     temperature and water-content dependent creep, pseudo-plastic basal
     sliding, bedrock isostatic deformation under the ice
     load, and a~positive degree-day (PDD) surface mass balance model. The model
-    is initialized with assumed present-day ice thickness and equilibrium
+    is initialized with assumed present-day ice thickness and bedrock topography
+    from SRTM \citep{Jarvis.etal.2008},
     ice and bedrock temperature at 120\,ka (thousand years before the present),
     and is run to the present. The ice-sheet model physical parameters are listed
     in the earlier open-access publication \citep{Seguinot.etal.2018}, and the
@@ -219,7 +220,10 @@
     from the European Project for Ice Coring in Antarctica
     \citep[EPICA;][] {Jouzel.etal.2007}, and time-dependent paleo-precipitation
     reductions \citep{Huybrechts.2002}. Lower-resolution runs based on
-    alternative paleoclimate scenarios \citep{Seguinot.etal.2018} are analyzed
+    alternative paleoclimate scenarios \citep{Seguinot.etal.2018}, forced by
+    temperature changes from the the Greenland Ice Core Project
+    \citep[GRIP;][]{Dansgaard.etal.1993} and and an oceanic sediment core from
+    the Iberian margin \citep[MD01-2444;][]{Martrat.etal.2007}, are analyzed
     in the discussion part (Sect.~\ref{sec:sensitivity}).
 
 % -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
@@ -395,9 +399,14 @@
       \centerline{\includegraphics{alpero_sensitivity}}
       \caption{%
         Modelled cumulative glacial erosion potential over the last glacial
-        cycle without \textbf{(a, b, c)} and with \textbf{(d, e, f)}
-        paleo-precipitation corrections, and using three different
-        palaeo-temperature histories \citep[see][]{Seguinot.etal.2018}.}
+        cycle using three different paleo-temperature histories from
+        \textbf{(a, d)} the Greenland Ice Core Project
+        \citep[GRIP;][]{Dansgaard.etal.1993}, \textbf{(b, e)} the European
+        Project for Ice Coring in Antarctica \citep[our default,
+        EPICA;][]{Jouzel.etal.2007}, and \textbf{(c, f)} an oceanic sediment
+        core from the Iberian margin \citep[MD01-2444;][]{Martrat.etal.2007},
+        and both \textbf{(a--c)} without and \textbf{(d--f)} with
+        paleo-precipitation reductions \citep[cf.][]{Seguinot.etal.2018}.}
       \label{fig:sensitivity}
     \end{figure*}
 
