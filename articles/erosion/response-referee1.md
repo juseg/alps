@@ -6,7 +6,8 @@ Creative Commons Attribution-ShareAlike 4.0 International License
 
 Dear Anonymous Referee #1,
 
-Thank you very much for your detailed review of our manuscript.
+Thank you very much for your positive comments and for your time spent
+reviewing our manuscript.
 
 > The study of Seguinot and Delaney presents a time-integrated model on the
 > glacial erosion potential over the last 120 ka in the Alps. Authors tie the
@@ -29,6 +30,7 @@ Thank you very much for your detailed review of our manuscript.
 > extension, and the role of profile steeping during deglaciation and related
 > increasing erosion rates.
 
+Thank you for this accurate summary of our paper.
 
 ## General comments
 
@@ -38,6 +40,12 @@ Thank you very much for your detailed review of our manuscript.
 > manuscript (for example, ice cover deviations model – field bases LGM
 > extension).
 
+Indeed, it is our deliberate choice to avoid paraphrasing or duplicating
+content from the 2018 paper, where the preparation of the text and figures also
+involved a different author team. We believe this is justified given that both
+papers will be published open-access. Nonetheless, small additions were made.
+Please see our responses to your technical comments below.
+
 > The introduction gives a nice, relatively long (in relation to other
 > chapters) overview on different aspects of glacial erosion and resulting
 > features, and guides through problems to investigate them. Here, I don’t see
@@ -46,7 +54,8 @@ Thank you very much for your detailed review of our manuscript.
 > to be solved of this large portfolio of mentioned gaps in the understanding
 > of glacial processes. I think this could be better formulated and balanced.
 
-TODO: maybe remove some parts of the introduction? Ian?
+TODO: This remain a tricky points to me. Shoulw we remove parts of the
+introduction? Or add sentences tying our statements to upcoming results?
 
 > I think the study could also well contribute to the discussion on the
 > elevation distribution of the cumulative glacial erosion over several cycles
@@ -55,7 +64,10 @@ TODO: maybe remove some parts of the introduction? Ian?
 > elevation bins would easy to do and eventually an enlightening supplement
 > summing up Fig. 5a.
 
-TODO: try and compute cumulative erosion by elevation bins.
+Thank you for the suggestion. Figure 5 was amended with (as Fig. 5b) the
+distribution of cumulative erosion potential over 100 m elevation bins.
+The resulting plot shows that most modelled erosion occurs below 2000 m,
+with the potential erosion volumes between 1000 and 2000 m elevation.
 
 > I would also recommend to make some regional statements on the distribution
 > of the glacial erosion potential (Fig. 2). It is quite obvious that some
@@ -65,11 +77,25 @@ TODO: try and compute cumulative erosion by elevation bins.
 > the erosional potential appearing strikingly high? I think this should/could
 > be discussed..
 
-More accurate modelling of small-scale glaciers would be needed to fully
-address this point. Steep topography though is likely to be part of the
-explanation, and a more substantial discussion of the high erosion potential
-values in these areas and the model limitations that hinder interpretation was
-added in the "age of the glacial landscape" subsection.
+Our calculations indeed produce locally high cumulative erosion potential in
+the aforementioned crystalline massifs. More accurate modelling of small-scale
+glaciers would be needed to answer your question. Steep topography, though, is
+likely to be part of the explanation. A more substantial discussion of the high
+erosion potential values in these areas and the model limitations that hinder
+interpretation was added in the "age of the glacial landscape" subsection.
+The new passage reads as follow:
+
+    The validity of the model results at high elevation is discussable.
+    Cristalline massifs such as the Ecrins, Gran Paradiso, Monte Rosa, Aare,
+    \"Otztal and Tauern Massifs locally exhibit a strikingly high erosion
+    potential. However, the computation of glacier flow velocities on such
+    steep surfaces is strongly limited by the model horizontal resolution of
+    1\,km, the shallow-ice glacier flow physics (Imhof et al., 2019), and
+    PISM's current mass-conservation heuristics (Imhof, 2021). Besides,
+    bergschrund (rimaye) processes likely to dominate interglacial cirque
+    erosion at such altitudes (Sanders et al., 2012) are not captured by the
+    velocity-based glacier erosion power-laws.
+
 
 ## Specific comments
 
@@ -77,28 +103,29 @@ added in the "age of the glacial landscape" subsection.
 > hardly used more than 2 references throughout the MS and there are also high
 > variety of glacial landforms in other mt ranges as you mentioned).
 
-We agree the references are not directly relevant. The citation was reduced to
-the latest reference by Penck (1905) and moved within the sentence to clarify
-that it is specific to the Alps.
+We agree that the references are not directly relevant. The citation was
+reduced to the latest reference by Penck (1905) and moved within the sentence
+to clarify that it is specific to the Alps.
 
 > Line 33 I think that’s not very easy to understand what landform you refer
 > to? The “periglacial blockfields topped by glacial erratic boulders” (Wirsig
 > et al., 2018)? Eventually be more precise on this would help readers.
 
 Agreed. "Characteristic landform preservation" was replaced with "preserved
-periglacial blockfields".
+periglacial blockfields topped by erratic boulders".
 
 > Line 101 Could be misleading as (glacial and periglacial) cirque erosion
 > processes are not really covered by any glacial erosion law discussed here
 > (or any other I am aware of, Sanders et al., 2012).
 
-Thank you for pointing out this study. The lack of cirque erosion processes was
-acknowledged and the reference added in this sentence, as well as in the
-relevant part of the discussion on the age of the glacial landscape.
+Thank you for pointing out this study. This particular sentenced was reworked
+to acknowledged not only the limiting resolution but also the lack of relevant
+erosion erosion processes. The reference was additionally incorporated in the
+relevant part of the discussion (see general comments above).
 
 > Line 116  ..while much OF the intra-montane..
 
-Corrected.
+Thanks. Corrected.
 
 > Line 127 Higher precipitation increases ice flux and thus erosion, I guess?
 > Would eventually helpful to mention (even though it might be referred in
@@ -116,7 +143,8 @@ Indeed. The increase in ice discharge was made explicit.
 > the maximum erosion potential is like >>1000 m (if in meters) while in
 > corresponding (f) it seems clearly lower than 1000 m.
 
-TODO: "what you mean by realistic"
+TODO: Another tricky point. Here we need to discuss what is realistic. Probably
+no single law gives realistic results indeed.
 
 There is no mismatch between panels (a-d) and (e-h), but to improve readability
 we have reduced the number of colour levels on the maps, and changed the
@@ -126,23 +154,41 @@ positions of ticks on the transects.
 > the initial model parametrization (Seguinot et al., 2018), i.e. the ice flux
 > velocity? You should address these dependences!
 
-A paragraph was added in the discussion to discuss glacier sliding.
+A paragraph was added under "choice of erosion law" to discuss the
+uncertainties on glacier sliding physics. Also including suggestions from
+reviewer #2, the new paragraph reads as follow:
+
+    The modelled pattern of erosion potential depends on PISM glacier physics
+    and sliding model parameters. In particular, the pseudo-plastic sliding law
+    exponent (q=0.25 in Seguinot et al., 2018) controls the sharpness of the
+    transition between adherent and decoupled basal conditions. Recent ensemble
+    validation of Antarctic Ice Sheet glacial-cycle simulations against
+    geological and present-day observations (Albrecht et al., 2020a, b) support
+    a higher value of q=0.75, and thus a sliding law closer to linear, which
+    would perhaps result in a smoother distribution of sliding velocity and
+    erosion potential. Lateral stress gradients missing from the shallow-shelf
+    approximation stress balance could also contribute to moderate sliding
+    velocity in narrow troughs (Herman et al., 2011; Egholm et al, 2012a, b;
+    Pedersen et al., 2014).
 
 > Line 163 Observing Alpine topography I find this result important, which can
 > maybe also serve as explanation why e.g. (low erodible) areas away from the
 > big troughs covered during glacial maxima only, do surprisingly often show
 > no/very low degree in glacial modification (e.g. Ticino; Kelly et al., 2004).
 
-The following sentence was addedin this paragraph. "Nevertheless, it may
-explain why some areas covered during glacial maxima only, such as some valleys
-on the southern side of the Alps, appear to have experienced only little
-glacial modification of their topography."
+Thank you for pointing this out. The following sentence was added in this
+paragraph:
+
+    Nevertheless, it may explain why some areas covered during glacial maxima
+    only, such as some valleys on the southern side of the Alps, appear to have
+    experienced only little glacial modification of their topography.
 
 > Line 187 “time-transgressive radial pattern”. I don’t understand what you
 > mean..
 
 This sentence was only meant to recall the aforementioned results. We rephrased
-to "the erosion patterns shift spatially through the glacial cycle".
+to "the potential erosion patterns experience spatial shifts through the
+glacial cycle".
 
 > Line 195 Very much share this view!
 
@@ -161,6 +207,7 @@ The statement was reworked and restricted to "the higest mountain cirques".
 
 In several instances we replaced "yet" with "but" and "however".
 
+
 ## Figures
 
 > Fig. 2 Please indicate the outline of the connected ice stream network during
@@ -173,8 +220,8 @@ In several instances we replaced "yet" with "but" and "however".
 
 The LGM outline was added on Fig. 2.
 
-TODO: discuss shortly the discrepancy in "climate sensitivity".
-TODO: I don't understand the second part of the comment.
+TODO: I still need to add a sentence or two discussing the discrepancy under
+"climate sensitivity". I don't understand the point about fluvial topography.
 
 > Fig. 5 I have to confess Fig. 5a surprises me, there are really glaciers as
 > low as 500 m.a.s.l (and even below) from 110 – 40 ka in the Seguinot et al.,
@@ -185,6 +232,7 @@ drops abruptedly from the highest peaks to deep valleys. It concerns only a few
 grid cells for a given time step and is certainly not a realistic model output.
 
 TODO: test cutting the hypsogram below a minimum number of grid cells.
+
 
 ## References not in the manuscript:
 
