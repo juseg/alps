@@ -11,7 +11,7 @@ import datetime
 import numpy as np
 import xarray as xr
 import cartowik.profiletools as cpf
-import pismx.open
+import hyoga.open
 
 # processed runs
 PROC_RUNS = ['alpcyc4.2km.grip.0820', 'alpcyc4.2km.grip.1040.pp',
@@ -45,9 +45,9 @@ def postprocess_extra(run_path):
 
     # load output data (in the future combine='by_coords' will be the default)
     print("postprocessing " + out_file + "...")
-    boot = pismx.open.dataset(
+    boot = hyoga.open.dataset(
         '~/pism/input/boot/'+'alps.srtm.hus12.gou11simi.{}.nc'.format(res))
-    ex = pismx.open.mfdataset(run_path+'/ex.???????.nc')
+    ex = hyoga.open.mfdataset(run_path+'/ex.???????.nc')
 
     # init postprocessed dataset with global attributes
     pp = xr.Dataset(attrs=ex.attrs, coords=dict(lon=ex.lon, lat=ex.lat))
