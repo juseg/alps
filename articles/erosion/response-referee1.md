@@ -143,12 +143,33 @@ Indeed. The increase in ice discharge was made explicit.
 > the maximum erosion potential is like >>1000 m (if in meters) while in
 > corresponding (f) it seems clearly lower than 1000 m.
 
-TODO: Another tricky point. Here we need to discuss what is realistic. Probably
-no single law gives realistic results indeed.
+We are not sure what the cumulative erosion potential of the last glacial cycle
+should be. This sentence was about the amplitude of the cumulative erosion
+potential, but we were probably a bit too fast deeming one erosion law "more
+realistic" than the others. Based on the estimates of total Pleistocene glacial
+relief from the suggested references, we now argue that no tested erosion law
+give results in the expectable range of last glacial cycle erosion.
 
-There is no mismatch between panels (a-d) and (e-h), but to improve readability
-we have reduced the number of colour levels on the maps, and changed the
-positions of ticks on the transects.
+    With a total Pleistocene glacial relief on the order of a kilometre
+    (Preusser et al., 2011; Valla et al., 2011), a cumulative glacial erosion
+    for the last glacial cycle in the order of 10-100 m can be expected.
+    However, none of the tested erosion power-laws fall within this range.
+    Instead, the erosion law calibrated on tidewater glaciers (Koppes et al.,
+    2015) yields cumulative erosion in the Rhine Valley in the orders of
+    metres, while the three erosion laws based on terrestrial glaciers
+    (Humphrey and Raymond, 1994; Herman et al., 2015; Cook et al., 2020},
+    result in kilometre-scale integrated erosion potential. During the Last
+    Glacial Maximum and much of the last glacial cycle, Alpine paleoglaciers
+    were closer in size, slope (an important parameter as we argue in the next
+    section), and climatic context to the present-day glaciers of Patagonia and
+    the Antarctic Peninsula (Koppes et al., 2015) than to Franz-Joseph Glacier
+    (Herman et al., 2015) and many of the glaciers included in the global
+    compilation by Cook et al., (2020). This may help to explain why the
+    reality appears to fall in-between the tested erosion laws.
+
+Regarding Fig. 7, there is no mismatch between panels (a-d) and (e-h), but to
+improve readability we have reduced the number of colour levels on the maps,
+and changed the positions of ticks on the transects.
 
 > Furthermore, isn’t the impression of the fit potentially very dependent on
 > the initial model parametrization (Seguinot et al., 2018), i.e. the ice flux
