@@ -112,12 +112,19 @@ def postprocess_extra(run_path):
             np.log(ex[law].where(ex[law] > 0)).groupby_bins(
                 boot.topg, bins=range(0, 4501, 10)).mean(
                     dim='stacked_y_x')).assign_attrs(
-            long_name=ex[law].ref+' erosion rate geometric mean',
+            long_name=ex[law].ref+' erosion rate geometric mean in band',
             units='m year-1')
         pp[law+'_rhin'] = ex[law].where(ex.icy).interp(
                 x=x, y=y, method='linear').assign_attrs(
             long_name=ex[law].ref+' rhine transect erosion rate',
             units='m year-1')
+
+    # compute glacier cover hypsogram
+    pp['glacier_hyps'] = (
+        dx*dy*ex.icy.groupby_bins(boot.topg, bins=range(0, 4501, 10)).sum(
+            dim='stacked_y_x')).assign_attrs(
+        long_name='glacierized area within elevation band',
+        units='m2')
 
     # replace intervals (xarray issue #2847)
     pp['topg_bins'] = [b.mid for b in pp.topg_bins.values]
