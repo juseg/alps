@@ -6,7 +6,8 @@ Creative Commons Attribution-ShareAlike 4.0 International License
 
 Dear Ian Evans,
 
-Thank you very much for your detailed review of our manuscript.
+Thank you very much for your and your colleague's time in preparing this
+review of our manuscript.
 
 ## General Comments
 
@@ -30,30 +31,53 @@ Thank you very much for your detailed review of our manuscript.
 > cover (0.3 ± 0.1 mm s.l.e., Farinotti et al. 2019). This peak applies to the
 > ‘Koppes’ and ‘Herman’ erosion laws, but not to ‘Humphrey’ and ‘Cook’ laws
 > which give very broad maxima for s.l.e. 10-30 cm (Fig. 7 k & l).
+>
+>   [\*That stage can be approximated by pausing the first erosion
+>    rates video around 99 ka and 13 ka. The three videos are strongly
+>    recommended!]
 
-Thank you for pointing this out. We are not confident that this result is
-significant. The situation you describe occurs, for instance, during much of
-MIS~5 (Fig. 2) and can be visualized in the animations. During such periods,
-glaciers are steep and only a few grid cells in width. Their velocities and
-thus computed erosion rates may be overestimated by the limiting horizontal
-resolution and the shallow-ice physics (Imhof et al., 2019).
+Thank you for pointing this out. However, we are not confident that this result
+is significant. The situation you describe occurs, for instance, during much of
+MIS~5 (Fig. 2) and can be visualized in the animations (as you noted). During
+such periods, glaciers are steep and only a few grid cells in width.
 
 Increasing ice volume yields the build-up of less steep and thus slower-flowing
 valley glaciers. Decreasing ice volume yields to (roughly) equally steep but
 smaller glaciers. In the case of non-linear erosion laws ('Koppes' and 'Herman'
 laws), both yield a decrease of erosion volume, hence the local peak in erosion
-volume. We now emphasize this uncertainty in several of our plots by using
-hatches over areas of limited glacier cover, documented in the figure captions.
+volume. However, we would rather not include this as a result as the modelled
+glacier velocities for such situations are unreliable due to the limiting
+horizontal resolution and the shallow-ice physics. This latter fact was
+highlighted in a new passage in the section on the "age of the glacial
+landscape". Also including suggestions from reviewer #1, the new passage
+reads as follow:
+
+    The validity of the model results at high elevation is discussable.
+    Cristalline massifs such as the Ecrins, Gran Paradiso, Monte Rosa, Aare,
+    Ötztal and Tauern Massifs locally exhibit a strikingly high erosion
+    potential. However, the computation of glacier flow velocities on such
+    steep surfaces is strongly limited by the model horizontal resolution of
+    1\,km, the shallow-ice glacier flow physics (Imhof et al., 2019), and
+    PISM's current mass-conservation heuristics (Imhof, 2021). Besides,
+    bergschrund (rimaye) processes likely to dominate interglacial cirque
+    erosion at such altitudes (Sanders et al., 2012) are not captured by the
+    velocity-based glacier erosion power-laws.
+
+TODO: also emphasize this uncertainty in several of our plots by using
+hatches over areas of limited glacier cover, documented in the figure captions?
 
 > As the comment (lines 221-222) on erosion distribution during advance,
 > retreat and maxima is of great interest, it would be useful to illustrate
 > this with three maps of potential erosion during each of these types of
 > phase.
 
-Figure 4 was reworked to include a map of Rhine glacier modelled erosion rates
-at 36 ka, corresponding to the last marjor advance phase before the LGM and with
-somewhat similar extent to the deglacial state of 16 ka. This also corresponds
-to the topographic profiles shown on Fig. 8.
+Thank you. Figure 4 was reworked to include a map of Rhine glacier modelled
+erosion rates at 36 ka, corresponding to the last major advance phase before
+the LGM and with a similar extent to the deglacial stage of 16 ka. This also
+corresponds to the topographic profiles shown on Fig. 8 and thus seems more
+appropriate in hindsight.
+
+TODO: also include complete maps as a supplement?
 
 > I find no mention of lithology, rock type, geology, resistance or erodibility
 > (excluding that citing Herman on line 56). This omission of half the erosion
@@ -71,7 +95,23 @@ to the topographic profiles shown on Fig. 8.
 > rate as well as for cumulative erosion, it is potential erosion that is
 > calculated, rather than predicted erosion.
 
-TODO: discuss lithology, go through entire text?
+The above limitateions were made explicit with the following added sentences in
+the methods subsection on the "erosion law":
+
+    Instead , we we assume that eroded material is instantly transported out of
+    the system, thus neglegting its role in shielding the bedrock from glacier
+    erosion in zones of temporary storage (Preusser et al., 2010). Neither do
+    we account for differences in erosion effectiveness on different
+    lithologies or erosion from subglacial and interglacial hydrologic
+    processes. For the aforementioned reasons, we refer to the above computed
+    rates, ė, as “potential erosion rates”.
+
+Second and as implied, the entire text and the figure labels were reworked to
+replace “erosion rates” with “potential erosion rates” nearly everywhere. To
+avoid clutter a few sentences still mention “modelled erosion rates” instead of
+“potential erosion rates”.
+
+TODO: rework figure labels
 
 > A further necessary geographical qualification concerns the misfit between
 > simulated and actual glacier extent. The latter is well established from
@@ -88,10 +128,16 @@ TODO: discuss lithology, go through entire text?
 > might use gradations between that and the present pattern as a function of
 > temperature.
 
+The field-based LGM outline was added on Fig. 2 (Alps-wide map of cumulative
+erosion potential). In addition, the following sentences were added in the
+"climate sensitivity" section of the discussion mentioning the general
+eastwards bias of our results with regard to field evidence.
 
-The LGM outline was added on Fig. 2.
-
-TODO: discuss shortly the discrepancy in "climate sensitivity".
+    It should be noted, however, that all runs presented here show a systematic
+    bias with excessive glacier cover in the Eastern Alps and a diminished
+    glacier extent in the Western Alps (Fig. 2a; further discussed in Seguinot
+    et al., 2018). Thus the modelled patterns of erosion potential certainly
+    includes a similar bias.
 
 > Overall, the paper reports on a very worthwhile computer-intensive exercise.
 > It is densely packed with results and repays a careful read and a study of
@@ -100,13 +146,12 @@ TODO: discuss shortly the discrepancy in "climate sensitivity".
 
 TODO: check that out.
 
->   [\*That stage can be approximated by pausing the first erosion
->    rates video around 99 ka and 13 ka. The three videos are strongly
->    recommended!]
-
 > The text is short and pithy, so there is space for some extension. There are
 > a few missed opportunities, and some incompleteness in the presentation. In
 > detail I suggest the following improvements:
+
+The manuscript text has been extended in several places. Please see our
+responses to your specific comments below.
 
 ## Specific comments - Text:
 

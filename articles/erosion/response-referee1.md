@@ -87,7 +87,7 @@ The new passage reads as follow:
 
     The validity of the model results at high elevation is discussable.
     Cristalline massifs such as the Ecrins, Gran Paradiso, Monte Rosa, Aare,
-    \"Otztal and Tauern Massifs locally exhibit a strikingly high erosion
+    Ötztal and Tauern Massifs locally exhibit a strikingly high erosion
     potential. However, the computation of glacier flow velocities on such
     steep surfaces is strongly limited by the model horizontal resolution of
     1\,km, the shallow-ice glacier flow physics (Imhof et al., 2019), and
@@ -305,5 +305,5 @@ was added in the discussion of the vertical distribution of erosion with this
 new sentence:
 
     Over longer timescales, though, the vertical distribution of erosion rates
-    also depends on the erosional modification of topography (Sternai et
-    al., 2013).
+    also depends on the erosional modification of topography (Sternai et al.,
+    2013).
