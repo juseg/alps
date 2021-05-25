@@ -239,10 +239,18 @@ In several instances we replaced "yet" with "but" and "however".
 > erosional potential might change as fluvial topography turns into glacial one
 > (e.g. Harbor, 1988) and this is probably not what you want to mix, I guess.
 
-The LGM outline was added on Fig. 2.
+The field-based LGM outline was added on Fig. 2. Computing a percent overlap is
+not straightforward. As for Fig. 4 in the 2018 paper, we use a manually
+modified version of the Ehlers et al. (2011) data. The original data presents
+numerous, expansive nunataks, many of which are found in accumulation area and
+thus directly incompatible with the mass-balance scheme used in the 2018 paper.
+However, the general eastward bias was discussed in two new sentences:
 
-TODO: I still need to add a sentence or two discussing the discrepancy under
-"climate sensitivity". I don't understand the point about fluvial topography.
+    It should be noted, however, that all runs presented here show a systematic
+    bias with excessive glacier cover in the Eastern Alps and a diminished
+    glacier extent in the Western Alps (Fig. 2a; further discussed in Seguinot
+    et al., 2018). Thus the modelled patterns of erosion potential certainly
+    includes a similar bias.
 
 > Fig. 5 I have to confess Fig. 5a surprises me, there are really glaciers as
 > low as 500 m.a.s.l (and even below) from 110 – 40 ka in the Seguinot et al.,
