@@ -300,5 +300,10 @@ TODO: test cutting the hypsogram below a minimum number of grid cells.
 > relief of the European Alps during mid-Pleistocene glaciations. Nat. Geosci.
 > 4, 688–692.
 
-TODO: I am not sure what to do about this long list of papers. Some of them are
-already cited, some just added in.
+In addition to the aforementioned changes, the Sternai et al. (2013) reference
+was added in the discussion of the vertical distribution of erosion with this
+new sentence:
+
+    Over longer timescales, though, the vertical distribution of erosion rates
+    also depends on the erosional modification of topography (Sternai et
+    al., 2013).
