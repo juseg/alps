@@ -162,22 +162,43 @@ responses to your specific comments below.
 > used (it was SRTM in the 2018 paper). This information should be provided in
 > section 2, p. 3-4.
 
-TODO: The input SRTM topography was mentioned in [...] and in the caption of
-Fig. 2.
+The model horizontal resolutions of 1 and (for climate sensitivity runs) 2 km
+is now mentioned in the methods. The input SRTM topography is also referenced
+in both the methods and the caption of Fig.~2 where it is displayed in the
+background. Following comments from reviewer #1, the discussion of model
+limitations regarding the representation of cirque glaciers has also been
+extended.
 
 > The lateral constraints on valley glaciers are usually covered by a ‘form
 > factor’: how are they handled by this version of the PISM ice sheet model –
 > how has lateral drag been included?
+
+PISM uses a combination of shallow-ice and shallow-shelf stress balances,
+neither of which includes lateral stresses. Glacier sliding velocities in
+troughs are goverened by (the sliding law and) longitudinal stresses, which is
+a limitation with respect to higher-order models. Following another comment
+from reviewer #1 an additional paragraph on basal sliding uncertainties was
+added, including the following sentence:
+
+    Lateral stress gradients missing from the shallow-shelf approximation
+    stress balance could also contribute to moderate sliding velocity in narrow
+    troughs (Herman et al., 2011; Egholm et al., 2012a, b; Pedersen et al.,
+    2014).
 
 > It might be pointed out that the ‘Koppes’ relationship with an exponent of
 > 2.34 is based on 13 data points that are very poorly distributed: in fact,
 > Koppes et al. (2015) go on to drop two outliers and reach an exponent of
 > 2.62.
 
+TODO: discuss Koppes without outliers.
+
 > In lines 206-209, the point about trimlines, relating them to
 > time-transgressive erosion, is well taken. But they represent the integrated
 > effect of many phases of glacial erosion (as noted on 223-224), not
 > necessarily just from recessional phases.
+
+Indeed. The sentence was corrected to include "advancing and retreating
+glaciers" instead of "retreating glaciers".
 
 ## - Figures:
 
@@ -188,24 +209,27 @@ Fig. 2.
 > 1.8 cm s.l.e., stronger than is implied in line 110 of the text – it is more
 > than ‘slight’.
 
-We applied different colours for periods of increasing and decreasing ice
-volume. This actually strikingly highlights the two different regimes. Thank
-you for the suggestion. The label was changed to 'potential annual erosion
-volume'.
-
-TODO: not so slight decrease.
+Figure 3 was reworked to use different colours for periods of increasing and
+decreasing ice volume. This actually strikingly highlights the two different
+regimes. Thank you for the suggestion. The label was changed to 'potential
+annual erosion volume'. In the text, 'slight' was replaced with a 'general'
+tendency for slower erosion during periods of extensive glaciation.
 
 > To aid interpretation of Figs 4 a-c and 7 a-d, a corresponding topographic
 > map or hillshade of the Rhine area on the same scale should be provided.
 
 In addition to the aforementioned changes to Fig. 4, a new panel was added for
-the model final state at 0 ka, revealing the bedrock topography.
+the model final state at 0 ka, revealing the bedrock topography. So Fig. 4 now
+has one panel during advance (36 ka), one during a maximum stage (24 ka), one
+during retreat (16 ka), and one nearly ice-free (0 ka).
 
 > Fig. 1c illustrates a very unusual cirque, with a huge lake replacing a very
 > unhealthy convex glacier. Fascinating, but surely a more representative
 > cirque should be used. Actually these three photos are not well integrated
 > with the text (pace lines 191 & 195-198). Lauterbrunnen is an extreme
 > (vertical-sided) trough example, over-used by textbooks.
+
+TODO: think about replacing the photos.
 
 > Fig. 5: The elevation histogram in Fig. 5a could be misleading, as it seems
 > to cover the whole study area, including parts never glacier-covered. It
@@ -222,6 +246,14 @@ the model final state at 0 ka, revealing the bedrock topography.
 > related to low surface area, suggests a switch there to 20 m or 40 m bands
 > would be advisable. Caption; ‘modelled potential erosion rates’?
 
+The figure now includes a histogram of model domain elevations, a histogram of
+glacier-covered elevations, and a plot of cumulative erosion potential volume
+per elevation bands of 100 m. The latter shows that, as you suspected, high
+altitude rapid erosion is largely offset by the limited number of grid cells
+it concerns. Instead, the bulk of the erosion potential occurs below 2000 m.
+
+TODO: hatch out regions with limited cell count?
+
 > In Fig. 7, the quantitative contrasts between the ‘Koppes’ law (e) and the
 > others are alarming. If the scales are taken literally, (e) gives potential
 > erosion around 1 m, while (f) and (g) give hundreds of m, in 120 ka. As 120
@@ -230,12 +262,35 @@ the model final state at 0 ka, revealing the bedrock topography.
 > answer between these extremes. The spatial pattern, however, is more
 > important.
 
+Discussion on the magnitude of modelled erosion rates remains somewhat
+speculative indeed due to the several sources of uncertainties, but the
+relevant discussion text was extended and reworked:
+
+    With a total Pleistocene glacial relief on the order of a kilometre
+    (Preusser et al., 2011; Valla et al., 2011), a cumulative glacial erosion
+    for the last glacial cycle in the order of 10-100 m can be expected.
+    However, none of the tested erosion power-laws fall within this range.
+    Instead, the erosion law calibrated on tidewater glaciers (Koppes et al.,
+    2015) yields cumulative erosion in the Rhine Valley in the orders of
+    metres, while the three erosion laws based on terrestrial glaciers
+    (Humphrey and Raymond, 1994; Herman et al., 2015; Cook et al., 2020},
+    result in kilometre-scale integrated erosion potential. During the Last
+    Glacial Maximum and much of the last glacial cycle, Alpine paleoglaciers
+    were closer in size, slope (an important parameter as we argue in the next
+    section), and climatic context to the present-day glaciers of Patagonia and
+    the Antarctic Peninsula (Koppes et al., 2015) than to Franz-Joseph Glacier
+    (Herman et al., 2015) and many of the glaciers included in the global
+    compilation by Cook et al., (2020). This may help to explain why the
+    reality appears to fall in-between the tested erosion laws.
+
 > Fig. 8a shows a flat dome at 3000 m for about the first 20 km of the Rhine.
 > As there are mountains at 3630, 3583 and 3192 m around the sources, it is
 > likely that   there would be steeper ice slopes up to these peaks, giving
 > rather different stresses and erosion potentials. Also are the instabilities
 > in Fig. 8b, near source and terminus, edge effects or related to the 1 km
 > resolution?
+
+TODO: I think this is correct. Develop on basal shear stress patterns.
 
 >   The three videos are well worth watching  -in fact they clarify some
 >   queries arising from the paper. Perhaps they could be captioned in the
@@ -246,6 +301,8 @@ the model final state at 0 ka, revealing the bedrock topography.
 >   rates presumably show where ice is frozen to the bed: their altitudinal
 >   distribution might be worth discussion in the text. Above 3000 m means are
 >   positive, which seems strange.
+
+TODO: tricky, I need to have a better look.
 
 ## Technical corrections:
 
