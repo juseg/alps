@@ -10,6 +10,8 @@ import sys
 import datetime
 import numpy as np
 import xarray as xr
+import dask
+import dask.diagnostics
 import cartowik.profiletools as cpf
 import hyoga.open
 
@@ -47,6 +49,7 @@ def postprocess_extra(run_path):
     print("postprocessing " + out_file + "...")
     boot = hyoga.open.dataset(
         '~/pism/input/boot/'+'alps.srtm.hus12.gou11simi.{}.nc'.format(res))
+    print("* reading multi-file extra dataset...")
     ex = hyoga.open.mfdataset(run_path+'/ex.???????.nc')
 
     # init postprocessed dataset with global attributes
@@ -90,6 +93,11 @@ def postprocess_extra(run_path):
     pp['warmbed_time'] = (dt*ex.warmbed.sum(axis=0)).assign_attrs(
         long_name='temperate-based ice cover duration', units='years')
 
+    # trigger computation to avoid memory errors (18m, 70%, 8GiB)
+    print("* computing time-integrated variables...")
+    with dask.diagnostics.ProgressBar():
+        pp = pp.compute()
+
     # compute timeseries
     pp['glacier_area'] = (dx*dy*ex.icy.sum(axis=(1, 2))).assign_attrs(
         long_name='glacierized area', units='m2')
@@ -98,13 +106,26 @@ def postprocess_extra(run_path):
     pp['warmbed_area'] = (dx*dy*ex.warmbed.sum(axis=(1, 2))).assign_attrs(
         long_name='temperate-based ice cover area', units='m2')
 
-    # compute erosion aggregated variables
-    x, y = cpf.read_shp_coords(
-        '../data/native/profile_rhine.shp', interval=1000)
+    # trigger computation to avoid memory errors (18m, 35%, 4GiB)
+    print("* computing space-integrated variables...")
+    with dask.diagnostics.ProgressBar():
+        pp = pp.compute()
+
+    # compute erosion time-aggregated variables
     for law in ['coo2020', 'her2015', 'hum1994', 'kop2015']:
         pp[law+'_cumu'] = (dt*ex[law].sum(axis=0, min_count=1)).assign_attrs(
             long_name=ex[law].ref+' cumulative glacial erosion potential',
             units='m')
+
+    # trigger computation to avoid memory errors ()
+    print("* computing cumulative erosion potential...")
+    with dask.diagnostics.ProgressBar():
+        pp = pp.compute()
+
+    # compute erosion space-aggregated variables
+    x, y = cpf.read_shp_coords(
+        '../data/native/profile_rhine.shp', interval=1000)
+    for law in ['coo2020', 'her2015', 'hum1994', 'kop2015']:
         pp[law+'_rate'] = (dx*dy*ex[law].sum(axis=(1, 2))).assign_attrs(
             long_name=ex[law].ref+' domain total volumic erosion rate',
             units='m3 year-1')
@@ -119,12 +140,21 @@ def postprocess_extra(run_path):
             long_name=ex[law].ref+' rhine transect erosion rate',
             units='m year-1')
 
+    # trigger computation to avoid memory errors ()
+    print("* computing erosion rate variables...")
+    with dask.diagnostics.ProgressBar():
+        pp = pp.compute()
+
     # compute glacier cover hypsogram
     pp['glacier_hyps'] = (
         dx*dy*ex.icy.groupby_bins(boot.topg, bins=range(0, 4501, 10)).sum(
             dim='stacked_y_x')).assign_attrs(
-        long_name='glacierized area within elevation band',
-        units='m2')
+        long_name='glacierized area within elevation band', units='m2')
+
+    # trigger computation to avoid memory errors (6m, 40%, 5GiB)
+    print("* computing glacier cover hypsogram...")
+    with dask.diagnostics.ProgressBar():
+        pp = pp.compute()
 
     # replace intervals (xarray issue #2847)
     pp['topg_bins'] = [b.mid for b in pp.topg_bins.values]
@@ -139,8 +169,12 @@ def postprocess_extra(run_path):
     pp['pism_config'] = ex.pism_config
 
     # export to netcdf
-    pp.to_netcdf(out_file, mode='w', encoding={var: dict(
-        zlib=True, shuffle=True, complevel=1) for var in pp.variables})
+    print("* writing postprocessed file...")
+    delayed = pp.to_netcdf(
+        out_file, mode='w', compute=False, encoding={var: dict(
+            zlib=True, shuffle=True, complevel=1) for var in pp.variables})
+    with dask.diagnostics.ProgressBar():
+        delayed.compute()
 
     # close datasets
     boot.close()
@@ -155,9 +189,12 @@ def main():
     if not os.path.exists('processed'):
         os.makedirs('processed')
 
-    # activate dask client http://localhost:8787/status
-    # from dask.distributed import Client
-    # print(Client().scheduler_info()['services'])
+    # to use the dask distributed client
+    # client = dask.distributed.Client()
+    # print(client.dashboard_link)
+
+    # split large chunks (and avoid warnings)
+    dask.config.set(**{'array.slicing.split_large_chunks': False})
 
     # postprocess selected runs
     for run in PROC_RUNS:
