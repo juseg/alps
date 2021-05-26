@@ -6,6 +6,7 @@
 """Plot Alps erosion hypsogram."""
 
 import numpy as np
+import matplotlib.pyplot as plt
 import absplots as apl
 import xarray as xr
 import util
@@ -40,12 +41,20 @@ def main():
     with xr.open_mfdataset(
             '../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
 
+        # maybe the only way to set hatch color
+        plt.rc('hatch', color='0.25')
+
         # plot hypsogram
         (np.log10(ds.kop2015_hyps)+3).plot.imshow(
             ax=ax, alpha=0.75, cmap='YlOrBr', vmin=-9, vmax=0, x='age',
             cbar_ax=cax, cbar_kwargs=dict(
                 label='geometric mean\n'+r'erosion rate ($mm\,a^{-1}$)',
                 ticks=range(-9, 1, 3)))
+        ds.glacier_hyps.plot.contourf(
+            ax=ax, add_colorbar=False, colors='none', extend='neither',
+            hatches=['//////'], levels=[0.5e6, 99.5e6], x='age')
+        ds.glacier_hyps.plot.contour(
+            ax=ax, colors='0.25', levels=[99.5e6], x='age')
         cax.yaxis.set_major_formatter(r'$10^{{{x:d}}}$')
         # this should work in matplotlib 3.3.2 (PR #18458)
         # (ds.kop2015_hyps*1e3).plot.imshow(
@@ -74,7 +83,6 @@ def main():
         hax = hax.twiny()
         (ds.kop2015_cumu.groupby_bins(boot, bins).sum()/1e3).plot.step(
             ax=hax, y='topg_bins', color='C11')
-        # hax.barh(bins[:-1], sums, height=100, align='edge', color='C11')
 
         # set twin axes properties
         hax.tick_params(axis='x', direction='in', pad=-15)
