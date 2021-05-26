@@ -94,6 +94,12 @@ def postprocess_extra(run_path):
         long_name='temperate-based ice cover duration', units='years')
 
     # trigger computation to avoid memory errors (18m, 70%, 8GiB)
+    # NOTE: time and total mem for single-thread scheduler on altair, with
+    # nothing else running. Trigger compute() more often to further reduce mem
+    # consumption (maybe at the cost of repeating some operations). I think
+    # the main trick is to separate time and space aggregations. Otherwise, it
+    # seems, there will be chunk-splitting, very long scheduling overhead and
+    # memory errors.
     print("* computing time-integrated variables...")
     with dask.diagnostics.ProgressBar():
         pp = pp.compute()
@@ -106,7 +112,7 @@ def postprocess_extra(run_path):
     pp['warmbed_area'] = (dx*dy*ex.warmbed.sum(axis=(1, 2))).assign_attrs(
         long_name='temperate-based ice cover area', units='m2')
 
-    # trigger computation to avoid memory errors (18m, 35%, 4GiB)
+    # trigger computation to avoid memory errors (24m, 35%, 4GiB)
     print("* computing space-integrated variables...")
     with dask.diagnostics.ProgressBar():
         pp = pp.compute()
@@ -117,7 +123,7 @@ def postprocess_extra(run_path):
             long_name=ex[law].ref+' cumulative glacial erosion potential',
             units='m')
 
-    # trigger computation to avoid memory errors ()
+    # trigger computation to avoid memory errors (12m, 35%, 4GiB)
     print("* computing cumulative erosion potential...")
     with dask.diagnostics.ProgressBar():
         pp = pp.compute()
@@ -131,7 +137,7 @@ def postprocess_extra(run_path):
             units='m3 year-1')
         pp[law+'_hyps'] = np.exp(
             np.log(ex[law].where(ex[law] > 0)).groupby_bins(
-                boot.topg, bins=range(0, 4501, 10)).mean(
+                boot.topg, bins=range(0, 4501, 100)).mean(
                     dim='stacked_y_x')).assign_attrs(
             long_name=ex[law].ref+' erosion rate geometric mean in band',
             units='m year-1')
@@ -140,14 +146,14 @@ def postprocess_extra(run_path):
             long_name=ex[law].ref+' rhine transect erosion rate',
             units='m year-1')
 
-    # trigger computation to avoid memory errors ()
+    # trigger computation to avoid memory errors (12m, 40%, 5GiB)
     print("* computing erosion rate variables...")
     with dask.diagnostics.ProgressBar():
         pp = pp.compute()
 
     # compute glacier cover hypsogram
     pp['glacier_hyps'] = (
-        dx*dy*ex.icy.groupby_bins(boot.topg, bins=range(0, 4501, 10)).sum(
+        dx*dy*ex.icy.groupby_bins(boot.topg, bins=range(0, 4501, 100)).sum(
             dim='stacked_y_x')).assign_attrs(
         long_name='glacierized area within elevation band', units='m2')
 
