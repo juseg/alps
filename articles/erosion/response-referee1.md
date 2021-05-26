@@ -256,11 +256,15 @@ However, the general eastward bias was discussed in two new sentences:
 > low as 500 m.a.s.l (and even below) from 110 – 40 ka in the Seguinot et al.,
 > 2018 model?
 
-Yes. This primarily concerns the southern slope of the Alps where topography
-drops abruptedly from the highest peaks to deep valleys. It concerns only a few
-grid cells for a given time step and is certainly not a realistic model output.
-
-TODO: test cutting the hypsogram below a minimum number of grid cells.
+This is correct. It concerns only a small number of grid cells, primarily
+located on the southern slope of the Alps where topography drops abruptly from
+the highest peaks to deep valleys. This information was added to the plot by
+hatching the regions with fewer than a hundred ice-covered grid cells. This
+highlights that low-elevation values are not always representative, as can also
+be confirmed in the new subplot showing the distribution of cumulative erosion
+potential over 100 m elevation bins. The distribution of glacier cover per
+elevation band over time (from which the hundred-cell contour was extracted)
+will be included in a new version of the companion dataset.
 
 
 ## References not in the manuscript:

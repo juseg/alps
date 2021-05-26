@@ -251,8 +251,9 @@ glacier-covered elevations, and a plot of cumulative erosion potential volume
 per elevation bands of 100 m. The latter shows that, as you suspected, high
 altitude rapid erosion is largely offset by the limited number of grid cells
 it concerns. Instead, the bulk of the erosion potential occurs below 2000 m.
-
-TODO: hatch out regions with limited cell count?
+To highlight periods when low-elevation is relevant (and address the comment
+from reviewer #1), we also hatched elevation bands that contain fewer than a
+hundred ice-covered grid cells for a given time.
 
 > In Fig. 7, the quantitative contrasts between the ‘Koppes’ law (e) and the
 > others are alarming. If the scales are taken literally, (e) gives potential
