@@ -298,7 +298,29 @@ relevant discussion text was extended and reworked:
 > in Fig. 8b, near source and terminus, edge effects or related to the 1 km
 > resolution?
 
-TODO: I think this is correct. Develop on basal shear stress patterns.
+This is correct. The "basal drag" quantity plotted on Fig. 8b is the magnitude
+of a two-component vector: the basal shear stress. The basal shear stress
+itself strongly depends on surface altitude gradients, but this includes both
+along-flow slopes visible on the topographic profile of Fig. 8a, and the
+invisible across-flow slopes. While the upper part of the topographic profile
+appears smooth, there are indeed steep (bedrock and surface) slopes on either
+side of the profile in this region. Because the upper part of the valley is
+narrow, the glacier center-line fluctuating over time, and the plot
+interpolated between 1-km grid cells, these lateral components enter the
+computation of the basal shear stress magnitude in the higher reaches.
+
+Second, the activation of sliding also increases basal drag, which explains
+that basal drag also fluctuates together with the yield stress. This is
+particularly affecting the lower part of the profiles. Finally, normalization
+by overburden pressure amplifies all stress variations where ice thickness is
+small. But due to changes in glacier thickness, it would not be possible to
+compare different profiles without such normalization.
+
+While we would rather not include such details in the paper, we tried our best
+to summarise the effect with this additional sentence in the figure caption:
+
+    Some of the observed basal drag fluctuations in the upper part of the
+    transect result from steep slopes on either side of the narrow valley.
 
 >   The three videos are well worth watching  -in fact they clarify some
 >   queries arising from the paper. Perhaps they could be captioned in the
