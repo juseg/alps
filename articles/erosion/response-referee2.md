@@ -190,7 +190,14 @@ added, including the following sentence:
 > Koppes et al. (2015) go on to drop two outliers and reach an exponent of
 > 2.62.
 
-TODO: discuss Koppes without outliers.
+We clarified in the methods that we use  Koppes et al. (2015) erosion law
+deriving from their full dataset. In addition, this sentence was added in the
+discussion of the "choice of erosion law":
+
+    On the other extreme, an even more non-linear erosion law, not tested here,
+    derived from tidewater glaciers but excluding two outliers (ė = 5.3 × 10−9
+    u_b^2.62, Koppes et al., 2015) would result in an even more localized
+    pattern of erosion potential.
 
 > In lines 206-209, the point about trimlines, relating them to
 > time-transgressive erosion, is well taken. But they represent the integrated
