@@ -195,7 +195,7 @@ deriving from their full dataset. In addition, this sentence was added in the
 discussion of the "choice of erosion law":
 
     On the other extreme, an even more non-linear erosion law, not tested here,
-    derived from tidewater glaciers but excluding two outliers (ė = 5.3 × 10−9
+    derived from tidewater glaciers but excluding two outliers (ė = 5.3×10^-9
     u_b^2.62, Koppes et al., 2015) would result in an even more localized
     pattern of erosion potential.
 
@@ -258,9 +258,13 @@ glacier-covered elevations, and a plot of cumulative erosion potential volume
 per elevation bands of 100 m. The latter shows that, as you suspected, high
 altitude rapid erosion is largely offset by the limited number of grid cells
 it concerns. Instead, the bulk of the erosion potential occurs below 2000 m.
+
 To highlight periods when low-elevation is relevant (and address the comment
 from reviewer #1), we also hatched elevation bands that contain fewer than a
-hundred ice-covered grid cells for a given time.
+hundred ice-covered grid cells for a given time. We also shifted to 100-m
+elevation bands on the main panel. Wihle some detail is lost, this avoids
+much of the striping (especially on the newly added contour and hatched
+pattern), and we find the new plot more readable.
 
 > In Fig. 7, the quantitative contrasts between the ‘Koppes’ law (e) and the
 > others are alarming. If the scales are taken literally, (e) gives potential
