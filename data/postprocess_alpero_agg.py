@@ -135,10 +135,9 @@ def postprocess_extra(run_path):
         pp[law+'_rate'] = (dx*dy*ex[law].sum(axis=(1, 2))).assign_attrs(
             long_name=ex[law].ref+' domain total volumic erosion rate',
             units='m3 year-1')
-        pp[law+'_hyps'] = np.exp(
-            np.log(ex[law].where(ex[law] > 0)).groupby_bins(
-                boot.topg, bins=range(0, 4501, 100)).mean(
-                    dim='stacked_y_x')).assign_attrs(
+        pp[law+'_hyps'] = np.exp(np.log(ex[law]).groupby_bins(
+            boot.topg, bins=range(0, 4501, 100)).mean(
+                dim='stacked_y_x')).assign_attrs(
             long_name=ex[law].ref+' erosion rate geometric mean in band',
             units='m year-1')
         pp[law+'_rhin'] = ex[law].where(ex.icy).interp(
