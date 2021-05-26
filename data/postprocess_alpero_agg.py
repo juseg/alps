@@ -50,7 +50,7 @@ def postprocess_extra(run_path):
     boot = hyoga.open.dataset(
         '~/pism/input/boot/'+'alps.srtm.hus12.gou11simi.{}.nc'.format(res))
     print("* reading multi-file extra dataset...")
-    ex = hyoga.open.mfdataset(run_path+'/ex.???????.nc')
+    ex = hyoga.open.mfdataset(run_path+'/ex.???????.nc', parallel=True)
 
     # init postprocessed dataset with global attributes
     pp = xr.Dataset(attrs=ex.attrs, coords=dict(lon=ex.lon, lat=ex.lat))
@@ -96,10 +96,7 @@ def postprocess_extra(run_path):
     # trigger computation to avoid memory errors (18m, 70%, 8GiB)
     # NOTE: time and total mem for single-thread scheduler on altair, with
     # nothing else running. Trigger compute() more often to further reduce mem
-    # consumption (maybe at the cost of repeating some operations). I think
-    # the main trick is to separate time and space aggregations. Otherwise, it
-    # seems, there will be chunk-splitting, very long scheduling overhead and
-    # memory errors.
+    # consumption (maybe at the cost of repeating some operations).
     print("* computing time-integrated variables...")
     with dask.diagnostics.ProgressBar():
         pp = pp.compute()
@@ -129,6 +126,11 @@ def postprocess_extra(run_path):
         pp = pp.compute()
 
     # compute erosion space-aggregated variables
+    # there's still a divide warning here, maybe check what that is
+    # NOTE: for the 1-km-run hypsogram on 10-m bands, dask-2021.3.0 splits the
+    # chunks even when asked not to. The progress bar only appears after two
+    # hours (I nearly gave up), but the actual computations takes only 15 min!
+    # In total the script took 194 min on altair.
     x, y = cpf.read_shp_coords(
         '../data/native/profile_rhine.shp', interval=1000)
     for law in ['coo2020', 'her2015', 'hum1994', 'kop2015']:
@@ -198,7 +200,7 @@ def main():
     # client = dask.distributed.Client()
     # print(client.dashboard_link)
 
-    # split large chunks (and avoid warnings)
+    # ask dask to not split large chunks (but it still does)
     dask.config.set(**{'array.slicing.split_large_chunks': False})
 
     # postprocess selected runs
