@@ -332,7 +332,41 @@ to summarise the effect with this additional sentence in the figure caption:
 >   distribution might be worth discussion in the text. Above 3000 m means are
 >   positive, which seems strange.
 
-TODO: tricky, I need to have a better look.
+Well, it seems that you have spend a lot of time looking at our figures and
+videos so let us thank you again for that. The caption of Fig. 5 mentioned "the
+geometric mean of (non-zero) modelled erosion rates". We found that the
+"non-zero" has no reason to be and it was removed. Sorry about the confusion
+and please read on for the long explanation.
+
+First, there are no zero values in the animation. As in the paper's Fig. 5, the
+animation shows geometric means (i.e. arithmetic means in log-domain), and
+geometric means can't contain zero values or they would result in a
+divide-by-zero error (or a log-of-zero error). Both animation panels have a
+log-scaled x-axis, hence they cannot contain zero values.
+
+On the other hand, both Fig. 5 and the animation depict very low values for
+erosion rates (especially around 24 ka). This is due to the glacier physics
+embedded in PISM. In particular, the pseudo-plastic sliding law implies that
+the glacier is sliding everywhere, but that sliding is infinitely small where
+the basal drag is much smaller than the yield stress, including for instance
+frozen-bed areas. These tiny sliding velocities yield even tinier erosion rates
+(due to the power 2.34 in the erosion law). Such values are not really relevant
+and they are off-the-colour-scheme on the Fig. 5 and off-the-chart in the
+animation (respectively lower than 10^-9 and 10^-10 mm a^-1).
+
+The only regions where PISM produces truly zero sliding are the regions of zero
+surface slopes or zero ice thickness, where the SSA can't be solved. In
+practice, this only occurs in the latter case: zero ice thickness. This is the
+kind of values we have previously filtered out. Your comment led us to re-check
+our calculations. We found that there is no zero-sliding values in the
+ice-covered area, and that an ice mask is sufficient to filter out undesirable
+values and compute the geometric means. Hence "non-zero" was removed from the
+caption.
+
+To be sure, the non-zero filter has been removed from the script generating
+companion data (which is used in Fig. 5). This change can be seen here:
+
+TODO: link Github commit.
 
 ## Technical corrections:
 
