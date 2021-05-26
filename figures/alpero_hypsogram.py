@@ -27,7 +27,8 @@ def main():
 
     # add subfigure labels
     util.fig.add_subfig_label('(a)', ax=ax)
-    util.fig.add_subfig_label('(b)', ax=tsax)
+    util.fig.add_subfig_label('(b)', ax=hax)
+    util.fig.add_subfig_label('(c)', ax=tsax)
 
     # load boot topo
     with xr.open_dataset('../data/processed/alpcyc.1km.in.nc') as ds:
