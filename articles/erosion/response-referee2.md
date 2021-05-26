@@ -366,7 +366,7 @@ caption.
 To be sure, the non-zero filter has been removed from the script generating
 companion data (which is used in Fig. 5). This change can be seen here:
 
-TODO: link Github commit.
+    https://github.com/juseg/alps/commit/7d14ec0
 
 ## Technical corrections:
 
