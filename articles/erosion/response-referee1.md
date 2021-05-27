@@ -54,8 +54,12 @@ Please see our responses to your technical comments below.
 > to be solved of this large portfolio of mentioned gaps in the understanding
 > of glacial processes. I think this could be better formulated and balanced.
 
-TODO: This remain a tricky points to me. Shoulw we remove parts of the
-introduction? Or add sentences tying our statements to upcoming results?
+Our introduction is meant to revolve around two discussion points: the variable
+imprint of glaciers on mountain topography, and the link between climate and
+glacier erosion (somewhat adressed in the conclusions). This is followed by a
+short methodological bibliography of process-based and empirical glacier
+erosion laws, before we announce the scope of our work. A few key statements
+were added to try and better tie these different sections.
 
 > I think the study could also well contribute to the discussion on the
 > elevation distribution of the cumulative glacial erosion over several cycles
