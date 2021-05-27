@@ -117,12 +117,11 @@ def main():
         cde.add_scale_bar(grid.flat[0], label='50 km', length=50e3, pad=10e3)
 
     # add y-labels on rightmost axes
-    tsgrid[0, -1].set_ylabel('erosion potential (m)')
     tsgrid[1, -1].set_ylabel(r'annual erosion volume ($m^3 a^{-1}$)')
 
     # add colorbar
     cbar = fig.colorbar(cset, cax=cax, format='%g')
-    cbar.set_label('erosion potential (m)', labelpad=0)
+    cbar.set_label('cumulative erosion potential (m)', labelpad=0, y=0)
 
     # save
     util.com.savefig(fig)

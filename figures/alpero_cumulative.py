@@ -23,7 +23,7 @@ def main():
         # plot map data
         ds.kop2015_cumu.plot.contourf(
             ax=ax, alpha=0.75, cmap='YlOrBr', cbar_ax=cax,
-            cbar_kwargs=dict(label='erosion potential (m)', format='%g'),
+            cbar_kwargs=dict(label='cumulative erosion potential (m)', format='%g'),
             levels=[10**i for i in range(-2, 3)])
         ds.kop2015_cumu.notnull().plot.contour(
             ax=ax, colors='k', linewidths=0.5, levels=[0.5])

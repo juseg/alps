@@ -94,7 +94,7 @@ def main():
         (ds.assign_coords(d=ds.d/1e3).kop2015_rhin*1e3).plot.contourf(
             ax=tsax, alpha=0.75, cmap='YlOrBr', levels=levels, x='age', y='d',
             cbar_ax=cax, cbar_kwargs=dict(
-                label=r'erosion rate ($mm\,a^{-1}$)',
+                label=r'potential erosion rate ($mm\,a^{-1}$)',
                 format=mpl.ticker.LogFormatterMathtext(),
                 ticks=levels[::3]))  # (mpl issue #11937)
 
