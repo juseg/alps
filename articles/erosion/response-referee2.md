@@ -7,7 +7,8 @@ Creative Commons Attribution-ShareAlike 4.0 International License
 Dear Ian Evans,
 
 Thank you very much for your and your colleague's time in preparing this
-review of our manuscript.
+reviewing our manuscript. We try to address your comments one by one below, and
+highlight relevant changes made to the manuscript.
 
 ## General Comments
 
@@ -42,7 +43,7 @@ MIS~5 (Fig. 2) and can be visualized in the animations (as you noted). During
 such periods, glaciers are steep and only a few grid cells in width.
 
 Increasing ice volume yields the build-up of less steep and thus slower-flowing
-valley glaciers. Decreasing ice volume yields to (roughly) equally steep but
+valley glaciers. Decreasing ice volume leads to (roughly) equally steep but
 smaller glaciers. In the case of non-linear erosion laws ('Koppes' and 'Herman'
 laws), both yield a decrease of erosion volume, hence the local peak in erosion
 volume. However, we would rather not include this as a result as the modelled
@@ -95,7 +96,7 @@ TODO: also include complete maps as a supplement?
 > rate as well as for cumulative erosion, it is potential erosion that is
 > calculated, rather than predicted erosion.
 
-The above limitateions were made explicit with the following added sentences in
+The above limitations were made explicit with the following added sentences in
 the methods subsection on the "erosion law":
 
     Instead , we we assume that eroded material is instantly transported out of
@@ -129,7 +130,7 @@ avoid clutter a few sentences still mention “modelled erosion rates” instead
 The field-based LGM outline was added on Fig. 2 (Alps-wide map of cumulative
 erosion potential). In addition, the following sentences were added in the
 "climate sensitivity" section of the discussion mentioning the general
-eastwards bias of our results with regard to field evidence.
+eastwards bias of our results with regard to field evidence:
 
     It should be noted, however, that all runs presented here show a systematic
     bias with excessive glacier cover in the Eastern Alps and a diminished
@@ -217,7 +218,7 @@ glaciers" instead of "retreating glaciers".
 
 Figure 3 was reworked to use different colours for periods of increasing and
 decreasing ice volume. This actually strikingly highlights the two different
-regimes. Thank you for the suggestion. The label was changed to 'potential
+regimes, so thank you for the suggestion. The label was changed to 'potential
 annual erosion volume'. In the text, 'slight' was replaced with a 'general'
 tendency for slower erosion during periods of extensive glaciation.
 
@@ -434,3 +435,6 @@ Thank you for spotting all the above errors! These were corrected.
 > Tomkins, Pippa Whitehouse, Cristina Balaban and Matt Wiecek.
 
 > - Ian S. Evans, Durham University, U.K.
+
+Thank you again to all of you for taking time to read our work and offer
+constructive feedback.

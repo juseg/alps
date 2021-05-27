@@ -7,7 +7,8 @@ Creative Commons Attribution-ShareAlike 4.0 International License
 Dear Anonymous Referee #1,
 
 Thank you very much for your positive comments and for your time spent
-reviewing our manuscript.
+reviewing our manuscript. We try to address your comments one by one below, and
+highlight relevant changes made to the manuscript.
 
 > The study of Seguinot and Delaney presents a time-integrated model on the
 > glacial erosion potential over the last 120 ka in the Alps. Authors tie the
@@ -68,7 +69,7 @@ were added to try and better tie these different sections.
 > elevation bins would easy to do and eventually an enlightening supplement
 > summing up Fig. 5a.
 
-Thank you for the suggestion. Figure 5 was amended with (as Fig. 5b) the
+Thank you for the suggestion. Figure 5 was amended with the
 distribution of cumulative erosion potential over 100 m elevation bins.
 The resulting plot shows that most modelled erosion occurs below 2000 m,
 with the potential erosion volumes between 1000 and 2000 m elevation.
@@ -83,7 +84,8 @@ with the potential erosion volumes between 1000 and 2000 m elevation.
 
 Our calculations indeed produce locally high cumulative erosion potential in
 the aforementioned crystalline massifs. More accurate modelling of small-scale
-glaciers would be needed to answer your question. Steep topography, though, is
+glaciers would be needed to provide an accurate answer to your question. Steep
+topography, though, is
 likely to be part of the explanation. A more substantial discussion of the high
 erosion potential values in these areas and the model limitations that hinder
 interpretation was added in the "age of the glacial landscape" subsection.
@@ -123,7 +125,7 @@ periglacial blockfields topped by erratic boulders".
 > (or any other I am aware of, Sanders et al., 2012).
 
 Thank you for pointing out this study. This particular sentenced was reworked
-to acknowledged not only the limiting resolution but also the lack of relevant
+to acknowledge not only the limiting resolution but also the lack of relevant
 erosion erosion processes. The reference was additionally incorporated in the
 relevant part of the discussion (see general comments above).
 
@@ -147,10 +149,10 @@ Indeed. The increase in ice discharge was made explicit.
 > the maximum erosion potential is like >>1000 m (if in meters) while in
 > corresponding (f) it seems clearly lower than 1000 m.
 
-We are not sure what the cumulative erosion potential of the last glacial cycle
-should be. This sentence was about the amplitude of the cumulative erosion
-potential, but we were probably a bit too fast deeming one erosion law "more
-realistic" than the others. Based on the estimates of total Pleistocene glacial
+This sentence was about the amplitude of the cumulative erosion potential, but
+we were probably a bit too fast deeming one erosion law "more realistic" than
+the others. We are not sure what the cumulative erosion potential of the last
+glacial cycle should be. Based on the estimates of total Pleistocene glacial
 relief from the suggested references, we now argue that no tested erosion law
 give results in the expectable range of last glacial cycle erosion.
 
@@ -225,7 +227,7 @@ Good to know!
 > Alps. This can be revealed by a quick check at any higher resolution DEM or
 > google earth.
 
-The statement was reworked and restricted to "the higest mountain cirques".
+The statement was reworked and restricted to "the highest mountain cirques".
 
 > In the MS the word “yet” is very often used. Eventually consider reducing.
 > The frequency is a bit irritating when reading.
@@ -315,3 +317,5 @@ new sentence:
     Over longer timescales, though, the vertical distribution of erosion rates
     also depends on the erosional modification of topography (Sternai et al.,
     2013).
+
+Thank you again for reading our work and giving us constructive feedback.

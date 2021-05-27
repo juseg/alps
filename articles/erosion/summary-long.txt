@@ -1,0 +1,50 @@
+The characteristic landscape of the Alps has fascinated generations of
+explorers, artists, mountaineers and scientists with its diversity. From
+the large piedmont lakes, to U-shaped glacial valleys, and the perched mountain
+cirques, much of the spectacular topography of the Alps is the work of erosion
+by ancient glaciers. Glacier erosion, however, is a slow process occurring
+under hundreds of metres of ice. Measurements of glacier erosion are rare and
+often indirect, but they indicate a link between the glacier velocity and the
+erosion rate.
+
+This link is the foundation for our study. Using previous results from a
+supercomputer simulation of ancient Alpine glaciers, including the glacier
+velocities, we attempt to quantify glacier erosion in the Alps from 120000
+years ago to the present. After testing several velocity-erosion relationships
+we conclude that our numbers are very uncertain. Yet from the consistent
+patterns of modelled glacier erosion, we draw several conclusions.
+
+The periods of maximum glacier extension do not correspond to maximum erosion.
+Instead, glacier erosion slows down during periods of glacier advance,
+and it accelerates during periods of glacier retreat. These variations are
+caused by changes in the glacier slope, which control the gravitational force
+driving glacier sliding. This shows that an increase of glacier erosion can be
+expected with glacier retreat.
+
+Besides, the modelled glacier erosion is often strongly localized, and the area
+where it occurs moves in and out and up and down the mountain range as glaciers
+shrink and grow. This indicates that piedmont lakes, glacial valley and
+mountain cirques likely were not carved simultaneously but correspond to
+different stages of glacier expansion.
+
+----
+
+Ancient Alpine glaciers have carved a fascinating landscape.
+
+This study is an attempt to quantify glacier erosion in the Alps from 120000
+years ago to the present.
+
+Glacier erosion, however, is a slow process occurring
+under hundreds of metres of ice which is very difficult to measure.
+
+Despite uncertainties, our study shows that glaciers have constantly
+evolved, so that mountain cirques, glacial valleys, and large piedmont lakes
+instead all correspond to different states.
+
+Interestingly, periods of maximum glacier extent do not systematically
+correspond to more rapid erosion. Instead, glacier erosion slows down during
+periods of glacier advance, and it accelerates during glacier retreat.
+
+These variations are caused by changes in the glacier slope, which control the
+gravitational force driving glacier sliding. This shows that an increase of
+glacier erosion can be expected with glacier retreat.
