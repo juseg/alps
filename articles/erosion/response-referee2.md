@@ -111,8 +111,6 @@ replace “erosion rates” with “potential erosion rates” nearly everywhere
 avoid clutter a few sentences still mention “modelled erosion rates” instead of
 “potential erosion rates”.
 
-TODO: rework figure labels
-
 > A further necessary geographical qualification concerns the misfit between
 > simulated and actual glacier extent. The latter is well established from
 > mapping of moraines. It is necessary to check Seguinot et al. (2018) to see
@@ -144,7 +142,8 @@ eastwards bias of our results with regard to field evidence.
 > the videos. Clearly there can be interesting comparisons with Lai and Anders
 > (2021) very recent submission to esurf !
 
-TODO: check that out.
+Indeed, this is quite a coincidence! A reference was added to the paper by Lai
+and Anders (2021).
 
 > The text is short and pithy, so there is space for some extension. There are
 > a few missed opportunities, and some incompleteness in the presentation. In
@@ -236,7 +235,13 @@ during retreat (16 ka), and one nearly ice-free (0 ka).
 > with the text (pace lines 191 & 195-198). Lauterbrunnen is an extreme
 > (vertical-sided) trough example, over-used by textbooks.
 
-TODO: think about replacing the photos.
+The figure was moved into the discussion of the "age of the glacial landscape"
+to become Fig. 8, and is not longer referred to in the intro. The photo of
+Lauterbrunnental was replaced by one of Bout du Monde in the Giffre Massif, and
+the caption for the cirque photo now reads: "the unusually deep mountain cirque
+revealed by the current demise of Chüebodengletscher" (I don't have a much
+better photo for a high-elevation cirque, and glacial lakes from retreating
+cirque glaciers are a common occurence in the Alps these days).
 
 > Fig. 5: The elevation histogram in Fig. 5a could be misleading, as it seems
 > to cover the whole study area, including parts never glacier-covered. It
