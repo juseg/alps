@@ -89,7 +89,8 @@ def main():
     with hyoga.open.dataset(
             '../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
 
-        # plot erosion profile
+        # plot erosion profile (coarsen to reduce figure size)
+        ds = ds.coarsen(age=5).mean()  # 3.7 -> 1.0 MiB
         (ds.assign_coords(d=ds.d/1e3).kop2015_rhin*1e3).plot.contourf(
             ax=tsax, alpha=0.75, cmap='YlOrBr', levels=levels, x='age', y='d',
             cbar_ax=cax, cbar_kwargs=dict(
@@ -98,7 +99,6 @@ def main():
                 ticks=levels[::3]))  # (mpl issue #11937)
 
     # set axes properties
-    tsax.set_rasterization_zorder(2.5)
     tsax.set_xlim(120, 0)
     tsax.set_xlabel('age (ka)')
     tsax.set_ylabel('distance along flow (km)')
