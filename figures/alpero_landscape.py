@@ -22,9 +22,9 @@ def main():
 
     # flickr photo identifiers
     photos = [  # use _b for 1024, _c for 800 px
-        '50743485202_405601c2d8_b.jpg',
-        '50743484067_800c6cfba8_b.jpg',
-        '50742646803_2bd4961b6a_b.jpg']
+        '50743485202_405601c2d8_b.jpg',  # Lake Constance
+        '50950153856_255009394c_b.jpg',  # Bout du monde
+        '50742646803_2bd4961b6a_b.jpg']  # Chüebodensee
 
     # loop on axes
     for i, ax in enumerate(grid):
