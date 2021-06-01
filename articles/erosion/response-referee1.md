@@ -286,6 +286,7 @@ new sentence:
     2013).
 
 Thank you again for taking the time to read our work and to give constructive
-feedback in these troubled times. We apologize for the delay and will soon be
-submitting a revised and, we believe, improved manuscript including the
-aforementioned suggested changes.
+feedback in these troubled times. We hope that you will find our answers
+satisfactory, apologize for the delay and will soon be submitting a revised
+and, we believe, improved manuscript including the aforementioned suggested
+changes.

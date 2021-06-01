@@ -345,7 +345,8 @@ to summarise the effect with this additional sentence in the figure caption:
 >   positive, which seems strange.
 
 Well, it seems that you have spend a lot of time looking at our figures and
-videos so let us thank you again for that. The caption of Fig. 5 mentioned "the
+videos so let us thank you again for that. The 'video supplement' paragraph
+was somewhat extended. The caption of Fig. 5 mentioned "the
 geometric mean of (non-zero) modelled erosion rates". We found that the
 "non-zero" has no reason to be and it was removed. Sorry about the confusion
 and please read on for the long explanation.
