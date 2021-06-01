@@ -64,8 +64,9 @@ reads as follow:
     erosion at such altitudes (Sanders et al., 2012) are not captured by the
     velocity-based glacier erosion power-laws.
 
-TODO: also emphasize this uncertainty in several of our plots by using
-hatches over areas of limited glacier cover, documented in the figure captions?
+To avoid over-interpretation from future readers, this uncertainty was
+highlighted in several of our plots (including Figs. 3 and 7 ) using hatches
+over periods of limited glacier volume, documented in the figure captions.
 
 > As the comment (lines 221-222) on erosion distribution during advance,
 > retreat and maxima is of great interest, it would be useful to illustrate
