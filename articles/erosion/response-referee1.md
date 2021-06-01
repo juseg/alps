@@ -7,7 +7,7 @@ Creative Commons Attribution-ShareAlike 4.0 International License
 Dear Anonymous Referee #1,
 
 Thank you very much for your positive comments and for your time spent
-reviewing our manuscript. We try to address your comments one by one below, and
+reviewing our work. We try to address your comments one by one below, and
 highlight relevant changes made to the manuscript.
 
 > The study of Seguinot and Delaney presents a time-integrated model on the
@@ -33,6 +33,7 @@ highlight relevant changes made to the manuscript.
 
 Thank you for this accurate summary of our paper.
 
+
 ## General comments
 
 > Authors decided to keep the paper short, referring most information on
@@ -57,7 +58,7 @@ Please see our responses to your technical comments below.
 
 Our introduction is meant to revolve around two discussion points: the variable
 imprint of glaciers on mountain topography, and the link between climate and
-glacier erosion (somewhat adressed in the conclusions). This is followed by a
+glacier erosion (somewhat addressed in the conclusions). This is followed by a
 short methodological bibliography of process-based and empirical glacier
 erosion laws, before we announce the scope of our work. A few key statements
 were added to try and better tie these different sections.
@@ -89,10 +90,10 @@ topography, though, is
 likely to be part of the explanation. A more substantial discussion of the high
 erosion potential values in these areas and the model limitations that hinder
 interpretation was added in the "age of the glacial landscape" subsection.
-The new passage reads as follow:
+This new passage reads as follow:
 
     The validity of the model results at high elevation is discussable.
-    Cristalline massifs such as the Ecrins, Gran Paradiso, Monte Rosa, Aare,
+    Crystalline massifs such as the Ecrins, Gran Paradiso, Monte Rosa, Aare,
     Ötztal and Tauern Massifs locally exhibit a strikingly high erosion
     potential. However, the computation of glacier flow velocities on such
     steep surfaces is strongly limited by the model horizontal resolution of
@@ -158,7 +159,7 @@ give results in the expectable range of last glacial cycle erosion.
 
     With a total Pleistocene glacial relief on the order of a kilometre
     (Preusser et al., 2011; Valla et al., 2011), a cumulative glacial erosion
-    for the last glacial cycle in the order of 10-100 m can be expected.
+    for the last glacial cycle in the order of 10 to 100 m can be expected.
     However, none of the tested erosion power-laws fall within this range.
     Instead, the erosion law calibrated on tidewater glaciers (Koppes et al.,
     2015) yields cumulative erosion in the Rhine Valley in the orders of
@@ -265,7 +266,8 @@ However, the general eastward bias was discussed in two new sentences:
 This is correct. It concerns only a small number of grid cells, primarily
 located on the southern slope of the Alps where topography drops abruptly from
 the highest peaks to deep valleys. This information was added to the plot by
-hatching the regions with fewer than a hundred ice-covered grid cells. This
+hatching the regions with fewer than a hundred ice-covered grid cells per
+elevation band. This
 highlights that low-elevation values are not always representative, as can also
 be confirmed in the new subplot showing the distribution of cumulative erosion
 potential over 100 m elevation bins. The distribution of glacier cover per
@@ -275,41 +277,6 @@ will be included in a new version of the companion dataset.
 
 ## References not in the manuscript:
 
-> Egholm, D.L., Nielsen, S.B., Pedersen, V.K., Lesemann, J.E., 2009. Glacial
-> effects limiting mountain height: Nature, v. 460, p. 884–888.
-
-> Ehlers, J., Gibbard, P.L., 2007. The extent and chronology of Cenozoic Global
-> Glaciation. Quat. Int. 164–165, 6–20.
-
-> Harbor, J.M., Hallet, B., and Raymond, C.F., 1988. A numerical model of
-> landform development by glacial erosion: Nature, v. 333, p. 347–349.
-
-> Kelly, M.A., Buoncristiani, J.F. and Schlüchter, C., 2004. A reconstruction
-> of the last glacial maximum (LGM) ice-surface geometry in the western Swiss
-> Alps and contiguous Alpine regions in Italy and France. Eclogae Geol. Helv.
-> 97, 57–75.
-
-> Mey, J., Scherler, D., Wickert, A.D., Egholm, D.L., Tesauro, M., Schildgen,
-> T.F., and Strecker, M., R., 2016. Glacial isostatic uplift of the European
-> Alps: Nature Communications, v. 7.
-
-> Preusser, F., Reitner, J.M., and Schlüchter, C., 2010. Distribution,
-> geometry, age and origin of overdeepened valleys and basins in the Alps and
-> their foreland: Swiss Journal Geoscience, v. 103, p. 407–426.
-
-> Sanders, J.W., Cuffey, K.M., Moore, J.R., MacGregor, K.R., and Kavanaugh,
-> J.L., 2012. Periglacial weathering and headwall erosion in cirque glacier
-> bergschrunds: Geology, v. 40, p. 779-782.
-
-> Sternai, P., Herman, F., Valla, P.G., Champagnac, J.-D., 2013. Spatial and
-> temporal variations of glacial erosion in the Rhône valley (Swiss Alps):
-> Insights from numerical modeling. Earth and Planetary Science Letters, 368,
-> p. 119-131.
-
-> Valla, P.G., Shuster, D.L., van der Beek, P.A., 2011. Significant increase in
-> relief of the European Alps during mid-Pleistocene glaciations. Nat. Geosci.
-> 4, 688–692.
-
 In addition to the aforementioned changes, the Sternai et al. (2013) reference
 was added in the discussion of the vertical distribution of erosion with this
 new sentence:
@@ -318,4 +285,7 @@ new sentence:
     also depends on the erosional modification of topography (Sternai et al.,
     2013).
 
-Thank you again for reading our work and giving us constructive feedback.
+Thank you again for taking the time to read our work and to give constructive
+feedback in these troubled times. We apologize for the delay and will soon be
+submitting a revised and, we believe, improved manuscript including the
+aforementioned suggested changes.

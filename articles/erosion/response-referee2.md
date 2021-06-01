@@ -7,8 +7,9 @@ Creative Commons Attribution-ShareAlike 4.0 International License
 Dear Ian Evans,
 
 Thank you very much for your and your colleague's time in preparing this
-reviewing our manuscript. We try to address your comments one by one below, and
+review of our manuscript. We try to address your comments one by one below, and
 highlight relevant changes made to the manuscript.
+
 
 ## General Comments
 
@@ -46,7 +47,7 @@ Increasing ice volume yields the build-up of less steep and thus slower-flowing
 valley glaciers. Decreasing ice volume leads to (roughly) equally steep but
 smaller glaciers. In the case of non-linear erosion laws ('Koppes' and 'Herman'
 laws), both yield a decrease of erosion volume, hence the local peak in erosion
-volume. However, we would rather not include this as a result as the modelled
+volume. However, we would rather not highlight this result. The modelled
 glacier velocities for such situations are unreliable due to the limiting
 horizontal resolution and the shallow-ice physics. This latter fact was
 highlighted in a new passage in the section on the "age of the glacial
@@ -64,9 +65,9 @@ reads as follow:
     erosion at such altitudes (Sanders et al., 2012) are not captured by the
     velocity-based glacier erosion power-laws.
 
-To avoid over-interpretation from future readers, this uncertainty was
-highlighted in several of our plots (including Figs. 3 and 7 ) using hatches
-over periods of limited glacier volume, documented in the figure captions.
+To avoid over-interpretation from future readers, this uncertainty was also
+highlighted in several of our plots (including Figs. 3 and 7) using hatches
+over periods of limited glacier volume, and documented in the figure captions.
 
 > As the comment (lines 221-222) on erosion distribution during advance,
 > retreat and maxima is of great interest, it would be useful to illustrate
@@ -76,10 +77,8 @@ over periods of limited glacier volume, documented in the figure captions.
 Thank you. Figure 4 was reworked to include a map of Rhine glacier modelled
 erosion rates at 36 ka, corresponding to the last major advance phase before
 the LGM and with a similar extent to the deglacial stage of 16 ka. This also
-corresponds to the topographic profiles shown on Fig. 8 and thus seems more
+corresponds to the topographic profiles shown on Fig. 8. Thus it seems more
 appropriate in hindsight.
-
-TODO: also include complete maps as a supplement?
 
 > I find no mention of lithology, rock type, geology, resistance or erodibility
 > (excluding that citing Herman on line 56). This omission of half the erosion
@@ -100,8 +99,8 @@ TODO: also include complete maps as a supplement?
 The above limitations were made explicit with the following added sentences in
 the methods subsection on the "erosion law":
 
-    Instead , we we assume that eroded material is instantly transported out of
-    the system, thus neglegting its role in shielding the bedrock from glacier
+    Instead, we assume that eroded material is instantly transported out of
+    the system, thus neglecting its role in shielding the bedrock from glacier
     erosion in zones of temporary storage (Preusser et al., 2010). Neither do
     we account for differences in erosion effectiveness on different
     lithologies or erosion from subglacial and interglacial hydrologic
@@ -154,6 +153,7 @@ and Anders (2021).
 The manuscript text has been extended in several places. Please see our
 responses to your specific comments below.
 
+
 ## Specific comments - Text:
 
 > The 1 km resolution of the modelling is clearly important, so it is strange
@@ -176,7 +176,7 @@ extended.
 
 PISM uses a combination of shallow-ice and shallow-shelf stress balances,
 neither of which includes lateral stresses. Glacier sliding velocities in
-troughs are goverened by (the sliding law and) longitudinal stresses, which is
+troughs are governed by (the sliding law and) longitudinal stresses, which is
 a limitation with respect to higher-order models. Following another comment
 from reviewer #1 an additional paragraph on basal sliding uncertainties was
 added, including the following sentence:
@@ -191,7 +191,7 @@ added, including the following sentence:
 > Koppes et al. (2015) go on to drop two outliers and reach an exponent of
 > 2.62.
 
-We clarified in the methods that we use  Koppes et al. (2015) erosion law
+We clarified in the methods that we use Koppes et al. (2015) erosion law
 deriving from their full dataset. In addition, this sentence was added in the
 discussion of the "choice of erosion law":
 
@@ -207,6 +207,7 @@ discussion of the "choice of erosion law":
 
 Indeed. The sentence was corrected to include "advancing and retreating
 glaciers" instead of "retreating glaciers".
+
 
 ## - Figures:
 
@@ -241,9 +242,9 @@ The figure was moved into the discussion of the "age of the glacial landscape"
 to become Fig. 8, and is not longer referred to in the intro. The photo of
 Lauterbrunnental was replaced by one of Bout du Monde in the Giffre Massif, and
 the caption for the cirque photo now reads: "the unusually deep mountain cirque
-revealed by the current demise of Chüebodengletscher" (I don't have a much
+revealed by the current demise of Chüebodengletscher" (we don't have a much
 better photo for a high-elevation cirque, and glacial lakes from retreating
-cirque glaciers are a common occurence in the Alps these days).
+cirque glaciers are a common occurrence in the Alps these days).
 
 > Fig. 5: The elevation histogram in Fig. 5a could be misleading, as it seems
 > to cover the whole study area, including parts never glacier-covered. It
@@ -269,7 +270,7 @@ it concerns. Instead, the bulk of the erosion potential occurs below 2000 m.
 To highlight periods when low-elevation is relevant (and address the comment
 from reviewer #1), we also hatched elevation bands that contain fewer than a
 hundred ice-covered grid cells for a given time. We also shifted to 100-m
-elevation bands on the main panel. Wihle some detail is lost, this avoids
+elevation bands on the main panel. While some detail is lost, this avoids
 much of the striping (especially on the newly added contour and hatched
 pattern), and we find the new plot more readable.
 
@@ -287,7 +288,7 @@ relevant discussion text was extended and reworked:
 
     With a total Pleistocene glacial relief on the order of a kilometre
     (Preusser et al., 2011; Valla et al., 2011), a cumulative glacial erosion
-    for the last glacial cycle in the order of 10-100 m can be expected.
+    for the last glacial cycle in the order of 10 to 100 m can be expected.
     However, none of the tested erosion power-laws fall within this range.
     Instead, the erosion law calibrated on tidewater glaciers (Koppes et al.,
     2015) yields cumulative erosion in the Rhine Valley in the orders of
@@ -316,8 +317,8 @@ along-flow slopes visible on the topographic profile of Fig. 8a, and the
 invisible across-flow slopes. While the upper part of the topographic profile
 appears smooth, there are indeed steep (bedrock and surface) slopes on either
 side of the profile in this region. Because the upper part of the valley is
-narrow, the glacier center-line fluctuating over time, and the plot
-interpolated between 1-km grid cells, these lateral components enter the
+narrow, the glacier centre-line fluctuating over time, and the plot
+interpolated between 1-km grid points, these lateral components enter the
 computation of the basal shear stress magnitude in the higher reaches.
 
 Second, the activation of sliding also increases basal drag, which explains
@@ -353,7 +354,8 @@ First, there are no zero values in the animation. As in the paper's Fig. 5, the
 animation shows geometric means (i.e. arithmetic means in log-domain), and
 geometric means can't contain zero values or they would result in a
 divide-by-zero error (or a log-of-zero error). Both animation panels have a
-log-scaled x-axis, hence they cannot contain zero values.
+log-scaled x-axis. While some values fall outside of the axis frame, they are
+very small but not zero.
 
 On the other hand, both Fig. 5 and the animation depict very low values for
 erosion rates (especially around 24 ka). This is due to the glacier physics
@@ -362,15 +364,15 @@ the glacier is sliding everywhere, but that sliding is infinitely small where
 the basal drag is much smaller than the yield stress, including for instance
 frozen-bed areas. These tiny sliding velocities yield even tinier erosion rates
 (due to the power 2.34 in the erosion law). Such values are not really relevant
-and they are off-the-colour-scheme on the Fig. 5 and off-the-chart in the
+and they are off the colour range on Fig. 5 and off-chart in the
 animation (respectively lower than 10^-9 and 10^-10 mm a^-1).
 
 The only regions where PISM produces truly zero sliding are the regions of zero
 surface slopes or zero ice thickness, where the SSA can't be solved. In
 practice, this only occurs in the latter case: zero ice thickness. This is the
 kind of values we have previously filtered out. Your comment led us to re-check
-our calculations. We found that there is no zero-sliding values in the
-ice-covered area, and that an ice mask is sufficient to filter out undesirable
+our calculations. We found that there is no zero-sliding values within the
+ice-covered area, and thus an ice mask is sufficient to filter out undesirable
 values and compute the geometric means. Hence "non-zero" was removed from the
 caption.
 
@@ -378,6 +380,7 @@ To be sure, the non-zero filter has been removed from the script generating
 companion data (which is used in Fig. 5). This change can be seen here:
 
     https://github.com/juseg/alps/commit/7d14ec0
+
 
 ## Technical corrections:
 
@@ -408,28 +411,6 @@ Scale bars were added on all map figures.
 Thank you for spotting all the above errors! These were corrected.
 
 
-## References not in original:
-
-> Egholm, D.L., Pedersen, V.K., Knudsen, M.F., Larsen, N.K., 2012a. Coupling
-> the flow of ice, water, and sediment in a glacial landscape evolution model.
-> Geomorphology 141–142: 47–66.
-> http://dx.doi.org/10.1016/j.geomorph.2011.12.019.
-
-> Egholm, D.L., Pedersen, V.K., Knudsen, M.F., Larsen, N.K., 2012b. On the
-> importance of higher-order ice dynamics for glacial landscape evolution.
-> Geomorphology 141–142: 67-80.
-
-> Farinotti, D., et al., 2019. A consensus estimate for the ice thickness
-> distribution of all glaciers on Earth. Nat. Geosci. 12, 168–173.
-
-> Lai, J., Anders, A.M., 2021. Climatic controls on mountain glacier basal
-> thermal regimes dictate spatial patterns of glacial erosion.
-> https://esurf.copernicus.org/preprints/esurf-2021-26/
-
-> Pedersen, V.K., Huismans, R.S., Herman, F., Egholm, D.L., 2014. Controls of
-> initial topography on temporal and spatial patterns of glacial erosion.
-> Geomorphology 223, 96-116.
-
 ## Acknowledgements:
 
 > I am grateful for helpful discussions with Iestyn Barr, Jeremy Ely, Matt
@@ -438,4 +419,7 @@ Thank you for spotting all the above errors! These were corrected.
 > - Ian S. Evans, Durham University, U.K.
 
 Thank you again to all of you for taking time to read our work and offer
-constructive feedback.
+constructive feedback in these troubled times. We hope that you will find our
+answers satisfactory, apologize for the delay and will soon be submitting a
+revised and, we believe, improved manuscript including the aforementioned
+suggested changes.
