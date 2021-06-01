@@ -31,7 +31,7 @@ def main():
     # add map elements
     util.geo.draw_boot_topo(ax)
     util.geo.draw_natural_earth(ax)
-    util.geo.draw_lgm_outline(ax)
+    util.geo.draw_lgm_outline(ax, edgecolor='C1')
     cde.add_scale_bar(ax, label='100 km', length=100e3, pad=220e3)
 
     # plot time series

@@ -34,7 +34,7 @@ def main():
     # plot
     ax.plot(ds.slvol, ds.kop2015_rate.where(ds.growing), c='C1', alpha=0.25)
     ax.plot(ds.slvol, ds.kop2015_rate.where(~ds.growing), c='C11', alpha=0.25)
-    ax.plot(ds.slvol, ds.rolling_mean.where(ds.growing), c='C1')
+    ax.plot(ds.slvol, ds.rolling_mean.where(ds.growing), c='C1', ls='--')
     ax.plot(ds.slvol, ds.rolling_mean.where(~ds.growing), c='C11')
     ax.text(0.95, 0.95, '', ha='right', va='top', transform=ax.transAxes)
 

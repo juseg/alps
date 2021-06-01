@@ -9,6 +9,7 @@ import cartowik.profiletools as cpf
 import cartowik.decorations as cde
 import absplots as apl
 import hyoga.open
+import util  # noqa color cycle
 
 
 def main():
@@ -26,7 +27,9 @@ def main():
         '../data/native/profile_rhine.shp', interval=1e3)
 
     # each requested age
-    for age in [36, 24, 16]:
+    # FIXME add stresses in postprocessing
+    for age, color, style in zip(
+            [36, 24, 16], ['C1', '0.75', 'C11'], ['--', '-', '-']):
         with hyoga.open.subdataset(
                 ('~/pism/output/e9d2d1f/alpcyc4.1km.epica.1220.pp'
                  '/ex.{:07.0f}.nc'), time=-age*1e3, shift=120000) as ds:
@@ -37,7 +40,8 @@ def main():
 
             # plot topographic profiles
             ds['usurf'] = ds.topg + ds.thk.fillna(0)
-            ds.usurf.plot.line(ax=axes[0], x='d', label='{} ka'.format(age))
+            ds.usurf.plot.line(ax=axes[0], x='d', color=color, ls=style,
+                               label='{} ka'.format(age))
             ds.topg.plot.line(ax=axes[0], x='d', color='0.25')
 
             # plot normalized stresses
@@ -46,7 +50,7 @@ def main():
                 ax=axes[1], x='d', c='0.25', ls=':',
                 label='yield stress / overburden' if age == 16 else ' ')
             ((ds.taub_x**2+ds.taub_y**2)**0.5/overburden*100).plot.line(
-                ax=axes[1], x='d',
+                ax=axes[1], x='d', color=color, ls=style,
                 label='basal drag / overburden' if age == 16 else ' ')
 
             # to plot ratio governing sliding
