@@ -28,14 +28,21 @@ def plot_series(ax=None, run='1km.epic.pp'):
         ax.set_ylim(-5, 35)
         ax.locator_params(axis='y', nbins=6)
 
+        # hatch regions of low ice volume
+        ax.fill_between(
+            ds.age, -10, 40, where=(ds.slvol < 0.03),
+            edgecolor='0.75', facecolor='none', hatch='//////')
+
     # load aggregated data
     with hyoga.open.dataset(
             '../data/processed/alpero.'+run+'.agg.nc') as ds:
 
         # plot erosion rate time series
-        ds['rolling_mean'] = ds.kop2015_rate.rolling(age=100, center=True).mean()
+        ds['rolling_mean'] = ds.kop2015_rate.rolling(
+            age=100, center=True).mean()
         ax = ax.twinx()
         ax.plot(ds.age, ds.kop2015_rate*1e-6, c='C11', alpha=0.5)
         ax.plot(ds.age, ds.rolling_mean*1e-6, c='C11')
-        ax.set_ylabel('potential annual erosion\n'+r'volume ($10^6\,m^3 a^{-1}$)', color='C11')
+        ax.set_ylabel('potential annual erosion\n'
+                      r'volume ($10^6\,m^3 a^{-1}$)', color='C11')
         ax.set_ylim(-1, 7)

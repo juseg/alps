@@ -38,10 +38,15 @@ def main():
     ax.plot(ds.slvol, ds.rolling_mean.where(~ds.growing), c='C11')
     ax.text(0.95, 0.95, '', ha='right', va='top', transform=ax.transAxes)
 
+    # hatch regions of low ice volume
+    ax.fill_between(
+        [-3, 3], 1e4, 1e8, edgecolor='0.75', facecolor='none', hatch='//////')
+
     # set axes properties
     ax.set_xlabel('ice volume (cm s.l.e.)')
     ax.set_ylabel(r'potential annual erosion volume ($m^3 a^{-1}$)')
     ax.set_yscale('log')
+    ax.set_xlim(-1.5, 31.5)
     ax.set_ylim(10**4.3, 10**7.7)
 
     # annotate advance and retreat

@@ -104,10 +104,16 @@ def main():
             tsax.plot(slvol*100, ds[ref+'_rate'].rolling(
                 age=100, center=True).mean(), c='C11')
 
+            # hatch regions of low ice volume
+            tsax.fill_between(
+                [-3, 3], 1e4, 1e11,
+                edgecolor='0.75', facecolor='none', hatch='//////')
+
             # set time series axes properties
             tsax.set_xlabel('ice volume (cm s.l.e.)')
             tsax.set_yscale('log')
             tsax.set_ylabel('')
+            tsax.set_xlim(-1.5, 31.5)
             tsax.set_ylim(10**4.5, 10**10.5)
             tsax.set_yticks([1e5, 1e7, 1e9])
             tsax.yaxis.set_ticks_position('right')

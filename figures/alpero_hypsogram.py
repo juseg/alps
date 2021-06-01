@@ -43,7 +43,7 @@ def main():
             '../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
 
         # maybe the only way to set hatch color
-        plt.rc('hatch', color='0.25')
+        plt.rc('hatch', color='0.75')
 
         # plot hypsogram
         (np.log10(ds.kop2015_hyps)+3).plot.imshow(
