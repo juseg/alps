@@ -5,6 +5,7 @@
 
 """Plot Alps erosion cumulative."""
 
+import os
 import hyoga.open
 import cartowik.decorations as cde
 import util
@@ -12,6 +13,9 @@ import util
 
 def main():
     """Main program called during execution."""
+
+    # erosion law
+    law = os.getenv('ALPERO_LAW', 'kop2015')
 
     # initialize figure
     fig, ax, cax, tsax = util.fig.subplots_cax_ts(dt=False)
@@ -21,11 +25,12 @@ def main():
             '../data/processed/alpero.1km.epic.pp.agg.nc') as ds:
 
         # plot map data
-        ds.kop2015_cumu.plot.contourf(
+        midlev = 0 if law == 'kop2015' else 2
+        ds[law+'_cumu'].plot.contourf(
             ax=ax, alpha=0.75, cmap='YlOrBr', cbar_ax=cax,
             cbar_kwargs=dict(label='cumulative erosion potential (m)', format='%g'),
-            levels=[10**i for i in range(-2, 3)])
-        ds.kop2015_cumu.notnull().plot.contour(
+            levels=[10**i for i in range(midlev-2, midlev+3)])
+        ds[law+'_cumu'].notnull().plot.contour(
             ax=ax, colors='k', linewidths=0.5, levels=[0.5])
 
     # add map elements
@@ -35,10 +40,10 @@ def main():
     cde.add_scale_bar(ax, label='100 km', length=100e3, pad=220e3)
 
     # plot time series
-    util.ero.plot_series(ax=tsax)
+    util.ero.plot_series(ax=tsax, law=law)
 
     # save figure
-    util.com.savefig(fig)
+    fig.savefig(__file__[:-3] + ('_'+law if law != 'kop2015' else ''))
 
 
 if __name__ == '__main__':

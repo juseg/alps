@@ -10,7 +10,7 @@ import hyoga.open
 import matplotlib.pyplot as plt
 
 
-def plot_series(ax=None, run='1km.epic.pp'):
+def plot_series(ax=None, law='kop2015', run='1km.epic.pp'):
     """Plot ice volume and erosion time series."""
 
     # get current axes if None provided
@@ -38,11 +38,13 @@ def plot_series(ax=None, run='1km.epic.pp'):
             '../data/processed/alpero.'+run+'.agg.nc') as ds:
 
         # plot erosion rate time series
-        ds['rolling_mean'] = ds.kop2015_rate.rolling(
-            age=100, center=True).mean()
+        erosion = ds[law+'_rate']
+        rolling = erosion.rolling(age=100, center=True).mean()
         ax = ax.twinx()
-        ax.plot(ds.age, ds.kop2015_rate*1e-6, c='C11', alpha=0.5)
-        ax.plot(ds.age, ds.rolling_mean*1e-6, c='C11')
-        ax.set_ylabel('potential annual erosion\n'
-                      r'volume ($10^6\,m^3 a^{-1}$)', color='C11')
-        ax.set_ylim(-1, 7)
+        ax.plot(ds.age, erosion*1e-6, c='C11', alpha=0.5)
+        ax.plot(ds.age, rolling*1e-6, c='C11')
+        ax.set_ylabel(
+            'potential annual erosion\n'+r'volume ($10^6\,m^3 a^{-1}$)',
+            color='C11', labelpad=(0 if law == 'her2015' else None))
+        yfac = dict(kop2015=1, her2015=500, hum1994=100, coo2020=50)[law]
+        ax.set_ylim(-1*yfac, 7*yfac)
