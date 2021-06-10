@@ -10,7 +10,7 @@
 
 PAPER = alps-erosion
 BIB = ../../../references/references.bib
-REV = $(shell git describe --abbrev=0 --match=alpero*)
+REV = alpero-2.1
 
 
 # Named rules
@@ -29,7 +29,9 @@ rtf: $(PAPER).rtf
 txt: $(PAPER).txt
 
 # default diff
-diff: $(PAPER)-diff.pdf
+# (latexdiff with strike-out is broken, force compiling past errors)
+diff: $(PAPER)-diff.tex
+	latexmk -pdf -f $<
 
 # figures zip file
 figs: $(PAPER)-figs.zip
@@ -57,7 +59,7 @@ figs: $(PAPER)-figs.zip
 
 # latex diff patterned rule
 %-diff.tex: %.tex
-	latexdiff-vc -t CFONT --git -r $(REV) $<
+	latexdiff-vc --git -r $(REV) $<
 	mv $(basename $@)$(REV).tex $@
 
 # figures zip patterned rule
