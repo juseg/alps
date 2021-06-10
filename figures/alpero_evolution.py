@@ -5,13 +5,17 @@
 
 """Plot Alps erosion time evolution."""
 
+import os
 import absplots as apl
 import hyoga.open
-import util
+import util  # noqa color cycle
 
 
 def main():
     """Main program called during execution."""
+
+    # erosion law
+    law = os.getenv('ALPERO_LAW', 'kop2015')
 
     # initialize figure
     fig, ax = apl.subplots_mm(figsize=(85, 80), gridspec_kw=dict(
@@ -28,43 +32,51 @@ def main():
 
     # unit conversion and rolling mean
     ds['slvol'] *= 100
-    ds['rolling_mean'] = ds.kop2015_rate.rolling(age=100, center=True).mean()
+    erosion = ds[law+'_rate']
+    rolling = erosion.rolling(age=100, center=True).mean()
     ds['growing'] = ds.slvol.differentiate('age') < 0  # age coord decreasing
 
     # plot
-    ax.plot(ds.slvol, ds.kop2015_rate.where(ds.growing), c='C1', alpha=0.25)
-    ax.plot(ds.slvol, ds.kop2015_rate.where(~ds.growing), c='C11', alpha=0.25)
-    ax.plot(ds.slvol, ds.rolling_mean.where(ds.growing), c='C1', ls='--')
-    ax.plot(ds.slvol, ds.rolling_mean.where(~ds.growing), c='C11')
+    ax.plot(ds.slvol, erosion.where(ds.growing), c='C1', alpha=0.25)
+    ax.plot(ds.slvol, erosion.where(~ds.growing), c='C11', alpha=0.25)
+    ax.plot(ds.slvol, rolling.where(ds.growing), c='C1', ls='--')
+    ax.plot(ds.slvol, rolling.where(~ds.growing), c='C11')
     ax.text(0.95, 0.95, '', ha='right', va='top', transform=ax.transAxes)
 
     # hatch regions of low ice volume
     ax.fill_between(
-        [-3, 3], 1e4, 1e8, edgecolor='0.75', facecolor='none', hatch='//////')
+        [-3, 3], 1e4, 1e11, edgecolor='0.75', facecolor='none', hatch='//////')
 
     # set axes properties
+    ymid = erosion.where(ds.slvol > 3).mean()
     ax.set_xlabel('ice volume (cm s.l.e.)')
     ax.set_ylabel(r'potential annual erosion volume ($m^3 a^{-1}$)')
     ax.set_yscale('log')
     ax.set_xlim(-1.5, 31.5)
-    ax.set_ylim(10**4.3, 10**7.7)
+    ax.set_ylim(ymid/50, ymid*50)
 
     # annotate advance and retreat
-    ax.annotate('', xy=(5, 10**6.7), xytext=(25, 10**6.7), arrowprops=dict(
-        arrowstyle='->', color='C11', lw=1, connectionstyle='arc3,rad=0.25'))
-    ax.annotate('', xy=(25, 10**5.1), xytext=(5, 10**5.1), arrowprops=dict(
-        arrowstyle='->', color='C1', lw=1, connectionstyle='arc3,rad=0.25'))
-    ax.text(15, 10**4.6, 'advance', color='C1', ha='center', va='center')
-    ax.text(15, 10**7.2, 'retreat', color='C11', ha='center', va='center')
+    ax.annotate('', xy=(0.2, 0.7), xytext=(0.8, 0.7), arrowprops=dict(
+        arrowstyle='->', color='C11', lw=1, connectionstyle='arc3,rad=0.25'),
+                textcoords='axes fraction', xycoords='axes fraction')
+    ax.annotate('', xy=(0.8, 0.25), xytext=(0.2, 0.25), arrowprops=dict(
+        arrowstyle='->', color='C1', lw=1, connectionstyle='arc3,rad=0.25'),
+                textcoords='axes fraction', xycoords='axes fraction')
+    ax.text(0.5, 0.1, 'advance', color='C1', ha='center', va='center',
+            transform=ax.transAxes)
+    ax.text(0.5, 0.85, 'retreat', color='C11', ha='center', va='center',
+            transform=ax.transAxes)
 
-    # annotat2 maximum stages
-    ax.plot(21, 10**5.8, marker='o', ms=40, mec='0.25', mfc='none')
-    ax.plot(28, 10**5.7, marker='o', ms=40, mec='0.25', mfc='none')
-    ax.text(21, 10**6.3, 'MIS 4', ha='center', va='center')
-    ax.text(28, 10**6.2, 'MIS 2', ha='center', va='center')
+    # annotate maximum stages
+    ymis4 = rolling.sel(age=65.7)
+    ymis2 = rolling.sel(age=24.5)
+    ax.plot(21, ymis4, marker='o', ms=40, mec='0.25', mfc='none')
+    ax.plot(28, ymis2, marker='o', ms=40, mec='0.25', mfc='none')
+    ax.text(21, ymis4*(10**0.5), 'MIS 4', ha='center', va='center')
+    ax.text(28, ymis2*(10**0.5), 'MIS 2', ha='center', va='center')
 
     # save
-    util.com.savefig(fig)
+    fig.savefig(__file__[:-3] + ('_'+law if law != 'kop2015' else ''))
 
 
 if __name__ == '__main__':
