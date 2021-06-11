@@ -5,6 +5,7 @@
 
 """Plot Alps erosion sensibility to climate scenario."""
 
+import os
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartowik.decorations as cde
@@ -15,6 +16,9 @@ import util
 
 def main():
     """Main program called during execution."""
+
+    # erosion law
+    law = os.getenv('ALPERO_LAW', 'kop2015')
 
     # initialize figure
     fig, grid = apl.subplots_mm(
@@ -40,10 +44,12 @@ def main():
                     rec.lower()[:4], ('cp', 'pp')['pp' in conf])) as ds:
 
             # plot map data
-            cset = ds.kop2015_cumu.plot.contourf(
-                ax=ax, cmap='YlOrBr', levels=[10**i for i in range(-2, 3)],
+            midlev = 0 if law == 'kop2015' else 2
+            cset = ds[law+'_cumu'].plot.contourf(
+                ax=ax, cmap='YlOrBr',
+                levels=[10**i for i in range(midlev-2, midlev+3)],
                 alpha=0.75, add_colorbar=False, extend='both')
-            ds.kop2015_cumu.notnull().plot.contour(
+            ds[law+'_cumu'].notnull().plot.contour(
                 ax=ax, colors='k', linewidths=0.5, levels=[0.5])
 
         # add map elements
@@ -66,8 +72,8 @@ def main():
     fig.colorbar(cset, cax=cax, label='cumulative erosion potential (m)',
                  format='%g', orientation='horizontal')
 
-    # save
-    util.com.savefig(fig)
+    # save figure
+    fig.savefig(__file__[:-3] + ('_'+law if law != 'kop2015' else ''))
 
 
 if __name__ == '__main__':
