@@ -5,6 +5,7 @@
 
 """Plot Alps erosion transect evolution."""
 
+import os
 import matplotlib as mpl
 import cartopy.crs as ccrs
 import cartowik.profiletools as cpf
@@ -16,6 +17,9 @@ import util
 
 def main():
     """Main program called during execution."""
+
+    # erosion law
+    law = os.getenv('ALPERO_LAW', 'kop2015')
 
     # initialize figure
     fig, grid = apl.subplots_mm(
@@ -33,7 +37,10 @@ def main():
 
     # plot ages and levels for consistency
     ages = [36, 24, 16, 0]
-    levels = [10**i for i in range(-9, 1)]
+    if law == 'kop2015':
+        levels = [10**i for i in range(-9, 1)]
+    else:
+        levels = [10**i for i in range(-6, 4)]
 
     # read profile coordinates
     x, y = cpf.read_shp_coords('../data/native/profile_rhine.shp')
@@ -52,7 +59,14 @@ def main():
         # compute erosion
         ds = extra.sel(age=age)
         sliding = (ds.uvelbase**2+ds.vvelbase**2)**0.5  # (m/a)
-        erosion = 5.2e-8*sliding**2.34  # (mm/a, Koppes et al., 2015)
+        if law == 'kop2015':
+            erosion = 5.2e-8*sliding**2.34  # (mm/a, Koppes et al., 2015)
+        elif law == 'her2015':
+            erosion = 2.7e-4*sliding**2.02  # (mm/a, Herman et al., 2015)
+        elif law == 'hum1994':
+            erosion = 1e-1*sliding  # (mm/a, Humphrey and Raymond, 1994)
+        elif law == 'coo2020':
+            erosion = 1.665e-1*sliding**0.6459  # (mm/a, Cook et al., 2020)
 
         # plot map data
         ds.topg.plot.imshow(
@@ -91,7 +105,7 @@ def main():
 
         # plot erosion profile (coarsen to reduce figure size)
         ds = ds.coarsen(age=5).mean()  # 3.7 -> 1.0 MiB
-        (ds.assign_coords(d=ds.d/1e3).kop2015_rhin*1e3).plot.contourf(
+        (ds.assign_coords(d=ds.d/1e3)[law+'_rhin']*1e3).plot.contourf(
             ax=tsax, alpha=0.75, cmap='YlOrBr', levels=levels, x='age', y='d',
             cbar_ax=cax, cbar_kwargs=dict(
                 label=r'potential erosion rate ($mm\,a^{-1}$)',
@@ -105,8 +119,8 @@ def main():
     tsax.yaxis.set_ticks_position('right')
     tsax.yaxis.set_label_position('right')
 
-    # save
-    util.com.savefig(fig)
+    # save figure
+    fig.savefig(__file__[:-3] + ('_'+law if law != 'kop2015' else ''))
 
 
 if __name__ == '__main__':
