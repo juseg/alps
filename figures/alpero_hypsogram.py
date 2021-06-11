@@ -5,6 +5,7 @@
 
 """Plot Alps erosion hypsogram."""
 
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 import absplots as apl
@@ -14,6 +15,9 @@ import util
 
 def main():
     """Main program called during execution."""
+
+    # erosion law
+    law = os.getenv('ALPERO_LAW', 'kop2015')
 
     # initialize figure
     fig = apl.figure_mm(figsize=(177, 80))
@@ -46,11 +50,12 @@ def main():
         plt.rc('hatch', color='0.75')
 
         # plot hypsogram
-        (np.log10(ds.kop2015_hyps)+3).plot.imshow(
-            ax=ax, alpha=0.75, cmap='YlOrBr', vmin=-9, vmax=0, x='age',
+        vmax = 0 if law == 'kop2015' else 3
+        (np.log10(ds[law+'_hyps'])+3).plot.imshow(
+            ax=ax, alpha=0.75, cmap='YlOrBr', vmin=vmax-9, vmax=vmax, x='age',
             cbar_ax=cax, cbar_kwargs=dict(
                 label='geometric mean\n'+r'erosion rate ($mm\,a^{-1}$)',
-                ticks=range(-9, 1, 3)))
+                ticks=range(vmax-9, vmax+1, 3)))
         ds.glacier_hyps.plot.contourf(
             ax=ax, add_colorbar=False, colors='none', extend='neither',
             hatches=['//////'], levels=[0.5e6, 99.5e6], x='age')
@@ -58,7 +63,7 @@ def main():
             ax=ax, colors='0.25', levels=[99.5e6], x='age')
         cax.yaxis.set_major_formatter(r'$10^{{{x:d}}}$')
         # this should work in matplotlib 3.3.2 (PR #18458)
-        # (ds.kop2015_hyps*1e3).plot.imshow(
+        # (ds[law+'_hyps']*1e3).plot.imshow(
         #    ax=ax, alpha=0.75, cmap='YlOrBr', norm=mcolors.LogNorm(1e-9, 1e0),
         #    x='age', cbar_ax=cax, cbar_kwargs=dict(
         #        label=r'erosion rate ($m\,a^{-1}$)'))
@@ -82,7 +87,7 @@ def main():
 
         # plot band cumulative erosion in km3
         hax = hax.twiny()
-        (ds.kop2015_cumu.groupby_bins(boot, bins).sum()/1e3).plot.step(
+        (ds[law+'_cumu'].groupby_bins(boot, bins).sum()/1e3).plot.step(
             ax=hax, y='topg_bins', color='C11')
 
         # set twin axes properties
@@ -93,11 +98,11 @@ def main():
     # plot time series
     util.fig.plot_mis(ax=ax, y=None)
     util.fig.plot_mis(ax=tsax, y=0.9)
-    util.ero.plot_series(ax=tsax)
+    util.ero.plot_series(ax=tsax, law=law)
     tsax.set_ylabel('ice volume\n(cm s.l.e.)')
 
     # save figure
-    util.com.savefig(fig)
+    fig.savefig(__file__[:-3] + ('_'+law if law != 'kop2015' else ''))
 
 
 if __name__ == '__main__':
