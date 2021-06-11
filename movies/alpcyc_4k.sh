@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# FIXME add header, fix frame and animation names
+
 # parse command-line arguments
 crop="${1:-al}"  # al ch
 mode="${2:-co}"  # co gs er ul

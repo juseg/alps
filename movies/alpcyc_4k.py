@@ -389,7 +389,7 @@ def figure_timetag(time, args):
     fig = apl.figure_mm(figsize=(32, 6))
 
     # import language-dependent label (velsurf use same metadata as streams)
-    filename = 'alpcyc_4k_{0.visual}_{0.region}_{0.lang}.yaml'.format(args)
+    filename = 'alpcyc_4k_{0.visual}_{0.lang}.yaml'.format(args)
     filename = filename.replace('velsurf', 'streams')
     with open(filename) as metafile:
         tag = yaml.safe_load(metafile)['Labels'][0].format(0-time)
@@ -431,9 +431,9 @@ def main():
     # parse arguments
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        'visual', choices=['bedrock', 'erosion', 'streams', 'velsurf'])
-    parser.add_argument(
         'region', choices=['alpsfix', 'lucerne', 'durance', 'zoomout'])
+    parser.add_argument(
+        'visual', choices=['bedrock', 'erosion', 'streams', 'velsurf'])
     parser.add_argument('lang', choices=['de', 'en', 'fr', 'it', 'ja', 'nl'])
     args = parser.parse_args()
 
@@ -452,10 +452,10 @@ def main():
 
     # frame output directories
     outdirs = dict(
-        citymap='~/anim/alpcyc_4k_citymap_{0.region}_{0.lang}'.format(args),
-        mainmap='~/anim/alpcyc_4k_{0.visual}_{0.region}'.format(args),
+        citymap='~/anim/alpcyc_4k_{0.region}_citymap_{0.lang}'.format(args),
+        mainmap='~/anim/alpcyc_4k_{0.region}_{0.visual}'.format(args),
         timetag='~/anim/alpcyc_4k_timetag_{0.lang}'.format(args),
-        timebar='~/anim/alpcyc_4k_{0.visual}_timebar_{0.lang}'.format(args))
+        timebar='~/anim/alpcyc_4k_timebar_{0.visual}_{0.lang}'.format(args))
 
     # iterable arguments to save animation frames
     iter_args = []
