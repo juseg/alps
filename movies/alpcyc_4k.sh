@@ -33,6 +33,10 @@ case $visual in
         cbar_filt="[geog][3]overlay[geog];"
 esac
 
+# prepare still frames
+python stills.py alpcyc_4k_${visual}_${lang}.yaml --height=2160 \
+    $([ $visual == streams ] && echo --subtitle $region)
+
 # prepare filtergraph for main scene
 filt="[0][1]overlay[geog];"                 # assemble geographic layer
 filt+="color=${time_box}[cbox];"            # create time info color box
