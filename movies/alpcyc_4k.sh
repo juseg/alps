@@ -30,12 +30,17 @@ esac
 case $visual in
     bedrock | erosion )
         cbar_args="-i ${prefix}_${visual}_colorbar_${lang}.png"
-        cbar_filt="[geog][3]overlay[geog];"
+        cbar_filt="[geog][7]overlay[geog];"
 esac
 
 # prepare still frames
 python stills.py alpcyc_4k_${visual}_${lang}.yaml --height=2160 \
     $([ $visual == streams ] && echo --subtitle $region)
+
+# assembling parametres
+fade=12  # number of frames for fade in and fade out effects
+hold=25  # number of frames to hold in the beginning and end
+secs=$((120+2*hold/25))  # duration of main scene in seconds
 
 # prepare filtergraph for main scene
 filt="[0][1]overlay[geog];"                 # assemble geographic layer
@@ -43,7 +48,7 @@ filt+="color=${time_box}[cbox];"            # create time info color box
 filt+="[cbox][2]overlay=shortest=1[time];"  # assemble time info layer
 filt+="$cbar_filt"                          # overlay color bar if given
 filt+="[geog][time]overlay=${time_pos}"     # overlay time info on maps
-filt+=",tpad=25:25:clone:clone"             # clone first and last frames
+filt+=",tpad=$hold:$hold:clone:clone"       # clone first and last frames
 
 # add title frame and bumpers
 filt+=",fade=in:0:$fade,fade=out:$((secs*25-fade)):$fade[main];"  # main scene
