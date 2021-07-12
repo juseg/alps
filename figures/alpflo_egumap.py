@@ -3,139 +3,107 @@
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
-import util
-import numpy as np
-import cartopy.io.shapereader as shpreader
-import scipy.interpolate as sinterp
-import matplotlib.colors as mcolors
+"""Plot Alps transfluence poster map."""
+
+# import cartopy.io.shapereader as shpreader
+# import scipy.interpolate as sinterp
+import cartopy.crs as ccrs
 import cartowik.conventions as ccv
+import cartowik.decorations as cde
+import cartowik.naturalearth as cne
+import cartowik.profiletools as cpf
+import cartowik.shadedrelief as csr
+import pandas as pd
+import absplots as apl
+import hyoga
 import util
 
-# initialize figure
-fig, ax, cax1, cax2, tsax = util.fig.subplots_cax_ts_egu()
 
-# personal colormaps
-# FIXME use cartowik.conventions
-cols = [(0.0, (1, 1, 1, 1)), (0.5, (1, 1, 1, 0)),
-        (0.5, (0, 0, 0, 0)), (1.0, (0, 0, 0, 1))]  # white transparent black
-shinemap = mcolors.LinearSegmentedColormap.from_list('shines', cols)
+def main():
+    """Main program called during execution."""
 
-# time for plot
-t = -24533.6
+    # initialize figure
+    fig = apl.figure_mm(figsize=(900, 600), dpi=254)
+    ax = fig.add_axes([0, 0, 1, 1], projection=ccrs.UTM(32))
+    cax1 = fig.add_axes([20/900, 40/600, 50/900, 5/600])
+    cax2 = fig.add_axes([20/900, 60/600, 50/900, 5/600])
+    ax.spines['geo'].set_edgecolor('none')
+    util.fig.prepare_map_axes(ax, extent='alps')
 
-# estimate sea level drop
-nc = util.io.load('input/dsl/specmap.nc')
-dsl = np.interp(t, nc.variables['time'][:], nc.variables['delta_SL'][:])
-nc.close()
+    # target LGM age
+    lgmage = 24.611
 
-# load SRTM bedrock topography
-srb, sre = util.io.open_gtif('../data/external/srtm.tif')  # FIXME use xarray
-srx, sry = util.com.coords_from_extent(sre, *srb.shape[::-1])
+    # estimate sea level drop
+    dsl = pd.read_csv('../data/external/spratt2016.txt', comment='#',
+                      delimiter='\t', index_col='age_calkaBP').to_xarray()
+    dsl = dsl.SeaLev_shortPC1.dropna('age_calkaBP')
+    dsl = min(dsl.interp(age_calkaBP=lgmage, method='cubic').values, 0.0)
 
-# load boot topo
-filepath = 'input/boot/alps-srtm+thk+gou11simi-500m.nc'
-nc = util.io.load(filepath)
-bx, by, bref = nc._extract_xyz('topg', 0)
-nc.close()
+    # load extra data
+    filename = '~/pism/output/1.1.3/alpflo1.500m.epica.1220.pp/ex.0095390.nc'
+    with hyoga.open.dataset(filename) as ds:
+        ds = ds.sel(age=lgmage)
+        ds = ds[['lon', 'lat', 'topg', 'thk', 'usurf', 'uvelsurf', 'vvelsurf']]
 
-# load extra data
-filepath = util.alpflo_bestrun + 'y0095480-extra.nc'
-nc = util.io.load(filepath)
-ncx, ncy, ncb = nc._extract_xyz('topg', t)
-ncx, ncy, ncs = nc._extract_xyz('usurf', t)
+        # compute isostasy and interpolate
+        ds = ds.hyoga.assign_isostasy(
+            '~/pism/input/boot/alps.srtm.hus12.gou11simi.500m.nc')
+        interp = ds.hyoga.interp(
+            '~/pism/input/boot/alps.srtm.hus12.200m.nc')
 
-# interpolate boot topo to extra data
-# FIXME needed because of mistake in Mx and My
-bi = srb
-bref = sinterp.interp2d(bx, by, bref, kind='quintic')(ncx, ncy)
+        # plot interpolated output
+        # FIXME default to add_colorbar=True if cbar_ax is present in hyoga
+        interp.hyoga.plot.bedrock_altitude(
+            cmap=ccv.ELEVATIONAL, vmin=-4500, vmax=4500, ax=ax, sealevel=dsl,
+            add_colorbar=True, cbar_ax=cax1, cbar_kwargs=dict(
+                orientation='horizontal', label=(
+                    'bedrock altitude (m) above sea level '
+                    '({:.0f} m)'.format(dsl))))
+        interp.hyoga.plot.bedrock_shoreline(
+            colors='#0978ab', ax=ax, sealevel=dsl)
+        csr.add_multishade(interp.topg, ax=ax, add_colorbar=False, zorder=-1)
+        interp.hyoga.plot.surface_altitude_contours(ax=ax)
+        interp.hyoga.plot.ice_margin(ax=ax, facecolor='w', alpha=0.75)
+        interp.hyoga.plot.ice_margin(ax=ax, edgecolor='0.25')
 
-# compute bedrock uplift
-ncu = ncb - bref
+        # add surface streamplot
+        ds = ds.hyoga.where_thicker(1)
+        streams = ds.hyoga.plot.surface_velocity_streamplot(
+            ax=ax, cmap='Blues', vmin=1e1, vmax=1e3, density=(24, 16))
+        fig.colorbar(
+                streams.lines, cax=cax2, extend='both',
+                orientation='horizontal',
+                label=r'ice surface velocity ($m\,a^{-1}$)')
 
-# interpolate surfaces to SRTM coords (interp2d seem faster than interp)
-print("interpolating surfaces...")
-bi = srb
-si = sinterp.interp2d(ncx, ncy, ncs, kind='quintic')(srx, sry)[::-1]
-mi = sinterp.interp2d(ncx, ncy, ncs.mask, kind='quintic')(srx, sry)[::-1]
-ui = sinterp.interp2d(ncx, ncy, ncu, kind='quintic')(srx, sry)[::-1]
-mi = (mi > 0.5) + (si < bi)
-si = np.ma.masked_array(si, mi)
+    # save background map
+    fig.savefig(__file__[:-3]+'_bg.png')
 
-# correct basal topo for uplift and sea-level drop
-bi = bi + ui - dsl
+    # add map elements
+    util.geo.draw_natural_earth(ax, mode='co')
+    util.geo.draw_lgm_outline(ax)
+    util.flo.draw_ice_divides(ax)
+    util.flo.draw_water_divides(ax)
+    cde.add_scale_bar(ax, label='50 km', length=50e3)
 
-# compute relief shading
-sh = sum(util.com.shading(bi, azimuth=a, extent=sre, altitude=30.0,
-                       transparent=True) for a in [300.0, 315.0, 330.0])/3.0
+    # add profiles
+    for section in ['thurn', 'engadin', 'simplon', 'mtcenis']:
+        filename = '../data/native/section_{}.shp'.format(section)
+        x, y = cpf.read_shp_coords(filename)
+        ax.plot(x, y, color='C9', dashes=(2, 1))
+        ax.plot(x[[0, -1]], y[[0, -1]], color='C9', ls='', marker='o')
 
-# plot interpolated results
-print("plotting surfaces...")
-im = ax.imshow(bi, extent=sre, vmin=-3e3, vmax=3e3, cmap=ccv.ELEVATIONAL,
-               zorder=-1)
-sm = ax.imshow(sh, extent=sre, vmin=-1.0, vmax=1.0, cmap=shinemap, zorder=-1)
-cs = ax.contour(bi, extent=sre, levels=[0.0], colors='#0978ab')
-cs = ax.contourf(srx, sry, mi, levels=[0.0, 0.5], colors='w', alpha=0.75)
-cs = ax.contour(srx, sry, mi, levels=[0.5], colors='0.25', linewidths=0.25)
-cs = ax.contour(srx, sry, si, levels=util.com.inlevs, colors='0.25',
-                linewidths=0.1)
-cs = ax.contour(srx, sry, si, levels=util.com.utlevs, colors='0.25',
-                linewidths=0.25)
+    # add vector points and labels
+    cne.add_cities(ax=ax, color='0.25', marker='o', s=6, exclude=['Monaco'],
+                   ranks=range(12))
+    util.flo.draw_glacier_names(ax)
+    util.flo.draw_cross_divides(ax)
+    util.flo.draw_transfluences(ax)
+    util.com.add_corner_tag('{:.0f} years ago'.format(lgmage*1e3), ax=ax)
 
-# add streamplot
-print("plotting streamplot...")
-ss = nc.streamplot('velsurf', ax, t, cmap='Blues', norm=util.com.velnorm,
-                   density=(57, 30), linewidth=0.5, arrowsize=0.25)
+    # save figure
+    fig.savefig(__file__[:-3]+'.png')
+    fig.savefig(__file__[:-3]+'.pdf')
 
-# close extra data
-nc.close()
 
-# add colorbars
-cb = util.com.add_colorbar(im, cax1, extend='both')
-cb.set_label(r'topography (m) above sea (%.0f m)' % dsl)
-cb = util.com.add_colorbar(ss.lines, cax2, extend='both')
-cb.set_label(r'surface velocity ($m\,a^{-1}$)')
-
-# add vector polygons
-util.geo.draw_natural_earth(ax=ax, mode='co')
-util.geo.draw_lgm_outline(ax)
-util.geo.draw_alpflo_ice_divides(ax)
-util.geo.draw_alpflo_water_divides(ax)
-
-# add profiles
-regions = ['thurn', 'engadin', 'simplon', 'mtcenis']
-c = 'C9'
-for i, reg in enumerate(regions):
-
-    # read profile from shapefile
-    filename = '../data/native/section_%s.shp' % reg
-    shp = shpreader.Reader(filename)
-    geom = shp.geometries().next()
-    geom = geom[0]
-    xp, yp = np.array(geom).T
-    del shp, geom
-
-    # compute distance along profile
-    dp = (((xp[1:]-xp[:-1])**2+(yp[1:]-yp[:-1])**2)**0.5).cumsum()/1e3
-    dp = np.insert(dp, 0, 0.0)
-
-    # spline-interpolate profile
-    di = np.arange(0.0, dp[-1], 0.5)
-    xp = sinterp.spline(dp, xp, di)
-    yp = sinterp.spline(dp, yp, di)
-    dp = di
-
-    # add profile line
-    ax.plot(xp, yp, c=c, dashes=(2, 1))
-    ax.plot(xp[[0, -1]], yp[[0, -1]], c=c, ls='', marker='o')
-
-# add vector points and labels
-util.geo.draw_major_cities(ax, maxrank=12)
-util.flo.draw_glacier_names(ax)
-util.flo.draw_cross_divides(ax)
-util.flo.draw_transfluences(ax)
-util.flo.draw_ice_domes(ax)
-util.com.add_corner_tag('%.0f years ago' % -t, ax=ax)
-
-# save figure
-print("saving figures...")
-util.com.savefig()
+if __name__ == '__main__':
+    main()
