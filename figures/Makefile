@@ -12,7 +12,7 @@ EXT = pdf
 PY = python
 
 # all python figures
-# (tmp off: alpflo_, egumap profiles scalability timeseries timestamp
+# (tmp off: alptra_, egumap profiles scalability timeseries timestamp
 #           alplgl_, extent)
 # (require coldroom: alpero_, temperature)
 PY_FIGS = \

@@ -81,8 +81,8 @@ def main():
     # add map elements
     util.geo.draw_natural_earth(ax, mode='co')
     util.geo.draw_lgm_outline(ax)
-    util.flo.draw_ice_divides(ax)
-    util.flo.draw_water_divides(ax)
+    util.tra.draw_ice_divides(ax)
+    util.tra.draw_water_divides(ax)
     cde.add_scale_bar(ax, label='50 km', length=50e3)
 
     # add profiles
@@ -95,9 +95,9 @@ def main():
     # add vector points and labels
     cne.add_cities(ax=ax, color='0.25', marker='o', s=6, exclude=['Monaco'],
                    ranks=range(12))
-    util.flo.draw_glacier_names(ax)
-    util.flo.draw_cross_divides(ax)
-    util.flo.draw_transfluences(ax)
+    util.tra.draw_glacier_names(ax)
+    util.tra.draw_cross_divides(ax)
+    util.tra.draw_transfluences(ax)
     util.com.add_corner_tag('{:.0f} years ago'.format(lgmage*1e3), ax=ax)
 
     # save figure

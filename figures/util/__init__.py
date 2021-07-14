@@ -12,7 +12,7 @@ import util.geo  # mapping tools
 
 import util.cyc  # glacial cycle article
 import util.ero  # glacier erosion article
-import util.flo  # transfluences article
+import util.tra  # transfluences article
 
 
 # Alps cycle parameters
