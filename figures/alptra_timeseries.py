@@ -1,94 +1,62 @@
 #!/usr/bin/env python
-# coding: utf-8
+# Copyright (c) 2018-2021, Julien Seguinot (juseg.github.io)
+# Creative Commons Attribution-ShareAlike 4.0 International License
+# (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
-import util
-import matplotlib.transforms as mtrans
-from mpl_toolkits.axes_grid1.inset_locator import BboxPatch, BboxConnector, BboxConnectorPatch
+"""Plot Alps transfluences timeseries."""
+
+import brokenaxes as bax
 import absplots as apl
+import hyoga
+import util
 
-# parameters
-c = 'C1'
-versions = ['e9d2d1f', '1.0']
-resolutions = ['1km', '500m']
-linestyles = ['-', ':']
 
-# initialize time-series figure
-figw, figh = 225.0, 125.0
-fig, grid = apl.subplots_mm(
-    nrows=2, figsize=(225, 125), sharex=False, sharey=True, gridspec_kw=dict(
-        left=10, right=10, bottom=10, top=2.5, hspace=2.5, wspace=2.5))
-util.fig.add_subfig_label('(a)', ax=grid[0], y=0.75)
-util.fig.add_subfig_label('(b)', ax=grid[1])
-twgrid = [ax.twinx() for ax in grid]
+def main():
+    """Main program called during execution."""
 
-# plot temperature time series
-dtfile = 'epica3222cool1220'
-for ax in grid:
-    util.com.plot_dt(ax=ax)
+    # initialize figure
+    fig = apl.figure_mm(figsize=(177, 85))
+    spec = fig.add_gridspec_mm(
+        ncols=1, nrows=2, left=15, right=1.5, bottom=15, top=1.5, hspace=1.5)
+    axes = [bax.brokenaxes(
+        despine=False, width_ratios=[2, 1], wspace=0.02, subplot_spec=subspec,
+        tilt=75, xlims=((120, 25.5), (25.5, 24))) for subspec in spec]
 
-# for each resolution
-for i, res in enumerate(resolutions):
-    ver = versions[i]
-    ls = linestyles[i]
+    # and subfig labels
+    for ax, label in zip(axes, 'ab'):
+        util.fig.add_subfig_label('(%s)' % label, ax=ax.axs[0])
 
-    # load output time series
-    runname = 'output/%s/alps-wcnn-%s/%s+alpcyc4+pp/' % (ver, res, dtfile)
-    filepath = runname + 'y???????-ts.nc'
-    nc = util.io.load(filepath)
-    age = -nc.variables['time'][::12]/(1e3*365*24*60*60)
-    vol = nc.variables['slvol'][::12]*100.0
-    nc.close()
+    # plot alpcyc 1km variables
+    with hyoga.open.dataset(
+            '../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as ds:
+        axes[0].plot(
+            ds.age, ds.area_glacierized*1e-9, c='0.25', label='1km')
+        axes[1].plot(
+            ds.age, ds.volume_glacierized/ds.area_glacierized, c='0.25')
 
-    # print LGM age
-    #print age[vol.argmax()]
+    # plot alpflo 500m ice volume
+    with hyoga.open.dataset(
+            '../data/processed/alptra.500m.epic.pp.ts.1m.nc') as ds:
+        axes[0].plot(
+            ds.age, ds.ice_area_glacierized*1e-9, c='C1', label='500m')
+        axes[1].plot(
+            ds.age, ds.ice_volume_glacierized/ds.ice_area_glacierized, c='C1')
 
-    # plot time series
-    for ax in twgrid:
-        ax.plot(age, vol, c=c, ls=ls, label=res)
+        # highlight max extent
+        age = ds.ice_area_glacierized.idxmax()
+        axes[0].axvline(age, color='C1', linewidth=0.5)
 
-# set axes properties
-grid[0].set_xlim(120.0, 0.0)  # no need
-grid[1].set_xlim(32.5, 22.5)
-grid[1].set_ylim(-16.25, 1.25)
-twgrid[0].set_ylim(-2.5, 32.5)
-twgrid[1].set_ylim(-2.5, 32.5)
-twgrid[0].set_ylabel('ice volume (cm s.l.e.)')
-twgrid[1].set_ylabel('ice volume (cm s.l.e.)')
-ax.legend()
+    # set axes properties
+    axes[0].set_xticklabels([])
+    axes[0].set_ylabel(r'ice area ($10^3 km^2$)')
+    axes[1].set_ylabel('mean thickness (m)')
+    axes[1].set_xlabel('model age (ka)')
+    axes[1].legend(loc='lower right')
+    axes[1].axs[1].set_xticks([25.5, 25, 24.5, 24])
 
-# mark simulation span
-trans1 = mtrans.blended_transform_factory(grid[0].transData, grid[0].transAxes)
-trans2 = mtrans.blended_transform_factory(grid[1].transData, grid[1].transAxes)
-bbox0 = mtrans.Bbox.from_extents(25.0, 0, 24.5, 1)
-bbox1 = mtrans.TransformedBbox(bbox0, trans1)
-bbox2 = mtrans.TransformedBbox(bbox0, trans2)
-p1 = BboxPatch(bbox1, fc='0.9')
-p2 = BboxPatch(bbox2, fc='0.9')
-p0 = BboxConnectorPatch(bbox1, bbox2,
-                        loc1a=3, loc2a=2, loc1b=4, loc2b=1, fc='0.9')
-p0.set_fill(True)  # will be fixed in matplotlib v3.0
-p0.set_clip_on(False)
-grid[0].add_patch(p0)
-grid[0].add_patch(p1)
-grid[1].add_patch(p2)
+    # save figure
+    fig.savefig(__file__[:-3])
 
-# mark zoom inset
-trans1 = mtrans.blended_transform_factory(grid[0].transData, grid[0].transAxes)
-trans2 = mtrans.blended_transform_factory(grid[1].transData, grid[1].transAxes)
-x0, x1 = grid[1].get_xlim()
-bbox0 = mtrans.Bbox.from_extents(x0, 0, x1, 1)
-bbox1 = mtrans.TransformedBbox(bbox0, trans1)
-bbox2 = mtrans.TransformedBbox(bbox0, trans2)
-p1 = BboxPatch(bbox1, fc='none', ec='0.5', ls='--')
-p2 = BboxPatch(bbox2, fc='none', ec='0.5', ls='--')
-c0 = BboxConnector(bbox1, bbox2, loc1=4, loc2=1, ec='0.5', ls='--')
-c1 = BboxConnector(bbox1, bbox2, loc1=3, loc2=2, ec='0.5', ls='--')
-c0.set_clip_on(False)
-c1.set_clip_on(False)
-grid[0].add_patch(c0)
-grid[0].add_patch(c1)
-grid[0].add_patch(p1)
-grid[1].add_patch(p2)
 
-# save
-util.com.savefig()
+if __name__ == '__main__':
+    main()
