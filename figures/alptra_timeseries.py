@@ -19,7 +19,7 @@ def main():
     spec = fig.add_gridspec_mm(
         ncols=1, nrows=2, left=15, right=1.5, bottom=15, top=1.5, hspace=1.5)
     axes = [bax.brokenaxes(
-        despine=False, width_ratios=[2, 1], wspace=0.02, subplot_spec=subspec,
+        despine=False, width_ratios=[1, 1], wspace=0.02, subplot_spec=subspec,
         tilt=75, xlims=((120, 25.5), (25.5, 24))) for subspec in spec]
 
     # and subfig labels
@@ -29,30 +29,35 @@ def main():
     # plot alpcyc 1km variables
     with hyoga.open.dataset(
             '../data/processed/alpcyc.1km.epic.pp.ts.10a.nc') as ds:
+        kwargs = dict(c='0.25', ls='-', label='1km')
         axes[0].plot(
-            ds.age, ds.area_glacierized*1e-9, c='0.25', label='1km')
+            ds.age, ds.area_glacierized*1e-9, **kwargs)
         axes[1].plot(
-            ds.age, ds.volume_glacierized/ds.area_glacierized, c='0.25')
+            ds.age, ds.volume_glacierized/ds.area_glacierized, **kwargs)
 
-    # plot alpflo 500m ice volume
-    with hyoga.open.dataset(
-            '../data/processed/alptra.500m.epic.pp.ts.1m.nc') as ds:
-        axes[0].plot(
-            ds.age, ds.ice_area_glacierized*1e-9, c='C1', label='500m')
-        axes[1].plot(
-            ds.age, ds.ice_volume_glacierized/ds.ice_area_glacierized, c='C1')
+    # plot alpflo 1km and 500m variables
+    for res, style in zip(['1km', '500m'], [':', '-']):
+        with hyoga.open.dataset(
+                '../data/processed/alptra.'+res+'.epic.pp.ts.1m.nc') as ds:
+            kwargs = dict(c='C1', ls=style, label=res)
+            axes[0].plot(
+                ds.age, ds.ice_area_glacierized*1e-9, **kwargs)
+            axes[1].plot(
+                ds.age, ds.ice_volume_glacierized/ds.ice_area_glacierized,
+                **kwargs)
 
-        # highlight max extent
-        age = ds.ice_area_glacierized.idxmax()
-        axes[0].axvline(age, color='C1', linewidth=0.5)
+    # highlight max extent
+    age = ds.ice_area_glacierized.idxmax()
+    for ax in axes:
+        ax.axvline(age, color='C1', linewidth=0.5)
 
     # set axes properties
     axes[0].set_xticklabels([])
     axes[0].set_ylabel(r'ice area ($10^3 km^2$)')
     axes[1].set_ylabel('mean thickness (m)')
-    axes[1].set_xlabel('model age (ka)')
-    axes[1].legend(loc='lower right')
+    axes[1].set_xlabel('model age (ka)', labelpad=18)
     axes[1].axs[1].set_xticks([25.5, 25, 24.5, 24])
+    axes[1].legend(loc='lower right')
 
     # save figure
     fig.savefig(__file__[:-3])
