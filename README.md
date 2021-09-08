@@ -13,8 +13,8 @@ Creative Commons Attribution-ShareAlike 4.0 International License
     and ice divides in the Alps.
   - [articles/erosion/](articles/erosion/) (alpero):
     J. Seguinot and I. Delaney. Last glacial cycle glacier erosion
-    potential in the Alps. *Earth Surf. Dynam. Discuss.*,
-    <https://doi.org/10.5194/esurf-2021-12>, in review, 2021.
+    potential in the Alps. *Earth Surf. Dynam.*, 9, 923-935,
+    <https://doi.org/10.5194/esurf-9-923-2021>, 2021.
   - [articles/cycle/](articles/cycle/) (alpcyc):
     J. Seguinot, S. Ivy-Ochs, G. Jouvet, M. Huss, M. Funk, and F. Preusser.
     Modelling last glacial cycle ice dynamics in the Alps.
