@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright (c) 2018-2021, Julien Seguinot (juseg.github.io)
+# Copyright (c) 2018-2022, Julien Seguinot (juseg.github.io)
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
@@ -213,8 +213,9 @@ def figure_mainmap(time, args, background=True):
     fig, ax = subplots_dynamic(args.region, time, figsize=(384, 216), dpi=254)
 
     # estimate sea level drop
-    dsl = pd.read_csv('../data/external/spratt2016.txt', comment='#',
-                      delimiter='\t', index_col='age_calkaBP').to_xarray()
+    dsl = pd.read_csv(
+        '../data/external/spratt2016.txt', comment='#', delimiter='\t',
+        encoding='iso8859_15', index_col='age_calkaBP').to_xarray()
     dsl = dsl.SeaLev_shortPC1.dropna('age_calkaBP')
     dsl = min(dsl.interp(age_calkaBP=-time/1e3, method='cubic').values, 0.0)
 
