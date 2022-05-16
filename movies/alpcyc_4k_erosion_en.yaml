@@ -33,7 +33,7 @@ Labels:
 
 References:
    Software:
-      - PISM, matplotlib, xarray, ffmpeg, etc.
+      - PISM, matplotlib, xarray, hyoga, ffmpeg, etc.
    Resources:
       - Swiss Federal Institute of Technology in Zurich  (ETHZ)
       - Swiss National Supercomputing Centre             (CSCS)

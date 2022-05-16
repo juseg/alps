@@ -32,7 +32,7 @@ Labels:  # Annotations
 
 References:  # Références
    Logiciels:
-      - PISM, matplotlib, xarray, ffmpeg, etc.
+      - PISM, matplotlib, xarray, hyoga, ffmpeg, etc.
    Infrastructure:
       - Ecole polytechnique fédérale de Zurich              (ETHZ)
       - Centre suisse de calcul scientifique                (CSCS)

@@ -36,7 +36,7 @@ Labels:  # ラベル
 
 References:  # 参考文献
    ソフトウエア:  # software
-      - PISM、matplotlib、xarray、ffmpeg、等
+      - PISM、matplotlib、xarray、hyoga、ffmpeg、等
    支援機関:  # resources
       - スイス連邦工科大学チューリッヒ校  （ETHZ）
       - スイス国立情報基盤センター        （CSCS）

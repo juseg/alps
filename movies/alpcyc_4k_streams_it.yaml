@@ -32,7 +32,7 @@ Labels:  # Assi
 
 References:  # Referenze
    Software:
-      - PISM, matplotlib, xarray, ffmpeg, etc.
+      - PISM, matplotlib, xarray, hyoga, ffmpeg, etc.
    Infrastruttura:
       - Politecnico federale di Zurigo                       (ETHZ)
       - Centro svizzero di calcolo scientifico               (CSCS)

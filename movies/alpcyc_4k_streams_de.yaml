@@ -31,7 +31,7 @@ Labels:  # Anmerkungen
 
 References:  # Quellenangaben
    Software:
-      - PISM, matplotlib, xarray, ffmpeg, usw.
+      - PISM, matplotlib, xarray, hyoga, ffmpeg, usw.
    Mitteln:
       - Eidgenössische Technische Hochschule Zürich           (ETHZ)
       - Schweiz. nationale Hochleistungsrechenzentrum         (CSCS)

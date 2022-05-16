@@ -32,7 +32,7 @@ Labels:
 
 References:  # Referenties
    Programmatuur:
-      - PISM, matplotlib, xarray, ffmpeg, etc.
+      - PISM, matplotlib, xarray, hyoga, ffmpeg, etc.
    Middelen:  # Mede mogelijk gemaakt door:
       - Swiss Federal Institute of Technology in Zurich  (ETHZ)
       - Swiss National Supercomputing Centre             (CSCS)
