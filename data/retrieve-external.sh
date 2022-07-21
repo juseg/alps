@@ -26,7 +26,7 @@ then
     unzip -n $efile.zip
 
     # download SRTM data
-    sroot="http://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/tiff"
+    sroot="https://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF"
     for sfile in srtm_{37..41}_{03..04}
     do
         wget -nc $sroot/$sfile.zip
