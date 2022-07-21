@@ -1,5 +1,7 @@
 #!/usr/bin/env python
-# coding: utf-8
+# Copyright (c) 2016-2022, Julien Seguinot (juseg.github.io)
+# Creative Commons Attribution-ShareAlike 4.0 International License
+# (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
 import hyoga.open
 import util
@@ -48,14 +50,11 @@ for i, rec in enumerate(util.alpcyc_records):
 
             # load extra file
             with hyoga.open.mfdataset(
-                '~/pism/output/e9d2d1f/alpcyc4.2km.{}.{:04.0f}{}/ex.???????.nc'.format(
+                '~/pism/output/e9d2d1f/alpcyc4.2km.{}.{:04.0f}/ex.???????.nc'.format(
                     rec.replace('-', '').lower(), 100*dt, conf)) as ds:
 
                 # select space-time of interest
-                agemask = (14e3 < ds.age) & (ds.age < 29e3)
-                xmask = (w < ds.x) & (ds.x < e)
-                ymask = (s < ds.y) & (ds.y < n)
-                thk = ds.thk.sel(age=agemask, y=ymask, x=xmask)
+                thk = ds.thk.loc[29e3:14e3, s:n, w:e]
 
                 # compute glaciated area in 1e3 km2
                 dx = ds.x[1] - ds.x[0]
