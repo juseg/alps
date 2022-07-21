@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright (c) 2020-2021, Julien Seguinot (juseg.github.io)
+# Copyright (c) 2020-2022, Julien Seguinot (juseg.github.io)
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
@@ -69,6 +69,7 @@ def main():
 
     # add colorbar
     cax = fig.add_axes_mm([57*2+19+1.5*4, 38/3-3, 57*2/3-1.5, 3])
+    cax.grid(False)
     fig.colorbar(cset, cax=cax, label='cumulative erosion potential (m)',
                  format='%g', orientation='horizontal')
 

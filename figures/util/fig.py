@@ -1,4 +1,4 @@
-# Copyright (c) 2016--2019, Julien Seguinot (juseg.github.io)
+# Copyright (c) 2016-2022, Julien Seguinot (juseg.github.io)
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
@@ -118,6 +118,7 @@ def subplots_cax(extent='alps'):
                               gridspec_kw=dict(left=1.5, right=1.5,
                                                bottom=1.5, top=1.5))
     cax = fig.add_axes([4.5/figw, 1-52.0/figh, 3.0/figw, 40.0/figh])
+    cax.grid(False)
     prepare_map_axes(ax, extent=extent)
     return fig, ax, cax
 
@@ -130,6 +131,7 @@ def subplots_cax_ts(extent='alps', labels=True, dt=True, mis=True):
                               gridspec_kw=dict(left=1.5, right=1.5,
                                                bottom=1.5, top=1.5))
     cax = fig.add_axes([4.5/figw, 1-50.5/figh, 3.0/figw, 40.0/figh])
+    cax.grid(False)
     tsax = cut_ts_axes(ax)
     prepare_map_axes(ax, extent=extent)
     prepare_ts_axes(tsax, dt=dt, mis=mis)
@@ -147,6 +149,7 @@ def subplots_cax_ts_anim(extent='alps', labels=False, dt=True, mis=True):
                               gridspec_kw=dict(left=0.0, right=0.0,
                                                bottom=0.0, top=0.0))
     cax = fig.add_axes([5.0/figw, 70.0/figh, 5.0/figw, 40.0/figh])
+    cax.grid(False)
     tsax = fig.add_axes([75.0/figw, 10.0/figh, 90.0/figw, 22.5/figh])
     ax.outline_patch.set_ec('none')
     x = [1/3., 1/3., 1.0]
@@ -258,6 +261,7 @@ def subplots_trimlines(extent='valais', mode='column'):
         hsax = fig.add_axes([61.25/figw, 65.5/figh, 12.0/figw, 48.0/figh])
 
     # prepare map axes
+    cax.grid(False)
     prepare_map_axes(ax, extent=extent)
 
     # add subfigure labels

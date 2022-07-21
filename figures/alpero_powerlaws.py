@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright (c) 2020-2021, Julien Seguinot (juseg.github.io)
+# Copyright (c) 2020-2022, Julien Seguinot (juseg.github.io)
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
@@ -44,6 +44,7 @@ def main():
         ncols=4, nrows=2, sharex='row', sharey='row', gridspec_kw=dict(
             left=1.5, right=19, bottom=9, top=45, hspace=9, wspace=1.5))
     cax = fig.add_axes_mm([177-19+1.5, 75.5, 3, 38])
+    cax.grid(False)
 
     # set extent and subfig labels
     for ax, label in zip(list(grid)+list(tsgrid.flat), 'abcdefghijkl'):

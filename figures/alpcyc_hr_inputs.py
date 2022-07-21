@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright (c) 2016--2019, Julien Seguinot (juseg.github.io)
+# Copyright (c) 2016-2022, Julien Seguinot (juseg.github.io)
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
@@ -46,6 +46,7 @@ def subplots(extent='alps', mode='vertical'):
         else:
             rect = [pos.x1+1.5/figw, pos.y0, 3.0/figw, pos.y1-pos.y0]
         ax.cax = fig.add_axes(rect)
+        ax.cax.grid(False)
 
     # prepare axes
     for ax, label in zip(grid.flat, 'abcdfhegi'):
