@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2021, Julien Seguinot (juseg.github.io)
+# Copyright (c) 2016-2022, Julien Seguinot (juseg.github.io)
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
@@ -6,6 +6,13 @@
 # ------------------------
 
 # Defaults are relative to mpl 2.0.0
+
+### BACKENDS
+# FIXME: Backend may be machine-specific, whereas other params are
+# project-wide. Move backend to user-level dotfile (outside this repo) and
+# other params to a stylesheet, as recommended in matplotlib docs.
+# https://matplotlib.org/stable/tutorials/introductory/customizing.html
+backend                 : Gtk3Agg # QtAgg on XFCE throws ICE errors (#23369)
 
 ### LINES
 lines.linewidth         : 1.0     # line width in points (default 1.5)
