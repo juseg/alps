@@ -103,7 +103,7 @@ def draw_swisstopo_hydrology(ax=None, style='grey', **kwargs):
     swissplus = ccrs.TransverseMercator(
         central_longitude=7.439583333333333,
         central_latitude=46.95240555555556,
-        false_easting=2600e3, false_northing=1200e3)
+        false_easting=2600e3, false_northing=1200e3, approx=False)
 
     # get axes if None provided
     ax = ax or plt.gca()

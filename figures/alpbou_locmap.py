@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright (c) 2016--2019, Julien Seguinot (juseg.github.io)
+# Copyright (c) 2016-2022, Julien Seguinot (juseg.github.io)
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
@@ -67,7 +67,7 @@ def draw_lithologies(ax=None):
     swiss = ccrs.TransverseMercator(
         central_longitude=7.439583333333333,
         central_latitude=46.95240555555556,
-        false_easting=600e3, false_northing=200e3)
+        false_easting=600e3, false_northing=200e3, approx=False)
     shp = shpreader.Reader('../data/external/PY_Surface_Base.shp')
     for rec in shp.records():
         atts = rec.attributes
