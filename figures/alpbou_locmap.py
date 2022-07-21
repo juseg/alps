@@ -23,8 +23,9 @@ def draw_shaded_relief(ax=None):
     # get axes if None provided
     ax = ax or plt.gca()
 
-    # plot SRTM bedrock topography FIXME Cartowik xarray-centric methods
-    with xr.open_dataset('../data/external/srtm.nc') as ds:
+    # plot SRTM bedrock topography FIXME use hyoga methods
+    with xr.open_dataset(
+            '~/pism/input/boot/alps.srtm.hus12.100m.nc') as ds:
         srtm = ds.usurf.fillna(0.0) - ds.thk.fillna(0.0)
         csr._add_imshow(srtm, ax=ax, cmap='Topographic', vmin=0, vmax=4500)
         srtm = csr._compute_multishade(srtm)
