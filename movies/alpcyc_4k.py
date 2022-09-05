@@ -351,9 +351,9 @@ def figure_timebar(time, args, start=-120000, end=0):
 
     # import language-dependent labels (velsurf use same metadata as streams)
     # FIXME duplicate lines in timetag
-    filename = 'alpcyc_4k_{0.visual}_{0.lang}.yaml'.format(args)
+    filename = f'alpcyc_4k_{args.visual}_{args.lang}.yaml'
     filename = filename.replace('velsurf', 'streams')
-    with open(filename) as metafile:
+    with open(filename, 'r') as metafile:
         labels = yaml.safe_load(metafile)['Labels']
 
     # for each axes
@@ -390,9 +390,9 @@ def figure_timetag(time, args):
     fig = apl.figure_mm(figsize=(32, 6))
 
     # import language-dependent label (velsurf use same metadata as streams)
-    filename = 'alpcyc_4k_{0.visual}_{0.lang}.yaml'.format(args)
+    filename = f'alpcyc_4k_{args.visual}_{args.lang}.yaml'
     filename = filename.replace('velsurf', 'streams')
-    with open(filename) as metafile:
+    with open(filename, 'r') as metafile:
         tag = yaml.safe_load(metafile)['Labels'][0].format(0-time)
     if args.lang != 'ja':
         tag = tag.replace(',', r'$\,$')
@@ -413,11 +413,11 @@ def save_animation_frame(func, outdir, time, *args, **kwargs):
     os.makedirs(outdir, exist_ok=True)
 
     # check if file exists
-    fname = os.path.join(outdir, '{:06d}.png').format(time+120000)
+    fname = os.path.join(outdir, f'{time+120000:06d}.png')
     if not os.path.isfile(fname):
 
         # assemble figure and save
-        print('plotting {:s} ...'.format(fname))
+        print(f'plotting {fname} ...')
         fig = func(time, *args, **kwargs)
         fig.savefig(fname, dpi='figure')
         plt.close(fig)
@@ -448,15 +448,15 @@ def main():
     if args.visual in ('bedrock', 'erosion'):
         fig = figure_colorbar(args)
         fig.savefig(os.path.expanduser(
-            '~/anim/alpcyc_4k_{0.visual}_colorbar_{0.lang}.png'.format(args)))
+            f'~/anim/alpcyc_4k_{args.visual}_colorbar_{args.lang}.png'))
         plt.close(fig)
 
     # frame output directories
     outdirs = dict(
-        citymap='~/anim/alpcyc_4k_{0.region}_citymap_{0.lang}'.format(args),
-        mainmap='~/anim/alpcyc_4k_{0.region}_{0.visual}'.format(args),
-        timetag='~/anim/alpcyc_4k_timetag_{0.lang}'.format(args),
-        timebar='~/anim/alpcyc_4k_timebar_{0.visual}_{0.lang}'.format(args))
+        citymap=f'~/anim/alpcyc_4k_{args.region}_citymap_{args.lang}',
+        mainmap=f'~/anim/alpcyc_4k_{args.region}_{args.visual}',
+        timetag=f'~/anim/alpcyc_4k_timetag_{args.lang}',
+        timebar=f'~/anim/alpcyc_4k_timebar_{args.visual}_{args.lang}')
 
     # iterable arguments to save animation frames
     iter_args = []
