@@ -11,6 +11,7 @@ import argparse
 import multiprocessing as mp
 
 import yaml
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -241,9 +242,10 @@ def figure_mainmap(time, args, background=True):
             interp.hyoga.plot.surface_velocity(
                 vmin=10, vmax=1000, **kwargs)
         elif args.visual == 'streams':
+            resfac = int(args.res[0]) / 4  # density multiplier relative to 4k
             interp.hyoga.plot.ice_margin(facecolor='w', alpha=0.75)
             ds.hyoga.plot.surface_velocity_streamplot(
-                vmin=1e1, vmax=1e3, density=(24, 16))
+                vmin=1e1, vmax=1e3, density=(resfac*24, resfac*16))
 
         # plot common background
         interp.hyoga.plot.bedrock_altitude(
@@ -405,7 +407,7 @@ def figure_timetag(time, args):
 # Figure saving
 # -------------
 
-def save_animation_frame(func, outdir, time, *args, **kwargs):
+def save_animation_frame(func, outdir, time, args, **kwargs):
     """Save figure produced by func as animation frame if missing."""
 
     # create output directory if missing
@@ -416,9 +418,16 @@ def save_animation_frame(func, outdir, time, *args, **kwargs):
     fname = os.path.join(outdir, f'{time+120000:06d}.png')
     if not os.path.isfile(fname):
 
-        # assemble figure and save
+        # assemble figure
         print(f'plotting {fname} ...')
-        fig = func(time, *args, **kwargs)
+        fig = func(time, args, **kwargs)
+
+        # resize according to resolution
+        resfac = int(args.res[0]) / 4
+        fig.set_figwidth(fig.get_figwidth()*resfac)
+        fig.set_figheight(fig.get_figheight()*resfac)
+
+        # and save animation frame
         fig.savefig(fname, dpi='figure')
         plt.close(fig)
 
@@ -436,6 +445,8 @@ def main():
     parser.add_argument(
         'visual', choices=['bedrock', 'erosion', 'streams', 'velsurf'])
     parser.add_argument('lang', choices=['de', 'en', 'fr', 'it', 'ja', 'nl'])
+    parser.add_argument('--res', choices=['2k', '4k', '9k'], default='4k')
+    parser.add_argument('--num', type=int, default=3000)
     args = parser.parse_args()
 
     # set matplotlib parametres
@@ -448,30 +459,31 @@ def main():
     if args.visual in ('bedrock', 'erosion'):
         fig = figure_colorbar(args)
         fig.savefig(os.path.expanduser(
-            f'~/anim/alpcyc_4k_{args.visual}_colorbar_{args.lang}.png'))
+            f'~/anim/alpcyc_{args.res}_{args.visual}_colorbar_{args.lang}.png'
+        ))
         plt.close(fig)
 
     # frame output directories
     outdirs = dict(
-        citymap=f'~/anim/alpcyc_4k_{args.region}_citymap_{args.lang}',
-        mainmap=f'~/anim/alpcyc_4k_{args.region}_{args.visual}',
-        timetag=f'~/anim/alpcyc_4k_timetag_{args.lang}',
-        timebar=f'~/anim/alpcyc_4k_timebar_{args.visual}_{args.lang}')
+        citymap=f'~/anim/alpcyc_{args.res}_{args.region}_citymap_{args.lang}',
+        mainmap=f'~/anim/alpcyc_{args.res}_{args.region}_{args.visual}',
+        timetag=f'~/anim/alpcyc_{args.res}_timetag_{args.lang}',
+        timebar=f'~/anim/alpcyc_{args.res}_timebar_{args.visual}_{args.lang}')
 
     # iterable arguments to save animation frames
     iter_args = []
     if args.region == 'alpsfix':
         iter_args.append((figure_citymap, outdirs['citymap'], 0, args))
-        for time in range(-0, -120000, -40):
+        for time in np.linspace(-120000, -0, args.num+1, dtype='int')[1:]:
             iter_args.append((figure_mainmap, outdirs['mainmap'], time, args))
             iter_args.append((figure_timebar, outdirs['timebar'], time, args))
     elif args.region == 'zoomout':
-        for time in range(-0, -120000, -40):
+        for time in np.linspace(-120000, -0, args.num+1, dtype='int')[1:]:
             iter_args.append((figure_citymap, outdirs['citymap'], time, args))
             iter_args.append((figure_mainmap, outdirs['mainmap'], time, args))
             iter_args.append((figure_timebar, outdirs['timebar'], time, args))
     else:
-        for time in range(-15000, -45000, -10):
+        for time in np.linspace(-45000, -15000, args.num+1, dtype='int')[1:]:
             iter_args.append((figure_citymap, outdirs['citymap'], time, args))
             iter_args.append((figure_mainmap, outdirs['mainmap'], time, args))
             iter_args.append((figure_timetag, outdirs['timetag'], time, args))
