@@ -7,17 +7,19 @@
 
 # parameters
 prefix="$HOME/anim/alpcyc_4k"
-region="zoomout"
-years="035000"
+region="alpsfix"
+visual="streams"
+years="095440"
+lang="en"
 
 # city frame depends on region
 [ $region == "alpsfix" ] && cframe="120000" || cframe="$years"
 
 # compose overlays
-mkdir -p ${prefix}_${region}_streams_composite_de
+mkdir -p ${prefix}_${region}_${visual}_composite_${lang}
 magick convert -gravity south \
-    ${prefix}_${region}_streams/${years}.png \
-    ${prefix}_${region}_citymap_de/${cframe}.png -composite \
+    ${prefix}_${region}_${visual}/${years}.png \
+    ${prefix}_${region}_citymap_${lang}/${cframe}.png -composite \
     -fill '#ffffff80' -draw 'rectangle 0,1760,3840,2160' \
-    ${prefix}_timebar_streams_de/${years}.png -composite \
-    ${prefix}_${region}_streams_composite_de/${years}.png
+    ${prefix}_timebar_${visual}_${lang}/${years}.png -composite \
+    ${prefix}_${region}_${visual}_composite_${lang}/${years}.png
