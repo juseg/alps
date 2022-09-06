@@ -445,7 +445,7 @@ def main():
     parser.add_argument(
         'visual', choices=['bedrock', 'erosion', 'streams', 'velsurf'])
     parser.add_argument('lang', choices=['de', 'en', 'fr', 'it', 'ja', 'nl'])
-    parser.add_argument('--res', choices=['2k', '4k', '9k'], default='4k')
+    parser.add_argument('--res', choices=['2k', '4k', '8k'], default='4k')
     parser.add_argument('--num', type=int, default=3000)
     args = parser.parse_args()
 
