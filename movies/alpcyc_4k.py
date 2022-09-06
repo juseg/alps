@@ -93,7 +93,7 @@ def draw_natural_earth(ax=None, style='grey', **kwargs):
     ax = ax or plt.gca()
     edgecolor = '#0978ab' if style == 'wiki' else '0.25'
     facecolor = '#c6ecff' if style == 'wiki' else '0.95'
-    kwargs = dict(ax=ax, zorder=0, **kwargs)
+    kwargs = dict(ax=ax, zorder=0, **kwargs)  # default zorder=1.5
     cne.add_rivers(edgecolor=edgecolor, **kwargs)
     cne.add_lakes(edgecolor=edgecolor, facecolor=facecolor, **kwargs)
     cne.add_coastline(edgecolor=edgecolor, linestyles='dashed', **kwargs)
@@ -240,7 +240,7 @@ def figure_mainmap(time, args, background=True):
                 levels=[10**i for i in range(-9, 1)], **kwargs)
         elif args.visual == 'velsurf':
             interp.hyoga.plot.surface_velocity(
-                vmin=10, vmax=1000, **kwargs)
+                vmin=10, vmax=1000, zorder=1, **kwargs)  # default zorder=0
         elif args.visual == 'streams':
             resfac = int(args.res[0]) / 4  # density multiplier relative to 4k
             interp.hyoga.plot.ice_margin(facecolor='w', alpha=0.75)
