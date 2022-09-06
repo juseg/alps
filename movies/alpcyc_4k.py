@@ -355,7 +355,7 @@ def figure_timebar(time, args, start=-120000, end=0):
     # FIXME duplicate lines in timetag
     filename = f'alpcyc_4k_{args.visual}_{args.lang}.yaml'
     filename = filename.replace('velsurf', 'streams')
-    with open(filename, 'r') as metafile:
+    with open(filename, encoding='utf-8') as metafile:
         labels = yaml.safe_load(metafile)['Labels']
 
     # for each axes
@@ -394,7 +394,7 @@ def figure_timetag(time, args):
     # import language-dependent label (velsurf use same metadata as streams)
     filename = f'alpcyc_4k_{args.visual}_{args.lang}.yaml'
     filename = filename.replace('velsurf', 'streams')
-    with open(filename, 'r') as metafile:
+    with open(filename, encoding='utf-8') as metafile:
         tag = yaml.safe_load(metafile)['Labels'][0].format(0-time)
     if args.lang != 'ja':
         tag = tag.replace(',', r'$\,$')
