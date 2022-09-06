@@ -199,8 +199,9 @@ def figure_citymap(time, args):
     # NOTE it would be possible to make rank depend on plot size
     cne.add_cities(
         ax=ax, lang=args.lang, color='0.25', marker='o', s=6,
-        exclude=['Monaco'],
-        ranks=range(9 if args.region in ('lucerne', 'durance') else 7))
+        exclude=['Monaco'], ranks=range(
+            9 if args.res == '8k' or args.region in ('lucerne', 'durance') else
+            7))
 
     # return figure
     return fig
