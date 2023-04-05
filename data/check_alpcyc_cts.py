@@ -3,7 +3,7 @@
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
-"""Check ALPCYC aggregated variables against previous version."""
+"""Check ALPCYC continuous variables against previous version."""
 
 import os
 import glob
@@ -18,7 +18,7 @@ def main():
     os.chdir('processed')
 
     # for each availabe file
-    for newfile in sorted(glob.glob('alpcyc.2km.????.??.??.??a.nc')):
+    for newfile in sorted(glob.glob('alpcyc.?km.????.??.??.??a.nc')):
 
         # download corresponding online file
         oldfile = newfile[:-3] + '.old.nc'
@@ -31,9 +31,11 @@ def main():
                 hyoga.open.dataset(oldfile, chunks=None) as old:
 
             # compute the difference
-            diff = (new - old).compute()
-            print(newfile + ' mean differences:', abs(diff).mean())
-            diff.to_netcdf(newfile[:-3] + '.diff.nc')
+            diff = (new - old)
+            std = (diff**2).mean()
+            diff_vars = [var for var in std if std[var] != 0]
+            if len(diff_vars) > 0:
+                print(newfile + ' standard deviations:', std)
 
 
 if __name__ == '__main__':
