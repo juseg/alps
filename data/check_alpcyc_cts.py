@@ -18,10 +18,10 @@ def main():
     os.chdir('processed')
 
     # for each availabe file
-    for newfile in sorted(glob.glob('alpcyc.?km.????.??.??.??a.nc')):
+    for newfile in sorted(glob.glob('alpcyc.?km.????.??.??.*a.nc')):
 
-        # download corresponding online file
-        oldfile = newfile[:-3] + '.old.nc'
+        # download corresponding online file (use old 1ka for new 100a files)
+        oldfile = newfile[:-3].replace('100a', '1ka') + '.old.nc'
         if not os.path.isfile(oldfile):
             urllib.request.urlretrieve(
                 'https://zenodo.org/record/1423176/files/' + newfile, oldfile)
