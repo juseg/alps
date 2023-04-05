@@ -48,7 +48,7 @@ def postprocess_extra(run_path):
     with hyoga.open.mfdataset(run_path+'/ex.???????.nc') as ex:
 
         # select extra variables and ages
-        step = 100 if res == '1km' else 10
+        step = 10 if res == '1km' else 1
         ts = ex[['timestamp']]
         ex = ex[masked_vars+nomask_vars].isel(age=slice(step-1, None, step))
 
@@ -59,7 +59,7 @@ def postprocess_extra(run_path):
         # assign attributes and export compressed file
         ex.attrs.update(history=attributes['command']+ex.history, **attributes)
         ex.attrs.update(title=ex.title + ' spatial diagnostics')
-        ex.to_netcdf(prefix + '.ex.1ka.nc', encoding={var: dict(
+        ex.to_netcdf(prefix + '.ex.100a.nc', encoding={var: dict(
             zlib=True, shuffle=True, complevel=1) for var in ex.variables})
 
         # assign attributes and export compressed file
