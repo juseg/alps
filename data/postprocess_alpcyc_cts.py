@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright (c) 2019-2020, Julien Seguinot (juseg.github.io)
+# Copyright (c) 2019-2023, Julien Seguinot (juseg.dev)
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
@@ -8,7 +8,7 @@
 import os
 import sys
 import datetime
-import pismx.open
+import hyoga.open
 
 # processed runs
 PROC_RUNS = ['alpcyc4.2km.grip.0820', 'alpcyc4.2km.grip.1040.pp',
@@ -45,7 +45,7 @@ def postprocess_extra(run_path):
 
     # postprocess spatial diagnostics and time stamps
     print("postprocessing " + prefix + "...")
-    with pismx.open.mfdataset(run_path+'/ex.???????.nc') as ex:
+    with hyoga.open.mfdataset(run_path+'/ex.???????.nc') as ex:
 
         # select extra variables and ages
         step = 100 if res == '1km' else 10
@@ -69,7 +69,7 @@ def postprocess_extra(run_path):
             zlib=True, shuffle=True, complevel=1) for var in ts.variables})
 
     # postprocess scalar time series
-    with pismx.open.mfdataset(run_path+'/ts.???????.nc') as ts:
+    with hyoga.open.mfdataset(run_path+'/ts.???????.nc') as ts:
 
         # select age slice
         step = 10 if res == '1km' else 1

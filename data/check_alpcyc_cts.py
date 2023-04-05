@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright (c) 2018-2020, Julien Seguinot (juseg.github.io)
+# Copyright (c) 2018-2023, Julien Seguinot (juseg.dev)
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
@@ -8,7 +8,7 @@
 import os
 import glob
 import urllib.request
-import pismx.open
+import hyoga.open
 
 
 def main():
@@ -27,8 +27,8 @@ def main():
                 'https://zenodo.org/record/1423176/files/' + newfile, oldfile)
 
         # open old and new datasets
-        with pismx.open.dataset(newfile, chunks=None) as new, \
-                pismx.open.dataset(oldfile, chunks=None) as old:
+        with hyoga.open.dataset(newfile, chunks=None) as new, \
+                hyoga.open.dataset(oldfile, chunks=None) as old:
 
             # compute the difference
             diff = (new - old).compute()
