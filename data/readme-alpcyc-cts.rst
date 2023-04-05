@@ -3,18 +3,25 @@ Alpine ice sheet glacial cycle simulations continuous variables
 
 Files [required]::
 
+   alpcyc.1km.epic.pp.ex.100a.nc
    alpcyc.1km.epic.pp.ex.1ka.nc
    alpcyc.1km.epic.pp.ts.10a.nc
+   alpcyc.2km.epic.cp.ex.100a.nc
    alpcyc.2km.epic.cp.ex.1ka.nc
    alpcyc.2km.epic.cp.ts.10a.nc
+   alpcyc.2km.epic.pp.ex.100a.nc
    alpcyc.2km.epic.pp.ex.1ka.nc
    alpcyc.2km.epic.pp.ts.10a.nc
+   alpcyc.2km.grip.cp.ex.100a.nc
    alpcyc.2km.grip.cp.ex.1ka.nc
    alpcyc.2km.grip.cp.ts.10a.nc
+   alpcyc.2km.grip.pp.ex.100a.nc
    alpcyc.2km.grip.pp.ex.1ka.nc
    alpcyc.2km.grip.pp.ts.10a.nc
+   alpcyc.2km.md01.cp.ex.100a.nc
    alpcyc.2km.md01.cp.ex.1ka.nc
    alpcyc.2km.md01.cp.ts.10a.nc
+   alpcyc.2km.md01.pp.ex.100a.nc
    alpcyc.2km.md01.pp.ex.1ka.nc
    alpcyc.2km.md01.pp.ts.10a.nc
 
@@ -48,7 +55,9 @@ Basic information [required]
         *The Cryosphere*, 12, 3265-3285,
         https://doi.org/10.5194/tc-12-3265-2018, 2018.
 
-      **File names**: ``alpcyc.{1km|2km}.{epic|grip|md01}.{cp|pp}.{ex.1ka|ts.10a}.nc``
+      **File names**::
+
+         alpcyc.{1km|2km}.{epic|grip|md01}.{cp|pp}.{ex.100a|ex.1ka|ts.10a}.nc
 
       * Horizontal resolution:
 
@@ -57,7 +66,7 @@ Basic information [required]
 
       * Temperature forcing:
 
-        - *epic*: EPICA ice core temperature forcing 
+        - *epic*: EPICA ice core temperature forcing
         - *grip*: GRIP ice core temperature forcing
         - *md01*: MD01-2444 core temperature forcing
 
@@ -68,13 +77,14 @@ Basic information [required]
 
       * Variable types:
 
+        - *ex.100a*: spatial diagnostics every hundred years
         - *ex.1ka*: spatial diagnostics every thousand years
         - *ts.10a*: scalar time-series every ten years
 
       **Data format**
 
       The data use compressed netCDF format. For quick inspection I recommend
-      ncview. Spatial diagnostics (*\*.ex.1ka.nc*) can be converted to
+      ncview. Spatial diagnostics (*\*.ex.\*.nc*) can be converted to
       GeoTIFF (and other GIS formats) e.g. using GDAL::
 
          gdal_translate NETCDF:filename.nc:variable -b band filename.variable.band.tif
@@ -90,6 +100,10 @@ Basic information [required]
       `aggregated <https://doi.org/10.5281/zenodo.1423160>`_ variables.
 
       **Changelog:**
+
+      * Version 3:
+
+         - Add spatial diagnostics every hundred years (*\*.ex.100a.nc*)
 
       * Version 2:
 
@@ -116,7 +130,7 @@ Basic information [required]
 
 License [required]
    Open Access / Creative Commons Attribution 4.0
-   
+
 Funding [recommended]
    -- (not working)
 
