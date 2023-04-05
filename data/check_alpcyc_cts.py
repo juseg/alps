@@ -1,14 +1,14 @@
 #!/usr/bin/env python
-# Copyright (c) 2018-2020, Julien Seguinot (juseg.github.io)
+# Copyright (c) 2018-2023, Julien Seguinot (juseg.dev)
 # Creative Commons Attribution-ShareAlike 4.0 International License
 # (CC BY-SA 4.0, http://creativecommons.org/licenses/by-sa/4.0/)
 
-"""Check ALPCYC aggregated variables against previous version."""
+"""Check ALPCYC continuous variables against previous version."""
 
 import os
 import glob
 import urllib.request
-import pismx.open
+import hyoga.open
 
 
 def main():
@@ -18,22 +18,24 @@ def main():
     os.chdir('processed')
 
     # for each availabe file
-    for newfile in sorted(glob.glob('alpcyc.2km.????.??.??.??a.nc')):
+    for newfile in sorted(glob.glob('alpcyc.?km.????.??.??.*a.nc')):
 
-        # download corresponding online file
-        oldfile = newfile[:-3] + '.old.nc'
+        # download corresponding online file (use old 1ka for new 100a files)
+        oldfile = newfile[:-3].replace('100a', '1ka') + '.old.nc'
         if not os.path.isfile(oldfile):
             urllib.request.urlretrieve(
                 'https://zenodo.org/record/1423176/files/' + newfile, oldfile)
 
         # open old and new datasets
-        with pismx.open.dataset(newfile, chunks=None) as new, \
-                pismx.open.dataset(oldfile, chunks=None) as old:
+        with hyoga.open.dataset(newfile, chunks=None) as new, \
+                hyoga.open.dataset(oldfile, chunks=None) as old:
 
             # compute the difference
-            diff = (new - old).compute()
-            print(newfile + ' mean differences:', abs(diff).mean())
-            diff.to_netcdf(newfile[:-3] + '.diff.nc')
+            diff = (new - old)
+            std = (diff**2).mean()
+            diff_vars = [var for var in std if std[var] != 0]
+            if len(diff_vars) > 0:
+                print(newfile + ' standard deviations:', std)
 
 
 if __name__ == '__main__':
